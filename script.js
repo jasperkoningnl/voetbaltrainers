@@ -1,3 +1,6 @@
+// Versie van dit script
+console.log("Script versie: 1.1 - Kleurschaal Gecorrigeerd");
+
 // Stap 1: Data laden
 d3.csv("engeland.csv").then(function(data) {
     
@@ -52,9 +55,10 @@ function drawHeatmap(data) {
     svg.append("g")
       .call(d3.axisLeft(y));
 
+    // AANGEPASTE KLEURENSCHAAL
     const myColor = d3.scaleSequential()
-      .interpolator(d3.interpolateRgb("orange", "green"))
-      .domain([1,15]);
+      .interpolator(d3.interpolateRgb("#fde725", "#21918c")) // Gebruik een beter kleurverloop (bv. Viridis)
+      .domain([1,10]); // Maak de schaal gevoeliger, van 1 tot 10 jaar
 
     // De rechthoeken van de heatmap tekenen
     svg.selectAll(".bar")
