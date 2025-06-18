@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 1.1 - Kleurschaal Gecorrigeerd");
+console.log("Script versie: 1.2 - Stapsgewijze Kleurschaal");
 
 // Stap 1: Data laden
 d3.csv("engeland.csv").then(function(data) {
@@ -19,7 +19,6 @@ d3.csv("engeland.csv").then(function(data) {
 });
 
 
-// De functie die de volledige visualisatie tekent
 function drawHeatmap(data) {
     const margin = {top: 50, right: 30, bottom: 100, left: 150};
     const width = 1200 - margin.left - margin.right;
@@ -55,12 +54,14 @@ function drawHeatmap(data) {
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    // AANGEPASTE KLEURENSCHAAL
-    const myColor = d3.scaleSequential()
-      .interpolator(d3.interpolateRgb("#fde725", "#21918c")) // Gebruik een beter kleurverloop (bv. Viridis)
-      .domain([1,10]); // Maak de schaal gevoeliger, van 1 tot 10 jaar
+    // AANGEPASTE STAPSGEWIJZE KLEURENSCHAAL
+    const myColor = d3.scaleThreshold()
+      .domain([2, 5]) // Drempels: verandert van kleur bij 2 en bij 5
+      .range(["#e67e22", "#73c6b6", "#1e8449"]); // Kleuren: [voor <2], [voor <5], [voor >=5]
+      // Jaar 1: Oranje
+      // Jaar 2,3,4: Lichtgroen
+      // Jaar 5+: Donkergroen
 
-    // De rechthoeken van de heatmap tekenen
     svg.selectAll(".bar")
       .data(data, function(d) { return d.Club+':'+d.Seizoen; })
       .enter()
@@ -72,7 +73,6 @@ function drawHeatmap(data) {
         .attr("height", y.bandwidth() )
         .style("fill", function(d) { return myColor(d.Seizoen_Nummer_Coach); });
 
-    // De prijs-iconen bovenop de rechthoeken tekenen
     svg.selectAll(".prize-icon")
         .data(data, function(d) { return d.Club+':'+d.Seizoen; })
         .enter()
