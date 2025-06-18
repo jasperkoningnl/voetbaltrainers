@@ -1,9 +1,14 @@
 // Stap 1: Data laden
 d3.csv("engeland.csv").then(function(data) {
     
-    console.log("Data succesvol geladen:", data);
+    // Data types omzetten van string naar getal
+    data.forEach(function(d) {
+        d.Seizoen_Nummer_Coach = +d.Seizoen_Nummer_Coach;
+    });
+
+    console.log("Data succesvol geladen en types gecorrigeerd:", data);
     
-    // Nadat de data is geladen, voeren we de functie uit die de visualisatie tekent.
+    // De functie aanroepen die de visualisatie tekent
     drawHeatmap(data);
 
 }).catch(function(error) {
@@ -11,14 +16,12 @@ d3.csv("engeland.csv").then(function(data) {
 });
 
 
-// Stap 2: De functie die onze visualisatie gaat tekenen
+// De functie die de volledige visualisatie tekent
 function drawHeatmap(data) {
-    // --- I. Marges en afmetingen van de visualisatie definiëren ---
     const margin = {top: 50, right: 30, bottom: 100, left: 150};
     const width = 1200 - margin.left - margin.right;
     const height = 600 - margin.top - margin.bottom;
 
-    // --- II. Het SVG-element selecteren en opzetten ---
     const svg = d3.select("#heatmap-container")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -26,11 +29,9 @@ function drawHeatmap(data) {
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // --- III. De domeinen voor de assen bepalen ---
     const seizoenen = [...new Set(data.map(d => d.Seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.Club))];
 
-    // --- IV. De X- en Y-schalen (assen) definiëren ---
     const x = d3.scaleBand()
       .range([ 0, width ])
       .domain(seizoenen)
@@ -41,7 +42,6 @@ function drawHeatmap(data) {
       .domain(clubs)
       .padding(0.05);
 
-    // --- V. De assen aan de SVG toevoegen ---
     svg.append("g")
       .attr("transform", `translate(0, ${height})`)
       .call(d3.axisBottom(x))
@@ -52,32 +52,32 @@ function drawHeatmap(data) {
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    // --- VI. De kleurenschaal voor de heatmap definiëren ---
-    // We maken een schaal die het aantal seizoenen omzet naar een kleur.
     const myColor = d3.scaleSequential()
-      .interpolator(d3.interpolateRgb("orange", "green")) // Van oranje (nieuw) naar groen (lang)
-      .domain([1,15]); // We stellen de schaal in van 1 tot 15 jaar.
+      .interpolator(d3.interpolateRgb("orange", "green"))
+      .domain([1,15]);
 
-    // --- VII. De rechthoeken (de heatmap) tekenen ---
-    svg.selectAll()
-      .data(data, function(d) { return d.Club+':'+d.Seizoen; }) // Koppel data aan elementen
-      .enter() // Creëer placeholders voor nieuwe data
-      .append("rect") // Voeg voor elk datumpunt een rechthoek toe
-        .attr("x", function(d) { return x(d.Seizoen) })
-        .attr("y", function(d) { return y(d.Club) })
+    // De rechthoeken van de heatmap tekenen
+    svg.selectAll(".bar")
+      .data(data, function(d) { return d.Club+':'+d.Seizoen; })
+      .enter()
+      .append("rect")
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d.Seizoen); })
+        .attr("y", function(d) { return y(d.Club); })
         .attr("width", x.bandwidth() )
         .attr("height", y.bandwidth() )
-        .style("fill", function(d) { return myColor(d.Seizoen_Nummer_Coach)} );
+        .style("fill", function(d) { return myColor(d.Seizoen_Nummer_Coach); });
 
-    // --- VIII. De prijs-iconen toevoegen ---
-    svg.selectAll()
+    // De prijs-iconen bovenop de rechthoeken tekenen
+    svg.selectAll(".prize-icon")
         .data(data, function(d) { return d.Club+':'+d.Seizoen; })
         .enter()
         .append("text")
+            .attr("class", "prize-icon")
             .text(function(d){ return d.Landstitel + d.Nationale_Beker + d.Europese_Prijs; })
-            .attr("x", function(d) { return x(d.Seizoen) + x.bandwidth() / 2; }) // Midden van de cel
-            .attr("y", function(d) { return y(d.Club) + y.bandwidth() / 2; })   // Midden van de cel
-            .attr("text-anchor", "middle") // Horizontaal centreren
-            .attr("dominant-baseline", "middle") // Verticaal centreren
+            .attr("x", function(d) { return x(d.Seizoen) + x.bandwidth() / 2; })
+            .attr("y", function(d) { return y(d.Club) + y.bandwidth() / 2; })
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
             .style("font-size", "10px");
 }
