@@ -1,26 +1,34 @@
-// Dit script wordt uitgevoerd zodra de HTML-pagina volledig is geladen.
-
-// Gebruik D3 om ons CSV-bestand in te laden.
-// Belangrijk: d3.csv() is een 'asynchrone' functie.
-// Dit betekent dat de code verdergaat terwijl het bestand laadt.
-// De .then() functie wordt pas uitgevoerd als de data succesvol binnen is.
+// Stap 1: Data laden (deze code hadden we al)
 d3.csv("engeland.csv").then(function(data) {
     
-    // Als het laden succesvol is, wordt deze functie uitgevoerd.
-    // 'data' is nu een array van objecten. Elk object is een rij uit onze CSV.
+    console.log("Data succesvol geladen:", data);
     
-    console.log("CSV-bestand succesvol geladen!");
-    console.log(`Er zijn ${data.length} rijen met data gevonden.`);
-    console.log("Hieronder de volledige dataset om te inspecteren:");
-    
-    // Log de complete dataset in de console.
-    // Dit is de beste manier om te controleren of alles klopt.
-    console.log(data);
-    
-    // --- HIER KOMT LATER DE CODE OM DE HEATMAP TE TEKENEN ---
+    // Nadat de data is geladen, voeren we de functie uit die de visualisatie tekent.
+    drawHeatmap(data);
 
 }).catch(function(error) {
-    // Als er een fout optreedt bij het laden van de CSV, wordt dit getoond.
-    // Dit helpt enorm bij het vinden van problemen (bv. typefout in bestandsnaam).
     console.error("Fout bij het laden van engeland.csv:", error);
 });
+
+
+// Stap 2: De functie die onze visualisatie gaat tekenen
+function drawHeatmap(data) {
+    // --- I. Marges en afmetingen van de visualisatie definiëren ---
+    const margin = {top: 50, right: 30, bottom: 100, left: 150};
+    const width = 1200 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+
+    // --- II. Het SVG-element selecteren en opzetten ---
+    // We selecteren de 'div' met de id 'heatmap-container' die we in de HTML hebben gemaakt.
+    const svg = d3.select("#heatmap-container")
+      .append("svg") // We voegen een SVG-element toe aan de div.
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g") // We voegen een 'groep' (<g>) element toe aan de SVG.
+        // Dit wordt onze tekenruimte, verschoven volgens de marges.
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    console.log("SVG Canvas en groepselement zijn aangemaakt.");
+    
+    // --- HIER KOMT STRAKS DE REST VAN DE CODE ---
+}
