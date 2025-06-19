@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 3.2 - Firestore Herstructurering");
+console.log("Script versie: 3.3 - Firestore Data Key Fix");
 
 // Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
 import { collection, getDocs, addDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
@@ -18,9 +18,8 @@ window.migrateCSVtoFirestore = async function() {
         const seizoenenCollection = collection(window.db, "seizoenen");
 
         console.log("Start herstructurering en migratie...");
-        const coachesMap = new Map(); // Houdt unieke coaches bij om duplicaten te voorkomen
+        const coachesMap = new Map();
 
-        // Stap 1: Vind alle unieke coaches en voeg ze toe aan de 'coaches' collectie
         for (const row of data) {
             if (!coachesMap.has(row.Coach)) {
                 console.log(`Nieuwe coach gevonden: ${row.Coach}`);
@@ -30,12 +29,11 @@ window.migrateCSVtoFirestore = async function() {
                     nat_code: row.Coach_Nat_Code,
                     foto_url: row.Coach_Foto_URL
                 });
-                coachesMap.set(row.Coach, coachDoc.id); // Sla de nieuwe ID op
+                coachesMap.set(row.Coach, coachDoc.id);
             }
         }
         console.log(`${coachesMap.size} unieke coaches toegevoegd aan Firestore.`);
 
-        // Stap 2: Voeg alle seizoenen toe met een verwijzing naar de coach
         const batch = writeBatch(window.db);
         data.forEach(row => {
             const coachId = coachesMap.get(row.Coach);
@@ -50,11 +48,11 @@ window.migrateCSVtoFirestore = async function() {
                 nationale_beker: row.Nationale_Beker,
                 europese_prijs: row.Europese_Prijs
             };
-            const seasonDocRef = doc(seizoenenCollection); // Maak een nieuwe referentie aan in de seizoenen collectie
+            const seasonDocRef = doc(seizoenenCollection);
             batch.set(seasonDocRef, seasonData);
         });
         
-        await batch.commit(); // Schrijf alle seizoenen in één keer weg (veel efficiënter)
+        await batch.commit();
 
         console.log("Migratie succesvol voltooid! Alle data staat nu in de nieuwe structuur in Firestore.");
         alert("Migratie voltooid! Ververs de pagina om de data vanuit Firestore te laden.");
@@ -70,26 +68,24 @@ window.migrateCSVtoFirestore = async function() {
 async function loadDataFromFirestore() {
     if (!window.db) return [];
 
-    // Haal data op uit BEIDE collecties tegelijk
     const [coachesSnapshot, seizoenenSnapshot] = await Promise.all([
         getDocs(collection(window.db, "coaches")),
         getDocs(collection(window.db, "seizoenen"))
     ]);
 
-    // Maak een 'lookup map' voor coaches voor efficiëntie
     const coachesMap = new Map();
     coachesSnapshot.forEach(doc => {
         coachesMap.set(doc.id, doc.data());
     });
 
-    // Knoop de data aan elkaar
     const joinedData = [];
     seizoenenSnapshot.forEach(doc => {
         const seizoenData = doc.data();
         const coachInfo = coachesMap.get(seizoenData.coachId);
         if (coachInfo) {
             joinedData.push({
-                ...seizoenData, // Alle data van het seizoen
+                ...seizoenData, // data uit 'seizoenen' collectie (met kleine letters)
+                // voeg coach data toe met consistente hoofdletters
                 Coach: coachInfo.naam,
                 Nationaliteit_Coach: coachInfo.nationaliteit,
                 Coach_Nat_Code: coachInfo.nat_code,
@@ -110,10 +106,7 @@ loadDataFromFirestore().then(data => {
         return;
     }
     
-    // Verwerk de geladen data
-    data.forEach(function(d) {
-        d.Seizoen_Nummer_Coach = +d.Seizoen_Nummer_Coach;
-    });
+    // De data wordt nu direct correct verwerkt door de functies
     const verrijkteData = voegPeriodeDataToe(data);
     
     drawHeatmap(verrijkteData);
@@ -123,25 +116,33 @@ loadDataFromFirestore().then(data => {
 });
 
 
-// --- Vanaf hier blijven de teken-functies grotendeels hetzelfde ---
+// --- Vanaf hier zijn alle property-namen gecorrigeerd ---
 
 function voegPeriodeDataToe(data) {
     if (data.length === 0) return [];
     const periodes = [];
-    data.sort((a, b) => d3.ascending(a.Club, b.Club) || d3.ascending(a.Seizoen, b.Seizoen));
-    let huidigePeriode = { coach: data[0].Coach, club: data[0].Club, seizoenen: [data[0]] };
+    // GEFIXED: Sorteer op de juiste property namen
+    data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
+    
+    let huidigePeriode = { coach: data[0].Coach, club: data[0].club, seizoenen: [data[0]] };
+    
     for (let i = 1; i < data.length; i++) {
-        if (data[i].Coach === huidigePeriode.coach && data[i].Club === huidigePeriode.club) {
+        if (data[i].Coach === huidigePeriode.coach && data[i].club === huidigePeriode.club) {
             huidigePeriode.seizoenen.push(data[i]);
         } else {
             periodes.push(huidigePeriode);
-            huidigePeriode = { coach: data[i].Coach, club: data[i].Club, seizoenen: [data[i]] };
+            huidigePeriode = { coach: data[i].Coach, club: data[i].club, seizoenen: [data[i]] };
         }
     }
     periodes.push(huidigePeriode);
+
     periodes.forEach(p => {
         const lengte = p.seizoenen.length;
-        p.seizoenen.forEach(s => { s.stintLength = lengte; });
+        p.seizoenen.forEach(s => {
+            s.stintLength = lengte; 
+            // Zorg dat de seizoen_nummer_coach een getal is
+            s.seizoen_nummer_coach = +s.seizoen_nummer_coach;
+        });
     });
     return data;
 }
@@ -160,6 +161,7 @@ function drawHeatmap(data) {
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    // GEFIXED: gebruik de correcte (kleine letter) property namen
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => {
