@@ -1,60 +1,47 @@
 // Versie van dit script
-console.log("Script versie: 3.1 - Data Correctie Tools");
+console.log("Script versie: 4.0 - Definitieve Tooltip & Vlaggen Fix");
 
-// Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
-import { collection, getDocs, addDoc, doc, writeBatch, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+// Importeer de benodigde Firestore functies
+import { collection, getDocs, doc, writeBatch, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-// --- EENMALIGE DATA CORRECTIE TOOLS ---
+// --- EENMALIGE DATA CORRECTIE FUNCTIE VOOR VLAGGEN ---
+// Deze functie fixt de landcodes voor de Britse landen in je Firestore database.
+// Aanroepen vanuit de console met: COACH_TOOLS.fixBritishFlagCodes()
+window.COACH_TOOLS = {
+    fixBritishFlagCodes: async function() {
+        if (!window.db) return console.error("DB niet klaar.");
+        console.log("Starten met het corrigeren van vlag-codes...");
 
-/**
- * EXPORT FUNCTIE: Genereert een lijst van unieke coaches voor correctie.
- * Aanroepen vanuit de console met: exportCoachDataForCorrection()
- */
-window.exportCoachDataForCorrection = async function() {
-    if (!window.db) return console.error("DB niet klaar.");
-    console.log("Ophalen van unieke coaches uit Firestore...");
+        const coachesRef = collection(window.db, "coaches");
+        const batch = writeBatch(window.db);
+        
+        // Query voor elke foute code en voeg de update toe aan de batch
+        const qEng = query(coachesRef, where("nat_code", "==", "eng"));
+        const qSct = query(coachesRef, where("nat_code", "==", "sct"));
+        const qWls = query(coachesRef, where("nat_code", "==", "wls"));
 
-    const coachesSnapshot = await getDocs(collection(window.db, "coaches"));
-    const coaches = [];
-    coachesSnapshot.forEach(doc => {
-        const data = doc.data();
-        coaches.push({
-            id: doc.id,
-            naam: data.naam,
-            foto_url: data.foto_url || '' // Zorg dat er altijd een string is
-        });
-    });
+        const [engSnapshot, sctSnapshot, wlsSnapshot] = await Promise.all([
+            getDocs(qEng),
+            getDocs(qSct),
+            getDocs(qWls)
+        ]);
 
-    console.log("Kopieer het onderstaande object, plak het in een editor, corrigeer de URLs en gebruik het voor de update-functie.");
-    console.log(JSON.stringify(coaches, null, 2));
-    alert("Check de console voor de lijst met coaches.");
-};
+        engSnapshot.forEach(doc => batch.update(doc.ref, { nat_code: "gb-eng" }));
+        sctSnapshot.forEach(doc => batch.update(doc.ref, { nat_code: "gb-sct" }));
+        wlsSnapshot.forEach(doc => batch.update(doc.ref, { nat_code: "gb-wls" }));
 
-/**
- * UPDATE FUNCTIE: Werkt de foto-URLs in Firestore bij.
- * Aanroepen vanuit de console met: updateCoachPhotosInFirestore(jouwGecorrigeerdeData)
- * @param {Array} correctedData - De array met gecorrigeerde coach-data.
- */
-window.updateCoachPhotosInFirestore = async function(correctedData) {
-    if (!window.db) return console.error("DB niet klaar.");
-    if (!correctedData || !Array.isArray(correctedData)) {
-        return alert("Geen correcte data meegegeven. Kopieer de volledige, gecorrigeerde array.");
-    }
-    console.log(`Starten met het updaten van ${correctedData.length} coach-documenten...`);
-    const batch = writeBatch(window.db);
-
-    correctedData.forEach(coach => {
-        const docRef = doc(window.db, "coaches", coach.id);
-        batch.update(docRef, { foto_url: coach.foto_url });
-    });
-
-    try {
-        await batch.commit();
-        console.log("Update succesvol voltooid!");
-        alert("Alle foto-URLs zijn bijgewerkt in de database! Herlaad de pagina om de wijzigingen te zien.");
-    } catch (error) {
-        console.error("Fout tijdens het updaten:", error);
-        alert("Er is een fout opgetreden. Zie de console voor details.");
+        try {
+            await batch.commit();
+            const total = engSnapshot.size + sctSnapshot.size + wlsSnapshot.size;
+            if (total > 0) {
+                 alert(`${total} vlag-codes succesvol gecorrigeerd! Herlaad de pagina.`);
+                 console.log(`${total} vlag-codes succesvol gecorrigeerd!`);
+            } else {
+                 alert("Geen incorrecte vlag-codes gevonden om te corrigeren.");
+            }
+        } catch (error) {
+            console.error("Fout bij het corrigeren van de vlag-codes:", error);
+        }
     }
 };
 
@@ -91,7 +78,7 @@ async function loadDataFromFirestore() {
 // Start het laadproces vanuit Firestore
 loadDataFromFirestore().then(data => {
     if (data.length === 0) {
-        console.warn("Geen data gevonden in Firestore. Voer de migratie uit als dit de eerste keer is.");
+        console.warn("Geen data gevonden in Firestore.");
         return;
     }
     const verrijkteData = voegPeriodeDataToe(data);
@@ -191,22 +178,20 @@ function drawHeatmap(data) {
         }
     };
     
+    // --- TOOLTIP LOGICA (DEFINITIEVE VERSIE) ---
     const tooltip = d3.select("#tooltip");
     const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
 
     const mouseover = function(event, d) {
+        tooltip.html(''); // Maak de tooltip altijd eerst leeg om de bug te voorkomen
         tooltip.transition().duration(200).style("opacity", 1);
-    };
-
-    const mousemove = function(event, d) {
-        tooltip.html('');
 
         if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
             tooltip.append('img')
                 .attr('src', d.Coach_Foto_URL)
                 .attr('class', 'tooltip-img')
                 .on('error', function() {
-                    d3.select(this).remove();
+                    d3.select(this).remove(); // Verwijder de kapotte afbeelding
                     tooltip.insert('svg', ':first-child')
                            .attr('class', 'tooltip-img')
                            .attr('viewBox', '0 0 50 50')
@@ -232,7 +217,9 @@ function drawHeatmap(data) {
             nationalityDiv.append('img').attr('src', flagApiUrl).attr('class', 'tooltip-flag');
         }
         nationalityDiv.append('span').text(d.Nationaliteit_Coach);
-        
+    };
+
+    const mousemove = function(event, d) {
         tooltip.style("left", (event.pageX + 15) + "px")
                .style("top", (event.pageY - 28) + "px");
     };
