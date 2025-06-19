@@ -117,11 +117,11 @@ function drawHeatmap(data) {
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d));
 
-    // Definieer de NIEUWE SVG-paden voor de iconen
+    // Definieer de VEEL BETERE SVG-paden voor de iconen
     const icons = {
-        schild: "M8,2 C2,2 2,12 8,14 C14,12 14,2 8,2 Z",
-        bekerZilver: "M5,15 V5 C5,2 11,2 11,5 V15 Z M4,16 H12",
-        bekerGoud: "M6,12 V5 C6,2 10,2 10,5 V12 M4,4 C2,6 2,10 4,12 M12,4 C14,6 14,10 12,12 M5,13 H11 V15 H5 Z"
+        schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z",
+        bekerZilver: "M4 17 L4 6 C4 2 12 2 12 6 L12 17 L4 17 Z M2 18 H14",
+        bekerGoud: "M5 14 V5 C5 2 11 2 11 5 V14 M3 6 C0 7 0 11 3 12 M13 6 C16 7 16 11 13 12 M3 15 H13 V17 H3 Z"
     };
 
     // Teken de haarlijnen TUSSEN coachwissels
@@ -151,16 +151,16 @@ function drawHeatmap(data) {
           if (d.Nationale_Beker === 'Y') prijzen.push({type: 'bekerZilver', color: '#C0C0C0'});
           if (d.Europese_Prijs === 'Y') prijzen.push({type: 'bekerGoud', color: '#FFD700'});
           
-          const totalHeight = (prijzen.length - 1) * 10;
+          const totalHeight = (prijzen.length - 1) * 12; // Iets meer ruimte tussen iconen
           
           prijzen.forEach((p, i) => {
                el.append("path")
                  .attr("d", icons[p.type])
                  .attr("fill", p.color)
-                 .attr("stroke", "#333")
-                 .attr("stroke-width", 0.5)
+                 .attr("stroke", "#444")
+                 .attr("stroke-width", 0.75)
                  // Positioneer elk icoon, gecentreerd en gestapeld
-                 .attr("transform", `translate(-8, ${-totalHeight/2 + i*10 - 8}) scale(0.8)`);
+                 .attr("transform", `translate(-8, ${-totalHeight/2 + i*12 - 8}) scale(0.7)`);
           });
       });
 }
