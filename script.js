@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 1.7 - Legenda en Verbeterde X-as");
+console.log("Script versie: 1.8 - X-as en Legenda Fix");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -59,8 +59,9 @@ function drawHeatmap(data) {
     const x = d3.scaleBand().range([0, width]).domain(seizoenen).padding(0);
     const y = d3.scaleBand().range([height, 0]).domain(clubs).padding(0.1);
 
-    // --- AANGEPASTE X-AS ---
-    const tickValues = seizoenen.filter(s => s.endsWith('0/01') || s.endsWith('5/06') || s.endsWith('9/60') || s.endsWith('4/65'));
+    // --- HERSTELDE X-AS LOGICA ---
+    // Selecteer elke 5e seizoen voor een tick, plus de allerlaatste
+    const tickValues = seizoenen.filter((d, i) => i % 5 === 0 || i === seizoenen.length - 1);
     const xAxis = d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0);
     svg.append("g").attr("class", "axis").attr("transform", `translate(0, ${height})`).call(xAxis)
        .selectAll("text").style("text-anchor", "middle"); // Labels recht onder de ticks
@@ -125,7 +126,7 @@ function drawHeatmap(data) {
 function drawLegend() {
     const legendData = [
         { color: "#ff3333", label: "1 Seizoen" },
-        { color: "#99ff99", label: "Jaar 1 (van >1)" },
+        { color: "#99ff99", label: "Jaar 1" },
         { color: "#66cc66", label: "Jaar 2" },
         { color: "#339933", label: "Jaar 3-5" },
         { color: "#006600", label: "Jaar 6-10" },
@@ -143,46 +144,48 @@ function drawLegend() {
         .attr("height", 60);
 
     const legendGroup = svg.append("g").attr("transform", "translate(20, 20)");
-
+    
+    let colorOffset = 0;
     // Legenda voor kleuren
-    legendGroup.selectAll(".legend-color")
-        .data(legendData)
-        .enter().append("rect")
-        .attr("class", "legend-color")
-        .attr("x", (d, i) => i * 120)
-        .attr("y", 0)
-        .attr("width", 20)
-        .attr("height", 20)
-        .attr("fill", d => d.color);
+    legendData.forEach(d => {
+        const group = legendGroup.append("g").attr("transform", `translate(${colorOffset}, 0)`);
+        
+        group.append("rect")
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("fill", d.color);
 
-    legendGroup.selectAll(".legend-text")
-        .data(legendData)
-        .enter().append("text")
-        .attr("class", "legend-text")
-        .attr("x", (d, i) => i * 120 + 25)
-        .attr("y", 15)
-        .text(d => d.label)
-        .style("font-size", "12px")
-        .attr("fill", "#333");
+        group.append("text")
+            .attr("x", 25)
+            .attr("y", 15)
+            .text(d.label)
+            .style("font-size", "12px")
+            .attr("fill", "#333");
+            
+        colorOffset += (d.label.length * 6 + 45); // Dynamische breedte
+    });
 
     // Legenda voor prijzen
-    const prizeGroup = svg.append("g").attr("transform", `translate(${legendData.length * 120 + 50}, 20)`);
+    const prizeGroup = legendGroup.append("g").attr("transform", `translate(${colorOffset + 30}, 0)`);
     const iconPath = "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z";
+    
+    let prizeOffset = 0;
+    prizeData.forEach(d => {
+        const group = prizeGroup.append("g").attr("transform", `translate(${prizeOffset}, 0)`);
+        
+        group.append("path")
+            .attr("d", iconPath)
+            .attr("transform", "translate(0, 2) scale(1)")
+            .attr("fill", d.color)
+            .attr("stroke", "#222").attr("stroke-width", 0.5);
 
-    prizeGroup.selectAll(".legend-prize-icon")
-        .data(prizeData)
-        .enter().append("path")
-        .attr("d", iconPath)
-        .attr("transform", (d, i) => `translate(${i * 150}, 2) scale(1)`)
-        .attr("fill", d => d.color)
-        .attr("stroke", "#222").attr("stroke-width", 0.5);
-
-    prizeGroup.selectAll(".legend-prize-text")
-        .data(prizeData)
-        .enter().append("text")
-        .attr("x", (d, i) => i * 150 + 25)
-        .attr("y", 15)
-        .text(d => d.label)
-        .style("font-size", "12px")
-        .attr("fill", "#333");
+        group.append("text")
+            .attr("x", 25)
+            .attr("y", 15)
+            .text(d.label)
+            .style("font-size", "12px")
+            .attr("fill", "#333");
+            
+        prizeOffset += (d.label.length * 6 + 50); // Dynamische breedte
+    });
 }
