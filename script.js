@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.1 - Finale Layout Fix");
+console.log("Script versie: 2.2 - Interactieve Tooltip");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -42,8 +42,7 @@ d3.csv("engeland.csv").then(function(data) {
 
 
 function drawHeatmap(data) {
-    // AANGEPASTE MARGE: Meer ruimte aan de linkerkant voor de labels
-    const margin = {top: 20, right: 30, bottom: 80, left: 220}; 
+    const margin = {top: 20, right: 30, bottom: 80, left: 220};
     const width = 1400 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
@@ -73,40 +72,24 @@ function drawHeatmap(data) {
          .attr("dy", "-.5em")
          .attr("transform", "rotate(-90)");
 
-    // --- FINALE Y-AS MET LOGOS & GEUNIFICEERDE ACHTERGROND ---
     const yAxisGroup = svg.append("g").attr("class", "axis y-axis");
-    
-    const yAxisTicks = yAxisGroup.selectAll(".tick")
-        .data(logoData)
-        .enter()
-        .append("g")
+    const yAxisTicks = yAxisGroup.selectAll(".tick").data(logoData).enter().append("g")
         .attr("class", "tick")
         .attr("transform", d => `translate(0, ${y(d.Club) + y.bandwidth() / 2})`);
 
-    // Voeg één achtergrondblok toe voor logo + naam
     yAxisTicks.append("rect")
-        .attr("x", -margin.left + 30)
-        .attr("y", -y.bandwidth()/2)
-        .attr("width", 180)
-        .attr("height", y.bandwidth())
-        .attr("fill", "#f8f9fa") // Subtiele achtergrondkleur
-        .attr("rx", 4);
+        .attr("x", -margin.left + 30).attr("y", -y.bandwidth()/2)
+        .attr("width", 180).attr("height", y.bandwidth())
+        .attr("fill", "#f8f9fa").attr("rx", 4);
 
-    // Voeg logo toe
     yAxisTicks.append("image")
         .attr("xlink:href", d => d.Logo_URL)
-        .attr("x", -margin.left + 40)
-        .attr("y", -15)
-        .attr("width", 30)
-        .attr("height", 30);
+        .attr("x", -margin.left + 40).attr("y", -15)
+        .attr("width", 30).attr("height", 30);
     
-    // Voeg clubnaam toe
     yAxisTicks.append("text")
-        .attr("x", -margin.left + 85)
-        .attr("dy", ".32em")
-        .style("text-anchor", "start")
-        .text(d => d.Club);
-
+        .attr("x", -margin.left + 85).attr("dy", ".32em")
+        .style("text-anchor", "start").text(d => d.Club);
 
     const getColor = function(d) {
         if (d.stintLength === 1) return "#ff3333";
@@ -119,6 +102,34 @@ function drawHeatmap(data) {
         }
     };
     
+    // --- TOOLTIP LOGICA ---
+    const tooltip = d3.select("#tooltip");
+
+    const mouseover = function(event, d) {
+        tooltip.style("opacity", 1);
+    };
+
+    const mousemove = function(event, d) {
+        const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
+        const htmlContent = `
+            <img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none'">
+            <div class="tooltip-info">
+                <p class="name">${d.Coach}</p>
+                <div class="nationality">
+                    <img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">
+                    <span>${d.Nationaliteit_Coach}</span>
+                </div>
+            </div>
+        `;
+        tooltip.html(htmlContent)
+            .style("left", (event.pageX + 15) + "px")
+            .style("top", (event.pageY - 15) + "px");
+    };
+
+    const mouseleave = function(event, d) {
+        tooltip.style("opacity", 0);
+    };
+
     svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("x", d => x(d.Seizoen))
@@ -126,7 +137,10 @@ function drawHeatmap(data) {
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
-        .attr("shape-rendering", "crispEdges");
+        .attr("shape-rendering", "crispEdges")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave);
 
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
 
@@ -200,7 +214,8 @@ function drawLegend() {
 
     drawItem(legendGroup, legendData, false);
     currentOffset += 20;
-    drawItem(legendGroup, prizeData, true);
+    const iconPath = "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z";
+    drawItem(legendGroup, prizeData.map(d => ({...d, path: iconPath, fill: d.color})), true);
 
     const containerWidth = d3.select("#legend-container").node().getBoundingClientRect().width;
     const legendWidth = legendGroup.node().getBBox().width;
