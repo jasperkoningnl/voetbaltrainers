@@ -1,28 +1,23 @@
 // Versie van dit script
-console.log("Script versie: 3.3 - Firestore Data Key Fix");
+console.log("Script versie: 3.0 - Robuuste Tooltip met Avatar Fallback");
 
 // Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
 import { collection, getDocs, addDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 // --- EENMALIGE DATA MIGRATIE FUNCTIE ---
-// Deze functie leest de lokale CSV en schrijft de data naar de nieuwe databasestructuur.
 window.migrateCSVtoFirestore = async function() {
     if (!window.db) {
         console.error("Firestore DB is niet geïnitialiseerd.");
         return;
     }
-
     try {
         const data = await d3.csv("engeland.csv");
         const coachesCollection = collection(window.db, "coaches");
         const seizoenenCollection = collection(window.db, "seizoenen");
-
         console.log("Start herstructurering en migratie...");
         const coachesMap = new Map();
-
         for (const row of data) {
             if (!coachesMap.has(row.Coach)) {
-                console.log(`Nieuwe coach gevonden: ${row.Coach}`);
                 const coachDoc = await addDoc(coachesCollection, {
                     naam: row.Coach,
                     nationaliteit: row.Nationaliteit_Coach,
@@ -33,7 +28,6 @@ window.migrateCSVtoFirestore = async function() {
             }
         }
         console.log(`${coachesMap.size} unieke coaches toegevoegd aan Firestore.`);
-
         const batch = writeBatch(window.db);
         data.forEach(row => {
             const coachId = coachesMap.get(row.Coach);
@@ -51,41 +45,33 @@ window.migrateCSVtoFirestore = async function() {
             const seasonDocRef = doc(seizoenenCollection);
             batch.set(seasonDocRef, seasonData);
         });
-        
         await batch.commit();
-
-        console.log("Migratie succesvol voltooid! Alle data staat nu in de nieuwe structuur in Firestore.");
+        console.log("Migratie succesvol voltooid!");
         alert("Migratie voltooid! Ververs de pagina om de data vanuit Firestore te laden.");
-
     } catch (error) {
         console.error("Fout tijdens de migratie:", error);
-        alert("Er is een fout opgetreden tijdens de migratie. Zie de console voor details.");
+        alert("Er is een fout opgetreden tijdens de migratie.");
     }
 };
-
 
 // --- HOOFDLOGICA: DATA LADEN VANUIT FIRESTORE ---
 async function loadDataFromFirestore() {
     if (!window.db) return [];
-
     const [coachesSnapshot, seizoenenSnapshot] = await Promise.all([
         getDocs(collection(window.db, "coaches")),
         getDocs(collection(window.db, "seizoenen"))
     ]);
-
     const coachesMap = new Map();
     coachesSnapshot.forEach(doc => {
         coachesMap.set(doc.id, doc.data());
     });
-
     const joinedData = [];
     seizoenenSnapshot.forEach(doc => {
         const seizoenData = doc.data();
         const coachInfo = coachesMap.get(seizoenData.coachId);
         if (coachInfo) {
             joinedData.push({
-                ...seizoenData, // data uit 'seizoenen' collectie (met kleine letters)
-                // voeg coach data toe met consistente hoofdletters
+                ...seizoenData,
                 Coach: coachInfo.naam,
                 Nationaliteit_Coach: coachInfo.nationaliteit,
                 Coach_Nat_Code: coachInfo.nat_code,
@@ -93,11 +79,9 @@ async function loadDataFromFirestore() {
             });
         }
     });
-
     console.log(`Data succesvol geladen en samengevoegd: ${joinedData.length} documenten.`);
     return joinedData;
 }
-
 
 // Start het laadproces vanuit Firestore
 loadDataFromFirestore().then(data => {
@@ -105,27 +89,20 @@ loadDataFromFirestore().then(data => {
         console.warn("Geen data gevonden in Firestore. Voer de migratie uit als dit de eerste keer is.");
         return;
     }
-    
-    // De data wordt nu direct correct verwerkt door de functies
     const verrijkteData = voegPeriodeDataToe(data);
-    
     drawHeatmap(verrijkteData);
     drawLegend();
 }).catch(error => {
     console.error("Fout bij het laden van data uit Firestore:", error);
 });
 
-
-// --- Vanaf hier zijn alle property-namen gecorrigeerd ---
+// --- Vanaf hier blijven de teken-functies grotendeels hetzelfde ---
 
 function voegPeriodeDataToe(data) {
     if (data.length === 0) return [];
     const periodes = [];
-    // GEFIXED: Sorteer op de juiste property namen
     data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
-    
     let huidigePeriode = { coach: data[0].Coach, club: data[0].club, seizoenen: [data[0]] };
-    
     for (let i = 1; i < data.length; i++) {
         if (data[i].Coach === huidigePeriode.coach && data[i].club === huidigePeriode.club) {
             huidigePeriode.seizoenen.push(data[i]);
@@ -135,12 +112,10 @@ function voegPeriodeDataToe(data) {
         }
     }
     periodes.push(huidigePeriode);
-
     periodes.forEach(p => {
         const lengte = p.seizoenen.length;
         p.seizoenen.forEach(s => {
-            s.stintLength = lengte; 
-            // Zorg dat de seizoen_nummer_coach een getal is
+            s.stintLength = lengte;
             s.seizoen_nummer_coach = +s.seizoen_nummer_coach;
         });
     });
@@ -161,7 +136,6 @@ function drawHeatmap(data) {
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // GEFIXED: gebruik de correcte (kleine letter) property namen
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => {
@@ -219,42 +193,32 @@ function drawHeatmap(data) {
     };
 
     const mousemove = function(event, d) {
-        tooltip.html('');
+        const hasPhoto = d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '';
+        
+        let imagePart = hasPhoto 
+            ? `<img src="${d.Coach_Foto_URL}" class="tooltip-img" onerror="this.style.display='none'; document.getElementById('avatar-placeholder').style.display='block';">
+               <svg id="avatar-placeholder" class="tooltip-img" viewBox="0 0 50 50" style="display:none;"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`
+            : `<svg class="tooltip-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
 
-        if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
-            tooltip.append('img')
-                .attr('src', d.Coach_Foto_URL)
-                .attr('class', 'tooltip-img')
-                .on('error', function() {
-                    d3.select(this).remove();
-                    tooltip.insert('svg', ':first-child')
-                           .attr('class', 'tooltip-img')
-                           .attr('viewBox', '0 0 50 50')
-                           .append('path')
-                           .attr('d', avatarIconPath)
-                           .attr('fill', '#ccc');
-                });
-        } else {
-            tooltip.append('svg')
-                   .attr('class', 'tooltip-img')
-                   .attr('viewBox', '0 0 50 50')
-                   .append('path')
-                   .attr('d', avatarIconPath)
-                   .attr('fill', '#ccc');
-        }
-        
-        const infoDiv = tooltip.append('div').attr('class', 'tooltip-info');
-        infoDiv.append('p').attr('class', 'name').text(d.Coach);
-        const nationalityDiv = infoDiv.append('div').attr('class', 'nationality');
-        
+        let flagPart = '';
         if (d.Coach_Nat_Code && d.Coach_Nat_Code.trim() !== '') {
             const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
-            nationalityDiv.append('img').attr('src', flagApiUrl).attr('class', 'tooltip-flag');
+            flagPart = `<img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">`;
         }
-        nationalityDiv.append('span').text(d.Nationaliteit_Coach);
-        
-        tooltip.style("left", (event.pageX + 15) + "px")
-               .style("top", (event.pageY - 28) + "px");
+
+        const htmlContent = `
+            ${imagePart}
+            <div class="tooltip-info">
+                <p class="name">${d.Coach}</p>
+                <div class="nationality">
+                    ${flagPart}
+                    <span>${d.Nationaliteit_Coach}</span>
+                </div>
+            </div>
+        `;
+        tooltip.html(htmlContent)
+            .style("left", (event.pageX + 15) + "px")
+            .style("top", (event.pageY - 28) + "px");
     };
 
     const mouseleave = function(event, d) {
@@ -308,7 +272,6 @@ function drawHeatmap(data) {
 
 function drawLegend() {
     d3.select("#legend-container").html("");
-
     const legendData = [
         { color: "#ff3333", label: "1 Season" },
         { color: "#99ff99", label: "Year 1" },
