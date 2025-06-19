@@ -1,12 +1,11 @@
 // Versie van dit script
-console.log("Script versie: 3.1 - Firestore Integratie");
+console.log("Script versie: 3.2 - Firestore Herstructurering");
 
 // Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
-import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { collection, getDocs, addDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 // --- EENMALIGE DATA MIGRATIE FUNCTIE ---
-// Deze functie leest de lokale CSV en schrijft de data naar Firestore.
-// We roepen deze functie handmatig aan vanuit de browser console.
+// Deze functie leest de lokale CSV en schrijft de data naar de nieuwe databasestructuur.
 window.migrateCSVtoFirestore = async function() {
     if (!window.db) {
         console.error("Firestore DB is niet geïnitialiseerd.");
@@ -15,15 +14,49 @@ window.migrateCSVtoFirestore = async function() {
 
     try {
         const data = await d3.csv("engeland.csv");
-        const managerCollection = collection(window.db, "managerData");
+        const coachesCollection = collection(window.db, "coaches");
+        const seizoenenCollection = collection(window.db, "seizoenen");
 
-        console.log(`Start migratie van ${data.length} rijen...`);
+        console.log("Start herstructurering en migratie...");
+        const coachesMap = new Map(); // Houdt unieke coaches bij om duplicaten te voorkomen
 
+        // Stap 1: Vind alle unieke coaches en voeg ze toe aan de 'coaches' collectie
         for (const row of data) {
-            await addDoc(managerCollection, row);
+            if (!coachesMap.has(row.Coach)) {
+                console.log(`Nieuwe coach gevonden: ${row.Coach}`);
+                const coachDoc = await addDoc(coachesCollection, {
+                    naam: row.Coach,
+                    nationaliteit: row.Nationaliteit_Coach,
+                    nat_code: row.Coach_Nat_Code,
+                    foto_url: row.Coach_Foto_URL
+                });
+                coachesMap.set(row.Coach, coachDoc.id); // Sla de nieuwe ID op
+            }
         }
+        console.log(`${coachesMap.size} unieke coaches toegevoegd aan Firestore.`);
 
-        console.log("Migratie succesvol voltooid! Alle data staat nu in Firestore.");
+        // Stap 2: Voeg alle seizoenen toe met een verwijzing naar de coach
+        const batch = writeBatch(window.db);
+        data.forEach(row => {
+            const coachId = coachesMap.get(row.Coach);
+            const seasonData = {
+                coachId: coachId,
+                seizoen: row.Seizoen,
+                club: row.Club,
+                land_club: row.Land_Club,
+                logo_url: row.Logo_URL,
+                seizoen_nummer_coach: +row.Seizoen_Nummer_Coach,
+                landstitel: row.Landstitel,
+                nationale_beker: row.Nationale_Beker,
+                europese_prijs: row.Europese_Prijs
+            };
+            const seasonDocRef = doc(seizoenenCollection); // Maak een nieuwe referentie aan in de seizoenen collectie
+            batch.set(seasonDocRef, seasonData);
+        });
+        
+        await batch.commit(); // Schrijf alle seizoenen in één keer weg (veel efficiënter)
+
+        console.log("Migratie succesvol voltooid! Alle data staat nu in de nieuwe structuur in Firestore.");
         alert("Migratie voltooid! Ververs de pagina om de data vanuit Firestore te laden.");
 
     } catch (error) {
@@ -35,17 +68,38 @@ window.migrateCSVtoFirestore = async function() {
 
 // --- HOOFDLOGICA: DATA LADEN VANUIT FIRESTORE ---
 async function loadDataFromFirestore() {
-    if (!window.db) {
-        console.error("Firestore DB is niet geïnitialiseerd.");
-        return [];
-    }
-    const querySnapshot = await getDocs(collection(window.db, "managerData"));
-    const firestoreData = [];
-    querySnapshot.forEach((doc) => {
-        firestoreData.push(doc.data());
+    if (!window.db) return [];
+
+    // Haal data op uit BEIDE collecties tegelijk
+    const [coachesSnapshot, seizoenenSnapshot] = await Promise.all([
+        getDocs(collection(window.db, "coaches")),
+        getDocs(collection(window.db, "seizoenen"))
+    ]);
+
+    // Maak een 'lookup map' voor coaches voor efficiëntie
+    const coachesMap = new Map();
+    coachesSnapshot.forEach(doc => {
+        coachesMap.set(doc.id, doc.data());
     });
-    console.log(`Data succesvol geladen vanuit Firestore: ${firestoreData.length} documenten.`);
-    return firestoreData;
+
+    // Knoop de data aan elkaar
+    const joinedData = [];
+    seizoenenSnapshot.forEach(doc => {
+        const seizoenData = doc.data();
+        const coachInfo = coachesMap.get(seizoenData.coachId);
+        if (coachInfo) {
+            joinedData.push({
+                ...seizoenData, // Alle data van het seizoen
+                Coach: coachInfo.naam,
+                Nationaliteit_Coach: coachInfo.nationaliteit,
+                Coach_Nat_Code: coachInfo.nat_code,
+                Coach_Foto_URL: coachInfo.foto_url
+            });
+        }
+    });
+
+    console.log(`Data succesvol geladen en samengevoegd: ${joinedData.length} documenten.`);
+    return joinedData;
 }
 
 
@@ -69,9 +123,8 @@ loadDataFromFirestore().then(data => {
 });
 
 
-/**
- * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
- */
+// --- Vanaf hier blijven de teken-functies grotendeels hetzelfde ---
+
 function voegPeriodeDataToe(data) {
     if (data.length === 0) return [];
     const periodes = [];
@@ -98,7 +151,6 @@ function drawHeatmap(data) {
     const width = 1400 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
-    // Maak de container leeg voor het geval we opnieuw tekenen
     d3.select("#heatmap-container").html("");
 
     const svg = d3.select("#heatmap-container")
@@ -108,11 +160,11 @@ function drawHeatmap(data) {
       .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const seizoenen = [...new Set(data.map(d => d.Seizoen))].sort();
-    const clubs = [...new Set(data.map(d => d.Club))];
+    const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
+    const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => {
-        const entry = data.find(d => d.Club === club);
-        return { Club: club, Logo_URL: entry ? entry.Logo_URL : '' };
+        const entry = data.find(d => d.club === club);
+        return { Club: club, Logo_URL: entry ? entry.logo_url : '' };
     });
 
     const x = d3.scaleBand().range([0, width]).domain(seizoenen).padding(0);
@@ -149,10 +201,10 @@ function drawHeatmap(data) {
     const getColor = function(d) {
         if (d.stintLength === 1) return "#ff3333";
         if (d.stintLength > 1) {
-            if (d.Seizoen_Nummer_Coach === 1) return "#99ff99";
-            if (d.Seizoen_Nummer_Coach === 2) return "#66cc66";
-            if (d.Seizoen_Nummer_Coach <= 5) return "#339933";
-            if (d.Seizoen_Nummer_Coach <= 10) return "#006600";
+            if (d.seizoen_nummer_coach === 1) return "#99ff99";
+            if (d.seizoen_nummer_coach === 2) return "#66cc66";
+            if (d.seizoen_nummer_coach <= 5) return "#339933";
+            if (d.seizoen_nummer_coach <= 10) return "#006600";
             return "#003300";
         }
     };
@@ -209,8 +261,8 @@ function drawHeatmap(data) {
 
     svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
-        .attr("x", d => x(d.Seizoen))
-        .attr("y", d => y(d.Club))
+        .attr("x", d => x(d.seizoen))
+        .attr("y", d => y(d.club))
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
@@ -221,25 +273,25 @@ function drawHeatmap(data) {
 
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
 
-    const coachChanges = data.filter(d => d.Seizoen_Nummer_Coach === 1 && d.Seizoen !== seizoenen[0]);
+    const coachChanges = data.filter(d => d.seizoen_nummer_coach === 1 && d.seizoen !== seizoenen[0]);
     svg.selectAll(".coach-divider").data(coachChanges).enter().append("line")
         .attr("class", "coach-divider")
-        .attr("x1", d => x(d.Seizoen))
-        .attr("y1", d => y(d.Club))
-        .attr("x2", d => x(d.Seizoen))
-        .attr("y2", d => y(d.Club) + y.bandwidth());
+        .attr("x1", d => x(d.seizoen))
+        .attr("y1", d => y(d.club))
+        .attr("x2", d => x(d.seizoen))
+        .attr("y2", d => y(d.club) + y.bandwidth());
 
     svg.selectAll(".prize-group")
-      .data(data.filter(d => d.Landstitel === 'Y' || d.Nationale_Beker === 'Y' || d.Europese_Prijs === 'Y'))
+      .data(data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y'))
       .enter().append("g")
       .attr("class", "prize-group")
-      .attr("transform", d => `translate(${x(d.Seizoen) + x.bandwidth() / 2}, ${y(d.Club) + y.bandwidth() / 2})`)
+      .attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`)
       .each(function(d) {
           const el = d3.select(this);
           const prijzen = [];
-          if (d.Europese_Prijs === 'Y') prijzen.push({color: '#FFD700'});
-          if (d.Landstitel === 'Y') prijzen.push({color: '#C0C0C0'});
-          if (d.Nationale_Beker === 'Y') prijzen.push({color: '#CD7F32'});
+          if (d.europese_prijs === 'Y') prijzen.push({color: '#FFD700'});
+          if (d.landstitel === 'Y') prijzen.push({color: '#C0C0C0'});
+          if (d.nationale_beker === 'Y') prijzen.push({color: '#CD7F32'});
           
           const totalHeight = (prijzen.length - 1) * 12;
           prijzen.forEach((p, i) => {
@@ -253,7 +305,6 @@ function drawHeatmap(data) {
 }
 
 function drawLegend() {
-    // Maak de container leeg voor het geval we opnieuw tekenen
     d3.select("#legend-container").html("");
 
     const legendData = [
