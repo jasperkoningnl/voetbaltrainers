@@ -1,31 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.8 - Tooltip Bugfix");
-
-/**
- * Functie om de CSV-data te analyseren op ontbrekende foto's.
- * @param {Array} data De volledige dataset.
- */
-function analyseerOntbrekendeData(data) {
-    const uniekeCoaches = new Map();
-    data.forEach(d => {
-        uniekeCoaches.set(d.Coach, d.Coach_Foto_URL);
-    });
-
-    const coachesZonderFoto = [];
-    uniekeCoaches.forEach((url, coach) => {
-        if (!url || url.trim() === '') {
-            coachesZonderFoto.push(coach);
-        }
-    });
-
-    if (coachesZonderFoto.length > 0) {
-        console.warn("Analyse: De volgende coaches missen een foto-URL in de CSV:");
-        console.table(coachesZonderFoto);
-    } else {
-        console.log("Analyse: Alle coaches hebben een foto-URL. Perfect!");
-    }
-}
-
+console.log("Script versie: 3.0 - Robuuste Tooltip met Avatar Fallback");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -61,9 +35,6 @@ d3.csv("engeland.csv").then(function(data) {
     const verrijkteData = voegPeriodeDataToe(data);
     console.log("Data succesvol geladen en verrijkt:", verrijkteData);
     
-    // Voer de nieuwe analyse-functie uit
-    analyseerOntbrekendeData(verrijkteData);
-
     drawHeatmap(verrijkteData);
     drawLegend();
 }).catch(function(error) {
@@ -132,43 +103,55 @@ function drawHeatmap(data) {
         }
     };
     
-    // --- TOOLTIP LOGICA (FINALE VERSIE) ---
+    // --- TOOLTIP LOGICA (FINALE, ROBUUSTE VERSIE) ---
     const tooltip = d3.select("#tooltip");
+    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
 
     const mouseover = function(event, d) {
         tooltip.transition().duration(200).style("opacity", 1);
     };
 
     const mousemove = function(event, d) {
-        // Bouw de HTML voor de foto en vlag alleen als de data bestaat.
-        let imagePart = '';
-        if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
-            // GEREPAREERD: onerror verbergt nu alleen de gebroken afbeelding en veroorzaakt geen error meer.
-            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none';">`;
-        } else {
-            // Als er geen URL is, tonen we een placeholder die dezelfde stijl heeft.
-            imagePart = `<div class="tooltip-img"></div>`;
-        }
+        tooltip.html(''); // Maak de tooltip eerst leeg
 
-        let flagPart = '';
+        // Controleer of de foto URL bestaat en probeer deze te laden
+        if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
+            tooltip.append('img')
+                .attr('src', d.Coach_Foto_URL)
+                .attr('class', 'tooltip-img')
+                .on('error', function() {
+                    // Als de afbeelding niet laadt, verwijder de kapotte img
+                    d3.select(this).remove();
+                    // en voeg de SVG avatar toe
+                    tooltip.insert('svg', ':first-child')
+                           .attr('class', 'tooltip-img')
+                           .attr('viewBox', '0 0 50 50')
+                           .append('path')
+                           .attr('d', avatarIconPath)
+                           .attr('fill', '#ccc');
+                });
+        } else {
+            // Als er geen URL is, toon direct de SVG avatar
+            tooltip.append('svg')
+                   .attr('class', 'tooltip-img')
+                   .attr('viewBox', '0 0 50 50')
+                   .append('path')
+                   .attr('d', avatarIconPath)
+                   .attr('fill', '#ccc');
+        }
+        
+        const infoDiv = tooltip.append('div').attr('class', 'tooltip-info');
+        infoDiv.append('p').attr('class', 'name').text(d.Coach);
+        const nationalityDiv = infoDiv.append('div').attr('class', 'nationality');
+        
         if (d.Coach_Nat_Code && d.Coach_Nat_Code.trim() !== '') {
             const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
-            flagPart = `<img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">`;
+            nationalityDiv.append('img').attr('src', flagApiUrl).attr('class', 'tooltip-flag');
         }
-
-        const htmlContent = `
-            ${imagePart}
-            <div class="tooltip-info">
-                <p class="name">${d.Coach}</p>
-                <div class="nationality">
-                    ${flagPart}
-                    <span>${d.Nationaliteit_Coach}</span>
-                </div>
-            </div>
-        `;
-        tooltip.html(htmlContent)
-            .style("left", (event.pageX + 15) + "px")
-            .style("top", (event.pageY - 28) + "px");
+        nationalityDiv.append('span').text(d.Nationaliteit_Coach);
+        
+        tooltip.style("left", (event.pageX + 15) + "px")
+               .style("top", (event.pageY - 28) + "px");
     };
 
     const mouseleave = function(event, d) {
