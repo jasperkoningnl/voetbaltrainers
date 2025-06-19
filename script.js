@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.4 - Tooltip Debugging");
+console.log("Script versie: 2.5 - Volledige Tooltip Functioneel");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -102,19 +102,27 @@ function drawHeatmap(data) {
         }
     };
     
-    // --- TOOLTIP LOGICA (DEBUGGING-VERSIE) ---
+    // --- TOOLTIP LOGICA (VOLLEDIGE VERSIE) ---
     const tooltip = d3.select("#tooltip");
 
     const mouseover = function(event, d) {
         tooltip.transition().duration(200).style("opacity", 1);
-        // We verplaatsen de tooltip hier al, zodat hij niet in de weg zit
-        tooltip.style("left", (event.pageX + 15) + "px")
-               .style("top", (event.pageY - 28) + "px");
     };
 
     const mousemove = function(event, d) {
-        // EXTREEM SIMPELE VERSIE OM TE TESTEN: Toon alleen de naam van de coach
-        tooltip.html(d.Coach)
+        // Gebruik de landcode voor de vlaggen API
+        const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
+        const htmlContent = `
+            <img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none'">
+            <div class="tooltip-info">
+                <p class="name">${d.Coach}</p>
+                <div class="nationality">
+                    <img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">
+                    <span>${d.Nationaliteit_Coach}</span>
+                </div>
+            </div>
+        `;
+        tooltip.html(htmlContent)
             .style("left", (event.pageX + 15) + "px")
             .style("top", (event.pageY - 28) + "px");
     };
