@@ -1,7 +1,7 @@
 /* --- Algemene Pagina & Typografie --- */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f4f5f7; /* Lichtgrijze achtergrond */
+    background-color: #f4f5f7;
     color: #333;
     margin: 0;
     display: flex;
@@ -12,7 +12,7 @@ body {
 
 main {
     width: 100%;
-    max-width: 1600px; /* Maximale breedte voor de content */
+    max-width: 1600px;
     padding: 2rem;
     box-sizing: border-box;
 }
@@ -47,15 +47,60 @@ main {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
-    overflow-x: auto; /* Zorgt dat de visualisatie kan scrollen op kleine schermen */
+    overflow-x: auto;
+}
+
+/* --- Tooltip Styling --- */
+.tooltip {
+    position: absolute; /* Essentieel om hem vrij te kunnen bewegen */
+    background-color: #ffffff;
+    border: 1px solid #dfe6e9;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    padding: 1rem;
+    pointer-events: none; /* Zorgt dat de tooltip de muis niet 'blokkeert' */
+    opacity: 0; /* Standaard onzichtbaar */
+    transition: opacity 0.2s; /* Vloeiende overgang */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    white-space: nowrap;
+    z-index: 10; /* Zorgt dat de tooltip altijd bovenaan staat */
+}
+
+.tooltip-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover; /* Zorgt dat de foto mooi past */
+    background-color: #f0f0f0; /* Fallback kleur */
+}
+
+.tooltip-info .name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.tooltip-info .nationality {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 0.25rem;
+}
+
+.tooltip-flag {
+    width: 20px;
+    height: 15px;
+    border: 1px solid #eee;
 }
 
 /* --- D3 Visualisatie Specifieke Styling --- */
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #dfe6e9;
-    shape-rendering: crispEdges;
+.axis .domain, 
+.axis .tick line {
+    stroke: none;
 }
 
 .axis text {
@@ -63,18 +108,15 @@ main {
     fill: #636e72;
 }
 
-/* Verwijder de standaard rand van de heatmap-blokjes */
 .bar {
     stroke: none;
 }
 
-/* De haarlijn tussen de coachwissels */
 .coach-divider {
-    stroke: #ffffff; /* Wit om de scheiding te benadrukken */
+    stroke: #ffffff;
     stroke-width: 2px;
 }
 
-/* Styling voor de prijs-iconen */
 .prize-icon {
     pointer-events: none;
 }
@@ -84,7 +126,7 @@ main {
     width: 100%;
     text-align: center;
     padding: 1.5rem 0;
-    margin-top: auto; /* Zorgt dat de footer onderaan blijft */
+    margin-top: auto;
     font-size: 0.9rem;
     color: #777;
 }
