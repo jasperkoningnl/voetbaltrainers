@@ -24,16 +24,13 @@ header {
     fill: #495057;
 }
 
-/* Styling voor de omlijning van een volledige coach-periode */
-.period-border {
-    fill: none;
-    stroke: #212529;
-    stroke-width: 1.5px;
+/* Styling voor de haarlijn tussen coachwissels */
+.coach-divider {
+    stroke: #f8f9fa; /* Zelfde als achtergrondkleur voor een 'cut-out' effect */
+    stroke-width: 2px;
 }
 
 /* Styling voor de prijs-iconen */
 .prize-icon {
-    font-size: 12px;
-    fill: #343a40;
     pointer-events: none; /* Zorgt dat de iconen niet in de weg zitten van muis-events */
 }
