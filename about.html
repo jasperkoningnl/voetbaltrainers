@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - The Managerial Merry-Go-Round</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Dezelfde stylesheet voor een consistente look -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>About This Project</h1>
+        <p class="subtitle">
+            <a href="index.html">← Back to the visualization</a>
+        </p>
+    </header>
+
+    <main>
+        <div class="about-container">
+            <h3>The Story</h3>
+            <p>This project started with a simple question: how exceptional was Sir Alex Ferguson's 27-year tenure at Manchester United in the context of modern football? This visualization attempts to answer that by mapping the tenures of managers at Europe's top clubs since the 1955/56 season, the dawn of European club competitions.</p>
+            <p>The heatmap visualizes managerial stability. Each row represents a club, and each colored block represents a season. The color scheme indicates the manager's tenure at that point: a fiery red for a one-season stint, transitioning through shades of green for longer, more stable periods. Trophies won in a season are marked with shield icons, allowing for a visual analysis of the correlation between stability and success.</p>
+            <p>This project is an ongoing collaboration between Jasper Koning and Google's Gemini, built iteratively with D3.js for the visualization and Google Firestore for data management.</p>
+            
+            <hr class="about-divider">
+
+            <h3>Changelog</h3>
+            
+            <h4>v3.0 - The Great Migration (June 18-19, 2025)</h4>
+            <ul>
+                <li>Recognized that the CSV workflow was becoming a bottleneck.</li>
+                <li>Completely re-architected the data backend, migrating from a static <code>engeland.csv</code> file to a scalable Google Firestore database.</li>
+                <li>Data was separated into two collections (<code>coaches</code> and <code>seizoenen</code>) for data integrity and easier maintenance.</li>
+                <li>Developed and executed a one-time migration script to transfer all existing data to the new structure.</li>
+                <li>Rewrote the <code>script.js</code> to fetch and join data from Firestore and successfully fixed all outstanding bugs related to the interactive tooltip.</li>
+                <li><strong>Milestone: Project is now scalable and ready for Fase 3.</strong></li>
+            </ul>
+
+            <h4>v2.0 - The Polish & Interactivity (June 18, 2025)</h4>
+            <ul>
+                <li>Completed <strong>Fase 1 (Visual Polish)</strong>: redesigned the page layout, improved the X and Y axes (including club logos), and added a comprehensive legend.</li>
+                <li>Initiated <strong>Fase 2 (Interactivity)</strong> by adding the core tooltip functionality.</li>
+                <li>Encountered and debugged several critical issues related to data quality and buggy tooltip behavior, leading to the strategic decision to migrate the data backend.</li>
+            </ul>
+
+            <h4>v1.0 - The Foundation (June 17-18, 2025)</h4>
+            <ul>
+                <li>Established the project's core principles and data structure.</li>
+                <li>Built the initial D3.js heatmap visualization based on a CSV file.</li>
+                <li>Iteratively refined the visual logic, including the color scheme for manager tenure, the representation of trophies, and the merging of coach periods into single visual blocks.</li>
+                <li>Set up the project on GitHub and deployed the first live version via GitHub Pages.</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="page-footer">
+        <p>Created by <a href="https://github.com/jasperkoningnl" target="_blank">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank">Gemini</a>.</p>
+        <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
+    </footer>
+
+</body>
+</html>
