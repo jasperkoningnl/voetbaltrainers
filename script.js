@@ -1,5 +1,31 @@
 // Versie van dit script
-console.log("Script versie: 2.6 - Robuuste Tooltip");
+console.log("Script versie: 2.7 - Data Analyse & Tooltip Fix");
+
+/**
+ * Functie om de CSV-data te analyseren op ontbrekende foto's.
+ * @param {Array} data De volledige dataset.
+ */
+function analyseerOntbrekendeData(data) {
+    const uniekeCoaches = new Map();
+    data.forEach(d => {
+        uniekeCoaches.set(d.Coach, d.Coach_Foto_URL);
+    });
+
+    const coachesZonderFoto = [];
+    uniekeCoaches.forEach((url, coach) => {
+        if (!url || url.trim() === '') {
+            coachesZonderFoto.push(coach);
+        }
+    });
+
+    if (coachesZonderFoto.length > 0) {
+        console.warn("Analyse: De volgende coaches missen een foto-URL in de CSV:");
+        console.table(coachesZonderFoto);
+    } else {
+        console.log("Analyse: Alle coaches hebben een foto-URL. Perfect!");
+    }
+}
+
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -34,6 +60,10 @@ d3.csv("engeland.csv").then(function(data) {
     });
     const verrijkteData = voegPeriodeDataToe(data);
     console.log("Data succesvol geladen en verrijkt:", verrijkteData);
+    
+    // Voer de nieuwe analyse-functie uit
+    analyseerOntbrekendeData(verrijkteData);
+
     drawHeatmap(verrijkteData);
     drawLegend();
 }).catch(function(error) {
@@ -102,7 +132,7 @@ function drawHeatmap(data) {
         }
     };
     
-    // --- TOOLTIP LOGICA (ROBUUSTE VERSIE) ---
+    // --- TOOLTIP LOGICA (FINALE VERSIE) ---
     const tooltip = d3.select("#tooltip");
 
     const mouseover = function(event, d) {
@@ -110,14 +140,13 @@ function drawHeatmap(data) {
     };
 
     const mousemove = function(event, d) {
-        let imagePart = '';
-        // Controleer of de foto URL bestaat en niet leeg is
+        // Bouw de HTML voor de foto en vlag alleen als de data bestaat.
+        let imagePart = `<div class="tooltip-img-placeholder"></div>`; // Standaard placeholder
         if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
-            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.onerror=null; this.style.display='none'">`;
+            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">`;
         }
 
         let flagPart = '';
-        // Controleer of de landcode bestaat en niet leeg is
         if (d.Coach_Nat_Code && d.Coach_Nat_Code.trim() !== '') {
             const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
             flagPart = `<img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">`;
