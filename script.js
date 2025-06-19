@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.7 - Data Analyse & Tooltip Fix");
+console.log("Script versie: 2.8 - Tooltip Bugfix");
 
 /**
  * Functie om de CSV-data te analyseren op ontbrekende foto's.
@@ -141,9 +141,13 @@ function drawHeatmap(data) {
 
     const mousemove = function(event, d) {
         // Bouw de HTML voor de foto en vlag alleen als de data bestaat.
-        let imagePart = `<div class="tooltip-img-placeholder"></div>`; // Standaard placeholder
+        let imagePart = '';
         if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
-            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">`;
+            // GEREPAREERD: onerror verbergt nu alleen de gebroken afbeelding en veroorzaakt geen error meer.
+            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none';">`;
+        } else {
+            // Als er geen URL is, tonen we een placeholder die dezelfde stijl heeft.
+            imagePart = `<div class="tooltip-img"></div>`;
         }
 
         let flagPart = '';
