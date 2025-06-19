@@ -15,6 +15,30 @@
     
     <!-- D3.js bibliotheek -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- NIEUW: Firebase SDK's -->
+    <script type="module">
+        // Importeer de benodigde functies van de Firebase SDK's
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      
+        // Jouw web app's Firebase configuratie (deze wordt straks door script.js gebruikt)
+        const firebaseConfig = {
+          apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
+          authDomain: "voetbaltrainers.firebaseapp.com",
+          projectId: "voetbaltrainers",
+          storageBucket: "voetbaltrainers.appspot.com",
+          messagingSenderId: "640532231483",
+          appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
+          measurementId: "G-YQV6E3V2CK"
+        };
+      
+        // Initialiseer Firebase
+        const app = initializeApp(firebaseConfig);
+        // Maak de Firestore database instance globaal beschikbaar
+        window.db = getFirestore(app);
+    </script>
+
 </head>
 <body>
 
@@ -36,7 +60,7 @@
         <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
     </footer>
 
-    <!-- NIEUW: De container voor de tooltip -->
+    <!-- De container voor de tooltip -->
     <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
 
     <!-- Ons eigen script, onderaan geladen -->
