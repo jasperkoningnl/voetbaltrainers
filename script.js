@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.5 - Volledige Tooltip Functioneel");
+console.log("Script versie: 2.6 - Robuuste Tooltip");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -102,7 +102,7 @@ function drawHeatmap(data) {
         }
     };
     
-    // --- TOOLTIP LOGICA (VOLLEDIGE VERSIE) ---
+    // --- TOOLTIP LOGICA (ROBUUSTE VERSIE) ---
     const tooltip = d3.select("#tooltip");
 
     const mouseover = function(event, d) {
@@ -110,14 +110,25 @@ function drawHeatmap(data) {
     };
 
     const mousemove = function(event, d) {
-        // Gebruik de landcode voor de vlaggen API
-        const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
+        let imagePart = '';
+        // Controleer of de foto URL bestaat en niet leeg is
+        if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
+            imagePart = `<img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.onerror=null; this.style.display='none'">`;
+        }
+
+        let flagPart = '';
+        // Controleer of de landcode bestaat en niet leeg is
+        if (d.Coach_Nat_Code && d.Coach_Nat_Code.trim() !== '') {
+            const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
+            flagPart = `<img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">`;
+        }
+
         const htmlContent = `
-            <img src="${d.Coach_Foto_URL}" alt="Foto van ${d.Coach}" class="tooltip-img" onerror="this.style.display='none'">
+            ${imagePart}
             <div class="tooltip-info">
                 <p class="name">${d.Coach}</p>
                 <div class="nationality">
-                    <img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">
+                    ${flagPart}
                     <span>${d.Nationaliteit_Coach}</span>
                 </div>
             </div>
