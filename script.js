@@ -1,58 +1,63 @@
 // Versie van dit script
-console.log("Script versie: 3.0 - Robuuste Tooltip met Avatar Fallback");
+console.log("Script versie: 3.1 - Data Correctie Tools");
 
 // Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
-import { collection, getDocs, addDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { collection, getDocs, addDoc, doc, writeBatch, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-// --- EENMALIGE DATA MIGRATIE FUNCTIE ---
-window.migrateCSVtoFirestore = async function() {
-    if (!window.db) {
-        console.error("Firestore DB is niet geïnitialiseerd.");
-        return;
-    }
-    try {
-        const data = await d3.csv("engeland.csv");
-        const coachesCollection = collection(window.db, "coaches");
-        const seizoenenCollection = collection(window.db, "seizoenen");
-        console.log("Start herstructurering en migratie...");
-        const coachesMap = new Map();
-        for (const row of data) {
-            if (!coachesMap.has(row.Coach)) {
-                const coachDoc = await addDoc(coachesCollection, {
-                    naam: row.Coach,
-                    nationaliteit: row.Nationaliteit_Coach,
-                    nat_code: row.Coach_Nat_Code,
-                    foto_url: row.Coach_Foto_URL
-                });
-                coachesMap.set(row.Coach, coachDoc.id);
-            }
-        }
-        console.log(`${coachesMap.size} unieke coaches toegevoegd aan Firestore.`);
-        const batch = writeBatch(window.db);
-        data.forEach(row => {
-            const coachId = coachesMap.get(row.Coach);
-            const seasonData = {
-                coachId: coachId,
-                seizoen: row.Seizoen,
-                club: row.Club,
-                land_club: row.Land_Club,
-                logo_url: row.Logo_URL,
-                seizoen_nummer_coach: +row.Seizoen_Nummer_Coach,
-                landstitel: row.Landstitel,
-                nationale_beker: row.Nationale_Beker,
-                europese_prijs: row.Europese_Prijs
-            };
-            const seasonDocRef = doc(seizoenenCollection);
-            batch.set(seasonDocRef, seasonData);
+// --- EENMALIGE DATA CORRECTIE TOOLS ---
+
+/**
+ * EXPORT FUNCTIE: Genereert een lijst van unieke coaches voor correctie.
+ * Aanroepen vanuit de console met: exportCoachDataForCorrection()
+ */
+window.exportCoachDataForCorrection = async function() {
+    if (!window.db) return console.error("DB niet klaar.");
+    console.log("Ophalen van unieke coaches uit Firestore...");
+
+    const coachesSnapshot = await getDocs(collection(window.db, "coaches"));
+    const coaches = [];
+    coachesSnapshot.forEach(doc => {
+        const data = doc.data();
+        coaches.push({
+            id: doc.id,
+            naam: data.naam,
+            foto_url: data.foto_url || '' // Zorg dat er altijd een string is
         });
+    });
+
+    console.log("Kopieer het onderstaande object, plak het in een editor, corrigeer de URLs en gebruik het voor de update-functie.");
+    console.log(JSON.stringify(coaches, null, 2));
+    alert("Check de console voor de lijst met coaches.");
+};
+
+/**
+ * UPDATE FUNCTIE: Werkt de foto-URLs in Firestore bij.
+ * Aanroepen vanuit de console met: updateCoachPhotosInFirestore(jouwGecorrigeerdeData)
+ * @param {Array} correctedData - De array met gecorrigeerde coach-data.
+ */
+window.updateCoachPhotosInFirestore = async function(correctedData) {
+    if (!window.db) return console.error("DB niet klaar.");
+    if (!correctedData || !Array.isArray(correctedData)) {
+        return alert("Geen correcte data meegegeven. Kopieer de volledige, gecorrigeerde array.");
+    }
+    console.log(`Starten met het updaten van ${correctedData.length} coach-documenten...`);
+    const batch = writeBatch(window.db);
+
+    correctedData.forEach(coach => {
+        const docRef = doc(window.db, "coaches", coach.id);
+        batch.update(docRef, { foto_url: coach.foto_url });
+    });
+
+    try {
         await batch.commit();
-        console.log("Migratie succesvol voltooid!");
-        alert("Migratie voltooid! Ververs de pagina om de data vanuit Firestore te laden.");
+        console.log("Update succesvol voltooid!");
+        alert("Alle foto-URLs zijn bijgewerkt in de database! Herlaad de pagina om de wijzigingen te zien.");
     } catch (error) {
-        console.error("Fout tijdens de migratie:", error);
-        alert("Er is een fout opgetreden tijdens de migratie.");
+        console.error("Fout tijdens het updaten:", error);
+        alert("Er is een fout opgetreden. Zie de console voor details.");
     }
 };
+
 
 // --- HOOFDLOGICA: DATA LADEN VANUIT FIRESTORE ---
 async function loadDataFromFirestore() {
@@ -95,6 +100,7 @@ loadDataFromFirestore().then(data => {
 }).catch(error => {
     console.error("Fout bij het laden van data uit Firestore:", error);
 });
+
 
 // --- Vanaf hier blijven de teken-functies grotendeels hetzelfde ---
 
@@ -193,32 +199,42 @@ function drawHeatmap(data) {
     };
 
     const mousemove = function(event, d) {
-        const hasPhoto = d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '';
-        
-        let imagePart = hasPhoto 
-            ? `<img src="${d.Coach_Foto_URL}" class="tooltip-img" onerror="this.style.display='none'; document.getElementById('avatar-placeholder').style.display='block';">
-               <svg id="avatar-placeholder" class="tooltip-img" viewBox="0 0 50 50" style="display:none;"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`
-            : `<svg class="tooltip-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+        tooltip.html('');
 
-        let flagPart = '';
+        if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
+            tooltip.append('img')
+                .attr('src', d.Coach_Foto_URL)
+                .attr('class', 'tooltip-img')
+                .on('error', function() {
+                    d3.select(this).remove();
+                    tooltip.insert('svg', ':first-child')
+                           .attr('class', 'tooltip-img')
+                           .attr('viewBox', '0 0 50 50')
+                           .append('path')
+                           .attr('d', avatarIconPath)
+                           .attr('fill', '#ccc');
+                });
+        } else {
+            tooltip.append('svg')
+                   .attr('class', 'tooltip-img')
+                   .attr('viewBox', '0 0 50 50')
+                   .append('path')
+                   .attr('d', avatarIconPath)
+                   .attr('fill', '#ccc');
+        }
+        
+        const infoDiv = tooltip.append('div').attr('class', 'tooltip-info');
+        infoDiv.append('p').attr('class', 'name').text(d.Coach);
+        const nationalityDiv = infoDiv.append('div').attr('class', 'nationality');
+        
         if (d.Coach_Nat_Code && d.Coach_Nat_Code.trim() !== '') {
             const flagApiUrl = `https://flagcdn.com/w40/${d.Coach_Nat_Code.toLowerCase()}.png`;
-            flagPart = `<img src="${flagApiUrl}" alt="${d.Nationaliteit_Coach}" class="tooltip-flag">`;
+            nationalityDiv.append('img').attr('src', flagApiUrl).attr('class', 'tooltip-flag');
         }
-
-        const htmlContent = `
-            ${imagePart}
-            <div class="tooltip-info">
-                <p class="name">${d.Coach}</p>
-                <div class="nationality">
-                    ${flagPart}
-                    <span>${d.Nationaliteit_Coach}</span>
-                </div>
-            </div>
-        `;
-        tooltip.html(htmlContent)
-            .style("left", (event.pageX + 15) + "px")
-            .style("top", (event.pageY - 28) + "px");
+        nationalityDiv.append('span').text(d.Nationaliteit_Coach);
+        
+        tooltip.style("left", (event.pageX + 15) + "px")
+               .style("top", (event.pageY - 28) + "px");
     };
 
     const mouseleave = function(event, d) {
