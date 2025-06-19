@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 2.0 - Finale Vormgeving Polish");
+console.log("Script versie: 2.1 - Y-As met Logos");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -42,7 +42,7 @@ d3.csv("engeland.csv").then(function(data) {
 
 
 function drawHeatmap(data) {
-    const margin = {top: 20, right: 30, bottom: 80, left: 150}; // Meer bottom margin voor verticale labels
+    const margin = {top: 20, right: 30, bottom: 80, left: 200}; // Meer left margin voor logos
     const width = 1400 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
@@ -55,21 +55,59 @@ function drawHeatmap(data) {
 
     const seizoenen = [...new Set(data.map(d => d.Seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.Club))];
+    const logoData = clubs.map(club => {
+        const entry = data.find(d => d.Club === club);
+        return { Club: club, Logo_URL: entry ? entry.Logo_URL : '' };
+    });
+
 
     const x = d3.scaleBand().range([0, width]).domain(seizoenen).padding(0);
     const y = d3.scaleBand().range([height, 0]).domain(clubs).padding(0.1);
 
-    // --- AANGEPASTE X-AS MET VERTICALE LABELS ---
     const tickValues = seizoenen.filter((d, i) => i % 5 === 0 || i === seizoenen.length - 1);
     const xAxis = d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0);
     svg.append("g").attr("class", "axis").attr("transform", `translate(0, ${height})`).call(xAxis)
        .selectAll("text")
          .style("text-anchor", "end")
          .attr("dx", "-.8em")
-         .attr("dy", "-.5em") // Aangepast voor betere uitlijning
-         .attr("transform", "rotate(-90)"); // Draai de labels 90 graden
+         .attr("dy", "-.5em")
+         .attr("transform", "rotate(-90)");
 
-    svg.append("g").attr("class", "axis").call(d3.axisLeft(y));
+    // --- AANGEPASTE Y-AS MET LOGOS ---
+    const yAxisGroup = svg.append("g").attr("class", "axis y-axis");
+    
+    const yAxisTicks = yAxisGroup.selectAll(".tick")
+        .data(logoData)
+        .enter()
+        .append("g")
+        .attr("class", "tick")
+        .attr("transform", d => `translate(0, ${y(d.Club) + y.bandwidth() / 2})`);
+
+    // Voeg een vierkantje toe als achtergrond/kader
+    yAxisTicks.append("rect")
+        .attr("x", -120)
+        .attr("y", -20)
+        .attr("width", 40)
+        .attr("height", 40)
+        .attr("fill", "#fff")
+        .attr("stroke", "#eee")
+        .attr("rx", 4); // Ronde hoekjes
+
+    // Voeg logo toe
+    yAxisTicks.append("image")
+        .attr("xlink:href", d => d.Logo_URL)
+        .attr("x", -115)
+        .attr("y", -15)
+        .attr("width", 30)
+        .attr("height", 30);
+    
+    // Voeg clubnaam toe
+    yAxisTicks.append("text")
+        .attr("x", -70)
+        .attr("dy", ".32em")
+        .style("text-anchor", "start")
+        .text(d => d.Club);
+
 
     const getColor = function(d) {
         if (d.stintLength === 1) return "#ff3333"; // Rood
@@ -89,7 +127,7 @@ function drawHeatmap(data) {
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
-        .attr("shape-rendering", "crispEdges"); // Fix voor ongewenste haarlijnen
+        .attr("shape-rendering", "crispEdges");
 
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
 
@@ -109,9 +147,9 @@ function drawHeatmap(data) {
       .each(function(d) {
           const el = d3.select(this);
           const prijzen = [];
-          if (d.Europese_Prijs === 'Y') prijzen.push({color: '#FFD700'}); // Goud eerst
-          if (d.Landstitel === 'Y') prijzen.push({color: '#C0C0C0'}); // Zilver
-          if (d.Nationale_Beker === 'Y') prijzen.push({color: '#CD7F32'}); // Brons
+          if (d.Europese_Prijs === 'Y') prijzen.push({color: '#FFD700'});
+          if (d.Landstitel === 'Y') prijzen.push({color: '#C0C0C0'});
+          if (d.Nationale_Beker === 'Y') prijzen.push({color: '#CD7F32'});
           
           const totalHeight = (prijzen.length - 1) * 12;
           prijzen.forEach((p, i) => {
@@ -138,7 +176,7 @@ function drawLegend() {
     ];
     
     const prizeData = [
-        { color: '#FFD700', label: 'European Prize' },
+        { color: '#FFD700', label: 'European Trophy' },
         { color: '#C0C0C0', label: 'National Title' },
         { color: '#CD7F32', label: 'National Cup' }
     ];
@@ -151,25 +189,24 @@ function drawLegend() {
     
     let currentOffset = 0;
     
-    // Functie om een legenda-item te tekenen
-    function drawItem(group, data, offset) {
+    function drawItem(group, data) {
         data.forEach(d => {
-            const itemGroup = group.append("g").attr("transform", `translate(${offset}, 0)`);
-            if (d.label.includes('Jaar') || d.label.includes('Seizoen')) { // Kleurblokje
-                itemGroup.append("rect").attr("width", 20).attr("height", 20).attr("fill", d.color);
-            } else { // Prijs-icoon
-                itemGroup.append("path").attr("d", "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z").attr("transform", "scale(1.2)").attr("fill", d.color).attr("stroke", "#222").attr("stroke-width", 0.5);
+            const itemGroup = group.append("g").attr("transform", `translate(${currentOffset}, 0)`);
+            if (d.color.startsWith('#')) {
+                itemGroup.append("rect").attr("width", 20).attr("height", 20).attr("fill", d.color).attr("rx", 3);
+            } else {
+                itemGroup.append("path").attr("d", d.path).attr("transform", "translate(4, 10) scale(1.2)").attr("fill", d.fill).attr("stroke", "#222").attr("stroke-width", 0.5);
             }
             itemGroup.append("text").attr("x", 25).attr("y", 15).text(d.label).style("font-size", "12px").attr("fill", "#333");
-            offset += itemGroup.node().getBBox().width + 30; // Update offset
+            currentOffset += itemGroup.node().getBBox().width + 30;
         });
-        return offset;
     }
 
-    let colorsWidth = drawItem(legendGroup, legendData, currentOffset);
-    drawItem(legendGroup, prizeData.map(d => ({...d, path: icons.schild})), colorsWidth + 40);
+    drawItem(legendGroup, legendData);
+    currentOffset += 20; // Extra ruimte
+    const iconPath = "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z";
+    drawItem(legendGroup, prizeData.map(d => ({...d, path: iconPath, fill: d.color})));
 
-    // Nu de hele legenda centreren
     const containerWidth = d3.select("#legend-container").node().getBoundingClientRect().width;
     const legendWidth = legendGroup.node().getBBox().width;
     const xOffset = (containerWidth - legendWidth) / 2;
