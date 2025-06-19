@@ -1,10 +1,76 @@
 // Versie van dit script
-console.log("Script versie: 3.0 - Robuuste Tooltip met Avatar Fallback");
+console.log("Script versie: 3.1 - Firestore Integratie");
+
+// Importeer de benodigde Firestore functies die in index.html zijn geïnitialiseerd
+import { collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+
+// --- EENMALIGE DATA MIGRATIE FUNCTIE ---
+// Deze functie leest de lokale CSV en schrijft de data naar Firestore.
+// We roepen deze functie handmatig aan vanuit de browser console.
+window.migrateCSVtoFirestore = async function() {
+    if (!window.db) {
+        console.error("Firestore DB is niet geïnitialiseerd.");
+        return;
+    }
+
+    try {
+        const data = await d3.csv("engeland.csv");
+        const managerCollection = collection(window.db, "managerData");
+
+        console.log(`Start migratie van ${data.length} rijen...`);
+
+        for (const row of data) {
+            await addDoc(managerCollection, row);
+        }
+
+        console.log("Migratie succesvol voltooid! Alle data staat nu in Firestore.");
+        alert("Migratie voltooid! Ververs de pagina om de data vanuit Firestore te laden.");
+
+    } catch (error) {
+        console.error("Fout tijdens de migratie:", error);
+        alert("Er is een fout opgetreden tijdens de migratie. Zie de console voor details.");
+    }
+};
+
+
+// --- HOOFDLOGICA: DATA LADEN VANUIT FIRESTORE ---
+async function loadDataFromFirestore() {
+    if (!window.db) {
+        console.error("Firestore DB is niet geïnitialiseerd.");
+        return [];
+    }
+    const querySnapshot = await getDocs(collection(window.db, "managerData"));
+    const firestoreData = [];
+    querySnapshot.forEach((doc) => {
+        firestoreData.push(doc.data());
+    });
+    console.log(`Data succesvol geladen vanuit Firestore: ${firestoreData.length} documenten.`);
+    return firestoreData;
+}
+
+
+// Start het laadproces vanuit Firestore
+loadDataFromFirestore().then(data => {
+    if (data.length === 0) {
+        console.warn("Geen data gevonden in Firestore. Voer de migratie uit als dit de eerste keer is.");
+        return;
+    }
+    
+    // Verwerk de geladen data
+    data.forEach(function(d) {
+        d.Seizoen_Nummer_Coach = +d.Seizoen_Nummer_Coach;
+    });
+    const verrijkteData = voegPeriodeDataToe(data);
+    
+    drawHeatmap(verrijkteData);
+    drawLegend();
+}).catch(error => {
+    console.error("Fout bij het laden van data uit Firestore:", error);
+});
+
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
- * Deze functie voegt ook de totale lengte van een periode ('stintLength') toe
- * aan elk individueel seizoen-datapunt.
  */
 function voegPeriodeDataToe(data) {
     if (data.length === 0) return [];
@@ -27,25 +93,13 @@ function voegPeriodeDataToe(data) {
     return data;
 }
 
-// Start het laadproces
-d3.csv("engeland.csv").then(function(data) {
-    data.forEach(function(d) {
-        d.Seizoen_Nummer_Coach = +d.Seizoen_Nummer_Coach;
-    });
-    const verrijkteData = voegPeriodeDataToe(data);
-    console.log("Data succesvol geladen en verrijkt:", verrijkteData);
-    
-    drawHeatmap(verrijkteData);
-    drawLegend();
-}).catch(function(error) {
-    console.error("Fout bij het laden van engeland.csv:", error);
-});
-
-
 function drawHeatmap(data) {
     const margin = {top: 20, right: 30, bottom: 80, left: 220};
     const width = 1400 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
+
+    // Maak de container leeg voor het geval we opnieuw tekenen
+    d3.select("#heatmap-container").html("");
 
     const svg = d3.select("#heatmap-container")
       .append("svg")
@@ -103,7 +157,6 @@ function drawHeatmap(data) {
         }
     };
     
-    // --- TOOLTIP LOGICA (FINALE, ROBUUSTE VERSIE) ---
     const tooltip = d3.select("#tooltip");
     const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
 
@@ -112,17 +165,14 @@ function drawHeatmap(data) {
     };
 
     const mousemove = function(event, d) {
-        tooltip.html(''); // Maak de tooltip eerst leeg
+        tooltip.html('');
 
-        // Controleer of de foto URL bestaat en probeer deze te laden
         if (d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '') {
             tooltip.append('img')
                 .attr('src', d.Coach_Foto_URL)
                 .attr('class', 'tooltip-img')
                 .on('error', function() {
-                    // Als de afbeelding niet laadt, verwijder de kapotte img
                     d3.select(this).remove();
-                    // en voeg de SVG avatar toe
                     tooltip.insert('svg', ':first-child')
                            .attr('class', 'tooltip-img')
                            .attr('viewBox', '0 0 50 50')
@@ -131,7 +181,6 @@ function drawHeatmap(data) {
                            .attr('fill', '#ccc');
                 });
         } else {
-            // Als er geen URL is, toon direct de SVG avatar
             tooltip.append('svg')
                    .attr('class', 'tooltip-img')
                    .attr('viewBox', '0 0 50 50')
@@ -204,6 +253,9 @@ function drawHeatmap(data) {
 }
 
 function drawLegend() {
+    // Maak de container leeg voor het geval we opnieuw tekenen
+    d3.select("#legend-container").html("");
+
     const legendData = [
         { color: "#ff3333", label: "1 Season" },
         { color: "#99ff99", label: "Year 1" },
@@ -224,7 +276,6 @@ function drawLegend() {
         .attr("height", 50);
 
     const legendGroup = svgNode.append("g");
-    
     let currentOffset = 0;
     
     function drawItem(group, data, isIcon) {
