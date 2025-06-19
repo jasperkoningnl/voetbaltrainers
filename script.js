@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 1.9 - Finale Vormgeving");
+console.log("Script versie: 2.0 - Finale Vormgeving Polish");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -66,7 +66,7 @@ function drawHeatmap(data) {
        .selectAll("text")
          .style("text-anchor", "end")
          .attr("dx", "-.8em")
-         .attr("dy", ".15em")
+         .attr("dy", "-.5em") // Aangepast voor betere uitlijning
          .attr("transform", "rotate(-90)"); // Draai de labels 90 graden
 
     svg.append("g").attr("class", "axis").call(d3.axisLeft(y));
@@ -88,7 +88,8 @@ function drawHeatmap(data) {
         .attr("y", d => y(d.Club))
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
-        .style("fill", d => getColor(d));
+        .style("fill", d => getColor(d))
+        .attr("shape-rendering", "crispEdges"); // Fix voor ongewenste haarlijnen
 
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
 
@@ -128,18 +129,18 @@ function drawHeatmap(data) {
  */
 function drawLegend() {
     const legendData = [
-        { color: "#ff3333", label: "1 Seizoen" },
-        { color: "#99ff99", label: "Jaar 1" },
-        { color: "#66cc66", label: "Jaar 2" },
-        { color: "#339933", label: "Jaar 3-5" },
-        { color: "#006600", label: "Jaar 6-10" },
-        { color: "#003300", label: "Jaar 11+" }
+        { color: "#ff3333", label: "1 Season" },
+        { color: "#99ff99", label: "Year 1" },
+        { color: "#66cc66", label: "Year 2" },
+        { color: "#339933", label: "Years 3-5" },
+        { color: "#006600", label: "Years 6-10" },
+        { color: "#003300", label: "Years 11+" }
     ];
     
     const prizeData = [
-        { color: '#FFD700', label: 'Europese Prijs' },
-        { color: '#C0C0C0', label: 'Nationale Titel' },
-        { color: '#CD7F32', label: 'Nationale Beker' }
+        { color: '#FFD700', label: 'European Prize' },
+        { color: '#C0C0C0', label: 'National Title' },
+        { color: '#CD7F32', label: 'National Cup' }
     ];
 
     const svgNode = d3.select("#legend-container").append("svg")
@@ -154,22 +155,19 @@ function drawLegend() {
     function drawItem(group, data, offset) {
         data.forEach(d => {
             const itemGroup = group.append("g").attr("transform", `translate(${offset}, 0)`);
-            if (d.color.startsWith('#')) { // Kleurblokje
+            if (d.label.includes('Jaar') || d.label.includes('Seizoen')) { // Kleurblokje
                 itemGroup.append("rect").attr("width", 20).attr("height", 20).attr("fill", d.color);
             } else { // Prijs-icoon
-                itemGroup.append("path").attr("d", d.color).attr("transform", "scale(1.2)").attr("fill", d.fill).attr("stroke", "#222").attr("stroke-width", 0.5);
+                itemGroup.append("path").attr("d", "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z").attr("transform", "scale(1.2)").attr("fill", d.color).attr("stroke", "#222").attr("stroke-width", 0.5);
             }
             itemGroup.append("text").attr("x", 25).attr("y", 15).text(d.label).style("font-size", "12px").attr("fill", "#333");
-            offset += itemGroup.node().getBBox().width + 25; // Update offset
+            offset += itemGroup.node().getBBox().width + 30; // Update offset
         });
         return offset;
     }
 
-    const prizeIcons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
-    const prizeLegendItems = prizeData.map(d => ({ color: prizeIcons.schild, fill: d.color, label: d.label }));
-
     let colorsWidth = drawItem(legendGroup, legendData, currentOffset);
-    drawItem(legendGroup, prizeLegendItems, colorsWidth + 40);
+    drawItem(legendGroup, prizeData.map(d => ({...d, path: icons.schild})), colorsWidth + 40);
 
     // Nu de hele legenda centreren
     const containerWidth = d3.select("#legend-container").node().getBoundingClientRect().width;
