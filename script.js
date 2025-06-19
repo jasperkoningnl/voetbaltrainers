@@ -1,5 +1,5 @@
 // Versie van dit script
-console.log("Script versie: 1.4 - Haarlijnen, Nieuwe Kleuren & SVG Iconen");
+console.log("Script versie: 1.5 - Haarlijn Fix & Nieuwe Iconen");
 
 /**
  * Een helper-functie die de data groepeert in aaneengesloten periodes per coach.
@@ -113,15 +113,15 @@ function drawHeatmap(data) {
         .attr("class", "bar")
         .attr("x", d => x(d.Seizoen))
         .attr("y", d => y(d.Club))
-        .attr("width", x.bandwidth())
+        .attr("width", x.bandwidth() + 1) // +1 om rendering-artefacten (dunne lijntjes) te voorkomen
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d));
 
-    // Definieer de SVG-paden voor de iconen
+    // Definieer de NIEUWE SVG-paden voor de iconen
     const icons = {
-        schild: "M1.25 2.75V10C1.25 14.5 7 17.5 7 17.5S12.75 14.5 12.75 10V2.75L7 1.25L1.25 2.75Z",
-        bekerZilver: "M4 1.5V3.5C4 4.5 6 4.5 6 4.5V11.5C6 12.5 4 13.5 4 13.5H10C10 13.5 8 12.5 8 11.5V4.5C8 4.5 10 4.5 10 3.5V1.5H4Z M5.5 14.5H8.5V16.5H5.5V14.5Z",
-        bekerGoud: "M2.5 1.5H11.5V3.5C11.5 4.5 10 5.5 8.5 5.5H5.5C4 5.5 2.5 4.5 2.5 3.5V1.5Z M1 4.5C1 6.5 2.5 7.5 2.5 7.5V10.5C2.5 10.5 1 11.5 1 13.5H2.5 M13 4.5C13 6.5 11.5 7.5 11.5 7.5V10.5C11.5 10.5 13 11.5 13 13.5H11.5 M4.5 14.5H9.5V16.5H4.5V14.5Z"
+        schild: "M8,2 C2,2 2,12 8,14 C14,12 14,2 8,2 Z",
+        bekerZilver: "M5,15 V5 C5,2 11,2 11,5 V15 Z M4,16 H12",
+        bekerGoud: "M6,12 V5 C6,2 10,2 10,5 V12 M4,4 C2,6 2,10 4,12 M12,4 C14,6 14,10 12,12 M5,13 H11 V15 H5 Z"
     };
 
     // Teken de haarlijnen TUSSEN coachwissels
@@ -136,26 +136,31 @@ function drawHeatmap(data) {
         .attr("x2", d => x(d.Seizoen))
         .attr("y2", d => y(d.Club) + y.bandwidth());
 
-    // Teken de prijzen, netjes gestapeld
+    // Teken de prijzen, netjes gestapeld met de nieuwe iconen
     svg.selectAll(".prize-group")
       .data(data.filter(d => d.Landstitel === 'Y' || d.Nationale_Beker === 'Y' || d.Europese_Prijs === 'Y'))
       .enter()
       .append("g")
       .attr("class", "prize-group")
-      .attr("transform", d => `translate(${x(d.Seizoen) + x.bandwidth() / 2 - 7}, ${y(d.Club) + y.bandwidth() / 2 - 12})`)
+      // Centreer de groep iconen in het midden van de cel
+      .attr("transform", d => `translate(${x(d.Seizoen) + x.bandwidth() / 2}, ${y(d.Club) + y.bandwidth() / 2})`)
       .each(function(d) {
           const el = d3.select(this);
-          let prizeCount = 0;
-          if (d.Landstitel === 'Y') {
-              el.append("path").attr("d", icons.schild).attr("fill", "#CD7F32").attr("transform", `translate(0, ${prizeCount * 14}) scale(0.6)`);
-              prizeCount++;
-          }
-          if (d.Nationale_Beker === 'Y') {
-              el.append("path").attr("d", icons.bekerZilver).attr("fill", "#C0C0C0").attr("stroke", "#666").attr("transform", `translate(0, ${prizeCount * 14}) scale(0.6)`);
-              prizeCount++;
-          }
-          if (d.Europese_Prijs === 'Y') {
-              el.append("path").attr("d", icons.bekerGoud).attr("fill", "#FFD700").attr("stroke", "#B8860B").attr("transform", `translate(0, ${prizeCount * 14}) scale(0.6)`);
-          }
+          const prijzen = [];
+          if (d.Landstitel === 'Y') prijzen.push({type: 'schild', color: '#C0C0C0'});
+          if (d.Nationale_Beker === 'Y') prijzen.push({type: 'bekerZilver', color: '#C0C0C0'});
+          if (d.Europese_Prijs === 'Y') prijzen.push({type: 'bekerGoud', color: '#FFD700'});
+          
+          const totalHeight = (prijzen.length - 1) * 10;
+          
+          prijzen.forEach((p, i) => {
+               el.append("path")
+                 .attr("d", icons[p.type])
+                 .attr("fill", p.color)
+                 .attr("stroke", "#333")
+                 .attr("stroke-width", 0.5)
+                 // Positioneer elk icoon, gecentreerd en gestapeld
+                 .attr("transform", `translate(-8, ${-totalHeight/2 + i*10 - 8}) scale(0.8)`);
+          });
       });
 }
