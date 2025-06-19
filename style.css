@@ -47,6 +47,7 @@ main {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
+    overflow-x: auto; /* Zorgt dat de visualisatie kan scrollen op kleine schermen */
 }
 
 /* --- D3 Visualisatie Specifieke Styling --- */
@@ -60,6 +61,11 @@ main {
 .axis text {
     font-size: 12px;
     fill: #636e72;
+}
+
+/* Verwijder de standaard rand van de heatmap-blokjes */
+.bar {
+    stroke: none;
 }
 
 /* De haarlijn tussen de coachwissels */
