@@ -1,9 +1,14 @@
-// Script Versie: 8.2 - Aangepaste instructietekst in infopaneel
-console.log("Script versie: 8.2 geladen.");
+// Script Versie: 9.1 - Landen-tabbladen functionaliteit
+console.log("Script versie: 9.1 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 const infoPane = d3.select("#info-pane");
+const heatmapContainer = d3.select("#heatmap-container");
+const tabsContainer = d3.select("#country-tabs-container");
+const legendContainer = d3.select("#legend-container");
+
+let allData = [];
 
 async function loadDataFromFirestore() {
     if (!window.db) {
@@ -22,12 +27,11 @@ async function loadDataFromFirestore() {
             const coachInfo = coachesMap.get(seizoenData.coachId);
             const { naam = 'Unknown Coach', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo || {};
             return { ...seizoenData, Coach: naam, nationaliteit, nat_code, foto_url };
-        }).filter(Boolean);
-        console.log(`Data succesvol geladen en samengevoegd: ${joinedData.length} documenten.`);
+        }).filter(d => d.land); // Filter alleen data waar een land bekend is
+        console.log(`Data succesvol geladen: ${joinedData.length} documenten.`);
         return joinedData;
     } catch (error) {
-        console.error("Fout bij het laden van data uit Firestore:", error);
-        infoPane.html('<p class="error">Could not load data from the database. Please try again later.</p>');
+        console.error("Fout bij het laden van data:", error);
         return [];
     }
 }
@@ -65,30 +69,53 @@ function prepareData(data) {
     return data;
 }
 
+function setupTabs(countries, onTabClick) {
+    tabsContainer.html("");
+    countries.forEach(country => {
+        tabsContainer.append("button")
+            .attr("class", "tab")
+            .attr("data-country", country)
+            .text(country)
+            .on("click", function() {
+                onTabClick(country);
+            });
+    });
+}
+
+function renderVisualization(country) {
+    console.log(`Rendering for: ${country}`);
+    tabsContainer.selectAll(".tab")
+        .classed("active", function() {
+            return d3.select(this).attr("data-country") === country;
+        });
+
+    const filteredData = allData.filter(d => d.land === country);
+
+    if (filteredData.length === 0) {
+        heatmapContainer.html(`<p class="error">No data found for ${country}.</p>`);
+        legendContainer.html("");
+        return;
+    }
+    
+    const processedData = prepareData(filteredData);
+    drawHeatmap(processedData);
+    drawLegend();
+}
+
 function drawHeatmap(data) {
+    heatmapContainer.html("");
     const margin = {top: 20, right: 30, bottom: 80, left: 220};
     const width = 1400 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
-    d3.select("#heatmap-container").html("");
-    const svg = d3.select("#heatmap-container").append("svg")
+    const height = (data ? [...new Set(data.map(d => d.club))].length : 0) * 50; // Dynamic height
+    
+    const svg = heatmapContainer.append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-    
+
     let selectedTenureId = null;
-
-    svg.append("rect")
-        .attr("class", "background-event-rect")
-        .attr("width", width)
-        .attr("height", height)
-        .style("fill", "transparent")
-        .on("click", () => {
-            selectedTenureId = null;
-            clearHighlight();
-            setInfoPaneDefault();
-        });
-
+    
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => ({
@@ -97,10 +124,12 @@ function drawHeatmap(data) {
     }));
     const x = d3.scaleBand().range([0, width]).domain(seizoenen).padding(0);
     const y = d3.scaleBand().range([height, 0]).domain(clubs).padding(0.1);
+    
     const tickValues = seizoenen.filter((d, i) => i % 5 === 0 || i === seizoenen.length - 1);
     svg.append("g").attr("class", "axis").attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
         .selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", "-.5em").attr("transform", "rotate(-90)");
+    
     const yAxisTicks = svg.append("g").attr("class", "axis y-axis").selectAll(".tick").data(logoData).enter()
         .append("g").attr("class", "tick").attr("transform", d => `translate(0, ${y(d.Club) + y.bandwidth() / 2})`);
     yAxisTicks.append("rect").attr("x", -margin.left + 30).attr("y", -y.bandwidth()/2).attr("width", 180).attr("height", y.bandwidth()).attr("fill", "#f8f9fa").attr("rx", 4);
@@ -117,7 +146,7 @@ function drawHeatmap(data) {
         if (len >= 10) return "#006600";
         return "#ccc";
     };
-    
+
     const bars = svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("x", d => x(d.seizoen))
@@ -163,7 +192,7 @@ function drawHeatmap(data) {
         });
 
     const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
-    
+
     const highlightTenure = (tenureId) => {
         allElements.classed("is-dimmed", true);
         allElements.filter(d => d && d.tenureId === tenureId)
@@ -199,41 +228,11 @@ function drawHeatmap(data) {
                 setInfoPaneDefault();
             }
         });
-
     setInfoPaneDefault();
 }
 
-function setInfoPaneDefault() {
-    // FIX: Aangepaste instructietekst
-    infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>');
-}
-
-function updateInfoPane(d) {
-    const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
-    const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
-    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
-    let imageHtml = hasPhoto
-        ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">`
-        : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
-    const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
-    const content = `
-        ${imageHtml}
-        <div class="info-pane-details">
-            <p class="name">${d.Coach}</p>
-            <div class="nationality">
-                ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
-                <span>${d.nationaliteit}</span>
-            </div>
-        </div>
-        <div class="info-pane-extra">
-            <p class="club">${d.club}</p>
-            <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
-        </div>`;
-    infoPane.attr("class", "details-state").html(content);
-}
-
 function drawLegend() {
-    d3.select("#legend-container").html("");
+    legendContainer.html("");
     const legendData = [
         { color: "#ff0033", label: "1 Season" }, { color: "#ccffcc", label: "2 Seasons" },
         { color: "#99ff99", label: "3-4 Seasons" }, { color: "#66cc66", label: "5-6 Seasons" },
@@ -244,7 +243,7 @@ function drawLegend() {
         { color: '#CD7F32', label: 'National Cup' }
     ];
 
-    const svgNode = d3.select("#legend-container").append("svg").attr("height", 50);
+    const svgNode = legendContainer.append("svg").attr("height", 50);
     const mainGroup = svgNode.append("g");
     const tenureGroup = mainGroup.append("g").attr("class", "legend-group");
     const prizeGroup = mainGroup.append("g").attr("class", "legend-group");
@@ -278,18 +277,61 @@ function drawLegend() {
         .attr("y2", 25);
         
     const totalWidth = mainGroup.node().getBBox().width;
-    const containerWidth = d3.select("#legend-container").node().getBoundingClientRect().width;
+    const containerWidth = legendContainer.node().getBoundingClientRect().width;
     mainGroup.attr("transform", `translate(${(containerWidth - totalWidth) / 2}, 20)`);
     svgNode.attr("width", containerWidth);
 }
 
+function setInfoPaneDefault() {
+    infoPane.attr("class", "default-state").html('<p>Hover over a tenure or select a club to see details.</p>');
+}
+
+function updateInfoPane(d) {
+    const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
+    const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
+    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+    let imageHtml = hasPhoto
+        ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">`
+        : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+    const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
+    const content = `
+        ${imageHtml}
+        <div class="info-pane-details">
+            <p class="name">${d.Coach}</p>
+            <div class="nationality">
+                ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
+                <span>${d.nationaliteit}</span>
+            </div>
+        </div>
+        <div class="info-pane-extra">
+            <p class="club">${d.club}</p>
+            <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+        </div>`;
+    infoPane.attr("class", "details-state").html(content);
+}
+
 async function main() {
-    const rawData = await loadDataFromFirestore();
-    if (!rawData || rawData.length === 0) return;
-    const data = prepareData(rawData);
-    drawHeatmap(data);
-    drawLegend();
-    window.addEventListener('resize', () => { drawLegend(); });
+    allData = await loadDataFromFirestore();
+    if (!allData || allData.length === 0) {
+        tabsContainer.html(`<p class="error">Could not load any data.</p>`);
+        return;
+    }
+
+    const countries = [...new Set(allData.map(d => d.land))].sort();
+    
+    if (countries.length > 0) {
+        setupTabs(countries, renderVisualization);
+        renderVisualization(countries[0]); // Start met het eerste land
+    } else {
+        heatmapContainer.html(`<p class="error">No countries found in the data.</p>`);
+    }
+
+    window.addEventListener('resize', () => {
+        const activeCountry = tabsContainer.select(".tab.active").attr("data-country");
+        if (activeCountry) {
+            renderVisualization(activeCountry);
+        }
+    });
 }
 
 main();
