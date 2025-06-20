@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Importer</title>
+    <style>
+        body { font-family: sans-serif; display: grid; place-content: center; min-height: 100vh; text-align: center; }
+        button { font-size: 1.2rem; padding: 1rem 2rem; cursor: pointer; }
+        p { color: #555; }
+        #status { font-weight: bold; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <h1>Voetbaldata Importer</h1>
+    <p>Klik op de knop om de voorbereide data voor Nederland aan Firestore toe te voegen.</p>
+    <button id="importButton">Importeer Nederlandse Clubdata</button>
+    <div id="status"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        
+        const firebaseConfig = {
+          apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
+          authDomain: "voetbaltrainers.firebaseapp.com",
+          projectId: "voetbaltrainers",
+          storageBucket: "voetbaltrainers.appspot.com",
+          messagingSenderId: "640532231483",
+          appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
+          measurementId: "G-YQV6E3V2CK"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const statusEl = document.getElementById('status');
+        const importButton = document.getElementById('importButton');
+
+        // De voorbereide data
+        const importData = {
+          coaches: [
+            { "naam": "Rinus Michels", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Rinus_Michels_%281974%29.jpg/800px-Rinus_Michels_%281974%29.jpg" },
+            { "naam": "Guus Hiddink", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Guus_Hiddink_2015.jpg/800px-Guus_Hiddink_2015.jpg" },
+            { "naam": "Louis van Gaal", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Louis_van_Gaal_2022.jpg/800px-Louis_van_Gaal_2022.jpg" },
+            { "naam": "Johan Cruijff", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Johan_Cruyff_1974c.jpg/800px-Johan_Cruyff_1974c.jpg" },
+            { "naam": "Ernst Happel", "nationaliteit": "Austria", "nat_code": "at", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Ernst_Happel_1965.jpg/800px-Ernst_Happel_1965.jpg" },
+            { "naam": "Kees Rijvers", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "" },
+            { "naam": "Spitz Kohn", "nationaliteit": "Germany", "nat_code": "de", "foto_url": "" },
+            { "naam": "Co Adriaanse", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "" },
+            { "naam": "Erik ten Hag", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Erik_ten_Hag_2022.jpg/800px-Erik_ten_Hag_2022.jpg" },
+            { "naam": "Arne Slot", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Arne_Slot_2023.jpg/800px-Arne_Slot_2023.jpg" },
+            { "naam": "Peter Bosz", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Peter_Bosz_2017.jpg/800px-Peter_Bosz_2017.jpg" },
+            { "naam": "John van 't Schip", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "" }
+          ],
+          seizoenen: [
+            { "seizoen": "2023/24", "club": "Ajax", "coachNaam": "John van 't Schip", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
+            { "seizoen": "2023/24", "club": "PSV", "coachNaam": "Peter Bosz", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PSV_Eindhoven_logo.svg/1200px-PSV_Eindhoven_logo.svg.png"},
+            { "seizoen": "2023/24", "club": "Feyenoord", "coachNaam": "Arne Slot", "landstitel": "N", "nationale_beker": "Y", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"},
+            { "seizoen": "2022/23", "club": "Feyenoord", "coachNaam": "Arne Slot", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"},
+            { "seizoen": "1994/95", "club": "Ajax", "coachNaam": "Louis van Gaal", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "Y", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
+            { "seizoen": "1987/88", "club": "PSV", "coachNaam": "Guus Hiddink", "landstitel": "Y", "nationale_beker": "Y", "europese_prijs": "Y", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PSV_Eindhoven_logo.svg/1200px-PSV_Eindhoven_logo.svg.png"},
+            { "seizoen": "1969/70", "club": "Feyenoord", "coachNaam": "Ernst Happel", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "Y", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"}
+          ]
+        };
+
+        async function startImport() {
+            importButton.disabled = true;
+            statusEl.textContent = "Bezig met importeren...";
+            
+            const coachesCol = collection(db, "coaches");
+            const seizoenenCol = collection(db, "seizoenen");
+
+            try {
+                // Stap 1: Haal bestaande coaches op
+                statusEl.textContent = "Controleren op bestaande coaches...";
+                const existingCoachesSnapshot = await getDocs(coachesCol);
+                const existingCoaches = new Map();
+                existingCoachesSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    existingCoaches.set(data.naam.toLowerCase(), doc.id);
+                });
+
+                // Stap 2: Voeg nieuwe coaches toe
+                const newCoaches = importData.coaches.filter(c => !existingCoaches.has(c.naam.toLowerCase()));
+                for (const coach of newCoaches) {
+                    const docRef = await addDoc(coachesCol, coach);
+                    existingCoaches.set(coach.naam.toLowerCase(), docRef.id); // Voeg toe aan map voor gebruik in stap 3
+                    console.log(`Coach toegevoegd: ${coach.naam}`);
+                }
+                statusEl.textContent = `${newCoaches.length} nieuwe coaches toegevoegd.`;
+
+                // Stap 3: Voeg seizoenen toe met de juiste coachId
+                statusEl.textContent = "Seizoenen toevoegen...";
+                const batch = writeBatch(db);
+                let seizoenCount = 0;
+                for (const seizoen of importData.seizoenen) {
+                    const coachId = existingCoaches.get(seizoen.coachNaam.toLowerCase());
+                    if (coachId) {
+                        const seizoenData = { ...seizoen, coachId };
+                        delete seizoenData.coachNaam; // Verwijder de naam, we hebben de ID
+                        const docRef = doc(seizoenenCol); // Maak een nieuw document reference
+                        batch.set(docRef, seizoenData);
+                        seizoenCount++;
+                    } else {
+                        console.warn(`Coach niet gevonden voor seizoen: ${seizoen.club} ${seizoen.seizoen}`);
+                    }
+                }
+                await batch.commit();
+                statusEl.textContent = `Import voltooid! ${seizoenCount} seizoenen toegevoegd. Herlaad de hoofdpagina.`;
+                
+            } catch (error) {
+                console.error("Fout tijdens importeren: ", error);
+                statusEl.textContent = `Fout: ${error.message}`;
+                importButton.disabled = false;
+            }
+        }
+
+        importButton.addEventListener('click', startImport);
+
+    </script>
+</body>
+</html>
