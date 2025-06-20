@@ -1,5 +1,5 @@
-// Script Versie: 6.0 - Gecorrigeerde Kleurlogica & Bugfixes
-console.log("Script versie: 6.0 geladen.");
+// Script Versie: 7.0 - Genuanceerde Kleurindeling & Visuele Fixes
+console.log("Script versie: 7.0 geladen.");
 
 // Importeer de benodigde Firestore functies
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
@@ -61,7 +61,6 @@ function prepareData(data) {
                 coach: d.Coach,
                 club: d.club,
                 seizoenen: [],
-                // FIX: ID is nu uniek per AANSTELLING door startjaar toe te voegen
                 id: `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`
             };
             periodes.push(huidigePeriode);
@@ -72,17 +71,16 @@ function prepareData(data) {
     periodes.forEach(p => {
         const startJaar = p.seizoenen[0].seizoen.substring(0, 4);
         
-        // FIX: Correcte eindjaar-berekening voor "YYYY/YY" format
         const laatsteSeizoen = p.seizoenen[p.seizoenen.length - 1].seizoen;
         const [startDeel, eindDeel] = laatsteSeizoen.split('/');
         const eeuw = Math.floor(parseInt(startDeel) / 100) * 100;
         const eindJaar = eeuw + parseInt(eindDeel);
 
-        p.seizoenen.forEach((s, index) => {
+        p.seizoenen.forEach((s) => {
             s.stintLength = p.seizoenen.length;
             s.tenureId = p.id;
             s.tenureStartYear = startJaar;
-            s.tenureEndYear = eindJaar;
+            s.tenureEndYear = eindJaar.toString();
         });
     });
 
@@ -126,14 +124,15 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
-    // FIX: Nieuwe kleurlogica gebaseerd op totale lengte van de aanstelling
+    // FIX: Nieuwe, genuanceerde kleurlogica
     const getColor = d => {
         const len = d.stintLength;
-        if (len === 1) return "#ff3333"; // 1 season
-        if (len === 2) return "#99ff99"; // 2 seasons
-        if (len >= 3 && len <= 5) return "#66cc66"; // 3-5 seasons
-        if (len >= 6 && len <= 10) return "#339933"; // 6-10 seasons
-        if (len >= 11) return "#006600"; // 11+ seasons
+        if (len === 1) return "#e74c3c"; // Rood
+        if (len === 2) return "#a2d5ac"; // Lichtgroen
+        if (len >= 3 && len <= 4) return "#58b09c"; // Licht-medium groen
+        if (len >= 5 && len <= 6) return "#3b8d61"; // Donker-medium groen
+        if (len >= 7 && len <= 9) return "#2a6f47"; // Donkergroen
+        if (len >= 10) return "#1a532e"; // Diepdonkergroen
         return "#ccc"; // Fallback
     };
 
@@ -159,25 +158,25 @@ function drawHeatmap(data) {
         .on("mouseleave", mouseleave);
 
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
-    // We moeten de `tenureId` ook aan de dividers en prijzen koppelen voor correcte highlighting
+    
     const coachChanges = data.filter(d => {
         const prevSeasonIndex = seizoenen.indexOf(d.seizoen) - 1;
         if (prevSeasonIndex < 0) return false;
         const prevSeason = seizoenen[prevSeasonIndex];
         const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
-        return prevData && prevData.tenureId !== d.tenureId;
+        return !prevData || prevData.tenureId !== d.tenureId;
     });
     
     svg.selectAll(".coach-divider").data(coachChanges).enter().append("line")
         .attr("class", "coach-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
         .attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth())
-        .datum(d => d); // Zorg dat de data (incl. tenureId) gekoppeld is
+        .datum(d => d);
         
     svg.selectAll(".prize-group").data(data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y')).enter().append("g")
         .attr("class", "prize-group")
         .attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`)
-        .datum(d => d) // Zorg dat de data (incl. tenureId) gekoppeld is
+        .datum(d => d)
         .each(function(d) {
               const el = d3.select(this);
               const prijzen = [];
@@ -193,7 +192,6 @@ function drawHeatmap(data) {
     setInfoPaneDefault();
 }
 
-// --- INFO PANEEL & HIGHLIGHTING HELPERS ---
 function setInfoPaneDefault() {
     infoPane.attr("class", "default-state")
         .html(`<p>Hover over a tenure or select a club to see details.</p>`);
@@ -208,7 +206,6 @@ function updateInfoPane(d) {
         ? `<img src="${d.Coach_Foto_URL}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">`
         : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
 
-    // FIX: de tenureEndYear wordt nu correct berekend in prepareData
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
 
     const content = `
@@ -232,10 +229,8 @@ function highlightTenure(tenureId) {
     d3.selectAll(".bar, .coach-divider, .prize-group").classed("is-dimmed", true);
     d3.selectAll(".bar")
         .filter(d => d && d.tenureId === tenureId)
-        .classed("is-dimmed", false)
-        .classed("is-highlighted", true);
+        .classed("is-dimmed", false);
     
-    // Zorg ervoor dat dividers en prijzen ook correct meekleuren
     d3.selectAll(".coach-divider, .prize-group")
         .filter(d => d && d.tenureId === tenureId)
         .classed("is-dimmed", false)
@@ -244,20 +239,20 @@ function highlightTenure(tenureId) {
 
 function clearHighlight() {
     d3.selectAll(".bar, .coach-divider, .prize-group")
-        .classed("is-dimmed", false)
-        .classed("is-highlighted", false);
+        .classed("is-dimmed", false);
 }
 
 
 function drawLegend() {
     d3.select("#legend-container").html("");
-    // FIX: Legenda data aangepast aan nieuwe kleurlogica
+    // FIX: Legenda data aangepast aan nieuwe, genuanceerde kleurlogica
     const legendData = [
-        { color: "#ff3333", label: "1 Season" },
-        { color: "#99ff99", label: "2 Seasons" },
-        { color: "#66cc66", label: "3-5 Seasons" },
-        { color: "#339933", label: "6-10 Seasons" },
-        { color: "#006600", label: "11+ Seasons" }
+        { color: "#e74c3c", label: "1 Season" },
+        { color: "#a2d5ac", label: "2 Seasons" },
+        { color: "#58b09c", label: "3-4 Seasons" },
+        { color: "#3b8d61", label: "5-6 Seasons" },
+        { color: "#2a6f47", label: "7-9 Seasons" },
+        { color: "#1a532e", label: "10+ Seasons" },
     ];
     const prizeData = [
         { color: '#FFD700', label: 'European Trophy' },
@@ -292,7 +287,6 @@ function drawLegend() {
     legendGroup.attr("transform", `translate(${(containerWidth - legendWidth) / 2}, 20)`);
 }
 
-// --- Start de applicatie ---
 async function main() {
     const rawData = await loadDataFromFirestore();
     if (!rawData || rawData.length === 0) return;
