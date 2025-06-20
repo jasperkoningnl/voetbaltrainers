@@ -1,4 +1,4 @@
-/* CSS Versie: 1.4 - Highlighting zonder rand & bugfixes */
+/* CSS Versie: 1.5 - Witte divider & genuanceerde kleuren */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -170,28 +170,30 @@ main, .about-section {
     cursor: pointer;
 }
 
-/* FIX: geen rand meer bij highlighten */
-.bar.is-highlighted {
-    /* De stroke is hier bewust weggelaten */
-}
-
 .bar.is-dimmed {
     opacity: 0.3;
 }
 
-.coach-divider, .prize-group {
+/* FIX: Witte divider weer zichtbaar gemaakt */
+.coach-divider {
+    stroke: #ffffff;
+    stroke-width: 2px;
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
 }
 
-.coach-divider.is-dimmed, .prize-group.is-dimmed {
+.coach-divider.is-dimmed {
     opacity: 0.2;
 }
 
-.tooltip {
-    display: none !important;
+.prize-group {
+    transition: opacity 0.2s ease-in-out;
+    pointer-events: none;
 }
 
+.prize-group.is-dimmed {
+    opacity: 0.2;
+}
 
 /* --- Footer --- */
 .page-footer {
