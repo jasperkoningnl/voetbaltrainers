@@ -1,5 +1,5 @@
-// Script Versie: 7.2 - Verbeterde kleur voor 2-jaars periode & legenda fix
-console.log("Script versie: 7.2 geladen.");
+// Script Versie: 7.3 - Bugfix voor verdwijnende dividers
+console.log("Script versie: 7.3 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -20,7 +20,6 @@ async function loadDataFromFirestore() {
         const joinedData = seizoenenSnapshot.docs.map(doc => {
             const seizoenData = doc.data();
             const coachInfo = coachesMap.get(seizoenData.coachId);
-            // Ensure all required fields from coachInfo are destructured with fallbacks.
             const { naam = 'Unknown Coach', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo || {};
             return { ...seizoenData, Coach: naam, nationaliteit, nat_code, foto_url };
         }).filter(Boolean);
@@ -94,11 +93,10 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
-    // FIX: Aangepaste kleur voor 2 seizoenen voor beter contrast
     const getColor = d => {
         const len = d.stintLength;
         if (len === 1) return "#ff0033";
-        if (len === 2) return "#b7e4c7"; // Donkerder lichtgroen
+        if (len === 2) return "#b7e4c7";
         if (len >= 3 && len <= 4) return "#99ff99";
         if (len >= 5 && len <= 6) return "#66cc66";
         if (len >= 7 && len <= 9) return "#00ff00";
@@ -191,8 +189,8 @@ function highlightTenure(tenureId) {
     d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider").classed("is-dimmed", true);
     d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider")
         .filter(d => d && d.tenureId === tenureId)
-        .classed("is-dimmed", false)
-        .raise();
+        .classed("is-dimmed", false);
+        // FIX: .raise() is verwijderd om de render-volgorde stabiel te houden
 }
 
 function clearHighlight() {
@@ -201,7 +199,6 @@ function clearHighlight() {
 
 function drawLegend() {
     d3.select("#legend-container").html("");
-    // FIX: Aangepaste kleur voor 2 seizoenen
     const legendData = [
         { color: "#ff0033", label: "1 Season" }, { color: "#b7e4c7", label: "2 Seasons" },
         { color: "#99ff99", label: "3-4 Seasons" }, { color: "#66cc66", label: "5-6 Seasons" },
@@ -214,7 +211,6 @@ function drawLegend() {
 
     const svgNode = d3.select("#legend-container").append("svg").attr("height", 50);
     const mainGroup = svgNode.append("g");
-
     const tenureGroup = mainGroup.append("g").attr("class", "legend-group");
     const prizeGroup = mainGroup.append("g").attr("class", "legend-group");
 
