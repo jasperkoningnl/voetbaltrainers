@@ -1,5 +1,5 @@
-// Script Versie: 8.0 - Bugfixes voor vastklikken en losklikken
-console.log("Script versie: 8.0 geladen.");
+// Script Versie: 8.1 - Robuuste 'losklik'-functionaliteit
+console.log("Script versie: 8.1 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -78,6 +78,18 @@ function drawHeatmap(data) {
     
     let selectedTenureId = null;
 
+    // FIX: Een onzichtbare achtergrond-rechthoek die als eerste wordt getekend
+    svg.append("rect")
+        .attr("class", "background-event-rect")
+        .attr("width", width)
+        .attr("height", height)
+        .style("fill", "transparent")
+        .on("click", () => {
+            selectedTenureId = null;
+            clearHighlight();
+            setInfoPaneDefault();
+        });
+
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => ({
@@ -96,18 +108,6 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
-    // FIX: Toevoegen van een achtergrond-rechthoek voor de 'losklik'-functionaliteit
-    svg.append("rect")
-        .attr("class", "background-event-rect")
-        .attr("width", width)
-        .attr("height", height)
-        .style("fill", "transparent")
-        .on("click", () => {
-            selectedTenureId = null;
-            clearHighlight();
-            setInfoPaneDefault();
-        });
-
     const getColor = d => {
         const len = d.stintLength;
         if (len === 1) return "#ff0033";
@@ -118,7 +118,7 @@ function drawHeatmap(data) {
         if (len >= 10) return "#006600";
         return "#ccc";
     };
-
+    
     const bars = svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("x", d => x(d.seizoen))
@@ -176,37 +176,30 @@ function drawHeatmap(data) {
         allElements.classed("is-dimmed", false).classed("is-highlighted", false);
     };
 
-    // FIX: Herziene event handlers
-    const handleClick = (event, d) => {
-        event.stopPropagation();
-        if (selectedTenureId === d.tenureId) {
-            selectedTenureId = null;
-            clearHighlight();
-            setInfoPaneDefault();
-        } else {
-            selectedTenureId = d.tenureId;
-            highlightTenure(d.tenureId);
-            updateInfoPane(d);
-        }
-    };
-
-    const handleMouseOver = (event, d) => {
-        if (!selectedTenureId) {
-            highlightTenure(d.tenureId);
-            updateInfoPane(d);
-        }
-    };
-
-    const handleMouseLeave = () => {
-        if (!selectedTenureId) {
-            clearHighlight();
-            setInfoPaneDefault();
-        }
-    };
-    
-    bars.on("click", handleClick)
-        .on("mouseover", handleMouseOver)
-        .on("mouseleave", handleMouseLeave);
+    bars.on("click", (event, d) => {
+            event.stopPropagation();
+            if (selectedTenureId === d.tenureId) {
+                selectedTenureId = null;
+                clearHighlight();
+                setInfoPaneDefault();
+            } else {
+                selectedTenureId = d.tenureId;
+                highlightTenure(d.tenureId);
+                updateInfoPane(d);
+            }
+        })
+        .on("mouseover", (event, d) => {
+            if (!selectedTenureId) {
+                highlightTenure(d.tenureId);
+                updateInfoPane(d);
+            }
+        })
+        .on("mouseleave", () => {
+            if (!selectedTenureId) {
+                clearHighlight();
+                setInfoPaneDefault();
+            }
+        });
 
     setInfoPaneDefault();
 }
