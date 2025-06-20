@@ -1,4 +1,4 @@
-/* CSS Versie: 1.8 - Hoger contrast voor dim-effect */
+/* CSS Versie: 1.9 - Hoger contrast voor dim-effect */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -173,7 +173,7 @@ main, .about-section {
 
 /* FIX: Dim-effect donkerder gemaakt voor meer contrast */
 .bar.is-dimmed {
-    opacity: 0.2;
+    opacity: 0.15;
 }
 
 .coach-divider {
@@ -195,7 +195,7 @@ main, .about-section {
 .coach-divider.is-dimmed,
 .prize-group.is-dimmed,
 .season-divider.is-dimmed {
-    opacity: 0.15;
+    opacity: 0.1;
 }
 
 .prize-group {
