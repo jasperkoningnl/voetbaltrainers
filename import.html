@@ -14,7 +14,7 @@
         p, li { color: #555; line-height: 1.6; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        textarea { width: 100%; min-height: 120px; font-family: monospace; font-size: 0.9rem; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; }
+        textarea { width: 100%; min-height: 120px; font-family: monospace; font-size: 0.9rem; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; margin-top: 0.5rem; }
         button { font-size: 1rem; padding: 0.75rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
         button:disabled { background-color: #6c757d; cursor: not-allowed; }
         .status-check { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
@@ -53,7 +53,7 @@ service cloud.firestore {
         <!-- Stap 2: Data Importeren -->
         <div class="step is-disabled" id="step-2">
             <h2>Stap 2: Selecteer en Importeer Data</h2>
-            <p>Kies een databestand uit je GitHub repository. Het script haalt de data op en voegt deze toe aan Firestore.</p>
+            <p>Kies het databestand uit je GitHub repository dat je wilt importeren. Het script voegt de data toe aan Firestore.</p>
             <div id="data-selector-container">Laden van bestanden...</div>
             <div class="status-check">
                 <button id="import-btn" disabled>Start Import</button>
@@ -177,7 +177,6 @@ service cloud.firestore {
                 const dataToImport = await response.json();
                 statuses.importText.textContent = 'Data gedownload. Starten met import...';
                 
-                // ... (Dezelfde import logica als voorheen) ...
                 const coachesCol = collection(db, "coaches");
                 const seizoenenCol = collection(db, "seizoenen");
                 const existingCoachesSnapshot = await getDocs(coachesCol);
