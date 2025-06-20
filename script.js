@@ -1,5 +1,5 @@
-// Script Versie: 7.1 - Specifieke Kleuren & Interne Seizoen-dividers
-console.log("Script versie: 8.0 geladen.");
+// Script Versie: 7.2 - Verbeterde kleur voor 2-jaars periode & legenda fix
+console.log("Script versie: 7.2 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -20,7 +20,9 @@ async function loadDataFromFirestore() {
         const joinedData = seizoenenSnapshot.docs.map(doc => {
             const seizoenData = doc.data();
             const coachInfo = coachesMap.get(seizoenData.coachId);
-            return coachInfo ? { ...seizoenData, ...coachInfo, Coach: coachInfo.naam } : null;
+            // Ensure all required fields from coachInfo are destructured with fallbacks.
+            const { naam = 'Unknown Coach', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo || {};
+            return { ...seizoenData, Coach: naam, nationaliteit, nat_code, foto_url };
         }).filter(Boolean);
         console.log(`Data succesvol geladen en samengevoegd: ${joinedData.length} documenten.`);
         return joinedData;
@@ -92,11 +94,11 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
-    // FIX: Kleuren volgens de exacte specificatie
+    // FIX: Aangepaste kleur voor 2 seizoenen voor beter contrast
     const getColor = d => {
         const len = d.stintLength;
         if (len === 1) return "#ff0033";
-        if (len === 2) return "#ccffcc";
+        if (len === 2) return "#b7e4c7"; // Donkerder lichtgroen
         if (len >= 3 && len <= 4) return "#99ff99";
         if (len >= 5 && len <= 6) return "#66cc66";
         if (len >= 7 && len <= 9) return "#00ff00";
@@ -118,7 +120,6 @@ function drawHeatmap(data) {
         .on("mouseover", mouseover)
         .on("mouseleave", mouseleave);
 
-    // FIX: Dunne haarlijntjes voor seizoenen BINNEN een periode
     const internalDividersData = data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear);
     svg.selectAll(".season-divider").data(internalDividersData).enter().append("line")
         .attr("class", "season-divider")
@@ -200,40 +201,55 @@ function clearHighlight() {
 
 function drawLegend() {
     d3.select("#legend-container").html("");
+    // FIX: Aangepaste kleur voor 2 seizoenen
     const legendData = [
-        { color: "#ff0033", label: "1 Season" },
-        { color: "#ccffcc", label: "2 Seasons" },
-        { color: "#99ff99", label: "3-4 Seasons" },
-        { color: "#66cc66", label: "5-6 Seasons" },
-        { color: "#00ff00", label: "7-9 Seasons" },
-        { color: "#006600", label: "10+ Seasons" },
+        { color: "#ff0033", label: "1 Season" }, { color: "#b7e4c7", label: "2 Seasons" },
+        { color: "#99ff99", label: "3-4 Seasons" }, { color: "#66cc66", label: "5-6 Seasons" },
+        { color: "#00ff00", label: "7-9 Seasons" }, { color: "#006600", label: "10+ Seasons" },
     ];
     const prizeData = [
-        { color: '#FFD700', label: 'European Trophy' },
-        { color: '#C0C0C0', label: 'National Title' },
+        { color: '#FFD700', label: 'European Trophy' }, { color: '#C0C0C0', label: 'National Title' },
         { color: '#CD7F32', label: 'National Cup' }
     ];
-    const svgNode = d3.select("#legend-container").append("svg").attr("width", "100%").attr("height", 50);
-    const legendGroup = svgNode.append("g");
-    let currentOffset = 0;
-    function drawItem(group, data, isIcon) {
-        data.forEach(d => {
-            const itemGroup = group.append("g").attr("transform", `translate(${currentOffset}, 0)`);
-            if (isIcon) {
-                itemGroup.append("path").attr("d", "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z")
-                  .attr("transform", "translate(4, 2) scale(1)").attr("fill", d.color).attr("stroke", "#222").attr("stroke-width", 0.5);
-            } else {
-                itemGroup.append("rect").attr("width", 20).attr("height", 20).attr("fill", d.color).attr("rx", 3);
-            }
-            itemGroup.append("text").attr("x", 25).attr("y", 15).text(d.label).style("font-size", "12px").attr("fill", "#333");
-            currentOffset += itemGroup.node().getBBox().width + 30;
-        });
-    }
-    drawItem(legendGroup, legendData, false);
-    currentOffset += 20;
-    drawItem(legendGroup, prizeData, true);
+
+    const svgNode = d3.select("#legend-container").append("svg").attr("height", 50);
+    const mainGroup = svgNode.append("g");
+
+    const tenureGroup = mainGroup.append("g").attr("class", "legend-group");
+    const prizeGroup = mainGroup.append("g").attr("class", "legend-group");
+
+    let tenureOffset = 0;
+    legendData.forEach(d => {
+        const item = tenureGroup.append("g").attr("transform", `translate(${tenureOffset}, 0)`);
+        item.append("rect").attr("width", 20).attr("height", 20).attr("fill", d.color).attr("rx", 3);
+        item.append("text").attr("x", 25).attr("y", 15).text(d.label).attr("class", "legend-label");
+        tenureOffset += item.node().getBBox().width + 30;
+    });
+
+    let prizeOffset = 0;
+    prizeData.forEach(d => {
+        const item = prizeGroup.append("g").attr("transform", `translate(${prizeOffset}, 0)`);
+        item.append("path").attr("d", "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z")
+            .attr("transform", "translate(4, 2) scale(1)").attr("fill", d.color).attr("stroke", "#444").attr("stroke-width", 0.5);
+        item.append("text").attr("x", 25).attr("y", 15).text(d.label).attr("class", "legend-label");
+        prizeOffset += item.node().getBBox().width + 30;
+    });
+
+    const dividerMargin = 40;
+    const tenureWidth = tenureGroup.node().getBBox().width;
+    prizeGroup.attr("transform", `translate(${tenureWidth + dividerMargin}, 0)`);
+    
+    mainGroup.append("line")
+        .attr("class", "legend-divider")
+        .attr("x1", tenureWidth + dividerMargin / 2)
+        .attr("y1", -5)
+        .attr("x2", tenureWidth + dividerMargin / 2)
+        .attr("y2", 25);
+        
+    const totalWidth = mainGroup.node().getBBox().width;
     const containerWidth = d3.select("#legend-container").node().getBoundingClientRect().width;
-    legendGroup.attr("transform", `translate(${(containerWidth - containerWidth) / 2}, 20)`);
+    mainGroup.attr("transform", `translate(${(containerWidth - totalWidth) / 2}, 20)`);
+    svgNode.attr("width", containerWidth);
 }
 
 async function main() {
@@ -242,7 +258,7 @@ async function main() {
     const data = prepareData(rawData);
     drawHeatmap(data);
     drawLegend();
-    window.addEventListener('resize', () => { drawHeatmap(data); drawLegend(); });
+    window.addEventListener('resize', () => { drawLegend(); });
 }
 
 main();
