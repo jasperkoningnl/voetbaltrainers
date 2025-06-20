@@ -1,4 +1,4 @@
-/* CSS Versie: 1.7 - Opgeruimde legenda styling */
+/* CSS Versie: 1.8 - Hoger contrast voor dim-effect */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -144,7 +144,6 @@ main, .about-section {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
-    overflow-x: auto;
     display: flex;
     justify-content: center;
 }
@@ -172,8 +171,9 @@ main, .about-section {
     cursor: pointer;
 }
 
+/* FIX: Dim-effect donkerder gemaakt voor meer contrast */
 .bar.is-dimmed {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .coach-divider {
@@ -191,10 +191,11 @@ main, .about-section {
     transition: opacity 0.2s ease-in-out;
 }
 
+/* FIX: Dim-effect donkerder gemaakt voor meer contrast */
 .coach-divider.is-dimmed,
 .prize-group.is-dimmed,
 .season-divider.is-dimmed {
-    opacity: 0.2;
+    opacity: 0.15;
 }
 
 .prize-group {
@@ -202,7 +203,7 @@ main, .about-section {
     pointer-events: none;
 }
 
-/* NIEUW: Legenda Styling */
+/* Legenda Styling */
 .legend-label {
     font-size: 12px;
     fill: #333;
