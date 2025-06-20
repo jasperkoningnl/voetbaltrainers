@@ -1,4 +1,4 @@
-/* CSS Versie: 1.10 - Rand voor geselecteerde periode */
+/* CSS Versie: 1.11 - Bugfix voor highlight-rand */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -175,10 +175,10 @@ main, .about-section {
     opacity: 0.15;
 }
 
-/* FIX: Subtiele rand voor het geselecteerde blokje */
-.bar:not(.is-dimmed) {
-    stroke: #555;
-    stroke-width: 1px;
+/* FIX: De foute selector is vervangen door .is-highlighted */
+.bar.is-highlighted {
+    stroke: #333;
+    stroke-width: 1.5px;
 }
 
 
