@@ -1,9 +1,9 @@
-/* CSS Versie: 1.1 - Tooltip Fix & Styling */
+/* CSS Versie: 1.2 - Info Paneel Structuur & Highlighting Stijlen */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #f4f5f7; /* Lichtgrijze achtergrond */
+    background-color: #f4f5f7;
     color: #333;
     margin: 0;
     display: flex;
@@ -14,7 +14,7 @@ body {
 
 main, .about-section {
     width: 100%;
-    max-width: 1600px; /* Maximale breedte voor de content */
+    max-width: 1600px;
     padding: 2rem;
     box-sizing: border-box;
 }
@@ -42,15 +42,49 @@ main, .about-section {
     line-height: 1.6;
 }
 
-/* --- Heatmap & Legenda Containers --- */
-#heatmap-container, #legend-container {
+/* --- NIEUW: Info Paneel Styling --- */
+#info-pane-container {
     background-color: #ffffff;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
-    overflow-x: auto; /* Zorgt dat de visualisatie kan scrollen op kleine schermen */
 }
+
+#info-pane {
+    min-height: 60px; /* Zorgt voor een vaste hoogte, voorkomt verspringen */
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+#info-pane.default-state p {
+    color: #777;
+    font-style: italic;
+    width: 100%;
+    text-align: center;
+}
+
+/* --- Heatmap & Legenda Containers --- */
+#heatmap-container {
+    background-color: #ffffff;
+    padding: 2rem;
+    padding-top: 1rem; /* Minder padding aan de bovenkant door info paneel */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+#legend-container {
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
 
 /* --- About Pagina Styling --- */
 .about-container {
@@ -59,7 +93,7 @@ main, .about-section {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     max-width: 900px;
-    margin: 0 auto; /* Centreer de about container */
+    margin: 0 auto;
     line-height: 1.7;
 }
 
@@ -70,62 +104,67 @@ main, .about-section {
     margin-top: 2rem;
 }
 
-.about-container ul {
-    padding-left: 20px;
-}
-
-.about-container li {
-    margin-bottom: 0.75rem;
-}
-
-.about-divider {
-    border: none;
-    border-top: 1px solid #e9ecef;
-    margin: 2rem 0;
-}
+.about-container ul { padding-left: 20px; }
+.about-container li { margin-bottom: 0.75rem; }
+.about-divider { border: none; border-top: 1px solid #e9ecef; margin: 2rem 0; }
 
 
 /* --- D3 Visualisatie Specifieke Styling --- */
-.axis path,
-.axis line {
+.axis path, .axis line {
     fill: none;
     stroke: #dfe6e9;
     shape-rendering: crispEdges;
 }
 
-/* VERBERG DE STANDAARD ASLIJNEN EN TICKS */
-.axis .domain, 
-.axis .tick line {
+.axis .domain, .axis .tick line {
     stroke: none;
 }
-
 
 .axis text {
     font-size: 12px;
     fill: #636e72;
 }
 
-/* Verwijder de standaard rand van de heatmap-blokjes */
 .bar {
     stroke: none;
+    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
 }
 
-/* De haarlijn tussen de coachwissels */
-.coach-divider {
-    stroke: #ffffff; /* Wit om de scheiding te benadrukken */
+/* NIEUW: Highlighting stijlen */
+.bar.is-highlighted {
+    stroke: #000000;
     stroke-width: 2px;
+    stroke-opacity: 0.8;
 }
 
-/* Styling voor de prijs-iconen */
-.prize-icon {
-    pointer-events: none;
+.bar.is-dimmed {
+    opacity: 0.3;
 }
 
-/* --- Tooltip Styling --- */
+.coach-divider {
+    stroke: #ffffff;
+    stroke-width: 2px;
+    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
+}
+
+.coach-divider.is-dimmed {
+    opacity: 0.1;
+}
+
+.prize-group {
+    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
+}
+
+.prize-group.is-dimmed {
+    opacity: 0.3;
+}
+
+
+/* --- Tooltip Styling (vervangen we later) --- */
 .tooltip {
-    position: absolute; /* Essentieel voor positionering met JavaScript! */
-    opacity: 0;         /* Start onzichtbaar, wordt via JS zichtbaar */
-    pointer-events: none; /* Voorkomt dat de tooltip muis-events onderschept */
+    position: absolute;
+    opacity: 0;        
+    pointer-events: none;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -134,17 +173,17 @@ main, .about-section {
     display: flex;
     align-items: center;
     transition: opacity 0.2s ease-in-out;
-    white-space: nowrap; /* Voorkomt dat de naam op een nieuwe regel breekt */
-    z-index: 10; /* Zorgt dat de tooltip altijd bovenop de heatmap ligt */
+    white-space: nowrap;
+    z-index: 10;
 }
 
 .tooltip-img {
     width: 50px;
     height: 50px;
-    border-radius: 50%; /* Maakt de afbeelding perfect rond */
-    object-fit: cover;  /* Zorgt dat de foto mooi geschaald wordt, niet vervormd */
+    border-radius: 50%;
+    object-fit: cover;
     margin-right: 12px;
-    background-color: #f0f0f0; /* Een achtergrondkleur voor als de afbeelding niet laadt */
+    background-color: #f0f0f0;
 }
 
 .tooltip-info {
@@ -180,7 +219,7 @@ main, .about-section {
     width: 100%;
     text-align: center;
     padding: 1.5rem 0;
-    margin-top: auto; /* Zorgt dat de footer onderaan blijft */
+    margin-top: auto;
     font-size: 0.9rem;
     color: #777;
 }
