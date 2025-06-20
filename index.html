@@ -23,6 +23,8 @@
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       
         // Jouw web app's Firebase configuratie
+        // LET OP: Deze keys zijn publiek en bedoeld voor frontend gebruik.
+        // Beveiliging wordt afgedwongen door Firestore Security Rules.
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
           authDomain: "voetbaltrainers.firebaseapp.com",
@@ -51,6 +53,13 @@
     </header>
 
     <main>
+        <!-- NIEUW: Het informatiepaneel -->
+        <div id="info-pane-container">
+            <div id="info-pane" class="default-state">
+                <p>Hover over a tenure or select a club to see details.</p>
+            </div>
+        </div>
+
         <div id="heatmap-container"></div>
         <div id="legend-container"></div>
     </main>
@@ -60,7 +69,7 @@
         <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
     </footer>
 
-    <!-- De container voor de tooltip -->
+    <!-- De container voor de tooltip (deze zullen we straks verwijderen) -->
     <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
 
     <!-- Ons eigen script, onderaan geladen -->
