@@ -1,5 +1,5 @@
-// Script Versie: 9.1 - Landen-tabbladen functionaliteit
-console.log("Script versie: 9.1 geladen.");
+// Script Versie: 9.2 - Volledige code voor tab-functionaliteit
+console.log("Script versie: 9.2 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -27,7 +27,7 @@ async function loadDataFromFirestore() {
             const coachInfo = coachesMap.get(seizoenData.coachId);
             const { naam = 'Unknown Coach', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo || {};
             return { ...seizoenData, Coach: naam, nationaliteit, nat_code, foto_url };
-        }).filter(d => d.land); // Filter alleen data waar een land bekend is
+        }).filter(d => d.land);
         console.log(`Data succesvol geladen: ${joinedData.length} documenten.`);
         return joinedData;
     } catch (error) {
@@ -106,7 +106,8 @@ function drawHeatmap(data) {
     heatmapContainer.html("");
     const margin = {top: 20, right: 30, bottom: 80, left: 220};
     const width = 1400 - margin.left - margin.right;
-    const height = (data ? [...new Set(data.map(d => d.club))].length : 0) * 50; // Dynamic height
+    const clubs = [...new Set(data.map(d => d.club))];
+    const height = clubs.length * 50;
     
     const svg = heatmapContainer.append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -117,7 +118,6 @@ function drawHeatmap(data) {
     let selectedTenureId = null;
     
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
-    const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => ({
         Club: club,
         Logo_URL: (data.find(d => d.club === club) || {}).logo_url || ''
