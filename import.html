@@ -3,29 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Importer</title>
+    <title>Data Importer Wizard</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; display: grid; place-content: center; min-height: 100vh; text-align: center; background-color: #f8f9fa; margin: 0; }
-        .container { background-color: white; padding: 2rem 3rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        button { font-size: 1.2rem; padding: 1rem 2rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: grid; place-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 1rem; }
+        .wizard { background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        .step { padding: 2rem 2.5rem; border-bottom: 1px solid #e9ecef; }
+        .step:last-child { border-bottom: none; }
+        .step.is-disabled { opacity: 0.4; pointer-events: none; }
+        h2 { font-size: 1.5rem; margin-top: 0; color: #333; }
+        p, li { color: #555; line-height: 1.6; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        textarea { width: 100%; min-height: 120px; font-family: monospace; font-size: 0.9rem; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; }
+        button { font-size: 1rem; padding: 0.75rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
         button:disabled { background-color: #6c757d; cursor: not-allowed; }
-        p { color: #555; max-width: 50ch; margin: 1rem auto; }
-        #status { font-weight: bold; margin-top: 1.5rem; font-size: 1.1rem; min-height: 2em; }
-        .success { color: #28a745; }
-        .error { color: #dc3545; }
+        .status-check { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
+        .status-light { width: 12px; height: 12px; border-radius: 50%; background-color: #6c757d; transition: background-color 0.3s; }
+        .status-light.is-ok { background-color: #28a745; }
+        .status-light.is-bad { background-color: #dc3545; }
+        .status-text { font-weight: 500; }
+        .status-text.is-ok { color: #28a745; }
+        .status-text.is-bad { color: #dc3545; }
+        .info { font-size: 0.9rem; color: #6c757d; }
+        #data-selector-container { margin-top: 1rem; }
+        #data-selector { font-size: 1rem; padding: 0.5rem; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Voetbaldata Importer</h1>
-        <p>Klik op de knop om de <strong>volledige dataset (1955-2024)</strong> voor de 5 Nederlandse clubs aan Firestore toe te voegen.</p>
-        <button id="importButton">Importeer Nederlandse Clubdata</button>
-        <div id="status"></div>
+    <div class="wizard">
+        <!-- Stap 1: Security Rules Openen -->
+        <div class="step" id="step-1">
+            <h2>Stap 1: Zet de Database Open</h2>
+            <p>Kopieer de onderstaande regels en plak ze in je <a href="https://console.firebase.google.com/project/voetbaltrainers/firestore/rules" target="_blank">Firebase Security Rules</a>. Druk daarna op 'Publiceren'.</p>
+            <textarea readonly>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</textarea>
+            <div class="status-check">
+                <button id="check-open-btn">Controleer Permissies</button>
+                <div id="open-status-light" class="status-light"></div>
+                <span id="open-status-text" class="status-text">Wacht op controle...</span>
+            </div>
+        </div>
+
+        <!-- Stap 2: Data Importeren -->
+        <div class="step is-disabled" id="step-2">
+            <h2>Stap 2: Selecteer en Importeer Data</h2>
+            <p>Kies een databestand uit je GitHub repository. Het script haalt de data op en voegt deze toe aan Firestore.</p>
+            <div id="data-selector-container">Laden van bestanden...</div>
+            <div class="status-check">
+                <button id="import-btn" disabled>Start Import</button>
+                <span id="import-status-text" class="status-text">Selecteer eerst een bestand.</span>
+            </div>
+        </div>
+
+        <!-- Stap 3: Security Rules Sluiten -->
+        <div class="step is-disabled" id="step-3">
+            <h2>Stap 3: Zet de Database Dicht</h2>
+            <p><strong>BELANGRIJK:</strong> Kopieer nu de onderstaande regels en plak ze terug in je Firebase Security Rules om je database te beveiligen.</p>
+            <textarea readonly>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}</textarea>
+            <div class="status-check">
+                <button id="check-closed-btn">Controleer Beveiliging</button>
+                <div id="closed-status-light" class="status-light"></div>
+                <span id="closed-status-text" class="status-text">Wacht op controle...</span>
+            </div>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, writeBatch, doc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, writeBatch, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -39,66 +98,88 @@
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const statusEl = document.getElementById('status');
-        const importButton = document.getElementById('importButton');
 
-        // De VOLLEDIGE Nederlandse dataset
-        const nlData = {
-          coaches: [
-            // Unieke coaches voor de 5 clubs
-            {"naam": "Karl Humenberger", "nationaliteit": "Austria", "nat_code": "at"}, {"naam": "Vic Buckingham", "nationaliteit": "England", "nat_code": "gb-eng"}, {"naam": "Keith Spurgeon", "nationaliteit": "England", "nat_code": "gb-eng"}, {"naam": "Rinus Michels", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Cor Brom", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Leo Beenhakker", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Aad de Mos", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Johan Cruijff", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Kurt Linder", "nationaliteit": "Germany", "nat_code": "de"}, {"naam": "Louis van Gaal", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Morten Olsen", "nationaliteit": "Denmark", "nat_code": "dk"}, {"naam": "Jan Wouters", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Hans Westerhof", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Co Adriaanse", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ronald Koeman", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Danny Blind", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Henk ten Cate", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Adrie Koster", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Marco van Basten", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Martin Jol", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Frank de Boer", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Peter Bosz", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Marcel Keizer", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Erik ten Hag", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Alfred Schreuder", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "John Heitinga", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Maurice Steijn", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "John van 't Schip", "nationaliteit": "Netherlands", "nat_code": "nl"},
-            {"naam": "Ljubiša Broćić", "nationaliteit": "Yugoslavia", "nat_code": "yu"}, {"naam": "George Hardwick", "nationaliteit": "England", "nat_code": "gb-eng"}, {"naam": "Kees Rijvers", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Thijs Libregts", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Jan Reker", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Guus Hiddink", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Bobby Robson", "nationaliteit": "England", "nat_code": "gb-eng"}, {"naam": "Dick Advocaat", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Eric Gerets", "nationaliteit": "Belgium", "nat_code": "be"}, {"naam": "Sef Vergoossen", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Huub Stevens", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Fred Rutten", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Phillip Cocu", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Mark van Bommel", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ernest Faber", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Roger Schmidt", "nationaliteit": "Germany", "nat_code": "de"}, {"naam": "Ruud van Nistelrooy", "nationaliteit": "Netherlands", "nat_code": "nl"},
-            {"naam": "Jaap van der Leck", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Piet de Visser", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ben Peeters", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ernst Happel", "nationaliteit": "Austria", "nat_code": "at"}, {"naam": "Wiel Coerver", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Vujadin Boškov", "nationaliteit": "Yugoslavia", "nat_code": "yu"}, {"naam": "Václav Ježek", "nationaliteit": "Czechoslovakia", "nat_code": "cz"}, {"naam": "Hans Kraay Sr.", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ab Fafié", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Gunder Bengtsson", "nationaliteit": "Sweden", "nat_code": "se"}, {"naam": "Wim Jansen", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Willem van Hanegem", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Arie Haan", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Leo Beenhakker", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Bert van Marwijk", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Ruud Gullit", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Erwin Koeman", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Gertjan Verbeek", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Mario Been", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Giovanni van Bronckhorst", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Jaap Stam", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Arne Slot", "nationaliteit": "Netherlands", "nat_code": "nl"},
-            {"naam": "Georg Kessler", "nationaliteit": "Germany", "nat_code": "de"}, {"naam": "Hans Eijkenbroek", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Gerard van der Lem", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Henk van Stee", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "John van den Brom", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Alex Pastoor", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Pascal Jansen", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Maarten Martens", "nationaliteit": "Belgium", "nat_code": "be"},
-            {"naam": "Friedrich Donenfeld", "nationaliteit": "Austria", "nat_code": "at"}, {"naam": "Kees Rijvers", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Spitz Kohn", "nationaliteit": "Germany", "nat_code": "de"}, {"naam": "Hennie Hollink", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Rob Baan", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Theo Vonk", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Issy ten Donkelaar", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Hans Meyer", "nationaliteit": "Germany", "nat_code": "de"}, {"naam": "Steve McClaren", "nationaliteit": "England", "nat_code": "gb-eng"}, {"naam": "Michel Preud'homme", "nationaliteit": "Belgium", "nat_code": "be"}, {"naam": "Co Adriaanse", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Michel Jansen", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "René Hake", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Marino Pušić", "nationaliteit": "Bosnia and Herzegovina", "nat_code": "ba"}, {"naam": "Gonzalo García", "nationaliteit": "Uruguay", "nat_code": "uy"}, {"naam": "Ron Jans", "nationaliteit": "Netherlands", "nat_code": "nl"}, {"naam": "Joseph Oosting", "nationaliteit": "Netherlands", "nat_code": "nl"}
-          ],
-          seizoenen: [
-            // Ajax
-            {"seizoen": "1955/56", "club": "Ajax", "coachNaam": "Karl Humenberger", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
-            {"seizoen": "1956/57", "club": "Ajax", "coachNaam": "Karl Humenberger", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
-            // ... all other seasons for Ajax
-            {"seizoen": "2022/23", "club": "Ajax", "coachNaam": "Alfred Schreuder", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
-            {"seizoen": "2023/24", "club": "Ajax", "coachNaam": "John van 't Schip", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"},
-            // PSV
-            {"seizoen": "1955/56", "club": "PSV", "coachNaam": "Ljubiša Broćić", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PSV_Eindhoven_logo.svg/1200px-PSV_Eindhoven_logo.svg.png"},
-            // ... all other seasons for PSV
-            {"seizoen": "1987/88", "club": "PSV", "coachNaam": "Guus Hiddink", "landstitel": "Y", "nationale_beker": "Y", "europese_prijs": "Y", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PSV_Eindhoven_logo.svg/1200px-PSV_Eindhoven_logo.svg.png"},
-            {"seizoen": "2023/24", "club": "PSV", "coachNaam": "Peter Bosz", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/PSV_Eindhoven_logo.svg/1200px-PSV_Eindhoven_logo.svg.png"},
-            // Feyenoord
-            {"seizoen": "1955/56", "club": "Feyenoord", "coachNaam": "Jaap van der Leck", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"},
-            // ... all other seasons for Feyenoord
-            {"seizoen": "1969/70", "club": "Feyenoord", "coachNaam": "Ernst Happel", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "Y", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"},
-            {"seizoen": "2023/24", "club": "Feyenoord", "coachNaam": "Arne Slot", "landstitel": "N", "nationale_beker": "Y", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e3/Feyenoord_logo.svg/1200px-Feyenoord_logo.svg.png"},
-             // AZ
-            {"seizoen": "1967/68", "club": "AZ", "coachNaam": "Leslie Talbot", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/AZ_Alkmaar_logo.svg/1200px-AZ_Alkmaar_logo.svg.png"},
-            // ... all other seasons for AZ
-            {"seizoen": "2008/09", "club": "AZ", "coachNaam": "Louis van Gaal", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/AZ_Alkmaar_logo.svg/1200px-AZ_Alkmaar_logo.svg.png"},
-            {"seizoen": "2023/24", "club": "AZ", "coachNaam": "Pascal Jansen", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/AZ_Alkmaar_logo.svg/1200px-AZ_Alkmaar_logo.svg.png"},
-             // FC Twente
-            {"seizoen": "1965/66", "club": "FC Twente", "coachNaam": "Friedrich Donenfeld", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/FC_Twente_logo.svg/1200px-FC_Twente_logo.svg.png"},
-            // ... all other seasons for FC Twente
-            {"seizoen": "2009/10", "club": "FC Twente", "coachNaam": "Steve McClaren", "landstitel": "Y", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/FC_Twente_logo.svg/1200px-FC_Twente_logo.svg.png"},
-            {"seizoen": "2023/24", "club": "FC Twente", "coachNaam": "Joseph Oosting", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/FC_Twente_logo.svg/1200px-FC_Twente_logo.svg.png"}
-          ]
+        // UI Elementen
+        const steps = {
+            1: document.getElementById('step-1'),
+            2: document.getElementById('step-2'),
+            3: document.getElementById('step-3')
         };
+        const buttons = {
+            checkOpen: document.getElementById('check-open-btn'),
+            import: document.getElementById('import-btn'),
+            checkClosed: document.getElementById('check-closed-btn')
+        };
+        const statuses = {
+            openLight: document.getElementById('open-status-light'),
+            openText: document.getElementById('open-status-text'),
+            importText: document.getElementById('import-status-text'),
+            closedLight: document.getElementById('closed-status-light'),
+            closedText: document.getElementById('closed-status-text')
+        };
+        const dataSelectorContainer = document.getElementById('data-selector-container');
 
-        // Deze functie geeft de volledige, voorbereide data terug.
-        async function getFullNLData() {
-            console.log("Volledige dataset wordt gebruikt voor de import.");
-            // In de praktijk is de 'seizoenen' array hier gevuld met alle ~345 records.
-            return nlData;
+        // Stap 1: Permissies controleren
+        buttons.checkOpen.addEventListener('click', async () => {
+            statuses.openText.textContent = 'Bezig met testen...';
+            const testDocRef = doc(db, 'permissions-test', 'test-doc');
+            try {
+                await setDoc(testDocRef, { timestamp: new Date() });
+                await deleteDoc(testDocRef);
+                statuses.openLight.className = 'status-light is-ok';
+                statuses.openText.className = 'status-text is-ok';
+                statuses.openText.textContent = 'Permissies correct ingesteld!';
+                steps[2].classList.remove('is-disabled');
+                loadDataFiles();
+            } catch (e) {
+                statuses.openLight.className = 'status-light is-bad';
+                statuses.openText.className = 'status-text is-bad';
+                statuses.openText.textContent = 'Fout: Geen schrijfrechten. Controleer de regels.';
+            }
+        });
+
+        // Stap 2: Data bestanden laden en importeren
+        async function loadDataFiles() {
+            try {
+                const response = await fetch('https://api.github.com/repos/jasperkoningnl/voetbaltrainers/contents/data');
+                const files = await response.json();
+                const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+
+                if (jsonFiles.length > 0) {
+                    let selectHTML = '<select id="data-selector"><option value="">-- Kies een bestand --</option>';
+                    jsonFiles.forEach(file => {
+                        selectHTML += `<option value="${file.download_url}">${file.name}</option>`;
+                    });
+                    selectHTML += '</select>';
+                    dataSelectorContainer.innerHTML = selectHTML;
+                    document.getElementById('data-selector').addEventListener('change', () => {
+                        buttons.import.disabled = false;
+                        statuses.importText.textContent = 'Klaar om te importeren.';
+                    });
+                } else {
+                    dataSelectorContainer.innerHTML = '<p class="error">Geen .json bestanden gevonden in de /data map van de GitHub repo.</p>';
+                }
+            } catch (e) {
+                dataSelectorContainer.innerHTML = '<p class="error">Kon bestanden niet laden van GitHub.</p>';
+            }
         }
 
-        async function startImport() {
-            importButton.disabled = true;
-            statusEl.textContent = "Bezig met importeren...";
-            
-            const coachesCol = collection(db, "coaches");
-            const seizoenenCol = collection(db, "seizoenen");
+        buttons.import.addEventListener('click', async () => {
+            const selector = document.getElementById('data-selector');
+            const fileUrl = selector.value;
+            if (!fileUrl) return;
+
+            buttons.import.disabled = true;
+            statuses.importText.textContent = `Bezig met downloaden van ${selector.options[selector.selectedIndex].text}...`;
 
             try {
-                const dataToImport = await getFullNLData();
-                statusEl.textContent = "Controleren op bestaande coaches...";
+                const response = await fetch(fileUrl);
+                const dataToImport = await response.json();
+                statuses.importText.textContent = 'Data gedownload. Starten met import...';
+                
+                // ... (Dezelfde import logica als voorheen) ...
+                const coachesCol = collection(db, "coaches");
+                const seizoenenCol = collection(db, "seizoenen");
                 const existingCoachesSnapshot = await getDocs(coachesCol);
                 const existingCoaches = new Map();
                 existingCoachesSnapshot.forEach(doc => {
@@ -108,48 +189,55 @@
 
                 const newCoaches = dataToImport.coaches.filter(c => c.naam && !existingCoaches.has(c.naam.toLowerCase()));
                 if(newCoaches.length > 0) {
-                    statusEl.textContent = `${newCoaches.length} nieuwe coaches toevoegen...`;
                     for (const coach of newCoaches) {
                         const docRef = await addDoc(coachesCol, coach);
                         existingCoaches.set(coach.naam.toLowerCase(), docRef.id);
                     }
                 }
 
-                statusEl.textContent = "Seizoenen voorbereiden...";
                 const batch = writeBatch(db);
                 let seizoenCount = 0;
-                let notFoundCoaches = new Set();
-                
                 for (const seizoen of dataToImport.seizoenen) {
                     if (!seizoen.coachNaam) continue;
                     const coachId = existingCoaches.get(seizoen.coachNaam.toLowerCase());
                     if (coachId) {
                         const seizoenData = { ...seizoen, coachId };
                         delete seizoenData.coachNaam; 
-                        const docRef = doc(seizoenenCol);
-                        batch.set(docRef, seizoenData);
+                        batch.set(doc(seizoenenCol), seizoenData);
                         seizoenCount++;
-                    } else {
-                        notFoundCoaches.add(seizoen.coachNaam);
                     }
                 }
-                
-                statusEl.textContent = `Bezig met wegschrijven van ${seizoenCount} seizoenen...`;
                 await batch.commit();
-                
-                statusEl.innerHTML = `<span class="success">Import voltooid! ${seizoenCount} seizoenen toegevoegd.</span><br>Herlaad de hoofdpagina om de 'Netherlands' tab te zien.`;
-                if(notFoundCoaches.size > 0) {
-                     statusEl.innerHTML += `<br><span class="error">Waarschuwing: Coaches niet gevonden voor: ${[...notFoundCoaches].join(', ')}</span>`;
-                }
-                
-            } catch (error) {
-                console.error("Fout tijdens importeren: ", error);
-                statusEl.textContent = `Fout: ${error.message}`;
-                importButton.disabled = false;
-            }
-        }
 
-        importButton.addEventListener('click', startImport);
+                statuses.importText.className = 'status-text is-ok';
+                statuses.importText.textContent = `Import voltooid! ${newCoaches.length} coaches en ${seizoenCount} seizoenen verwerkt.`;
+                steps[3].classList.remove('is-disabled');
+
+            } catch (error) {
+                statuses.importText.className = 'status-text is-bad';
+                statuses.importText.textContent = `Fout: ${error.message}`;
+                buttons.import.disabled = false;
+            }
+        });
+
+        // Stap 3: Beveiliging controleren
+        buttons.checkClosed.addEventListener('click', async () => {
+             statuses.closedText.textContent = 'Bezig met testen...';
+            const testDocRef = doc(db, 'permissions-test', 'test-doc-final');
+            try {
+                await setDoc(testDocRef, { timestamp: new Date() });
+                // Als dit lukt, is het fout!
+                statuses.closedLight.className = 'status-light is-bad';
+                statuses.closedText.className = 'status-text is-bad';
+                statuses.closedText.textContent = 'Fout: Database staat nog open! Controleer de regels.';
+                await deleteDoc(testDocRef); // Ruim op
+            } catch (e) {
+                // Als dit mislukt, is het goed!
+                statuses.closedLight.className = 'status-light is-ok';
+                statuses.closedText.className = 'status-text is-ok';
+                statuses.closedText.textContent = 'Database succesvol beveiligd!';
+            }
+        });
 
     </script>
 </body>
