@@ -1,4 +1,4 @@
-/* CSS Versie: 1.12 - Robuuste highlight-rand via aparte laag */
+/* CSS Versie: 1.13 - Highlight via CSS-filter */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -167,22 +167,18 @@ main, .about-section {
 
 .bar {
     stroke: none;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out;
     cursor: pointer;
 }
 
-.bar.is-dimmed {
+.is-dimmed {
     opacity: 0.15;
 }
 
-/* FIX: Styling voor de nieuwe, aparte highlight-rand */
-.highlight-border {
-    fill: none;
-    stroke: #333;
-    stroke-width: 2px;
-    pointer-events: none; /* Zorgt dat de rand geen muis-events blokkeert */
+/* FIX: Highlight via filter i.p.v. rand */
+.is-highlighted {
+    filter: saturate(175%) brightness(105%);
 }
-
 
 .coach-divider {
     stroke: #ffffff;
@@ -197,12 +193,6 @@ main, .about-section {
     shape-rendering: crispEdges;
     pointer-events: none;
     transition: opacity 0.2s ease-in-out;
-}
-
-.coach-divider.is-dimmed,
-.prize-group.is-dimmed,
-.season-divider.is-dimmed {
-    opacity: 0.1;
 }
 
 .prize-group {
