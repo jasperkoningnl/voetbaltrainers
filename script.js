@@ -1,5 +1,5 @@
-// Script Versie: 7.8 - Highlight via CSS-filter i.p.v. rand
-console.log("Script versie: 7.8 geladen.");
+// Script Versie: 7.9 - Klik-interactie voor vastzetten selectie
+console.log("Script versie: 7.9 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -75,6 +75,10 @@ function drawHeatmap(data) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+    // Variabele om de geselecteerde (vastgezette) staat bij te houden
+    let selectedTenureId = null;
+
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
     const clubs = [...new Set(data.map(d => d.club))];
     const logoData = clubs.map(club => ({
@@ -104,6 +108,19 @@ function drawHeatmap(data) {
         return "#ccc";
     };
 
+    const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
+    
+    const highlightTenure = (tenureId) => {
+        allElements.classed("is-dimmed", true);
+        allElements.filter(d => d && d.tenureId === tenureId)
+            .classed("is-dimmed", false)
+            .classed("is-highlighted", true);
+    };
+
+    const clearHighlight = () => {
+        allElements.classed("is-dimmed", false).classed("is-highlighted", false);
+    };
+
     const bars = svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("x", d => x(d.seizoen))
@@ -111,9 +128,7 @@ function drawHeatmap(data) {
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
-        .attr("shape-rendering", "crispEdges")
-        .on("mouseover", (event, d) => { highlightTenure(d.tenureId); updateInfoPane(d); })
-        .on("mouseleave", () => { clearHighlight(); setInfoPaneDefault(); });
+        .attr("shape-rendering", "crispEdges");
 
     const seasonDividers = svg.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line")
         .attr("class", "season-divider")
@@ -150,18 +165,46 @@ function drawHeatmap(data) {
             });
         });
 
-    const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
-    
-    const highlightTenure = (tenureId) => {
-        allElements.classed("is-dimmed", true);
-        allElements.filter(d => d && d.tenureId === tenureId)
-            .classed("is-dimmed", false)
-            .classed("is-highlighted", true);
+    // Event handlers
+    const handleClick = (event, d) => {
+        event.stopPropagation(); // Voorkom dat de achtergrond-klik ook afgaat
+        if (selectedTenureId === d.tenureId) {
+            // Deselecteer als er op de al geselecteerde periode wordt geklikt
+            selectedTenureId = null;
+            highlightTenure(d.tenureId); // Update naar hover-state
+            updateInfoPane(d);
+        } else {
+            // Selecteer een nieuwe periode
+            selectedTenureId = d.tenureId;
+            highlightTenure(d.tenureId);
+            updateInfoPane(d);
+        }
     };
 
-    const clearHighlight = () => {
-        allElements.classed("is-dimmed", false).classed("is-highlighted", false);
+    const handleMouseOver = (event, d) => {
+        if (selectedTenureId === null) {
+            highlightTenure(d.tenureId);
+            updateInfoPane(d);
+        }
     };
+
+    const handleMouseLeave = () => {
+        if (selectedTenureId === null) {
+            clearHighlight();
+            setInfoPaneDefault();
+        }
+    };
+    
+    bars.on("click", handleClick)
+        .on("mouseover", handleMouseOver)
+        .on("mouseleave", handleMouseLeave);
+
+    // Klik op de achtergrond om te deselecteren
+    svg.on("click", () => {
+        selectedTenureId = null;
+        clearHighlight();
+        setInfoPaneDefault();
+    });
 
     setInfoPaneDefault();
 }
