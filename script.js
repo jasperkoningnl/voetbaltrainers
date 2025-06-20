@@ -1,5 +1,5 @@
-// Script Versie: 7.4 - Contrast-fix door donkerdere dim-laag
-console.log("Script versie: 7.4 geladen.");
+// Script Versie: 7.6 - Bugfix voor de highlight-rand
+console.log("Script versie: 7.6 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -93,11 +93,10 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
-    // FIX: Kleur voor 2 seizoenen teruggezet
     const getColor = d => {
         const len = d.stintLength;
         if (len === 1) return "#ff0033";
-        if (len === 2) return "#ccffcc"; // Oorspronkelijke lichte groen
+        if (len === 2) return "#ccffcc";
         if (len >= 3 && len <= 4) return "#99ff99";
         if (len >= 5 && len <= 6) return "#66cc66";
         if (len >= 7 && len <= 9) return "#00ff00";
@@ -186,15 +185,28 @@ function updateInfoPane(d) {
     infoPane.attr("class", "details-state").html(content);
 }
 
+// FIX: Aangepaste highlight-logica met .is-highlighted class
 function highlightTenure(tenureId) {
+    // 1. Dim alles
     d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider").classed("is-dimmed", true);
-    d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider")
+    
+    // 2. Un-dim de geselecteerde periode en voeg highlight class toe
+    d3.selectAll(".bar")
+        .filter(d => d && d.tenureId === tenureId)
+        .classed("is-dimmed", false)
+        .classed("is-highlighted", true); // <-- De sleutel
+    
+    // 3. Un-dim de bijbehorende dividers en prijzen (zonder rand)
+    d3.selectAll(".coach-divider, .prize-group, .season-divider")
         .filter(d => d && d.tenureId === tenureId)
         .classed("is-dimmed", false);
 }
 
+// FIX: Aangepaste clear-logica die ook de highlight class weghaalt
 function clearHighlight() {
-    d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider").classed("is-dimmed", false);
+    d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider")
+        .classed("is-dimmed", false)
+        .classed("is-highlighted", false); // <-- De sleutel
 }
 
 function drawLegend() {
