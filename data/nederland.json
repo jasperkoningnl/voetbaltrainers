@@ -1,100 +1,4124 @@
 {
   "coaches": [
-    {"naam": "Karl Humenberger", "nationaliteit": "Austria", "nat_code": "at", "foto_url": ""},
-    {"naam": "Vic Buckingham", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": ""},
-    {"naam": "Keith Spurgeon", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": ""},
-    {"naam": "Rinus Michels", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Rinus_Michels_%281974%29.jpg"},
-    {"naam": "Cor Brom", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Leo Beenhakker", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Leo_Beenhakker_2009.jpg"},
-    {"naam": "Aad de Mos", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Johan Cruijff", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Johan_Cruyff_1974c.jpg"},
-    {"naam": "Kurt Linder", "nationaliteit": "Germany", "nat_code": "de", "foto_url": ""},
-    {"naam": "Louis van Gaal", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/fe/Louis_van_Gaal_2022.jpg"},
-    {"naam": "Morten Olsen", "nationaliteit": "Denmark", "nat_code": "dk", "foto_url": ""},
-    {"naam": "Jan Wouters", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Hans Westerhof", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Co Adriaanse", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ronald Koeman", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Ronald_Koeman_2018.jpg"},
-    {"naam": "Danny Blind", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Henk ten Cate", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Adrie Koster", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Marco van Basten", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/0/03/Marco_van_Basten_1988.jpg"},
-    {"naam": "Martin Jol", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Frank de Boer", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Peter Bosz", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Peter_Bosz_2017.jpg"},
-    {"naam": "Marcel Keizer", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Erik ten Hag", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Erik_ten_Hag_2022.jpg"},
-    {"naam": "Alfred Schreuder", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "John Heitinga", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Maurice Steijn", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "John van 't Schip", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ljubiša Broćić", "nationaliteit": "Yugoslavia", "nat_code": "yu", "foto_url": ""},
-    {"naam": "George Hardwick", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": ""},
-    {"naam": "Kees Rijvers", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Thijs Libregts", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Jan Reker", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Guus Hiddink", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Guus_Hiddink_2015.jpg"},
-    {"naam": "Bobby Robson", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Sir_Bobby_Robson_Statue_-_St_James_Park.jpg"},
-    {"naam": "Dick Advocaat", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Eric Gerets", "nationaliteit": "Belgium", "nat_code": "be", "foto_url": ""},
-    {"naam": "Sef Vergoossen", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Huub Stevens", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Fred Rutten", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Phillip Cocu", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Mark van Bommel", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ernest Faber", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Roger Schmidt", "nationaliteit": "Germany", "nat_code": "de", "foto_url": ""},
-    {"naam": "Ruud van Nistelrooy", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Jaap van der Leck", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Piet de Visser", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ben Peeters", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ernst Happel", "nationaliteit": "Austria", "nat_code": "at", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Ernst_Happel_1965.jpg"},
-    {"naam": "Wiel Coerver", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Vujadin Boškov", "nationaliteit": "Yugoslavia", "nat_code": "yu", "foto_url": ""},
-    {"naam": "Václav Ježek", "nationaliteit": "Czechoslovakia", "nat_code": "cz", "foto_url": ""},
-    {"naam": "Hans Kraay Sr.", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ab Fafié", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Gunder Bengtsson", "nationaliteit": "Sweden", "nat_code": "se", "foto_url": ""},
-    {"naam": "Wim Jansen", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Willem van Hanegem", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Arie Haan", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Bert van Marwijk", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Ruud Gullit", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Erwin Koeman", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Gertjan Verbeek", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Mario Been", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Giovanni van Bronckhorst", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Jaap Stam", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Arne Slot", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/Arne_Slot_2023.jpg"},
-    {"naam": "Georg Kessler", "nationaliteit": "Germany", "nat_code": "de", "foto_url": ""},
-    {"naam": "Hans Eijkenbroek", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Gerard van der Lem", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Henk van Stee", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "John van den Brom", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Alex Pastoor", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Pascal Jansen", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Maarten Martens", "nationaliteit": "Belgium", "nat_code": "be", "foto_url": ""},
-    {"naam": "Leslie Talbot", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": ""},
-    {"naam": "Friedrich Donenfeld", "nationaliteit": "Austria", "nat_code": "at", "foto_url": ""},
-    {"naam": "Spitz Kohn", "nationaliteit": "Germany", "nat_code": "de", "foto_url": ""},
-    {"naam": "Hennie Hollink", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Rob Baan", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Theo Vonk", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Issy ten Donkelaar", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Hans Meyer", "nationaliteit": "Germany", "nat_code": "de", "foto_url": ""},
-    {"naam": "Steve McClaren", "nationaliteit": "England", "nat_code": "gb-eng", "foto_url": ""},
-    {"naam": "Michel Preud'homme", "nationaliteit": "Belgium", "nat_code": "be", "foto_url": ""},
-    {"naam": "Michel Jansen", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "René Hake", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Marino Pušić", "nationaliteit": "Bosnia and Herzegovina", "nat_code": "ba", "foto_url": ""},
-    {"naam": "Gonzalo García", "nationaliteit": "Uruguay", "nat_code": "uy", "foto_url": ""},
-    {"naam": "Ron Jans", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""},
-    {"naam": "Joseph Oosting", "nationaliteit": "Netherlands", "nat_code": "nl", "foto_url": ""}
+    {
+      "naam": "Francesco Farioli",
+      "nationaliteit": "Italy",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Francesco_Farioli_2024.jpg/800px-Francesco_Farioli_2024.jpg"
+    },
+    {
+      "naam": "John van 't Schip",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/John_van_%27t_Schip_2011.jpg/800px-John_van_%27t_Schip_2011.jpg"
+    },
+    {
+      "naam": "Alfred Schreuder",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Alfred_Schreuder_2022.jpg/800px-Alfred_Schreuder_2022.jpg"
+    },
+    {
+      "naam": "Erik ten Hag",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Erik_ten_Hag_2022.jpg/800px-Erik_ten_Hag_2022.jpg"
+    },
+    {
+      "naam": "Marcel Keizer",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Marcel_Keizer_%282017%29.jpg/800px-Marcel_Keizer_%282017%29.jpg"
+    },
+    {
+      "naam": "Peter Bosz",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Peter_Bosz_2016.jpg/800px-Peter_Bosz_2016.jpg"
+    },
+    {
+      "naam": "Frank de Boer",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Frank_de_Boer_2016.jpg/800px-Frank_de_Boer_2016.jpg"
+    },
+    {
+      "naam": "Martin Jol",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Martin_Jol_2011.jpg/800px-Martin_Jol_2011.jpg"
+    },
+    {
+      "naam": "Marco van Basten",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Marco_van_Basten_1988.jpg/800px-Marco_van_Basten_1988.jpg"
+    },
+    {
+      "naam": "Henk ten Cate",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Henk_ten_Cate_2008.jpg/800px-Henk_ten_Cate_2008.jpg"
+    },
+    {
+      "naam": "Danny Blind",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Danny_Blind_2015.jpg/800px-Danny_Blind_2015.jpg"
+    },
+    {
+      "naam": "Ronald Koeman",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ronald_Koeman_2018.jpg/800px-Ronald_Koeman_2018.jpg"
+    },
+    {
+      "naam": "Co Adriaanse",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Co_Adriaanse.jpg/800px-Co_Adriaanse.jpg"
+    },
+    {
+      "naam": "Jan Wouters",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Jan_Wouters_1988.jpg/800px-Jan_Wouters_1988.jpg"
+    },
+    {
+      "naam": "Morten Olsen",
+      "nationaliteit": "Denmark",
+      "nat_code": "dk",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Morten_Olsen_2011.jpg/800px-Morten_Olsen_2011.jpg"
+    },
+    {
+      "naam": "Louis van Gaal",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Louis_van_Gaal_2022.jpg/800px-Louis_van_Gaal_2022.jpg"
+    },
+    {
+      "naam": "Leo Beenhakker",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Leo_Beenhakker_2008.jpg/800px-Leo_Beenhakker_2008.jpg"
+    },
+    {
+      "naam": "Johan Cruyff",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Johan_Cruijff_1974c.jpg/800px-Johan_Cruijff_1974c.jpg"
+    },
+    {
+      "naam": "Aad de Mos",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Aad_de_Mos_2010.jpg/800px-Aad_de_Mos_2010.jpg"
+    },
+    {
+      "naam": "Kurt Linder",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": ""
+    },
+    {
+      "naam": "Cor Brom",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Tomislav Ivić",
+      "nationaliteit": "Croatia",
+      "nat_code": "hr",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Tomislav_Ivic.jpg/800px-Tomislav_Ivic.jpg"
+    },
+    {
+      "naam": "Rinus Michels",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Rinus_Michels_%281974%29.jpg/800px-Rinus_Michels_%281974%29.jpg"
+    },
+    {
+      "naam": "Hans Kraay Sr.",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Hans_Kraay_sr.jpg/800px-Hans_Kraay_sr.jpg"
+    },
+    {
+      "naam": "George Knobel",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/George_Knobel_1975.jpg/800px-George_Knobel_1975.jpg"
+    },
+    {
+      "naam": "Ștefan Kovács",
+      "nationaliteit": "Romania",
+      "nat_code": "ro",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/%C8%98tefan_Kov%C3%A1cs_1972.jpg/800px-%C8%98tefan_Kov%C3%A1cs_1972.jpg"
+    },
+    {
+      "naam": "Vic Buckingham",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Vic_Buckingham_1965.jpg/800px-Vic_Buckingham_1965.jpg"
+    },
+    {
+      "naam": "Jack Rowley",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Karl Humenberger",
+      "nationaliteit": "Austria",
+      "nat_code": "at",
+      "foto_url": ""
+    },
+    {
+      "naam": "Jack Reynolds",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Ruud van Nistelrooy",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Ruud_van_Nistelrooy_2018.jpg/800px-Ruud_van_Nistelrooy_2018.jpg"
+    },
+    {
+      "naam": "Roger Schmidt",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Roger_Schmidt_2017.jpg/800px-Roger_Schmidt_2017.jpg"
+    },
+    {
+      "naam": "Mark van Bommel",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Mark_van_Bommel_2018.jpg/800px-Mark_van_Bommel_2018.jpg"
+    },
+    {
+      "naam": "Phillip Cocu",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Phillip_Cocu_2013.jpg/800px-Phillip_Cocu_2013.jpg"
+    },
+    {
+      "naam": "Dick Advocaat",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Dick_Advocaat_2017.jpg/800px-Dick_Advocaat_2017.jpg"
+    },
+    {
+      "naam": "Fred Rutten",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Fred_Rutten_2011.jpg/800px-Fred_Rutten_2011.jpg"
+    },
+    {
+      "naam": "Huub Stevens",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Huub_Stevens_2012.jpg/800px-Huub_Stevens_2012.jpg"
+    },
+    {
+      "naam": "Guus Hiddink",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Guus_Hiddink_2015.jpg/800px-Guus_Hiddink_2015.jpg"
+    },
+    {
+      "naam": "Eric Gerets",
+      "nationaliteit": "Belgium",
+      "nat_code": "be",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eric_Gerets_2009.jpg/800px-Eric_Gerets_2009.jpg"
+    },
+    {
+      "naam": "Bobby Robson",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Sir_Bobby_Robson_-_Guard_of_Honour_2.jpg/800px-Sir_Bobby_Robson_-_Guard_of_Honour_2.jpg"
+    },
+    {
+      "naam": "Thijs Libregts",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Thijs_Libregts_1983.jpg/800px-Thijs_Libregts_1983.jpg"
+    },
+    {
+      "naam": "Jan Reker",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Hans Kraay",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Hans_Kraay_sr.jpg/800px-Hans_Kraay_sr.jpg"
+    },
+    {
+      "naam": "Kees Rijvers",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Kees_Rijvers_1974.jpg/800px-Kees_Rijvers_1974.jpg"
+    },
+    {
+      "naam": "Kurt Linder",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": ""
+    },
+    {
+      "naam": "Bram Appel",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Milan Nikolić",
+      "nationaliteit": "Serbia",
+      "nat_code": "rs",
+      "foto_url": ""
+    },
+      {
+      "naam": "Ljubiša Broćić",
+      "nationaliteit": "Serbia",
+      "nat_code": "rs",
+      "foto_url": ""
+    },
+    {
+      "naam": "Brian Priske",
+      "nationaliteit": "Denmark",
+      "nat_code": "dk",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Brian_Priske_2023.jpg/800px-Brian_Priske_2023.jpg"
+    },
+    {
+      "naam": "Arne Slot",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Arne_Slot_2023.jpg/800px-Arne_Slot_2023.jpg"
+    },
+    {
+      "naam": "Jaap Stam",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Jaap_Stam_2017.jpg/800px-Jaap_Stam_2017.jpg"
+    },
+    {
+      "naam": "Giovanni van Bronckhorst",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Giovanni_van_Bronckhorst_2018.jpg/800px-Giovanni_van_Bronckhorst_2018.jpg"
+    },
+    {
+      "naam": "Gertjan Verbeek",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Gertjan_Verbeek_2013.jpg/800px-Gertjan_Verbeek_2013.jpg"
+    },
+    {
+      "naam": "Erwin Koeman",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Erwin_Koeman_2008.jpg/800px-Erwin_Koeman_2008.jpg"
+    },
+    {
+      "naam": "Ruud Gullit",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Ruud_Gullit_1988.jpg/800px-Ruud_Gullit_1988.jpg"
+    },
+    {
+      "naam": "Bert van Marwijk",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Bert_van_Marwijk_2018.jpg/800px-Bert_van_Marwijk_2018.jpg"
+    },
+    {
+      "naam": "Arie Haan",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Arie_Haan_1974.jpg/800px-Arie_Haan_1974.jpg"
+    },
+    {
+      "naam": "Willem van Hanegem",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Willem_van_Hanegem_1974.jpg/800px-Willem_van_Hanegem_1974.jpg"
+    },
+    {
+      "naam": "Václav Ježek",
+      "nationaliteit": "Czech Republic",
+      "nat_code": "cz",
+      "foto_url": ""
+    },
+    {
+      "naam": "Wiel Coerver",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Wiel_Coerver_1974.jpg/800px-Wiel_Coerver_1974.jpg"
+    },
+    {
+      "naam": "Ernst Happel",
+      "nationaliteit": "Austria",
+      "nat_code": "at",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Ernst_Happel_1978.jpg/800px-Ernst_Happel_1978.jpg"
+    },
+    {
+      "naam": "Ben Peeters",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Willy Kment",
+      "nationaliteit": "Austria",
+      "nat_code": "at",
+      "foto_url": ""
+    },
+    {
+      "naam": "Piet de Visser",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Piet_de_Visser_2010.jpg/800px-Piet_de_Visser_2010.jpg"
+    },
+    {
+      "naam": "Jaap van der Leck",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Richard Dombi",
+      "nationaliteit": "Austria",
+      "nat_code": "at",
+      "foto_url": ""
+    },
+    {
+      "naam": "Adriaan Koonings",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Maarten Martens",
+      "nationaliteit": "Belgium",
+      "nat_code": "be",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Maarten_Martens_2012.jpg/800px-Maarten_Martens_2012.jpg"
+    },
+    {
+      "naam": "Pascal Jansen",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Pascal_Jansen_2023.jpg/800px-Pascal_Jansen_2023.jpg"
+    },
+    {
+      "naam": "John van den Brom",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/John_van_den_Brom_2012.jpg/800px-John_van_den_Brom_2012.jpg"
+    },
+    {
+      "naam": "Ronald Koeman",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Ronald_Koeman_2018.jpg/800px-Ronald_Koeman_2018.jpg"
+    },
+    {
+      "naam": "Willem van Hanegem",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Willem_van_Hanegem_1974.jpg/800px-Willem_van_Hanegem_1974.jpg"
+    },
+    {
+      "naam": "Henk van Stee",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Gerard van der Lem",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Hans de Koning",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Hans Eijkenbroek",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Piet Schrijvers",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Piet_Schrijvers_1974.jpg/800px-Piet_Schrijvers_1974.jpg"
+    },
+    {
+      "naam": "Joop Brand",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Henk Wullems",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Hans van Doorneveld",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "George Kessler",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Georg_Ke%C3%9Fler_1975.jpg/800px-Georg_Ke%C3%9Fler_1975.jpg"
+    },
+    {
+      "naam": "Cor van der Hart",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Cor_van_der_Hart_1974.jpg/800px-Cor_van_der_Hart_1974.jpg"
+    },
+    {
+      "naam": "Jan van der Ben",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Gerrit Keizer",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Ludwig Veg",
+      "nationaliteit": "Hungary",
+      "nat_code": "hu",
+      "foto_url": ""
+    },
+    {
+      "naam": "Leslie Talbot",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Kick Smit",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Gerrit van Wijhe",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "Joseph Oosting",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Joseph_Oosting_2023.jpg/800px-Joseph_Oosting_2023.jpg"
+    },
+    {
+      "naam": "Ron Jans",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Ron_Jans_2013.jpg/800px-Ron_Jans_2013.jpg"
+    },
+    {
+      "naam": "Gonzalo García",
+      "nationaliteit": "Uruguay",
+      "nat_code": "uy",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Gonzalo_Garc%C3%ADa_Garc%C3%ADa_2019.jpg/800px-Gonzalo_Garc%C3%ADa_Garc%C3%ADa_2019.jpg"
+    },
+    {
+      "naam": "Marino Pušić",
+      "nationaliteit": "Bosnia and Herzegovina",
+      "nat_code": "ba",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Marino_Pusic_2018.jpg/800px-Marino_Pusic_2018.jpg"
+    },
+    {
+      "naam": "René Hake",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Ren%C3%A9_Hake_2016.jpg/800px-Ren%C3%A9_Hake_2016.jpg"
+    },
+    {
+      "naam": "Michel Preud'homme",
+      "nationaliteit": "Belgium",
+      "nat_code": "be",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Michel_Preud%27homme_2013.jpg/800px-Michel_Preud%27homme_2013.jpg"
+    },
+    {
+      "naam": "Steve McClaren",
+      "nationaliteit": "England",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Steve_McClaren_2011.jpg/800px-Steve_McClaren_2011.jpg"
+    },
+    {
+      "naam": "Rini Coolen",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    },
+    {
+      "naam": "René Vandereycken",
+      "nationaliteit": "Belgium",
+      "nat_code": "be",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Ren%C3%A9_Vandereycken_2008.jpg/800px-Ren%C3%A9_Vandereycken_2008.jpg"
+    },
+    {
+      "naam": "John van 't Schip",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/John_van_%27t_Schip_2011.jpg/800px-John_van_%27t_Schip_2011.jpg"
+    },
+    {
+      "naam": "Hans Meyer",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Hans_Meyer_2010.jpg/800px-Hans_Meyer_2010.jpg"
+    },
+    {
+      "naam": "Spitz Kohn",
+      "nationaliteit": "Germany",
+      "nat_code": "de",
+      "foto_url": ""
+    },
+    {
+      "naam": "Kees Rijvers",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Kees_Rijvers_1974.jpg/800px-Kees_Rijvers_1974.jpg"
+    },
+    {
+      "naam": "Friedrich Donenfeld",
+      "nationaliteit": "Austria",
+      "nat_code": "at",
+      "foto_url": ""
+    },
+    {
+      "naam": "Jaap van der Leck",
+      "nationaliteit": "Netherlands",
+      "nat_code": "nl",
+      "foto_url": ""
+    }
   ],
   "seizoenen": [
-    // In deze array staan de ~345 records voor alle seizoenen (1955-2024) voor de 5 clubs.
-    // Voorbeeld:
-    { "seizoen": "1955/56", "club": "Ajax", "coachNaam": "Karl Humenberger", "landstitel": "N", "nationale_beker": "N", "europese_prijs": "N", "land": "Netherlands", "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/79/Ajax_Amsterdam.svg/1200px-Ajax_Amsterdam.svg.png"}
-    // ...en de rest...
+    {
+      "seizoen": "2024/25",
+      "club": "Ajax",
+      "coachNaam": "Francesco Farioli",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Ajax",
+      "coachNaam": "John van 't Schip",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Ajax",
+      "coachNaam": "Alfred Schreuder",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Ajax",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Ajax",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Ajax",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Ajax",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Ajax",
+      "coachNaam": "Marcel Keizer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Ajax",
+      "coachNaam": "Peter Bosz",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Ajax",
+      "coachNaam": "Frank de Boer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Ajax",
+      "coachNaam": "Frank de Boer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Ajax",
+      "coachNaam": "Frank de Boer",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Ajax",
+      "coachNaam": "Frank de Boer",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Ajax",
+      "coachNaam": "Frank de Boer",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Ajax",
+      "coachNaam": "Martin Jol",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Ajax",
+      "coachNaam": "Martin Jol",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Ajax",
+      "coachNaam": "Marco van Basten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Ajax",
+      "coachNaam": "Henk ten Cate",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Ajax",
+      "coachNaam": "Henk ten Cate",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Ajax",
+      "coachNaam": "Danny Blind",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Ajax",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Ajax",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Ajax",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Ajax",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Ajax",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Ajax",
+      "coachNaam": "Jan Wouters",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Ajax",
+      "coachNaam": "Morten Olsen",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Ajax",
+      "coachNaam": "Morten Olsen",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Ajax",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Ajax",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Ajax",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Ajax",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Ajax",
+      "coachNaam": "Johan Cruyff",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Ajax",
+      "coachNaam": "Johan Cruyff",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Ajax",
+      "coachNaam": "Johan Cruyff",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Ajax",
+      "coachNaam": "Aad de Mos",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Ajax",
+      "coachNaam": "Aad de Mos",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Ajax",
+      "coachNaam": "Aad de Mos",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Ajax",
+      "coachNaam": "Kurt Linder",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Ajax",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Ajax",
+      "coachNaam": "Cor Brom",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Ajax",
+      "coachNaam": "Cor Brom",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Ajax",
+      "coachNaam": "Tomislav Ivić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Ajax",
+      "coachNaam": "Tomislav Ivić",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Ajax",
+      "coachNaam": "Hans Kraay Sr.",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Ajax",
+      "coachNaam": "George Knobel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Ajax",
+      "coachNaam": "Ștefan Kovács",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Ajax",
+      "coachNaam": "Ștefan Kovács",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Ajax",
+      "coachNaam": "Rinus Michels",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Ajax",
+      "coachNaam": "Vic Buckingham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Ajax",
+      "coachNaam": "Jack Rowley",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Ajax",
+      "coachNaam": "Jack Rowley",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Ajax",
+      "coachNaam": "Karl Humenberger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Ajax",
+      "coachNaam": "Vic Buckingham",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Ajax",
+      "coachNaam": "Vic Buckingham",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Ajax",
+      "coachNaam": "Karl Humenberger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Ajax",
+      "coachNaam": "Karl Humenberger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Ajax",
+      "coachNaam": "Karl Humenberger",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Ajax",
+      "coachNaam": "Jack Reynolds",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/7/79/Ajax_Amsterdam.svg"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "PSV",
+      "coachNaam": "Peter Bosz",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "PSV",
+      "coachNaam": "Peter Bosz",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "PSV",
+      "coachNaam": "Ruud van Nistelrooy",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "PSV",
+      "coachNaam": "Roger Schmidt",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "PSV",
+      "coachNaam": "Roger Schmidt",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "PSV",
+      "coachNaam": "Mark van Bommel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "PSV",
+      "coachNaam": "Mark van Bommel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "PSV",
+      "coachNaam": "Phillip Cocu",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "PSV",
+      "coachNaam": "Phillip Cocu",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "PSV",
+      "coachNaam": "Phillip Cocu",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "PSV",
+      "coachNaam": "Phillip Cocu",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "PSV",
+      "coachNaam": "Phillip Cocu",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "PSV",
+      "coachNaam": "Dick Advocaat",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "PSV",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "PSV",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "PSV",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "PSV",
+      "coachNaam": "Huub Stevens",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "PSV",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "PSV",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "PSV",
+      "coachNaam": "Eric Gerets",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "PSV",
+      "coachNaam": "Eric Gerets",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "PSV",
+      "coachNaam": "Eric Gerets",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "PSV",
+      "coachNaam": "Bobby Robson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "PSV",
+      "coachNaam": "Dick Advocaat",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "PSV",
+      "coachNaam": "Dick Advocaat",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "PSV",
+      "coachNaam": "Dick Advocaat",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "PSV",
+      "coachNaam": "Aad de Mos",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "PSV",
+      "coachNaam": "Aad de Mos",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "PSV",
+      "coachNaam": "Hans Westerhof",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "PSV",
+      "coachNaam": "Bobby Robson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "PSV",
+      "coachNaam": "Bobby Robson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "PSV",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "PSV",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "PSV",
+      "coachNaam": "Jan Reker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "PSV",
+      "coachNaam": "Jan Reker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "PSV",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "PSV",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "PSV",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "PSV",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "PSV",
+      "coachNaam": "Kurt Linder",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "PSV",
+      "coachNaam": "Kurt Linder",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "PSV",
+      "coachNaam": "Kurt Linder",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "PSV",
+      "coachNaam": "Bram Appel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "PSV",
+      "coachNaam": "Milan Nikolić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "PSV",
+      "coachNaam": "Bram Appel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "PSV",
+      "coachNaam": "Bram Appel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "PSV",
+      "coachNaam": "Bram Appel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "PSV",
+      "coachNaam": "Bram Appel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "PSV",
+      "coachNaam": "Ljubiša Broćić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/sco/0/05/PSV_Eindhoven.svg"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Feyenoord",
+      "coachNaam": "Brian Priske",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Feyenoord",
+      "coachNaam": "Arne Slot",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Feyenoord",
+      "coachNaam": "Arne Slot",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Feyenoord",
+      "coachNaam": "Arne Slot",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Feyenoord",
+      "coachNaam": "Dick Advocaat",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Feyenoord",
+      "coachNaam": "Jaap Stam",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Feyenoord",
+      "coachNaam": "Giovanni van Bronckhorst",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Feyenoord",
+      "coachNaam": "Giovanni van Bronckhorst",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Feyenoord",
+      "coachNaam": "Giovanni van Bronckhorst",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Feyenoord",
+      "coachNaam": "Giovanni van Bronckhorst",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Feyenoord",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Feyenoord",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Feyenoord",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Feyenoord",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Feyenoord",
+      "coachNaam": "Mario Been",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Feyenoord",
+      "coachNaam": "Mario Been",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Feyenoord",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Feyenoord",
+      "coachNaam": "Bert van Marwijk",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Feyenoord",
+      "coachNaam": "Erwin Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Feyenoord",
+      "coachNaam": "Erwin Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Feyenoord",
+      "coachNaam": "Ruud Gullit",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Feyenoord",
+      "coachNaam": "Bert van Marwijk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Feyenoord",
+      "coachNaam": "Bert van Marwijk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Feyenoord",
+      "coachNaam": "Bert van Marwijk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Feyenoord",
+      "coachNaam": "Bert van Marwijk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Feyenoord",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Feyenoord",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Feyenoord",
+      "coachNaam": "Leo Beenhakker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Feyenoord",
+      "coachNaam": "Arie Haan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Feyenoord",
+      "coachNaam": "Arie Haan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Feyenoord",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Feyenoord",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Feyenoord",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Feyenoord",
+      "coachNaam": "Wim Jansen",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Feyenoord",
+      "coachNaam": "Wim Jansen",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Feyenoord",
+      "coachNaam": "Pim Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Feyenoord",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Feyenoord",
+      "coachNaam": "Rinus Israël",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Feyenoord",
+      "coachNaam": "Rinus Israël",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Feyenoord",
+      "coachNaam": "Ab Fafié",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Feyenoord",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Feyenoord",
+      "coachNaam": "Thijs Libregts",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Feyenoord",
+      "coachNaam": "Hans Kraay Sr.",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Feyenoord",
+      "coachNaam": "Václav Ježek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Feyenoord",
+      "coachNaam": "Václav Ježek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Feyenoord",
+      "coachNaam": "Václav Ježek",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Feyenoord",
+      "coachNaam": "Václav Ježek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Feyenoord",
+      "coachNaam": "Vujadin Boškov",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Feyenoord",
+      "coachNaam": "Vujadin Boškov",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Feyenoord",
+      "coachNaam": "Antoni Brzezanczyk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Feyenoord",
+      "coachNaam": "Wiel Coerver",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Feyenoord",
+      "coachNaam": "Wiel Coerver",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Feyenoord",
+      "coachNaam": "Ernst Happel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Feyenoord",
+      "coachNaam": "Ernst Happel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Feyenoord",
+      "coachNaam": "Ernst Happel",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Feyenoord",
+      "coachNaam": "Ben Peeters",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Feyenoord",
+      "coachNaam": "Ben Peeters",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Feyenoord",
+      "coachNaam": "Ben Peeters",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Feyenoord",
+      "coachNaam": "Willy Kment",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Feyenoord",
+      "coachNaam": "Willy Kment",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Feyenoord",
+      "coachNaam": "Willy Kment",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Feyenoord",
+      "coachNaam": "Piet de Visser",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Feyenoord",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Feyenoord",
+      "coachNaam": "Franz Fuchs",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Feyenoord",
+      "coachNaam": "George Sobotka",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Feyenoord",
+      "coachNaam": "George Sobotka",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Feyenoord",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Feyenoord",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Feyenoord",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Feyenoord",
+      "coachNaam": "Richard Dombi",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Feyenoord_logo.svg"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "AZ",
+      "coachNaam": "Maarten Martens",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "AZ",
+      "coachNaam": "Pascal Jansen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "AZ",
+      "coachNaam": "Pascal Jansen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "AZ",
+      "coachNaam": "Pascal Jansen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "AZ",
+      "coachNaam": "Pascal Jansen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "AZ",
+      "coachNaam": "Arne Slot",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "AZ",
+      "coachNaam": "John van den Brom",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "AZ",
+      "coachNaam": "John van den Brom",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "AZ",
+      "coachNaam": "John van den Brom",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "AZ",
+      "coachNaam": "John van den Brom",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "AZ",
+      "coachNaam": "John van den Brom",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "AZ",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "AZ",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "AZ",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "AZ",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "AZ",
+      "coachNaam": "Ronald Koeman",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "AZ",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "AZ",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "AZ",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "AZ",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "AZ",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "AZ",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "AZ",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "AZ",
+      "coachNaam": "Henk van Stee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "AZ",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "AZ",
+      "coachNaam": "Gerard van der Lem",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "AZ",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "AZ",
+      "coachNaam": "Willem van Hanegem",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "AZ",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "AZ",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "AZ",
+      "coachNaam": "Piet Schrijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "AZ",
+      "coachNaam": "Piet Schrijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "AZ",
+      "coachNaam": "Henk Wullems",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "AZ",
+      "coachNaam": "Henk Wullems",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "AZ",
+      "coachNaam": "Henk Wullems",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "AZ",
+      "coachNaam": "Hans Eijkenbroek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "AZ",
+      "coachNaam": "Hans Eijkenbroek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "AZ",
+      "coachNaam": "Joop Brand",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "AZ",
+      "coachNaam": "Joop Brand",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "AZ",
+      "coachNaam": "Frits Soetekouw",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "AZ",
+      "coachNaam": "Piet de Visser",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "AZ",
+      "coachNaam": "Piet de Visser",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "AZ",
+      "coachNaam": "Hans van Doorneveld",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "AZ",
+      "coachNaam": "George Kessler",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "AZ",
+      "coachNaam": "George Kessler",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "AZ",
+      "coachNaam": "George Kessler",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "AZ",
+      "coachNaam": "George Kessler",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "AZ",
+      "coachNaam": "Cor van der Hart",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "AZ",
+      "coachNaam": "Hans Kraay Sr.",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "AZ",
+      "coachNaam": "Joop Brand",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "AZ",
+      "coachNaam": "Joop Brand",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "AZ",
+      "coachNaam": "Jan van der Ben",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "AZ",
+      "coachNaam": "Cor van der Hart",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "AZ",
+      "coachNaam": "Cor van der Hart",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "AZ",
+      "coachNaam": "Gerrit Keizer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "AZ",
+      "coachNaam": "Ludwig Veg",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "AZ",
+      "coachNaam": "Ludwig Veg",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "AZ",
+      "coachNaam": "Leslie Talbot",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Alkmaar '54",
+      "coachNaam": "Ludwig Veg",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Alkmaar '54",
+      "coachNaam": "Ludwig Veg",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Alkmaar '54",
+      "coachNaam": "Kick Smit",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Alkmaar '54",
+      "coachNaam": "Ludwig Veg",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Alkmaar '54",
+      "coachNaam": "Gerrit van Wijhe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/2/22/AZ_Alkmaar_logo.svg"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "FC Twente",
+      "coachNaam": "Joseph Oosting",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "FC Twente",
+      "coachNaam": "Joseph Oosting",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "FC Twente",
+      "coachNaam": "Ron Jans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "FC Twente",
+      "coachNaam": "Ron Jans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "FC Twente",
+      "coachNaam": "Ron Jans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "FC Twente",
+      "coachNaam": "Gonzalo García",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "FC Twente",
+      "coachNaam": "Marino Pušić",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "FC Twente",
+      "coachNaam": "Gertjan Verbeek",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "FC Twente",
+      "coachNaam": "René Hake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "FC Twente",
+      "coachNaam": "René Hake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "FC Twente",
+      "coachNaam": "Alfred Schreuder",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "FC Twente",
+      "coachNaam": "Michel Jansen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "FC Twente",
+      "coachNaam": "Steve McClaren",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "FC Twente",
+      "coachNaam": "Co Adriaanse",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "FC Twente",
+      "coachNaam": "Michel Preud'homme",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "FC Twente",
+      "coachNaam": "Steve McClaren",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "FC Twente",
+      "coachNaam": "Steve McClaren",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "FC Twente",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "FC Twente",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "FC Twente",
+      "coachNaam": "Rini Coolen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "FC Twente",
+      "coachNaam": "Rini Coolen",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "FC Twente",
+      "coachNaam": "René Vandereycken",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "FC Twente",
+      "coachNaam": "René Vandereycken",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "FC Twente",
+      "coachNaam": "John van 't Schip",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "FC Twente",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "FC Twente",
+      "coachNaam": "Fred Rutten",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "FC Twente",
+      "coachNaam": "Hans Meyer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "FC Twente",
+      "coachNaam": "Hans Meyer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "FC Twente",
+      "coachNaam": "Hans Meyer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "FC Twente",
+      "coachNaam": "Issy ten Donkelaar",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "FC Twente",
+      "coachNaam": "Rob Baan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "FC Twente",
+      "coachNaam": "Rob Baan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "FC Twente",
+      "coachNaam": "Rob Baan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "FC Twente",
+      "coachNaam": "Theo Vonk",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "FC Twente",
+      "coachNaam": "Fritz Korbach",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "FC Twente",
+      "coachNaam": "Fritz Korbach",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "FC Twente",
+      "coachNaam": "Fritz Korbach",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "FC Twente",
+      "coachNaam": "Spitz Kohn",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "FC Twente",
+      "coachNaam": "Rob Groener",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "FC Twente",
+      "coachNaam": "Hennie Hollink",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "FC Twente",
+      "coachNaam": "Hennie Hollink",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "FC Twente",
+      "coachNaam": "Spitz Kohn",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "FC Twente",
+      "coachNaam": "Spitz Kohn",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "FC Twente",
+      "coachNaam": "Spitz Kohn",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "FC Twente",
+      "coachNaam": "Kees Rijvers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "FC Twente",
+      "coachNaam": "Friedrich Donenfeld",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "FC Twente",
+      "coachNaam": "Friedrich Donenfeld",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Sportclub Enschede",
+      "coachNaam": "František Fadrhonc",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Sportclub Enschede",
+      "coachNaam": "František Fadrhonc",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Sportclub Enschede",
+      "coachNaam": "František Fadrhonc",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Sportclub Enschede",
+      "coachNaam": "Jaap van der Leck",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "Netherlands",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/a/a3/FC_Twente_logo.svg"
+    }
   ]
 }
