@@ -1,6 +1,5 @@
-/* CSS Versie: 1.13 - Highlight via CSS-filter */
+/* CSS Versie: 1.15 - Styling voor land-tabbladen */
 
-/* --- Algemene Pagina & Typografie --- */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f4f5f7;
@@ -12,14 +11,13 @@ body {
     min-height: 100vh;
 }
 
-main, .about-section {
+main {
     width: 100%;
     max-width: 1600px;
     padding: 2rem;
     box-sizing: border-box;
 }
 
-/* --- Header & Titel --- */
 .page-header {
     text-align: center;
     margin: 2rem 0;
@@ -42,13 +40,12 @@ main, .about-section {
     line-height: 1.6;
 }
 
-/* --- Info Paneel Styling --- */
 #info-pane-container {
     background-color: #ffffff;
     padding: 1.5rem 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 #info-pane {
@@ -126,29 +123,45 @@ main, .about-section {
     color: #666;
 }
 
+/* Land-tabbladen Styling */
+#country-tabs-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    gap: 0.5rem;
+}
 
-/* --- Heatmap & Legenda Containers --- */
-#heatmap-container {
+.tab {
+    padding: 0.75rem 1.5rem;
+    background-color: #e9ecef;
+    color: #495057;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.tab:hover {
+    background-color: #dee2e6;
+}
+
+.tab.active {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#heatmap-container, #legend-container {
     background-color: #ffffff;
     padding: 2rem;
-    padding-top: 1rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
     overflow-x: auto;
 }
 
-#legend-container {
-    background-color: #ffffff;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-}
-
-/* --- D3 Visualisatie Specifieke Styling --- */
 .axis path, .axis line {
     fill: none;
     stroke: #dfe6e9;
@@ -175,7 +188,6 @@ main, .about-section {
     opacity: 0.15;
 }
 
-/* FIX: Highlight via filter i.p.v. rand */
 .is-highlighted {
     filter: saturate(175%) brightness(105%);
 }
@@ -200,7 +212,6 @@ main, .about-section {
     pointer-events: none;
 }
 
-/* Legenda Styling */
 .legend-label {
     font-size: 12px;
     fill: #333;
@@ -211,7 +222,6 @@ main, .about-section {
     stroke-width: 1px;
 }
 
-/* --- Footer --- */
 .page-footer {
     width: 100%;
     text-align: center;
