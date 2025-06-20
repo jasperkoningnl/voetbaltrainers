@@ -1,4 +1,4 @@
-/* CSS Versie: 1.5 - Witte divider & genuanceerde kleuren */
+/* CSS Versie: 1.6 - Interne seizoen-dividers */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -174,7 +174,7 @@ main, .about-section {
     opacity: 0.3;
 }
 
-/* FIX: Witte divider weer zichtbaar gemaakt */
+/* Dikke witte lijn TUSSEN coachperiodes */
 .coach-divider {
     stroke: #ffffff;
     stroke-width: 2px;
@@ -182,17 +182,24 @@ main, .about-section {
     pointer-events: none;
 }
 
-.coach-divider.is-dimmed {
+/* FIX: Dunne haarlijn BINNEN een coachperiode */
+.season-divider {
+    stroke: rgba(255, 255, 255, 0.7);
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.coach-divider.is-dimmed,
+.prize-group.is-dimmed,
+.season-divider.is-dimmed {
     opacity: 0.2;
 }
 
 .prize-group {
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
-}
-
-.prize-group.is-dimmed {
-    opacity: 0.2;
 }
 
 /* --- Footer --- */
