@@ -1,5 +1,5 @@
-// Script Versie: 7.6 - Bugfix voor de highlight-rand
-console.log("Script versie: 7.6 geladen.");
+// Script Versie: 7.7 - Robuuste highlight-rand via aparte laag
+console.log("Script versie: 7.7 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -104,22 +104,17 @@ function drawHeatmap(data) {
         return "#ccc";
     };
 
-    const mouseover = (event, d) => { highlightTenure(d.tenureId); updateInfoPane(d); };
-    const mouseleave = () => { clearHighlight(); setInfoPaneDefault(); };
-
-    svg.selectAll(".bar").data(data).enter().append("rect")
+    const bars = svg.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("x", d => x(d.seizoen))
         .attr("y", d => y(d.club))
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
-        .attr("shape-rendering", "crispEdges")
-        .on("mouseover", mouseover)
-        .on("mouseleave", mouseleave);
+        .attr("shape-rendering", "crispEdges");
 
     const internalDividersData = data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear);
-    svg.selectAll(".season-divider").data(internalDividersData).enter().append("line")
+    const seasonDividers = svg.selectAll(".season-divider").data(internalDividersData).enter().append("line")
         .attr("class", "season-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
         .attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth())
@@ -131,14 +126,14 @@ function drawHeatmap(data) {
         const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
         return !prevData || prevData.tenureId !== d.tenureId;
     });
-    svg.selectAll(".coach-divider").data(coachChanges).enter().append("line")
+    const coachDividers = svg.selectAll(".coach-divider").data(coachChanges).enter().append("line")
         .attr("class", "coach-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
         .attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth())
         .datum(d => d);
         
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
-    svg.selectAll(".prize-group").data(data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y')).enter().append("g")
+    const prizeGroups = svg.selectAll(".prize-group").data(data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y')).enter().append("g")
         .attr("class", "prize-group")
         .attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`)
         .datum(d => d)
@@ -154,6 +149,57 @@ function drawHeatmap(data) {
                   .attr("stroke-width", 0.5).attr("transform", `translate(-8, ${-totalHeight/2 + i*12 - 8}) scale(0.8)`);
             });
         });
+    
+    // FIX: Aparte laag voor de highlight-rand
+    const highlightLayer = svg.append("g").attr("class", "highlight-layer");
+
+    // FIX: Interactie-logica is nu ingebed en heeft toegang tot de schalen
+    const highlightTenure = (tenureId) => {
+        bars.classed("is-dimmed", true);
+        coachDividers.classed("is-dimmed", true);
+        seasonDividers.classed("is-dimmed", true);
+        prizeGroups.classed("is-dimmed", true);
+    
+        const tenureBars = bars.filter(d => d && d.tenureId === tenureId);
+        tenureBars.classed("is-dimmed", false);
+        
+        coachDividers.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
+        seasonDividers.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
+        prizeGroups.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
+
+        if (!tenureBars.empty()) {
+            const firstBar = tenureBars.data()[0];
+            const lastBar = tenureBars.data()[tenureBars.size() - 1];
+            const xPos = x(firstBar.seizoen);
+            const yPos = y(firstBar.club);
+            const width = (x(lastBar.seizoen) + x.bandwidth()) - xPos;
+            const height = y.bandwidth();
+            
+            highlightLayer.append("rect")
+                .attr("class", "highlight-border")
+                .attr("x", xPos)
+                .attr("y", yPos)
+                .attr("width", width)
+                .attr("height", height);
+        }
+    };
+
+    const clearHighlight = () => {
+        bars.classed("is-dimmed", false);
+        coachDividers.classed("is-dimmed", false);
+        seasonDividers.classed("is-dimmed", false);
+        prizeGroups.classed("is-dimmed", false);
+        highlightLayer.html("");
+    };
+
+    bars.on("mouseover", (event, d) => {
+        highlightTenure(d.tenureId);
+        updateInfoPane(d);
+    }).on("mouseleave", () => {
+        clearHighlight();
+        setInfoPaneDefault();
+    });
+
     setInfoPaneDefault();
 }
 
@@ -183,30 +229,6 @@ function updateInfoPane(d) {
             <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
         </div>`;
     infoPane.attr("class", "details-state").html(content);
-}
-
-// FIX: Aangepaste highlight-logica met .is-highlighted class
-function highlightTenure(tenureId) {
-    // 1. Dim alles
-    d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider").classed("is-dimmed", true);
-    
-    // 2. Un-dim de geselecteerde periode en voeg highlight class toe
-    d3.selectAll(".bar")
-        .filter(d => d && d.tenureId === tenureId)
-        .classed("is-dimmed", false)
-        .classed("is-highlighted", true); // <-- De sleutel
-    
-    // 3. Un-dim de bijbehorende dividers en prijzen (zonder rand)
-    d3.selectAll(".coach-divider, .prize-group, .season-divider")
-        .filter(d => d && d.tenureId === tenureId)
-        .classed("is-dimmed", false);
-}
-
-// FIX: Aangepaste clear-logica die ook de highlight class weghaalt
-function clearHighlight() {
-    d3.selectAll(".bar, .coach-divider, .prize-group, .season-divider")
-        .classed("is-dimmed", false)
-        .classed("is-highlighted", false); // <-- De sleutel
 }
 
 function drawLegend() {
