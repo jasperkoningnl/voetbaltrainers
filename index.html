@@ -1,4 +1,4 @@
-<!-- HTML Versie: 1.3 -->
+<!-- HTML Versie: 1.6 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,24 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Managerial Merry-Go-Round</title>
     
-    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
 
-    <!-- Onze CSS -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- D3.js bibliotheek -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <!-- Firebase SDK's -->
     <script type="module">
-        // Importeer de benodigde functies van de Firebase SDK's
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       
-        // Jouw web app's Firebase configuratie
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
           authDomain: "voetbaltrainers.firebaseapp.com",
@@ -34,7 +28,6 @@
           measurementId: "G-YQV6E3V2CK"
         };
       
-        // Initialiseer Firebase
         const app = initializeApp(firebaseConfig);
         window.db = getFirestore(app);
     </script>
@@ -46,16 +39,19 @@
         <h1>The Managerial Merry-Go-Round</h1>
         <p class="subtitle">
             Was Sir Alex Ferguson's reign at Manchester United truly an outlier? Does managerial stability guarantee success?
-            This visualization explores the relationship between tenure and trophies at Europe's top clubs, starting from the 1955/56 season, the dawn of European club competitions.
+            This visualization explores the relationship between tenure and trophies at Europe's top clubs.
         </p>
     </header>
 
     <main>
         <div id="info-pane-container">
             <div id="info-pane" class="default-state">
-                <p>Hover over a tenure or select a club to see details.</p>
+                <p>Hover over a tenure for details, or click to lock the selection.</p>
             </div>
         </div>
+
+        <!-- Container voor de land-tabbladen -->
+        <div id="country-tabs-container"></div>
 
         <div id="heatmap-container"></div>
         <div id="legend-container"></div>
