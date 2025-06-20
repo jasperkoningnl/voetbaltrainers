@@ -1,5 +1,5 @@
-// Script Versie: 7.7 - Robuuste highlight-rand via aparte laag
-console.log("Script versie: 7.7 geladen.");
+// Script Versie: 7.8 - Highlight via CSS-filter i.p.v. rand
+console.log("Script versie: 7.8 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -111,34 +111,34 @@ function drawHeatmap(data) {
         .attr("width", x.bandwidth() + 1)
         .attr("height", y.bandwidth())
         .style("fill", d => getColor(d))
-        .attr("shape-rendering", "crispEdges");
+        .attr("shape-rendering", "crispEdges")
+        .on("mouseover", (event, d) => { highlightTenure(d.tenureId); updateInfoPane(d); })
+        .on("mouseleave", () => { clearHighlight(); setInfoPaneDefault(); });
 
-    const internalDividersData = data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear);
-    const seasonDividers = svg.selectAll(".season-divider").data(internalDividersData).enter().append("line")
+    const seasonDividers = svg.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line")
         .attr("class", "season-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
         .attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth())
         .datum(d => d);
 
-    const coachChanges = data.filter(d => {
+    const coachDividers = svg.selectAll(".coach-divider").data(data.filter(d => {
         const prevSeason = seizoenen[seizoenen.indexOf(d.seizoen) - 1];
         if (!prevSeason) return false;
         const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
         return !prevData || prevData.tenureId !== d.tenureId;
-    });
-    const coachDividers = svg.selectAll(".coach-divider").data(coachChanges).enter().append("line")
+    })).enter().append("line")
         .attr("class", "coach-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
         .attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth())
         .datum(d => d);
         
-    const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
     const prizeGroups = svg.selectAll(".prize-group").data(data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y')).enter().append("g")
         .attr("class", "prize-group")
         .attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`)
         .datum(d => d)
         .each(function(d) {
             const el = d3.select(this);
+            const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
             const prijzen = [];
             if (d.europese_prijs === 'Y') prijzen.push('#FFD700');
             if (d.landstitel === 'Y') prijzen.push('#C0C0C0');
@@ -149,56 +149,19 @@ function drawHeatmap(data) {
                   .attr("stroke-width", 0.5).attr("transform", `translate(-8, ${-totalHeight/2 + i*12 - 8}) scale(0.8)`);
             });
         });
-    
-    // FIX: Aparte laag voor de highlight-rand
-    const highlightLayer = svg.append("g").attr("class", "highlight-layer");
 
-    // FIX: Interactie-logica is nu ingebed en heeft toegang tot de schalen
+    const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
+    
     const highlightTenure = (tenureId) => {
-        bars.classed("is-dimmed", true);
-        coachDividers.classed("is-dimmed", true);
-        seasonDividers.classed("is-dimmed", true);
-        prizeGroups.classed("is-dimmed", true);
-    
-        const tenureBars = bars.filter(d => d && d.tenureId === tenureId);
-        tenureBars.classed("is-dimmed", false);
-        
-        coachDividers.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
-        seasonDividers.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
-        prizeGroups.filter(d => d && d.tenureId === tenureId).classed("is-dimmed", false);
-
-        if (!tenureBars.empty()) {
-            const firstBar = tenureBars.data()[0];
-            const lastBar = tenureBars.data()[tenureBars.size() - 1];
-            const xPos = x(firstBar.seizoen);
-            const yPos = y(firstBar.club);
-            const width = (x(lastBar.seizoen) + x.bandwidth()) - xPos;
-            const height = y.bandwidth();
-            
-            highlightLayer.append("rect")
-                .attr("class", "highlight-border")
-                .attr("x", xPos)
-                .attr("y", yPos)
-                .attr("width", width)
-                .attr("height", height);
-        }
+        allElements.classed("is-dimmed", true);
+        allElements.filter(d => d && d.tenureId === tenureId)
+            .classed("is-dimmed", false)
+            .classed("is-highlighted", true);
     };
 
     const clearHighlight = () => {
-        bars.classed("is-dimmed", false);
-        coachDividers.classed("is-dimmed", false);
-        seasonDividers.classed("is-dimmed", false);
-        prizeGroups.classed("is-dimmed", false);
-        highlightLayer.html("");
+        allElements.classed("is-dimmed", false).classed("is-highlighted", false);
     };
-
-    bars.on("mouseover", (event, d) => {
-        highlightTenure(d.tenureId);
-        updateInfoPane(d);
-    }).on("mouseleave", () => {
-        clearHighlight();
-        setInfoPaneDefault();
-    });
 
     setInfoPaneDefault();
 }
