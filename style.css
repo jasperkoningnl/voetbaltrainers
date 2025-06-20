@@ -1,4 +1,4 @@
-/* CSS Versie: 1.2 - Info Paneel Structuur & Highlighting Stijlen */
+/* CSS Versie: 1.3 - Info Paneel Detail Styling */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -42,7 +42,7 @@ main, .about-section {
     line-height: 1.6;
 }
 
-/* --- NIEUW: Info Paneel Styling --- */
+/* --- Info Paneel Styling --- */
 #info-pane-container {
     background-color: #ffffff;
     padding: 1.5rem 2rem;
@@ -65,6 +65,69 @@ main, .about-section {
     text-align: center;
 }
 
+/* NIEUW: Stijlen voor de detail-weergave van het paneel */
+#info-pane.details-state {
+    justify-content: space-between;
+}
+
+.info-pane-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    background-color: #f0f0f0;
+    flex-shrink: 0;
+}
+
+.info-pane-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-pane-details .name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.info-pane-details .nationality {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    margin-top: 4px;
+    color: #555;
+}
+
+.info-pane-flag {
+    width: 20px;
+    height: 15px;
+    margin-right: 8px;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+.info-pane-extra {
+    text-align: right;
+}
+
+.info-pane-extra p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.info-pane-extra .club {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.info-pane-extra .tenure {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
 /* --- Heatmap & Legenda Containers --- */
 #heatmap-container {
     background-color: #ffffff;
@@ -85,30 +148,6 @@ main, .about-section {
     overflow-x: auto;
 }
 
-
-/* --- About Pagina Styling --- */
-.about-container {
-    background-color: #ffffff;
-    padding: 2rem 3rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    max-width: 900px;
-    margin: 0 auto;
-    line-height: 1.7;
-}
-
-.about-container h3, .about-container h4 {
-    color: #2c3e50;
-    border-bottom: 2px solid #e9ecef;
-    padding-bottom: 0.5rem;
-    margin-top: 2rem;
-}
-
-.about-container ul { padding-left: 20px; }
-.about-container li { margin-bottom: 0.75rem; }
-.about-divider { border: none; border-top: 1px solid #e9ecef; margin: 2rem 0; }
-
-
 /* --- D3 Visualisatie Specifieke Styling --- */
 .axis path, .axis line {
     fill: none;
@@ -123,14 +162,15 @@ main, .about-section {
 .axis text {
     font-size: 12px;
     fill: #636e72;
+    cursor: default;
 }
 
 .bar {
     stroke: none;
-    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
 }
 
-/* NIEUW: Highlighting stijlen */
 .bar.is-highlighted {
     stroke: #000000;
     stroke-width: 2px;
@@ -141,76 +181,19 @@ main, .about-section {
     opacity: 0.3;
 }
 
-.coach-divider {
-    stroke: #ffffff;
-    stroke-width: 2px;
-    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
-}
-
-.coach-divider.is-dimmed {
-    opacity: 0.1;
-}
-
-.prize-group {
-    transition: opacity 0.2s ease-in-out; /* Voor dim-effect */
-}
-
-.prize-group.is-dimmed {
-    opacity: 0.3;
-}
-
-
-/* --- Tooltip Styling (vervangen we later) --- */
-.tooltip {
-    position: absolute;
-    opacity: 0;        
-    pointer-events: none;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
+.coach-divider, .prize-group {
     transition: opacity 0.2s ease-in-out;
-    white-space: nowrap;
-    z-index: 10;
+    pointer-events: none; /* Zorgt dat events doorvallen naar het blokje eronder */
 }
 
-.tooltip-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 12px;
-    background-color: #f0f0f0;
+.coach-divider.is-dimmed, .prize-group.is-dimmed {
+    opacity: 0.2;
 }
 
-.tooltip-info {
-    display: flex;
-    flex-direction: column;
-}
 
-.tooltip-info .name {
-    font-weight: 700;
-    font-size: 1rem;
-    margin: 0;
-    color: #2c3e50;
-}
-
-.tooltip-info .nationality {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    margin-top: 4px;
-    color: #555;
-}
-
-.tooltip-flag {
-    width: 16px;
-    height: 12px;
-    margin-right: 6px;
-    box-shadow: 0 0 1px rgba(0,0,0,0.2);
+/* --- Tooltip Styling (Niet meer in gebruik) --- */
+.tooltip {
+    display: none !important;
 }
 
 
