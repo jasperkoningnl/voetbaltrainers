@@ -1,5 +1,5 @@
-// Script Versie: 8.1 - Robuuste 'losklik'-functionaliteit
-console.log("Script versie: 8.1 geladen.");
+// Script Versie: 8.2 - Aangepaste instructietekst in infopaneel
+console.log("Script versie: 8.2 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -78,7 +78,6 @@ function drawHeatmap(data) {
     
     let selectedTenureId = null;
 
-    // FIX: Een onzichtbare achtergrond-rechthoek die als eerste wordt getekend
     svg.append("rect")
         .attr("class", "background-event-rect")
         .attr("width", width)
@@ -205,7 +204,8 @@ function drawHeatmap(data) {
 }
 
 function setInfoPaneDefault() {
-    infoPane.attr("class", "default-state").html(`<p>Hover over a tenure or select a club to see details.</p>`);
+    // FIX: Aangepaste instructietekst
+    infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>');
 }
 
 function updateInfoPane(d) {
