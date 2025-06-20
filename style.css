@@ -1,4 +1,4 @@
-/* CSS Versie: 1.11 - Bugfix voor highlight-rand */
+/* CSS Versie: 1.12 - Robuuste highlight-rand via aparte laag */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -167,7 +167,7 @@ main, .about-section {
 
 .bar {
     stroke: none;
-    transition: opacity 0.2s ease-in-out, stroke 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
     cursor: pointer;
 }
 
@@ -175,10 +175,12 @@ main, .about-section {
     opacity: 0.15;
 }
 
-/* FIX: De foute selector is vervangen door .is-highlighted */
-.bar.is-highlighted {
+/* FIX: Styling voor de nieuwe, aparte highlight-rand */
+.highlight-border {
+    fill: none;
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 2px;
+    pointer-events: none; /* Zorgt dat de rand geen muis-events blokkeert */
 }
 
 
