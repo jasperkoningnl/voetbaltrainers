@@ -1,5 +1,5 @@
-// Script Versie: 7.9 - Klik-interactie voor vastzetten selectie
-console.log("Script versie: 7.9 geladen.");
+// Script Versie: 8.0 - Bugfixes voor vastklikken en losklikken
+console.log("Script versie: 8.0 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -76,7 +76,6 @@ function drawHeatmap(data) {
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
     
-    // Variabele om de geselecteerde (vastgezette) staat bij te houden
     let selectedTenureId = null;
 
     const seizoenen = [...new Set(data.map(d => d.seizoen))].sort();
@@ -97,6 +96,18 @@ function drawHeatmap(data) {
     yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", -15).attr("width", 30).attr("height", 30);
     yAxisTicks.append("text").attr("x", -margin.left + 85).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
+    // FIX: Toevoegen van een achtergrond-rechthoek voor de 'losklik'-functionaliteit
+    svg.append("rect")
+        .attr("class", "background-event-rect")
+        .attr("width", width)
+        .attr("height", height)
+        .style("fill", "transparent")
+        .on("click", () => {
+            selectedTenureId = null;
+            clearHighlight();
+            setInfoPaneDefault();
+        });
+
     const getColor = d => {
         const len = d.stintLength;
         if (len === 1) return "#ff0033";
@@ -106,19 +117,6 @@ function drawHeatmap(data) {
         if (len >= 7 && len <= 9) return "#00ff00";
         if (len >= 10) return "#006600";
         return "#ccc";
-    };
-
-    const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
-    
-    const highlightTenure = (tenureId) => {
-        allElements.classed("is-dimmed", true);
-        allElements.filter(d => d && d.tenureId === tenureId)
-            .classed("is-dimmed", false)
-            .classed("is-highlighted", true);
-    };
-
-    const clearHighlight = () => {
-        allElements.classed("is-dimmed", false).classed("is-highlighted", false);
     };
 
     const bars = svg.selectAll(".bar").data(data).enter().append("rect")
@@ -165,16 +163,27 @@ function drawHeatmap(data) {
             });
         });
 
-    // Event handlers
+    const allElements = svg.selectAll(".bar, .coach-divider, .season-divider, .prize-group");
+    
+    const highlightTenure = (tenureId) => {
+        allElements.classed("is-dimmed", true);
+        allElements.filter(d => d && d.tenureId === tenureId)
+            .classed("is-dimmed", false)
+            .classed("is-highlighted", true);
+    };
+
+    const clearHighlight = () => {
+        allElements.classed("is-dimmed", false).classed("is-highlighted", false);
+    };
+
+    // FIX: Herziene event handlers
     const handleClick = (event, d) => {
-        event.stopPropagation(); // Voorkom dat de achtergrond-klik ook afgaat
+        event.stopPropagation();
         if (selectedTenureId === d.tenureId) {
-            // Deselecteer als er op de al geselecteerde periode wordt geklikt
             selectedTenureId = null;
-            highlightTenure(d.tenureId); // Update naar hover-state
-            updateInfoPane(d);
+            clearHighlight();
+            setInfoPaneDefault();
         } else {
-            // Selecteer een nieuwe periode
             selectedTenureId = d.tenureId;
             highlightTenure(d.tenureId);
             updateInfoPane(d);
@@ -182,14 +191,14 @@ function drawHeatmap(data) {
     };
 
     const handleMouseOver = (event, d) => {
-        if (selectedTenureId === null) {
+        if (!selectedTenureId) {
             highlightTenure(d.tenureId);
             updateInfoPane(d);
         }
     };
 
     const handleMouseLeave = () => {
-        if (selectedTenureId === null) {
+        if (!selectedTenureId) {
             clearHighlight();
             setInfoPaneDefault();
         }
@@ -198,13 +207,6 @@ function drawHeatmap(data) {
     bars.on("click", handleClick)
         .on("mouseover", handleMouseOver)
         .on("mouseleave", handleMouseLeave);
-
-    // Klik op de achtergrond om te deselecteren
-    svg.on("click", () => {
-        selectedTenureId = null;
-        clearHighlight();
-        setInfoPaneDefault();
-    });
 
     setInfoPaneDefault();
 }
