@@ -1,4 +1,4 @@
-/* CSS Versie: 1.9 - Hoger contrast voor dim-effect */
+/* CSS Versie: 1.10 - Rand voor geselecteerde periode */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -167,14 +167,20 @@ main, .about-section {
 
 .bar {
     stroke: none;
-    transition: opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out, stroke 0.2s ease-in-out;
     cursor: pointer;
 }
 
-/* FIX: Dim-effect donkerder gemaakt voor meer contrast */
 .bar.is-dimmed {
     opacity: 0.15;
 }
+
+/* FIX: Subtiele rand voor het geselecteerde blokje */
+.bar:not(.is-dimmed) {
+    stroke: #555;
+    stroke-width: 1px;
+}
+
 
 .coach-divider {
     stroke: #ffffff;
@@ -191,7 +197,6 @@ main, .about-section {
     transition: opacity 0.2s ease-in-out;
 }
 
-/* FIX: Dim-effect donkerder gemaakt voor meer contrast */
 .coach-divider.is-dimmed,
 .prize-group.is-dimmed,
 .season-divider.is-dimmed {
