@@ -1,4 +1,4 @@
-/* CSS Versie: 1.6 - Interne seizoen-dividers */
+/* CSS Versie: 1.7 - Opgeruimde legenda styling */
 
 /* --- Algemene Pagina & Typografie --- */
 body {
@@ -145,6 +145,8 @@ main, .about-section {
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     margin-bottom: 2rem;
     overflow-x: auto;
+    display: flex;
+    justify-content: center;
 }
 
 /* --- D3 Visualisatie Specifieke Styling --- */
@@ -174,7 +176,6 @@ main, .about-section {
     opacity: 0.3;
 }
 
-/* Dikke witte lijn TUSSEN coachperiodes */
 .coach-divider {
     stroke: #ffffff;
     stroke-width: 2px;
@@ -182,7 +183,6 @@ main, .about-section {
     pointer-events: none;
 }
 
-/* FIX: Dunne haarlijn BINNEN een coachperiode */
 .season-divider {
     stroke: rgba(255, 255, 255, 0.7);
     stroke-width: 1px;
@@ -200,6 +200,17 @@ main, .about-section {
 .prize-group {
     transition: opacity 0.2s ease-in-out;
     pointer-events: none;
+}
+
+/* NIEUW: Legenda Styling */
+.legend-label {
+    font-size: 12px;
+    fill: #333;
+}
+
+.legend-divider {
+    stroke: #e0e0e0;
+    stroke-width: 1px;
 }
 
 /* --- Footer --- */
