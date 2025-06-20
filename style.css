@@ -1,3 +1,5 @@
+/* CSS Versie: 1.1 - Tooltip Fix & Styling */
+
 /* --- Algemene Pagina & Typografie --- */
 body {
     font-family: 'Inter', sans-serif;
@@ -118,6 +120,60 @@ main, .about-section {
 .prize-icon {
     pointer-events: none;
 }
+
+/* --- Tooltip Styling --- */
+.tooltip {
+    position: absolute; /* Essentieel voor positionering met JavaScript! */
+    opacity: 0;         /* Start onzichtbaar, wordt via JS zichtbaar */
+    pointer-events: none; /* Voorkomt dat de tooltip muis-events onderschept */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    transition: opacity 0.2s ease-in-out;
+    white-space: nowrap; /* Voorkomt dat de naam op een nieuwe regel breekt */
+    z-index: 10; /* Zorgt dat de tooltip altijd bovenop de heatmap ligt */
+}
+
+.tooltip-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Maakt de afbeelding perfect rond */
+    object-fit: cover;  /* Zorgt dat de foto mooi geschaald wordt, niet vervormd */
+    margin-right: 12px;
+    background-color: #f0f0f0; /* Een achtergrondkleur voor als de afbeelding niet laadt */
+}
+
+.tooltip-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.tooltip-info .name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0;
+    color: #2c3e50;
+}
+
+.tooltip-info .nationality {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    color: #555;
+}
+
+.tooltip-flag {
+    width: 16px;
+    height: 12px;
+    margin-right: 6px;
+    box-shadow: 0 0 1px rgba(0,0,0,0.2);
+}
+
 
 /* --- Footer --- */
 .page-footer {
