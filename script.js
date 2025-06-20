@@ -60,7 +60,6 @@ window.COACH_TOOLS = {
 
 // --- HOOFDLOGICA ---
 async function loadDataFromFirestore() {
-    // ... (deze functie blijft ongewijzigd)
     if (!window.db) return [];
     const [coachesSnapshot, seizoenenSnapshot] = await Promise.all([
         getDocs(collection(window.db, "coaches")),
@@ -96,7 +95,6 @@ loadDataFromFirestore().then(data => {
 }).catch(error => console.error("Fout bij het laden van data uit Firestore:", error));
 
 function voegPeriodeDataToe(data) {
-    // ... (deze functie blijft ongewijzigd)
     if (data.length === 0) return [];
     const periodes = [];
     data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
@@ -121,7 +119,6 @@ function voegPeriodeDataToe(data) {
 }
 
 function drawHeatmap(data) {
-    // ... (setup van svg, schalen en assen blijft ongewijzigd)
     const margin = {top: 20, right: 30, bottom: 80, left: 220};
     const width = 1400 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
@@ -161,7 +158,6 @@ function drawHeatmap(data) {
         tooltip.html(''); // DE BUG FIX: Maak de tooltip leeg voordat we hem vullen
         tooltip.transition().duration(200).style("opacity", 1);
         
-        // Bouw de tooltip-inhoud op de D3-manier
         const hasPhoto = d.Coach_Foto_URL && d.Coach_Foto_URL.trim() !== '';
 
         if (hasPhoto) {
@@ -208,7 +204,6 @@ function drawHeatmap(data) {
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave);
     
-    // ... (de rest van de tekenfuncties blijft ongewijzigd) ...
     const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
     const coachChanges = data.filter(d => d.seizoen_nummer_coach === 1 && d.seizoen !== seizoenen[0]);
     svg.selectAll(".coach-divider").data(coachChanges).enter().append("line").attr("class", "coach-divider").attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club)).attr("x2", d => x(d.seizoen)).attr("y2", d => y(d.club) + y.bandwidth());
@@ -226,7 +221,6 @@ function drawHeatmap(data) {
 }
 
 function drawLegend() {
-    // ... (deze functie blijft ongewijzigd)
     d3.select("#legend-container").html("");
     const legendData = [
         { color: "#ff3333", label: "1 Season" },
