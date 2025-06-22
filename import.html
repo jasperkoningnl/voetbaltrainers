@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 2.1 -->
+<!-- HTML Versie: 2.2 -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Importer & Cleaner Wizard</title>
+    <title>Data Importer Wizard</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: grid; place-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 1rem; }
         .wizard { background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
@@ -18,7 +18,6 @@
         textarea { width: 100%; min-height: 120px; font-family: monospace; font-size: 0.9rem; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; margin-top: 0.5rem; }
         button { font-size: 1rem; padding: 0.75rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
         button:disabled { background-color: #6c757d; cursor: not-allowed; }
-        .cleanup-btn { background-color: #dc3545; }
         .status-check { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
         .status-light { width: 12px; height: 12px; border-radius: 50%; background-color: #6c757d; transition: background-color 0.3s; }
         .status-light.is-ok { background-color: #28a745; }
@@ -52,20 +51,10 @@ service cloud.firestore {
             </div>
         </div>
 
-        <!-- Stap 1.5: Data Opschonen (Nieuw) -->
-        <div class="step is-disabled" id="step-cleanup">
-            <h2>Stap 2: Verwijder Verouderde Clubdata</h2>
-            <p>Gebruik deze knop om de seizoendata van de oude clubs ('Sportclub Enschede' en 'AZ \'54') eenmalig uit de database te verwijderen.</p>
-            <div class="status-check">
-                <button id="cleanup-btn" class="cleanup-btn">Start Opschonen</button>
-                <span id="cleanup-status-text" class="status-text">Wacht op actie...</span>
-            </div>
-        </div>
-
-        <!-- Stap 2 -> 3: Data Importeren -->
+        <!-- Stap 2: Data Importeren -->
         <div class="step is-disabled" id="step-import">
-            <h2>Stap 3: Selecteer en Importeer Data</h2>
-            <p>Kies het databestand uit je GitHub repository dat je wilt importeren. Dit is optioneel na het opschonen.</p>
+            <h2>Stap 2: Selecteer en Importeer Data</h2>
+            <p>Kies het databestand uit je GitHub repository dat je wilt importeren.</p>
             <div id="data-selector-container">Laden van bestanden...</div>
             <div class="status-check">
                 <button id="import-btn" disabled>Start Import</button>
@@ -73,9 +62,9 @@ service cloud.firestore {
             </div>
         </div>
 
-        <!-- Stap 3 -> 4: Security Rules Sluiten -->
+        <!-- Stap 3: Security Rules Sluiten -->
         <div class="step is-disabled" id="step-close">
-            <h2>Stap 4: Zet de Database Dicht</h2>
+            <h2>Stap 3: Zet de Database Dicht</h2>
             <p><strong>BELANGRIJK:</strong> Kopieer nu de onderstaande regels en plak ze terug in je Firebase Security Rules om je database te beveiligen.</p>
             <textarea readonly>rules_version = '2';
 service cloud.firestore {
@@ -96,7 +85,7 @@ service cloud.firestore {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, writeBatch, doc, setDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, writeBatch, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -113,81 +102,65 @@ service cloud.firestore {
 
         // UI Elementen
         const steps = {
-            cleanup: document.getElementById('step-cleanup'),
             import: document.getElementById('step-import'),
             close: document.getElementById('step-close')
         };
         const buttons = {
             checkOpen: document.getElementById('check-open-btn'),
-            cleanup: document.getElementById('cleanup-btn'),
             import: document.getElementById('import-btn'),
             checkClosed: document.getElementById('check-closed-btn')
         };
         const statuses = {
             openText: document.getElementById('open-status-text'),
             openLight: document.getElementById('open-status-light'),
-            cleanupText: document.getElementById('cleanup-status-text'),
             importText: document.getElementById('import-status-text'),
             closedText: document.getElementById('closed-status-text'),
             closedLight: document.getElementById('closed-status-light')
         };
         const dataSelectorContainer = document.getElementById('data-selector-container');
 
+        // Helper function to sleep
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        // Robuuste functie om permissies te controleren met retries
+        async function checkPermissions(isWriteCheck) {
+            const testDocRef = doc(db, 'permissions-test', `test-${Date.now()}`);
+            for (let i = 0; i < 5; i++) { // Probeer 5 keer
+                try {
+                    await setDoc(testDocRef, { timestamp: new Date() });
+                    await deleteDoc(testDocRef); // Ruim op na succesvolle schrijf-actie
+                    if (isWriteCheck) return true; // Schrijven lukte, dus permissies zijn open
+                } catch (error) {
+                    if (!isWriteCheck && error.code === 'permission-denied') {
+                        return true; // Schrijven mislukte, dus permissies zijn gesloten (correct voor de close-check)
+                    }
+                    // Als het nog niet gelukt is, wacht even en probeer opnieuw
+                    if (i < 4) await sleep(1500); // Wacht 1.5 seconde
+                }
+            }
+            // Als het na 5 pogingen nog niet lukt, geef de 'omgekeerde' waarde terug
+            return !isWriteCheck;
+        }
+
         buttons.checkOpen.addEventListener('click', async () => {
             statuses.openText.textContent = 'Bezig met testen...';
-            const testDocRef = doc(db, 'permissions-test', 'test-doc');
-            try {
-                await setDoc(testDocRef, { timestamp: new Date() });
-                await deleteDoc(testDocRef);
+            buttons.checkOpen.disabled = true;
+            
+            const hasWriteAccess = await checkPermissions(true);
+
+            if (hasWriteAccess) {
                 statuses.openLight.className = 'status-light is-ok';
                 statuses.openText.className = 'status-text is-ok';
                 statuses.openText.textContent = 'Permissies correct ingesteld!';
-                steps.cleanup.classList.remove('is-disabled');
                 steps.import.classList.remove('is-disabled');
                 steps.close.classList.remove('is-disabled');
                 loadDataFiles();
-            } catch (e) {
+            } else {
                 statuses.openLight.className = 'status-light is-bad';
                 statuses.openText.className = 'status-text is-bad';
-                statuses.openText.textContent = 'Fout: Geen schrijfrechten. Controleer de regels.';
+                statuses.openText.textContent = 'Fout: Geen schrijfrechten. Controleer de regels en probeer opnieuw.';
             }
-        });
-
-        buttons.cleanup.addEventListener('click', async () => {
-            if (!confirm("Weet je zeker dat je alle seizoendata voor 'Sportclub Enschede' en 'AZ \\'54' permanent wilt verwijderen?")) {
-                statuses.cleanupText.textContent = 'Opschonen geannuleerd.';
-                return;
-            }
-
-            const clubsToDelete = ["Alkmaar '54"];
-            statuses.cleanupText.textContent = `Zoeken naar data voor: ${clubsToDelete.join(', ')}...`;
-
-            try {
-                const seizoenenCol = collection(db, "seizoenen");
-                const q = query(seizoenenCol, where("club", "in", clubsToDelete));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    statuses.cleanupText.className = 'status-text';
-                    statuses.cleanupText.textContent = 'Geen data gevonden om op te schonen.';
-                    return;
-                }
-
-                statuses.cleanupText.textContent = `${querySnapshot.size} document(en) gevonden. Bezig met verwijderen...`;
-                const batch = writeBatch(db);
-                querySnapshot.forEach(doc => {
-                    batch.delete(doc.ref);
-                });
-
-                await batch.commit();
-
-                statuses.cleanupText.className = 'status-text is-ok';
-                statuses.cleanupText.textContent = `${querySnapshot.size} document(en) succesvol verwijderd.`;
-                
-            } catch (error) {
-                statuses.cleanupText.className = 'status-text is-bad';
-                statuses.cleanupText.textContent = `Fout bij opschonen: ${error.message}`;
-            }
+            buttons.checkOpen.disabled = false;
         });
         
         async function loadDataFiles() {
@@ -275,19 +248,21 @@ service cloud.firestore {
         });
         
         buttons.checkClosed.addEventListener('click', async () => {
-             statuses.closedText.textContent = 'Bezig met testen...';
-            const testDocRef = doc(db, 'permissions-test', 'test-doc-final');
-            try {
-                await setDoc(testDocRef, { timestamp: new Date() });
-                statuses.closedLight.className = 'status-light is-bad';
-                statuses.closedText.className = 'status-text is-bad';
-                statuses.closedText.textContent = 'Fout: Database staat nog open! Controleer de regels.';
-                await deleteDoc(testDocRef);
-            } catch (e) {
+            statuses.closedText.textContent = 'Bezig met testen...';
+            buttons.checkClosed.disabled = true;
+
+            const isSecure = await checkPermissions(false);
+
+            if (isSecure) {
                 statuses.closedLight.className = 'status-light is-ok';
                 statuses.closedText.className = 'status-text is-ok';
                 statuses.closedText.textContent = 'Database succesvol beveiligd!';
+            } else {
+                statuses.closedLight.className = 'status-light is-bad';
+                statuses.closedText.className = 'status-text is-bad';
+                statuses.closedText.textContent = 'Fout: Database staat nog open! Controleer de regels.';
             }
+            buttons.checkClosed.disabled = false;
         });
 
     </script>
