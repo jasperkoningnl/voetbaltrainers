@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<!-- HTML Versie: 2.1 -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Importer Wizard</title>
+    <title>Data Importer & Cleaner Wizard</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: grid; place-content: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 1rem; }
         .wizard { background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
@@ -17,6 +18,7 @@
         textarea { width: 100%; min-height: 120px; font-family: monospace; font-size: 0.9rem; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; margin-top: 0.5rem; }
         button { font-size: 1rem; padding: 0.75rem 1.5rem; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
         button:disabled { background-color: #6c757d; cursor: not-allowed; }
+        .cleanup-btn { background-color: #dc3545; }
         .status-check { display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; }
         .status-light { width: 12px; height: 12px; border-radius: 50%; background-color: #6c757d; transition: background-color 0.3s; }
         .status-light.is-ok { background-color: #28a745; }
@@ -50,10 +52,20 @@ service cloud.firestore {
             </div>
         </div>
 
-        <!-- Stap 2: Data Importeren -->
-        <div class="step is-disabled" id="step-2">
-            <h2>Stap 2: Selecteer en Importeer Data</h2>
-            <p>Kies het databestand uit je GitHub repository dat je wilt importeren. Het script voegt de data toe aan Firestore.</p>
+        <!-- Stap 1.5: Data Opschonen (Nieuw) -->
+        <div class="step is-disabled" id="step-cleanup">
+            <h2>Stap 2: Verwijder Verouderde Clubdata</h2>
+            <p>Gebruik deze knop om de seizoendata van de oude clubs ('Sportclub Enschede' en 'AZ \'54') eenmalig uit de database te verwijderen.</p>
+            <div class="status-check">
+                <button id="cleanup-btn" class="cleanup-btn">Start Opschonen</button>
+                <span id="cleanup-status-text" class="status-text">Wacht op actie...</span>
+            </div>
+        </div>
+
+        <!-- Stap 2 -> 3: Data Importeren -->
+        <div class="step is-disabled" id="step-import">
+            <h2>Stap 3: Selecteer en Importeer Data</h2>
+            <p>Kies het databestand uit je GitHub repository dat je wilt importeren. Dit is optioneel na het opschonen.</p>
             <div id="data-selector-container">Laden van bestanden...</div>
             <div class="status-check">
                 <button id="import-btn" disabled>Start Import</button>
@@ -61,9 +73,9 @@ service cloud.firestore {
             </div>
         </div>
 
-        <!-- Stap 3: Security Rules Sluiten -->
-        <div class="step is-disabled" id="step-3">
-            <h2>Stap 3: Zet de Database Dicht</h2>
+        <!-- Stap 3 -> 4: Security Rules Sluiten -->
+        <div class="step is-disabled" id="step-close">
+            <h2>Stap 4: Zet de Database Dicht</h2>
             <p><strong>BELANGRIJK:</strong> Kopieer nu de onderstaande regels en plak ze terug in je Firebase Security Rules om je database te beveiligen.</p>
             <textarea readonly>rules_version = '2';
 service cloud.firestore {
@@ -84,7 +96,7 @@ service cloud.firestore {
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, writeBatch, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, writeBatch, doc, setDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -101,25 +113,26 @@ service cloud.firestore {
 
         // UI Elementen
         const steps = {
-            1: document.getElementById('step-1'),
-            2: document.getElementById('step-2'),
-            3: document.getElementById('step-3')
+            cleanup: document.getElementById('step-cleanup'),
+            import: document.getElementById('step-import'),
+            close: document.getElementById('step-close')
         };
         const buttons = {
             checkOpen: document.getElementById('check-open-btn'),
+            cleanup: document.getElementById('cleanup-btn'),
             import: document.getElementById('import-btn'),
             checkClosed: document.getElementById('check-closed-btn')
         };
         const statuses = {
-            openLight: document.getElementById('open-status-light'),
             openText: document.getElementById('open-status-text'),
+            openLight: document.getElementById('open-status-light'),
+            cleanupText: document.getElementById('cleanup-status-text'),
             importText: document.getElementById('import-status-text'),
-            closedLight: document.getElementById('closed-status-light'),
-            closedText: document.getElementById('closed-status-text')
+            closedText: document.getElementById('closed-status-text'),
+            closedLight: document.getElementById('closed-status-light')
         };
         const dataSelectorContainer = document.getElementById('data-selector-container');
 
-        // Stap 1: Permissies controleren
         buttons.checkOpen.addEventListener('click', async () => {
             statuses.openText.textContent = 'Bezig met testen...';
             const testDocRef = doc(db, 'permissions-test', 'test-doc');
@@ -129,7 +142,9 @@ service cloud.firestore {
                 statuses.openLight.className = 'status-light is-ok';
                 statuses.openText.className = 'status-text is-ok';
                 statuses.openText.textContent = 'Permissies correct ingesteld!';
-                steps[2].classList.remove('is-disabled');
+                steps.cleanup.classList.remove('is-disabled');
+                steps.import.classList.remove('is-disabled');
+                steps.close.classList.remove('is-disabled');
                 loadDataFiles();
             } catch (e) {
                 statuses.openLight.className = 'status-light is-bad';
@@ -138,7 +153,43 @@ service cloud.firestore {
             }
         });
 
-        // Stap 2: Data bestanden laden en importeren
+        buttons.cleanup.addEventListener('click', async () => {
+            if (!confirm("Weet je zeker dat je alle seizoendata voor 'Sportclub Enschede' en 'AZ \\'54' permanent wilt verwijderen?")) {
+                statuses.cleanupText.textContent = 'Opschonen geannuleerd.';
+                return;
+            }
+
+            const clubsToDelete = ["Sportclub Enschede", "AZ '54"];
+            statuses.cleanupText.textContent = `Zoeken naar data voor: ${clubsToDelete.join(', ')}...`;
+
+            try {
+                const seizoenenCol = collection(db, "seizoenen");
+                const q = query(seizoenenCol, where("club", "in", clubsToDelete));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    statuses.cleanupText.className = 'status-text';
+                    statuses.cleanupText.textContent = 'Geen data gevonden om op te schonen.';
+                    return;
+                }
+
+                statuses.cleanupText.textContent = `${querySnapshot.size} document(en) gevonden. Bezig met verwijderen...`;
+                const batch = writeBatch(db);
+                querySnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                await batch.commit();
+
+                statuses.cleanupText.className = 'status-text is-ok';
+                statuses.cleanupText.textContent = `${querySnapshot.size} document(en) succesvol verwijderd.`;
+                
+            } catch (error) {
+                statuses.cleanupText.className = 'status-text is-bad';
+                statuses.cleanupText.textContent = `Fout bij opschonen: ${error.message}`;
+            }
+        });
+        
         async function loadDataFiles() {
             try {
                 const response = await fetch('https://api.github.com/repos/jasperkoningnl/voetbaltrainers/contents/data');
@@ -157,7 +208,7 @@ service cloud.firestore {
                         statuses.importText.textContent = 'Klaar om te importeren.';
                     });
                 } else {
-                    dataSelectorContainer.innerHTML = '<p class="error">Geen .json bestanden gevonden in de /data map van de GitHub repo.</p>';
+                    dataSelectorContainer.innerHTML = '<p class="error">Geen .json bestanden gevonden in de /data map.</p>';
                 }
             } catch (e) {
                 dataSelectorContainer.innerHTML = '<p class="error">Kon bestanden niet laden van GitHub.</p>';
@@ -170,12 +221,12 @@ service cloud.firestore {
             if (!fileUrl) return;
 
             buttons.import.disabled = true;
-            statuses.importText.textContent = `Bezig met downloaden van ${selector.options[selector.selectedIndex].text}...`;
+            statuses.importText.textContent = `Downloaden van ${selector.options[selector.selectedIndex].text}...`;
 
             try {
                 const response = await fetch(fileUrl);
                 const dataToImport = await response.json();
-                statuses.importText.textContent = 'Data gedownload. Starten met import...';
+                statuses.importText.textContent = 'Download compleet. Starten met import...';
                 
                 const coachesCol = collection(db, "coaches");
                 const seizoenenCol = collection(db, "seizoenen");
@@ -183,34 +234,38 @@ service cloud.firestore {
                 const existingCoaches = new Map();
                 existingCoachesSnapshot.forEach(doc => {
                     const data = doc.data();
-                    existingCoaches.set(data.naam.toLowerCase(), doc.id);
+                    if(data.naam) existingCoaches.set(data.naam.toLowerCase(), doc.id);
                 });
 
                 const newCoaches = dataToImport.coaches.filter(c => c.naam && !existingCoaches.has(c.naam.toLowerCase()));
                 if(newCoaches.length > 0) {
+                    const batchCoaches = writeBatch(db);
                     for (const coach of newCoaches) {
-                        const docRef = await addDoc(coachesCol, coach);
-                        existingCoaches.set(coach.naam.toLowerCase(), docRef.id);
+                        const newCoachRef = doc(coachesCol);
+                        batchCoaches.set(newCoachRef, coach);
+                        existingCoaches.set(coach.naam.toLowerCase(), newCoachRef.id); 
                     }
+                    await batchCoaches.commit();
                 }
 
-                const batch = writeBatch(db);
+                const batchSeizoenen = writeBatch(db);
                 let seizoenCount = 0;
                 for (const seizoen of dataToImport.seizoenen) {
                     if (!seizoen.coachNaam) continue;
                     const coachId = existingCoaches.get(seizoen.coachNaam.toLowerCase());
                     if (coachId) {
-                        const seizoenData = { ...seizoen, coachId };
+                        const seizoenData = { ...seizoen, coachId: coachId };
                         delete seizoenData.coachNaam; 
-                        batch.set(doc(seizoenenCol), seizoenData);
+                        
+                        const newSeizoenRef = doc(seizoenenCol);
+                        batchSeizoenen.set(newSeizoenRef, seizoenData);
                         seizoenCount++;
                     }
                 }
-                await batch.commit();
+                await batchSeizoenen.commit();
 
                 statuses.importText.className = 'status-text is-ok';
-                statuses.importText.textContent = `Import voltooid! ${newCoaches.length} coaches en ${seizoenCount} seizoenen verwerkt.`;
-                steps[3].classList.remove('is-disabled');
+                statuses.importText.textContent = `Import voltooid! ${newCoaches.length} nieuwe coaches en ${seizoenCount} seizoenen verwerkt.`;
 
             } catch (error) {
                 statuses.importText.className = 'status-text is-bad';
@@ -218,20 +273,17 @@ service cloud.firestore {
                 buttons.import.disabled = false;
             }
         });
-
-        // Stap 3: Beveiliging controleren
+        
         buttons.checkClosed.addEventListener('click', async () => {
              statuses.closedText.textContent = 'Bezig met testen...';
             const testDocRef = doc(db, 'permissions-test', 'test-doc-final');
             try {
                 await setDoc(testDocRef, { timestamp: new Date() });
-                // Als dit lukt, is het fout!
                 statuses.closedLight.className = 'status-light is-bad';
                 statuses.closedText.className = 'status-text is-bad';
                 statuses.closedText.textContent = 'Fout: Database staat nog open! Controleer de regels.';
-                await deleteDoc(testDocRef); // Ruim op
+                await deleteDoc(testDocRef);
             } catch (e) {
-                // Als dit mislukt, is het goed!
                 statuses.closedLight.className = 'status-light is-ok';
                 statuses.closedText.className = 'status-text is-ok';
                 statuses.closedText.textContent = 'Database succesvol beveiligd!';
