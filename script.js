@@ -1,5 +1,5 @@
-// Script Versie: 12.1 - Fixed Y-axis rendering logic to show all clubs.
-console.log("Script versie: 12.1 geladen.");
+// Script Versie: 12.3 - Fixed Y-axis custom rendering (logos and boxes).
+console.log("Script versie: 12.3 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -109,41 +109,44 @@ function drawVisualization(data) {
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    // --- Draw Y-Axis (Club labels and logos) ---
+    // --- Draw Y-Axis (Club labels and logos) - CORRECTED LOGIC ---
     const yAxis = yAxisG.call(d3.axisLeft(y).tickSize(0));
     yAxis.select(".domain").remove();
+    yAxis.selectAll(".tick text").remove();
 
     const logoData = clubs.map(club => ({
-        Club: club,
-        Logo_URL: (data.find(d => d.club === club) || {}).logo_url || ''
+        club: club,
+        logo_url: (data.find(d => d.club === club) || {}).logo_url || ''
     }));
     
-    const yAxisTicks = yAxis.selectAll(".tick")
-        .data(logoData, d => d.Club);
+    yAxis.selectAll(".tick")
+        .data(logoData, d => d.club)
+        .each(function(d) {
+            const tick = d3.select(this);
+            tick.selectAll("rect, image, text").remove(); // Clean up previous elements
 
-    yAxisTicks.select("text").remove(); // Remove default axis text from D3
+            // Append new elements to the tick group
+            tick.append("rect")
+                .attr("x", -margin.left + 30)
+                .attr("y", -y.bandwidth() / 2)
+                .attr("width", 180)
+                .attr("height", y.bandwidth())
+                .attr("fill", "#f8f9fa")
+                .attr("rx", 4);
 
-    yAxisTicks.append("rect")
-        .attr("x", -margin.left + 30)
-        .attr("y", -y.bandwidth() / 2)
-        .attr("width", 180)
-        .attr("height", y.bandwidth())
-        .attr("fill", "#f8f9fa")
-        .attr("rx", 4);
+            tick.append("image")
+                .attr("xlink:href", d.logo_url)
+                .attr("x", -margin.left + 40)
+                .attr("y", -15)
+                .attr("width", 30)
+                .attr("height", 30);
 
-    yAxisTicks.append("image")
-        .attr("xlink:href", d => d.Logo_URL)
-        .attr("x", -margin.left + 40)
-        .attr("y", -15)
-        .attr("width", 30)
-        .attr("height", 30);
-
-    yAxisTicks.append("text")
-        .attr("x", -margin.left + 85)
-        .attr("y", 0)
-        .attr("dy", ".32em")
-        .style("text-anchor", "start")
-        .text(d => d.Club);
+            tick.append("text")
+                .attr("x", -margin.left + 85)
+                .attr("dy", ".32em")
+                .style("text-anchor", "start")
+                .text(d.club);
+        });
     
     // --- Draw Bars, Dividers and Prizes ---
     const barGroup = g.append("g").attr("class", "bars-group");
@@ -215,7 +218,7 @@ function drawVisualization(data) {
 // --- Event Handlers ---
 function handleMouseClick(event, d) {
     event.stopPropagation();
-    const g = d3.select(this.closest("g.main-group"));
+    const g = d3.select(this.closest("svg > g"));
     if (selectedTenureId === d.tenureId) {
         selectedTenureId = null;
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed is-highlighted", false);
@@ -229,14 +232,14 @@ function handleMouseClick(event, d) {
 }
 function handleMouseOver(event, d) {
     if (!selectedTenureId) {
-        const g = d3.select(this.closest("g.main-group"));
+        const g = d3.select(this.closest("svg > g"));
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", item => item.tenureId !== d.tenureId);
         updateInfoPane(d);
     }
 }
 function handleMouseLeave() {
     if (!selectedTenureId) {
-        const g = d3.select(this.closest("g.main-group"));
+        const g = d3.select(this.closest("svg > g"));
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", false);
         setInfoPaneDefault();
     }
