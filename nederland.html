@@ -1,0 +1,70 @@
+<!-- HTML Versie: 1.0 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Managerial Merry-Go-Round - Netherlands</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
+          authDomain: "voetbaltrainers.firebaseapp.com",
+          projectId: "voetbaltrainers",
+          storageBucket: "voetbaltrainers.appspot.com",
+          messagingSenderId: "640532231483",
+          appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
+          measurementId: "G-YQV6E3V2CK"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+    </script>
+
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>The Managerial Merry-Go-Round</h1>
+        <p class="subtitle">
+            Was Sir Alex Ferguson's reign at Manchester United truly an outlier? This visualization explores the relationship between tenure and trophies at Europe's top clubs.
+        </p>
+    </header>
+
+    <main>
+        <div id="info-pane-container">
+            <div id="info-pane" class="default-state">
+                <p>Hover over a tenure for details, or click to lock the selection.</p>
+            </div>
+        </div>
+
+        <!-- Navigatiemenu in plaats van tabbladen -->
+        <div id="country-nav-container">
+            <a href="index.html" class="nav-link">England</a>
+            <a href="nederland.html" class="nav-link active">Netherlands</a>
+        </div>
+
+        <div id="heatmap-container"></div>
+        <div id="legend-container"></div>
+    </main>
+
+    <footer class="page-footer">
+        <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank">Gemini</a>. | <a href="about.html">About this project</a></p>
+        <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
+    </footer>
+
+    <script type="module" src="script.js" data-country="Netherlands"></script>
+
+</body>
+</html>
