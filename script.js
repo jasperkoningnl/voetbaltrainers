@@ -1,5 +1,5 @@
-// Script Versie: 11.0 - Simplified for single-page rendering.
-console.log("Script versie: 11.0 geladen.");
+// Script Versie: 11.1 - Fixed data loading by using a reliable script selector.
+console.log("Script versie: 11.1 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -83,7 +83,7 @@ function prepareData(data) {
 
 function drawVisualization(data) {
     const margin = {top: 20, right: 30, bottom: 80, left: 220};
-    const width = parseInt(d3.select("#heatmap-container").style("width")) - margin.left - margin.right;
+    const width = parseInt(heatmapContainer.style("width")) - margin.left - margin.right;
     
     const clubs = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     const seasons = [...new Set(data.map(d => d.seizoen))].sort(d3.ascending);
@@ -128,14 +128,11 @@ function drawVisualization(data) {
     yAxis.select(".domain").remove();
     yAxis.selectAll("text").remove();
     
-    const yAxisTicks = yAxis.selectAll(".tick").data(logoData, d => d.Club);
-    yAxisTicks.select("g").remove(); // clean up
-    const yTickG = yAxisTicks.append("g")
-        .attr("transform", d => `translate(0, ${y(d.Club) + y.bandwidth() / 2 - 25})`); // Center group on tick
-
-    yTickG.append("rect").attr("x", -margin.left + 30).attr("y", 0).attr("width", 180).attr("height", 50).attr("fill", "#f8f9fa").attr("rx", 4);
-    yTickG.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", 10).attr("width", 30).attr("height", 30);
-    yTickG.append("text").attr("x", -margin.left + 85).attr("y", 25).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
+    const yAxisTicks = yAxis.selectAll(".tick").data(logoData, d => d.Club).join("g");
+    
+    yAxisTicks.append("rect").attr("x", -margin.left + 30).attr("y", d => y(d.Club)).attr("width", 180).attr("height", y.bandwidth()).attr("fill", "#f8f9fa").attr("rx", 4);
+    yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", d => y(d.Club) + y.bandwidth()/2 - 15).attr("width", 30).attr("height", 30);
+    yAxisTicks.append("text").attr("x", -margin.left + 85).attr("y", d => y(d.Club) + y.bandwidth()/2).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
 
     // --- Draw Bars & Dividers ---
     g.selectAll(".bar")
@@ -148,7 +145,6 @@ function drawVisualization(data) {
         .on("mouseover", handleMouseOver)
         .on("mouseleave", handleMouseLeave);
     
-    // ... all other drawing logic remains here
     g.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line")
         .attr("class", "season-divider")
         .attr("x1", d => x(d.seizoen)).attr("y1", d => y(d.club))
@@ -219,10 +215,9 @@ function handleMouseLeave() {
 
 // --- Info Pane & Legend ---
 function setInfoPaneDefault() {
-    infoPane.attr("class", "default-state").html('<p>Hover over a tenure or select a club to see details.</p>');
+    infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>');
 }
 function updateInfoPane(d) {
-    // This function remains the same
     const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
     const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
     const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
@@ -246,7 +241,6 @@ function updateInfoPane(d) {
     infoPane.attr("class", "details-state").html(content);
 }
 function drawLegend() {
-    // This function remains the same
     legendContainer.html("");
     const legendData = [
         { color: "#ff0033", label: "1 Season" }, { color: "#ccffcc", label: "2 Seasons" },
@@ -298,7 +292,7 @@ function drawLegend() {
 // --- Main Application Flow ---
 
 async function main() {
-    const countryToLoad = document.currentScript.dataset.country;
+    const countryToLoad = document.getElementById('main-script').dataset.country;
     if (!countryToLoad) {
         heatmapContainer.html("<p class='error'>Country not specified in script tag.</p>");
         return;
@@ -306,7 +300,7 @@ async function main() {
 
     const data = await loadDataFromFirestore(countryToLoad);
     if (!data || data.length === 0) {
-        heatmapContainer.html(`<p class="error">No data found for ${countryToLoad}.</p>`);
+        heatmapContainer.html(`<p class="error">No data found for ${countryToLoad}. Please check the database and data spelling.</p>`);
         return;
     }
     
