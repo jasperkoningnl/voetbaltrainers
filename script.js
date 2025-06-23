@@ -1,5 +1,5 @@
-// Script Versie: 12.0 - Major performance refactor and layout fix.
-console.log("Script versie: 12.0 geladen.");
+// Script Versie: 12.1 - Fixed Y-axis rendering logic to show all clubs.
+console.log("Script versie: 12.1 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -112,23 +112,44 @@ function drawVisualization(data) {
     // --- Draw Y-Axis (Club labels and logos) ---
     const yAxis = yAxisG.call(d3.axisLeft(y).tickSize(0));
     yAxis.select(".domain").remove();
-    yAxis.selectAll("text").remove();
 
     const logoData = clubs.map(club => ({
         Club: club,
         Logo_URL: (data.find(d => d.club === club) || {}).logo_url || ''
     }));
+    
+    const yAxisTicks = yAxis.selectAll(".tick")
+        .data(logoData, d => d.Club);
 
-    const yAxisTicks = yAxis.selectAll(".tick").data(logoData, d => d.Club).join("g");
-    yAxisTicks.append("rect").attr("x", -margin.left + 30).attr("y", 0).attr("width", 180).attr("height", y.bandwidth()).attr("fill", "#f8f9fa").attr("rx", 4);
-    yAxisTicks.append("image").attr("xlink:href", d => d.Logo_URL).attr("x", -margin.left + 40).attr("y", y.bandwidth() / 2 - 15).attr("width", 30).attr("height", 30);
-    yAxisTicks.append("text").attr("x", -margin.left + 85).attr("y", y.bandwidth() / 2).attr("dy", ".32em").style("text-anchor", "start").text(d => d.Club);
+    yAxisTicks.select("text").remove(); // Remove default axis text from D3
+
+    yAxisTicks.append("rect")
+        .attr("x", -margin.left + 30)
+        .attr("y", -y.bandwidth() / 2)
+        .attr("width", 180)
+        .attr("height", y.bandwidth())
+        .attr("fill", "#f8f9fa")
+        .attr("rx", 4);
+
+    yAxisTicks.append("image")
+        .attr("xlink:href", d => d.Logo_URL)
+        .attr("x", -margin.left + 40)
+        .attr("y", -15)
+        .attr("width", 30)
+        .attr("height", 30);
+
+    yAxisTicks.append("text")
+        .attr("x", -margin.left + 85)
+        .attr("y", 0)
+        .attr("dy", ".32em")
+        .style("text-anchor", "start")
+        .text(d => d.Club);
     
     // --- Draw Bars, Dividers and Prizes ---
-    const barGroup = g.append("g");
-    const seasonDividerGroup = g.append("g");
-    const coachDividerGroup = g.append("g");
-    const prizeGroup = g.append("g");
+    const barGroup = g.append("g").attr("class", "bars-group");
+    const seasonDividerGroup = g.append("g").attr("class", "season-dividers-group");
+    const coachDividerGroup = g.append("g").attr("class", "coach-dividers-group");
+    const prizeGroup = g.append("g").attr("class", "prizes-group");
     
     function updateXAxis() {
         const width = parseInt(heatmapContainer.style("width")) - margin.left - margin.right;
@@ -188,14 +209,13 @@ function drawVisualization(data) {
     updateXAxis(); // Initial drawing
     drawLegend();
     
-    // Return the update function to be used by the resize observer
     return updateXAxis;
 }
 
 // --- Event Handlers ---
 function handleMouseClick(event, d) {
     event.stopPropagation();
-    const g = d3.select(this.closest("g"));
+    const g = d3.select(this.closest("g.main-group"));
     if (selectedTenureId === d.tenureId) {
         selectedTenureId = null;
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed is-highlighted", false);
@@ -209,14 +229,14 @@ function handleMouseClick(event, d) {
 }
 function handleMouseOver(event, d) {
     if (!selectedTenureId) {
-        const g = d3.select(this.closest("g"));
+        const g = d3.select(this.closest("g.main-group"));
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", item => item.tenureId !== d.tenureId);
         updateInfoPane(d);
     }
 }
 function handleMouseLeave() {
     if (!selectedTenureId) {
-        const g = d3.select(this.closest("g"));
+        const g = d3.select(this.closest("g.main-group"));
         g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", false);
         setInfoPaneDefault();
     }
@@ -266,7 +286,6 @@ async function main() {
     const processedData = prepareData(data);
     const updateFunction = drawVisualization(processedData);
 
-    // Use ResizeObserver for efficient resize handling
     const resizeObserver = new ResizeObserver(entries => {
         if (entries[0].contentRect.width > 0) {
             updateFunction();
