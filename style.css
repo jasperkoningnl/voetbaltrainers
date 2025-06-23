@@ -1,4 +1,4 @@
-/* CSS Versie: 1.17 - Styling voor navigatielinks als tabbladen */
+/* CSS Versie: 1.18 - Responsive legend with flexbox */
 
 body {
     font-family: 'Inter', sans-serif;
@@ -63,7 +63,9 @@ main {
 }
 
 #info-pane.details-state {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .info-pane-img {
@@ -76,27 +78,25 @@ main {
     flex-shrink: 0;
 }
 
-.info-pane-details, .info-pane-extra {
+.info-pane-details {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
-.info-pane-details .name, .info-pane-extra .club {
+.info-pane-details .name {
     font-weight: 700;
     font-size: 1.25rem;
     margin: 0;
     color: #2c3e50;
 }
 
-.info-pane-details .nationality, .info-pane-extra .tenure {
-    font-size: 1rem;
-    margin-top: 4px;
-    color: #555;
-}
-
 .info-pane-details .nationality {
     display: flex;
     align-items: center;
+    font-size: 1rem;
+    margin-top: 4px;
+    color: #555;
 }
 
 .info-pane-flag {
@@ -115,7 +115,17 @@ main {
     line-height: 1.5;
 }
 
-/* --- NIEUWE STYLING VOOR NAVIGATIE ALS TABS --- */
+.info-pane-extra .club {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.info-pane-extra .tenure {
+    font-size: 0.9rem;
+    color: #666;
+}
+
 #country-nav-container {
     display: flex;
     border-bottom: 1px solid #dee2e6;
@@ -142,13 +152,12 @@ main {
 }
 
 .nav-link.active {
-    background-color: #f4f5f7; /* Lichaamskleur voor naadloze look */
+    background-color: #f4f5f7;
     color: #3498db;
     border-color: #dee2e6 #dee2e6 #f4f5f7;
 }
-/* --- EINDE NIEUWE STYLING --- */
 
-#heatmap-container, #legend-container {
+#heatmap-container {
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 8px;
@@ -156,6 +165,49 @@ main {
     margin-bottom: 2rem;
     overflow-x: auto;
 }
+
+/* --- NIEUWE LEGANDA STYLING --- */
+#legend-container {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem 2rem; /* Vertical and horizontal gap */
+}
+
+.legend-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.legend-section:first-child {
+    padding-right: 2rem;
+    border-right: 1px solid #e0e0e0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: #333;
+}
+
+.legend-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+/* --- EINDE LEGANDA STYLING --- */
+
 
 .axis path, .axis line {
     fill: none;
@@ -190,7 +242,6 @@ main {
 .coach-divider {
     stroke: #ffffff;
     stroke-width: 2px;
-    transition: opacity 0.2s ease-in-out;
     pointer-events: none;
 }
 
@@ -202,18 +253,7 @@ main {
 }
 
 .prize-group {
-    transition: opacity 0.2s ease-in-out;
     pointer-events: none;
-}
-
-.legend-label {
-    font-size: 12px;
-    fill: #333;
-}
-
-.legend-divider {
-    stroke: #e0e0e0;
-    stroke-width: 1px;
 }
 
 .page-footer {
