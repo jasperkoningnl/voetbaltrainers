@@ -1,5 +1,5 @@
-// Script Versie: 12.3 - Fixed Y-axis custom rendering (logos and boxes).
-console.log("Script versie: 12.3 geladen.");
+// Script Versie: 12.4 - Re-implemented Y-axis drawing for stability.
+console.log("Script versie: 12.4 geladen.");
 
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
@@ -109,44 +109,39 @@ function drawVisualization(data) {
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    // --- Draw Y-Axis (Club labels and logos) - CORRECTED LOGIC ---
-    const yAxis = yAxisG.call(d3.axisLeft(y).tickSize(0));
-    yAxis.select(".domain").remove();
-    yAxis.selectAll(".tick text").remove();
-
+    // --- Draw Y-Axis (Club labels and logos) - ROBUST IMPLEMENTATION ---
     const logoData = clubs.map(club => ({
         club: club,
         logo_url: (data.find(d => d.club === club) || {}).logo_url || ''
     }));
     
-    yAxis.selectAll(".tick")
-        .data(logoData, d => d.club)
-        .each(function(d) {
-            const tick = d3.select(this);
-            tick.selectAll("rect, image, text").remove(); // Clean up previous elements
+    const yAxisLabels = yAxisG.selectAll(".club-label")
+      .data(logoData, d => d.club)
+      .join("g")
+      .attr("class", "club-label")
+      .attr("transform", d => `translate(0, ${y(d.club)})`);
 
-            // Append new elements to the tick group
-            tick.append("rect")
-                .attr("x", -margin.left + 30)
-                .attr("y", -y.bandwidth() / 2)
-                .attr("width", 180)
-                .attr("height", y.bandwidth())
-                .attr("fill", "#f8f9fa")
-                .attr("rx", 4);
+    yAxisLabels.append("rect")
+        .attr("x", -margin.left + 30)
+        .attr("y", 0)
+        .attr("width", 180)
+        .attr("height", y.bandwidth())
+        .attr("fill", "#f8f9fa")
+        .attr("rx", 4);
 
-            tick.append("image")
-                .attr("xlink:href", d.logo_url)
-                .attr("x", -margin.left + 40)
-                .attr("y", -15)
-                .attr("width", 30)
-                .attr("height", 30);
+    yAxisLabels.append("image")
+        .attr("xlink:href", d => d.logo_url)
+        .attr("x", -margin.left + 40)
+        .attr("y", y.bandwidth() / 2 - 15)
+        .attr("width", 30)
+        .attr("height", 30);
 
-            tick.append("text")
-                .attr("x", -margin.left + 85)
-                .attr("dy", ".32em")
-                .style("text-anchor", "start")
-                .text(d.club);
-        });
+    yAxisLabels.append("text")
+        .attr("x", -margin.left + 85)
+        .attr("y", y.bandwidth() / 2)
+        .attr("dy", ".32em")
+        .style("text-anchor", "start")
+        .text(d => d.club);
     
     // --- Draw Bars, Dividers and Prizes ---
     const barGroup = g.append("g").attr("class", "bars-group");
