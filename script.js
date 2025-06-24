@@ -1,33 +1,113 @@
-// Script Versie: 12.4 - Re-implemented Y-axis drawing for stability.
-console.log("Script versie: 12.4 geladen.");
+// Script Versie: 13.0 - Refactor naar Single Page Application (SPA) & query-optimalisatie.
+console.log("Script versie: 13.0 geladen.");
 
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
+// --- Globale Variabelen ---
 const infoPane = d3.select("#info-pane");
 const heatmapContainer = d3.select("#heatmap-container");
 const legendContainer = d3.select("#legend-container");
-
 let selectedTenureId = null;
+let currentResizeObserver = null;
+
+// --- Main Application Flow ---
+
+/**
+ * Initialiseert de applicatie, stelt navigatie-eventlisteners in en laadt het standaardland.
+ */
+function initApp() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const country = e.target.dataset.country;
+            // Laad het land alleen als het niet al actief is.
+            if (!e.target.classList.contains('active')) {
+                loadCountry(country);
+            }
+        });
+    });
+    // Laad de standaard visualisatie
+    loadCountry('England');
+}
+
+/**
+ * Laadt en toont de visualisatie voor een specifiek land.
+ * @param {string} country - De naam van het land om te laden (bv. "England").
+ */
+async function loadCountry(country) {
+    console.log(`Bezig met laden van visualisatie voor: ${country}`);
+
+    // Stop de vorige ResizeObserver als die bestaat
+    if (currentResizeObserver) {
+        currentResizeObserver.disconnect();
+    }
+
+    // Update de actieve class op de navigatielinks
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.country === country) {
+            link.classList.add('active');
+        }
+    });
+
+    // Maak de containers leeg en reset de info pane
+    heatmapContainer.html('<p class="loading-text">Loading data...</p>');
+    legendContainer.html("");
+    setInfoPaneDefault();
+    
+    // Haal de data op
+    const data = await loadDataFromFirestore(country);
+    if (!data || data.length === 0) {
+        heatmapContainer.html(`<p class="error">No data found for ${country}. Please check the database and data spelling.</p>`);
+        return;
+    }
+    
+    heatmapContainer.html(''); // Maak 'loading' tekst leeg
+    const processedData = prepareData(data);
+    const updateFunction = drawVisualization(processedData);
+
+    // Stel een nieuwe ResizeObserver in
+    currentResizeObserver = new ResizeObserver(entries => {
+        if (entries[0].contentRect.width > 0) {
+            updateFunction();
+        }
+    });
+    currentResizeObserver.observe(heatmapContainer.node());
+}
+
 
 // --- Data Loading & Processing ---
 
+/**
+ * Haalt data op uit Firestore voor een specifiek land.
+ * Gebruikt een query om alleen relevante seizoenen op te halen.
+ * @param {string} country - Het land waarvoor data opgehaald moet worden.
+ * @returns {Promise<Array>} - Een array met gecombineerde data van seizoenen en coaches.
+ */
 async function loadDataFromFirestore(country) {
-    if (!window.db) {
-        console.error("Firestore database is niet geïnitialiseerd.");
+    if (!window.db || !window.firestore) {
+        console.error("Firestore database or functions are not initialized.");
         return [];
     }
     try {
+        const { query, collection, where, getDocs } = window.firestore;
+
+        const coachesCol = collection(window.db, "coaches");
+        const seizoenenCol = collection(window.db, "seizoenen");
+
+        // Maak een query om alleen seizoenen van het geselecteerde land op te halen
+        const seizoenenQuery = query(seizoenenCol, where("land", "==", country));
+
         const [coachesSnapshot, seizoenenSnapshot] = await Promise.all([
-            getDocs(collection(window.db, "coaches")),
-            getDocs(collection(window.db, "seizoenen"))
+            getDocs(collection(window.db, "coaches")), // We halen nog steeds alle coaches op
+            getDocs(seizoenenQuery) // Maar alleen de seizoenen van het geselecteerde land
         ]);
+        
         const coachesMap = new Map();
         coachesSnapshot.forEach(doc => coachesMap.set(doc.id, doc.data()));
         
         const joinedData = seizoenenSnapshot.docs
             .map(doc => {
                 const seizoenData = doc.data();
-                if (seizoenData.land !== country) return null;
                 const coachInfo = coachesMap.get(seizoenData.coachId);
                 if (!coachInfo) return null;
                 const { naam = 'Unknown', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo;
@@ -39,10 +119,17 @@ async function loadDataFromFirestore(country) {
         return joinedData;
     } catch (error) {
         console.error("Fout bij het laden van data:", error);
+        heatmapContainer.html(`<p class="error">An error occurred while loading the data from the database. See console for details.</p>`);
         return [];
     }
 }
 
+
+/**
+ * Bereidt de onbewerkte data voor op visualisatie door seizoenen te groeperen in periodes.
+ * @param {Array} data - De array met seizoen-data.
+ * @returns {Array} - De data met toegevoegde periode-informatie.
+ */
 function prepareData(data) {
     if (!data || data.length === 0) return [];
     data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
@@ -63,14 +150,29 @@ function prepareData(data) {
         const startJaar = p.seizoenen[0].seizoen.substring(0, 4);
         const laatsteSeizoen = p.seizoenen[p.seizoenen.length - 1].seizoen;
         const [startDeel, eindDeel] = laatsteSeizoen.split('/');
-        const eeuw = Math.floor(parseInt(startDeel) / 100) * 100;
-        const eindJaar = (parseInt(eindDeel) < parseInt(startDeel.substring(2,4))) ? eeuw + 100 + parseInt(eindDeel) : eeuw + parseInt(eindDeel);
+        let eindJaarNum;
+
+        // Correctie voor verschillende jaartalnotaties (bv. 1999/2000 vs 1999/00)
+        if (eindDeel.length === 4) {
+            eindJaarNum = parseInt(eindDeel);
+        } else {
+            const eeuw = Math.floor(parseInt(startDeel) / 100) * 100;
+            const startJaarKort = parseInt(startDeel.substring(2, 4));
+            eindJaarNum = parseInt(eindDeel);
+            if (eindJaarNum < startJaarKort) {
+                eindJaarNum = eeuw + 100 + eindJaarNum;
+            } else {
+                eindJaarNum = eeuw + eindJaarNum;
+            }
+        }
+       
+        const eindJaar = eindJaarNum.toString();
 
         p.seizoenen.forEach(s => {
             s.stintLength = p.seizoenen.length;
             s.tenureId = p.id;
             s.tenureStartYear = startJaar;
-            s.tenureEndYear = eindJaar.toString();
+            s.tenureEndYear = eindJaar;
         });
     });
     return data;
@@ -109,7 +211,6 @@ function drawVisualization(data) {
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    // --- Draw Y-Axis (Club labels and logos) - ROBUST IMPLEMENTATION ---
     const logoData = clubs.map(club => ({
         club: club,
         logo_url: (data.find(d => d.club === club) || {}).logo_url || ''
@@ -134,7 +235,10 @@ function drawVisualization(data) {
         .attr("x", -margin.left + 40)
         .attr("y", y.bandwidth() / 2 - 15)
         .attr("width", 30)
-        .attr("height", 30);
+        .attr("height", 30)
+        .on("error", function() {
+            d3.select(this).style("display", "none"); // Verberg de image tag als de link niet werkt
+        });
 
     yAxisLabels.append("text")
         .attr("x", -margin.left + 85)
@@ -143,14 +247,19 @@ function drawVisualization(data) {
         .style("text-anchor", "start")
         .text(d => d.club);
     
-    // --- Draw Bars, Dividers and Prizes ---
     const barGroup = g.append("g").attr("class", "bars-group");
     const seasonDividerGroup = g.append("g").attr("class", "season-dividers-group");
     const coachDividerGroup = g.append("g").attr("class", "coach-dividers-group");
     const prizeGroup = g.append("g").attr("class", "prizes-group");
     
     function updateXAxis() {
-        const width = parseInt(heatmapContainer.style("width")) - margin.left - margin.right;
+        // Zorg ervoor dat de container een breedte heeft
+        const containerNode = heatmapContainer.node();
+        if (!containerNode) return;
+        const width = containerNode.clientWidth - margin.left - margin.right;
+        
+        if (width <= 0) return;
+
         x.domain(seasons).range([0, width]);
         
         svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
@@ -204,7 +313,7 @@ function drawVisualization(data) {
         });
     });
 
-    updateXAxis(); // Initial drawing
+    updateXAxis();
     drawLegend();
     
     return updateXAxis;
@@ -266,30 +375,5 @@ function drawLegend() {
         .html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
 }
 
-// --- Main Application Flow ---
-
-async function main() {
-    const countryToLoad = document.getElementById('main-script').dataset.country;
-    if (!countryToLoad) {
-        heatmapContainer.html("<p class='error'>Country not specified in script tag.</p>");
-        return;
-    }
-
-    const data = await loadDataFromFirestore(countryToLoad);
-    if (!data || data.length === 0) {
-        heatmapContainer.html(`<p class="error">No data found for ${countryToLoad}. Please check the database and data spelling.</p>`);
-        return;
-    }
-    
-    const processedData = prepareData(data);
-    const updateFunction = drawVisualization(processedData);
-
-    const resizeObserver = new ResizeObserver(entries => {
-        if (entries[0].contentRect.width > 0) {
-            updateFunction();
-        }
-    });
-    resizeObserver.observe(heatmapContainer.node());
-}
-
-main();
+// --- Initialize App ---
+document.addEventListener('DOMContentLoaded', initApp);
