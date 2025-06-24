@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Opschonen: Nederland</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: grid; place-content: center; text-align: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; padding: 1rem; }
+        .container { background: white; padding: 2.5rem; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px;}
+        h1 { margin-top: 0; color: #dc3545; }
+        p { color: #555; margin: 1rem auto; line-height: 1.6; }
+        strong { color: #212529; }
+        code { background-color: #e9ecef; padding: 2px 5px; border-radius: 4px; }
+        button { font-size: 1rem; padding: 0.75rem 1.5rem; cursor: pointer; background-color: #dc3545; color: white; border: none; border-radius: 5px; transition: background-color 0.2s; }
+        button:disabled { background-color: #6c757d; cursor: not-allowed; }
+        #status { margin-top: 1.5rem; font-weight: 500; min-height: 24px; }
+        #status.is-ok { color: #28a745; }
+        #status.is-bad { color: #dc3545; }
+        .warning { background-color: #fff3cd; border: 1px solid #ffeeba; padding: 1rem; border-radius: 5px; margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Data Opschonen</h1>
+        <p>Deze tool zal **alle** seizoens-documenten waar het veld <code>land</code> ingesteld is op <code>"Netherlands"</code> permanent verwijderen uit de database.</p>
+        <div class="warning">
+            <strong>WAARSCHUWING:</strong> Deze actie kan niet ongedaan worden gemaakt. De Engelse data en de 'coaches' collectie blijven onaangetast.
+        </div>
+        <button id="purge-btn">Start Opschoon-proces</button>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        // Importeer de benodigde Firebase functies
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        
+        // Jouw Firebase configuratie
+        const firebaseConfig = {
+          apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
+          authDomain: "voetbaltrainers.firebaseapp.com",
+          projectId: "voetbaltrainers",
+          storageBucket: "voetbaltrainers.appspot.com",
+          messagingSenderId: "640532231483",
+          appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
+          measurementId: "G-YQV6E3V2CK"
+        };
+        
+        // Initialiseer Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // UI Elementen
+        const purgeBtn = document.getElementById('purge-btn');
+        const statusEl = document.getElementById('status');
+
+        purgeBtn.addEventListener('click', async () => {
+            purgeBtn.disabled = true;
+            statusEl.className = '';
+            statusEl.textContent = 'Bezig met zoeken naar Nederlandse seizoenen...';
+
+            try {
+                // Stap 1: Definieer de query die ALLEEN Nederlandse seizoenen selecteert
+                const seizoenenCol = collection(db, "seizoenen");
+                const q = query(seizoenenCol, where("land", "==", "Netherlands"));
+                
+                // Stap 2: Voer de query uit
+                const querySnapshot = await getDocs(q);
+                const docCount = querySnapshot.size;
+
+                if (docCount === 0) {
+                    statusEl.className = 'is-ok';
+                    statusEl.textContent = 'Geen Nederlandse seizoenen gevonden om te verwijderen. De database is al schoon.';
+                    purgeBtn.disabled = false;
+                    return;
+                }
+
+                // Stap 3: Vraag om een expliciete bevestiging van de gebruiker
+                const confirmation = prompt(`Er zijn ${docCount} Nederlandse seizoenen gevonden. Typ "VERWIJDEREN" om deze permanent te verwijderen.`);
+
+                if (confirmation !== "VERWIJDEREN") {
+                    statusEl.className = 'is-bad';
+                    statusEl.textContent = 'Actie geannuleerd. Er is niets verwijderd.';
+                    purgeBtn.disabled = false;
+                    return;
+                }
+
+                // Stap 4: Verwijder de documenten in batches voor de veiligheid
+                statusEl.textContent = `Bezig met verwijderen van ${docCount} documenten...`;
+                const batch = writeBatch(db);
+                querySnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                await batch.commit();
+
+                statusEl.className = 'is-ok';
+                statusEl.textContent = `${docCount} Nederlandse seizoenen zijn succesvol verwijderd.`;
+
+            } catch (error) {
+                console.error("Fout tijdens opschonen:", error);
+                statusEl.className = 'is-bad';
+                statusEl.textContent = 'Er is een fout opgetreden. Controleer de console voor details.';
+                purgeBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
