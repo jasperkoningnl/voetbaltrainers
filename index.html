@@ -1,10 +1,9 @@
-<!-- HTML Versie: 2.2 - Stabiliteitsfix voor het laden van data -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Managerial Merry-Go-Round - England</title>
+    <title>The Managerial Merry-Go-Round</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +15,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       
         const firebaseConfig = {
           apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -29,7 +28,12 @@
         };
       
         const app = initializeApp(firebaseConfig);
-        window.db = getFirestore(app);
+        const db = getFirestore(app);
+
+        // Functies beschikbaar maken voor het hoofdscript
+        window.db = db;
+        window.firestore = { query, collection, where, getDocs };
+
     </script>
 
 </head>
@@ -50,8 +54,8 @@
         </div>
 
         <div id="country-nav-container">
-            <a href="index.html" class="nav-link active">England</a>
-            <a href="netherlands.html" class="nav-link">Netherlands</a>
+            <a href="#" class="nav-link" data-country="England">England</a>
+            <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
         </div>
 
         <div id="heatmap-container"></div>
@@ -63,7 +67,7 @@
         <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
     </footer>
 
-    <script id="main-script" type="module" src="script.js" data-country="England"></script>
+    <script id="main-script" type="module" src="script.js"></script>
 
 </body>
 </html>
