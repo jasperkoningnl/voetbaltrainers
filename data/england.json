@@ -1,0 +1,4058 @@
+{
+  "coaches": [
+    {
+      "naam": "Wilf McGuinness",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Wilf_mcguinness_2013.jpg"
+    },
+    {
+      "naam": "Enzo Maresca",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Maresca_Championship_trophy_Leicester_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Ken Shellito",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Bob Paisley",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Paisley_plaque%2C_Paisley_Gateway%2C_Anfield.jpg"
+    },
+    {
+      "naam": "John Bond",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/7/70/John_Bond.jpg"
+    },
+    {
+      "naam": "Malcolm Allison",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/e/e4/Malcolm_Allison.jpg"
+    },
+    {
+      "naam": "Arne Slot",
+      "nationaliteit": "Nederland",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Arne_Slot_in_2024.jpg"
+    },
+    {
+      "naam": "Frank Lampard",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/The_Frank_Lampard.jpg"
+    },
+    {
+      "naam": "Brian Horton",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Joe Fagan",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/9/91/Joe_Fagan.jpg"
+    },
+    {
+      "naam": "Terry Neill",
+      "nationaliteit": "Noord-Ierland",
+      "nat_code": "gb-nir",
+      "foto_url": ""
+    },
+    {
+      "naam": "Ralf Rangnick",
+      "nationaliteit": "Duitsland",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/FC_Salzburg_gegen_GNK_Dinamo_Zagreb_%282024-10-23_Championsleague_Dritte_Runde%29_03.jpg"
+    },
+    {
+      "naam": "Stuart Pearce",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Stuart_Pearce_%2831651906441%29.jpg"
+    },
+    {
+      "naam": "Graham Potter",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Graham_Potter%2C_Brighton_%26_Hove_Albion_vs_RCD_Espanyol%2C_30_July_2022_%281%29_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Eddie McCreadie",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Eddie_McCreadie.jpg"
+    },
+    {
+      "naam": "Erik ten Hag",
+      "nationaliteit": "Nederland",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/%D0%9E%D1%82%D0%BA%D1%80%D1%8B%D1%82%D0%B0%D1%8F_%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%C2%AB%D0%90%D1%8F%D0%BA%D1%81%D0%B0%C2%BB_%D0%BF%D0%B5%D1%80%D0%B5%D0%B4_%D0%BC%D0%B0%D1%82%D1%87%D0%B5%D0%BC_%D1%81_%C2%AB%D0%94%D0%B8%D0%BD%D0%B0%D0%BC%D0%BE%C2%BB._27_%D0%B0%D0%B2%D0%B3%D1%83%D1%81%D1%82%D0%B0_2018_%D0%B3%D0%BE%D0%B4%D0%B0_%E2%80%94_900304_%28Erik_ten_Hag%29.jpg"
+    },
+    {
+      "naam": "Guus Hiddink",
+      "nationaliteit": "Nederland",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Guus_Hiddink_2012.jpg"
+    },
+    {
+      "naam": "Unai Emery",
+      "nationaliteit": "Spanje",
+      "nat_code": "es",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Unai_Emery_-_Sevilla_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Stewart Houston",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": ""
+    },
+    {
+      "naam": "Roberto Mancini",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Roberto_Mancini_Saudi_Arabia-South_Korea_match_2023_AFC_Asian_Cup.jpg"
+    },
+    {
+      "naam": "John Hollins",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/f/f3/John_Hollins.jpg"
+    },
+    {
+      "naam": "Carlo Ancelotti",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Ofrenda_de_la_Liga_y_la_Champions-16-L.Mill%C3%A1n_%2852109790060%29_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Ruud Gullit",
+      "nationaliteit": "Nederland",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/67/25th_Laureus_World_Sports_Awards_-_Ruud_Gullit_-_240422_131911_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Ron Suart",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Danny Blanchflower",
+      "nationaliteit": "Noord-Ierland",
+      "nat_code": "gb-nir",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Blanchflower_%28cropped2%29.jpg"
+    },
+    {
+      "naam": "Luiz Felipe Scolari",
+      "nationaliteit": "Brazilië",
+      "nat_code": "br",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/Felip%C3%A3o_cropped.jpg"
+    },
+    {
+      "naam": "Claudio Ranieri",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/d/df/Ranieri2023_%28cropped%29.png"
+    },
+    {
+      "naam": "Mauricio Pochettino",
+      "nationaliteit": "Argentinië",
+      "nat_code": "ar",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Mauricio_Pochettino_2016_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Les McDowall",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": ""
+    },
+    {
+      "naam": "George Graham",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/George_Graham_%281970%29.png"
+    },
+    {
+      "naam": "Frank O'Farrell",
+      "nationaliteit": "Ierland",
+      "nat_code": "ie",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/0/0e/Frank_O%27Farrell_Man_Utd.jpg"
+    },
+    {
+      "naam": "Ron Atkinson",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Atkinson%2C_Ron.jpg"
+    },
+    {
+      "naam": "Don Howe",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Don_Howe.jpg"
+    },
+    {
+      "naam": "John Neal",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Phil_Neal_in_2012.jpg"
+    },
+    {
+      "naam": "Frank Clark",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Kevin Keegan",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/Kevin_keegan_panini_card_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Tommy Docherty",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/2/29/Tommy_Docherty_2017_01.jpg"
+    },
+    {
+      "naam": "Pep Guardiola",
+      "nationaliteit": "Spanje",
+      "nat_code": "es",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/2023-10-04_Fu%C3%9Fball%2C_M%C3%A4nner%2C_UEFA_Champions_League%2C_RB_Leipzig_-_Manchester_City_FC_1DX_2797_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Johnny Hart",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "George Swindin",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Bertie Mee",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Bertie_Mee.jpg"
+    },
+    {
+      "naam": "Ian Porterfield",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Playersmanagers1973cup.jpg"
+    },
+    {
+      "naam": "Peter Reid",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Peter_Reid_Sunderland_1998small.jpg"
+    },
+    {
+      "naam": "Bruce Rioch",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Bruce_Rioch.jpg"
+    },
+    {
+      "naam": "Gérard Houllier",
+      "nationaliteit": "Frankrijk",
+      "nat_code": "fr",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Houllier%2C_G%C3%A9rard.jpg"
+    },
+    {
+      "naam": "Ole Gunnar Solskjær",
+      "nationaliteit": "Noorwegen",
+      "nat_code": "no",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/Ole_Gunnar_Solskjaer_Trondheim2011-1_crop.jpg"
+    },
+    {
+      "naam": "Joe Mercer",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Joe_Mercer_Memorial_outside_Manchester_City_Football_Club_Stadium%2C_Manchester_-_geograph.org.uk_-_2353113_%28cropped2%29.jpg"
+    },
+    {
+      "naam": "Dave Sexton",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/7/7c/Dave_Sexton_Man_Utd.jpg"
+    },
+    {
+      "naam": "Roy Hodgson",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Gen%C3%A8ve_Indoors_2014_-_20140114_-_Roy_Hodgson.jpg"
+    },
+    {
+      "naam": "Mel Machin",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "David Moyes",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/David_Moyes_West_Ham_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Jimmy Frizzell",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": ""
+    },
+    {
+      "naam": "Alan Ball",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Alan_Ball_1970.jpg/800px-Alan_Ball_1970.jpg"
+    },
+    {
+      "naam": "Louis van Gaal",
+      "nationaliteit": "Nederland",
+      "nat_code": "nl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Louis_van_Gaal_2014.jpg"
+    },
+    {
+      "naam": "Arsène Wenger",
+      "nationaliteit": "Frankrijk",
+      "nat_code": "fr",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/87/25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Ars%C3%A8ne_Wenger_-_240422_192850_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Tony Book",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Geoff Hurst",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Geoff_Hurst_%282%29.jpg"
+    },
+    {
+      "naam": "Jürgen Klopp",
+      "nationaliteit": "Duitsland",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/J%C3%BCrgen_Klopp%2C_Liverpool_vs._Chelsea%2C_UEFA_Super_Cup_2019-08-14_04.jpg"
+    },
+    {
+      "naam": "Alex Ferguson",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/a4/SAF_CL_semi_2009_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Bobby Campbell",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "José Mourinho",
+      "nationaliteit": "Portugal",
+      "nat_code": "pt",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Jos%C3%A9_Mourinho_20250206_%281%29.jpg"
+    },
+    {
+      "naam": "Billy McNeill",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Billy_Mcneill_1982-09-28.jpg"
+    },
+    {
+      "naam": "Bill Shankly",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bill_Shankly_statue%2C_Anfield_2018.jpg"
+    },
+    {
+      "naam": "Antonio Conte",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/c/c6/20150616_Antonio_Conte.jpg"
+    },
+    {
+      "naam": "Roberto Di Matteo",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Roberto_Di_Matteo_S04_2015_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Jack Crayston",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Jack_Crayston_in_1936.jpg"
+    },
+    {
+      "naam": "Ruben Amorim",
+      "nationaliteit": "Portugal",
+      "nat_code": "pt",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/RubenAmorim4.png"
+    },
+    {
+      "naam": "Mikel Arteta",
+      "nationaliteit": "Spanje",
+      "nat_code": "es",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Mikel_Arteta_2021_%28cropped%29.png"
+    },
+    {
+      "naam": "Billy Wright",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Billy_Wright_1959.jpg/800px-Billy_Wright_1959.jpg"
+    },
+    {
+      "naam": "Glenn Hoddle",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Glenn_Hoddle_2014_%28cropped%29.jpg"
+    },
+    {
+      "naam": "George Poyser",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Roy Evans",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Roy_Evans.JPG"
+    },
+    {
+      "naam": "Brendan Rodgers",
+      "nationaliteit": "Noord-Ierland",
+      "nat_code": "gb-nir",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Brendan_Rodgers_2021_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Matt Busby",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/Matt_Busby_1957.jpg"
+    },
+    {
+      "naam": "Don Welsh",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "Avram Grant",
+      "nationaliteit": "Israël",
+      "nat_code": "il",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Avram_Grant_2012.jpg"
+    },
+    {
+      "naam": "Howard Kendall",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/en/1/1e/Howard_Kendall_1990_or_1991_Saint_and_Greavsie_%28non-free_for_Wikipedia%29.jpg"
+    },
+    {
+      "naam": "Thomas Tuchel",
+      "nationaliteit": "Duitsland",
+      "nat_code": "de",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/2019-07-17_SG_Dynamo_Dresden_vs._Paris_Saint-Germain_by_Sandro_Halank%E2%80%93175.jpg"
+    },
+    {
+      "naam": "Ted Drake",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/56/Ted_Drake_1955.jpg"
+    },
+    {
+      "naam": "Tom Whittaker",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/7/73/Tom_Whittaker%2C_Estadio%2C_1952-05-10_%28469%29.jpg"
+    },
+    {
+      "naam": "Sven-Göran Eriksson",
+      "nationaliteit": "Zweden",
+      "nat_code": "se",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Sven-Goran_Eriksson_2012.jpg"
+    },
+    {
+      "naam": "Mark Hughes",
+      "nationaliteit": "Wales",
+      "nat_code": "gb-wls",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/38/1_mark_hughes_2015.jpg"
+    },
+    {
+      "naam": "Manuel Pellegrini",
+      "nationaliteit": "Chili",
+      "nat_code": "cl",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Manuel_Pellegrini_2022_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Phil Taylor",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    },
+    {
+      "naam": "André Villas-Boas",
+      "nationaliteit": "Portugal",
+      "nat_code": "pt",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/50/2023_-_Stage_3_ENZ_2128_%2853331827395%29_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Jimmy Murphy",
+      "nationaliteit": "Wales",
+      "nat_code": "gb-wls",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Jimmy_Murphy_statue.JPG"
+    },
+    {
+      "naam": "Kenny Dalglish",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Kenny_Dalglish_2009_Singapore.jpg"
+    },
+    {
+      "naam": "Rafael Benítez",
+      "nationaliteit": "Spanje",
+      "nat_code": "es",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Shahter-Reak_M_2015_%282%29.jpg"
+    },
+    {
+      "naam": "Graeme Souness",
+      "nationaliteit": "Schotland",
+      "nat_code": "gb-sct",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/0/09/Souness_%28retouched%29.jpg"
+    },
+    {
+      "naam": "Maurizio Sarri",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/64/Maurizio_Sarri_2019_%28cropped%29.jpg"
+    },
+    {
+      "naam": "Gianluca Vialli",
+      "nationaliteit": "Italië",
+      "nat_code": "it",
+      "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Gianluca_Vialli.jpg"
+    },
+    {
+      "naam": "Joe Royle",
+      "nationaliteit": "Engeland",
+      "nat_code": "gb-eng",
+      "foto_url": ""
+    }
+  ],
+  "seizoenen": [
+    {
+      "seizoen": "1972/73",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Manchester City",
+      "coachNaam": "Billy McNeill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Liverpool",
+      "coachNaam": "Phil Taylor",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Manchester United",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Chelsea",
+      "coachNaam": "Frank Lampard",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Chelsea",
+      "coachNaam": "Geoff Hurst",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Chelsea",
+      "coachNaam": "Ken Shellito",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Manchester City",
+      "coachNaam": "Roberto Mancini",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Manchester City",
+      "coachNaam": "Manuel Pellegrini",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Chelsea",
+      "coachNaam": "Geoff Hurst",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Chelsea",
+      "coachNaam": "Gianluca Vialli",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Manchester City",
+      "coachNaam": "Kevin Keegan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Manchester City",
+      "coachNaam": "Brian Horton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Chelsea",
+      "coachNaam": "Eddie McCreadie",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Chelsea",
+      "coachNaam": "Antonio Conte",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Liverpool",
+      "coachNaam": "Phil Taylor",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Chelsea",
+      "coachNaam": "Graham Potter",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Arsenal",
+      "coachNaam": "Billy Wright",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Manchester United",
+      "coachNaam": "Ole Gunnar Solskjær",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Manchester City",
+      "coachNaam": "Joe Royle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Manchester United",
+      "coachNaam": "José Mourinho",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Arsenal",
+      "coachNaam": "Bruce Rioch",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Manchester United",
+      "coachNaam": "David Moyes",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Liverpool",
+      "coachNaam": "Roy Evans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Manchester City",
+      "coachNaam": "John Bond",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Arsenal",
+      "coachNaam": "Unai Emery",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Manchester City",
+      "coachNaam": "Stuart Pearce",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Chelsea",
+      "coachNaam": "Claudio Ranieri",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Manchester City",
+      "coachNaam": "George Poyser",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Manchester City",
+      "coachNaam": "Brian Horton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Chelsea",
+      "coachNaam": "Eddie McCreadie",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Arsenal",
+      "coachNaam": "Tom Whittaker",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Arsenal",
+      "coachNaam": "George Swindin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Chelsea",
+      "coachNaam": "Ron Suart",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Arsenal",
+      "coachNaam": "George Swindin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Chelsea",
+      "coachNaam": "John Neal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Manchester City",
+      "coachNaam": "Peter Reid",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Manchester United",
+      "coachNaam": "Ron Atkinson",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Chelsea",
+      "coachNaam": "Danny Blanchflower",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Manchester United",
+      "coachNaam": "Frank O'Farrell",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Chelsea",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Chelsea",
+      "coachNaam": "John Hollins",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Chelsea",
+      "coachNaam": "John Neal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Manchester City",
+      "coachNaam": "Kevin Keegan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Chelsea",
+      "coachNaam": "Thomas Tuchel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Manchester United",
+      "coachNaam": "Ole Gunnar Solskjær",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Chelsea",
+      "coachNaam": "Antonio Conte",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Manchester City",
+      "coachNaam": "Tony Book",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Manchester City",
+      "coachNaam": "Roberto Mancini",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Manchester United",
+      "coachNaam": "Ron Atkinson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Manchester City",
+      "coachNaam": "Tony Book",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Manchester United",
+      "coachNaam": "Ole Gunnar Solskjær",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Manchester United",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Manchester City",
+      "coachNaam": "Sven-Göran Eriksson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Chelsea",
+      "coachNaam": "John Hollins",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Chelsea",
+      "coachNaam": "Enzo Maresca",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Chelsea",
+      "coachNaam": "José Mourinho",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Manchester City",
+      "coachNaam": "Kevin Keegan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Chelsea",
+      "coachNaam": "Mauricio Pochettino",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Manchester City",
+      "coachNaam": "Joe Royle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Chelsea",
+      "coachNaam": "Gianluca Vialli",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Liverpool",
+      "coachNaam": "Don Welsh",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Chelsea",
+      "coachNaam": "Carlo Ancelotti",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Arsenal",
+      "coachNaam": "Jack Crayston",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Manchester City",
+      "coachNaam": "Mel Machin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1962/63",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Chelsea",
+      "coachNaam": "Guus Hiddink",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Manchester City",
+      "coachNaam": "Billy McNeill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Chelsea",
+      "coachNaam": "Ian Porterfield",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Manchester City",
+      "coachNaam": "Peter Reid",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2007/08",
+      "club": "Chelsea",
+      "coachNaam": "Avram Grant",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Liverpool",
+      "coachNaam": "Arne Slot",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Liverpool",
+      "coachNaam": "Brendan Rodgers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Manchester City",
+      "coachNaam": "Johnny Hart",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Manchester United",
+      "coachNaam": "Ron Atkinson",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Manchester City",
+      "coachNaam": "Roberto Mancini",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Chelsea",
+      "coachNaam": "Luiz Felipe Scolari",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Arsenal",
+      "coachNaam": "Don Howe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Liverpool",
+      "coachNaam": "Joe Fagan",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Liverpool",
+      "coachNaam": "Roy Evans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1968/69",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Chelsea",
+      "coachNaam": "John Neal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Manchester City",
+      "coachNaam": "Joe Royle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Liverpool",
+      "coachNaam": "Joe Fagan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Manchester City",
+      "coachNaam": "Mark Hughes",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Manchester City",
+      "coachNaam": "Peter Reid",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Chelsea",
+      "coachNaam": "José Mourinho",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Manchester City",
+      "coachNaam": "Stuart Pearce",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Chelsea",
+      "coachNaam": "Ian Porterfield",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Manchester United",
+      "coachNaam": "Ruben Amorim",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Manchester City",
+      "coachNaam": "Frank Clark",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Manchester City",
+      "coachNaam": "Alan Ball",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Manchester City",
+      "coachNaam": "George Poyser",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2004/05",
+      "club": "Chelsea",
+      "coachNaam": "José Mourinho",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Manchester City",
+      "coachNaam": "Malcolm Allison",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Manchester United",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1999/00",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Manchester City",
+      "coachNaam": "Tony Book",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Manchester City",
+      "coachNaam": "Tony Book",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1973/74",
+      "club": "Manchester United",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Chelsea",
+      "coachNaam": "André Villas-Boas",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Chelsea",
+      "coachNaam": "John Neal",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Manchester City",
+      "coachNaam": "Roberto Mancini",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Manchester United",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1976/77",
+      "club": "Manchester United",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Manchester United",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Manchester City",
+      "coachNaam": "Jimmy Frizzell",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1975/76",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Liverpool",
+      "coachNaam": "Roy Evans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2024/25",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Arsenal",
+      "coachNaam": "Don Howe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Manchester United",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2016/17",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Arsenal",
+      "coachNaam": "George Swindin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Arsenal",
+      "coachNaam": "Jack Crayston",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Chelsea",
+      "coachNaam": "Maurizio Sarri",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Liverpool",
+      "coachNaam": "Graeme Souness",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1980/81",
+      "club": "Manchester City",
+      "coachNaam": "John Bond",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Chelsea",
+      "coachNaam": "Glenn Hoddle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2006/07",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2008/09",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Manchester City",
+      "coachNaam": "Manuel Pellegrini",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Manchester United",
+      "coachNaam": "Erik ten Hag",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1983/84",
+      "club": "Manchester United",
+      "coachNaam": "Ron Atkinson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Chelsea",
+      "coachNaam": "Glenn Hoddle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1995/96",
+      "club": "Chelsea",
+      "coachNaam": "Glenn Hoddle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1960/61",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Manchester City",
+      "coachNaam": "Mel Machin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2001/02",
+      "club": "Chelsea",
+      "coachNaam": "Claudio Ranieri",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Manchester United",
+      "coachNaam": "Jimmy Murphy",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2013/14",
+      "club": "Liverpool",
+      "coachNaam": "Brendan Rodgers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1985/86",
+      "club": "Arsenal",
+      "coachNaam": "Don Howe",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Chelsea",
+      "coachNaam": "Claudio Ranieri",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Manchester United",
+      "coachNaam": "Tommy Docherty",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Chelsea",
+      "coachNaam": "Thomas Tuchel",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2002/03",
+      "club": "Manchester City",
+      "coachNaam": "Kevin Keegan",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1955/56",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1994/95",
+      "club": "Arsenal",
+      "coachNaam": "Stewart Houston",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1992/93",
+      "club": "Arsenal",
+      "coachNaam": "George Graham",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1956/57",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Liverpool",
+      "coachNaam": "Phil Taylor",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Manchester United",
+      "coachNaam": "Louis van Gaal",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1969/70",
+      "club": "Manchester United",
+      "coachNaam": "Wilf McGuinness",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2018/19",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2003/04",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1987/88",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Chelsea",
+      "coachNaam": "Bobby Campbell",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1974/75",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2021/22",
+      "club": "Manchester United",
+      "coachNaam": "Ralf Rangnick",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Manchester City",
+      "coachNaam": "Joe Royle",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Liverpool",
+      "coachNaam": "Roy Evans",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Chelsea",
+      "coachNaam": "Carlo Ancelotti",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Chelsea",
+      "coachNaam": "Claudio Ranieri",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1977/78",
+      "club": "Manchester City",
+      "coachNaam": "Tony Book",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2010/11",
+      "club": "Liverpool",
+      "coachNaam": "Roy Hodgson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2015/16",
+      "club": "Manchester City",
+      "coachNaam": "Manuel Pellegrini",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1967/68",
+      "club": "Chelsea",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1966/67",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Liverpool",
+      "coachNaam": "Kenny Dalglish",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2014/15",
+      "club": "Chelsea",
+      "coachNaam": "José Mourinho",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1998/99",
+      "club": "Chelsea",
+      "coachNaam": "Gianluca Vialli",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2011/12",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Manchester City",
+      "coachNaam": "John Bond",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1988/89",
+      "club": "Chelsea",
+      "coachNaam": "Bobby Campbell",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Arsenal",
+      "coachNaam": "George Swindin",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2009/10",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Arsenal",
+      "coachNaam": "Bertie Mee",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Chelsea",
+      "coachNaam": "Ted Drake",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2022/23",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Manchester United",
+      "coachNaam": "José Mourinho",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1971/72",
+      "club": "Manchester City",
+      "coachNaam": "Malcolm Allison",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Arsenal",
+      "coachNaam": "Terry Neill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Liverpool",
+      "coachNaam": "Brendan Rodgers",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Manchester City",
+      "coachNaam": "Pep Guardiola",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1970/71",
+      "club": "Manchester City",
+      "coachNaam": "Joe Mercer",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1979/80",
+      "club": "Manchester United",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1965/66",
+      "club": "Arsenal",
+      "coachNaam": "Billy Wright",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1993/94",
+      "club": "Liverpool",
+      "coachNaam": "Graeme Souness",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1978/79",
+      "club": "Manchester United",
+      "coachNaam": "Dave Sexton",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1958/59",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1989/90",
+      "club": "Manchester City",
+      "coachNaam": "Howard Kendall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1997/98",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "Y",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1984/85",
+      "club": "Manchester City",
+      "coachNaam": "Billy McNeill",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1991/92",
+      "club": "Liverpool",
+      "coachNaam": "Graeme Souness",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Liverpool",
+      "coachNaam": "Rafael Benítez",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1972/73",
+      "club": "Manchester City",
+      "coachNaam": "Malcolm Allison",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "2017/18",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Arsenal",
+      "coachNaam": "Billy Wright",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Chelsea",
+      "coachNaam": "Roberto Di Matteo",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1982/83",
+      "club": "Liverpool",
+      "coachNaam": "Bob Paisley",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1964/65",
+      "club": "Arsenal",
+      "coachNaam": "Billy Wright",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1990/91",
+      "club": "Chelsea",
+      "coachNaam": "Bobby Campbell",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Arsenal",
+      "coachNaam": "Arsène Wenger",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "2005/06",
+      "club": "Chelsea",
+      "coachNaam": "José Mourinho",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1996/97",
+      "club": "Chelsea",
+      "coachNaam": "Ruud Gullit",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1957/58",
+      "club": "Manchester City",
+      "coachNaam": "Les McDowall",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1963/64",
+      "club": "Manchester United",
+      "coachNaam": "Matt Busby",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1981/82",
+      "club": "Manchester United",
+      "coachNaam": "Ron Atkinson",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "1959/60",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Liverpool",
+      "coachNaam": "Gérard Houllier",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "Y",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2000/01",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2012/13",
+      "club": "Manchester United",
+      "coachNaam": "Alex Ferguson",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7a/Manchester_United_FC_crest.svg/1200px-Manchester_United_FC_crest.svg.png"
+    },
+    {
+      "seizoen": "2023/24",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "N",
+      "nationale_beker": "Y",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "1961/62",
+      "club": "Liverpool",
+      "coachNaam": "Bill Shankly",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    },
+    {
+      "seizoen": "2020/21",
+      "club": "Arsenal",
+      "coachNaam": "Mikel Arteta",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/1200px-Arsenal_FC.svg.png"
+    },
+    {
+      "seizoen": "1986/87",
+      "club": "Chelsea",
+      "coachNaam": "John Hollins",
+      "landstitel": "N",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/1200px-Chelsea_FC.svg.png"
+    },
+    {
+      "seizoen": "2019/20",
+      "club": "Liverpool",
+      "coachNaam": "Jürgen Klopp",
+      "landstitel": "Y",
+      "nationale_beker": "N",
+      "europese_prijs": "N",
+      "land": "England",
+      "logo_url": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/Liverpool_FC.svg/1200px-Liverpool_FC.svg.png"
+    }
+  ]
+}
