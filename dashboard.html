@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 2.0 - Club Management & Database Migratie -->
+<!-- Dashboard Versie: 3.0 - Coach Management Functionaliteit -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -52,7 +52,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useCallback } = React;
+        const { useState, useEffect, useCallback, useMemo } = React;
         const { db, auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, writeBatch, updateDoc } = window.firebaseServices;
 
         // --- Iconen ---
@@ -62,6 +62,8 @@
         const LogOutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>;
         const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>;
         const SaveIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>;
+        const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+
 
         function App() {
             // ... (App component blijft hetzelfde als vorige versie)
@@ -108,7 +110,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v2.0</span>
+                            <span className="text-sm text-gray-400">v3.0</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -146,6 +148,7 @@
 
         // --- Club Beheer Component ---
         function ClubsView() {
+            // ... (ClubsView component blijft hetzelfde als vorige versie)
             const [clubs, setClubs] = useState([]);
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
@@ -158,7 +161,6 @@
                 try {
                     const querySnapshot = await getDocs(collection(db, "clubs"));
                     const clubsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    // Sorteer de clubs alfabetisch op naam
                     clubsData.sort((a, b) => a.naam.localeCompare(b.naam));
                     setClubs(clubsData);
                 } catch (e) {
@@ -176,11 +178,9 @@
                 setLoading(true);
                 setError("Bezig met initialiseren... Dit kan even duren.");
                 try {
-                    // 1. Haal alle seizoenen
                     const seizoenenSnapshot = await getDocs(collection(db, "seizoenen"));
                     const uniqueClubs = new Map();
                     
-                    // 2. Vind alle unieke clubs en hun laatst bekende logo/land
                     seizoenenSnapshot.docs.forEach(doc => {
                         const data = doc.data();
                         if (data.club && data.land) {
@@ -192,7 +192,6 @@
                         }
                     });
 
-                    // 3. Schrijf alle unieke clubs naar de nieuwe 'clubs' collectie
                     const batch = writeBatch(db);
                     uniqueClubs.forEach((clubData, clubName) => {
                         const clubRef = doc(db, "clubs", clubName);
@@ -201,7 +200,6 @@
                     
                     await batch.commit();
                     setError(null);
-                    // Herlaad de clublijst
                     fetchClubs();
                 } catch(e) {
                      console.error("Fout bij initialiseren:", e);
@@ -222,7 +220,6 @@
                         logo_url: logoUrlInput
                     });
                     setEditingClubId(null);
-                    // Update de lokale state voor een directe visuele feedback
                     setClubs(clubs.map(c => c.id === clubId ? {...c, logo_url: logoUrlInput} : c));
                 } catch (e) {
                     console.error("Update Fout:", e);
@@ -253,13 +250,13 @@
             return (
                  <div>
                     <h1 className="text-3xl font-bold mb-6">Club Beheer</h1>
-                    <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
                         <table className="w-full text-left">
                            <thead>
                              <tr className="border-b">
-                               <th className="p-2 w-1/4">Club</th>
-                               <th className="p-2 w-1/4">Land</th>
-                               <th className="p-2 w-2/4">Logo URL</th>
+                               <th className="p-2">Club</th>
+                               <th className="p-2">Land</th>
+                               <th className="p-2">Logo URL</th>
                                <th className="p-2">Acties</th>
                              </tr>
                            </thead>
@@ -273,8 +270,8 @@
                                         <input type="text" value={logoUrlInput} onChange={(e) => setLogoUrlInput(e.target.value)} className="w-full p-1 border rounded-md" />
                                     ) : (
                                         <div className="flex items-center gap-4">
-                                            <img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
-                                            <span className="text-xs text-gray-500 truncate">{club.logo_url}</span>
+                                            <img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
+                                            <span className="text-xs text-gray-500 truncate" title={club.logo_url}>{club.logo_url}</span>
                                         </div>
                                     )}
                                  </td>
@@ -294,14 +291,132 @@
             );
         }
 
-        const CoachesView = () => (
-             <div>
-                <h1 className="text-3xl font-bold mb-6">Coach Beheer</h1>
-                <div className="bg-white p-6 rounded-lg shadow-md">
-                    <p>Hier komt een doorzoekbare lijst van alle coaches, met de mogelijkheid om hun foto's en gegevens aan te passen.</p>
+        // --- NIEUW: Coach Beheer Component ---
+        function CoachesView() {
+            const [coaches, setCoaches] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [searchTerm, setSearchTerm] = useState("");
+            
+            const [editingCoachId, setEditingCoachId] = useState(null);
+            const [editFormData, setEditFormData] = useState({});
+
+            const fetchCoaches = useCallback(async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const querySnapshot = await getDocs(collection(db, "coaches"));
+                    const coachesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    coachesData.sort((a, b) => a.naam.localeCompare(b.naam));
+                    setCoaches(coachesData);
+                } catch (e) {
+                    console.error("Fout bij ophalen coaches:", e);
+                    setError("Kon de coaches niet laden.");
+                }
+                setLoading(false);
+            }, []);
+
+            useEffect(() => {
+                fetchCoaches();
+            }, [fetchCoaches]);
+
+            const handleEdit = (coach) => {
+                setEditingCoachId(coach.id);
+                setEditFormData({ ...coach });
+            };
+
+            const handleCancel = () => {
+                setEditingCoachId(null);
+            };
+
+            const handleInputChange = (e) => {
+                const { name, value } = e.target;
+                setEditFormData(prev => ({ ...prev, [name]: value }));
+            };
+
+            const handleSave = async (coachId) => {
+                const coachRef = doc(db, "coaches", coachId);
+                try {
+                    // Verwijder de 'id' uit de data die we opslaan
+                    const { id, ...dataToSave } = editFormData;
+                    await updateDoc(coachRef, dataToSave);
+                    setEditingCoachId(null);
+                    setCoaches(coaches.map(c => c.id === coachId ? { ...editFormData } : c));
+                } catch(e) {
+                    console.error("Update Fout:", e);
+                    alert("Opslaan van coach mislukt. Zie console.");
+                }
+            };
+            
+            const filteredCoaches = useMemo(() => 
+                coaches.filter(coach => 
+                    coach.naam.toLowerCase().includes(searchTerm.toLowerCase())
+                ), [coaches, searchTerm]);
+
+            if (loading) return <div>Coaches laden...</div>;
+            if (error) return <div className="text-red-500">{error}</div>;
+
+            return (
+                 <div>
+                    <h1 className="text-3xl font-bold mb-6">Coach Beheer</h1>
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                        <input 
+                          type="text"
+                          placeholder="Zoek coach op naam..."
+                          value={searchTerm}
+                          onChange={e => setSearchTerm(e.target.value)}
+                          className="w-full max-w-sm p-2 border rounded-md mb-4"
+                        />
+                        <div className="overflow-x-auto">
+                           <table className="w-full text-left">
+                               <thead>
+                                 <tr className="border-b">
+                                   <th className="p-2">Naam</th>
+                                   <th className="p-2">Nationaliteit</th>
+                                   <th className="p-2">Landcode</th>
+                                   <th className="p-2">Foto URL</th>
+                                   <th className="p-2">Acties</th>
+                                 </tr>
+                               </thead>
+                               <tbody>
+                                 {filteredCoaches.map(coach => (
+                                   <tr key={coach.id} className="border-b last:border-b-0 hover:bg-gray-50">
+                                     {editingCoachId === coach.id ? (
+                                        <>
+                                            <td><input name="naam" value={editFormData.naam} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
+                                            <td><input name="nationaliteit" value={editFormData.nationaliteit} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
+                                            <td><input name="nat_code" value={editFormData.nat_code} onChange={handleInputChange} className="w-20 p-1 border rounded-md" /></td>
+                                            <td><input name="foto_url" value={editFormData.foto_url} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
+                                            <td className="p-2 flex gap-2">
+                                                <button onClick={() => handleSave(coach.id)} className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600"><SaveIcon /></button>
+                                                <button onClick={handleCancel} className="p-1.5 bg-gray-500 text-white rounded-md hover:bg-gray-600"><CancelIcon /></button>
+                                            </td>
+                                        </>
+                                     ) : (
+                                        <>
+                                            <td className="p-2 font-medium">{coach.naam}</td>
+                                            <td className="p-2">{coach.nationaliteit}</td>
+                                            <td className="p-2">{coach.nat_code}</td>
+                                            <td className="p-2">
+                                                <div className="flex items-center gap-4">
+                                                    <img src={coach.foto_url} className="h-8 w-8 object-cover bg-gray-100 p-1 rounded-full flex-shrink-0" alt="" onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
+                                                    <span className="text-xs text-gray-500 truncate" title={coach.foto_url}>{coach.foto_url}</span>
+                                                </div>
+                                            </td>
+                                            <td className="p-2">
+                                                <button onClick={() => handleEdit(coach)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>
+                                            </td>
+                                        </>
+                                     )}
+                                   </tr>
+                                 ))}
+                               </tbody>
+                           </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
 
         const AiView = () => (
             <div>
