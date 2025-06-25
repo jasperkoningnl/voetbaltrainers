@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 3.0 - Coach Management Functionaliteit -->
+<!-- Dashboard Versie: 4.0 - Improved Coach Management (Bulk Updates & UI Fix) -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,6 @@
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, doc, writeBatch, updateDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-        // De Firebase configuratie blijft hetzelfde
         const firebaseConfig = {
             apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
             authDomain: "voetbaltrainers.firebaseapp.com",
@@ -31,7 +30,6 @@
             measurementId: "G-YQV6E3V2CK"
         };
         
-        // Maak de Firebase services globaal beschikbaar voor de React app
         const app = initializeApp(firebaseConfig);
         window.firebaseServices = {
             auth: getAuth(app),
@@ -63,10 +61,10 @@
         const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>;
         const SaveIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>;
         const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
-
+        const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
+        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
 
         function App() {
-            // ... (App component blijft hetzelfde als vorige versie)
             const [user, setUser] = useState(null);
             const [loading, setLoading] = useState(true);
             const [view, setView] = useState('clubs');
@@ -110,7 +108,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v3.0</span>
+                            <span className="text-sm text-gray-400">v4.0</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -146,9 +144,7 @@
             );
         }
 
-        // --- Club Beheer Component ---
         function ClubsView() {
-            // ... (ClubsView component blijft hetzelfde als vorige versie)
             const [clubs, setClubs] = useState([]);
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
@@ -180,7 +176,6 @@
                 try {
                     const seizoenenSnapshot = await getDocs(collection(db, "seizoenen"));
                     const uniqueClubs = new Map();
-                    
                     seizoenenSnapshot.docs.forEach(doc => {
                         const data = doc.data();
                         if (data.club && data.land) {
@@ -191,13 +186,11 @@
                             });
                         }
                     });
-
                     const batch = writeBatch(db);
                     uniqueClubs.forEach((clubData, clubName) => {
                         const clubRef = doc(db, "clubs", clubName);
                         batch.set(clubRef, clubData);
                     });
-                    
                     await batch.commit();
                     setError(null);
                     fetchClubs();
@@ -216,9 +209,7 @@
             const handleSave = async (clubId) => {
                 const clubRef = doc(db, "clubs", clubId);
                 try {
-                    await updateDoc(clubRef, {
-                        logo_url: logoUrlInput
-                    });
+                    await updateDoc(clubRef, { logo_url: logoUrlInput });
                     setEditingClubId(null);
                     setClubs(clubs.map(c => c.id === clubId ? {...c, logo_url: logoUrlInput} : c));
                 } catch (e) {
@@ -227,12 +218,9 @@
                 }
             };
             
-            if (loading && clubs.length === 0) {
-                return <div>Laden...</div>
-            }
-
+            if (loading && clubs.length === 0) return <div>Laden...</div>;
             if (clubs.length === 0 && !loading) {
-                return (
+                 return (
                     <div>
                         <h1 className="text-3xl font-bold mb-6">Club Beheer</h1>
                         <div className="bg-white p-6 rounded-lg shadow-md text-center">
@@ -244,7 +232,7 @@
                             {error && <p className="text-red-500 mt-4">{error}</p>}
                         </div>
                     </div>
-                )
+                );
             }
 
             return (
@@ -252,35 +240,20 @@
                     <h1 className="text-3xl font-bold mb-6">Club Beheer</h1>
                     <div className="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
                         <table className="w-full text-left">
-                           <thead>
-                             <tr className="border-b">
-                               <th className="p-2">Club</th>
-                               <th className="p-2">Land</th>
-                               <th className="p-2">Logo URL</th>
-                               <th className="p-2">Acties</th>
-                             </tr>
-                           </thead>
+                           <thead><tr className="border-b"><th className="p-2">Club</th><th className="p-2">Land</th><th className="p-2">Logo URL</th><th className="p-2">Acties</th></tr></thead>
                            <tbody>
                              {clubs.map(club => (
                                <tr key={club.id} className="border-b last:border-b-0 hover:bg-gray-50">
-                                 <td className="p-2 font-medium">{club.naam}</td>
-                                 <td className="p-2">{club.land}</td>
+                                 <td className="p-2 font-medium">{club.naam}</td><td className="p-2">{club.land}</td>
                                  <td className="p-2">
-                                    {editingClubId === club.id ? (
-                                        <input type="text" value={logoUrlInput} onChange={(e) => setLogoUrlInput(e.target.value)} className="w-full p-1 border rounded-md" />
-                                    ) : (
-                                        <div className="flex items-center gap-4">
-                                            <img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
+                                    {editingClubId === club.id ? (<input type="text" value={logoUrlInput} onChange={(e) => setLogoUrlInput(e.target.value)} className="w-full p-1 border rounded-md" />) : (
+                                        <div className="flex items-center gap-4"><img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
                                             <span className="text-xs text-gray-500 truncate" title={club.logo_url}>{club.logo_url}</span>
                                         </div>
                                     )}
                                  </td>
                                  <td className="p-2">
-                                     {editingClubId === club.id ? (
-                                        <button onClick={() => handleSave(club.id)} className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600"><SaveIcon /></button>
-                                     ) : (
-                                        <button onClick={() => handleEdit(club)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>
-                                     )}
+                                     {editingClubId === club.id ? (<button onClick={() => handleSave(club.id)} className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600"><SaveIcon /></button>) : (<button onClick={() => handleEdit(club)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>)}
                                  </td>
                                </tr>
                              ))}
@@ -291,15 +264,16 @@
             );
         }
 
-        // --- NIEUW: Coach Beheer Component ---
+        // --- Coach Beheer Component met Bulk Opties ---
         function CoachesView() {
             const [coaches, setCoaches] = useState([]);
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
             const [searchTerm, setSearchTerm] = useState("");
-            
             const [editingCoachId, setEditingCoachId] = useState(null);
             const [editFormData, setEditFormData] = useState({});
+            const [file, setFile] = useState(null);
+            const [uploadStatus, setUploadStatus] = useState('');
 
             const fetchCoaches = useCallback(async () => {
                 setLoading(true);
@@ -337,7 +311,6 @@
             const handleSave = async (coachId) => {
                 const coachRef = doc(db, "coaches", coachId);
                 try {
-                    // Verwijder de 'id' uit de data die we opslaan
                     const { id, ...dataToSave } = editFormData;
                     await updateDoc(coachRef, dataToSave);
                     setEditingCoachId(null);
@@ -348,6 +321,74 @@
                 }
             };
             
+            const handleDownloadMissingPhotos = () => {
+                const coachesToUpdate = coaches.filter(c => !c.foto_url);
+                if (coachesToUpdate.length === 0) {
+                    alert("Alle coaches hebben al een foto-URL.");
+                    return;
+                }
+                // Header voor de CSV
+                let csvContent = "id,naam,foto_url\n";
+                // Voeg elke coach toe als een nieuwe regel
+                coachesToUpdate.forEach(coach => {
+                    csvContent += `${coach.id},"${coach.naam}",""\n`;
+                });
+                // Maak en download het bestand
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "coaches_zonder_foto.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            const handleFileUpload = (event) => {
+                setFile(event.target.files[0]);
+                setUploadStatus('');
+            };
+
+            const handleProcessUpload = () => {
+                if (!file) {
+                    setUploadStatus('Selecteer eerst een bestand.');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    setUploadStatus('Bestand verwerken...');
+                    const text = e.target.result;
+                    const lines = text.split('\n').slice(1); // Sla de header over
+                    const batch = writeBatch(db);
+                    let updatesCount = 0;
+
+                    for(const line of lines) {
+                        if (line.trim() === '') continue;
+                        const [id, name, foto_url] = line.split(',');
+                        const trimmedUrl = foto_url ? foto_url.trim().replace(/"/g, '') : '';
+                        if (id && trimmedUrl) {
+                            const coachRef = doc(db, "coaches", id);
+                            batch.update(coachRef, { foto_url: trimmedUrl });
+                            updatesCount++;
+                        }
+                    }
+
+                    if (updatesCount > 0) {
+                        try {
+                            await batch.commit();
+                            setUploadStatus(`${updatesCount} coach-foto's succesvol bijgewerkt! De lijst wordt herladen.`);
+                            fetchCoaches(); // Herlaad de data om wijzigingen te tonen
+                        } catch (error) {
+                            setUploadStatus(`Fout bij het uploaden: ${error.message}`);
+                        }
+                    } else {
+                        setUploadStatus('Geen geldige updates gevonden in het bestand.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+
             const filteredCoaches = useMemo(() => 
                 coaches.filter(coach => 
                     coach.naam.toLowerCase().includes(searchTerm.toLowerCase())
@@ -359,6 +400,32 @@
             return (
                  <div>
                     <h1 className="text-3xl font-bold mb-6">Coach Beheer</h1>
+                    
+                    {/* Bulk Operations Panel */}
+                    <div className="bg-white p-6 rounded-lg shadow-md mb-6">
+                        <h2 className="text-xl font-semibold mb-4 border-b pb-2">Bulk Operaties</h2>
+                        <p className="text-gray-600 mb-4">Versnel het toevoegen van coach-foto's met deze download/upload functie.</p>
+                        <div className="flex flex-wrap items-start gap-6">
+                            <div className="flex-1 min-w-[250px]">
+                                <h3 className="font-semibold">Stap 1: Download Lijst</h3>
+                                <p className="text-sm text-gray-500 mb-2">Download een CSV-bestand van alle coaches die nog geen foto hebben.</p>
+                                <button onClick={handleDownloadMissingPhotos} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                    <DownloadIcon /> Download Lijst
+                                </button>
+                            </div>
+                            <div className="flex-1 min-w-[250px]">
+                                <h3 className="font-semibold">Stap 2: Upload Lijst</h3>
+                                <p className="text-sm text-gray-500 mb-2">Vul de 'foto_url' kolom in het gedownloade bestand en upload het hier om de data in bulk bij te werken.</p>
+                                <input type="file" accept=".csv" onChange={handleFileUpload} className="text-sm"/>
+                                <button onClick={handleProcessUpload} disabled={!file} className="mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center disabled:bg-gray-400">
+                                    <UploadIcon /> Verwerk Bestand
+                                </button>
+                                {uploadStatus && <p className="text-sm text-gray-700 mt-2">{uploadStatus}</p>}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Coach Table */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <input 
                           type="text"
@@ -371,40 +438,40 @@
                            <table className="w-full text-left">
                                <thead>
                                  <tr className="border-b">
+                                   <th className="p-2 w-12">Acties</th>
                                    <th className="p-2">Naam</th>
                                    <th className="p-2">Nationaliteit</th>
                                    <th className="p-2">Landcode</th>
                                    <th className="p-2">Foto URL</th>
-                                   <th className="p-2">Acties</th>
                                  </tr>
                                </thead>
                                <tbody>
                                  {filteredCoaches.map(coach => (
-                                   <tr key={coach.id} className="border-b last:border-b-0 hover:bg-gray-50">
+                                   <tr key={coach.id} className="border-b last:border-b-0 hover:bg-gray-50 align-top">
                                      {editingCoachId === coach.id ? (
                                         <>
-                                            <td><input name="naam" value={editFormData.naam} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
-                                            <td><input name="nationaliteit" value={editFormData.nationaliteit} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
-                                            <td><input name="nat_code" value={editFormData.nat_code} onChange={handleInputChange} className="w-20 p-1 border rounded-md" /></td>
-                                            <td><input name="foto_url" value={editFormData.foto_url} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
                                             <td className="p-2 flex gap-2">
                                                 <button onClick={() => handleSave(coach.id)} className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600"><SaveIcon /></button>
                                                 <button onClick={handleCancel} className="p-1.5 bg-gray-500 text-white rounded-md hover:bg-gray-600"><CancelIcon /></button>
                                             </td>
+                                            <td><input name="naam" value={editFormData.naam} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
+                                            <td><input name="nationaliteit" value={editFormData.nationaliteit} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
+                                            <td><input name="nat_code" value={editFormData.nat_code} onChange={handleInputChange} className="w-20 p-1 border rounded-md" /></td>
+                                            <td><input name="foto_url" value={editFormData.foto_url} onChange={handleInputChange} className="w-full p-1 border rounded-md" /></td>
                                         </>
                                      ) : (
                                         <>
+                                            <td className="p-2">
+                                                <button onClick={() => handleEdit(coach)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>
+                                            </td>
                                             <td className="p-2 font-medium">{coach.naam}</td>
                                             <td className="p-2">{coach.nationaliteit}</td>
                                             <td className="p-2">{coach.nat_code}</td>
                                             <td className="p-2">
                                                 <div className="flex items-center gap-4">
-                                                    <img src={coach.foto_url} className="h-8 w-8 object-cover bg-gray-100 p-1 rounded-full flex-shrink-0" alt="" onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
-                                                    <span className="text-xs text-gray-500 truncate" title={coach.foto_url}>{coach.foto_url}</span>
+                                                    <img src={coach.foto_url} className="h-8 w-8 object-cover bg-gray-100 p-1 rounded-full flex-shrink-0" alt="" onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'/>
+                                                    <span className="text-xs text-gray-500 break-all" title={coach.foto_url}>{coach.foto_url}</span>
                                                 </div>
-                                            </td>
-                                            <td className="p-2">
-                                                <button onClick={() => handleEdit(coach)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>
                                             </td>
                                         </>
                                      )}
