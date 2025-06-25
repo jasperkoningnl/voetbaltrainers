@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 5.0 - Verbeterd Coachbeheer (UI Fix & Slimme Foto Export) -->
+<!-- Dashboard Versie: 5.1 - Bugfix voor render-error (syntaxisfout) -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -108,7 +108,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v5.0</span>
+                            <span className="text-sm text-gray-400">v5.1</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -248,8 +248,9 @@
                                  <td className="p-2 font-medium">{club.naam}</td><td className="p-2">{club.land}</td>
                                  <td className="p-2">
                                     {editingClubId === club.id ? (<input type="text" value={logoUrlInput} onChange={(e) => setLogoUrlInput(e.target.value)} className="w-full p-1 border rounded-md" />) : (
-                                        <div className="flex items-center gap-4"><img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}/>
-                                            <span className="text-xs text-gray-500 truncate" title={club.logo_url}>{club.logo_url}</span>
+                                        <div className="flex items-center gap-4">
+                                          <img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'} />
+                                          <span className="text-xs text-gray-500 truncate" title={club.logo_url}>{club.logo_url}</span>
                                         </div>
                                     )}
                                  </td>
@@ -310,9 +311,12 @@
                 } catch(e) { console.error("Update Fout:", e); alert("Opslaan van coach mislukt. Zie console."); }
             };
             
-            // --- Functies voor Bulk Update ---
             const checkImage = (url) => {
                 return new Promise((resolve) => {
+                    if (!url) {
+                        resolve({url, status: 'error'});
+                        return;
+                    }
                     const img = new Image();
                     img.onload = () => resolve({url, status: 'ok'});
                     img.onerror = () => resolve({url, status: 'error'});
@@ -322,8 +326,7 @@
 
             const handleDownloadProblematicPhotos = async () => {
                 setIsCheckingImages(true);
-                const coachesWithUrl = coaches.filter(c => c.foto_url);
-                const checkPromises = coachesWithUrl.map(c => checkImage(c.foto_url));
+                const checkPromises = coaches.map(c => checkImage(c.foto_url));
                 const results = await Promise.all(checkPromises);
                 const brokenUrls = new Set(results.filter(r => r.status === 'error').map(r => r.url));
                 const coachesToUpdate = coaches.filter(c => !c.foto_url || brokenUrls.has(c.foto_url));
@@ -451,7 +454,7 @@
                                             <td className="p-2">{coach.nat_code}</td>
                                             <td className="p-2">
                                                 <div className="flex items-center gap-4">
-                                                    <img src={coach.foto_url} className="h-8 w-8 object-cover bg-gray-100 p-1 rounded-full flex-shrink-0" alt="" onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'/>
+                                                    <img src={coach.foto_url} className="h-8 w-8 object-cover bg-gray-100 p-1 rounded-full flex-shrink-0" alt="" onError={(e) => e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'} />
                                                     <span className="text-xs text-gray-500 break-all" title={coach.foto_url}>{coach.foto_url}</span>
                                                 </div>
                                             </td>
