@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 4.0 - Improved Coach Management (Bulk Updates & UI Fix) -->
+<!-- Dashboard Versie: 5.0 - Verbeterd Coachbeheer (UI Fix & Slimme Foto Export) -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -61,8 +61,8 @@
         const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>;
         const SaveIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>;
         const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
-        const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
-        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
+        const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
+        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
 
         function App() {
             const [user, setUser] = useState(null);
@@ -108,7 +108,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v4.0</span>
+                            <span className="text-sm text-gray-400">v5.0</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -143,7 +143,8 @@
                 </div>
             );
         }
-
+        
+        // --- Club Beheer Component ---
         function ClubsView() {
             const [clubs, setClubs] = useState([]);
             const [loading, setLoading] = useState(true);
@@ -264,7 +265,7 @@
             );
         }
 
-        // --- Coach Beheer Component met Bulk Opties ---
+        // --- Coach Beheer Component ---
         function CoachesView() {
             const [coaches, setCoaches] = useState([]);
             const [loading, setLoading] = useState(true);
@@ -274,6 +275,7 @@
             const [editFormData, setEditFormData] = useState({});
             const [file, setFile] = useState(null);
             const [uploadStatus, setUploadStatus] = useState('');
+            const [isCheckingImages, setIsCheckingImages] = useState(false);
 
             const fetchCoaches = useCallback(async () => {
                 setLoading(true);
@@ -294,19 +296,9 @@
                 fetchCoaches();
             }, [fetchCoaches]);
 
-            const handleEdit = (coach) => {
-                setEditingCoachId(coach.id);
-                setEditFormData({ ...coach });
-            };
-
-            const handleCancel = () => {
-                setEditingCoachId(null);
-            };
-
-            const handleInputChange = (e) => {
-                const { name, value } = e.target;
-                setEditFormData(prev => ({ ...prev, [name]: value }));
-            };
+            const handleEdit = (coach) => { setEditingCoachId(coach.id); setEditFormData({ ...coach }); };
+            const handleCancel = () => { setEditingCoachId(null); };
+            const handleInputChange = (e) => { const { name, value } = e.target; setEditFormData(prev => ({ ...prev, [name]: value })); };
 
             const handleSave = async (coachId) => {
                 const coachRef = doc(db, "coaches", coachId);
@@ -315,54 +307,59 @@
                     await updateDoc(coachRef, dataToSave);
                     setEditingCoachId(null);
                     setCoaches(coaches.map(c => c.id === coachId ? { ...editFormData } : c));
-                } catch(e) {
-                    console.error("Update Fout:", e);
-                    alert("Opslaan van coach mislukt. Zie console.");
-                }
+                } catch(e) { console.error("Update Fout:", e); alert("Opslaan van coach mislukt. Zie console."); }
             };
             
-            const handleDownloadMissingPhotos = () => {
-                const coachesToUpdate = coaches.filter(c => !c.foto_url);
+            // --- Functies voor Bulk Update ---
+            const checkImage = (url) => {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve({url, status: 'ok'});
+                    img.onerror = () => resolve({url, status: 'error'});
+                    img.src = url;
+                });
+            }
+
+            const handleDownloadProblematicPhotos = async () => {
+                setIsCheckingImages(true);
+                const coachesWithUrl = coaches.filter(c => c.foto_url);
+                const checkPromises = coachesWithUrl.map(c => checkImage(c.foto_url));
+                const results = await Promise.all(checkPromises);
+                const brokenUrls = new Set(results.filter(r => r.status === 'error').map(r => r.url));
+                const coachesToUpdate = coaches.filter(c => !c.foto_url || brokenUrls.has(c.foto_url));
+                setIsCheckingImages(false);
+
                 if (coachesToUpdate.length === 0) {
-                    alert("Alle coaches hebben al een foto-URL.");
+                    alert("Geen coaches met lege of niet-werkende foto-URL's gevonden.");
                     return;
                 }
-                // Header voor de CSV
+                
                 let csvContent = "id,naam,foto_url\n";
-                // Voeg elke coach toe als een nieuwe regel
                 coachesToUpdate.forEach(coach => {
-                    csvContent += `${coach.id},"${coach.naam}",""\n`;
+                    csvContent += `${coach.id},"${coach.naam}","${coach.foto_url || ''}"\n`;
                 });
-                // Maak en download het bestand
+                
                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement("a");
                 const url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                link.setAttribute("download", "coaches_zonder_foto.csv");
+                link.setAttribute("download", "coaches_met_problemen.csv");
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             };
 
-            const handleFileUpload = (event) => {
-                setFile(event.target.files[0]);
-                setUploadStatus('');
-            };
-
+            const handleFileUpload = (event) => { setFile(event.target.files[0]); setUploadStatus(''); };
             const handleProcessUpload = () => {
-                if (!file) {
-                    setUploadStatus('Selecteer eerst een bestand.');
-                    return;
-                }
+                if (!file) { setUploadStatus('Selecteer eerst een bestand.'); return; }
                 const reader = new FileReader();
                 reader.onload = async (e) => {
                     setUploadStatus('Bestand verwerken...');
                     const text = e.target.result;
-                    const lines = text.split('\n').slice(1); // Sla de header over
+                    const lines = text.split('\n').slice(1);
                     const batch = writeBatch(db);
                     let updatesCount = 0;
-
                     for(const line of lines) {
                         if (line.trim() === '') continue;
                         const [id, name, foto_url] = line.split(',');
@@ -373,18 +370,13 @@
                             updatesCount++;
                         }
                     }
-
                     if (updatesCount > 0) {
                         try {
                             await batch.commit();
                             setUploadStatus(`${updatesCount} coach-foto's succesvol bijgewerkt! De lijst wordt herladen.`);
-                            fetchCoaches(); // Herlaad de data om wijzigingen te tonen
-                        } catch (error) {
-                            setUploadStatus(`Fout bij het uploaden: ${error.message}`);
-                        }
-                    } else {
-                        setUploadStatus('Geen geldige updates gevonden in het bestand.');
-                    }
+                            fetchCoaches();
+                        } catch (error) { setUploadStatus(`Fout bij het uploaden: ${error.message}`); }
+                    } else { setUploadStatus('Geen geldige updates gevonden in het bestand.'); }
                 };
                 reader.readAsText(file);
             };
@@ -400,22 +392,20 @@
             return (
                  <div>
                     <h1 className="text-3xl font-bold mb-6">Coach Beheer</h1>
-                    
-                    {/* Bulk Operations Panel */}
                     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
                         <h2 className="text-xl font-semibold mb-4 border-b pb-2">Bulk Operaties</h2>
-                        <p className="text-gray-600 mb-4">Versnel het toevoegen van coach-foto's met deze download/upload functie.</p>
+                        <p className="text-gray-600 mb-4">Versnel het toevoegen of repareren van coach-foto's.</p>
                         <div className="flex flex-wrap items-start gap-6">
                             <div className="flex-1 min-w-[250px]">
                                 <h3 className="font-semibold">Stap 1: Download Lijst</h3>
-                                <p className="text-sm text-gray-500 mb-2">Download een CSV-bestand van alle coaches die nog geen foto hebben.</p>
-                                <button onClick={handleDownloadMissingPhotos} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                    <DownloadIcon /> Download Lijst
+                                <p className="text-sm text-gray-500 mb-2">Download een CSV van coaches met een lege of kapotte foto-URL.</p>
+                                <button onClick={handleDownloadProblematicPhotos} disabled={isCheckingImages} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center disabled:bg-gray-400">
+                                    <DownloadIcon /> {isCheckingImages ? 'Bezig met controleren...' : 'Download Probleemlijst'}
                                 </button>
                             </div>
                             <div className="flex-1 min-w-[250px]">
                                 <h3 className="font-semibold">Stap 2: Upload Lijst</h3>
-                                <p className="text-sm text-gray-500 mb-2">Vul de 'foto_url' kolom in het gedownloade bestand en upload het hier om de data in bulk bij te werken.</p>
+                                <p className="text-sm text-gray-500 mb-2">Vul de 'foto_url' kolom aan en upload het bestand om de data in bulk bij te werken.</p>
                                 <input type="file" accept=".csv" onChange={handleFileUpload} className="text-sm"/>
                                 <button onClick={handleProcessUpload} disabled={!file} className="mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center disabled:bg-gray-400">
                                     <UploadIcon /> Verwerk Bestand
@@ -424,21 +414,13 @@
                             </div>
                         </div>
                     </div>
-
-                    {/* Coach Table */}
                     <div className="bg-white p-6 rounded-lg shadow-md">
-                        <input 
-                          type="text"
-                          placeholder="Zoek coach op naam..."
-                          value={searchTerm}
-                          onChange={e => setSearchTerm(e.target.value)}
-                          className="w-full max-w-sm p-2 border rounded-md mb-4"
-                        />
+                        <input type="text" placeholder="Zoek coach op naam..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full max-w-sm p-2 border rounded-md mb-4"/>
                         <div className="overflow-x-auto">
                            <table className="w-full text-left">
                                <thead>
                                  <tr className="border-b">
-                                   <th className="p-2 w-12">Acties</th>
+                                   <th className="p-2 w-28">Acties</th>
                                    <th className="p-2">Naam</th>
                                    <th className="p-2">Nationaliteit</th>
                                    <th className="p-2">Landcode</th>
