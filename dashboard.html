@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 6.3 - Bugfix voor Login Authenticatie -->
+<!-- Dashboard Versie: 6.4 - Stabiliteitsverbetering & Cache-Busting -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -111,7 +111,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v6.3</span>
+                            <span className="text-sm text-gray-400">v6.4</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -282,10 +282,16 @@
             const handleSave = async (coachId) => {
                 const coachRef = doc(db, "coaches", coachId);
                 try {
-                    const { id, ...dataToSave } = editFormData;
+                    // Expliciet een nieuw object maken om problemen te voorkomen
+                    const dataToSave = {
+                        naam: editFormData.naam,
+                        nationaliteit: editFormData.nationaliteit,
+                        nat_code: editFormData.nat_code,
+                        foto_url: editFormData.foto_url
+                    };
                     await updateDoc(coachRef, dataToSave);
                     setEditingCoachId(null);
-                    setCoaches(coaches.map(c => c.id === coachId ? { ...editFormData } : c));
+                    setCoaches(coaches.map(c => c.id === coachId ? { ...c, ...dataToSave } : c));
                 } catch(e) { console.error("Update Fout:", e); alert("Opslaan van coach mislukt."); }
             };
             
@@ -471,7 +477,6 @@
                 setError(null);
                 setAiResponse(null);
 
-                // FIX: Gebruik de dedicated Gemini API key die de gebruiker heeft aangeleverd
                 const apiKey = "AIzaSyByPVtZ-1sHdySwqbMzd63tdz5wxOzHw1Q";
                 
                 const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
