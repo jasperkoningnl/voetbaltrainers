@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 7.0 - AI Assistant (Eerste versie) -->
+<!-- Dashboard Versie: 6.0 - Placeholder voor Seizoenenbeheer & UI-verbeteringen -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -67,11 +67,12 @@
         const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
         const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
+        const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
 
         function App() {
             const [user, setUser] = useState(null);
             const [loading, setLoading] = useState(true);
-            const [view, setView] = useState('ai'); // Default naar AI assistent
+            const [view, setView] = useState('ai'); 
 
             useEffect(() => {
                 const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -110,7 +111,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v7.0</span>
+                            <span className="text-sm text-gray-400">v6.0</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -118,6 +119,9 @@
                             </a>
                             <a href="#" onClick={() => setView('coaches')} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
                                 <UserIcon /> Coaches Beheren
+                            </a>
+                             <a href="#" onClick={() => setView('seasons')} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
+                                <ListIcon /> Seizoenen Beheren
                             </a>
                             <a href="#" onClick={() => setView('ai')} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'ai' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
                                 <SparklesIcon /> AI Assistent
@@ -138,6 +142,7 @@
                             {
                                 'clubs': <ClubsView />,
                                 'coaches': <CoachesView />,
+                                'seasons': <SeasonsView />,
                                 'ai': <AiView />
                             }[view]
                         }
@@ -146,7 +151,6 @@
             );
         }
         
-        // ... (ClubsView & CoachesView componenten zijn ongewijzigd) ...
         function ClubsView() {
             const [clubs, setClubs] = useState([]);
             const [loading, setLoading] = useState(true);
@@ -162,10 +166,7 @@
                     const clubsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     clubsData.sort((a, b) => a.naam.localeCompare(b.naam));
                     setClubs(clubsData);
-                } catch (e) {
-                    console.error("Fout bij ophalen clubs:", e);
-                    setError("Kon de clubs niet laden. Controleer de console.");
-                }
+                } catch (e) { console.error("Fout bij ophalen clubs:", e); setError("Kon de clubs niet laden."); }
                 setLoading(false);
             }, []);
 
@@ -173,18 +174,14 @@
             
             const handleInitializeClubs = async () => {
                 setLoading(true);
-                setError("Bezig met initialiseren... Dit kan even duren.");
+                setError("Bezig met initialiseren...");
                 try {
                     const seizoenenSnapshot = await getDocs(collection(db, "seizoenen"));
                     const uniqueClubs = new Map();
                     seizoenenSnapshot.docs.forEach(doc => {
                         const data = doc.data();
                         if (data.club && data.land) {
-                            uniqueClubs.set(data.club, {
-                                naam: data.club,
-                                land: data.land,
-                                logo_url: data.logo_url || ""
-                            });
+                            uniqueClubs.set(data.club, { naam: data.club, land: data.land, logo_url: data.logo_url || "" });
                         }
                     });
                     const batch = writeBatch(db);
@@ -195,10 +192,7 @@
                     await batch.commit();
                     setError(null);
                     fetchClubs();
-                } catch(e) {
-                     console.error("Fout bij initialiseren:", e);
-                     setError("Initialisatie mislukt. Controleer de console.");
-                }
+                } catch(e) { console.error("Fout bij initialiseren:", e); setError("Initialisatie mislukt."); }
                 setLoading(false);
             };
 
@@ -209,7 +203,7 @@
                     await updateDoc(clubRef, { logo_url: logoUrlInput });
                     setEditingClubId(null);
                     setClubs(clubs.map(c => c.id === clubId ? {...c, logo_url: logoUrlInput} : c));
-                } catch (e) { console.error("Update Fout:", e); alert("Opslaan mislukt. Zie console voor details."); }
+                } catch (e) { console.error("Update Fout:", e); alert("Opslaan mislukt."); }
             };
             
             if (loading && clubs.length === 0) return <div>Laden...</div>;
@@ -219,10 +213,8 @@
                         <h1 className="text-3xl font-bold mb-6">Club Beheer</h1>
                         <div className="bg-white p-6 rounded-lg shadow-md text-center">
                             <h2 className="text-xl font-semibold mb-2">Database is leeg</h2>
-                            <p className="text-gray-600 mb-4">De 'clubs' collectie bestaat nog niet. Initialiseer deze door de data uit de 'seizoenen' collectie te lezen.</p>
-                            <button onClick={handleInitializeClubs} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                Initialiseer Club Database
-                            </button>
+                            <p className="text-gray-600 mb-4">De 'clubs' collectie bestaat nog niet. Initialiseer deze.</p>
+                            <button onClick={handleInitializeClubs} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Initialiseer Club Database</button>
                             {error && <p className="text-red-500 mt-4">{error}</p>}
                         </div>
                     </div>
@@ -240,15 +232,15 @@
                                <tr key={club.id} className="border-b last:border-b-0 hover:bg-gray-50 align-top">
                                   <td className="p-2">
                                      {editingClubId === club.id ? (<button onClick={() => handleSave(club.id)} className="p-1.5 bg-green-500 text-white rounded-md hover:bg-green-600"><SaveIcon /></button>) : (<button onClick={() => handleEdit(club)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>)}
-                                 </td>
-                                 <td className="p-2 font-medium">{club.naam}</td><td className="p-2">{club.land}</td>
-                                 <td className="p-2">
+                                  </td>
+                                  <td className="p-2 font-medium">{club.naam}</td><td className="p-2">{club.land}</td>
+                                  <td className="p-2">
                                     {editingClubId === club.id ? (<input type="text" value={logoUrlInput} onChange={(e) => setLogoUrlInput(e.target.value)} className="w-full p-1 border rounded-md" />) : (
                                         <div className="flex items-center gap-4"><img src={club.logo_url} className="h-8 w-8 object-contain bg-gray-100 p-1 rounded-sm flex-shrink-0" alt={`Logo ${club.naam}`} onError={(e) => {e.target.onerror = null; e.target.src='https://placehold.co/32x32/e2e8f0/a0aec0?text=?'}} />
                                           <span className="text-xs text-gray-500 break-all" title={club.logo_url}>{club.logo_url}</span>
                                         </div>
                                     )}
-                                 </td>
+                                  </td>
                                </tr>
                              ))}
                            </tbody>
@@ -277,10 +269,7 @@
                     const coachesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     coachesData.sort((a, b) => a.naam.localeCompare(b.naam));
                     setCoaches(coachesData);
-                } catch (e) {
-                    console.error("Fout bij ophalen coaches:", e);
-                    setError("Kon de coaches niet laden.");
-                }
+                } catch (e) { console.error("Fout bij ophalen coaches:", e); setError("Kon de coaches niet laden."); }
                 setLoading(false);
             }, []);
 
@@ -297,14 +286,13 @@
                     await updateDoc(coachRef, dataToSave);
                     setEditingCoachId(null);
                     setCoaches(coaches.map(c => c.id === coachId ? { ...editFormData } : c));
-                } catch(e) { console.error("Update Fout:", e); alert("Opslaan van coach mislukt. Zie console."); }
+                } catch(e) { console.error("Update Fout:", e); alert("Opslaan van coach mislukt."); }
             };
             
             const checkImage = (url) => {
                 return new Promise((resolve) => {
                     if (!url || typeof url !== 'string' || url.trim() === '') {
-                        resolve({url, status: 'error'});
-                        return;
+                        resolve({url, status: 'error'}); return;
                     }
                     const img = new Image();
                     img.onload = () => resolve({url, status: 'ok'});
@@ -315,13 +303,11 @@
 
             const handleDownloadProblematicPhotos = async () => {
                 setIsCheckingImages(true);
-                setUploadStatus("Bezig met controleren van alle afbeeldingen. Dit kan even duren...");
+                setUploadStatus("Bezig met controleren van alle afbeeldingen...");
                 const checkPromises = coaches.map(c => checkImage(c.foto_url));
                 const results = await Promise.all(checkPromises);
-                
                 const brokenUrls = new Set(results.filter(r => r.status === 'error').map(r => r.url));
                 const coachesToUpdate = coaches.filter(c => !c.foto_url || brokenUrls.has(c.foto_url));
-                
                 setIsCheckingImages(false);
 
                 if (coachesToUpdate.length === 0) {
@@ -462,8 +448,19 @@
                 </div>
             );
         }
+        
+        // --- NIEUW: Placeholder Seizoenenbeheer ---
+        function SeasonsView() {
+            return (
+                 <div>
+                    <h1 className="text-3xl font-bold mb-6">Seizoenen Beheren</h1>
+                    <div className="bg-white p-6 rounded-lg shadow-md">
+                        <p>Hier komt de functionaliteit om individuele seizoensrecords te bekijken, bewerken en verwijderen.</p>
+                    </div>
+                </div>
+            );
+        }
 
-        // --- AI Assistent Component ---
         function AiView() {
             const [query, setQuery] = useState("Wie was de coach van Feyenoord in het seizoen 1974/1975?");
             const [loading, setLoading] = useState(false);
@@ -488,7 +485,7 @@
                     - "coachNaam": De volledige naam van de hoofdcoach voor dat seizoen.
                     - "landstitel": "Y" als ze de nationale competitie wonnen, anders "N".
                     - "nationale_beker": "Y" als ze de belangrijkste nationale beker wonnen, anders "N".
-                    - "europese_prijs": "Y" als ze een Europese prijs wonnen (bv. Champions League, Europa League, etc.), anders "N".
+                    - "europese_prijs": "Y" als ze een Europese prijs wonnen, anders "N".
                     - "land": Het land van de competitie (bv. "Netherlands" of "England").
                 `;
 
@@ -504,14 +501,13 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error(`API verzoek mislukt met status: ${response.status}`);
+                        throw new Error(`API verzoek mislukt met status: ${response.status}. Controleer de API-sleutel en domein-instellingen in de Google Cloud Console.`);
                     }
 
                     const result = await response.json();
                     
                     if (result.candidates && result.candidates.length > 0) {
                         const rawText = result.candidates[0].content.parts[0].text;
-                        // Probeer de JSON uit de markdown-geformatteerde string te halen
                         const jsonMatch = rawText.match(/```json\n([\s\S]*)\n```/);
                         if (jsonMatch && jsonMatch[1]) {
                             const parsedJson = JSON.parse(jsonMatch[1]);
@@ -536,28 +532,24 @@
                 setError(null);
 
                 try {
-                    // Stap 1: Controleer of de coach al bestaat
                     const coachesRef = collection(db, "coaches");
                     const q = query(coachesRef, where("naam", "==", aiResponse.coachNaam));
                     const coachSnapshot = await getDocs(q);
 
                     let coachId;
                     if (coachSnapshot.empty) {
-                        // Coach bestaat niet, maak een nieuw record aan
                         const newCoachRef = await addDoc(coachesRef, {
                             naam: aiResponse.coachNaam,
-                            nationaliteit: "", // Leeg laten voor handmatige aanvulling
+                            nationaliteit: "",
                             nat_code: "",
                             foto_url: ""
                         });
                         coachId = newCoachRef.id;
                         alert(`Nieuwe coach "${aiResponse.coachNaam}" toegevoegd aan de database.`);
                     } else {
-                        // Coach bestaat, gebruik de bestaande ID
                         coachId = coachSnapshot.docs[0].id;
                     }
 
-                    // Stap 2: Voeg het seizoen toe met de juiste coachId
                     const seizoenenRef = collection(db, "seizoenen");
                     await addDoc(seizoenenRef, {
                         seizoen: aiResponse.seizoen,
@@ -566,14 +558,14 @@
                         nationale_beker: aiResponse.nationale_beker,
                         europese_prijs: aiResponse.europese_prijs,
                         land: aiResponse.land,
-                        coachId: coachId // Koppel de juiste ID
+                        coachId: coachId
                     });
 
                     alert(`Seizoen ${aiResponse.seizoen} voor ${aiResponse.club} succesvol toegevoegd!`);
-                    setAiResponse(null); // Reset de UI
+                    setAiResponse(null);
                 } catch(e) {
                     console.error("Fout bij toevoegen aan database:", e);
-                    setError("Kon data niet wegschrijven naar de database. Controleer de console.");
+                    setError("Kon data niet wegschrijven naar de database.");
                 }
 
                 setLoading(false);
@@ -584,20 +576,12 @@
                     <h1 className="text-3xl font-bold mb-6">AI Assistent</h1>
                     <div className="bg-white p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold mb-2">Stel een vraag</h2>
-                        <p className="text-sm text-gray-600 mb-4">Stel een specifieke vraag om een datagat op te vullen. Bijvoorbeeld: "Wie was de coach van Ajax in het seizoen 1988/1989?"</p>
-                        
-                        <textarea 
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            className="w-full p-2 border rounded-md h-24"
-                        ></textarea>
-                        
+                        <p className="text-sm text-gray-600 mb-4">Stel een specifieke vraag om een datagat op te vullen.</p>
+                        <textarea value={query} onChange={(e) => setQuery(e.target.value)} className="w-full p-2 border rounded-md h-24"></textarea>
                         <button onClick={handleAskAI} disabled={loading} className="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded inline-flex items-center disabled:bg-gray-400">
                             <SparklesIcon /> {loading ? "Bezig..." : "Vraag de AI"}
                         </button>
-
-                        {error && <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md">{error}</div>}
-
+                        {error && <div className="mt-4 p-4 bg-red-100 text-red-700 rounded-md"><strong>Fout:</strong> {error}</div>}
                         {aiResponse && (
                             <div className="mt-6 border-t pt-6">
                                 <h3 className="text-lg font-semibold mb-2">Voorgestelde Data:</h3>
