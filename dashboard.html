@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 9.5 - Stabiele Versie
+  Dashboard Versie: 9.6 - Bugfix Filters
   Changelog:
-  - SeasonsView component volledig geïmplementeerd met CRUD en filtering.
-  - Filters voor land en club toegevoegd aan SeasonsView.
-  - Formulieren in SeasonsView gebruiken dropdowns voor club- en coachselectie.
-  - Prijzen zijn nu checkboxes voor eenvoudige invoer.
-  - Alle kernfunctionaliteiten van het dashboard zijn nu compleet.
+  - CRITICAL FIX: "filters is not defined" crash opgelost.
+  - De 'filters' state is van SeasonsView naar de App component verplaatst ('lifting state up').
+  - De App component geeft de filter-state nu als prop door aan SeasonsView.
+  - De 'key' op het <main> element werkt nu correct, wat zorgt voor een stabiele refresh van de view.
 -->
 <html lang="nl">
 <head>
@@ -297,12 +296,11 @@
             );
         }
         
-        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate }) {
+        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) {
             const [editingId, setEditingId] = useState(null);
             const [editFormData, setEditFormData] = useState({});
             const [newSeason, setNewSeason] = useState({ seizoen: '', club: '', coachId: '', land: '', europese_prijs: 'N', landstitel: 'N', nationale_beker: 'N' });
-            const [filters, setFilters] = useState({ land: '', club: '' });
-
+            
             const clubsMap = useMemo(() => new Map(clubs.map(c => [c.id, c])), [clubs]);
             const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c])), [coaches]);
 
@@ -377,7 +375,6 @@
             return (
                 <div>
                     <h1 className="text-2xl font-bold mb-4">Seizoenen Beheer</h1>
-                    {/* Filters */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-lg shadow">
                          <select value={filters.land} onChange={(e) => handleFilterChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md">
                             <option value="">Alle Landen</option>
@@ -389,7 +386,6 @@
                         </select>
                     </div>
 
-                    {/* Tabel */}
                     <div className="bg-white shadow rounded-lg overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
@@ -446,7 +442,6 @@
                             </tbody>
                         </table>
                     </div>
-                    {/* Nieuw seizoen formulier */}
                     <div className="mt-8">
                         <h2 className="text-xl font-bold mb-4">Nieuw Seizoen Toevoegen</h2>
                         <form onSubmit={handleAddSeason} className="bg-white shadow rounded-lg p-6 space-y-4">
@@ -485,10 +480,10 @@
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
             const [view, setView] = useState('seasons'); 
-            
             const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
             const [dataLoading, setDataLoading] = useState(true);
             const [dataError, setDataError] = useState(null);
+            const [filters, setFilters] = useState({ land: '', club: '' }); // State lifted up
 
             const fetchAllData = useCallback(async () => {
                 setDataLoading(true);
@@ -550,7 +545,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v9.5</span>
+                            <span className="text-sm text-gray-400">v9.6</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -582,7 +577,7 @@
                             {
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
-                                'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} />,
+                                'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                 'ai': <AiView />
                             }[view]
                         }
