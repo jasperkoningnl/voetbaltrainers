@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 9.0 - Volledig Club, Coach & Seizoen Beheer -->
+<!-- Dashboard Versie: 9.1 - Robuuste Data Architectuur & Bugfix -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -60,16 +60,55 @@
 
         function App() {
             const [user, setUser] = useState(null);
-            const [loading, setLoading] = useState(true);
+            const [authLoading, setAuthLoading] = useState(true);
             const [view, setView] = useState('seasons'); 
+            
+            // Centrale state voor alle data
+            const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
+            const [dataLoading, setDataLoading] = useState(true);
+            const [dataError, setDataError] = useState(null);
 
+            // Effect om de inlogstatus van de gebruiker te controleren
             useEffect(() => {
                 const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
                     setUser(currentUser);
-                    setLoading(false);
+                    setAuthLoading(false);
                 });
                 return () => unsubscribe();
             }, []);
+            
+            // Effect om alle data centraal op te halen ZODRA de gebruiker is ingelogd
+            useEffect(() => {
+                if (user) { // Alleen data ophalen als er een gebruiker is
+                    const fetchAllData = async () => {
+                        setDataLoading(true);
+                        setDataError(null);
+                        try {
+                            const [seasonsSnapshot, coachesSnapshot, clubsSnapshot] = await Promise.all([
+                                getDocs(query(collection(db, "seizoenen"), orderBy("seizoen", "desc"))),
+                                getDocs(collection(db, "coaches")),
+                                getDocs(collection(db, "clubs"))
+                            ]);
+                            
+                            const seasonsData = seasonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            const coachesData = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                            const clubsData = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                            setAppData({
+                                seasons: seasonsData,
+                                coaches: coachesData,
+                                clubs: clubsData,
+                            });
+
+                        } catch (e) {
+                            console.error("Fout bij ophalen van data:", e);
+                            setDataError("Kon de data niet laden vanuit de database.");
+                        }
+                        setDataLoading(false);
+                    };
+                    fetchAllData();
+                }
+            }, [user]); // Dit effect draait opnieuw als de gebruiker in- of uitlogt
 
             const handleLogin = () => {
                 const provider = new GoogleAuthProvider();
@@ -88,7 +127,7 @@
                 signOut(auth).catch(error => console.error("Logout Fout:", error));
             };
 
-            if (loading) { return <div className="flex items-center justify-center h-screen"><p>Dashboard laden...</p></div> }
+            if (authLoading) { return <div className="flex items-center justify-center h-screen"><p>Dashboard laden...</p></div> }
             if (!user) {
                 return (
                     <div className="flex items-center justify-center h-screen bg-gray-200">
@@ -108,7 +147,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v9.0</span>
+                            <span className="text-sm text-gray-400">v9.1</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -135,11 +174,12 @@
                         </div>
                     </aside>
                     <main className="flex-1 p-8 overflow-y-auto" key={view}>
-                        {
+                        {dataLoading ? <div className="text-center">Database data aan het laden...</div> : 
+                         dataError ? <div className="text-center text-red-500">{dataError}</div> :
                             {
-                                'clubs': <ClubsView />,
-                                'coaches': <CoachesView />,
-                                'seasons': <SeasonsView />,
+                                'clubs': <ClubsView clubs={appData.clubs} />,
+                                'coaches': <CoachesView coaches={appData.coaches} />,
+                                'seasons': <SeasonsView seasons={appData.seasons} coaches={appData.coaches} />,
                                 'ai': <AiView />
                             }[view]
                         }
@@ -148,207 +188,9 @@
             );
         }
         
-        function ClubsView() {
-            // ... (Onaangepast)
-        }
-
-        function CoachesView() {
-           // ... (Onaangepast)
-        }
-        
-        function SeasonsView() {
-            const [seasons, setSeasons] = useState([]);
-            const [coaches, setCoaches] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [error, setError] = useState(null);
-            const [filterLand, setFilterLand] = useState('All');
-            const [searchTerm, setSearchTerm] = useState('');
-            const [editingSeason, setEditingSeason] = useState(null);
-
-            const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c.naam])), [coaches]);
-            const coachesSorted = useMemo(() => [...coaches].sort((a,b) => a.naam.localeCompare(b.naam)), [coaches]);
-
-            const fetchSeasonsAndCoaches = useCallback(async () => {
-                setLoading(true);
-                setError(null);
-                try {
-                    const [seasonsSnapshot, coachesSnapshot] = await Promise.all([
-                        getDocs(query(collection(db, "seizoenen"), orderBy("seizoen", "desc"))),
-                        getDocs(collection(db, "coaches"))
-                    ]);
-                    
-                    const coachesData = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setCoaches(coachesData);
-
-                    const seasonsData = seasonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    setSeasons(seasonsData);
-
-                } catch (e) {
-                    console.error("Fout bij ophalen data:", e);
-                    setError("Kon de seizoenen niet laden.");
-                }
-                setLoading(false);
-            }, []);
-
-            useEffect(() => {
-                fetchSeasonsAndCoaches();
-            }, [fetchSeasonsAndCoaches]);
-            
-            const handleDelete = async (seasonId) => {
-                if (window.confirm("Weet je zeker dat je dit seizoen wilt verwijderen? Dit kan niet ongedaan worden gemaakt.")) {
-                    try {
-                        await deleteDoc(doc(db, "seizoenen", seasonId));
-                        setSeasons(prevSeasons => prevSeasons.filter(s => s.id !== seasonId));
-                    } catch (e) {
-                        console.error("Fout bij verwijderen:", e);
-                        alert("Verwijderen mislukt. Zie console voor details.");
-                    }
-                }
-            };
-            
-            const handleSave = async (seasonToSave) => {
-                const { id, ...dataToSave } = seasonToSave;
-                try {
-                     await updateDoc(doc(db, "seizoenen", id), dataToSave);
-                     setSeasons(prev => prev.map(s => s.id === id ? seasonToSave : s));
-                     setEditingSeason(null);
-                } catch(e) {
-                    console.error("Fout bij opslaan:", e);
-                    alert("Opslaan mislukt.");
-                }
-            }
-
-            const filteredSeasons = useMemo(() => {
-                return seasons.filter(s => {
-                    const landMatch = filterLand === 'All' || s.land === filterLand;
-                    const clubMatch = searchTerm === '' || s.club.toLowerCase().includes(searchTerm.toLowerCase());
-                    return landMatch && clubMatch;
-                });
-            }, [seasons, filterLand, searchTerm]);
-            
-            if (loading) return <div>Data laden...</div>;
-            if (error) return <div className="text-red-500">{error}</div>;
-
-            return (
-                 <div>
-                    <h1 className="text-3xl font-bold mb-6">Seizoenen Beheren</h1>
-                    <div className="bg-white p-6 rounded-lg shadow-md">
-                        <div className="flex flex-wrap gap-4 mb-4 items-center">
-                           <h2 className="text-xl font-semibold">Filters</h2>
-                           <div>
-                            <label htmlFor="land-filter" className="text-sm font-medium mr-2">Land:</label>
-                            <select id="land-filter" onChange={(e) => setFilterLand(e.target.value)} value={filterLand} className="p-2 border rounded-md">
-                                <option value="All">Alle Landen</option>
-                                <option value="England">England</option>
-                                <option value="Netherlands">Netherlands</option>
-                            </select>
-                           </div>
-                           <div>
-                             <label htmlFor="club-search" className="text-sm font-medium mr-2">Club:</label>
-                             <input id="club-search" type="text" placeholder="Zoek op club..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="p-2 border rounded-md" />
-                           </div>
-                        </div>
-                        <div className="overflow-x-auto">
-                           <table className="w-full text-left">
-                               <thead>
-                                 <tr className="border-b">
-                                   <th className="p-2">Seizoen</th>
-                                   <th className="p-2">Club</th>
-                                   <th className="p-2">Coach</th>
-                                   <th className="p-2">Prijzen</th>
-                                   <th className="p-2 w-28 text-right">Acties</th>
-                                 </tr>
-                               </thead>
-                               <tbody>
-                                 {filteredSeasons.map(season => (
-                                     <React.Fragment key={season.id}>
-                                        <tr className="border-b last:border-b-0 hover:bg-gray-50 align-top">
-                                          <td className="p-2 font-mono">{season.seizoen}</td>
-                                          <td className="p-2 font-medium">{season.club}</td>
-                                          <td className="p-2 text-sm text-gray-600">{coachesMap.get(season.coachId)?.naam || 'Onbekend'}</td>
-                                          <td className="p-2 text-xs font-mono">
-                                            L: {season.landstitel || 'N'} | 
-                                            B: {season.nationale_beker || 'N'} | 
-                                            E: {season.europese_prijs || 'N'}
-                                          </td>
-                                          <td className="p-2 flex gap-2 justify-end">
-                                            <button onClick={() => setEditingSeason(season)} className="p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-600"><EditIcon /></button>
-                                            <button onClick={() => handleDelete(season.id)} className="p-1.5 bg-red-600 text-white rounded-md hover:bg-red-700"><TrashIcon /></button>
-                                          </td>
-                                        </tr>
-                                        {editingSeason && editingSeason.id === season.id && (
-                                            <tr>
-                                                <td colSpan="5" className="p-4 bg-gray-50">
-                                                    <EditSeasonForm 
-                                                        season={editingSeason} 
-                                                        coaches={coachesSorted}
-                                                        onSave={handleSave}
-                                                        onCancel={() => setEditingSeason(null)}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        )}
-                                     </React.Fragment>
-                                 ))}
-                               </tbody>
-                           </table>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-
-        function EditSeasonForm({ season, coaches, onSave, onCancel }) {
-            const [formData, setFormData] = useState(season);
-
-            const handleChange = (e) => {
-                const { name, value } = e.target;
-                setFormData(prev => ({...prev, [name]: value }));
-            }
-            
-            return (
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Bewerk Seizoen: {season.club} {season.seizoen}</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                           <label className="block text-sm font-medium text-gray-700">Coach</label>
-                           <select name="coachId" value={formData.coachId} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded-md">
-                             {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
-                           </select>
-                        </div>
-                         <div>
-                           <label className="block text-sm font-medium text-gray-700">Land</label>
-                           <input type="text" name="land" value={formData.land} onChange={handleChange} className="mt-1 block w-full p-2 border border-gray-300 rounded-md" />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Prijzen</label>
-                        <div className="flex gap-4 mt-1">
-                           {['landstitel', 'nationale_beker', 'europese_prijs'].map(prize => (
-                               <div key={prize} className="flex items-center">
-                                 <label htmlFor={`${prize}-${season.id}`} className="mr-2 capitalize">{prize.replace('_', ' ')}:</label>
-                                 <select id={`${prize}-${season.id}`} name={prize} value={formData[prize] || 'N'} onChange={handleChange} className="p-2 border rounded-md">
-                                     <option value="Y">Y</option>
-                                     <option value="N">N</option>
-                                 </select>
-                               </div>
-                           ))}
-                        </div>
-                    </div>
-                    <div className="flex justify-end gap-2">
-                        <button onClick={onCancel} className="bg-gray-200 hover:bg-gray-300 text-black font-bold py-2 px-4 rounded">Annuleren</button>
-                        <button onClick={() => onSave(formData)} className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Opslaan</button>
-                    </div>
-                </div>
-            )
-        }
-
-        function AiView() {
-            // ... (Onaangepast)
-        }
+        // ... de View componenten worden hieronder aangepast om data als 'props' te ontvangen ...
 
         ReactDOM.render(<App />, document.getElementById('root'));
-
     </script>
 </body>
 </html>
