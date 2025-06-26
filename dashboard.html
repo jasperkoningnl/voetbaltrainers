@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<!-- Dashboard Versie: 7.0 - Seizoenenbeheer & Definitieve Bugfix -->
+<!-- Dashboard Versie: 7.1 - Login Fallback & Bugfix -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voetbaltrainers Data Dashboard</title>
     
-    <!-- Tailwind CSS voor styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- React & Babel voor de applicatielogica -->
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Firebase SDK's -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, doc, writeBatch, updateDoc, query, where, addDoc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -36,18 +32,10 @@
             db: getFirestore(app),
             GoogleAuthProvider,
             signInWithPopup,
+            signInWithRedirect, // Voeg redirect methode toe
             signOut,
             onAuthStateChanged,
-            collection,
-            getDocs,
-            doc,
-            writeBatch,
-            updateDoc,
-            query, 
-            where,
-            addDoc,
-            setDoc,
-            deleteDoc
+            collection, getDocs, doc, writeBatch, updateDoc, query, where, addDoc, setDoc, deleteDoc
         };
     </script>
 </head>
@@ -56,7 +44,7 @@
 
     <script type="text/babel">
         const { useState, useEffect, useCallback, useMemo } = React;
-        const { db, auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, writeBatch, updateDoc, query, where, addDoc, setDoc, deleteDoc } = window.firebaseServices;
+        const { db, auth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut, onAuthStateChanged, collection, getDocs, doc, writeBatch, updateDoc, query, where, addDoc, setDoc, deleteDoc } = window.firebaseServices;
 
         // --- Iconen ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -69,7 +57,7 @@
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
         const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
         const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
-        const TrashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>;
+        const TrashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>;
 
         function App() {
             const [user, setUser] = useState(null);
@@ -86,7 +74,18 @@
 
             const handleLogin = () => {
                 const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).catch(error => console.error("Login Fout:", error));
+                signInWithPopup(auth, provider)
+                    .catch((error) => {
+                        // FIX: Als de popup mislukt (bv. op mobiel of in een iframe), gebruik dan redirect als fallback.
+                        if (error.code === 'auth/operation-not-supported-in-this-environment' || 
+                            error.code === 'auth/unauthorized-domain' ||
+                            error.code === 'auth/cancelled-popup-request') {
+                            console.warn("Popup sign-in mislukt, probeer redirect...");
+                            signInWithRedirect(auth, provider);
+                        } else {
+                            console.error("Login Fout:", error);
+                        }
+                    });
             };
 
             const handleLogout = () => {
@@ -113,7 +112,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v7.0</span>
+                            <span className="text-sm text-gray-400">v7.1</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={() => setView('clubs')} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
