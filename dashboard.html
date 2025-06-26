@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 9.8 - Verbeterde Filters & CSV-logica
+  Dashboard Versie: 9.9 - Data Cleanup Tool
   Changelog:
-  - COACHES: Filter op nationaliteit toegevoegd.
-  - COACHES: CSV Download-logica verbeterd. Exporteert nu ook coaches met een niet-werkende foto-URL.
-  - De UI houdt nu bij welke afbeeldingen niet laden en neemt deze mee in de export.
+  - NIEUW: 'Data Cleanup' tabblad toegevoegd om data-inconsistenties te beheren.
+  - CLEANUP: Functionaliteit om landnamen te scannen en te normaliseren (bv. 'Spanje' -> 'Spain') in de 'clubs' en 'seizoenen' collecties.
+  - UI: Nieuw icoon en navigatie-item voor de cleanup tool.
+  - Alle vorige functionaliteiten (filters, CSV-beheer, etc.) zijn behouden.
 -->
 <html lang="nl">
 <head>
@@ -65,6 +66,7 @@
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
         const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
+        const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
         
         // --- Functionele Componenten ---
 
@@ -564,6 +566,94 @@
             );
         }
 
+        function DataCleanupView({ clubs, seasons, onUpdate }) {
+            const [countryMap, setCountryMap] = useState({});
+            const [selectedTarget, setSelectedTarget] = useState('');
+
+            useEffect(() => {
+                const allCountryNames = [...new Set([...clubs.map(c => c.land), ...seasons.map(s => s.land)])];
+                const map = {};
+                allCountryNames.forEach(name => {
+                    if (name) { // ignore empty names
+                        const key = name.toLowerCase();
+                        if (!map[key]) map[key] = [];
+                        if (!map[key].includes(name)) map[key].push(name);
+                    }
+                });
+                setCountryMap(map);
+            }, [clubs, seasons]);
+
+            const handleNormalize = async (target, sources) => {
+                if (!target || sources.length === 0) {
+                    alert("Selecteer een doel en ten minste één bronnaam.");
+                    return;
+                }
+                if (!window.confirm(`Weet je zeker dat je alle instanties van [${sources.join(', ')}] wilt vervangen door '${target}'? Dit kan niet ongedaan worden gemaakt.`)) {
+                    return;
+                }
+
+                try {
+                    const batch = writeBatch(db);
+                    let updates = 0;
+
+                    const clubsToUpdate = clubs.filter(c => sources.includes(c.land));
+                    clubsToUpdate.forEach(c => {
+                        batch.update(doc(db, 'clubs', c.id), { land: target });
+                        updates++;
+                    });
+                    
+                    const seasonsToUpdate = seasons.filter(s => sources.includes(s.land));
+                    seasonsToUpdate.forEach(s => {
+                        batch.update(doc(db, 'seizoenen', s.id), { land: target });
+                        updates++;
+                    });
+
+                    await batch.commit();
+                    alert(`${updates} documenten succesvol bijgewerkt!`);
+                    onUpdate();
+                } catch(e) {
+                    console.error("Fout bij normaliseren:", e);
+                    alert("Er is een fout opgetreden bij het opschonen van de data.");
+                }
+            };
+            
+            return (
+                <div>
+                    <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1>
+                    <div className="bg-white p-6 rounded-lg shadow">
+                        <h2 className="text-xl font-semibold mb-2">Landen Normaliseren</h2>
+                        <p className="text-gray-600 mb-4">Hieronder staan groepen van landnamen die op elkaar lijken. Kies de correcte naam en voeg de incorrecte namen samen om de data te standaardiseren.</p>
+                        
+                        {Object.keys(countryMap).filter(key => countryMap[key].length > 1).map(key => {
+                            const names = countryMap[key];
+                            return (
+                                <div key={key} className="p-4 border rounded-md mb-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                                        <div className="md:col-span-2">
+                                            <label className="block text-sm font-medium text-gray-700">Te vervangen namen:</label>
+                                            <div className="flex flex-wrap gap-2 mt-1">
+                                                {names.map(name => <span key={name} className="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">{name}</span>)}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">Vervangen door:</label>
+                                            <select onChange={(e) => handleNormalize(e.target.value, names.filter(n => n !== e.target.value))} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                                <option value="">Kies correcte naam</option>
+                                                {names.map(name => <option key={name} value={name}>{name}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                        {Object.keys(countryMap).filter(key => countryMap[key].length > 1).length === 0 && (
+                            <p className="text-green-600">Alle landnamen lijken consistent te zijn!</p>
+                        )}
+                    </div>
+                </div>
+            )
+        }
+
         function AiView() {
              return <div>AI Assistent (geparkeerd)</div>;
         }
@@ -582,7 +672,7 @@
                 setDataError(null);
                 try {
                     const [seasonsSnapshot, coachesSnapshot, clubsSnapshot] = await Promise.all([
-                        getDocs(query(collection(db, "seizoenen"), orderBy("seizoen", "desc"))),
+                        getDocs(query(collection(db, "seizoenen"))),
                         getDocs(query(collection(db, "coaches"), orderBy("naam"))),
                         getDocs(query(collection(db, "clubs"), orderBy("naam")))
                     ]);
@@ -590,6 +680,9 @@
                     const seasonsData = seasonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     const coachesData = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     const clubsData = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    // Sorteer seizoenen hier in de code i.p.v. in de query
+                    seasonsData.sort((a,b) => b.seizoen.localeCompare(a.seizoen));
 
                     setAppData({ seasons: seasonsData, coaches: coachesData, clubs: clubsData });
                 } catch (e) {
@@ -637,7 +730,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v9.8</span>
+                            <span className="text-sm text-gray-400">v9.9</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -648,6 +741,9 @@
                             </a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('coaches');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
                                 <UserIcon /> Coaches Beheren
+                            </a>
+                            <a href="#" onClick={(e) => {e.preventDefault(); setView('cleanup');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'cleanup' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
+                                <ToolIcon /> Data Opschonen
                             </a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('ai');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'ai' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
                                 <SparklesIcon /> AI Assistent
@@ -670,6 +766,7 @@
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
+                                'cleanup': <DataCleanupView clubs={appData.clubs} seasons={appData.seasons} onUpdate={fetchAllData} />,
                                 'ai': <AiView />
                             }[view]
                         }
