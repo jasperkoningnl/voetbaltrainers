@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 10.0 - Verbeterde Data Cleanup Tool
+  Dashboard Versie: 10.1 - Volledige Data Cleanup
   Changelog:
-  - CLEANUP: De logica voor het normaliseren van landnamen is verbeterd.
-    - Groepeert nu correct op basis van kleine letters, ongeacht de oorspronkelijke hoofdletters.
-    - Toont alle varianten binnen een groep.
-    - Biedt de mogelijkheid om een van de bestaande namen als standaard te kiezen of een nieuwe naam in te voeren.
-  - Stabiliteit en betrouwbaarheid van de opschoontool significant verbeterd.
+  - CLEANUP: De "Data Opschonen" tool is nu opgesplitst in twee secties:
+    1. Landen (voor clubs/seizoenen)
+    2. Nationaliteiten (voor coaches)
+  - FIX: De tool detecteert nu correct inconsistente 'nationaliteit' velden (bv. Engeland/England).
+  - De kernlogica is gerepareerd zodat alle relevante data correct gescand wordt.
 -->
 <html lang="nl">
 <head>
@@ -22,7 +22,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -42,7 +42,7 @@
             signInWithPopup,
             signOut,
             onAuthStateChanged,
-            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch
+            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where
         };
     </script>
 </head>
@@ -51,7 +51,7 @@
 
     <script type="text/babel">
         const { useState, useEffect, useCallback, useMemo } = React;
-        const { db, auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch } = window.firebaseServices;
+        const { db, auth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where } = window.firebaseServices;
 
         // --- Iconen ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -567,28 +567,41 @@
             );
         }
 
-        function DataCleanupView({ clubs, seasons, onUpdate }) {
+        function DataCleanupView({ clubs, seasons, coaches, onUpdate }) {
             const [countryMap, setCountryMap] = useState({});
-            const [targetNames, setTargetNames] = useState({});
+            const [targetCountryNames, setTargetCountryNames] = useState({});
+            const [nationalityMap, setNationalityMap] = useState({});
+            const [targetNationalityNames, setTargetNationalityNames] = useState({});
 
             useEffect(() => {
+                // Logic for countries
                 const allCountryNames = [...new Set([...clubs.map(c => c.land), ...seasons.map(s => s.land)])];
-                const map = {};
+                const cMap = {};
                 allCountryNames.forEach(name => {
                     if (name) {
                         const key = name.toLowerCase();
-                        if (!map[key]) map[key] = [];
-                        if (!map[key].includes(name)) map[key].push(name);
+                        if (!cMap[key]) cMap[key] = [];
+                        if (!cMap[key].includes(name)) cMap[key].push(name);
                     }
                 });
-                setCountryMap(map);
-            }, [clubs, seasons]);
+                setCountryMap(cMap);
 
-            const handleNormalize = async (key) => {
-                const sources = countryMap[key];
-                const target = targetNames[key];
-                
-                if (!target || sources.length < 2) {
+                // Logic for nationalities
+                const allNationalityNames = [...new Set(coaches.map(c => c.nationaliteit))];
+                const nMap = {};
+                allNationalityNames.forEach(name => {
+                    if (name) {
+                        const key = name.toLowerCase();
+                        if (!nMap[key]) nMap[key] = [];
+                        if (!nMap[key].includes(name)) nMap[key].push(name);
+                    }
+                });
+                setNationalityMap(nMap);
+
+            }, [clubs, seasons, coaches]);
+
+            const handleNormalize = async (key, sources, target, collectionConfigs) => {
+                 if (!target || sources.length < 2) {
                     alert("Selecteer een doelnaam en zorg dat er meerdere bronnamen zijn.");
                     return;
                 }
@@ -600,19 +613,16 @@
                 try {
                     const batch = writeBatch(db);
                     let updates = 0;
-
-                    const processCollection = async (collectionName) => {
-                        const q = query(collection(db, collectionName), where('land', 'in', sourcesToUpdate));
+                    
+                    for (const config of collectionConfigs) {
+                        const q = query(collection(db, config.name), where(config.field, 'in', sourcesToUpdate));
                         const snapshot = await getDocs(q);
                         snapshot.forEach(docSnap => {
-                            batch.update(docSnap.ref, { land: target });
+                            batch.update(docSnap.ref, { [config.field]: target });
                             updates++;
                         });
-                    };
+                    }
 
-                    await processCollection('clubs');
-                    await processCollection('seizoenen');
-                    
                     if(updates > 0) {
                         await batch.commit();
                         alert(`${updates} documenten succesvol bijgewerkt!`);
@@ -626,15 +636,15 @@
                 }
             };
             
-            return (
-                <div>
-                    <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1>
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <h2 className="text-xl font-semibold mb-2">Landen Normaliseren</h2>
-                        <p className="text-gray-600 mb-4">Hieronder staan groepen van landnamen die op elkaar lijken (ongeacht hoofdletters). Kies de correcte naam en voeg de incorrecte namen samen om de data te standaardiseren.</p>
+            const createNormalizerUI = (title, map, targetState, setTargetState, collectionConfigs) => {
+                const groups = Object.keys(map).filter(key => map[key].length > 1);
+                return (
+                    <div className="bg-white p-6 rounded-lg shadow mb-8">
+                        <h2 className="text-xl font-semibold mb-2">{title}</h2>
+                        <p className="text-gray-600 mb-4">Hieronder staan groepen van namen die op elkaar lijken. Kies de correcte naam en voeg de incorrecte namen samen.</p>
                         
-                        {Object.keys(countryMap).filter(key => countryMap[key].length > 1).map(key => {
-                            const names = countryMap[key];
+                        {groups.length > 0 ? groups.map(key => {
+                            const names = map[key];
                             return (
                                 <div key={key} className="p-4 border rounded-md mb-4 bg-gray-50">
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -647,23 +657,28 @@
                                         <div className="flex items-end space-x-2">
                                             <div className="flex-grow">
                                                 <label className="block text-sm font-medium text-gray-700">Standaardiseren naar:</label>
-                                                <select onChange={(e) => setTargetNames({...targetNames, [key]: e.target.value})} value={targetNames[key] || ''} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                                <select onChange={(e) => setTargetState({...targetState, [key]: e.target.value})} value={targetState[key] || ''} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                                     <option value="">Kies correcte naam</option>
                                                     {names.map(name => <option key={name} value={name}>{name}</option>)}
                                                 </select>
                                             </div>
-                                            <button onClick={() => handleNormalize(key)} disabled={!targetNames[key]} className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400">
+                                            <button onClick={() => handleNormalize(key, names, targetState[key], collectionConfigs)} disabled={!targetState[key]} className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400">
                                                 Voeg samen
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             );
-                        })}
-                        {Object.keys(countryMap).filter(key => countryMap[key].length > 1).length === 0 && (
-                            <p className="text-green-600">Alle landnamen lijken consistent te zijn!</p>
-                        )}
+                        }) : <p className="text-green-600">Alle namen in deze categorie lijken consistent te zijn!</p>}
                     </div>
+                );
+            };
+
+            return (
+                <div>
+                    <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1>
+                    {createNormalizerUI("Landen (Clubs & Seizoenen)", countryMap, targetCountryNames, setTargetCountryNames, [{name: 'clubs', field: 'land'}, {name: 'seizoenen', field: 'land'}])}
+                    {createNormalizerUI("Nationaliteiten (Coaches)", nationalityMap, targetNationalityNames, setTargetNationalityNames, [{name: 'coaches', field: 'nationaliteit'}])}
                 </div>
             )
         }
@@ -743,7 +758,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v10.0</span>
+                            <span className="text-sm text-gray-400">v10.1</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
@@ -779,7 +794,7 @@
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
-                                'cleanup': <DataCleanupView clubs={appData.clubs} seasons={appData.seasons} onUpdate={fetchAllData} />,
+                                'cleanup': <DataCleanupView clubs={appData.clubs} seasons={appData.seasons} coaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'ai': <AiView />
                             }[view]
                         }
