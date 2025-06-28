@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 11.0 - Stabiele & Complete Versie
+  Dashboard Versie: 11.1 - Syntaxisfout Hersteld
   Changelog:
-  - CRITICAL FIX: De volledige, werkende code voor ALLE componenten en functies is hersteld.
-  - De fout waarbij de beheertabbladen leeg waren, is definitief opgelost.
-  - De wizard is volledig functioneel, inclusief de validatie-UI en importlogica.
-  - Alle voorgaande features (filters, CSV, cleanup tools) zijn aanwezig.
+  - CRITICAL FIX: Syntaxisfout in de AiWizardView opgelost die het laden van het dashboard verhinderde.
+  - De placeholder-commentaren zijn vervangen door de correcte JSX-interface voor de wizard-stappen.
+  - Alle componenten zijn nu volledig en correct geïmplementeerd.
 -->
 <html lang="nl">
 <head>
@@ -799,8 +798,43 @@
                 <div>
                     <h1 className="text-2xl font-bold mb-6">Nieuw Land Wizard</h1>
 
-                    {step < 3 && ( /* ... */ )}
-                    {step === 2 && selectedClub && ( /* ... */ )}
+                    {step < 3 && (
+                         <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                            <div>
+                                <h3 className="text-lg font-medium leading-6 text-gray-900">Stap 1: Kies een Land</h3>
+                                <select value={selectedCountry} onChange={(e) => handleCountrySelect(e.target.value)} className="mt-2 block w-full md:w-1/2 pl-3 pr-10 py-2 text-base border-gray-300 bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    <option value="">-- Selecteer een land --</option>
+                                    {supportedCountries.map(c => <option key={c} value={c}>{c}</option>)}
+                                </select>
+                            </div>
+                            {isLoading && <p>{loadingMessage}</p>}
+                            {clubsForCountry.length > 0 && !isLoading && (
+                                <div>
+                                    <h3 className="text-lg font-medium leading-6 text-gray-900">Stap 2: Kies een Club</h3>
+                                     <div className="mt-2 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                                        {clubsForCountry.map(clubName => (
+                                            <button key={clubName} onClick={() => handleClubSelect(clubName)} className="w-full text-left p-3 border rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                                {clubName}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    
+                    {step === 2 && selectedClub && (
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow flex justify-between items-center">
+                            <div>
+                                <p className="text-sm text-gray-500">Geselecteerd:</p>
+                                <p className="text-xl font-bold">{selectedClub} ({selectedCountry})</p>
+                            </div>
+                            <button onClick={handleStartResearch} className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                Start Onderzoek
+                            </button>
+                        </div>
+                    )}
+
                     {step === 3 && (
                          <div className="mt-6">
                              {isLoading && <p>{loadingMessage}</p>}
@@ -933,7 +967,7 @@
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
                         <div className="p-4 border-b border-gray-700">
                             <h2 className="text-xl font-bold">Dashboard</h2>
-                            <span className="text-sm text-gray-400">v11.0</span>
+                            <span className="text-sm text-gray-400">v11.1</span>
                         </div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('ai_wizard');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'ai_wizard' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}>
