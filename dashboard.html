@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 12.6 - Definitief Herstel Wizard & Afbeeldingen Zoeker
+  Dashboard Versie: 12.7 - React Hook Fout Opgelost
   Changelog:
-  - FIX: De "Nieuw Land Wizard" (AiView) is volledig hersteld naar zijn oorspronkelijke, correcte stapsgewijze werking met clubknoppen.
-  - WIZARD: Validatiescherm (stap 3) is hersteld met correcte layout: invoerveld voor logo, en tabellen voor coaches en seizoenen ONDER elkaar.
-  - WIZARD: Tabellen in validatiescherm tonen nu de correcte, gesplitste kolommen (Nat./Code/Foto en T/B/E).
-  - WIZARD: Importlogica voegt de club weer volledig nieuw toe.
-  - FIX: De "Zoek ontbrekende afbeeldingen" functie opent nu een apart scherm met een duidelijke, stapsgewijze flow voor meer controle.
+  - FIX: De "Rendered fewer hooks than expected" crash in 'Coaches beheren' is opgelost.
+  - De component is geherstructureerd zodat de React-hooks altijd in dezelfde volgorde worden aangeroepen, zoals vereist.
 -->
 <html lang="nl">
 <head>
@@ -204,9 +201,8 @@
             );
         }
 
-        // --- NEW COMPONENT: ImageFinder ---
         function ImageFinder({ initialCoaches, onDone }) {
-            const [step, setStep] = useState(1); // 1: list, 2: searching, 3: results
+            const [step, setStep] = useState(1);
             const [coachesToSearch, setCoachesToSearch] = useState([]);
             const [foundImages, setFoundImages] = useState([]);
             const [searchStatus, setSearchStatus] = useState('');
@@ -225,7 +221,7 @@
                     if (imageUrl) {
                         results.push({ ...coach, foto_url: imageUrl });
                     }
-                    await new Promise(res => setTimeout(res, 250)); // Rate limiting
+                    await new Promise(res => setTimeout(res, 250));
                 }
                 setFoundImages(results);
                 setStep(3);
@@ -241,7 +237,7 @@
                 try {
                     await batch.commit();
                     alert(`${foundImages.length} afbeelding(en) succesvol opgeslagen!`);
-                    onDone(); // Ga terug naar het hoofdoverzicht
+                    onDone();
                 } catch (e) {
                     console.error("Fout bij opslaan afbeeldingen:", e);
                     alert("Er is een fout opgetreden bij het opslaan.");
@@ -302,13 +298,8 @@
         }
         
         function CoachesView({ initialCoaches, onUpdate }) {
-            const [viewMode, setViewMode] = useState('list'); // 'list' or 'image_finder'
-
-            if (viewMode === 'image_finder') {
-                return <ImageFinder initialCoaches={initialCoaches} onDone={() => { onUpdate(); setViewMode('list'); }} />;
-            }
-
-            // The original list view is returned here
+            // FIX: Alle hooks naar de top verplaatst om conditionele aanroepen te voorkomen.
+            const [viewMode, setViewMode] = useState('list');
             const [coaches, setCoaches] = useState([]);
             const [nameFilter, setNameFilter] = useState('');
             const [natFilter, setNatFilter] = useState('');
@@ -316,7 +307,6 @@
             const [editFormData, setEditFormData] = useState({});
             const [newCoach, setNewCoach] = useState({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' });
             const [brokenImageLinks, setBrokenImageLinks] = useState(new Set());
-            
             const availableNationalities = useMemo(() => [...new Set(initialCoaches.map(c => c.nationaliteit).filter(n => n))].sort(), [initialCoaches]);
 
             useEffect(() => {
@@ -328,6 +318,7 @@
                 setCoaches(filtered);
             }, [initialCoaches, nameFilter, natFilter]);
 
+            // Handlers blijven hier
             const handleImageError = (coachId) => { setBrokenImageLinks(prev => new Set(prev).add(coachId)); };
             const handleEditClick = (coach) => { setEditingId(coach.id); setEditFormData(coach); };
             const handleCancelClick = () => setEditingId(null);
@@ -336,6 +327,11 @@
             const handleSaveClick = async (id) => { try { await updateDoc(doc(db, 'coaches', id), editFormData); setEditingId(null); onUpdate(); } catch (error) { console.error("Error updating coach:", error); alert("Failed to update coach.");} };
             const handleAddCoach = async (e) => { e.preventDefault(); if (!newCoach.naam || !newCoach.nationaliteit || !newCoach.nat_code) { alert("Naam, nationaliteit en landcode zijn verplicht."); return; } try { await addDoc(collection(db, 'coaches'), newCoach); setNewCoach({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' }); onUpdate(); } catch (error) { console.error("Error adding coach:", error); alert("Failed to add coach."); } };
             const handleDeleteClick = async (id) => { if (window.confirm("Weet je zeker dat je deze coach wilt verwijderen?")) { try { await deleteDoc(doc(db, 'coaches', id)); onUpdate(); } catch (error) { console.error("Error deleting coach:", error); alert("Failed to delete coach."); } } };
+
+            // Conditionele rendering gebeurt hier, na alle hook-aanroepen.
+            if (viewMode === 'image_finder') {
+                return <ImageFinder initialCoaches={initialCoaches} onDone={() => { onUpdate(); setViewMode('list'); }} />;
+            }
 
             return (
                 <div>
