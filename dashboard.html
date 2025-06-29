@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 12.7 - React Hook Fout Opgelost
+  Dashboard Versie: 12.8 - Verbeterde Afbeeldingen Zoeker
   Changelog:
-  - FIX: De "Rendered fewer hooks than expected" crash in 'Coaches beheren' is opgelost.
-  - De component is geherstructureerd zodat de React-hooks altijd in dezelfde volgorde worden aangeroepen, zoals vereist.
+  - FIX: De "Zoek ontbrekende afbeeldingen" functie selecteert nu correct coaches met een LEGE foto-url én coaches met een NIET-WERKENDE foto-url (die de placeholder tonen).
+  - De logica is aangepast om alle coaches zonder geldige afbeelding te vinden en te verwerken.
 -->
 <html lang="nl">
 <head>
@@ -201,15 +201,16 @@
             );
         }
 
-        function ImageFinder({ initialCoaches, onDone }) {
+        function ImageFinder({ initialCoaches, onDone, brokenImageLinks }) {
             const [step, setStep] = useState(1);
             const [coachesToSearch, setCoachesToSearch] = useState([]);
             const [foundImages, setFoundImages] = useState([]);
             const [searchStatus, setSearchStatus] = useState('');
 
             useEffect(() => {
-                setCoachesToSearch(initialCoaches.filter(c => !c.foto_url));
-            }, [initialCoaches]);
+                // FIX: Zoek nu ook naar coaches met een gebroken link
+                setCoachesToSearch(initialCoaches.filter(c => !c.foto_url || brokenImageLinks.has(c.id)));
+            }, [initialCoaches, brokenImageLinks]);
 
             const handleSearch = async () => {
                 setStep(2);
@@ -251,13 +252,19 @@
                     
                     {step === 1 && (
                         <div className="bg-white p-6 rounded-lg shadow">
-                            <h2 className="text-xl font-semibold mb-2">{coachesToSearch.length} coaches gevonden zonder afbeelding.</h2>
-                            <ul className="list-disc list-inside mb-4">
-                                {coachesToSearch.map(c => <li key={c.id}>{c.naam}</li>)}
-                            </ul>
-                            <button onClick={handleSearch} disabled={coachesToSearch.length === 0} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400">
-                                Start met zoeken
-                            </button>
+                            <h2 className="text-xl font-semibold mb-2">{coachesToSearch.length} coaches gevonden zonder (geldige) afbeelding.</h2>
+                            {coachesToSearch.length > 0 ? (
+                                <>
+                                    <ul className="list-disc list-inside mb-4 max-h-48 overflow-y-auto">
+                                        {coachesToSearch.map(c => <li key={c.id}>{c.naam}</li>)}
+                                    </ul>
+                                    <button onClick={handleSearch} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-purple-600 hover:bg-purple-700">
+                                        Start met zoeken
+                                    </button>
+                                </>
+                            ) : (
+                                <p className="text-gray-600">Er zijn geen coaches die een nieuwe afbeelding nodig hebben.</p>
+                            )}
                         </div>
                     )}
 
@@ -271,7 +278,7 @@
                         <div className="bg-white p-6 rounded-lg shadow">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-xl font-semibold">{foundImages.length} van de {coachesToSearch.length} afbeeldingen gevonden.</h2>
-                                <button onClick={handleSave} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                <button onClick={handleSave} disabled={foundImages.length === 0} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400">
                                     Voeg Gevonden Foto's Toe
                                 </button>
                             </div>
@@ -298,7 +305,6 @@
         }
         
         function CoachesView({ initialCoaches, onUpdate }) {
-            // FIX: Alle hooks naar de top verplaatst om conditionele aanroepen te voorkomen.
             const [viewMode, setViewMode] = useState('list');
             const [coaches, setCoaches] = useState([]);
             const [nameFilter, setNameFilter] = useState('');
@@ -318,7 +324,6 @@
                 setCoaches(filtered);
             }, [initialCoaches, nameFilter, natFilter]);
 
-            // Handlers blijven hier
             const handleImageError = (coachId) => { setBrokenImageLinks(prev => new Set(prev).add(coachId)); };
             const handleEditClick = (coach) => { setEditingId(coach.id); setEditFormData(coach); };
             const handleCancelClick = () => setEditingId(null);
@@ -328,9 +333,8 @@
             const handleAddCoach = async (e) => { e.preventDefault(); if (!newCoach.naam || !newCoach.nationaliteit || !newCoach.nat_code) { alert("Naam, nationaliteit en landcode zijn verplicht."); return; } try { await addDoc(collection(db, 'coaches'), newCoach); setNewCoach({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' }); onUpdate(); } catch (error) { console.error("Error adding coach:", error); alert("Failed to add coach."); } };
             const handleDeleteClick = async (id) => { if (window.confirm("Weet je zeker dat je deze coach wilt verwijderen?")) { try { await deleteDoc(doc(db, 'coaches', id)); onUpdate(); } catch (error) { console.error("Error deleting coach:", error); alert("Failed to delete coach."); } } };
 
-            // Conditionele rendering gebeurt hier, na alle hook-aanroepen.
             if (viewMode === 'image_finder') {
-                return <ImageFinder initialCoaches={initialCoaches} onDone={() => { onUpdate(); setViewMode('list'); }} />;
+                return <ImageFinder initialCoaches={initialCoaches} onDone={() => { onUpdate(); setViewMode('list'); }} brokenImageLinks={brokenImageLinks} />;
             }
 
             return (
@@ -661,7 +665,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.6</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.7</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen Beheren</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs Beheren</a>
