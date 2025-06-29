@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 12.4 - Oorspronkelijke Wizard Hersteld
+  Dashboard Versie: 12.5 - Volledig Herstel van de Wizard
   Changelog:
-  - FIX: De "Nieuw Land Wizard" (voorheen AiView) is hersteld naar zijn oorspronkelijke, correcte vorm.
-  - WIZARD: Stap 2 toont nu weer de oorspronkelijke knoppen voor clubs. De stapsgewijze weergave is hersteld.
-  - WIZARD: De importlogica is geverifieerd; het haalt alle coachdata op maar laat de foto-url leeg, zoals gevraagd.
-  - BEHOUDEN: De "Zoek ontbrekende afbeeldingen" knop in 'Coaches beheren' blijft functioneel, met verbeterde feedback.
+  - FIX: De "Nieuw Land Wizard" (AiView) is volledig hersteld naar zijn oorspronkelijke, stapsgewijze werking.
+  - WIZARD: Stap 2 toont weer knoppen voor clubs na de landkeuze.
+  - WIZARD: Stap 3 is een apart validatiescherm dat alle coach- en seizoensdata toont, plus een invoerveld voor het clublogo.
+  - WIZARD: De importlogica voegt nu de club, coaches en seizoenen in één keer correct toe.
+  - BEHOUDEN: De aparte "Zoek ontbrekende afbeeldingen" knop in 'Coaches beheren' blijft functioneel.
 -->
 <html lang="nl">
 <head>
@@ -358,11 +359,11 @@
             return ( <div> <div className="flex justify-between items-center mb-4"> <h1 className="text-2xl font-bold">Seizoenen Beheer</h1> <button onClick={scrollToAddForm} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><PlusIcon />Nieuw Seizoen</button> </div> <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-lg shadow"> <select value={filters.land} onChange={(e) => handleFilterChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Landen</option> {availableLanden.map(l => <option key={l} value={l}>{l}</option>)} </select> <select value={filters.club} onChange={(e) => handleFilterChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Clubs</option> {availableClubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="bg-white shadow rounded-lg overflow-x-auto"> <table className="min-w-full divide-y divide-gray-200"> <thead className="bg-gray-50"> <tr> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seizoen</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Club</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coach</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Landstitel">T</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Nationale Beker">B</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Europese Prijs">E</th> <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th> </tr> </thead> <tbody className="bg-white divide-y divide-gray-200"> {filteredSeasons.map(s => ( <tr key={s.id}> {editingId === s.id ? ( <> <td className="px-4 py-4"><input type="text" value={editFormData.seizoen} onChange={(e) => handleInputChange(e, 'seizoen')} className="w-24 px-2 py-1 border rounded"/></td> <td className="px-4 py-4"> <select value={editFormData.club} onChange={(e) => handleInputChange(e, 'club')} className="w-full px-2 py-1 border rounded"> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-4 py-4"> <select value={editFormData.coachId} onChange={(e) => handleInputChange(e, 'coachId')} className="w-full px-2 py-1 border rounded"> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.landstitel === 'Y'} onChange={e => handleInputChange(e, 'landstitel', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.nationale_beker === 'Y'} onChange={e => handleInputChange(e, 'nationale_beker', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.europese_prijs === 'Y'} onChange={e => handleInputChange(e, 'europese_prijs', true)} /></td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleSaveClick(s.id)} className="text-green-600 hover:text-green-900 p-1"><SaveIcon /></button> <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 p-1"><CancelIcon /></button> </td> </> ) : ( <> <td className="px-4 py-4 whitespace-nowrap">{s.seizoen}</td> <td className="px-4 py-4 whitespace-nowrap font-medium">{clubsMap.get(s.club)?.naam || 'Onbekend'}</td> <td className="px-4 py-4 whitespace-nowrap">{coachesMap.get(s.coachId)?.naam || 'Onbekend'}</td> <td className="px-2 py-4 text-center">{renderPrize(s.landstitel)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.nationale_beker)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.europese_prijs)}</td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleEditClick(s)} className="text-indigo-600 hover:text-indigo-900 p-1"><EditIcon /></button> <button onClick={() => handleDeleteClick(s.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button> </td> </> )} </tr> ))} </tbody> </table> </div> <div id="add-season-form" className="mt-8"> <h2 className="text-xl font-bold mb-4">Nieuwe Seizoen Toevoegen</h2> <form onSubmit={handleAddSeason} className="bg-white shadow rounded-lg p-6 space-y-4"> <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> <input type="text" placeholder="Seizoen (bv. 2023/24)" value={newSeason.seizoen} onChange={e => handleNewSeasonChange(e, 'seizoen')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /> <select value={newSeason.club} onChange={e => handleNewSeasonChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Club</option> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> <select value={newSeason.coachId} onChange={e => handleNewSeasonChange(e, 'coachId')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Coach</option> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="flex items-center space-x-6 pt-4"> <label className="flex items-center"><input type="checkbox" checked={newSeason.landstitel === 'Y'} onChange={e => handleNewSeasonChange(e, 'landstitel', true)} className="h-4 w-4 mr-2"/>Landstitel</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.nationale_beker === 'Y'} onChange={e => handleNewSeasonChange(e, 'nationale_beker', true)} className="h-4 w-4 mr-2"/>Nationale Beker</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.europese_prijs === 'Y'} onChange={e => handleNewSeasonChange(e, 'europese_prijs', true)} className="h-4 w-4 mr-2"/>Europese Prijs</label> </div> <div className="text-right pt-4"> <button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"> <PlusIcon /> Seizoen Toevoegen </button> </div> </form> </div> </div> ); }
         function DataCleanupView({ onUpdate }) { const handleFixNationalities = async () => { if (!window.confirm("Dit zal 'Engeland' naar 'England' en 'Schotland' naar 'Scotland' omzetten voor alle coaches. Weet je het zeker?")) { return; } try { const batch = writeBatch(db); let updates = 0; const nationalitiesToFix = [ { from: 'Engeland', to: 'England' }, { from: 'Schotland', to: 'Scotland' } ]; for (const nat of nationalitiesToFix) { const q = query(collection(db, 'coaches'), where('nationaliteit', '==', nat.from)); const snapshot = await getDocs(q); snapshot.forEach(docSnap => { batch.update(docSnap.ref, { nationaliteit: nat.to }); updates++; }); } if(updates > 0) { await batch.commit(); alert(`${updates} coach(es) succesvol bijgewerkt!`); onUpdate(); } else { alert("Geen coaches gevonden met 'Engeland' of 'Schotland'."); } } catch(e) { console.error("Fout bij opschonen:", e); alert("Er is een fout opgetreden bij het opschonen van de data."); } }; return ( <div> <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1> <div className="bg-white p-6 rounded-lg shadow"> <h2 className="text-xl font-semibold mb-2">Specifieke Opschoon-acties</h2> <p className="text-gray-600 mb-4">Gebruik deze knop om veelvoorkomende fouten in de data direct te corrigeren.</p> <div className="p-4 border rounded-md mb-4 bg-gray-50"> <div className="flex items-center justify-between"> <div> <h3 className="font-medium">Herstel Nationaliteiten</h3> <p className="text-sm text-gray-500">Zet 'Engeland' om naar 'England' en 'Schotland' naar 'Scotland'.</p> </div> <button onClick={handleFixNationalities} className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"> Fix Nationaliteiten </button> </div> </div> </div> </div> ) }
 
-        function AiView({ onUpdateAll, allClubs }) {
+        function AiView({ onUpdateAll }) {
             const [step, setStep] = useState(1);
             const [country, setCountry] = useState('Netherlands');
             const [clubs, setClubs] = useState([]);
-            const [selectedClub, setSelectedClub] = useState('');
+            const [selectedClub, setSelectedClub] = useState({naam: '', logo_url: ''});
             const [seasonsData, setSeasonsData] = useState([]);
             const [enrichedCoaches, setEnrichedCoaches] = useState([]);
             const [isLoading, setIsLoading] = useState(false);
@@ -383,7 +384,8 @@
             };
 
             const handleClubClick = async (clubName) => {
-                setSelectedClub(clubName);
+                setSelectedClub({naam: clubName, logo_url: ''});
+                setStep(3); // Ga direct naar laadscherm
                 setIsLoading(true);
                 setError('');
                 try {
@@ -395,8 +397,8 @@
                     const enrichResult = await functions.enrichCoachData({ coaches: coachNames });
                     setEnrichedCoaches(enrichResult.data.coaches);
                     
-                    setStep(3);
-                } catch (e) { setError(e.message); } finally { setIsLoading(false); }
+                    setStep(4); // Ga naar validatiescherm
+                } catch (e) { setError(e.message); setStep(2); } finally { setIsLoading(false); }
             };
 
             const handleImportData = async () => {
@@ -406,14 +408,18 @@
                     const existingCoachesSnapshot = await getDocs(collection(db, "coaches"));
                     const existingCoaches = new Map(existingCoachesSnapshot.docs.map(d => [d.data().naam, d.id]));
 
-                    const clubRef = allClubs.find(c => c.naam === selectedClub && c.land === country);
-                    if (!clubRef) {
-                        throw new Error(`Club "${selectedClub}" niet gevonden in de database. Maak deze eerst aan via 'Club Beheer'.`);
-                    }
-
                     const batch = writeBatch(db);
-                    const newCoachesMap = new Map();
+                    
+                    // 1. Club toevoegen
+                    const newClubRef = doc(collection(db, "clubs"));
+                    batch.set(newClubRef, {
+                        naam: selectedClub.naam,
+                        land: country,
+                        logo_url: selectedClub.logo_url
+                    });
 
+                    // 2. Coaches toevoegen
+                    const newCoachesMap = new Map();
                     enrichedCoaches.forEach(coach => {
                         if (!existingCoaches.has(coach.naam)) {
                             const newCoachRef = doc(collection(db, 'coaches'));
@@ -422,6 +428,7 @@
                         }
                     });
 
+                    // 3. Seizoenen toevoegen
                     seasonsData.forEach(season => {
                         const coachId = existingCoaches.get(season.coach) || newCoachesMap.get(season.coach);
                         if (coachId) {
@@ -429,7 +436,7 @@
                             batch.set(newSeasonRef, {
                                 seizoen: season.seizoen,
                                 coachId: coachId,
-                                club: clubRef.id,
+                                club: newClubRef.id,
                                 land: country,
                                 landstitel: season.landstitel,
                                 nationale_beker: season.nationale_beker,
@@ -439,12 +446,12 @@
                     });
                     
                     await batch.commit();
-                    alert('Import succesvol! De data wordt herladen.');
+                    alert('Import succesvol! Alle data wordt herladen.');
                     onUpdateAll();
                     setStep(1);
                     setCountry('Netherlands');
                     setClubs([]);
-                    setSelectedClub('');
+                    setSelectedClub({naam: '', logo_url: ''});
                     setSeasonsData([]);
                     setEnrichedCoaches([]);
                 } catch(e) {
@@ -454,74 +461,109 @@
                 }
             };
             
-            const coachesForPreview = useMemo(() => {
-                const coachMap = new Map(enrichedCoaches.map(c => [c.naam, c]));
-                return seasonsData.map(s => ({
-                    ...s,
-                    enriched: coachMap.get(s.coach) || {}
-                }));
-            }, [seasonsData, enrichedCoaches]);
+            const renderPrize = (prize) => prize === 'Y' ? <span className="text-green-500 font-bold">Y</span> : <span className="text-gray-400">N</span>;
+
+            if (isLoading && step === 3) {
+                return (
+                    <div className="text-center p-8 bg-white rounded-lg shadow">
+                        <h2 className="text-xl font-semibold animate-pulse">Data voor {selectedClub.naam} wordt verzameld...</h2>
+                        <p className="text-gray-600 mt-2">Dit kan even duren.</p>
+                    </div>
+                );
+            }
             
             return (
                 <div>
                     <h1 className="text-2xl font-bold mb-6">Nieuw Land Wizard</h1>
                     {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
 
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">Stap 1: Kies een land</label>
-                        <select id="country" value={country} onChange={e => handleCountryChange(e.target.value)} disabled={isLoading} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                             {availableCountries.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                    </div>
+                    {step < 4 && (
+                        <>
+                            <div className="bg-white p-6 rounded-lg shadow">
+                                <label htmlFor="country" className="block text-sm font-medium text-gray-700">Stap 1: Kies een land</label>
+                                <select id="country" value={country} onChange={e => handleCountryChange(e.target.value)} disabled={isLoading} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                    {availableCountries.map(c => <option key={c} value={c}>{c}</option>)}
+                                </select>
+                            </div>
+                            
+                            {isLoading && step === 2 && <div className="mt-4 text-center">Clubs ophalen...</div>}
 
-                    {isLoading && step > 1 && <div className="mt-4 text-center">Data ophalen...</div>}
-
-                    {!isLoading && clubs.length > 0 && (
-                        <div className="mt-6 bg-white p-6 rounded-lg shadow">
-                             <h2 className="text-lg font-medium text-gray-900 mb-4">Stap 2: Kies een club</h2>
-                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {clubs.map(clubName => (
-                                    <button key={clubName} onClick={() => handleClubClick(clubName)}
-                                        className="text-left p-3 border rounded-lg hover:bg-gray-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                    >
-                                        {clubName}
-                                    </button>
-                                ))}
-                             </div>
-                        </div>
+                            {!isLoading && clubs.length > 0 && (
+                                <div className="mt-6 bg-white p-6 rounded-lg shadow">
+                                    <h2 className="text-lg font-medium text-gray-900 mb-4">Stap 2: Kies een club</h2>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                        {clubs.map(clubName => (
+                                            <button key={clubName} onClick={() => handleClubClick(clubName)}
+                                                className="text-left p-3 border rounded-lg hover:bg-gray-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            >
+                                                {clubName}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     )}
                     
-                    {step === 3 && !isLoading && (
-                        <div className="mt-6 bg-white p-6 rounded-lg shadow">
-                             <h2 className="text-xl font-bold mb-4">Stap 3: Controleer en Importeer Data</h2>
-                             <p className="mb-4">De volgende data wordt geïmporteerd voor <strong>{selectedClub}</strong>. Coaches en seizoenen worden automatisch aangemaakt of gekoppeld. <span className="font-bold text-red-600">Let op: De club moet al bestaan in 'Club Beheer'.</span></p>
-                             <div className="max-h-96 overflow-y-auto my-4 border rounded-lg">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50 sticky top-0"><tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seizoen</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coach</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nationaliteit</th>
-                                        <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Landstitel">T</th>
-                                        <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Nationale Beker">B</th>
-                                        <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Europese Prijs">E</th>
-                                    </tr></thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {coachesForPreview.map((s, i) => <tr key={i}>
-                                            <td className="px-6 py-4 whitespace-nowrap">{s.seizoen}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{s.coach}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap">{s.enriched.nationaliteit || 'Onbekend'}</td>
-                                            <td className="px-2 py-4 text-center">{s.landstitel}</td>
-                                            <td className="px-2 py-4 text-center">{s.nationale_beker}</td>
-                                            <td className="px-2 py-4 text-center">{s.europese_prijs}</td>
-                                        </tr>)}
-                                    </tbody>
-                                </table>
-                             </div>
-                             <div className="text-right">
+                    {step === 4 && !isLoading && (
+                        <div className="bg-white p-6 rounded-lg shadow">
+                             <div className="flex justify-between items-start">
+                                <div>
+                                    <h2 className="text-xl font-bold">Stap 3: Valideer en Importeer Data</h2>
+                                    <p className="mb-4 text-gray-600">Controleer de data voor <strong>{selectedClub.naam}</strong>. Alle getoonde data wordt nieuw aangemaakt.</p>
+                                </div>
                                 <button onClick={handleImportData} disabled={isLoading} className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400">
-                                    {isLoading ? 'Bezig met importeren...' : `Importeer ${seasonsData.length} seizoenen`}
+                                    {isLoading ? 'Bezig...' : 'Voeg club toe aan database'}
                                  </button>
                              </div>
+
+                            <div className="my-6">
+                                <label htmlFor="logo_url" className="block text-sm font-medium text-gray-700">URL Clublogo (optioneel)</label>
+                                <input type="text" id="logo_url" value={selectedClub.logo_url} onChange={e => setSelectedClub({...selectedClub, logo_url: e.target.value})} className="mt-1 block w-full p-2 border border-gray-300 rounded-md"/>
+                            </div>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 className="font-semibold mb-2">Coaches</h3>
+                                    <div className="max-h-60 overflow-y-auto border rounded-lg">
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead className="bg-gray-50 sticky top-0"><tr>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th>
+                                            </tr></thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {enrichedCoaches.map((c, i) => <tr key={i}>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{c.naam}</td>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td>
+                                                </tr>)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold mb-2">Seizoenen</h3>
+                                     <div className="max-h-60 overflow-y-auto border rounded-lg">
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead className="bg-gray-50 sticky top-0"><tr>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th>
+                                                <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Prijzen">P</th>
+                                            </tr></thead>
+                                            <tbody className="bg-white divide-y divide-gray-200">
+                                                {seasonsData.map((s, i) => <tr key={i}>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{s.coach}</td>
+                                                    <td className="px-2 py-2 text-center flex justify-center space-x-1">
+                                                        {renderPrize(s.landstitel)}
+                                                        {renderPrize(s.nationale_beker)}
+                                                        {renderPrize(s.europese_prijs)}
+                                                    </td>
+                                                </tr>)}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -557,7 +599,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.3</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.4</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen Beheren</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs Beheren</a>
