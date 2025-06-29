@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 12.2 - Wizard Hersteld & Fouten Opgelost
+  Dashboard Versie: 12.3 - Originele Wizard Hersteld
   Changelog:
-  - FIX: De "Nieuw Land Wizard" is hersteld naar zijn oorspronkelijke, uitgebreidere functionaliteit.
-  - WIZARD: Landkeuze is weer een pulldown-menu.
-  - WIZARD: Preview-tabel toont nu alle opgehaalde data (incl. nationaliteit, prijzen) voor import.
-  - WIZARD: Duidelijkere instructie dat club eerst aangemaakt moet worden.
-  - FIX: De "Zoek ontbrekende afbeeldingen" knop geeft betere feedback en de logica is geverifieerd.
+  - FIX: De "Nieuw Land Wizard" is hersteld naar zijn oorspronkelijke vorm (voorheen AiView).
+  - WIZARD: Stap 2 toont nu weer knoppen voor de clubs in plaats van een dropdown.
+  - WIZARD: De importlogica is geverifieerd en laat de foto-url leeg, zoals gevraagd.
+  - BEHOUDEN: De aparte "Zoek ontbrekende afbeeldingen" knop in 'Coaches beheren' blijft functioneel.
 -->
 <html lang="nl">
 <head>
@@ -359,7 +358,7 @@
             return ( <div> <div className="flex justify-between items-center mb-4"> <h1 className="text-2xl font-bold">Seizoenen Beheer</h1> <button onClick={scrollToAddForm} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><PlusIcon />Nieuw Seizoen</button> </div> <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-lg shadow"> <select value={filters.land} onChange={(e) => handleFilterChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Landen</option> {availableLanden.map(l => <option key={l} value={l}>{l}</option>)} </select> <select value={filters.club} onChange={(e) => handleFilterChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Clubs</option> {availableClubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="bg-white shadow rounded-lg overflow-x-auto"> <table className="min-w-full divide-y divide-gray-200"> <thead className="bg-gray-50"> <tr> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seizoen</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Club</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coach</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Landstitel">T</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Nationale Beker">B</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Europese Prijs">E</th> <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th> </tr> </thead> <tbody className="bg-white divide-y divide-gray-200"> {filteredSeasons.map(s => ( <tr key={s.id}> {editingId === s.id ? ( <> <td className="px-4 py-4"><input type="text" value={editFormData.seizoen} onChange={(e) => handleInputChange(e, 'seizoen')} className="w-24 px-2 py-1 border rounded"/></td> <td className="px-4 py-4"> <select value={editFormData.club} onChange={(e) => handleInputChange(e, 'club')} className="w-full px-2 py-1 border rounded"> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-4 py-4"> <select value={editFormData.coachId} onChange={(e) => handleInputChange(e, 'coachId')} className="w-full px-2 py-1 border rounded"> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.landstitel === 'Y'} onChange={e => handleInputChange(e, 'landstitel', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.nationale_beker === 'Y'} onChange={e => handleInputChange(e, 'nationale_beker', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.europese_prijs === 'Y'} onChange={e => handleInputChange(e, 'europese_prijs', true)} /></td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleSaveClick(s.id)} className="text-green-600 hover:text-green-900 p-1"><SaveIcon /></button> <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 p-1"><CancelIcon /></button> </td> </> ) : ( <> <td className="px-4 py-4 whitespace-nowrap">{s.seizoen}</td> <td className="px-4 py-4 whitespace-nowrap font-medium">{clubsMap.get(s.club)?.naam || 'Onbekend'}</td> <td className="px-4 py-4 whitespace-nowrap">{coachesMap.get(s.coachId)?.naam || 'Onbekend'}</td> <td className="px-2 py-4 text-center">{renderPrize(s.landstitel)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.nationale_beker)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.europese_prijs)}</td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleEditClick(s)} className="text-indigo-600 hover:text-indigo-900 p-1"><EditIcon /></button> <button onClick={() => handleDeleteClick(s.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button> </td> </> )} </tr> ))} </tbody> </table> </div> <div id="add-season-form" className="mt-8"> <h2 className="text-xl font-bold mb-4">Nieuwe Seizoen Toevoegen</h2> <form onSubmit={handleAddSeason} className="bg-white shadow rounded-lg p-6 space-y-4"> <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> <input type="text" placeholder="Seizoen (bv. 2023/24)" value={newSeason.seizoen} onChange={e => handleNewSeasonChange(e, 'seizoen')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /> <select value={newSeason.club} onChange={e => handleNewSeasonChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Club</option> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> <select value={newSeason.coachId} onChange={e => handleNewSeasonChange(e, 'coachId')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Coach</option> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="flex items-center space-x-6 pt-4"> <label className="flex items-center"><input type="checkbox" checked={newSeason.landstitel === 'Y'} onChange={e => handleNewSeasonChange(e, 'landstitel', true)} className="h-4 w-4 mr-2"/>Landstitel</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.nationale_beker === 'Y'} onChange={e => handleNewSeasonChange(e, 'nationale_beker', true)} className="h-4 w-4 mr-2"/>Nationale Beker</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.europese_prijs === 'Y'} onChange={e => handleNewSeasonChange(e, 'europese_prijs', true)} className="h-4 w-4 mr-2"/>Europese Prijs</label> </div> <div className="text-right pt-4"> <button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"> <PlusIcon /> Seizoen Toevoegen </button> </div> </form> </div> </div> ); }
         function DataCleanupView({ coaches, onUpdate }) { const handleFixNationalities = async () => { if (!window.confirm("Dit zal 'Engeland' naar 'England' en 'Schotland' naar 'Scotland' omzetten voor alle coaches. Weet je het zeker?")) { return; } try { const batch = writeBatch(db); let updates = 0; const nationalitiesToFix = [ { from: 'Engeland', to: 'England' }, { from: 'Schotland', to: 'Scotland' } ]; for (const nat of nationalitiesToFix) { const q = query(collection(db, 'coaches'), where('nationaliteit', '==', nat.from)); const snapshot = await getDocs(q); snapshot.forEach(docSnap => { batch.update(docSnap.ref, { nationaliteit: nat.to }); updates++; }); } if(updates > 0) { await batch.commit(); alert(`${updates} coach(es) succesvol bijgewerkt!`); onUpdate(); } else { alert("Geen coaches gevonden met 'Engeland' of 'Schotland'."); } } catch(e) { console.error("Fout bij opschonen:", e); alert("Er is een fout opgetreden bij het opschonen van de data."); } }; return ( <div> <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1> <div className="bg-white p-6 rounded-lg shadow"> <h2 className="text-xl font-semibold mb-2">Specifieke Opschoon-acties</h2> <p className="text-gray-600 mb-4">Gebruik deze knop om veelvoorkomende fouten in de data direct te corrigeren.</p> <div className="p-4 border rounded-md mb-4 bg-gray-50"> <div className="flex items-center justify-between"> <div> <h3 className="font-medium">Herstel Nationaliteiten</h3> <p className="text-sm text-gray-500">Zet 'Engeland' om naar 'England' en 'Schotland' naar 'Scotland'.</p> </div> <button onClick={handleFixNationalities} className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"> Fix Nationaliteiten </button> </div> </div> </div> </div> ) }
 
-        function WizardView({ onUpdateAll, allClubs }) {
+        function AiView({ onUpdateAll, allClubs }) {
             const [step, setStep] = useState(1);
             const [country, setCountry] = useState('Netherlands');
             const [clubs, setClubs] = useState([]);
@@ -371,21 +370,24 @@
 
             const availableCountries = ["Netherlands", "England", "Spain", "Germany", "Italy", "France", "Portugal"];
 
-            const handleGetClubs = async () => {
+            const handleCountryChange = async (newCountry) => {
+                setCountry(newCountry);
                 setIsLoading(true);
                 setError('');
+                setClubs([]);
+                setStep(2);
                 try {
-                    const result = await functions.getClubsForCountry({ country });
+                    const result = await functions.getClubsForCountry({ country: newCountry });
                     setClubs(result.data.clubs);
-                    setStep(2);
                 } catch (e) { setError(e.message); } finally { setIsLoading(false); }
             };
 
-            const handleGetSeasons = async () => {
+            const handleClubClick = async (clubName) => {
+                setSelectedClub(clubName);
                 setIsLoading(true);
                 setError('');
                 try {
-                    const result = await functions.getClubData({ country, club: selectedClub });
+                    const result = await functions.getClubData({ country, club: clubName });
                     const seasons = result.data.data;
                     setSeasonsData(seasons);
                     
@@ -440,6 +442,9 @@
                     alert('Import succesvol! De data wordt herladen.');
                     onUpdateAll();
                     setStep(1);
+                    setCountry('Netherlands');
+                    setClubs([]);
+                    setSelectedClub('');
                     setSeasonsData([]);
                     setEnrichedCoaches([]);
                 } catch(e) {
@@ -462,37 +467,32 @@
                     <h1 className="text-2xl font-bold mb-6">Nieuw Land Wizard</h1>
                     {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
 
-                    {step === 1 && (
-                        <div className="bg-white p-6 rounded-lg shadow">
-                            <label htmlFor="country" className="block text-sm font-medium text-gray-700">Stap 1: Kies een land</label>
-                            <div className="mt-1 flex rounded-md shadow-sm">
-                                <select id="country" value={country} onChange={e => setCountry(e.target.value)} className="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 p-2">
-                                     {availableCountries.map(c => <option key={c} value={c}>{c}</option>)}
-                                </select>
-                                <button onClick={handleGetClubs} disabled={isLoading} className="inline-flex items-center px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-700 hover:bg-gray-100 disabled:bg-gray-200">
-                                    {isLoading ? 'Bezig...' : 'Zoek Clubs'}
-                                </button>
-                            </div>
+                    <div className="bg-white p-6 rounded-lg shadow">
+                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">Stap 1: Kies een land</label>
+                        <select id="country" value={country} onChange={e => handleCountryChange(e.target.value)} disabled={isLoading} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                             {availableCountries.map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                    </div>
+
+                    {isLoading && step > 1 && <div className="mt-4 text-center">Data ophalen...</div>}
+
+                    {!isLoading && clubs.length > 0 && (
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow">
+                             <h2 className="text-lg font-medium text-gray-900 mb-4">Stap 2: Kies een club</h2>
+                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {clubs.map(clubName => (
+                                    <button key={clubName} onClick={() => handleClubClick(clubName)}
+                                        className="text-left p-3 border rounded-lg hover:bg-gray-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    >
+                                        {clubName}
+                                    </button>
+                                ))}
+                             </div>
                         </div>
                     )}
-
-                    {step === 2 && (
-                         <div className="bg-white p-6 rounded-lg shadow">
-                            <label htmlFor="club" className="block text-sm font-medium text-gray-700">Stap 2: Kies een club</label>
-                            <div className="mt-1 flex rounded-md shadow-sm">
-                                <select id="club" value={selectedClub} onChange={e => setSelectedClub(e.target.value)} className="flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 p-2">
-                                    <option value="">-- Selecteer een club --</option>
-                                    {clubs.map(c => <option key={c} value={c}>{c}</option>)}
-                                </select>
-                                <button onClick={handleGetSeasons} disabled={isLoading || !selectedClub} className="inline-flex items-center px-4 py-2 border border-l-0 border-gray-300 rounded-r-md bg-gray-50 text-gray-700 hover:bg-gray-100 disabled:bg-gray-200">
-                                    {isLoading ? 'Bezig...' : 'Haal Seizoensdata op'}
-                                </button>
-                            </div>
-                         </div>
-                    )}
-
-                    {step === 3 && (
-                        <div className="bg-white p-6 rounded-lg shadow">
+                    
+                    {step === 3 && !isLoading && (
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow">
                              <h2 className="text-xl font-bold mb-4">Stap 3: Controleer en Importeer Data</h2>
                              <p className="mb-4">De volgende data wordt geïmporteerd voor <strong>{selectedClub}</strong>. Coaches en seizoenen worden automatisch aangemaakt of gekoppeld. <span className="font-bold text-red-600">Let op: De club moet al bestaan in 'Club Beheer'.</span></p>
                              <div className="max-h-96 overflow-y-auto my-4 border rounded-lg">
@@ -557,7 +557,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.2</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.3</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen Beheren</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs Beheren</a>
@@ -575,7 +575,7 @@
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                 'cleanup': <DataCleanupView onUpdate={fetchAllData} />,
-                                'wizard': <WizardView onUpdateAll={fetchAllData} allClubs={appData.clubs} />
+                                'wizard': <AiView onUpdateAll={fetchAllData} allClubs={appData.clubs} />
                             }[view]
                         }
                     </main>
