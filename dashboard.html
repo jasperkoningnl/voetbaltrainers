@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- 
+  Dashboard Versie: 12.1 - Fix Firebase Imports
+  Changelog:
+  - FIX: De Firebase module imports zijn gesplitst. 'getFunctions' en 'httpsCallable' worden nu correct uit 'firebase-functions.js' gehaald.
+  - Dit lost de 'does not provide an export' en de daaropvolgende 'Cannot read properties of undefined' fouten op.
+-->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +19,10 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        
+        // --- FIX: Gesplitste imports voor Firestore en Functions ---
+        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -51,7 +60,7 @@
         const { useState, useEffect, useCallback, useMemo } = React;
         const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where } = window.firebaseServices;
 
-        // --- ICONEN (onveranderd) ---
+        // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
         const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
         const SparklesIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9 1.9 5.8 1.9-5.8 5.8-1.9-5.8-1.9Z"></path></svg>;
@@ -100,7 +109,99 @@
         }
 
         // --- COMPONENTEN ---
-        function ClubsView({ initialClubs, onUpdate }) { /* ongewijzigd */ return <div>Clubbeheer (code ongewijzigd)</div>; }
+        function ClubsView({ initialClubs, onUpdate }) {
+            const [clubs, setClubs] = useState(initialClubs);
+            const [editingId, setEditingId] = useState(null);
+            const [editFormData, setEditFormData] = useState({});
+            const [newClub, setNewClub] = useState({ naam: '', land: '', logo_url: '' });
+            const [landFilter, setLandFilter] = useState('');
+            const availableLanden = useMemo(() => [...new Set(initialClubs.map(c => c.land))].sort(), [initialClubs]);
+            useEffect(() => {
+                const filtered = landFilter ? initialClubs.filter(c => c.land === landFilter) : initialClubs;
+                setClubs(filtered);
+            }, [initialClubs, landFilter]);
+            const handleEditClick = (club) => { setEditingId(club.id); setEditFormData(club); };
+            const handleCancelClick = () => { setEditingId(null); };
+            const handleInputChange = (e, field) => { setEditFormData({ ...editFormData, [field]: e.target.value }); };
+            const handleNewClubChange = (e, field) => { setNewClub({ ...newClub, [field]: e.target.value }); };
+            const handleSaveClick = async (id) => {
+                try {
+                    await updateDoc(doc(db, 'clubs', id), {
+                        naam: editFormData.naam,
+                        land: editFormData.land,
+                        logo_url: editFormData.logo_url
+                    });
+                    setEditingId(null);
+                    onUpdate();
+                } catch (error) { console.error("Fout bij updaten van club:", error); alert("Kon de club niet updaten."); }
+            };
+            const handleAddClub = async (e) => {
+                e.preventDefault();
+                if (!newClub.naam || !newClub.land) { alert("Club naam en land zijn verplicht."); return; }
+                try {
+                    await addDoc(collection(db, 'clubs'), newClub);
+                    setNewClub({ naam: '', land: '', logo_url: '' });
+                    onUpdate();
+                } catch (error) { console.error("Fout bij toevoegen van club:", error); alert("Kon de club niet toevoegen."); }
+            };
+            const handleDeleteClick = async (id) => {
+                if (window.confirm("Weet je zeker dat je deze club wilt verwijderen?")) {
+                    try {
+                        await deleteDoc(doc(db, 'clubs', id));
+                        onUpdate();
+                    } catch (error) { console.error("Fout bij verwijderen van club:", error); alert("Kon de club niet verwijderen."); }
+                }
+            };
+            return (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-2xl font-bold">Club Beheer</h1>
+                        <select value={landFilter} onChange={(e) => setLandFilter(e.target.value)} className="block w-full md:w-1/3 px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm">
+                            <option value="">Filter op land...</option>
+                            {availableLanden.map(l => <option key={l} value={l}>{l}</option>)}
+                        </select>
+                    </div>
+                    <div className="bg-white shadow rounded-lg overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                           <thead className="bg-gray-50"><tr><th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Club Naam</th><th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Land</th><th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Logo URL</th><th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th></tr></thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {clubs.map((club) => (
+                                    <tr key={club.id}>
+                                        {editingId === club.id ? (
+                                            <>
+                                                <td className="px-6 py-4"><input type="text" value={editFormData.naam} onChange={(e) => handleInputChange(e, 'naam')} className="w-full px-2 py-1 border rounded" /></td>
+                                                <td className="px-6 py-4"><input type="text" value={editFormData.land} onChange={(e) => handleInputChange(e, 'land')} className="w-full px-2 py-1 border rounded" /></td>
+                                                <td className="px-6 py-4"><input type="text" value={editFormData.logo_url} onChange={(e) => handleInputChange(e, 'logo_url')} className="w-full px-2 py-1 border rounded" /></td>
+                                                <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                                    <button onClick={() => handleSaveClick(club.id)} className="text-green-600 hover:text-green-900 p-1"><SaveIcon /></button>
+                                                    <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 p-1"><CancelIcon /></button>
+                                                </td>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <td className="px-6 py-4 whitespace-nowrap">{club.naam}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap">{club.land}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap truncate max-w-xs">{club.logo_url}</td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                                    <button onClick={() => handleEditClick(club)} className="text-indigo-600 hover:text-indigo-900 p-1"><EditIcon /></button>
+                                                    <button onClick={() => handleDeleteClick(club.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button>
+                                                </td>
+                                            </>
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="mt-8">
+                        <h2 className="text-xl font-bold mb-4">Nieuwe Club Toevoegen</h2>
+                        <form onSubmit={handleAddClub} className="bg-white shadow rounded-lg p-6 space-y-4">
+                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4"><input type="text" placeholder="Club Naam" value={newClub.naam} onChange={(e) => handleNewClubChange(e, 'naam')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /><input type="text" placeholder="Land" value={newClub.land} onChange={(e) => handleNewClubChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /><input type="text" placeholder="Logo URL" value={newClub.logo_url} onChange={(e) => handleNewClubChange(e, 'logo_url')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" /></div><div className="text-right"><button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><PlusIcon /> Club Toevoegen</button></div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
         
         function CoachesView({ initialCoaches, onUpdate }) {
             const [coaches, setCoaches] = useState([]);
@@ -124,7 +225,6 @@
                 setCoaches(filtered);
             }, [initialCoaches, nameFilter, natFilter]);
 
-            // --- AFBEELDINGEN-ZOEKER LOGICA ---
             const handleFindImages = async () => {
                 setIsFindingImages(true);
                 setImageFinderStatus('Scannen naar coaches zonder afbeelding...');
@@ -149,7 +249,7 @@
                             foundCount++;
                         } catch (error) { console.error(`Fout bij updaten van coach ${coach.id}:`, error); }
                     }
-                    await new Promise(res => setTimeout(res, 250)); // Pauze
+                    await new Promise(res => setTimeout(res, 250));
                 }
 
                 setImageFinderStatus(`Klaar! ${foundCount} van de ${coachesToUpdate.length} afbeeldingen gevonden.`);
@@ -157,7 +257,6 @@
                 setTimeout(() => { setIsFindingImages(false); setImageFinderStatus(''); }, 5000);
             };
 
-            // ... overige handlers (ongewijzigd)
             const handleImageError = (coachId) => { setBrokenImageLinks(prev => new Set(prev).add(coachId)); };
             const handleEditClick = (coach) => { setEditingId(coach.id); setEditFormData(coach); };
             const handleCancelClick = () => setEditingId(null);
@@ -183,7 +282,6 @@
                            {imageFinderStatus && <span className="text-sm text-gray-600 animate-pulse">{imageFinderStatus}</span>}
                         </div>
                     </div>
-                    {/* ... rest van de JSX voor CoachesView (filters, tabel, etc.) is ongewijzigd ... */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <input type="text" placeholder="Filter op naam..." value={nameFilter} onChange={(e) => setNameFilter(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-md"/>
                         <select value={natFilter} onChange={(e) => setNatFilter(e.target.value)} className="w-full px-3 py-2 border border-gray-300 rounded-md bg-white">
@@ -228,12 +326,40 @@
                 </div>
             );
         }
-        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) { /* ongewijzigd */ return <div>Seizoenenbeheer (code ongewijzigd)</div>; }
-        function DataCleanupView({ coaches, onUpdate }) { /* ongewijzigd */ return <div>Data opschonen (code ongewijzigd)</div>; }
+        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) {
+            const [editingId, setEditingId] = useState(null);
+            const [editFormData, setEditFormData] = useState({});
+            const [newSeason, setNewSeason] = useState({ seizoen: '', club: '', coachId: '', land: '', europese_prijs: 'N', landstitel: 'N', nationale_beker: 'N' });
+            const clubsMap = useMemo(() => new Map(clubs.map(c => [c.id, c])), [clubs]);
+            const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c])), [coaches]);
+            const filteredSeasons = useMemo(() => {
+                return initialSeasons.filter(s => {
+                    const clubDetails = clubsMap.get(s.club);
+                    const landMatch = !filters.land || (clubDetails && clubDetails.land === filters.land);
+                    const clubMatch = !filters.club || s.club === filters.club;
+                    return landMatch && clubMatch;
+                });
+            }, [initialSeasons, filters, clubsMap]);
+            const availableLanden = useMemo(() => [...new Set(clubs.map(c => c.land))].sort(), [clubs]);
+            const availableClubs = useMemo(() => {
+                if (!filters.land) return clubs;
+                return clubs.filter(c => c.land === filters.land);
+            }, [clubs, filters.land]);
+            const handleFilterChange = (e, field) => { const newFilters = { ...filters, [field]: e.target.value }; if (field === 'land') newFilters.club = ''; setFilters(newFilters); };
+            const handleEditClick = (season) => { setEditingId(season.id); setEditFormData(season); };
+            const handleCancelClick = () => setEditingId(null);
+            const handleInputChange = (e, field, isCheckbox = false) => { const value = isCheckbox ? (e.target.checked ? 'Y' : 'N') : e.target.value; setEditFormData({ ...editFormData, [field]: value }); };
+            const handleNewSeasonChange = (e, field, isCheckbox = false) => { const value = isCheckbox ? (e.target.checked ? 'Y' : 'N') : e.target.value; const updatedNewSeason = { ...newSeason, [field]: value }; if(field === 'club') { const selectedClub = clubs.find(c => c.id === value); updatedNewSeason.land = selectedClub ? selectedClub.land : ''; } setNewSeason(updatedNewSeason); };
+            const handleSaveClick = async (id) => { try { await updateDoc(doc(db, 'seizoenen', id), editFormData); setEditingId(null); onUpdate(); } catch(e) { console.error("Error saving season:", e); alert("Failed to save season."); } };
+            const handleAddSeason = async (e) => { e.preventDefault(); if(!newSeason.seizoen || !newSeason.club || !newSeason.coachId) { alert("Seizoen, club en coach zijn verplicht."); return; } try { await addDoc(collection(db, 'seizoenen'), newSeason); setNewSeason({ seizoen: '', club: '', coachId: '', land: '', europese_prijs: 'N', landstitel: 'N', nationale_beker: 'N' }); onUpdate(); } catch(e) { console.error("Error adding season:", e); alert("Failed to add season."); } };
+            const handleDeleteClick = async (id) => { if (window.confirm("Weet je zeker dat je dit seizoen wilt verwijderen?")) { try { await deleteDoc(doc(db, 'seizoenen', id)); onUpdate(); } catch(e) { console.error("Error deleting season:", e); alert("Failed to delete season."); } } };
+            const renderPrize = (prize) => prize === 'Y' ? <span className="text-green-500 font-bold">Y</span> : <span className="text-red-500">N</span>;
+            const scrollToAddForm = () => document.getElementById('add-season-form').scrollIntoView({ behavior: 'smooth' });
+            return ( <div> <div className="flex justify-between items-center mb-4"> <h1 className="text-2xl font-bold">Seizoenen Beheer</h1> <button onClick={scrollToAddForm} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><PlusIcon />Nieuw Seizoen</button> </div> <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-lg shadow"> <select value={filters.land} onChange={(e) => handleFilterChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Landen</option> {availableLanden.map(l => <option key={l} value={l}>{l}</option>)} </select> <select value={filters.club} onChange={(e) => handleFilterChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Clubs</option> {availableClubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="bg-white shadow rounded-lg overflow-x-auto"> <table className="min-w-full divide-y divide-gray-200"> <thead className="bg-gray-50"> <tr> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seizoen</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Club</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coach</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Landstitel">T</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Nationale Beker">B</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Europese Prijs">E</th> <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th> </tr> </thead> <tbody className="bg-white divide-y divide-gray-200"> {filteredSeasons.map(s => ( <tr key={s.id}> {editingId === s.id ? ( <> <td className="px-4 py-4"><input type="text" value={editFormData.seizoen} onChange={(e) => handleInputChange(e, 'seizoen')} className="w-24 px-2 py-1 border rounded"/></td> <td className="px-4 py-4"> <select value={editFormData.club} onChange={(e) => handleInputChange(e, 'club')} className="w-full px-2 py-1 border rounded"> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-4 py-4"> <select value={editFormData.coachId} onChange={(e) => handleInputChange(e, 'coachId')} className="w-full px-2 py-1 border rounded"> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.landstitel === 'Y'} onChange={e => handleInputChange(e, 'landstitel', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.nationale_beker === 'Y'} onChange={e => handleInputChange(e, 'nationale_beker', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.europese_prijs === 'Y'} onChange={e => handleInputChange(e, 'europese_prijs', true)} /></td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleSaveClick(s.id)} className="text-green-600 hover:text-green-900 p-1"><SaveIcon /></button> <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 p-1"><CancelIcon /></button> </td> </> ) : ( <> <td className="px-4 py-4 whitespace-nowrap">{s.seizoen}</td> <td className="px-4 py-4 whitespace-nowrap font-medium">{clubsMap.get(s.club)?.naam || 'Onbekend'}</td> <td className="px-4 py-4 whitespace-nowrap">{coachesMap.get(s.coachId)?.naam || 'Onbekend'}</td> <td className="px-2 py-4 text-center">{renderPrize(s.landstitel)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.nationale_beker)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.europese_prijs)}</td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleEditClick(s)} className="text-indigo-600 hover:text-indigo-900 p-1"><EditIcon /></button> <button onClick={() => handleDeleteClick(s.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button> </td> </> )} </tr> ))} </tbody> </table> </div> <div id="add-season-form" className="mt-8"> <h2 className="text-xl font-bold mb-4">Nieuwe Seizoen Toevoegen</h2> <form onSubmit={handleAddSeason} className="bg-white shadow rounded-lg p-6 space-y-4"> <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> <input type="text" placeholder="Seizoen (bv. 2023/24)" value={newSeason.seizoen} onChange={e => handleNewSeasonChange(e, 'seizoen')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /> <select value={newSeason.club} onChange={e => handleNewSeasonChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Club</option> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> <select value={newSeason.coachId} onChange={e => handleNewSeasonChange(e, 'coachId')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Coach</option> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="flex items-center space-x-6 pt-4"> <label className="flex items-center"><input type="checkbox" checked={newSeason.landstitel === 'Y'} onChange={e => handleNewSeasonChange(e, 'landstitel', true)} className="h-4 w-4 mr-2"/>Landstitel</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.nationale_beker === 'Y'} onChange={e => handleNewSeasonChange(e, 'nationale_beker', true)} className="h-4 w-4 mr-2"/>Nationale Beker</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.europese_prijs === 'Y'} onChange={e => handleNewSeasonChange(e, 'europese_prijs', true)} className="h-4 w-4 mr-2"/>Europese Prijs</label> </div> <div className="text-right pt-4"> <button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"> <PlusIcon /> Seizoen Toevoegen </button> </div> </form> </div> </div> ); }
+        function DataCleanupView({ coaches, onUpdate }) { const handleFixNationalities = async () => { if (!window.confirm("Dit zal 'Engeland' naar 'England' en 'Schotland' naar 'Scotland' omzetten voor alle coaches. Weet je het zeker?")) { return; } try { const batch = writeBatch(db); let updates = 0; const nationalitiesToFix = [ { from: 'Engeland', to: 'England' }, { from: 'Schotland', to: 'Scotland' } ]; for (const nat of nationalitiesToFix) { const q = query(collection(db, 'coaches'), where('nationaliteit', '==', nat.from)); const snapshot = await getDocs(q); snapshot.forEach(docSnap => { batch.update(docSnap.ref, { nationaliteit: nat.to }); updates++; }); } if(updates > 0) { await batch.commit(); alert(`${updates} coach(es) succesvol bijgewerkt!`); onUpdate(); } else { alert("Geen coaches gevonden met 'Engeland' of 'Schotland'."); } } catch(e) { console.error("Fout bij opschonen:", e); alert("Er is een fout opgetreden bij het opschonen van de data."); } }; return ( <div> <h1 className="text-2xl font-bold mb-6">Data Opschonen</h1> <div className="bg-white p-6 rounded-lg shadow"> <h2 className="text-xl font-semibold mb-2">Specifieke Opschoon-acties</h2> <p className="text-gray-600 mb-4">Gebruik deze knop om veelvoorkomende fouten in de data direct te corrigeren.</p> <div className="p-4 border rounded-md mb-4 bg-gray-50"> <div className="flex items-center justify-between"> <div> <h3 className="font-medium">Herstel Nationaliteiten</h3> <p className="text-sm text-gray-500">Zet 'Engeland' om naar 'England' en 'Schotland' naar 'Scotland'.</p> </div> <button onClick={handleFixNationalities} className="px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"> Fix Nationaliteiten </button> </div> </div> </div> </div> ) }
 
-        // --- NIEUW: WizardView vervangt de oude AiView ---
-        function WizardView({ onUpdateAll }) {
-            const [step, setStep] = useState(1); // 1: land, 2: club, 3: resultaat
+        function WizardView({ onUpdateAll, allClubs }) {
+            const [step, setStep] = useState(1);
             const [country, setCountry] = useState('Netherlands');
             const [clubs, setClubs] = useState([]);
             const [selectedClub, setSelectedClub] = useState('');
@@ -264,44 +390,38 @@
             const handleImportData = async () => {
                 setIsLoading(true);
                 setError('');
-
                 try {
-                    // 1. Unieke coaches verzamelen
                     const coachNames = [...new Set(seasonsData.map(s => s.coach))];
-                    
-                    // 2. Coaches verrijken (zonder foto)
                     const enrichResult = await functions.enrichCoachData({ coaches: coachNames });
                     const enrichedCoaches = enrichResult.data.coaches;
 
-                    // 3. Bestaande coaches ophalen
                     const existingCoachesSnapshot = await getDocs(collection(db, "coaches"));
-                    const existingCoaches = existingCoachesSnapshot.docs.map(d => ({id: d.id, ...d.data()}));
-                    const existingCoachesMap = new Map(existingCoaches.map(c => [c.naam, c.id]));
+                    const existingCoaches = new Map(existingCoachesSnapshot.docs.map(d => [d.data().naam, d.id]));
+
+                    const clubRef = allClubs.find(c => c.naam === selectedClub && c.land === country);
+                    if (!clubRef) {
+                        throw new Error(`Clubreferentie voor "${selectedClub}" niet gevonden. Voeg de club eerst toe via Club Beheer.`);
+                    }
 
                     const batch = writeBatch(db);
                     const newCoachesMap = new Map();
 
-                    // 4. Nieuwe coaches toevoegen aan batch
                     enrichedCoaches.forEach(coach => {
-                        if (!existingCoachesMap.has(coach.naam)) {
+                        if (!existingCoaches.has(coach.naam)) {
                             const newCoachRef = doc(collection(db, 'coaches'));
                             batch.set(newCoachRef, coach);
                             newCoachesMap.set(coach.naam, newCoachRef.id);
                         }
                     });
 
-                     // 5. Seizoenen toevoegen aan batch
                     seasonsData.forEach(season => {
-                        const coachId = existingCoachesMap.get(season.coach) || newCoachesMap.get(season.coach);
+                        const coachId = existingCoaches.get(season.coach) || newCoachesMap.get(season.coach);
                         if (coachId) {
                             const newSeasonRef = doc(collection(db, 'seizoenen'));
                             batch.set(newSeasonRef, {
                                 seizoen: season.seizoen,
                                 coachId: coachId,
-                                // TODO: Club ID moet nog gekoppeld worden.
-                                // Dit vereist een zoekactie op clubnaam of een selectie-uitbreiding.
-                                // Voor nu laten we dit veld leeg.
-                                club: '', // Placeholder
+                                club: clubRef.id,
                                 land: country,
                                 landstitel: season.landstitel,
                                 nationale_beker: season.nationale_beker,
@@ -312,8 +432,9 @@
                     
                     await batch.commit();
                     alert('Import succesvol! De data wordt herladen.');
-                    onUpdateAll(); // Herlaad alle data in de app
-                    setStep(1); // Reset de wizard
+                    onUpdateAll();
+                    setStep(1);
+                    setSeasonsData([]);
                 } catch(e) {
                      setError("Fout bij importeren: " + e.message);
                 } finally {
@@ -382,23 +503,33 @@
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
-            const [view, setView] = useState('seasons'); 
+            const [view, setView] = useState('wizard'); 
             const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
             const [dataLoading, setDataLoading] = useState(true);
             const [dataError, setDataError] = useState(null);
             const [filters, setFilters] = useState({ land: '', club: '' });
-            const fetchAllData = useCallback(async () => { /* ... ongewijzigd ... */ }, []);
-            useEffect(() => { /* ... ongewijzigd ... */ }, [fetchAllData]);
-            const handleLogin = () => { /* ... ongewijzigd ... */ };
-            const handleLogout = () => { /* ... ongewijzigd ... */ };
+            const fetchAllData = useCallback(async () => { 
+                setDataLoading(true); setDataError(null); 
+                try { 
+                    const [seasonsSnapshot, coachesSnapshot, clubsSnapshot] = await Promise.all([ getDocs(query(collection(db, "seizoenen"))), getDocs(query(collection(db, "coaches"), orderBy("naam"))), getDocs(query(collection(db, "clubs"), orderBy("naam"))) ]); 
+                    const seasonsData = seasonsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); 
+                    const coachesData = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); 
+                    const clubsData = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); 
+                    seasonsData.sort((a,b) => b.seizoen.localeCompare(a.seizoen)); 
+                    setAppData({ seasons: seasonsData, coaches: coachesData, clubs: clubsData }); 
+                } catch (e) { console.error("Fout bij ophalen van data:", e); setDataError("Kon de data niet laden vanuit de database."); } 
+                setDataLoading(false); 
+            }, []);
+            useEffect(() => { const unsubscribe = onAuthStateChanged(auth, (currentUser) => { setUser(currentUser); setAuthLoading(false); if (currentUser) { fetchAllData(); } }); return () => unsubscribe(); }, [fetchAllData]);
+            const handleLogin = () => { const provider = new GoogleAuthProvider(); signInWithPopup(auth, provider).catch((error) => console.error("Login Fout:", error)); };
+            const handleLogout = () => { signOut(auth).catch(error => console.error("Logout Fout:", error)); };
             
-            // ... JSX voor App, met aangepaste navigatie ...
-            if (authLoading) return <div>Laden...</div>;
-            if (!user) return <div>Login...</div> // Vereenvoudigd voor leesbaarheid
+            if (authLoading) { return <div className="flex items-center justify-center h-screen"><p>Dashboard laden...</p></div> }
+            if (!user) { return ( <div className="flex items-center justify-center h-screen bg-gray-200"> <div className="text-center bg-white p-10 rounded-lg shadow-xl"> <h1 className="text-3xl font-bold mb-2">Data Dashboard</h1> <p className="text-gray-600 mb-6">Log in om de data te beheren.</p> <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"> <svg className="w-6 h-6 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg> <span>Login met Google</span> </button> </div> </div> ); }
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v12.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen Beheren</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs Beheren</a>
@@ -416,7 +547,7 @@
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                 'cleanup': <DataCleanupView onUpdate={fetchAllData} />,
-                                'wizard': <WizardView onUpdateAll={fetchAllData} />
+                                'wizard': <WizardView onUpdateAll={fetchAllData} allClubs={appData.clubs} />
                             }[view]
                         }
                     </main>
