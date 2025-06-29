@@ -41,15 +41,13 @@ exports.enrichCoachData = onCall({ timeoutSeconds: 30 }, async (request) => {
     let foto_url = "";
     try {
       const apiUrl =
-        `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&titles=${encodeURIComponent(
-          name
-        )}&pithumbsize=400`;
+        `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&piprop=original&titles=${encodeURIComponent(name)}`;
       const res = await fetch(apiUrl);
       const data = await res.json();
       const pages = data.query && data.query.pages;
       if (pages) {
         const page = Object.values(pages)[0];
-        const source = page?.thumbnail?.source;
+        const source = page?.original?.source;
         if (source) {
           try {
             const head = await fetch(source, { method: "HEAD" });
