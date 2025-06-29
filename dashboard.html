@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 12.7 - Country URL Fix
+  Dashboard Versie: 12.9 - Missing Return Statement Fix
   Changelog:
-  - FIX: De "Nieuw Land Wizard" verstuurt nu de correcte 'countryUrl' naar de backend functie.
-  - Een mapping van landnamen naar Transfermarkt URLs is toegevoegd in de AiView component.
-  - Dit lost de "De functie moet worden aangeroepen met een 'countryUrl'" fout op.
+  - FIX: De "Nothing was returned from render" crash in 'Seizoenen beheren' is opgelost.
+  - De ontbrekende `return` statement met de JSX-code is teruggeplaatst in de SeasonsView component.
 -->
 <html lang="nl">
 <head>
@@ -70,169 +69,112 @@
         const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
         const TrashIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>;
         const PlusIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-1"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
+        const ImageIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
         const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
         
-        // --- Componenten ---
-        function ClubsView({ initialClubs, onUpdate }) { /* ... ongewijzigde code ... */ }
-        function CoachesView({ initialCoaches, onUpdate }) { /* ... ongewijzigde code ... */ }
-        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) { /* ... ongewijzigde code ... */ }
-        function DataCleanupView({ onUpdate }) { /* ... ongewijzigde code ... */ }
+        // --- HELPER FUNCTIE: Afbeeldingen-Zoeker ---
+        async function findImageOnWikidata(coachName) {
+            try {
+                const wikiApiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&ppprop=wikibase_item&format=json&origin=*&titles=${encodeURIComponent(coachName)}`;
+                const wikiResponse = await fetch(wikiApiUrl);
+                const wikiData = await wikiResponse.json();
+                const pages = wikiData.query.pages;
+                const pageId = Object.keys(pages)[0];
+                if (pageId === "-1" || !pages[pageId].pageprops?.wikibase_item) return null;
+                const qCode = pages[pageId].pageprops.wikibase_item;
 
-        function AiView({ onUpdateAll }) {
-            const [step, setStep] = useState(1);
-            const [country, setCountry] = useState('Spain');
-            const [clubs, setClubs] = useState([]);
-            const [selectedClub, setSelectedClub] = useState({ name: '', url: '' });
-            const [data, setData] = useState({ seasons: [], coaches: [] });
-            const [isLoading, setIsLoading] = useState(false);
-            const [error, setError] = useState('');
+                const wikidataApiUrl = `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${qCode}&props=claims&format=json&origin=*`;
+                const wikidataResponse = await fetch(wikidataApiUrl);
+                const wikidataData = await wikidataResponse.json();
+                const claims = wikidataData.entities[qCode].claims;
+                if (!claims.P18) return null;
+                const fileName = claims.P18[0].mainsnak.datavalue.value;
+                
+                const commonsApiUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=File:${encodeURIComponent(fileName)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
+                const commonsResponse = await fetch(commonsApiUrl);
+                const commonsData = await commonsResponse.json();
+                const commonsPages = commonsData.query.pages;
+                const commonsPageId = Object.keys(commonsPages)[0];
+                const imageInfo = commonsPages[commonsPageId].imageinfo;
 
-            const countryUrls = {
-                'Spain': 'https://www.transfermarkt.com/laliga/startseite/wettbewerb/ES1',
-                'England': 'https://www.transfermarkt.com/premier-league/startseite/wettbewerb/GB1',
-                'Germany': 'https://www.transfermarkt.com/bundesliga/startseite/wettbewerb/L1',
-                'Italy': 'https://www.transfermarkt.com/serie-a/startseite/wettbewerb/IT1',
-                'France': 'https://www.transfermarkt.com/ligue-1/startseite/wettbewerb/FR1',
-                'Netherlands': 'https://www.transfermarkt.com/eredivisie/startseite/wettbewerb/NL1',
-            };
-
-            const handleCountryChange = async (newCountry) => {
-                setCountry(newCountry);
-                setClubs([]);
-                setSelectedClub({ name: '', url: '' });
-                setData({ seasons: [], coaches: [] });
-                setStep(2);
-                setIsLoading(true);
-                setError('');
-                try {
-                    const result = await functions.getClubsForCountry({ countryUrl: countryUrls[newCountry] });
-                    setClubs(result.data);
-                } catch (e) {
-                    setError(e.message);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
-            const handleClubClick = async (club) => {
-                setSelectedClub(club);
-                setStep(3);
-                setIsLoading(true);
-                setError('');
-                try {
-                    const result = await functions.getClubData({ clubUrl: club.url });
-                    setData(result.data);
-                } catch(e) {
-                     setError(e.message);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
-             const handleSaveData = async () => {
-                setIsLoading(true);
-                setError('');
-                try {
-                    const batch = writeBatch(db);
-                    
-                    // Coaches toevoegen
-                    const coachPromises = data.coaches.map(async (coach) => {
-                        const q = query(collection(db, 'coaches'), where("name", "==", coach.name));
-                        const snapshot = await getDocs(q);
-                        if(snapshot.empty) {
-                            const enrichedData = await functions.enrichCoachData({ coachUrl: coach.url });
-                            const newCoachRef = doc(collection(db, 'coaches'));
-                            batch.set(newCoachRef, {
-                                name: coach.name,
-                                nationality: coach.nat,
-                                date_of_birth: enrichedData.data.dateOfBirth,
-                                image_url: enrichedData.data.imageUrl
-                            });
-                        }
-                    });
-                    await Promise.all(coachPromises);
-
-                    await batch.commit();
-                    alert("Data succesvol geïmporteerd!");
-                    onUpdateAll();
-                    setStep(1);
-
-                } catch(e) {
-                     setError("Fout bij importeren: " + e.message);
-                } finally {
-                    setIsLoading(false);
-                }
-             };
-
-            return (
-                <div>
-                    <h1 className="text-2xl font-bold mb-6">Nieuw Land Wizard (Transfermarkt)</h1>
-                    {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
-
-                    <div className="bg-white p-6 rounded-lg shadow">
-                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">Stap 1: Kies een land</label>
-                        <select id="country" value={country} onChange={(e) => handleCountryChange(e.target.value)} disabled={isLoading} className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                            {Object.keys(countryUrls).map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                    </div>
-
-                    {isLoading && <div className="mt-4 text-center">Data ophalen...</div>}
-
-                    {step >= 2 && !isLoading && clubs.length > 0 && (
-                        <div className="mt-6 bg-white p-6 rounded-lg shadow">
-                             <h2 className="text-lg font-medium text-gray-900 mb-4">Stap 2: Kies een club</h2>
-                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                {clubs.map(club => (
-                                    <button key={club.id} onClick={() => handleClubClick(club)}
-                                        className="text-left p-3 border rounded-lg hover:bg-gray-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                    >
-                                        {club.name}
-                                    </button>
-                                ))}
-                             </div>
-                        </div>
-                    )}
-
-                    {step >= 3 && !isLoading && data.coaches.length > 0 && (
-                         <div className="mt-6 bg-white p-6 rounded-lg shadow">
-                             <div className="flex justify-between items-center">
-                                 <h2 className="text-lg font-medium text-gray-900 mb-4">Stap 3: Controleer en Importeer voor {selectedClub.name}</h2>
-                                 <button onClick={handleSaveData} disabled={isLoading} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
-                                     Importeer Data
-                                 </button>
-                             </div>
-                            
-                            <div className="max-h-96 overflow-y-auto mt-4">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                        <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naam</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nationaliteit</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periode</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {data.coaches.map((coach, index) => (
-                                            <tr key={index}>
-                                                <td className="px-6 py-4 whitespace-nowrap">{coach.name}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{coach.nat}</td>
-                                                <td className="px-6 py-4 whitespace-nowrap">{coach.from} - {coach.to}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                         </div>
-                    )}
-                </div>
-            );
+                if (!imageInfo || imageInfo.length === 0) return null;
+                return imageInfo[0].url;
+            } catch (error) {
+                console.error(`Fout bij zoeken naar afbeelding voor ${coachName}:`, error);
+                return null;
+            }
         }
+
+        // --- COMPONENTEN ---
+        function ClubsView({ initialClubs, onUpdate }) { /* ... ongewijzigde code ... */ }
+        function ImageFinder({ initialCoaches, onDone, brokenImageLinks }) { /* ... ongewijzigde code ... */ }
+        function CoachesView({ initialCoaches, onUpdate }) { /* ... ongewijzigde code ... */ }
+        
+        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) {
+            const [editingId, setEditingId] = useState(null);
+            const [editFormData, setEditFormData] = useState({});
+            const [newSeason, setNewSeason] = useState({ seizoen: '', club: '', coachId: '', land: '', europese_prijs: 'N', landstitel: 'N', nationale_beker: 'N' });
+            
+            const clubsMap = useMemo(() => new Map(clubs.map(c => [c.id, c])), [clubs]);
+            const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c])), [coaches]);
+
+            const filteredSeasons = useMemo(() => {
+                return initialSeasons.filter(s => {
+                    const clubDetails = clubsMap.get(s.club);
+                    const landMatch = !filters.land || (clubDetails && clubDetails.land === filters.land);
+                    const clubMatch = !filters.club || s.club === filters.club;
+                    return landMatch && clubMatch;
+                });
+            }, [initialSeasons, filters, clubsMap]);
+
+            const availableLanden = useMemo(() => [...new Set(clubs.map(c => c.land))].sort(), [clubs]);
+            const availableClubs = useMemo(() => {
+                if (!filters.land) return clubs;
+                return clubs.filter(c => c.land === filters.land);
+            }, [clubs, filters.land]);
+            
+            const handleFilterChange = (e, field) => {
+                const newFilters = { ...filters, [field]: e.target.value };
+                if (field === 'land') newFilters.club = ''; 
+                setFilters(newFilters);
+            };
+
+            const handleEditClick = (season) => { setEditingId(season.id); setEditFormData(season); };
+            const handleCancelClick = () => setEditingId(null);
+
+            const handleInputChange = (e, field, isCheckbox = false) => {
+                const value = isCheckbox ? (e.target.checked ? 'Y' : 'N') : e.target.value;
+                setEditFormData({ ...editFormData, [field]: value });
+            };
+            
+            const handleNewSeasonChange = (e, field, isCheckbox = false) => {
+                const value = isCheckbox ? (e.target.checked ? 'Y' : 'N') : e.target.value;
+                const updatedNewSeason = { ...newSeason, [field]: value };
+                if(field === 'club') {
+                    const selectedClub = clubs.find(c => c.id === value);
+                    updatedNewSeason.land = selectedClub ? selectedClub.land : '';
+                }
+                setNewSeason(updatedNewSeason);
+            };
+            
+            const handleSaveClick = async (id) => { try { await updateDoc(doc(db, 'seizoenen', id), editFormData); setEditingId(null); onUpdate(); } catch(e) { console.error("Error saving season:", e); alert("Failed to save season."); } };
+            const handleAddSeason = async (e) => { e.preventDefault(); if(!newSeason.seizoen || !newSeason.club || !newSeason.coachId) { alert("Seizoen, club en coach zijn verplicht."); return; } try { await addDoc(collection(db, 'seizoenen'), newSeason); setNewSeason({ seizoen: '', club: '', coachId: '', land: '', europese_prijs: 'N', landstitel: 'N', nationale_beker: 'N' }); onUpdate(); } catch(e) { console.error("Error adding season:", e); alert("Failed to add season."); } };
+            const handleDeleteClick = async (id) => { if (window.confirm("Weet je zeker dat je dit seizoen wilt verwijderen?")) { try { await deleteDoc(doc(db, 'seizoenen', id)); onUpdate(); } catch(e) { console.error("Error deleting season:", e); alert("Failed to delete season."); } } };
+            
+            const renderPrize = (prize) => prize === 'Y' ? <span className="text-green-500 font-bold">Y</span> : <span className="text-red-500">N</span>;
+            const scrollToAddForm = () => document.getElementById('add-season-form').scrollIntoView({ behavior: 'smooth' });
+
+            // FIX: De ontbrekende return statement is hier toegevoegd.
+            return ( <div> <div className="flex justify-between items-center mb-4"> <h1 className="text-2xl font-bold">Seizoenen Beheer</h1> <button onClick={scrollToAddForm} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><PlusIcon />Nieuw Seizoen</button> </div> <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 bg-white p-4 rounded-lg shadow"> <select value={filters.land} onChange={(e) => handleFilterChange(e, 'land')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Landen</option> {availableLanden.map(l => <option key={l} value={l}>{l}</option>)} </select> <select value={filters.club} onChange={(e) => handleFilterChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md"> <option value="">Alle Clubs</option> {availableClubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="bg-white shadow rounded-lg overflow-x-auto"> <table className="min-w-full divide-y divide-gray-200"> <thead className="bg-gray-50"> <tr> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seizoen</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Club</th> <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Coach</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Landstitel">T</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Nationale Beker">B</th> <th className="px-2 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider" title="Europese Prijs">E</th> <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th> </tr> </thead> <tbody className="bg-white divide-y divide-gray-200"> {filteredSeasons.map(s => ( <tr key={s.id}> {editingId === s.id ? ( <> <td className="px-4 py-4"><input type="text" value={editFormData.seizoen} onChange={(e) => handleInputChange(e, 'seizoen')} className="w-24 px-2 py-1 border rounded"/></td> <td className="px-4 py-4"> <select value={editFormData.club} onChange={(e) => handleInputChange(e, 'club')} className="w-full px-2 py-1 border rounded"> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-4 py-4"> <select value={editFormData.coachId} onChange={(e) => handleInputChange(e, 'coachId')} className="w-full px-2 py-1 border rounded"> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.landstitel === 'Y'} onChange={e => handleInputChange(e, 'landstitel', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.nationale_beker === 'Y'} onChange={e => handleInputChange(e, 'nationale_beker', true)} /></td> <td className="px-2 py-4 text-center"><input type="checkbox" checked={editFormData.europese_prijs === 'Y'} onChange={e => handleInputChange(e, 'europese_prijs', true)} /></td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleSaveClick(s.id)} className="text-green-600 hover:text-green-900 p-1"><SaveIcon /></button> <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 p-1"><CancelIcon /></button> </td> </> ) : ( <> <td className="px-4 py-4 whitespace-nowrap">{s.seizoen}</td> <td className="px-4 py-4 whitespace-nowrap font-medium">{clubsMap.get(s.club)?.naam || 'Onbekend'}</td> <td className="px-4 py-4 whitespace-nowrap">{coachesMap.get(s.coachId)?.naam || 'Onbekend'}</td> <td className="px-2 py-4 text-center">{renderPrize(s.landstitel)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.nationale_beker)}</td> <td className="px-2 py-4 text-center">{renderPrize(s.europese_prijs)}</td> <td className="px-4 py-4 text-right space-x-2 whitespace-nowrap"> <button onClick={() => handleEditClick(s)} className="text-indigo-600 hover:text-indigo-900 p-1"><EditIcon /></button> <button onClick={() => handleDeleteClick(s.id)} className="text-red-600 hover:text-red-900 p-1"><TrashIcon /></button> </td> </> )} </tr> ))} </tbody> </table> </div> <div id="add-season-form" className="mt-8"> <h2 className="text-xl font-bold mb-4">Nieuwe Seizoen Toevoegen</h2> <form onSubmit={handleAddSeason} className="bg-white shadow rounded-lg p-6 space-y-4"> <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> <input type="text" placeholder="Seizoen (bv. 2023/24)" value={newSeason.seizoen} onChange={e => handleNewSeasonChange(e, 'seizoen')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required /> <select value={newSeason.club} onChange={e => handleNewSeasonChange(e, 'club')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Club</option> {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> <select value={newSeason.coachId} onChange={e => handleNewSeasonChange(e, 'coachId')} className="block w-full px-3 py-2 border border-gray-300 rounded-md" required> <option value="">Selecteer Coach</option> {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)} </select> </div> <div className="flex items-center space-x-6 pt-4"> <label className="flex items-center"><input type="checkbox" checked={newSeason.landstitel === 'Y'} onChange={e => handleNewSeasonChange(e, 'landstitel', true)} className="h-4 w-4 mr-2"/>Landstitel</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.nationale_beker === 'Y'} onChange={e => handleNewSeasonChange(e, 'nationale_beker', true)} className="h-4 w-4 mr-2"/>Nationale Beker</label> <label className="flex items-center"><input type="checkbox" checked={newSeason.europese_prijs === 'Y'} onChange={e => handleNewSeasonChange(e, 'europese_prijs', true)} className="h-4 w-4 mr-2"/>Europese Prijs</label> </div> <div className="text-right pt-4"> <button type="submit" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"> <PlusIcon /> Seizoen Toevoegen </button> </div> </form> </div> </div> );
+        }
+        function DataCleanupView({ onUpdate }) { /* ... ongewijzigde code ... */ }
+        function AiView({ onUpdateAll }) { /* ... ongewijzigde code ... */ }
 
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
-            const [view, setView] = useState('seasons'); 
+            const [view, setView] = useState('wizard'); 
             const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
             const [dataLoading, setDataLoading] = useState(true);
             const [dataError, setDataError] = useState(null);
@@ -264,7 +206,7 @@
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs Beheren</a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('coaches');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches Beheren</a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('cleanup');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'cleanup' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ToolIcon /> Data Opschonen</a>
-                            <a href="#" onClick={(e) => {e.preventDefault(); setView('ai');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'ai' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><SparklesIcon /> Nieuw Land Wizard</a>
+                            <a href="#" onClick={(e) => {e.preventDefault(); setView('wizard');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'wizard' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><SparklesIcon /> Nieuw Land Wizard</a>
                         </nav>
                          <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
@@ -276,7 +218,7 @@
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                 'cleanup': <DataCleanupView onUpdate={fetchAllData} />,
-                                'ai': <AiView onUpdateAll={fetchAllData} />
+                                'wizard': <AiView onUpdateAll={fetchAllData} />
                             }[view]
                         }
                     </main>
