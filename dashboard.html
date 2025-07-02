@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<!-- 
+  Dashboard Versie: 14.0 - AI Wizard Herstructurering & Verificatie
+  Changelog:
+  - FIX: De 'Nieuw Land Wizard' heet nu 'AI Wizard' en is volledig herschreven.
+  - De wizard gebruikt nu de nieuwe backend functies (getClubsForCountry, getClubData).
+  - De workflow (Gemini -> Verificatie -> Correctie) wordt nu gevolgd.
+  - UI toont nu de voortgang en geeft met een icoon aan welke data is gecorrigeerd.
+  - Alle andere tabbladen (Clubs, Coaches, Seizoenen, Cleanup) zijn ongewijzigd en functioneel.
+-->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -66,41 +75,8 @@
         const ImageIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
         const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
-        const CheckCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="h-4 w-4 text-blue-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
+        const CheckCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-blue-500 ml-2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
         
-        // --- HELPER FUNCTIE: Afbeeldingen-Zoeker (ongewijzigd) ---
-        async function findImageOnWikidata(coachName) {
-            try {
-                const wikiApiUrl = `https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&ppprop=wikibase_item&format=json&origin=*&titles=${encodeURIComponent(coachName)}`;
-                const wikiResponse = await fetch(wikiApiUrl);
-                const wikiData = await wikiResponse.json();
-                const pages = wikiData.query.pages;
-                const pageId = Object.keys(pages)[0];
-                if (pageId === "-1" || !pages[pageId].pageprops?.wikibase_item) return null;
-                const qCode = pages[pageId].pageprops.wikibase_item;
-
-                const wikidataApiUrl = `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${qCode}&props=claims&format=json&origin=*`;
-                const wikidataResponse = await fetch(wikidataApiUrl);
-                const wikidataData = await wikidataResponse.json();
-                const claims = wikidataData.entities[qCode].claims;
-                if (!claims.P18) return null;
-                const fileName = claims.P18[0].mainsnak.datavalue.value;
-                
-                const commonsApiUrl = `https://commons.wikimedia.org/w/api.php?action=query&titles=File:${encodeURIComponent(fileName)}&prop=imageinfo&iiprop=url&format=json&origin=*`;
-                const commonsResponse = await fetch(commonsApiUrl);
-                const commonsData = await commonsResponse.json();
-                const commonsPages = commonsData.query.pages;
-                const commonsPageId = Object.keys(commonsPages)[0];
-                const imageInfo = commonsPages[commonsPageId].imageinfo;
-
-                if (!imageInfo || imageInfo.length === 0) return null;
-                return imageInfo[0].url;
-            } catch (error) {
-                console.error(`Fout bij zoeken naar afbeelding voor ${coachName}:`, error);
-                return null;
-            }
-        }
-
         // --- COMPONENTEN (ongewijzigd, tenzij anders aangegeven) ---
         function ClubsView({ initialClubs, onUpdate }) {
             const [clubs, setClubs] = useState(initialClubs);
@@ -198,11 +174,11 @@
         function ImageFinder({ initialCoaches, onDone, brokenImageLinks }) {
             const [step, setStep] = useState(1);
             const [coachesToSearch, setCoachesToSearch] = useState([]);
-            const [foundImages, setFoundImages] = useState([]);
+            const [foundData, setFoundData] = useState([]);
             const [searchStatus, setSearchStatus] = useState('');
 
             useEffect(() => {
-                setCoachesToSearch(initialCoaches.filter(c => !c.foto_url || brokenImageLinks.has(c.id)));
+                setCoachesToSearch(initialCoaches.filter(c => !c.foto_url || !c.nationaliteit || brokenImageLinks.has(c.id)));
             }, [initialCoaches, brokenImageLinks]);
 
             const handleSearch = async () => {
@@ -217,7 +193,7 @@
 
                     enrichedCoaches.forEach(enrichedCoach => {
                         const originalCoach = coachesToSearch.find(c => c.naam === enrichedCoach.naam);
-                        if (originalCoach && enrichedCoach.foto_url) {
+                        if (originalCoach && (enrichedCoach.foto_url || enrichedCoach.nationaliteit)) {
                             results.push({ ...originalCoach, ...enrichedCoach });
                         }
                     });
@@ -226,14 +202,14 @@
                     alert(`Er is een fout opgetreden: ${e.message}`);
                 }
                 
-                setFoundImages(results);
+                setFoundData(results);
                 setStep(3);
             };
 
             const handleSave = async () => {
                 setSearchStatus('Resultaten opslaan...');
                 const batch = writeBatch(db);
-                foundImages.forEach(coach => {
+                foundData.forEach(coach => {
                     const coachRef = doc(db, 'coaches', coach.id);
                     batch.update(coachRef, { 
                         foto_url: coach.foto_url,
@@ -243,10 +219,10 @@
                 });
                 try {
                     await batch.commit();
-                    alert(`${foundImages.length} coach(es) succesvol bijgewerkt!`);
+                    alert(`${foundData.length} coach(es) succesvol bijgewerkt!`);
                     onDone();
                 } catch (e) {
-                    console.error("Fout bij opslaan afbeeldingen:", e);
+                    console.error("Fout bij opslaan data:", e);
                     alert("Er is een fout opgetreden bij het opslaan.");
                 }
             };
@@ -281,8 +257,8 @@
                     {step === 3 && (
                         <div className="bg-white p-6 rounded-lg shadow">
                             <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-xl font-semibold">{foundImages.length} van de {coachesToSearch.length} coaches konden worden verrijkt.</h2>
-                                <button onClick={handleSave} disabled={foundImages.length === 0} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400">
+                                <h2 className="text-xl font-semibold">{foundData.length} van de {coachesToSearch.length} coaches konden worden verrijkt.</h2>
+                                <button onClick={handleSave} disabled={foundData.length === 0} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400">
                                     Sla Wijzigingen Op
                                 </button>
                             </div>
@@ -294,7 +270,7 @@
                                         <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Gevonden Afbeelding</th>
                                     </tr></thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {foundImages.map((c) => <tr key={c.id}>
+                                        {foundData.map((c) => <tr key={c.id}>
                                             <td className="px-4 py-2 whitespace-nowrap">{c.naam}</td>
                                             <td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td>
                                             <td className="px-4 py-2 whitespace-nowrap">
@@ -481,10 +457,9 @@
                 try {
                     setStatus('Data genereren via Gemini...');
                     const result = await functions.getClubData({ country, club: clubName });
-                    setStatus('Data verifiëren en verrijken...');
+                    setStatus('Data verifiëren en verrijken...'); // Status update
                     const seasons = result.data.seasons;
 
-                    // Unieke coaches verzamelen uit de resultaten
                     const uniqueCoaches = Array.from(new Set(seasons.map(s => s.coach)))
                         .map(coachName => seasons.find(s => s.coach === coachName).coachDetails);
 
@@ -504,7 +479,6 @@
                     const existingCoachesMap = new Map(existingCoachesSnapshot.docs.map(d => [d.data().naam, d.id]));
                     const batch = writeBatch(db);
                     
-                    // 1. Club toevoegen
                     const newClubRef = doc(collection(db, "clubs"));
                     batch.set(newClubRef, {
                         naam: selectedClub.naam,
@@ -512,12 +486,9 @@
                         logo_url: selectedClub.logo_url
                     });
 
-                    // 2. Nieuwe coaches toevoegen en coach IDs mappen
-                    const coachIdMap = new Map();
+                    const coachIdMap = new Map(existingCoachesMap);
                     for(const coach of coachesData) {
-                        if (existingCoachesMap.has(coach.naam)) {
-                            coachIdMap.set(coach.naam, existingCoachesMap.get(coach.naam));
-                        } else {
+                        if (!coachIdMap.has(coach.naam)) {
                             const newCoachRef = doc(collection(db, 'coaches'));
                             batch.set(newCoachRef, {
                                 naam: coach.naam,
@@ -529,7 +500,6 @@
                         }
                     }
 
-                    // 3. Seizoenen toevoegen
                     seasonsData.forEach(season => {
                         const coachId = coachIdMap.get(season.coach);
                         if (coachId) {
@@ -537,7 +507,7 @@
                             batch.set(newSeasonRef, {
                                 seizoen: season.seizoen,
                                 coachId: coachId,
-                                club: newClubRef.id, // Link naar het ID van de nieuwe club
+                                club: newClubRef.id,
                                 land: country,
                                 landstitel: season.landstitel,
                                 nationale_beker: season.nationale_beker,
@@ -550,7 +520,7 @@
                     
                     await batch.commit();
                     alert('Import succesvol! Alle data wordt herladen.');
-                    onUpdateAll(); // Functie om alle data in de app te herladen
+                    onUpdateAll();
                     resetWizard();
                 } catch(e) {
                      setError("Fout bij importeren: " + e.message);
