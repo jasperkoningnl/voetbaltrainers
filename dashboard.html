@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 14.1 - Tijdelijke functie toegevoegd
+  Dashboard Versie: 14.3 - Diagnostische functie verwijderd
   Changelog:
-  - De tijdelijke functie 'listAvailableModels' is toegevoegd aan de frontend,
-    zodat deze vanuit de browser console kan worden aangeroepen voor diagnostiek.
+  - De verwijzing naar de tijdelijke functie 'listAvailableModels' is verwijderd
+    om de code op te schonen.
 -->
 <html lang="nl">
 <head>
@@ -41,8 +41,7 @@
             functions: {
                 getClubsForCountry: httpsCallable(functions, 'getClubsForCountry'),
                 getClubData: httpsCallable(functions, 'getClubData'),
-                enrichCoachData: httpsCallable(functions, 'enrichCoachData'),
-                listAvailableModels: httpsCallable(functions, 'listAvailableModels') // Deze regel is toegevoegd
+                enrichCoachData: httpsCallable(functions, 'enrichCoachData')
             },
             GoogleAuthProvider,
             signInWithPopup,
@@ -660,7 +659,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v14.1</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v14.3</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('wizard');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'wizard' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><SparklesIcon /> AI Wizard</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
