@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 15.1 - Rate Limit Afhandeling
+  Dashboard Versie: 15.2 - Visuele Feedback & Previews
   Changelog:
-  - De 'Controleer Prijzen' knop stuurt nu de volledige lijst met clubs
-    in één keer naar de backend.
-  - De backend functie handelt nu de vertraging af om de API rate limit
-    niet te overschrijden.
+  - De Importer toont nu een duidelijke melding als er geen prijscorrecties zijn.
+  - De knop 'Stap overslaan' verandert in 'Volgende stap' na de controle.
+  - De tabel met coaches toont nu een directe preview van de gevonden afbeeldingen.
+  - Het finale import-scherm toont een compleet overzicht van alle data.
 -->
 <html lang="nl">
 <head>
@@ -416,10 +416,13 @@
             const [processedData, setProcessedData] = useState([]);
             const [corrections, setCorrections] = useState({});
             const [clubLogos, setClubLogos] = useState({});
+            const [verificationDone, setVerificationDone] = useState(false);
+
 
             const resetWizard = () => {
                 setStep(1); setStatus(''); setIsLoading(false); setError('');
                 setFileName(''); setProcessedData([]); setCorrections({}); setClubLogos({});
+                setVerificationDone(false);
             };
 
             const handleFileChange = (e) => {
@@ -431,7 +434,7 @@
                     try {
                         const parsedData = JSON.parse(event.target.result);
                         if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
-                        const dataWithIds = parsedData.map((row, index) => ({...row, _id: index}));
+                        const dataWithIds = parsedData.map((row, index) => ({...row, _id: index, foto_url: ''}));
                         setProcessedData(dataWithIds);
                         setStep(2);
                     } catch (err) {
@@ -445,24 +448,27 @@
                 setIsLoading(true);
                 setError('');
                 setStatus('Prijzen controleren...');
+                setVerificationDone(false);
                 
-                const clubsToVerifyMap = new Map();
-                processedData.forEach(d => {
-                    if (!clubsToVerifyMap.has(d.club)) {
-                        clubsToVerifyMap.set(d.club, { name: d.club, country: d.land });
-                    }
-                });
-                const clubsToVerify = Array.from(clubsToVerifyMap.values());
+                const clubsToVerify = [...new Set(processedData.map(d => d.club))].map(name => ({
+                    name: name,
+                    country: processedData.find(d => d.club === name).land
+                }));
 
                 try {
                     const result = await functions.verifyTrophyData({ clubs: clubsToVerify });
                     setCorrections(result.data.corrections);
-                    setStatus('Controle voltooid. Bekijk de voorgestelde correcties.');
+                    if (Object.keys(result.data.corrections).length === 0) {
+                        setStatus('Controle voltooid: geen correcties gevonden.');
+                    } else {
+                        setStatus('Controle voltooid. Bekijk de voorgestelde correcties.');
+                    }
                 } catch (err) {
                     setError(err.message);
                     setStatus('Fout bij controle.');
                 } finally {
                     setIsLoading(false);
+                    setVerificationDone(true);
                 }
             };
 
@@ -519,11 +525,11 @@
                     const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name));
                     const newCoachData = new Map();
                     processedData.forEach(s => {
-                        if (!existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) {
+                        if (s.coach && !existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) {
                             newCoachData.set(s.coach, {
                                 naam: s.coach,
-                                nationaliteit: s.nationaliteit,
-                                nat_code: s.nat_code,
+                                nationaliteit: s.nationaliteit || '',
+                                nat_code: s.nat_code || '',
                                 foto_url: s.foto_url || ''
                             });
                         }
@@ -581,14 +587,14 @@
             const uniqueCoaches = useMemo(() => {
                 const coaches = new Map();
                 processedData.forEach(s => {
-                    if (!coaches.has(s.coach)) {
+                    if (s.coach && !coaches.has(s.coach)) {
                         coaches.set(s.coach, {
                             naam: s.coach,
                             nationaliteit: s.nationaliteit,
                             nat_code: s.nat_code,
                             foto_url: s.foto_url || ''
                         });
-                    } else if (s.foto_url && !coaches.get(s.coach).foto_url) {
+                    } else if (s.coach && s.foto_url && !coaches.get(s.coach).foto_url) {
                         coaches.get(s.coach).foto_url = s.foto_url;
                     }
                 });
@@ -641,9 +647,11 @@
                             <p className="text-gray-600">Data voor <strong>{uniqueClubs.length} clubs</strong> uit <strong>{fileName}</strong> is geladen. Controleer de prijzen via de externe API.</p>
                             <div className="flex items-center gap-4">
                                 <button onClick={handleVerifyTrophies} disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">Controleer Prijzen</button>
-                                <button onClick={() => setStep(3)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Stap overslaan &raquo;</button>
+                                <button onClick={() => setStep(3)} disabled={isLoading} className={`px-4 py-2 rounded-md ${verificationDone ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}>
+                                    {verificationDone ? 'Volgende Stap' : 'Stap overslaan'} &raquo;
+                                </button>
                             </div>
-                            {Object.keys(corrections).length > 0 && (
+                            {verificationDone && Object.keys(corrections).length > 0 && (
                                 <div className="border p-4 rounded-lg bg-gray-50">
                                     <div className="flex justify-between items-center mb-2">
                                         <h3 className="font-semibold">Voorgestelde Correcties</h3>
@@ -654,6 +662,9 @@
                                     </tbody></table>
                                 </div>
                             )}
+                             {verificationDone && Object.keys(corrections).length === 0 && !error && (
+                                <p className="text-green-600 font-medium">Controle voltooid: geen correcties gevonden.</p>
+                            )}
                         </div>
                     )}
 
@@ -663,7 +674,7 @@
                             <p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p>
                             <div className="flex items-center gap-4">
                                 <button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button>
-                                <button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Stap overslaan &raquo;</button>
+                                <button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Volgende Stap &raquo;</button>
                             </div>
                              <div className="max-h-96 overflow-y-auto border rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-200">
@@ -735,7 +746,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v15.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v15.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
