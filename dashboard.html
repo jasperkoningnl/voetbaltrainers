@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 15.0 - Nieuwe Data Importer
+  Dashboard Versie: 15.1 - Rate Limit Afhandeling
   Changelog:
-  - De 'AI Wizard' is volledig vervangen door een nieuwe 'Importer' tab.
-  - Implementeert een nieuwe, stapsgewijze workflow:
-    1. Upload JSON
-    2. Verifieer Prijzen (optioneel)
-    3. Verrijk Coach Afbeeldingen (optioneel)
-    4. Finale Import
-  - Deze aanpak is robuuster en geeft de gebruiker meer controle.
+  - De 'Controleer Prijzen' knop stuurt nu de volledige lijst met clubs
+    in één keer naar de backend.
+  - De backend functie handelt nu de vertraging af om de API rate limit
+    niet te overschrijden.
 -->
 <html lang="nl">
 <head>
@@ -416,14 +413,13 @@
             const [error, setError] = useState('');
 
             const [fileName, setFileName] = useState('');
-            const [originalData, setOriginalData] = useState([]);
             const [processedData, setProcessedData] = useState([]);
             const [corrections, setCorrections] = useState({});
             const [clubLogos, setClubLogos] = useState({});
 
             const resetWizard = () => {
                 setStep(1); setStatus(''); setIsLoading(false); setError('');
-                setFileName(''); setOriginalData([]); setProcessedData([]); setCorrections({}); setClubLogos({});
+                setFileName(''); setProcessedData([]); setCorrections({}); setClubLogos({});
             };
 
             const handleFileChange = (e) => {
@@ -435,8 +431,8 @@
                     try {
                         const parsedData = JSON.parse(event.target.result);
                         if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
-                        setOriginalData(parsedData);
-                        setProcessedData(parsedData); // Start met de originele data
+                        const dataWithIds = parsedData.map((row, index) => ({...row, _id: index}));
+                        setProcessedData(dataWithIds);
                         setStep(2);
                     } catch (err) {
                         setError(`Fout bij lezen van JSON: ${err.message}`);
@@ -448,28 +444,33 @@
             const handleVerifyTrophies = async () => {
                 setIsLoading(true);
                 setError('');
-                const clubs = [...new Set(processedData.map(d => d.club))];
-                let allCorrections = {};
-                for (const club of clubs) {
-                    try {
-                        setStatus(`Prijzen controleren voor ${club}...`);
-                        const country = processedData.find(d => d.club === club).land;
-                        const result = await functions.verifyTrophyData({ club, country });
-                        allCorrections = {...allCorrections, ...result.data.corrections};
-                    } catch (err) {
-                        setError(`Fout bij controle van ${club}: ${err.message}`);
+                setStatus('Prijzen controleren...');
+                
+                const clubsToVerifyMap = new Map();
+                processedData.forEach(d => {
+                    if (!clubsToVerifyMap.has(d.club)) {
+                        clubsToVerifyMap.set(d.club, { name: d.club, country: d.land });
                     }
+                });
+                const clubsToVerify = Array.from(clubsToVerifyMap.values());
+
+                try {
+                    const result = await functions.verifyTrophyData({ clubs: clubsToVerify });
+                    setCorrections(result.data.corrections);
+                    setStatus('Controle voltooid. Bekijk de voorgestelde correcties.');
+                } catch (err) {
+                    setError(err.message);
+                    setStatus('Fout bij controle.');
+                } finally {
+                    setIsLoading(false);
                 }
-                setCorrections(allCorrections);
-                setStatus('Controle voltooid. Bekijk de voorgestelde correcties.');
-                setIsLoading(false);
             };
 
             const applyCorrections = () => {
                 const correctedData = processedData.map(season => {
-                    const seasonCorrection = corrections[season.seizoen];
-                    if (seasonCorrection && season.club === Object.keys(seasonCorrection)[0]) { // Aanname dat correcties per club zijn, maar API geeft platte lijst
-                         return { ...season, ...seasonCorrection };
+                    const seasonCorrection = corrections[season.seizoen]?.[season.club];
+                    if (seasonCorrection) {
+                        return { ...season, ...seasonCorrection, _corrected: true };
                     }
                     return season;
                 });
@@ -502,8 +503,78 @@
             };
             
             const handleImportData = async () => {
-                // Deze functie moet nog gebouwd worden
-                alert("Import functionaliteit nog niet geïmplementeerd.");
+                setIsLoading(true);
+                setError('');
+                setStatus('Data importeren naar database...');
+                try {
+                    const [clubsSnapshot, coachesSnapshot] = await Promise.all([
+                        getDocs(collection(db, "clubs")),
+                        getDocs(collection(db, "coaches"))
+                    ]);
+                    const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id]));
+                    const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id]));
+                    
+                    const batch = writeBatch(db);
+                    
+                    const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name));
+                    const newCoachData = new Map();
+                    processedData.forEach(s => {
+                        if (!existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) {
+                            newCoachData.set(s.coach, {
+                                naam: s.coach,
+                                nationaliteit: s.nationaliteit,
+                                nat_code: s.nat_code,
+                                foto_url: s.foto_url || ''
+                            });
+                        }
+                    });
+
+                    const clubIdMap = new Map(existingClubsMap);
+                    newClubNames.forEach(name => {
+                        const newClubRef = doc(collection(db, "clubs"));
+                        const clubData = processedData.find(s => s.club === name);
+                        batch.set(newClubRef, {
+                            naam: name,
+                            land: clubData.land,
+                            logo_url: clubLogos[name] || ''
+                        });
+                        clubIdMap.set(name, newClubRef.id);
+                    });
+
+                    const coachIdMap = new Map(existingCoachesMap);
+                    for(const [name, data] of newCoachData.entries()) {
+                        const newCoachRef = doc(collection(db, 'coaches'));
+                        batch.set(newCoachRef, data);
+                        coachIdMap.set(name, newCoachRef.id);
+                    }
+
+                    processedData.forEach(season => {
+                        const coachId = coachIdMap.get(season.coach);
+                        const clubId = clubIdMap.get(season.club);
+                        if (coachId && clubId) {
+                            const newSeasonRef = doc(collection(db, 'seizoenen'));
+                            batch.set(newSeasonRef, {
+                                seizoen: season.seizoen,
+                                coachId: coachId,
+                                club: clubId,
+                                land: season.land,
+                                landstitel: season.landstitel,
+                                nationale_beker: season.nationale_beker,
+                                europese_prijs: season.europese_prijs,
+                            });
+                        }
+                    });
+                    
+                    await batch.commit();
+                    alert('Import succesvol! Alle data wordt herladen.');
+                    onUpdateAll();
+                    resetWizard();
+                } catch(e) {
+                     setError("Fout bij importeren: " + e.message);
+                } finally {
+                     setIsLoading(false);
+                     setStatus('');
+                }
             };
 
             const uniqueClubs = useMemo(() => [...new Set(processedData.map(d => d.club))], [processedData]);
@@ -517,10 +588,32 @@
                             nat_code: s.nat_code,
                             foto_url: s.foto_url || ''
                         });
+                    } else if (s.foto_url && !coaches.get(s.coach).foto_url) {
+                        coaches.get(s.coach).foto_url = s.foto_url;
                     }
                 });
                 return Array.from(coaches.values());
             }, [processedData]);
+            
+            const CorrectionRow = ({ season, club, original, correction }) => {
+                const changes = Object.keys(correction).filter(key => original[key] !== correction[key]);
+                if (changes.length === 0) return null;
+
+                return (
+                    <tr className="bg-blue-50">
+                        <td className="px-4 py-2 whitespace-nowrap font-semibold">{club}</td>
+                        <td className="px-4 py-2 whitespace-nowrap font-semibold">{season}</td>
+                        <td className="px-4 py-2 whitespace-nowrap" colSpan="2">
+                            {changes.map(key => (
+                                 <div key={key}>
+                                    <span className="font-medium capitalize">{key.replace(/_/g, ' ')}:</span>
+                                    <span className="text-red-600 ml-2">{original[key]}</span> → <span className="text-green-600">{correction[key]}</span>
+                                 </div>
+                            ))}
+                        </td>
+                    </tr>
+                );
+            };
 
             return (
                 <div>
@@ -552,9 +645,13 @@
                             </div>
                             {Object.keys(corrections).length > 0 && (
                                 <div className="border p-4 rounded-lg bg-gray-50">
-                                    <h3 className="font-semibold mb-2">Voorgestelde Correcties</h3>
-                                    {/* Hier komt de weergave van correcties */}
-                                    <button onClick={applyCorrections} className="mt-4 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">Accepteer Correcties</button>
+                                    <div className="flex justify-between items-center mb-2">
+                                        <h3 className="font-semibold">Voorgestelde Correcties</h3>
+                                        <button onClick={applyCorrections} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">Alle Correcties Toepassen</button>
+                                    </div>
+                                    <table className="min-w-full"><tbody>
+                                        {processedData.map(s => <CorrectionRow key={s._id} season={s.seizoen} club={s.club} original={s} correction={corrections[s.seizoen]?.[s.club] || {}} />)}
+                                    </tbody></table>
                                 </div>
                             )}
                         </div>
@@ -568,7 +665,22 @@
                                 <button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button>
                                 <button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Stap overslaan &raquo;</button>
                             </div>
-                            {/* Tabel om coaches te tonen */}
+                             <div className="max-h-96 overflow-y-auto border rounded-lg">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50 sticky top-0"><tr>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th>
+                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th>
+                                    </tr></thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {uniqueCoaches.map((c) => <tr key={c.naam}>
+                                            <td className="px-4 py-2 whitespace-nowrap">{c.naam}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td>
+                                            <td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td>
+                                        </tr>)}
+                                    </tbody>
+                                </table>
+                            </div>
                          </div>
                     )}
 
@@ -576,12 +688,14 @@
                          <div className="bg-white p-6 rounded-lg shadow space-y-6">
                             <h2 className="text-xl font-bold">Stap 4: Finale Import</h2>
                             <p className="text-gray-600">Controleer de definitieve data. Voeg clublogo's toe en importeer alles naar de database.</p>
-                            {uniqueClubs.map(club => (
-                                <div key={club}>
-                                    <label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label>
-                                    <input type="text" id={`logo-${club}`} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="mt-1 block w-full p-2 border border-gray-300 rounded-md"/>
-                                </div>
-                            ))}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {uniqueClubs.map(club => (
+                                    <div key={club}>
+                                        <label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label>
+                                        <input type="text" id={`logo-${club}`} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="mt-1 block w-full p-2 border border-gray-300 rounded-md"/>
+                                    </div>
+                                ))}
+                            </div>
                             <button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">
                                 Importeer Data naar Firebase
                             </button>
