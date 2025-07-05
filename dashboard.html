@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 15.3 - Verbeterde Importer Previews
+  Dashboard Versie: 15.1 - Rate Limit Afhandeling
   Changelog:
-  - De Importer haalt nu automatisch clublogo's op tijdens de verificatiestap.
-  - Het finale import-scherm toont nu een preview van de seizoensdata.
-  - Het versienummer in de UI is gecorrigeerd.
+  - De 'Controleer Prijzen' knop stuurt nu de volledige lijst met clubs
+    in één keer naar de backend.
+  - De backend functie handelt nu de vertraging af om de API rate limit
+    niet te overschrijden.
+  - De UI toont de voortgang tijdens het controleren.
 -->
 <html lang="nl">
 <head>
@@ -446,13 +448,21 @@
             const handleVerifyTrophies = async () => {
                 setIsLoading(true);
                 setError('');
-                setStatus('Prijzen controleren...');
                 setVerificationDone(false);
                 
                 const clubsToVerify = [...new Set(processedData.map(d => d.club))].map(name => ({
                     name: name,
                     country: processedData.find(d => d.club === name).land
                 }));
+
+                let currentClubIndex = 0;
+                const totalClubs = clubsToVerify.length;
+                
+                const updateStatus = () => {
+                    setStatus(`Prijzen controleren voor ${clubsToVerify[currentClubIndex].name} (${currentClubIndex + 1}/${totalClubs})...`);
+                };
+
+                updateStatus();
 
                 try {
                     const result = await functions.verifyTrophyData({ clubs: clubsToVerify });
