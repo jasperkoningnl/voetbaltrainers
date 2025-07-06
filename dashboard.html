@@ -123,7 +123,7 @@
 
                 try {
                     setStatus('Prijzen en logos controleren...');
-                    const result = await functions.verifyTrophyData({ clubs: clubsToVerify });
+                    const result = await functions.verifyTrophyData({ clubs: clubsToVerify, seasons: processedData });
                     setCorrections(result.data.corrections);
                     setClubLogos(result.data.logos); // Logo's opslaan
                     if (Object.keys(result.data.corrections).length === 0) {
