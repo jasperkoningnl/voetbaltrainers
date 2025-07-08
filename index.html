@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!--
+  Bestandsversie: 2.0
+  Changelog:
+  - De navigatie voor landen wordt niet langer hardgecodeerd in HTML.
+  - De div 'country-nav-container' is nu leeg en wordt dynamisch gevuld door script.js
+    op basis van de data in de Firestore database.
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +21,7 @@
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script type="module">
+        // Firebase-configuratie en initialisatie
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       
@@ -30,7 +38,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Functies beschikbaar maken voor het hoofdscript
+        // Maak Firestore-services globaal beschikbaar voor script.js
         window.db = db;
         window.firestore = { query, collection, where, getDocs };
 
@@ -54,8 +62,7 @@
         </div>
 
         <div id="country-nav-container">
-            <a href="#" class="nav-link" data-country="England">England</a>
-            <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
+            <!-- Navigatie-links worden hier dynamisch ingevoegd door script.js -->
         </div>
 
         <div id="heatmap-container"></div>
