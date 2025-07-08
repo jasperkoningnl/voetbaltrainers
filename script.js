@@ -1,5 +1,9 @@
-// Script Versie: 14.0 - Data wordt nu gekoppeld aan de nieuwe 'clubs' collectie voor logo's.
-console.log("Script versie: 14.0 geladen.");
+// Script Versie: 15.0 - Dynamische landen navigatie
+// Changelog:
+// - De navigatiebalk voor landen wordt nu dynamisch gegenereerd.
+// - Nieuwe functie 'getAvailableCountries' haalt unieke landen op uit de 'clubs' collectie.
+// - 'initApp' is herschreven om de navigatie op te bouwen en het eerste land als standaard te laden.
+console.log("Script versie: 15.0 geladen.");
 
 // --- Globale Variabelen ---
 const infoPane = d3.select("#info-pane");
@@ -11,21 +15,72 @@ let currentResizeObserver = null;
 // --- Main Application Flow ---
 
 /**
- * Initialiseert de applicatie, stelt navigatie-eventlisteners in en laadt het standaardland.
+ * Haalt een unieke, gesorteerde lijst van alle landen op uit de 'clubs' collectie.
+ * @returns {Promise<Array<string>>} Een lijst met landnamen.
  */
-function initApp() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
+async function getAvailableCountries() {
+    if (!window.db || !window.firestore) {
+        console.error("Firestore is not initialized.");
+        return [];
+    }
+    try {
+        const { collection, getDocs } = window.firestore;
+        const clubsSnapshot = await getDocs(collection(window.db, "clubs"));
+        
+        // Haal alle 'land' velden op en maak een unieke, gesorteerde lijst
+        const countries = clubsSnapshot.docs.map(doc => doc.data().land);
+        const uniqueCountries = [...new Set(countries)].sort();
+        
+        console.log("Beschikbare landen gevonden:", uniqueCountries);
+        return uniqueCountries;
+    } catch (error) {
+        console.error("Fout bij het ophalen van landenlijst:", error);
+        heatmapContainer.html(`<p class="error">Could not load the list of available countries from the database.</p>`);
+        return [];
+    }
+}
+
+/**
+ * Initialiseert de applicatie. Haalt beschikbare landen op, bouwt de navigatie
+ * en laadt de data voor het standaardland.
+ */
+async function initApp() {
+    const navContainer = document.getElementById('country-nav-container');
+    navContainer.innerHTML = '<p class="loading-text">Loading available leagues...</p>';
+
+    const countries = await getAvailableCountries();
+    
+    navContainer.innerHTML = ''; // Maak de container leeg
+
+    if (countries.length === 0) {
+        navContainer.innerHTML = '<p class="error">No countries found in the database.</p>';
+        return;
+    }
+
+    // Maak voor elk land een navigatie-link
+    countries.forEach(country => {
+        const link = document.createElement('a');
+        link.href = '#';
+        link.className = 'nav-link';
+        link.dataset.country = country;
+        link.textContent = country;
+
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const country = e.target.dataset.country;
             if (!e.target.classList.contains('active')) {
                 loadCountry(country);
             }
         });
+
+        navContainer.appendChild(link);
     });
-    loadCountry('England');
+
+    // Laad het eerste land uit de lijst als standaard
+    if (countries.length > 0) {
+        loadCountry(countries[0]);
+    }
 }
+
 
 /**
  * Laadt en toont de visualisatie voor een specifiek land.
@@ -185,7 +240,7 @@ function prepareData(data) {
     return data;
 }
 
-// --- Visualization (deze functie is ongewijzigd) ---
+// --- Visualization ---
 
 const margin = {top: 20, right: 30, bottom: 80, left: 220};
 const x = d3.scaleBand().padding(0);
@@ -325,7 +380,7 @@ function drawVisualization(data) {
     return updateXAxis;
 }
 
-// --- Event Handlers & Info Pane/Legend (ongewijzigd) ---
+// --- Event Handlers & Info Pane/Legend ---
 function handleMouseClick(event, d) {
     event.stopPropagation();
     const g = d3.select(this.closest("svg > g"));
