@@ -1,9 +1,8 @@
-// Script Versie: 15.0 - Dynamische landen navigatie
+// Script Versie: 15.1 - Fix voor clubnamen
 // Changelog:
-// - De navigatiebalk voor landen wordt nu dynamisch gegenereerd.
-// - Nieuwe functie 'getAvailableCountries' haalt unieke landen op uit de 'clubs' collectie.
-// - 'initApp' is herschreven om de navigatie op te bouwen en het eerste land als standaard te laden.
-console.log("Script versie: 15.0 geladen.");
+// - Bug opgelost waarbij Firestore document ID's werden getoond in plaats van clubnamen.
+// - De `loadDataFromFirestore` functie vervangt nu correct de `club` ID met de `club.naam`.
+console.log("Script versie: 15.1 geladen.");
 
 // --- Globale Variabelen ---
 const infoPane = d3.select("#info-pane");
@@ -141,7 +140,7 @@ async function loadDataFromFirestore(country) {
 
         const coachesCol = collection(window.db, "coaches");
         const seizoenenCol = collection(window.db, "seizoenen");
-        const clubsCol = collection(window.db, "clubs"); // De nieuwe clubs collectie
+        const clubsCol = collection(window.db, "clubs");
 
         const seizoenenQuery = query(seizoenenCol, where("land", "==", country));
 
@@ -164,16 +163,18 @@ async function loadDataFromFirestore(country) {
 
                 if (!coachInfo || !clubInfo) return null;
 
-                const { naam = 'Unknown', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo;
+                const { naam: coachNaam = 'Unknown Coach', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo;
+                const { naam: clubNaam = 'Unknown Club', logo_url = '' } = clubInfo;
                 
-                // Voeg de data samen, gebruik de logo_url uit de clubsMap
+                // Voeg de data samen en vervang de club ID met de clubnaam.
                 return { 
                     ...seizoenData, 
-                    Coach: naam, 
+                    club: clubNaam, // <-- DE FIX: OVERSCHRIJF de ID met de naam
+                    Coach: coachNaam, 
                     nationaliteit, 
                     nat_code, 
                     foto_url,
-                    logo_url: clubInfo.logo_url || '' // Gebruik de centrale logo URL
+                    logo_url: logo_url
                 };
             })
             .filter(d => d);
@@ -215,9 +216,9 @@ function prepareData(data) {
         const [startDeel, eindDeel] = laatsteSeizoen.split('/');
         let eindJaarNum;
 
-        if (eindDeel.length === 4) {
+        if (eindDeel && eindDeel.length === 4) {
             eindJaarNum = parseInt(eindDeel);
-        } else {
+        } else if (eindDeel) {
             const eeuw = Math.floor(parseInt(startDeel) / 100) * 100;
             const startJaarKort = parseInt(startDeel.substring(2, 4));
             eindJaarNum = parseInt(eindDeel);
@@ -226,6 +227,8 @@ function prepareData(data) {
             } else {
                 eindJaarNum = eeuw + eindJaarNum;
             }
+        } else {
+            eindJaarNum = parseInt(startDeel) + 1;
         }
        
         const eindJaar = eindJaarNum.toString();
