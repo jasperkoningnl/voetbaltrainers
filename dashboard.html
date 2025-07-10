@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 15.5 - Volledig Functioneel
+  Dashboard Versie: 16.0 - Inline bewerken en toevoegen ingeschakeld voor Clubs, Coaches en Seizoenen.
   Changelog:
-  - Alle view-componenten (Clubs, Coaches, Seizoenen, Data Opschonen) zijn nu volledig
-    uitgewerkt en functioneel.
-  - De code is nu compleet en kan direct worden gebruikt.
+  - Volledige CRUD (Create, Read, Update, Delete) functionaliteit voor Clubs, Coaches en Seizoenen.
+  - Inline bewerken direct in de tabellen voor snelle aanpassingen.
+  - Formulieren om nieuwe clubs, coaches en seizoenen toe te voegen.
+  - Verbeterde gebruikersfeedback met laadindicatoren en meldingen.
 -->
 <html lang="nl">
 <head>
@@ -23,6 +24,7 @@
         import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
+        // Firebase configuratie
         const firebaseConfig = {
             apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
             authDomain: "voetbaltrainers.firebaseapp.com",
@@ -36,6 +38,7 @@
         const app = initializeApp(firebaseConfig);
         const functions = getFunctions(app, 'europe-west1');
 
+        // Maak Firebase services globaal beschikbaar
         window.firebaseServices = {
             auth: getAuth(app),
             db: getFirestore(app),
@@ -61,35 +64,76 @@
         // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
         const UserIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
-        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>;
+        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>;
         const LogOutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>;
         const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
         const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
-        const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
-        const DeleteIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>;
+        const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
+        const DeleteIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>;
+        const SaveIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>;
+        const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+        const AddIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
 
         // --- COMPONENTEN ---
 
         function ClubsView({ initialClubs, onUpdate }) {
             const [clubs, setClubs] = useState(initialClubs);
-            const [editingClub, setEditingClub] = useState(null);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newClub, setNewClub] = useState({ naam: '', land: '', logo_url: '' });
+            const [isLoading, setIsLoading] = useState(false);
 
-            const handleSave = async (clubId, updatedData) => {
+            useEffect(() => { setClubs(initialClubs); }, [initialClubs]);
+
+            const handleEditClick = (club) => {
+                setEditingRowId(club.id);
+                setEditedData({ ...club });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (clubId) => {
+                setIsLoading(true);
                 try {
-                    await updateDoc(doc(db, "clubs", clubId), updatedData);
-                    setEditingClub(null);
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "clubs", clubId), dataToSave);
+                    setEditingRowId(null);
                     onUpdate();
                 } catch (e) {
                     console.error("Fout bij opslaan club:", e);
                     alert("Kon de club niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleAddClub = async (e) => {
+                e.preventDefault();
+                if(!newClub.naam || !newClub.land) {
+                    alert("Clubnaam en land zijn verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    await addDoc(collection(db, "clubs"), newClub);
+                    setNewClub({ naam: '', land: '', logo_url: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen club:", e);
+                    alert("Kon de club niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
                 }
             };
 
             const handleDelete = async (clubId) => {
                 if (!confirm(`Weet je zeker dat je deze club wilt verwijderen? Alle bijbehorende seizoenen worden ook verwijderd!`)) return;
+                setIsLoading(true);
                 try {
-                    // Transactie om club en seizoenen te verwijderen
                     const seasonsQuery = query(collection(db, "seizoenen"), where("club", "==", clubId));
                     const seasonsSnapshot = await getDocs(seasonsQuery);
                     const batch = writeBatch(db);
@@ -100,16 +144,30 @@
                 } catch (e) {
                      console.error("Fout bij verwijderen club:", e);
                     alert("Kon de club niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
                 }
             };
-            
-            useEffect(() => {
-                setClubs(initialClubs);
-            }, [initialClubs]);
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewClubChange = (e) => setNewClub({ ...newClub, [e.target.name]: e.target.value });
 
             return (
-                <div className="bg-white p-6 rounded-lg shadow">
-                    <h2 className="text-xl font-bold mb-4">Clubs ({clubs.length})</h2>
+                <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Clubs ({clubs.length})</h2>
+                    
+                    <form onSubmit={handleAddClub} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuwe Club Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" name="naam" value={newClub.naam} onChange={handleNewClubChange} placeholder="Clubnaam" className="p-2 border rounded col-span-1" required />
+                            <input type="text" name="land" value={newClub.land} onChange={handleNewClubChange} placeholder="Land" className="p-2 border rounded col-span-1" required />
+                            <input type="text" name="logo_url" value={newClub.logo_url} onChange={handleNewClubChange} placeholder="Logo URL" className="p-2 border rounded col-span-2" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
@@ -122,16 +180,29 @@
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {clubs.map(club => (
+                                    editingRowId === club.id ? (
+                                    <tr key={club.id}>
+                                        <td className="px-6 py-4"><input type="text" name="logo_url" value={editedData.logo_url} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="naam" value={editedData.naam} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="land" value={editedData.land} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleSaveClick(club.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                            <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                        </td>
+                                    </tr>
+                                    ) : (
                                     <tr key={club.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {club.logo_url ? <img src={club.logo_url} alt={club.naam} className="h-8 w-8" /> : ''}
+                                            {club.logo_url ? <img src={club.logo_url} alt={club.naam} className="h-8 w-8" onError={(e) => e.target.style.display='none'} /> : ''}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">{club.naam}</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{club.land}</td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button onClick={() => handleDelete(club.id)} className="text-red-600 hover:text-red-900 ml-4"><DeleteIcon /></button>
+                                            <button onClick={() => handleEditClick(club)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                            <button onClick={() => handleDelete(club.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
                                         </td>
                                     </tr>
+                                    )
                                 ))}
                             </tbody>
                         </table>
@@ -141,15 +212,103 @@
         }
 
         function CoachesView({ initialCoaches, onUpdate }) {
-             const [coaches, setCoaches] = useState(initialCoaches);
+            const [coaches, setCoaches] = useState(initialCoaches);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newCoach, setNewCoach] = useState({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' });
+            const [isLoading, setIsLoading] = useState(false);
+
+            useEffect(() => { setCoaches(initialCoaches); }, [initialCoaches]);
+
+            const handleEditClick = (coach) => {
+                setEditingRowId(coach.id);
+                setEditedData({ ...coach });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (coachId) => {
+                setIsLoading(true);
+                try {
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "coaches", coachId), dataToSave);
+                    setEditingRowId(null);
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij opslaan coach:", e);
+                    alert("Kon de coach niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
             
-            useEffect(() => {
-                setCoaches(initialCoaches);
-            }, [initialCoaches]);
+            const handleAddCoach = async (e) => {
+                e.preventDefault();
+                if(!newCoach.naam) {
+                    alert("Naam is verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    await addDoc(collection(db, "coaches"), newCoach);
+                    setNewCoach({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen coach:", e);
+                    alert("Kon de coach niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleDelete = async (coachId) => {
+                setIsLoading(true);
+                try {
+                    const seasonsQuery = query(collection(db, "seizoenen"), where("coachId", "==", coachId));
+                    const seasonsSnapshot = await getDocs(seasonsQuery);
+                    if (!seasonsSnapshot.empty) {
+                        alert(`Kan coach niet verwijderen. De coach is nog gekoppeld aan ${seasonsSnapshot.size} seizoen(en).`);
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    if (!confirm(`Weet je zeker dat je deze coach wilt verwijderen?`)) {
+                        setIsLoading(false);
+                        return;
+                    }
+                    await deleteDoc(doc(db, "coaches", coachId));
+                    onUpdate();
+                } catch (e) {
+                     console.error("Fout bij verwijderen coach:", e);
+                    alert("Kon de coach niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewCoachChange = (e) => setNewCoach({ ...newCoach, [e.target.name]: e.target.value });
 
             return (
-                <div className="bg-white p-6 rounded-lg shadow">
-                    <h2 className="text-xl font-bold mb-4">Coaches ({coaches.length})</h2>
+                <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Coaches ({coaches.length})</h2>
+                    
+                    <form onSubmit={handleAddCoach} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuwe Coach Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" name="naam" value={newCoach.naam} onChange={handleNewCoachChange} placeholder="Naam" className="p-2 border rounded" required />
+                            <input type="text" name="nationaliteit" value={newCoach.nationaliteit} onChange={handleNewCoachChange} placeholder="Nationaliteit" className="p-2 border rounded" />
+                            <input type="text" name="nat_code" value={newCoach.nat_code} onChange={handleNewCoachChange} placeholder="Landcode (bv. NED)" className="p-2 border rounded" />
+                            <input type="text" name="foto_url" value={newCoach.foto_url} onChange={handleNewCoachChange} placeholder="Foto URL" className="p-2 border rounded" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
                     <div className="overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
@@ -157,17 +316,37 @@
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foto</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naam</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nationaliteit</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {coaches.map(coach => (
+                                    editingRowId === coach.id ? (
+                                    <tr key={coach.id}>
+                                        <td className="px-6 py-4"><input type="text" name="foto_url" value={editedData.foto_url} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="naam" value={editedData.naam} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4">
+                                            <input type="text" name="nationaliteit" value={editedData.nationaliteit} onChange={handleInputChange} className="p-1 border rounded w-full mb-1" placeholder="Nationaliteit"/>
+                                            <input type="text" name="nat_code" value={editedData.nat_code} onChange={handleInputChange} className="p-1 border rounded w-full" placeholder="Landcode"/>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleSaveClick(coach.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                            <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                        </td>
+                                    </tr>
+                                    ) : (
                                     <tr key={coach.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {coach.foto_url ? <img src={coach.foto_url} alt={coach.naam} className="h-10 w-10 rounded-full object-cover" /> : <AvatarIcon />}
+                                            {coach.foto_url ? <img src={coach.foto_url} alt={coach.naam} className="h-10 w-10 rounded-full object-cover" onError={(e) => e.target.style.display='none'} /> : <AvatarIcon />}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap font-medium">{coach.naam}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">{coach.nationaliteit} ({coach.nat_code})</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{coach.nationaliteit} {coach.nat_code && `(${coach.nat_code})`}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleEditClick(coach)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                            <button onClick={() => handleDelete(coach.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
+                                        </td>
                                     </tr>
+                                    )
                                 ))}
                             </tbody>
                         </table>
@@ -178,8 +357,15 @@
 
         function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) {
             const [seasons, setSeasons] = useState(initialSeasons);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newSeason, setNewSeason] = useState({ seizoen: '', club: '', coachId: '', landstitel: '', nationale_beker: '', europese_prijs: '' });
+            const [isLoading, setIsLoading] = useState(false);
+            
             const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c])), [coaches]);
             const clubsMap = useMemo(() => new Map(clubs.map(c => [c.id, c])), [clubs]);
+
+            useEffect(() => { setSeasons(initialSeasons); }, [initialSeasons]);
 
             const filteredSeasons = useMemo(() => {
                 return seasons.filter(s => {
@@ -190,16 +376,104 @@
                 });
             }, [seasons, filters, clubsMap]);
             
-            useEffect(() => {
-                setSeasons(initialSeasons);
-            }, [initialSeasons]);
-            
             const uniqueLands = useMemo(() => [...new Set(clubs.map(c => c.land))].sort(), [clubs]);
 
+            const handleEditClick = (season) => {
+                setEditingRowId(season.id);
+                setEditedData({ ...season });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (seasonId) => {
+                setIsLoading(true);
+                try {
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "seizoenen", seasonId), dataToSave);
+                    setEditingRowId(null);
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij opslaan seizoen:", e);
+                    alert("Kon het seizoen niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleAddSeason = async (e) => {
+                e.preventDefault();
+                if(!newSeason.seizoen || !newSeason.club || !newSeason.coachId) {
+                    alert("Seizoen, club en coach zijn verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    const clubRef = doc(db, "clubs", newSeason.club);
+                    const clubSnap = await getDoc(clubRef);
+                    const clubData = clubSnap.data();
+
+                    await addDoc(collection(db, "seizoenen"), {
+                        ...newSeason,
+                        land: clubData.land, // Voeg land van de club toe
+                    });
+                    setNewSeason({ seizoen: '', club: '', coachId: '', landstitel: '', nationale_beker: '', europese_prijs: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen seizoen:", e);
+                    alert("Kon het seizoen niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleDelete = async (seasonId) => {
+                if (!confirm(`Weet je zeker dat je dit seizoen wilt verwijderen?`)) return;
+                setIsLoading(true);
+                try {
+                    await deleteDoc(doc(db, "seizoenen", seasonId));
+                    onUpdate();
+                } catch (e) {
+                     console.error("Fout bij verwijderen seizoen:", e);
+                    alert("Kon het seizoen niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewSeasonChange = (e) => setNewSeason({ ...newSeason, [e.target.name]: e.target.value });
+
             return (
-                 <div className="bg-white p-6 rounded-lg shadow">
-                    <h2 className="text-xl font-bold mb-4">Seizoenen ({filteredSeasons.length} / {seasons.length})</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                 <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Seizoenen ({filteredSeasons.length} / {seasons.length})</h2>
+                    
+                    <form onSubmit={handleAddSeason} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuw Seizoen Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" name="seizoen" value={newSeason.seizoen} onChange={handleNewSeasonChange} placeholder="Seizoen (bv. 2023-2024)" className="p-2 border rounded" required />
+                            <select name="club" value={newSeason.club} onChange={handleNewSeasonChange} className="p-2 border rounded" required>
+                                <option value="">Kies een club</option>
+                                {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                            </select>
+                            <select name="coachId" value={newSeason.coachId} onChange={handleNewSeasonChange} className="p-2 border rounded" required>
+                                <option value="">Kies een coach</option>
+                                {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                            </select>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" name="landstitel" value={newSeason.landstitel} onChange={handleNewSeasonChange} placeholder="Landstitel" className="p-2 border rounded" />
+                            <input type="text" name="nationale_beker" value={newSeason.nationale_beker} onChange={handleNewSeasonChange} placeholder="Nationale Beker" className="p-2 border rounded" />
+                            <input type="text" name="europese_prijs" value={newSeason.europese_prijs} onChange={handleNewSeasonChange} placeholder="Europese Prijs" className="p-2 border rounded" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <select value={filters.land} onChange={e => setFilters({...filters, land: e.target.value, club: ''})} className="p-2 border rounded">
                             <option value="">Alle Landen</option>
                             {uniqueLands.map(l => <option key={l} value={l}>{l}</option>)}
@@ -209,7 +483,7 @@
                             {clubs.filter(c => c.land === filters.land).map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
                         </select>
                     </div>
-                    <div className="overflow-x-auto max-h-[70vh]">
+                    <div className="overflow-x-auto max-h-[60vh]">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50 sticky top-0">
                                 <tr>
@@ -219,6 +493,7 @@
                                     <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Landstitel">T</th>
                                     <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Nationale Beker">B</th>
                                     <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europese Prijs">E</th>
+                                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acties</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -226,6 +501,20 @@
                                     const coach = coachesMap.get(season.coachId);
                                     const club = clubsMap.get(season.club);
                                     return (
+                                        editingRowId === season.id ? (
+                                        <tr key={season.id}>
+                                            <td className="px-4 py-2 font-semibold">{club?.naam || 'Onbekend'}</td>
+                                            <td className="px-4 py-2"><input type="text" name="seizoen" value={editedData.seizoen} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-4 py-2">{coach?.naam || 'Onbekend'}</td>
+                                            <td className="px-2 py-2"><input type="text" name="landstitel" value={editedData.landstitel} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-2 py-2"><input type="text" name="nationale_beker" value={editedData.nationale_beker} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-2 py-2"><input type="text" name="europese_prijs" value={editedData.europese_prijs} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                <button onClick={() => handleSaveClick(season.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                                <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                            </td>
+                                        </tr>
+                                        ) : (
                                         <tr key={season.id}>
                                             <td className="px-4 py-2 whitespace-nowrap font-semibold">{club?.naam || 'Onbekend'}</td>
                                             <td className="px-4 py-2 whitespace-nowrap">{season.seizoen}</td>
@@ -233,7 +522,12 @@
                                             <td className="px-2 py-2 text-center">{season.landstitel}</td>
                                             <td className="px-2 py-2 text-center">{season.nationale_beker}</td>
                                             <td className="px-2 py-2 text-center">{season.europese_prijs}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                <button onClick={() => handleEditClick(season)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                                <button onClick={() => handleDelete(season.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
+                                            </td>
                                         </tr>
+                                        )
                                     )
                                 })}
                             </tbody>
@@ -243,12 +537,11 @@
             );
         }
 
+        // --- HULPCOMPONENTEN (onveranderd) ---
         function DataCleanupView({ onUpdate }) {
             const [isLoading, setIsLoading] = useState(false);
             const [log, setLog] = useState([]);
-            
             const addLog = (message) => setLog(prev => [...prev, message]);
-
             const handleOrphanCleanup = async () => {
                 setIsLoading(true);
                 setLog([]);
@@ -261,10 +554,8 @@
                     ]);
                     const existingClubIds = new Set(clubsSnap.docs.map(d => d.id));
                     const existingCoachIds = new Set(coachesSnap.docs.map(d => d.id));
-
                     const batch = writeBatch(db);
                     let deletedCount = 0;
-
                     seasonsSnap.forEach(doc => {
                         const season = doc.data();
                         if (!existingClubIds.has(season.club) || !existingCoachIds.has(season.coachId)) {
@@ -273,7 +564,6 @@
                             addLog(`Seizoen ${doc.id} (${season.seizoen}) wordt verwijderd (ongeldige club/coach ID).`);
                         }
                     });
-
                     if (deletedCount > 0) {
                         await batch.commit();
                         addLog(`Opschonen voltooid. ${deletedCount} wees-seizoenen verwijderd.`);
@@ -287,7 +577,6 @@
                     setIsLoading(false);
                 }
             };
-
             return (
                  <div className="bg-white p-6 rounded-lg shadow space-y-4">
                     <h2 className="text-xl font-bold">Data Opschonen</h2>
@@ -307,352 +596,22 @@
                 </div>
             );
         }
-
         function ImporterView({ onUpdateAll }) {
-            const [step, setStep] = useState(1);
-            const [status, setStatus] = useState('');
-            const [isLoading, setIsLoading] = useState(false);
-            const [error, setError] = useState('');
-
-            const [fileName, setFileName] = useState('');
-            const [processedData, setProcessedData] = useState([]);
-            const [corrections, setCorrections] = useState({});
-            const [clubLogos, setClubLogos] = useState({});
-            const [verificationDone, setVerificationDone] = useState(false);
-
-
-            const resetWizard = () => {
-                setStep(1); setStatus(''); setIsLoading(false); setError('');
-                setFileName(''); setProcessedData([]); setCorrections({}); setClubLogos({});
-                setVerificationDone(false);
-            };
-
-            const handleFileChange = (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                setFileName(file.name);
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const parsedData = JSON.parse(event.target.result);
-                        if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
-                        const dataWithIds = parsedData.map((row, index) => ({...row, _id: index, foto_url: ''}));
-                        setProcessedData(dataWithIds);
-                        setStep(2);
-                    } catch (err) {
-                        setError(`Fout bij lezen van JSON: ${err.message}`);
-                    }
-                };
-                reader.readAsText(file);
-            };
-
-            const handleVerifyTrophies = async () => {
-                setIsLoading(true);
-                setError('');
-                setVerificationDone(false);
-                
-                const clubsToVerify = [...new Set(processedData.map(d => d.club))].map(name => ({
-                    name: name,
-                    country: processedData.find(d => d.club === name).land
-                }));
-
-                try {
-                    setStatus('Prijzen en logos controleren via Wikidata...');
-                    const result = await functions.verifyTrophyData({ 
-                        clubs: clubsToVerify,
-                        seasons: processedData
-                    });
-                    setCorrections(result.data.corrections);
-                    setClubLogos(result.data.logos);
-                    if (Object.keys(result.data.corrections).length === 0) {
-                        setStatus('Controle voltooid: geen prijscorrecties gevonden.');
-                    } else {
-                        setStatus('Controle voltooid. Bekijk de voorgestelde correcties.');
-                    }
-                } catch (err) {
-                    setError(err.message);
-                    setStatus('Fout bij controle.');
-                } finally {
-                    setIsLoading(false);
-                    setVerificationDone(true);
-                }
-            };
-
-            const applyCorrections = () => {
-                const correctedData = processedData.map(season => {
-                    const seasonCorrection = corrections[season.seizoen]?.[season.club];
-                    if (seasonCorrection) {
-                        return { ...season, ...seasonCorrection, _corrected: true };
-                    }
-                    return season;
-                });
-                setProcessedData(correctedData);
-                setStatus('Correcties toegepast.');
-                setCorrections({});
-            };
-            
-            const handleEnrichCoaches = async () => {
-                const uniqueCoaches = [...new Set(processedData.map(s => s.coach))].filter(Boolean);
-                setIsLoading(true);
-                setError('');
-                setStatus(`Afbeeldingen zoeken voor ${uniqueCoaches.length} coaches...`);
-                try {
-                    const result = await functions.enrichCoachData({ coaches: uniqueCoaches });
-                    const enrichedPhotos = new Map(result.data.coaches.map(c => [c.naam, c.foto_url]));
-                    
-                    const enrichedData = processedData.map(season => ({
-                        ...season,
-                        foto_url: enrichedPhotos.get(season.coach) || season.foto_url || ''
-                    }));
-                    setProcessedData(enrichedData);
-                    setStatus('Afbeeldingen verrijkt.');
-                } catch(e) {
-                    setError(e.message);
-                    setStatus('Fout bij zoeken naar afbeeldingen.');
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-            
-            const handleImportData = async () => {
-                setIsLoading(true);
-                setError('');
-                setStatus('Data importeren naar database...');
-                try {
-                    const [clubsSnapshot, coachesSnapshot] = await Promise.all([
-                        getDocs(collection(db, "clubs")),
-                        getDocs(collection(db, "coaches"))
-                    ]);
-                    const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id]));
-                    const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id]));
-                    
-                    const batch = writeBatch(db);
-                    
-                    const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name));
-                    const newCoachData = new Map();
-                    processedData.forEach(s => {
-                        if (s.coach && !existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) {
-                            newCoachData.set(s.coach, {
-                                naam: s.coach,
-                                nationaliteit: s.nationaliteit || '',
-                                nat_code: s.nat_code || '',
-                                foto_url: s.foto_url || ''
-                            });
-                        }
-                    });
-
-                    const clubIdMap = new Map(existingClubsMap);
-                    newClubNames.forEach(name => {
-                        const newClubRef = doc(collection(db, "clubs"));
-                        const clubData = processedData.find(s => s.club === name);
-                        batch.set(newClubRef, {
-                            naam: name,
-                            land: clubData.land,
-                            logo_url: clubLogos[name] || ''
-                        });
-                        clubIdMap.set(name, newClubRef.id);
-                    });
-
-                    const coachIdMap = new Map(existingCoachesMap);
-                    for(const [name, data] of newCoachData.entries()) {
-                        const newCoachRef = doc(collection(db, 'coaches'));
-                        batch.set(newCoachRef, data);
-                        coachIdMap.set(name, newCoachRef.id);
-                    }
-
-                    processedData.forEach(season => {
-                        const coachId = coachIdMap.get(season.coach);
-                        const clubId = clubIdMap.get(season.club);
-                        if (coachId && clubId) {
-                            const newSeasonRef = doc(collection(db, 'seizoenen'));
-                            batch.set(newSeasonRef, {
-                                seizoen: season.seizoen,
-                                coachId: coachId,
-                                club: clubId,
-                                land: season.land,
-                                landstitel: season.landstitel,
-                                nationale_beker: season.nationale_beker,
-                                europese_prijs: season.europese_prijs,
-                            });
-                        }
-                    });
-                    
-                    await batch.commit();
-                    alert('Import succesvol! Alle data wordt herladen.');
-                    onUpdateAll();
-                    resetWizard();
-                } catch(e) {
-                     setError("Fout bij importeren: " + e.message);
-                } finally {
-                     setIsLoading(false);
-                     setStatus('');
-                }
-            };
-
+            const [step, setStep] = useState(1); const [status, setStatus] = useState(''); const [isLoading, setIsLoading] = useState(false); const [error, setError] = useState('');
+            const [fileName, setFileName] = useState(''); const [processedData, setProcessedData] = useState([]); const [corrections, setCorrections] = useState({}); const [clubLogos, setClubLogos] = useState({}); const [verificationDone, setVerificationDone] = useState(false);
+            const resetWizard = () => { setStep(1); setStatus(''); setIsLoading(false); setError(''); setFileName(''); setProcessedData([]); setCorrections({}); setClubLogos({}); setVerificationDone(false); };
+            const handleFileChange = (e) => { const file = e.target.files[0]; if (!file) return; setFileName(file.name); const reader = new FileReader(); reader.onload = (event) => { try { const parsedData = JSON.parse(event.target.result); if (!Array.isArray(parsedData)) throw new Error("JSON is geen array."); const dataWithIds = parsedData.map((row, index) => ({...row, _id: index, foto_url: ''})); setProcessedData(dataWithIds); setStep(2); } catch (err) { setError(`Fout bij lezen van JSON: ${err.message}`); } }; reader.readAsText(file); };
+            const handleVerifyTrophies = async () => { setIsLoading(true); setError(''); setVerificationDone(false); const clubsToVerify = [...new Set(processedData.map(d => d.club))].map(name => ({ name: name, country: processedData.find(d => d.club === name).land })); try { setStatus('Prijzen en logos controleren via Wikidata...'); const result = await functions.verifyTrophyData({ clubs: clubsToVerify, seasons: processedData }); setCorrections(result.data.corrections); setClubLogos(result.data.logos); if (Object.keys(result.data.corrections).length === 0) { setStatus('Controle voltooid: geen prijscorrecties gevonden.'); } else { setStatus('Controle voltooid. Bekijk de voorgestelde correcties.'); } } catch (err) { setError(err.message); setStatus('Fout bij controle.'); } finally { setIsLoading(false); setVerificationDone(true); } };
+            const applyCorrections = () => { const correctedData = processedData.map(season => { const seasonCorrection = corrections[season.seizoen]?.[season.club]; if (seasonCorrection) { return { ...season, ...seasonCorrection, _corrected: true }; } return season; }); setProcessedData(correctedData); setStatus('Correcties toegepast.'); setCorrections({}); };
+            const handleEnrichCoaches = async () => { const uniqueCoaches = [...new Set(processedData.map(s => s.coach))].filter(Boolean); setIsLoading(true); setError(''); setStatus(`Afbeeldingen zoeken voor ${uniqueCoaches.length} coaches...`); try { const result = await functions.enrichCoachData({ coaches: uniqueCoaches }); const enrichedPhotos = new Map(result.data.coaches.map(c => [c.naam, c.foto_url])); const enrichedData = processedData.map(season => ({ ...season, foto_url: enrichedPhotos.get(season.coach) || season.foto_url || '' })); setProcessedData(enrichedData); setStatus('Afbeeldingen verrijkt.'); } catch(e) { setError(e.message); setStatus('Fout bij zoeken naar afbeeldingen.'); } finally { setIsLoading(false); } };
+            const handleImportData = async () => { setIsLoading(true); setError(''); setStatus('Data importeren naar database...'); try { const [clubsSnapshot, coachesSnapshot] = await Promise.all([ getDocs(collection(db, "clubs")), getDocs(collection(db, "coaches")) ]); const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id])); const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id])); const batch = writeBatch(db); const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name)); const newCoachData = new Map(); processedData.forEach(s => { if (s.coach && !existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) { newCoachData.set(s.coach, { naam: s.coach, nationaliteit: s.nationaliteit || '', nat_code: s.nat_code || '', foto_url: s.foto_url || '' }); } }); const clubIdMap = new Map(existingClubsMap); newClubNames.forEach(name => { const newClubRef = doc(collection(db, "clubs")); const clubData = processedData.find(s => s.club === name); batch.set(newClubRef, { naam: name, land: clubData.land, logo_url: clubLogos[name] || '' }); clubIdMap.set(name, newClubRef.id); }); const coachIdMap = new Map(existingCoachesMap); for(const [name, data] of newCoachData.entries()) { const newCoachRef = doc(collection(db, 'coaches')); batch.set(newCoachRef, data); coachIdMap.set(name, newCoachRef.id); } processedData.forEach(season => { const coachId = coachIdMap.get(season.coach); const clubId = clubIdMap.get(season.club); if (coachId && clubId) { const newSeasonRef = doc(collection(db, 'seizoenen')); batch.set(newSeasonRef, { seizoen: season.seizoen, coachId: coachId, club: clubId, land: season.land, landstitel: season.landstitel, nationale_beker: season.nationale_beker, europese_prijs: season.europese_prijs, }); } }); await batch.commit(); alert('Import succesvol! Alle data wordt herladen.'); onUpdateAll(); resetWizard(); } catch(e) { setError("Fout bij importeren: " + e.message); } finally { setIsLoading(false); setStatus(''); } };
             const uniqueClubs = useMemo(() => [...new Set(processedData.map(d => d.club))], [processedData]);
-            const uniqueCoaches = useMemo(() => {
-                const coaches = new Map();
-                processedData.forEach(s => {
-                    if (s.coach && !coaches.has(s.coach)) {
-                        coaches.set(s.coach, {
-                            naam: s.coach,
-                            nationaliteit: s.nationaliteit,
-                            nat_code: s.nat_code,
-                            foto_url: s.foto_url || ''
-                        });
-                    } else if (s.coach && s.foto_url && !coaches.get(s.coach).foto_url) {
-                        coaches.get(s.coach).foto_url = s.foto_url;
-                    }
-                });
-                return Array.from(coaches.values());
-            }, [processedData]);
-            
-            const CorrectionRow = ({ season, club, original, correction }) => {
-                if (!correction) return null;
-                const changes = Object.keys(correction).filter(key => original[key] !== correction[key]);
-                if (changes.length === 0) return null;
-
-                return (
-                    <tr className="bg-blue-50">
-                        <td className="px-4 py-2 whitespace-nowrap font-semibold">{club}</td>
-                        <td className="px-4 py-2 whitespace-nowrap font-semibold">{season}</td>
-                        <td className="px-4 py-2 whitespace-nowrap" colSpan="2">
-                            {changes.map(key => (
-                                 <div key={key}>
-                                    <span className="font-medium capitalize">{key.replace(/_/g, ' ')}:</span>
-                                    <span className="text-red-600 ml-2">{original[key]}</span> → <span className="text-green-600">{correction[key]}</span>
-                                 </div>
-                            ))}
-                        </td>
-                    </tr>
-                );
-            };
-
-            return (
-                <div>
-                    <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-2xl font-bold">Data Importer</h1>
-                        {step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}
-                    </div>
-                    {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
-                    {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>}
-
-                    {step === 1 && (
-                        <div className="bg-white p-8 rounded-lg shadow text-center">
-                            <h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2>
-                            <p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p>
-                            <input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} />
-                            <label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
-                                <UploadIcon /> <span className="ml-2">Kies bestand</span>
-                            </label>
-                        </div>
-                    )}
-                    
-                    {step === 2 && (
-                        <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                            <h2 className="text-xl font-bold">Stap 2: Controleer Prijzen</h2>
-                            <p className="text-gray-600">Data voor <strong>{uniqueClubs.length} clubs</strong> uit <strong>{fileName}</strong> is geladen. Controleer de prijzen via Wikidata.</p>
-                            <div className="flex items-center gap-4">
-                                <button onClick={handleVerifyTrophies} disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">Controleer Prijzen</button>
-                                <button onClick={() => setStep(3)} disabled={isLoading} className={`px-4 py-2 rounded-md ${verificationDone ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}>
-                                    {verificationDone ? 'Volgende Stap' : 'Stap overslaan'} &raquo;
-                                </button>
-                            </div>
-                            {verificationDone && Object.keys(corrections).length > 0 && (
-                                <div className="border p-4 rounded-lg bg-gray-50">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <h3 className="font-semibold">Voorgestelde Correcties</h3>
-                                        <button onClick={applyCorrections} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">Alle Correcties Toepassen</button>
-                                    </div>
-                                    <div className="max-h-80 overflow-y-auto">
-                                        <table className="min-w-full"><tbody>
-                                            {processedData.map(s => <CorrectionRow key={s._id} season={s.seizoen} club={s.club} original={s} correction={corrections[s.seizoen]?.[s.club]} />)}
-                                        </tbody></table>
-                                    </div>
-                                </div>
-                            )}
-                             {verificationDone && Object.keys(corrections).length === 0 && !error && (
-                                <p className="text-green-600 font-medium">Controle voltooid: geen correcties gevonden.</p>
-                            )}
-                        </div>
-                    )}
-
-                    {step === 3 && (
-                         <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                            <h2 className="text-xl font-bold">Stap 3: Verrijk Coach Afbeeldingen</h2>
-                            <p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p>
-                            <div className="flex items-center gap-4">
-                                <button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button>
-                                <button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Volgende Stap &raquo;</button>
-                            </div>
-                             <div className="max-h-96 overflow-y-auto border rounded-lg">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50 sticky top-0"><tr>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th>
-                                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th>
-                                    </tr></thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                        {uniqueCoaches.map((c) => <tr key={c.naam}>
-                                            <td className="px-4 py-2 whitespace-nowrap">{c.naam}</td>
-                                            <td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td>
-                                            <td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td>
-                                        </tr>)}
-                                    </tbody>
-                                </table>
-                            </div>
-                         </div>
-                    )}
-
-                    {step === 4 && (
-                         <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                            <h2 className="text-xl font-bold">Stap 4: Finale Import</h2>
-                            <p className="text-gray-600">Controleer de definitieve data. Voeg clublogo's toe en importeer alles naar de database.</p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                {uniqueClubs.map(club => (
-                                    <div key={club}>
-                                        <label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label>
-                                        <div className="flex items-center mt-1">
-                                            {clubLogos[club] && <img src={clubLogos[club]} alt={`${club} logo`} className="h-8 w-8 mr-2"/>}
-                                            <input type="text" id={`logo-${club}`} value={clubLogos[club] || ''} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="block w-full p-2 border border-gray-300 rounded-md"/>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <details>
-                                <summary className="cursor-pointer text-indigo-600">Toon Volledige Seizoensdata Preview</summary>
-                                <div className="max-h-96 overflow-y-auto border rounded-lg mt-4">
-                                    <table className="min-w-full divide-y divide-gray-200">
-                                        <thead className="bg-gray-50 sticky top-0"><tr>
-                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th>
-                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th>
-                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th>
-                                            <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Titel">T</th>
-                                            <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Beker">B</th>
-                                            <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europees">E</th>
-                                        </tr></thead>
-                                        <tbody className="bg-white divide-y divide-gray-200">
-                                            {processedData.sort((a,b) => `${a.club}${b.seizoen}`.localeCompare(`${b.club}${a.seizoen}`)).map((s) => <tr key={s._id} className={s._corrected ? 'bg-blue-50' : ''}>
-                                                <td className="px-4 py-2 whitespace-nowrap">{s.club}</td>
-                                                <td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td>
-                                                <td className="px-4 py-2 whitespace-nowrap">{s.coach}</td>
-                                                <td className="px-2 py-2 text-center">{s.landstitel}</td>
-                                                <td className="px-2 py-2 text-center">{s.nationale_beker}</td>
-                                                <td className="px-2 py-2 text-center">{s.europese_prijs}</td>
-                                            </tr>)}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </details>
-                            <button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">
-                                Importeer Data naar Firebase
-                            </button>
-                         </div>
-                    )}
-                </div>
-            );
+            const uniqueCoaches = useMemo(() => { const coaches = new Map(); processedData.forEach(s => { if (s.coach && !coaches.has(s.coach)) { coaches.set(s.coach, { naam: s.coach, nationaliteit: s.nationaliteit, nat_code: s.nat_code, foto_url: s.foto_url || '' }); } else if (s.coach && s.foto_url && !coaches.get(s.coach).foto_url) { coaches.get(s.coach).foto_url = s.foto_url; } }); return Array.from(coaches.values()); }, [processedData]);
+            const CorrectionRow = ({ season, club, original, correction }) => { if (!correction) return null; const changes = Object.keys(correction).filter(key => original[key] !== correction[key]); if (changes.length === 0) return null; return ( <tr className="bg-blue-50"><td className="px-4 py-2 whitespace-nowrap font-semibold">{club}</td><td className="px-4 py-2 whitespace-nowrap font-semibold">{season}</td><td className="px-4 py-2 whitespace-nowrap" colSpan="2">{changes.map(key => ( <div key={key}><span className="font-medium capitalize">{key.replace(/_/g, ' ')}:</span><span className="text-red-600 ml-2">{original[key]}</span> → <span className="text-green-600">{correction[key]}</span></div>))}</td></tr> ); };
+            return ( <div> <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold">Data Importer</h1>{step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}</div> {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>} {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>} {step === 1 && ( <div className="bg-white p-8 rounded-lg shadow text-center"><h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2><p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p><input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} /><label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><UploadIcon /> <span className="ml-2">Kies bestand</span></label></div> )} {step === 2 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 2: Controleer Prijzen</h2><p className="text-gray-600">Data voor <strong>{uniqueClubs.length} clubs</strong> uit <strong>{fileName}</strong> is geladen. Controleer de prijzen via Wikidata.</p><div className="flex items-center gap-4"><button onClick={handleVerifyTrophies} disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">Controleer Prijzen</button><button onClick={() => setStep(3)} disabled={isLoading} className={`px-4 py-2 rounded-md ${verificationDone ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}>{verificationDone ? 'Volgende Stap' : 'Stap overslaan'} &raquo;</button></div> {verificationDone && Object.keys(corrections).length > 0 && ( <div className="border p-4 rounded-lg bg-gray-50"><div className="flex justify-between items-center mb-2"><h3 className="font-semibold">Voorgestelde Correcties</h3><button onClick={applyCorrections} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">Alle Correcties Toepassen</button></div><div className="max-h-80 overflow-y-auto"><table className="min-w-full"><tbody>{processedData.map(s => <CorrectionRow key={s._id} season={s.seizoen} club={s.club} original={s} correction={corrections[s.seizoen]?.[s.club]} />)}</tbody></table></div></div> )} {verificationDone && Object.keys(corrections).length === 0 && !error && ( <p className="text-green-600 font-medium">Controle voltooid: geen correcties gevonden.</p> )}</div> )} {step === 3 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 3: Verrijk Coach Afbeeldingen</h2><p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p><div className="flex items-center gap-4"><button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button><button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Volgende Stap &raquo;</button></div> <div className="max-h-96 overflow-y-auto border rounded-lg"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{uniqueCoaches.map((c) => <tr key={c.naam}><td className="px-4 py-2 whitespace-nowrap">{c.naam}</td><td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td><td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td></tr>)}</tbody></table></div></div> )} {step === 4 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 4: Finale Import</h2><p className="text-gray-600">Controleer de definitieve data. Voeg clublogo's toe en importeer alles naar de database.</p><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{uniqueClubs.map(club => ( <div key={club}><label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label><div className="flex items-center mt-1">{clubLogos[club] && <img src={clubLogos[club]} alt={`${club} logo`} className="h-8 w-8 mr-2"/>}<input type="text" id={`logo-${club}`} value={clubLogos[club] || ''} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="block w-full p-2 border border-gray-300 rounded-md"/></div></div> ))}</div><details><summary className="cursor-pointer text-indigo-600">Toon Volledige Seizoensdata Preview</summary><div className="max-h-96 overflow-y-auto border rounded-lg mt-4"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Titel">T</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Beker">B</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europees">E</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{processedData.sort((a,b) => `${a.club}${b.seizoen}`.localeCompare(`${b.club}${a.seizoen}`)).map((s) => <tr key={s._id} className={s._corrected ? 'bg-blue-50' : ''}><td className="px-4 py-2 whitespace-nowrap">{s.club}</td><td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td><td className="px-4 py-2 whitespace-nowrap">{s.coach}</td><td className="px-2 py-2 text-center">{s.landstitel}</td><td className="px-2 py-2 text-center">{s.nationale_beker}</td><td className="px-2 py-2 text-center">{s.europese_prijs}</td></tr>)}</tbody></table></div></details><button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Importeer Data naar Firebase</button></div> )}</div> );
         }
 
+        // --- HOOFD APPLICATIE ---
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
@@ -725,7 +684,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v15.5</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v16.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
