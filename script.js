@@ -1,5 +1,5 @@
-// Script Versie: 15.1 - Heatmap kleuren hersteld naar origineel.
-console.log("Script versie: 15.1 geladen.");
+// Script Versie: 16.0 - Bugfixes voor clubnamen en hover-effect. Design revisies doorgevoerd.
+console.log("Script versie: 16.0 geladen.");
 
 // --- Globale Variabelen ---
 const infoPane = d3.select("#info-pane");
@@ -24,10 +24,8 @@ function initApp() {
             }
         });
     });
-    // Laad de data voor alle landen in de navigatie
     const countriesToLoad = Array.from(navLinks).map(link => link.dataset.country);
     
-    // Start met het eerste land in de lijst
     if (countriesToLoad.length > 0) {
         loadCountry(countriesToLoad[0]);
     }
@@ -78,7 +76,6 @@ async function loadCountry(country) {
 
 /**
  * Haalt data op uit Firestore voor een specifiek land en koppelt deze.
- * Haalt coaches, clubs, en de seizoenen voor het gespecificeerde land op.
  * @param {string} country - Het land waarvoor data opgehaald moet worden.
  * @returns {Promise<Array>} - Een array met gecombineerde data.
  */
@@ -109,14 +106,19 @@ async function loadDataFromFirestore(country) {
             .map(doc => {
                 const seizoenData = doc.data();
                 const coachInfo = coachesMap.get(seizoenData.coachId);
-                const clubInfo = clubsMap.get(seizoenData.club);
+                const clubInfo = clubsMap.get(seizoenData.club); // seizoenData.club is de ID, bv "psg"
 
-                if (!coachInfo || !clubInfo) return null;
+                if (!coachInfo || !clubInfo) {
+                    console.warn("Could not find full info for:", seizoenData);
+                    return null;
+                };
 
                 const { naam = 'Unknown', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo;
                 
+                // BUGFIX: Gebruik de naam uit de clubInfo, niet de code uit seizoenData.
                 return { 
                     ...seizoenData, 
+                    club: clubInfo.naam || seizoenData.club, // Vervang code door volledige naam
                     Coach: naam, 
                     nationaliteit, 
                     nat_code, 
@@ -197,7 +199,7 @@ const y = d3.scaleBand().padding(0.15);
 function drawVisualization(data) {
     const clubs = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     const seasons = [...new Set(data.map(d => d.seizoen))].sort(d3.ascending);
-    const height = clubs.length * 55; // Iets meer ruimte per club
+    const height = clubs.length * 55;
 
     const svg = heatmapContainer.append("svg")
         .attr("width", '100%')
@@ -214,7 +216,6 @@ function drawVisualization(data) {
     });
     
     y.domain(clubs).range([0, height]);
-    // *** KLEUREN HERSTELD NAAR ORIGINEEL ***
     const getColor = d3.scaleThreshold()
         .domain([1, 2, 3, 5, 7, 10])
         .range(["#ccc", "#ff0033", "#ccffcc", "#99ff99", "#66cc66", "#00ff00", "#006600"]);
@@ -279,7 +280,8 @@ function drawVisualization(data) {
         xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
             .selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
 
-        barGroup.selectAll(".bar").attr("x", d => x(d.seizoen)).attr("width", x.bandwidth() + 1).attr("rx", 2);
+        // BUGFIX: Trillen opgelost door +1 weg te halen bij de breedte.
+        barGroup.selectAll(".bar").attr("x", d => x(d.seizoen)).attr("width", x.bandwidth()).attr("rx", 2);
         seasonDividerGroup.selectAll(".season-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         coachDividerGroup.selectAll(".coach-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
@@ -366,13 +368,17 @@ function updateInfoPane(d) {
     const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
+    
+    // Aangepaste HTML structuur voor betere layout
     const content = `
-        ${imageHtml}
-        <div class="info-pane-details">
-            <p class="name">${d.Coach}</p>
-            <div class="nationality">
-                ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
-                <span>${d.nationaliteit}</span>
+        <div class="info-pane-main">
+            ${imageHtml}
+            <div class="info-pane-details">
+                <p class="name">${d.Coach}</p>
+                <div class="nationality">
+                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
+                    <span>${d.nationaliteit}</span>
+                </div>
             </div>
         </div>
         <div class="info-pane-extra">
@@ -381,29 +387,28 @@ function updateInfoPane(d) {
         </div>`;
     infoPane.attr("class", "details-state").html(content);
 }
+
 function drawLegend() {
     legendContainer.html("");
     const legendData = [
         { color: "#ff0033", label: "1 Season" }, { color: "#ccffcc", label: "2 Seasons" },
-        { color: "#99ff99", label: "3-4" }, { color: "#66cc66", label: "5-6" },
-        { color: "#00ff00", label: "7-9" }, { color: "#006600", label: "10+" }
+        { color: "#99ff99", label: "3-4 Seasons" }, { color: "#66cc66", label: "5-6 Seasons" },
+        { color: "#00ff00", label: "7-9 Seasons" }, { color: "#006600", label: "10+ Seasons" }
     ];
     const prizeData = [
-        { color: '#FFD700', label: 'European' }, 
-        { color: '#C0C0C0', label: 'Title' }, 
-        { color: '#CD7F32', label: 'Cup' }
+        { color: '#FFD700', label: 'European Trophy' }, 
+        { color: '#C0C0C0', label: 'National Title' }, 
+        { color: '#CD7F32', label: 'National Cup' }
     ];
     
-    const tenureSection = legendContainer.append("div").attr("class", "legend-section");
-    tenureSection.append("h4").text("Tenure Length (Seasons)");
-    const tenureItems = tenureSection.append("div").attr("class", "legend-items-group");
-    tenureItems.selectAll(".legend-item").data(legendData).join("div").attr("class", "legend-item")
+    // Legenda terug naar compacte opzet
+    const tenureGroup = legendContainer.append("div").attr("class", "legend-section");
+    const prizeGroup = legendContainer.append("div").attr("class", "legend-section");
+
+    tenureGroup.selectAll(".legend-item").data(legendData).join("div").attr("class", "legend-item")
         .html(d => `<div class="legend-swatch" style="background-color:${d.color};"></div><span>${d.label}</span>`);
 
-    const prizeSection = legendContainer.append("div").attr("class", "legend-section");
-    prizeSection.append("h4").text("Trophies Won");
-    const prizeItems = prizeSection.append("div").attr("class", "legend-items-group");
-    prizeItems.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item")
+    prizeGroup.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item")
         .html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
 }
 
