@@ -1,5 +1,5 @@
-// Script Versie: 17.1 - Volledige refactoring met werkende D3 visualisatie.
-console.log("Script versie: 17.1 geladen.");
+// Script Versie: 17.2 - Filterlogica voor coach en nationaliteit geïmplementeerd.
+console.log("Script versie: 17.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -9,7 +9,7 @@ const appState = {
     allClubs: [],
     allCoaches: [],
     allSeasons: [],
-    activeFilters: { coach: null, nationality: null },
+    activeFilters: { coach: '', nationality: '' },
     selectedTenureId: null,
     isLoading: true,
 };
@@ -22,6 +22,9 @@ const DOMElements = {
     navLinks: document.querySelectorAll('.nav-link'),
     filterToggleButton: document.getElementById('filter-toggle-btn'),
     filterPanel: document.getElementById('filter-panel'),
+    coachSearchInput: document.getElementById('coach-search-input'),
+    nationalityFilterSelect: document.getElementById('nationality-filter-select'),
+    filterResetBtn: document.getElementById('filter-reset-btn'),
 };
 
 let currentResizeObserver = null;
@@ -50,6 +53,10 @@ function setupEventListeners() {
     DOMElements.filterToggleButton.addEventListener('click', () => {
         DOMElements.filterPanel.classList.toggle('hidden');
     });
+
+    DOMElements.coachSearchInput.addEventListener('input', applyFilters);
+    DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
+    DOMElements.filterResetBtn.addEventListener('click', resetFilters);
 }
 
 function handleNavigation(target) {
@@ -59,7 +66,8 @@ function handleNavigation(target) {
         appState.currentView = 'country';
         appState.activeCountry = target;
     }
-    appState.selectedTenureId = null; // Reset selectie bij navigeren
+    appState.selectedTenureId = null;
+    resetFilters();
     renderApp();
 }
 
@@ -158,7 +166,7 @@ function processTenures(data) {
     return data;
 }
 
-// --- 7. RENDERING ---
+// --- 7. RENDERING & UI LOGIC ---
 function renderApp() {
     console.log(`Rendering view: ${appState.currentView}`);
     if (currentResizeObserver) currentResizeObserver.disconnect();
@@ -174,6 +182,7 @@ function renderApp() {
 
     if (appState.currentView === 'country') {
         const dataForCountry = getPreparedDataForView();
+        populateFilterOptions(dataForCountry);
         if (dataForCountry.length > 0) {
             const updateFunc = drawVisualization(dataForCountry);
             currentResizeObserver = new ResizeObserver(entries => {
@@ -200,6 +209,59 @@ function updateActiveNav() {
         link.classList.toggle('active', isActive);
     });
 }
+
+function applyFilters() {
+    appState.activeFilters.coach = DOMElements.coachSearchInput.value.toLowerCase();
+    appState.activeFilters.nationality = DOMElements.nationalityFilterSelect.value;
+    console.log('Filters applied:', appState.activeFilters);
+    updateVisualsWithFilters();
+}
+
+function resetFilters() {
+    appState.activeFilters.coach = '';
+    appState.activeFilters.nationality = '';
+    DOMElements.coachSearchInput.value = '';
+    DOMElements.nationalityFilterSelect.value = '';
+    console.log('Filters reset');
+    updateVisualsWithFilters();
+}
+
+function populateFilterOptions(data) {
+    const nationalities = [...new Set(data.map(d => d.nationaliteit))].sort();
+    
+    // Bewaar de huidige selectie
+    const currentSelection = DOMElements.nationalityFilterSelect.value;
+    
+    // Leeg de dropdown, behalve de eerste "All" optie
+    DOMElements.nationalityFilterSelect.innerHTML = '<option value="">All Nationalities</option>';
+    
+    nationalities.forEach(nat => {
+        const option = document.createElement('option');
+        option.value = nat;
+        option.textContent = nat;
+        DOMElements.nationalityFilterSelect.appendChild(option);
+    });
+
+    // Herstel de selectie als die nog geldig is
+    DOMElements.nationalityFilterSelect.value = currentSelection;
+}
+
+function updateVisualsWithFilters() {
+    const g = d3.select("#heatmap-container svg > g");
+    if (g.empty()) return;
+
+    g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
+        .classed("is-dimmed", d => {
+            const coachFilter = appState.activeFilters.coach;
+            const natFilter = appState.activeFilters.nationality;
+
+            const coachMatch = coachFilter ? d.Coach.toLowerCase().includes(coachFilter) : true;
+            const natMatch = natFilter ? d.nationaliteit === natFilter : true;
+            
+            return !(coachMatch && natMatch);
+        });
+}
+
 
 // --- 8. D3 VISUALISATIE ---
 const margin = {top: 10, right: 20, bottom: 80, left: 220};
@@ -298,6 +360,7 @@ function drawVisualization(data) {
     updateXAxis();
     drawLegend();
     updateHighlighting(g);
+    updateVisualsWithFilters(); // Zorg dat filters worden toegepast bij het tekenen
     
     return updateXAxis;
 }
