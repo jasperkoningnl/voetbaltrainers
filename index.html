@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 3.0 - Structuur voor filters en compare-modus toegevoegd. -->
+<!-- HTML Versie: 3.1 - Filterbalk verplaatst, pijl-element toegevoegd. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,19 +47,16 @@
 
     <main>
         <div class="visualization-canvas">
-            <div id="info-pane-container">
-                <div id="info-pane" class="default-state">
-                    <p>Hover over a tenure for details, or click to lock the selection.</p>
-                </div>
-            </div>
-
-            <!-- Nieuwe Filter Controls -->
+            <!-- Filter Controls staan nu bovenaan -->
             <div id="filter-controls-container">
                 <button id="filter-toggle-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                    </svg>
-                    <span>Filter & Search</span>
+                    <div class="filter-toggle-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        <span>Filter & Search</span>
+                    </div>
+                    <span class="filter-arrow"></span>
                 </button>
                 <div id="filter-panel" class="hidden">
                     <div class="filter-group">
@@ -73,6 +70,12 @@
                         </select>
                     </div>
                     <button id="filter-reset-btn">Reset</button>
+                </div>
+            </div>
+
+            <div id="info-pane-container">
+                <div id="info-pane" class="default-state">
+                    <p>Hover over a tenure for details, or click to lock the selection.</p>
                 </div>
             </div>
 
