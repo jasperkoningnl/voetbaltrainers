@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 2.0 - Design refresh met 'visualization-canvas' structuur. -->
+<!-- HTML Versie: 3.0 - Structuur voor filters en compare-modus toegevoegd. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Functies beschikbaar maken voor het hoofdscript
         window.db = db;
         window.firestore = { query, collection, where, getDocs };
     </script>
@@ -54,6 +53,29 @@
                 </div>
             </div>
 
+            <!-- Nieuwe Filter Controls -->
+            <div id="filter-controls-container">
+                <button id="filter-toggle-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                    <span>Filter & Search</span>
+                </button>
+                <div id="filter-panel" class="hidden">
+                    <div class="filter-group">
+                        <label for="coach-search-input">Find a coach</label>
+                        <input type="text" id="coach-search-input" placeholder="e.g. José Mourinho">
+                    </div>
+                    <div class="filter-group">
+                        <label for="nationality-filter-select">Filter by nationality</label>
+                        <select id="nationality-filter-select">
+                            <option value="">All Nationalities</option>
+                        </select>
+                    </div>
+                    <button id="filter-reset-btn">Reset</button>
+                </div>
+            </div>
+
             <div id="controls-and-heatmap">
                 <div id="country-nav-container">
                     <a href="#" class="nav-link" data-country="England">England</a>
@@ -62,8 +84,15 @@
                     <a href="#" class="nav-link" data-country="Italy">Italy</a>
                     <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
                     <a href="#" class="nav-link" data-country="Spain">Spain</a>
+                    <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
                 </div>
-                <div id="heatmap-container"></div>
+                <div id="heatmap-container">
+                    <!-- Visualisatie wordt hier gerenderd -->
+                </div>
+                <div id="compare-controls-container" class="hidden">
+                     <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
+                     <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
+                </div>
             </div>
             
             <div id="legend-container"></div>
@@ -74,6 +103,18 @@
         <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank">Gemini</a>. | <a href="about.html">About this project</a></p>
         <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
     </footer>
+
+    <!-- Club Selectie Modal -->
+    <div id="club-modal" class="modal-hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
+            <h2>Select a Club</h2>
+            <input type="text" id="club-search-input" placeholder="Search for a club...">
+            <div id="club-list-container">
+                <!-- Dynamische clublijst komt hier -->
+            </div>
+        </div>
+    </div>
 
     <script id="main-script" type="module" src="script.js"></script>
 
