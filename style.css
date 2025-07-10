@@ -1,11 +1,11 @@
-/* CSS Versie: 2.0 - Design refresh met 'visualization-canvas', verfijnde typografie en accentkleur. */
+/* CSS Versie: 2.1 - Accentkleur gewijzigd naar paars. */
 
 :root {
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --accent-color: #4a90e2; /* Een verfijnde, iets diepere blauw */
+    --accent-color: #6c5ce7; /* Koninklijk paars */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
 }
@@ -175,7 +175,7 @@ main {
 .nav-link.active {
     background-color: var(--accent-color);
     color: white;
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.4);
+    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.4);
 }
 
 #heatmap-container {
