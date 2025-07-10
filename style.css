@@ -1,11 +1,11 @@
-/* CSS Versie: 2.2 - Bugfixes en design revisies doorgevoerd. */
+/* CSS Versie: 2.3 - Accentkleur naar antraciet, header centrering behouden. */
 
 :root {
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --accent-color: #c09300; /* Goud/Oker accentkleur */
+    --accent-color: #2d3436; /* Neutrale antraciet accentkleur */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
 }
@@ -34,7 +34,7 @@ main {
     padding: 0 2rem;
     box-sizing: border-box;
     margin: 2rem 0;
-    text-align: center; /* Header weer gecentreerd */
+    text-align: center; /* Header gecentreerd */
 }
 
 .page-header h1 {
@@ -86,7 +86,6 @@ main {
     font-size: 0.9rem;
 }
 
-/* Aangepaste layout voor het info-paneel */
 #info-pane.details-state {
     display: flex;
     justify-content: space-between;
@@ -114,7 +113,7 @@ main {
     font-weight: 700;
     font-size: 1.4rem;
     margin: 0;
-    color: var(--text-primary); /* Naam niet meer in accentkleur */
+    color: var(--text-primary);
 }
 
 .info-pane-details .nationality {
@@ -182,7 +181,7 @@ main {
 .nav-link.active {
     background-color: var(--accent-color);
     color: white;
-    box-shadow: 0 2px 8px rgba(192, 147, 0, 0.4); /* Aangepaste schaduwkleur */
+    box-shadow: 0 2px 8px rgba(45, 52, 54, 0.4); /* Aangepaste schaduwkleur */
 }
 
 #heatmap-container {
@@ -190,7 +189,6 @@ main {
     width: 100%;
 }
 
-/* Legenda layout terug naar compacte versie */
 #legend-container {
     background-color: #f8f9fa;
     padding: 1.5rem 2rem;
