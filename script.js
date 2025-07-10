@@ -1,5 +1,5 @@
-// Script Versie: 16.0 - Bugfixes voor clubnamen en hover-effect. Design revisies doorgevoerd.
-console.log("Script versie: 16.0 geladen.");
+// Script Versie: 16.1 - Robuuste bugfix voor hover-flicker.
+console.log("Script versie: 16.1 geladen.");
 
 // --- Globale Variabelen ---
 const infoPane = d3.select("#info-pane");
@@ -10,9 +10,6 @@ let currentResizeObserver = null;
 
 // --- Main Application Flow ---
 
-/**
- * Initialiseert de applicatie, stelt navigatie-eventlisteners in en laadt het standaardland.
- */
 function initApp() {
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -31,10 +28,6 @@ function initApp() {
     }
 }
 
-/**
- * Laadt en toont de visualisatie voor een specifiek land.
- * @param {string} country - De naam van het land om te laden (bv. "England").
- */
 async function loadCountry(country) {
     console.log(`Bezig met laden van visualisatie voor: ${country}`);
 
@@ -71,14 +64,8 @@ async function loadCountry(country) {
     currentResizeObserver.observe(heatmapContainer.node());
 }
 
-
 // --- Data Loading & Processing ---
 
-/**
- * Haalt data op uit Firestore voor een specifiek land en koppelt deze.
- * @param {string} country - Het land waarvoor data opgehaald moet worden.
- * @returns {Promise<Array>} - Een array met gecombineerde data.
- */
 async function loadDataFromFirestore(country) {
     if (!window.db || !window.firestore) {
         console.error("Firestore database or functions are not initialized.");
@@ -106,7 +93,7 @@ async function loadDataFromFirestore(country) {
             .map(doc => {
                 const seizoenData = doc.data();
                 const coachInfo = coachesMap.get(seizoenData.coachId);
-                const clubInfo = clubsMap.get(seizoenData.club); // seizoenData.club is de ID, bv "psg"
+                const clubInfo = clubsMap.get(seizoenData.club);
 
                 if (!coachInfo || !clubInfo) {
                     console.warn("Could not find full info for:", seizoenData);
@@ -115,10 +102,9 @@ async function loadDataFromFirestore(country) {
 
                 const { naam = 'Unknown', nationaliteit = 'Unknown', nat_code = '', foto_url = '' } = coachInfo;
                 
-                // BUGFIX: Gebruik de naam uit de clubInfo, niet de code uit seizoenData.
                 return { 
                     ...seizoenData, 
-                    club: clubInfo.naam || seizoenData.club, // Vervang code door volledige naam
+                    club: clubInfo.naam || seizoenData.club,
                     Coach: naam, 
                     nationaliteit, 
                     nat_code, 
@@ -137,12 +123,6 @@ async function loadDataFromFirestore(country) {
     }
 }
 
-
-/**
- * Bereidt de onbewerkte data voor op visualisatie door seizoenen te groeperen in periodes.
- * @param {Array} data - De array met seizoen-data.
- * @returns {Array} - De data met toegevoegde periode-informatie.
- */
 function prepareData(data) {
     if (!data || data.length === 0) return [];
     data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
@@ -215,50 +195,36 @@ function drawVisualization(data) {
         }
     });
     
+    // BUGFIX: Mouseleave event is now on the main 'g' container to prevent flicker.
+    g.on("mouseleave", () => {
+        if (!selectedTenureId) {
+            g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", false);
+            setInfoPaneDefault();
+        }
+    });
+    
     y.domain(clubs).range([0, height]);
     const getColor = d3.scaleThreshold()
         .domain([1, 2, 3, 5, 7, 10])
         .range(["#ccc", "#ff0033", "#ccffcc", "#99ff99", "#66cc66", "#00ff00", "#006600"]);
 
-
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    const logoData = clubs.map(club => ({
-        club: club,
-        logo_url: (data.find(d => d.club === club) || {}).logo_url || ''
-    }));
+    const logoData = clubs.map(club => ({ club: club, logo_url: (data.find(d => d.club === club) || {}).logo_url || '' }));
     
-    const yAxisLabels = yAxisG.selectAll(".club-label")
-      .data(logoData, d => d.club)
-      .join("g")
-      .attr("class", "club-label")
-      .attr("transform", d => `translate(0, ${y(d.club)})`);
+    const yAxisLabels = yAxisG.selectAll(".club-label").data(logoData, d => d.club).join("g")
+        .attr("class", "club-label").attr("transform", d => `translate(0, ${y(d.club)})`);
 
-    yAxisLabels.append("rect")
-        .attr("x", -margin.left + 20)
-        .attr("y", 0)
-        .attr("width", 190)
-        .attr("height", y.bandwidth())
-        .attr("fill", "#f8f9fa")
-        .attr("rx", 6);
+    yAxisLabels.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190)
+        .attr("height", y.bandwidth()).attr("fill", "#f8f9fa").attr("rx", 6);
 
-    yAxisLabels.append("image")
-        .attr("xlink:href", d => d.logo_url)
-        .attr("x", -margin.left + 30)
-        .attr("y", y.bandwidth() / 2 - 16)
-        .attr("width", 32)
-        .attr("height", 32)
-        .on("error", function() {
-            d3.select(this).style("display", "none"); 
-        });
+    yAxisLabels.append("image").attr("xlink:href", d => d.logo_url).attr("x", -margin.left + 30)
+        .attr("y", y.bandwidth() / 2 - 16).attr("width", 32).attr("height", 32)
+        .on("error", function() { d3.select(this).style("display", "none"); });
 
-    yAxisLabels.append("text")
-        .attr("x", -margin.left + 75)
-        .attr("y", y.bandwidth() / 2)
-        .attr("dy", ".35em")
-        .style("text-anchor", "start")
-        .text(d => d.club);
+    yAxisLabels.append("text").attr("x", -margin.left + 75).attr("y", y.bandwidth() / 2)
+        .attr("dy", ".35em").style("text-anchor", "start").text(d => d.club);
     
     const barGroup = g.append("g").attr("class", "bars-group");
     const seasonDividerGroup = g.append("g").attr("class", "season-dividers-group");
@@ -269,18 +235,15 @@ function drawVisualization(data) {
         const containerNode = heatmapContainer.node();
         if (!containerNode) return;
         const width = containerNode.clientWidth - margin.left - margin.right;
-        
         if (width <= 0) return;
 
         x.domain(seasons).range([0, width]);
-        
         svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
 
         const tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
         xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
             .selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
 
-        // BUGFIX: Trillen opgelost door +1 weg te halen bij de breedte.
         barGroup.selectAll(".bar").attr("x", d => x(d.seizoen)).attr("width", x.bandwidth()).attr("rx", 2);
         seasonDividerGroup.selectAll(".season-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         coachDividerGroup.selectAll(".coach-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
@@ -292,12 +255,10 @@ function drawVisualization(data) {
         .attr("y", d => y(d.club)).attr("height", y.bandwidth())
         .style("fill", d => getColor(d.stintLength))
         .on("click", handleMouseClick)
-        .on("mouseover", handleMouseOver)
-        .on("mouseleave", handleMouseLeave);
+        .on("mouseover", handleMouseOver); // BUGFIX: mouseleave is removed from here.
     
     seasonDividerGroup.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line")
-        .attr("class", "season-divider")
-        .attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
+        .attr("class", "season-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
 
     coachDividerGroup.selectAll(".coach-divider").data(data.filter(d => {
         const prevSeason = seasons[seasons.indexOf(d.seizoen) - 1];
@@ -305,8 +266,7 @@ function drawVisualization(data) {
         const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
         return !prevData || prevData.tenureId !== d.tenureId;
     })).enter().append("line")
-        .attr("class", "coach-divider")
-        .attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
+        .attr("class", "coach-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
 
     const prizeData = data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y');
     const prizeGroups = prizeGroup.selectAll(".prize-group").data(prizeData).enter().append("g")
@@ -354,14 +314,9 @@ function handleMouseOver(event, d) {
         updateInfoPane(d);
     }
 }
-function handleMouseLeave() {
-    if (!selectedTenureId) {
-        const g = d3.select(this.closest("svg > g"));
-        g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", false);
-        setInfoPaneDefault();
-    }
-}
+
 function setInfoPaneDefault() { infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>'); }
+
 function updateInfoPane(d) {
     const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
     const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
@@ -369,7 +324,6 @@ function updateInfoPane(d) {
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
-    // Aangepaste HTML structuur voor betere layout
     const content = `
         <div class="info-pane-main">
             ${imageHtml}
@@ -401,7 +355,6 @@ function drawLegend() {
         { color: '#CD7F32', label: 'National Cup' }
     ];
     
-    // Legenda terug naar compacte opzet
     const tenureGroup = legendContainer.append("div").attr("class", "legend-section");
     const prizeGroup = legendContainer.append("div").attr("class", "legend-section");
 
