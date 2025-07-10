@@ -1,4 +1,4 @@
-/* CSS Versie: 2.3 - Accentkleur naar antraciet, header centrering behouden. */
+/* CSS Versie: 3.0 - Styling voor filters, compare-modus en modal. */
 
 :root {
     --background-color: #f8f9fa;
@@ -34,7 +34,7 @@ main {
     padding: 0 2rem;
     box-sizing: border-box;
     margin: 2rem 0;
-    text-align: center; /* Header gecentreerd */
+    text-align: center;
 }
 
 .page-header h1 {
@@ -50,7 +50,7 @@ main {
     font-weight: 400;
     color: var(--text-secondary);
     max-width: 650px;
-    margin: 0 auto; /* Subtitle centreren */
+    margin: 0 auto;
     line-height: 1.6;
 }
 
@@ -61,7 +61,7 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 #info-pane-container {
@@ -93,208 +93,99 @@ main {
     width: 100%;
 }
 
-.info-pane-main {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+.info-pane-main { display: flex; align-items: center; gap: 15px; }
+.info-pane-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background-color: #e9ecef; flex-shrink: 0; border: 2px solid var(--canvas-background); }
+.info-pane-details .name { font-weight: 700; font-size: 1.4rem; margin: 0; color: var(--text-primary); }
+.info-pane-details .nationality { display: flex; align-items: center; font-size: 0.9rem; margin-top: 4px; color: var(--text-secondary); }
+.info-pane-flag { width: 20px; margin-right: 8px; border-radius: 2px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
+.info-pane-extra { text-align: right; }
+.info-pane-extra p { margin: 0; line-height: 1.5; }
+.info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+.info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-.info-pane-img {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #e9ecef;
-    flex-shrink: 0;
-    border: 2px solid var(--canvas-background);
-}
-
-.info-pane-details .name {
-    font-weight: 700;
-    font-size: 1.4rem;
-    margin: 0;
-    color: var(--text-primary);
-}
-
-.info-pane-details .nationality {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    margin-top: 4px;
-    color: var(--text-secondary);
-}
-
-.info-pane-flag {
-    width: 20px;
-    margin-right: 8px;
-    border-radius: 2px;
-    box-shadow: 0 0 3px rgba(0,0,0,0.2);
-}
-
-.info-pane-extra {
-    text-align: right;
-}
-
-.info-pane-extra p {
-    margin: 0;
-    line-height: 1.5;
-}
-
-.info-pane-extra .club {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: var(--text-primary);
-}
-
-.info-pane-extra .tenure {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-}
-
-#country-nav-container {
-    display: flex;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    padding: 5px;
-    margin-bottom: 1rem;
-}
-
-.nav-link {
-    flex-grow: 1;
-    text-align: center;
-    padding: 0.6rem 1rem;
-    background-color: transparent;
-    color: var(--text-secondary);
-    text-decoration: none;
-    border: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.25s ease-in-out;
-}
-
-.nav-link:hover {
-    background-color: #dce1e6;
-    color: var(--text-primary);
-}
-
-.nav-link.active {
-    background-color: var(--accent-color);
-    color: white;
-    box-shadow: 0 2px 8px rgba(45, 52, 54, 0.4); /* Aangepaste schaduwkleur */
-}
-
-#heatmap-container {
-    overflow-x: auto;
-    width: 100%;
-}
-
-#legend-container {
+/* --- Filter Controls Styling --- */
+#filter-controls-container {
     background-color: #f8f9fa;
-    padding: 1.5rem 2rem;
     border-radius: 8px;
     border: 1px solid #e9ecef;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem 2rem;
 }
-
-.legend-section {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-}
-
-.legend-section:first-child {
-    padding-right: 2rem;
-    border-right: 1px solid #e0e0e0;
-}
-
-.legend-item {
+#filter-toggle-btn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 12px;
-    color: #333;
-}
-
-.legend-swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 3px;
-    flex-shrink: 0;
-}
-
-.axis path, .axis line {
-    fill: none;
-    stroke: var(--border-color);
-    shape-rendering: crispEdges;
-}
-
-.axis .domain, .axis .tick line {
-    stroke: none;
-}
-
-.axis text {
-    font-size: 13px;
-    fill: var(--text-secondary);
-    cursor: default;
-}
-.y-axis .club-label text {
-    font-size: 14px;
-    font-weight: 500;
-    fill: var(--text-primary);
-}
-
-.bar {
-    stroke: none;
-    transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out;
-    cursor: pointer;
-}
-
-.is-dimmed {
-    opacity: 0.15;
-}
-
-.is-highlighted {
-    filter: saturate(150%) brightness(105%);
-}
-
-.coach-divider {
-    stroke: var(--canvas-background);
-    stroke-width: 2px;
-    pointer-events: none;
-}
-
-.season-divider {
-    stroke: #e9ecef;
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
-    pointer-events: none;
-}
-
-.prize-group {
-    pointer-events: none;
-}
-
-.page-footer {
+    gap: 8px;
     width: 100%;
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: auto;
-    font-size: 0.9rem;
-    color: #888;
-}
-
-.page-footer a {
-    color: var(--accent-color);
-    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
     font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
 }
+#filter-toggle-btn:hover { color: var(--text-primary); }
+#filter-panel {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    align-items: flex-end;
+}
+.filter-group { display: flex; flex-direction: column; }
+.filter-group label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.25rem; }
+.filter-group input, .filter-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+#filter-reset-btn { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 4px; background-color: var(--canvas-background); cursor: pointer; }
 
-.page-footer a:hover {
-    text-decoration: underline;
-}
+/* --- Navigatie Styling --- */
+#country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; }
+.nav-link { flex-grow: 1; text-align: center; padding: 0.6rem 1rem; color: var(--text-secondary); text-decoration: none; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s ease-in-out; }
+.nav-link:hover { background-color: #dce1e6; color: var(--text-primary); }
+.nav-link.active { background-color: var(--accent-color); color: white; box-shadow: 0 2px 8px rgba(45, 52, 54, 0.4); }
+.nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
+.nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+
+#heatmap-container { overflow-x: auto; width: 100%; }
+
+/* --- Compare Controls Styling --- */
+#compare-controls-container { display: flex; justify-content: center; gap: 1rem; padding-top: 1rem; }
+.compare-btn { background: none; border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
+.compare-btn:hover { background-color: #f8f9fa; }
+
+/* --- Legenda Styling --- */
+#legend-container { background-color: #f8f9fa; padding: 1.5rem 2rem; border-radius: 8px; border: 1px solid #e9ecef; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; }
+.legend-section { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; }
+.legend-section:first-child { padding-right: 2rem; border-right: 1px solid #e0e0e0; }
+.legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #333; }
+.legend-swatch { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
+
+/* --- D3 Visualisatie Styling --- */
+.axis path, .axis line { fill: none; stroke: var(--border-color); shape-rendering: crispEdges; }
+.axis .domain, .axis .tick line { stroke: none; }
+.axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; }
+.y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
+.bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
+.is-dimmed { opacity: 0.15; }
+.is-highlighted { filter: saturate(150%) brightness(105%); }
+.coach-divider { stroke: var(--canvas-background); stroke-width: 2px; pointer-events: none; }
+.season-divider { stroke: #e9ecef; stroke-width: 1px; shape-rendering: crispEdges; pointer-events: none; }
+.prize-group { pointer-events: none; }
+
+/* --- Modal Styling --- */
+.modal-hidden { display: none; }
+#club-modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+.modal-content { background-color: #fefefe; margin: 10% auto; padding: 2rem; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px; position: relative; }
+.modal-close-btn { color: #aaa; position: absolute; top: 1rem; right: 1.5rem; font-size: 28px; font-weight: bold; cursor: pointer; }
+#club-list-container { max-height: 400px; overflow-y: auto; margin-top: 1rem; }
+/* Verdere styling voor club-items in de modal volgt... */
+
+.hidden { display: none !important; }
+
+.page-footer { width: 100%; text-align: center; padding: 2rem 0; margin-top: auto; font-size: 0.9rem; color: #888; }
+.page-footer a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
+.page-footer a:hover { text-decoration: underline; }
