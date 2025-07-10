@@ -1,5 +1,5 @@
-// Script Versie: 17.2 - Filterlogica voor coach en nationaliteit geïmplementeerd.
-console.log("Script versie: 17.2 geladen.");
+// Script Versie: 17.3 - Filter 'locking' en UX verbeteringen doorgevoerd.
+console.log("Script versie: 17.3 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -11,6 +11,7 @@ const appState = {
     allSeasons: [],
     activeFilters: { coach: '', nationality: '' },
     selectedTenureId: null,
+    hoveredTenureId: null, // Nieuw voor hover-logica
     isLoading: true,
 };
 
@@ -52,6 +53,7 @@ function setupEventListeners() {
 
     DOMElements.filterToggleButton.addEventListener('click', () => {
         DOMElements.filterPanel.classList.toggle('hidden');
+        DOMElements.filterToggleButton.classList.toggle('open');
     });
 
     DOMElements.coachSearchInput.addEventListener('input', applyFilters);
@@ -67,7 +69,7 @@ function handleNavigation(target) {
         appState.activeCountry = target;
     }
     appState.selectedTenureId = null;
-    resetFilters();
+    resetFilters(false); // Reset filters zonder re-render, dat doet renderApp()
     renderApp();
 }
 
@@ -214,54 +216,59 @@ function applyFilters() {
     appState.activeFilters.coach = DOMElements.coachSearchInput.value.toLowerCase();
     appState.activeFilters.nationality = DOMElements.nationalityFilterSelect.value;
     console.log('Filters applied:', appState.activeFilters);
-    updateVisualsWithFilters();
+    updateVisuals();
 }
 
-function resetFilters() {
+function resetFilters(reRender = true) {
     appState.activeFilters.coach = '';
     appState.activeFilters.nationality = '';
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
     console.log('Filters reset');
-    updateVisualsWithFilters();
+    if (reRender) updateVisuals();
 }
 
 function populateFilterOptions(data) {
     const nationalities = [...new Set(data.map(d => d.nationaliteit))].sort();
-    
-    // Bewaar de huidige selectie
     const currentSelection = DOMElements.nationalityFilterSelect.value;
-    
-    // Leeg de dropdown, behalve de eerste "All" optie
     DOMElements.nationalityFilterSelect.innerHTML = '<option value="">All Nationalities</option>';
-    
     nationalities.forEach(nat => {
         const option = document.createElement('option');
         option.value = nat;
         option.textContent = nat;
         DOMElements.nationalityFilterSelect.appendChild(option);
     });
-
-    // Herstel de selectie als die nog geldig is
     DOMElements.nationalityFilterSelect.value = currentSelection;
 }
 
-function updateVisualsWithFilters() {
+function updateVisuals() {
     const g = d3.select("#heatmap-container svg > g");
     if (g.empty()) return;
 
-    g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
-        .classed("is-dimmed", d => {
-            const coachFilter = appState.activeFilters.coach;
-            const natFilter = appState.activeFilters.nationality;
+    const { coach, nationality } = appState.activeFilters;
+    const hasActiveFilter = coach || nationality;
 
-            const coachMatch = coachFilter ? d.Coach.toLowerCase().includes(coachFilter) : true;
-            const natMatch = natFilter ? d.nationaliteit === natFilter : true;
-            
-            return !(coachMatch && natMatch);
+    g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
+        .classed("is-highlighted", d => d.tenureId === appState.selectedTenureId)
+        .classed("is-dimmed", d => {
+            // Prioriteit 1: Een geklikte periode is altijd gehighlight, de rest gedimd.
+            if (appState.selectedTenureId) {
+                return d.tenureId !== appState.selectedTenureId;
+            }
+            // Prioriteit 2: Als er een filter actief is, dim wat niet matcht.
+            if (hasActiveFilter) {
+                const coachMatch = coach ? d.Coach.toLowerCase().includes(coach) : true;
+                const natMatch = nationality ? d.nationaliteit === nationality : true;
+                return !(coachMatch && natMatch);
+            }
+            // Prioriteit 3: Als er gehoverd wordt, dim wat niet matcht.
+            if (appState.hoveredTenureId) {
+                return d.tenureId !== appState.hoveredTenureId;
+            }
+            // Geen van bovenstaande? Dan niets dimmen.
+            return false;
         });
 }
-
 
 // --- 8. D3 VISUALISATIE ---
 const margin = {top: 10, right: 20, bottom: 80, left: 220};
@@ -283,14 +290,15 @@ function drawVisualization(data) {
     svg.on('click', () => {
         if (appState.selectedTenureId) {
             appState.selectedTenureId = null;
-            updateHighlighting(g);
+            updateVisuals();
             setInfoPaneDefault();
         }
     });
     
     g.on("mouseleave", () => {
+        appState.hoveredTenureId = null;
         if (!appState.selectedTenureId) {
-            g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", false);
+            updateVisuals();
             setInfoPaneDefault();
         }
     });
@@ -359,8 +367,7 @@ function drawVisualization(data) {
 
     updateXAxis();
     drawLegend();
-    updateHighlighting(g);
-    updateVisualsWithFilters(); // Zorg dat filters worden toegepast bij het tekenen
+    updateVisuals();
     
     return updateXAxis;
 }
@@ -368,23 +375,17 @@ function drawVisualization(data) {
 function handleMouseClick(event, d) {
     event.stopPropagation();
     appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
-    updateHighlighting(d3.select(this.closest("g")));
+    updateVisuals();
     if (appState.selectedTenureId) updateInfoPane(d);
     else setInfoPaneDefault();
 }
 
 function handleMouseOver(event, d) {
+    appState.hoveredTenureId = d.tenureId;
+    updateVisuals();
     if (!appState.selectedTenureId) {
-        const g = d3.select(this.closest("g"));
-        g.selectAll(".bar, .coach-divider, .season-divider, .prize-group").classed("is-dimmed", item => item.tenureId !== d.tenureId);
         updateInfoPane(d);
     }
-}
-
-function updateHighlighting(container) {
-    container.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
-        .classed("is-dimmed", d => appState.selectedTenureId && d.tenureId !== appState.selectedTenureId)
-        .classed("is-highlighted", d => appState.selectedTenureId && d.tenureId === appState.selectedTenureId);
 }
 
 function setInfoPaneDefault() { DOMElements.infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>'); }
