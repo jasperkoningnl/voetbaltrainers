@@ -1,11 +1,11 @@
-/* CSS Versie: 2.1 - Accentkleur gewijzigd naar paars. */
+/* CSS Versie: 2.2 - Bugfixes en design revisies doorgevoerd. */
 
 :root {
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --accent-color: #6c5ce7; /* Koninklijk paars */
+    --accent-color: #c09300; /* Goud/Oker accentkleur */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
 }
@@ -34,6 +34,7 @@ main {
     padding: 0 2rem;
     box-sizing: border-box;
     margin: 2rem 0;
+    text-align: center; /* Header weer gecentreerd */
 }
 
 .page-header h1 {
@@ -49,7 +50,7 @@ main {
     font-weight: 400;
     color: var(--text-secondary);
     max-width: 650px;
-    margin: 0;
+    margin: 0 auto; /* Subtitle centreren */
     line-height: 1.6;
 }
 
@@ -85,12 +86,18 @@ main {
     font-size: 0.9rem;
 }
 
+/* Aangepaste layout voor het info-paneel */
 #info-pane.details-state {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    gap: 20px;
+}
+
+.info-pane-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .info-pane-img {
@@ -107,7 +114,7 @@ main {
     font-weight: 700;
     font-size: 1.4rem;
     margin: 0;
-    color: var(--accent-color);
+    color: var(--text-primary); /* Naam niet meer in accentkleur */
 }
 
 .info-pane-details .nationality {
@@ -175,7 +182,7 @@ main {
 .nav-link.active {
     background-color: var(--accent-color);
     color: white;
-    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.4);
+    box-shadow: 0 2px 8px rgba(192, 147, 0, 0.4); /* Aangepaste schaduwkleur */
 }
 
 #heatmap-container {
@@ -183,46 +190,43 @@ main {
     width: 100%;
 }
 
+/* Legenda layout terug naar compacte versie */
 #legend-container {
     background-color: #f8f9fa;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem 2rem;
     border-radius: 8px;
     border: 1px solid #e9ecef;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     gap: 1rem 2rem;
 }
 
 .legend-section {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: 1rem;
     align-items: center;
     justify-content: center;
 }
 
-.legend-section h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin: 0;
-    margin-right: 1rem;
+.legend-section:first-child {
+    padding-right: 2rem;
+    border-right: 1px solid #e0e0e0;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 13px;
+    font-size: 12px;
     color: #333;
 }
 
 .legend-swatch {
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
     flex-shrink: 0;
 }
 
