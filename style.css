@@ -1,4 +1,4 @@
-/* CSS Versie: 3.0 - Styling voor filters, compare-modus en modal. */
+/* CSS Versie: 3.1 - Styling voor filter-pijl en layout-aanpassingen. */
 
 :root {
     --background-color: #f8f9fa;
@@ -112,6 +112,7 @@ main {
 #filter-toggle-btn {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
     width: 100%;
     padding: 0.75rem 1.5rem;
@@ -123,7 +124,20 @@ main {
     cursor: pointer;
     text-align: left;
 }
+.filter-toggle-content { display: flex; align-items: center; gap: 8px; }
 #filter-toggle-btn:hover { color: var(--text-primary); }
+.filter-arrow {
+    border: solid var(--text-secondary);
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+#filter-toggle-btn.open .filter-arrow {
+    transform: rotate(-135deg);
+}
+
 #filter-panel {
     padding: 0 1.5rem 1.5rem 1.5rem;
     display: grid;
