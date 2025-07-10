@@ -1,11 +1,5 @@
 <!DOCTYPE html>
-<!--
-  Bestandsversie: 2.0
-  Changelog:
-  - De navigatie voor landen wordt niet langer hardgecodeerd in HTML.
-  - De div 'country-nav-container' is nu leeg en wordt dynamisch gevuld door script.js
-    op basis van de data in de Firestore database.
--->
+<!-- HTML Versie: 2.0 - Design refresh met 'visualization-canvas' structuur. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,14 +8,13 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script type="module">
-        // Firebase-configuratie en initialisatie
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
       
@@ -38,10 +31,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Maak Firestore-services globaal beschikbaar voor script.js
+        // Functies beschikbaar maken voor het hoofdscript
         window.db = db;
         window.firestore = { query, collection, where, getDocs };
-
     </script>
 
 </head>
@@ -55,18 +47,27 @@
     </header>
 
     <main>
-        <div id="info-pane-container">
-            <div id="info-pane" class="default-state">
-                <p>Hover over a tenure for details, or click to lock the selection.</p>
+        <div class="visualization-canvas">
+            <div id="info-pane-container">
+                <div id="info-pane" class="default-state">
+                    <p>Hover over a tenure for details, or click to lock the selection.</p>
+                </div>
             </div>
-        </div>
 
-        <div id="country-nav-container">
-            <!-- Navigatie-links worden hier dynamisch ingevoegd door script.js -->
+            <div id="controls-and-heatmap">
+                <div id="country-nav-container">
+                    <a href="#" class="nav-link" data-country="England">England</a>
+                    <a href="#" class="nav-link" data-country="France">France</a>
+                    <a href="#" class="nav-link" data-country="Germany">Germany</a>
+                    <a href="#" class="nav-link" data-country="Italy">Italy</a>
+                    <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
+                    <a href="#" class="nav-link" data-country="Spain">Spain</a>
+                </div>
+                <div id="heatmap-container"></div>
+            </div>
+            
+            <div id="legend-container"></div>
         </div>
-
-        <div id="heatmap-container"></div>
-        <div id="legend-container"></div>
     </main>
 
     <footer class="page-footer">
