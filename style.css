@@ -1,4 +1,4 @@
-/* CSS Versie: 3.7 - Scheidingslijnen verwijderd en uitlijning infopaneel/legenda gecorrigeerd. */
+/* CSS Versie: 3.8 - Finale layout- en uitlijning-fixes. */
 
 :root {
     --background-color: #f8f9fa;
@@ -82,6 +82,8 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
+    /* Correcte uitlijning met D3 margin (220px left, 20px right) */
+    margin: 0 20px 0 220px; 
 }
 
 #info-pane {
@@ -132,8 +134,6 @@ main {
 
 /* --- Filter Controls Styling --- */
 #filter-controls-container {
-    background-color: transparent;
-    border: none;
     padding: 0;
 }
 #filter-toggle-btn {
@@ -198,7 +198,7 @@ main {
 .nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
 .nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-#heatmap-container { overflow-x: auto; width: 100%; }
+#heatmap-container { overflow-x: auto; width: 100%; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
 
 /* --- Compare Controls Styling --- */
 #compare-controls-container { display: flex; justify-content: center; gap: 1rem; padding-top: 1rem; }
@@ -207,11 +207,13 @@ main {
 
 /* --- Legenda Styling --- */
 #legend-container {
-    padding: 0;
-    padding-top: 1.5rem;
+    padding: 1.5rem 20px 0 220px; /* Match D3 margin */
     border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
 }
-.legend-section { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; }
+.legend-section { display: flex; flex-wrap: nowrap; gap: 1rem; align-items: center; }
 .legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
 .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #333; }
 .legend-swatch { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
