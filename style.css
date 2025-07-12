@@ -1,4 +1,4 @@
-/* CSS Versie: 6.0 - Layout-correcties voor visuele samenhang. */
+/* CSS Versie: 6.1 - Layout-correcties voor visuele samenhang van output-blok. */
 
 :root {
     --background-color: #f8f9fa;
@@ -78,15 +78,14 @@ main {
 
 /* --- Output Block Styling (Aangepast) --- */
 #output-block {
-    gap: 1rem; /* Ruimte tussen info-pane, heatmap en legenda */
+    gap: 1rem; /* Minder verticale ruimte */
 }
 
 #info-pane-container {
-    background-color: #fff; /* Witte achtergrond zoals gevraagd */
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin: 0; /* Geen externe marge */
-    border: none; /* Geen rand */
+    background-color: transparent; /* GEEN aparte achtergrond meer */
+    padding: 0;
+    margin: 0;
+    border: none; /* GEEN rand */
 }
 
 #info-pane {
@@ -208,12 +207,12 @@ main {
 
 /* --- Legenda Styling (Aangepast) --- */
 #legend-container {
-    padding-top: 1rem; /* Ruimte boven de legenda */
+    padding-top: 1rem;
     display: flex;
     justify-content: center;
     gap: 2rem;
-    border: none; /* Geen rand */
-    background-color: transparent; /* Transparante achtergrond */
+    border: none; /* GEEN rand */
+    background-color: transparent;
 }
 .legend-section { display: flex; flex-wrap: nowrap; gap: 1rem; align-items: center; }
 .legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
