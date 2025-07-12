@@ -1,4 +1,4 @@
-/* CSS Versie: 3.9 - Finale layout- en uitlijning-fixes. */
+/* CSS Versie: 4.0 - Finale layout- en uitlijning-fixes. */
 
 :root {
     --background-color: #f8f9fa;
@@ -76,14 +76,16 @@ main {
     gap: 1.5rem;
 }
 
-/* --- Info Pane Styling (Re-design) --- */
+/* --- Info Pane Styling (Corrected) --- */
+#output-block {
+    padding: 0; /* Verwijder padding van de parent */
+}
 #info-pane-container {
     background-color: #fff;
-    border: 1px solid var(--border-color); /* Lijn om infopaneel */
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
-    /* Correcte uitlijning met D3 margin (220px left, 20px right) */
-    margin: 0 20px 0 220px; 
+    margin: 1.5rem 20px 1.5rem 220px; /* Match D3 margin */
 }
 
 #info-pane {
@@ -133,9 +135,6 @@ main {
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
 /* --- Filter Controls Styling --- */
-#filter-controls-container {
-    padding: 0;
-}
 #filter-toggle-btn {
     display: flex;
     align-items: center;
@@ -198,7 +197,7 @@ main {
 .nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
 .nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-#heatmap-container { overflow-x: auto; width: 100%; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+#heatmap-container { overflow-x: auto; width: 100%;}
 
 /* --- Compare Controls Styling --- */
 #compare-controls-container { display: flex; justify-content: center; gap: 1rem; padding-top: 1rem; }
@@ -207,8 +206,7 @@ main {
 
 /* --- Legenda Styling --- */
 #legend-container {
-    padding: 1.5rem 20px 0 220px; /* Match D3 margin */
-    border-top: 1px solid var(--border-color);
+    padding: 0 20px 1.5rem 220px; /* Match D3 margin */
     display: flex;
     justify-content: center;
     gap: 2rem;
