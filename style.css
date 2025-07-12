@@ -1,4 +1,4 @@
-/* CSS Versie: 6.1 - Layout-correcties voor visuele samenhang van output-blok. */
+/* CSS Versie: 6.2 - Finale layout-correctie voor uitlijning info-paneel. */
 
 :root {
     --background-color: #f8f9fa;
@@ -76,17 +76,22 @@ main {
     gap: 1.5rem;
 }
 
-/* --- Output Block Styling (Aangepast) --- */
+/* --- Output Block Styling --- */
 #output-block {
     gap: 1rem; /* Minder verticale ruimte */
 }
 
+/* --- Info Pane Container (GECORRIGEERD) --- */
 #info-pane-container {
-    background-color: transparent; /* GEEN aparte achtergrond meer */
-    padding: 0;
-    margin: 0;
-    border: none; /* GEEN rand */
+    background-color: #fff; /* Witte achtergrond zoals gevraagd */
+    padding: 1.5rem;
+    border-radius: 8px;
+    /* Deze marges lijnen het paneel uit met de D3 visualisatie (margin.left & margin.right) */
+    margin-left: 220px;
+    margin-right: 20px;
+    border: 1px solid var(--border-color);
 }
+
 
 #info-pane {
     min-height: 80px;
@@ -205,7 +210,7 @@ main {
 .compare-btn { background: none; border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
 .compare-btn:hover { background-color: #f8f9fa; }
 
-/* --- Legenda Styling (Aangepast) --- */
+/* --- Legenda Styling --- */
 #legend-container {
     padding-top: 1rem;
     display: flex;
