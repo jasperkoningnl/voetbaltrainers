@@ -1,4 +1,4 @@
-/* CSS Versie: 8.2 - Prijzenkast-styling aangepast aan screenshot. */
+/* CSS Versie: 8.2 - UI voor Compare-modus geïntegreerd in Y-as. */
 
 :root {
     --background-color: #f8f9fa;
@@ -270,6 +270,7 @@ main {
 .axis path, .axis line { fill: none; stroke: var(--border-color); shape-rendering: crispEdges; }
 .axis .domain, .axis .tick line { stroke: none; }
 .axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; }
+.y-axis .club-label { position: relative; }
 .y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
 .y-axis .club-label rect { fill: #fff; }
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
@@ -280,7 +281,45 @@ main {
 .prize-group { pointer-events: none; }
 .event-catcher { fill: none; pointer-events: all; }
 
-/* --- Modal Styling (GECORRIGEERD) --- */
+/* --- Compare Mode Y-Axis Styling --- */
+.y-axis .add-club-placeholder rect {
+    fill: #f8f9fa;
+    stroke: #e0e0e0;
+    stroke-width: 2px;
+    stroke-dasharray: 4 4;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.y-axis .add-club-placeholder:hover rect {
+    background-color: #f1f3f5;
+}
+.y-axis .add-club-placeholder text {
+    fill: var(--text-secondary);
+    font-weight: 500;
+}
+.y-axis .club-label .remove-club-btn {
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.y-axis .club-label:hover .remove-club-btn {
+    opacity: 1;
+}
+.y-axis .club-label .remove-club-btn-bg {
+    fill: #fff;
+    stroke: var(--border-color);
+}
+.y-axis .club-label:hover .remove-club-btn-bg {
+    fill: #e9ecef;
+}
+.y-axis .club-label .remove-club-btn-cross {
+    stroke: var(--text-secondary);
+    stroke-width: 2px;
+    stroke-linecap: round;
+}
+
+
+/* --- Modal Styling --- */
 #club-modal {
     position: fixed;
     z-index: 1000;
@@ -290,14 +329,10 @@ main {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
-    
-    /* Standaard verborgen */
     display: none; 
-    
     align-items: center;
     justify-content: center;
 }
-/* Regel om de modal zichtbaar te maken wanneer de 'modal-hidden' class WEG is */
 #club-modal:not(.modal-hidden) {
     display: flex;
 }
