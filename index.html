@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 8.1 - UI voor Compare-modus geïntegreerd in Y-as. -->
+<!-- HTML Versie: 8.2 - Career Mode functionaliteit toegevoegd. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -72,8 +72,9 @@
                     </button>
                     <div id="filter-panel" class="hidden">
                         <div class="filter-group">
-                            <label for="coach-search-input">Find a coach</label>
-                            <input type="text" id="coach-search-input" placeholder="e.g. José Mourinho">
+                            <label for="coach-search-input">Find a coach (for Career Mode)</label>
+                            <input type="text" id="coach-search-input" list="coach-datalist" placeholder="e.g. José Mourinho">
+                            <datalist id="coach-datalist"></datalist>
                         </div>
                         <div class="filter-group">
                             <label for="nationality-filter-select">Filter by nationality</label>
