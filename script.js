@@ -1,5 +1,5 @@
-// Script Versie: 17.3 - Filter 'locking' en UX verbeteringen doorgevoerd.
-console.log("Script versie: 17.3 geladen.");
+// Script Versie: 17.4 - Bugfix voor 'trillen', reset-logica aangescherpt, layout-wijzigingen verwerkt.
+console.log("Script versie: 17.4 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -11,7 +11,7 @@ const appState = {
     allSeasons: [],
     activeFilters: { coach: '', nationality: '' },
     selectedTenureId: null,
-    hoveredTenureId: null, // Nieuw voor hover-logica
+    hoveredTenureId: null,
     isLoading: true,
 };
 
@@ -58,7 +58,7 @@ function setupEventListeners() {
 
     DOMElements.coachSearchInput.addEventListener('input', applyFilters);
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
-    DOMElements.filterResetBtn.addEventListener('click', resetFilters);
+    DOMElements.filterResetBtn.addEventListener('click', resetAll);
 }
 
 function handleNavigation(target) {
@@ -68,8 +68,7 @@ function handleNavigation(target) {
         appState.currentView = 'country';
         appState.activeCountry = target;
     }
-    appState.selectedTenureId = null;
-    resetFilters(false); // Reset filters zonder re-render, dat doet renderApp()
+    resetAll(false); // Reset state zonder re-render
     renderApp();
 }
 
@@ -219,13 +218,17 @@ function applyFilters() {
     updateVisuals();
 }
 
-function resetFilters(reRender = true) {
+function resetAll(reRender = true) {
     appState.activeFilters.coach = '';
     appState.activeFilters.nationality = '';
+    appState.selectedTenureId = null;
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
-    console.log('Filters reset');
-    if (reRender) updateVisuals();
+    console.log('Filters & selection reset');
+    if (reRender) {
+        updateVisuals();
+        setInfoPaneDefault();
+    }
 }
 
 function populateFilterOptions(data) {
@@ -251,21 +254,13 @@ function updateVisuals() {
     g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
         .classed("is-highlighted", d => d.tenureId === appState.selectedTenureId)
         .classed("is-dimmed", d => {
-            // Prioriteit 1: Een geklikte periode is altijd gehighlight, de rest gedimd.
-            if (appState.selectedTenureId) {
-                return d.tenureId !== appState.selectedTenureId;
-            }
-            // Prioriteit 2: Als er een filter actief is, dim wat niet matcht.
+            if (appState.selectedTenureId) return d.tenureId !== appState.selectedTenureId;
             if (hasActiveFilter) {
                 const coachMatch = coach ? d.Coach.toLowerCase().includes(coach) : true;
                 const natMatch = nationality ? d.nationaliteit === nationality : true;
                 return !(coachMatch && natMatch);
             }
-            // Prioriteit 3: Als er gehoverd wordt, dim wat niet matcht.
-            if (appState.hoveredTenureId) {
-                return d.tenureId !== appState.hoveredTenureId;
-            }
-            // Geen van bovenstaande? Dan niets dimmen.
+            if (appState.hoveredTenureId) return d.tenureId !== appState.hoveredTenureId;
             return false;
         });
 }
@@ -280,6 +275,9 @@ function drawVisualization(data) {
     const clubs = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     const seasons = [...new Set(data.map(d => d.seizoen))].sort(d3.ascending);
     const height = clubs.length * 55;
+    
+    // De width is hier nodig voor de event-catcher
+    const width = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
 
     const svg = DOMElements.heatmapContainer.append("svg")
         .attr("width", '100%')
@@ -287,19 +285,25 @@ function drawVisualization(data) {
 
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
-    svg.on('click', () => {
-        if (appState.selectedTenureId) {
-            appState.selectedTenureId = null;
+    // BUGFIX: Onzichtbare rechthoek voor stabiele mouseleave events.
+    g.append('rect')
+        .attr('class', 'event-catcher')
+        .attr('width', width > 0 ? width : 0)
+        .attr('height', height)
+        .on('mouseleave', () => {
+            appState.hoveredTenureId = null;
             updateVisuals();
-            setInfoPaneDefault();
-        }
-    });
-    
-    g.on("mouseleave", () => {
-        appState.hoveredTenureId = null;
-        if (!appState.selectedTenureId) {
-            updateVisuals();
-            setInfoPaneDefault();
+            if (!appState.selectedTenureId) setInfoPaneDefault();
+        });
+
+    svg.on('click', (event) => {
+        // Klik op de achtergrond reset de selectie
+        if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
+            if (appState.selectedTenureId) {
+                appState.selectedTenureId = null;
+                updateVisuals();
+                setInfoPaneDefault();
+            }
         }
     });
     
@@ -326,13 +330,12 @@ function drawVisualization(data) {
     const prizeGroup = g.append("g").attr("class", "prizes-group");
     
     function updateXAxis() {
-        const containerNode = DOMElements.heatmapContainer.node();
-        if (!containerNode) return;
-        const width = containerNode.clientWidth - margin.left - margin.right;
-        if (width <= 0) return;
+        const currentWidth = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
+        if (currentWidth <= 0) return;
 
-        x.domain(seasons).range([0, width]);
-        svg.attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+        g.select('.event-catcher').attr('width', currentWidth); // Update breedte van de catcher
+        x.domain(seasons).range([0, currentWidth]);
+        svg.attr("viewBox", `0 0 ${currentWidth + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
         const tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
         xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
 
@@ -398,8 +401,8 @@ function updateInfoPane(d) {
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
     const content = `
-        <div class="info-pane-main">
-            ${imageHtml}
+        ${imageHtml}
+        <div class="info-pane-content">
             <div class="info-pane-details">
                 <p class="name">${d.Coach}</p>
                 <div class="nationality">
@@ -407,10 +410,10 @@ function updateInfoPane(d) {
                     <span>${d.nationaliteit}</span>
                 </div>
             </div>
-        </div>
-        <div class="info-pane-extra">
-            <p class="club">${d.club}</p>
-            <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+            <div class="info-pane-extra">
+                <p class="club">${d.club}</p>
+                <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+            </div>
         </div>`;
     DOMElements.infoPane.attr("class", "details-state").html(content);
 }
