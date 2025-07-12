@@ -1,4 +1,4 @@
-/* CSS Versie: 8.0 - Compare-modus functionaliteit toegevoegd. */
+/* CSS Versie: 8.1 - Bugfix voor modal die onterecht opent bij laden. */
 
 :root {
     --background-color: #f8f9fa;
@@ -280,9 +280,28 @@ main {
 .prize-group { pointer-events: none; }
 .event-catcher { fill: none; pointer-events: all; }
 
-/* --- Modal Styling --- */
-.modal-hidden { display: none; }
-#club-modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; }
+/* --- Modal Styling (GECORRIGEERD) --- */
+#club-modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    
+    /* Standaard verborgen */
+    display: none; 
+    
+    align-items: center;
+    justify-content: center;
+}
+/* Regel om de modal zichtbaar te maken wanneer de 'modal-hidden' class WEG is */
+#club-modal:not(.modal-hidden) {
+    display: flex;
+}
+
 .modal-content { background-color: #fefefe; padding: 2rem; border: none; width: 90%; max-width: 600px; border-radius: 12px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 .modal-close-btn { color: #aaa; position: absolute; top: 1rem; right: 1.5rem; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 1; }
 #club-search-input-modal { width: 100%; box-sizing: border-box; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 1rem; }
