@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 3.2 - Layout herzien: info-paneel onder de visualisatie. -->
+<!-- HTML Versie: 3.3 - Layout-volgorde gecorrigeerd naar wens van de gebruiker. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,7 +47,19 @@
 
     <main>
         <div class="visualization-canvas">
-            <!-- Filter Controls staan bovenaan -->
+            
+            <!-- 1. Landentabs -->
+            <div id="country-nav-container">
+                <a href="#" class="nav-link" data-country="England">England</a>
+                <a href="#" class="nav-link" data-country="France">France</a>
+                <a href="#" class="nav-link" data-country="Germany">Germany</a>
+                <a href="#" class="nav-link" data-country="Italy">Italy</a>
+                <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
+                <a href="#" class="nav-link" data-country="Spain">Spain</a>
+                <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
+            </div>
+
+            <!-- 2. Filter Controls -->
             <div id="filter-controls-container">
                 <button id="filter-toggle-btn">
                     <div class="filter-toggle-content">
@@ -72,31 +84,22 @@
                     <button id="filter-reset-btn">Reset All</button>
                 </div>
             </div>
-
-            <div id="controls-and-heatmap">
-                <div id="country-nav-container">
-                    <a href="#" class="nav-link" data-country="England">England</a>
-                    <a href="#" class="nav-link" data-country="France">France</a>
-                    <a href="#" class="nav-link" data-country="Germany">Germany</a>
-                    <a href="#" class="nav-link" data-country="Italy">Italy</a>
-                    <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
-                    <a href="#" class="nav-link" data-country="Spain">Spain</a>
-                    <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
-                </div>
-                <div id="heatmap-container">
-                    <!-- Visualisatie wordt hier gerenderd -->
-                </div>
-                <div id="compare-controls-container" class="hidden">
-                     <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
-                     <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
-                </div>
-            </div>
             
-            <!-- Info Pane staat nu onder de visualisatie -->
+            <!-- 3. Info Pane -->
             <div id="info-pane-container">
                 <div id="info-pane" class="default-state">
                     <p>Hover over a tenure for details, or click to lock the selection.</p>
                 </div>
+            </div>
+
+            <!-- 4. Visualisatie -->
+            <div id="heatmap-container">
+                <!-- Visualisatie wordt hier gerenderd -->
+            </div>
+
+            <div id="compare-controls-container" class="hidden">
+                 <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
+                 <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
             </div>
             
             <div id="legend-container"></div>
