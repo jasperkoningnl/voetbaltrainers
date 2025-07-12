@@ -1,5 +1,5 @@
-// Script Versie: 5.0 - Info-paneel visueel geïntegreerd met heatmap.
-console.log("Script versie: 5.0 geladen.");
+// Script Versie: 17.8 - Prijzenkast toegevoegd aan info-paneel.
+console.log("Script versie: 17.8 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -398,6 +398,49 @@ function updateInfoPane(d) {
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
+    // Bereken de totale prijzenkast
+    const coachName = d.Coach;
+    const coachCareerData = appState.allSeasons.filter(s => {
+        const coachInfo = appState.allCoaches.find(c => c.id === s.coachId);
+        return coachInfo && coachInfo.naam === coachName;
+    });
+
+    const totalTrophies = { european: 0, title: 0, cup: 0 };
+    const countedPrizes = new Set(); 
+
+    coachCareerData.forEach(season => {
+        const seasonKey = `${season.club}-${season.seizoen}`;
+        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) {
+            totalTrophies.european++;
+            countedPrizes.add(`${seasonKey}-eu`);
+        }
+        if (season.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) {
+            totalTrophies.title++;
+            countedPrizes.add(`${seasonKey}-ti`);
+        }
+        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) {
+            totalTrophies.cup++;
+            countedPrizes.add(`${seasonKey}-cu`);
+        }
+    });
+
+    const trophyHtml = `
+    <div class="info-pane-trophies">
+        <div class="trophy-item" title="Total European Trophies">
+            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg>
+            <span class="trophy-count">${totalTrophies.european}</span>
+        </div>
+        <div class="trophy-item" title="Total National Titles">
+            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg>
+            <span class="trophy-count">${totalTrophies.title}</span>
+        </div>
+        <div class="trophy-item" title="Total National Cups">
+            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg>
+            <span class="trophy-count">${totalTrophies.cup}</span>
+        </div>
+    </div>
+    `;
+
     const content = `
         ${imageHtml}
         <div class="info-pane-content">
@@ -408,6 +451,7 @@ function updateInfoPane(d) {
                     <span>${d.nationaliteit}</span>
                 </div>
             </div>
+            ${trophyHtml}
             <div class="info-pane-extra">
                 <p class="club">${d.club}</p>
                 <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
