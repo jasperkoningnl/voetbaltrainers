@@ -1,4 +1,4 @@
-/* CSS Versie: 3.1 - Styling voor filter-pijl en layout-aanpassingen. */
+/* CSS Versie: 3.2 - Design voor info-paneel en filter-inputs verbeterd. */
 
 :root {
     --background-color: #f8f9fa;
@@ -64,15 +64,16 @@ main {
     gap: 1.5rem;
 }
 
+/* --- Info Pane Styling (Re-design) --- */
 #info-pane-container {
     background-color: #f8f9fa;
-    padding: 1rem 1.5rem;
+    padding: 1.5rem;
     border-radius: 8px;
     border: 1px solid #e9ecef;
 }
 
 #info-pane {
-    min-height: 64px;
+    min-height: 80px;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
@@ -87,14 +88,28 @@ main {
 }
 
 #info-pane.details-state {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 80px 1fr; /* Kolom voor grotere afbeelding */
+    gap: 20px;
     align-items: center;
     width: 100%;
 }
 
-.info-pane-main { display: flex; align-items: center; gap: 15px; }
-.info-pane-img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; background-color: #e9ecef; flex-shrink: 0; border: 2px solid var(--canvas-background); }
+.info-pane-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px; /* Geen cirkel meer */
+    object-fit: cover;
+    background-color: #e9ecef;
+    flex-shrink: 0;
+}
+
+.info-pane-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .info-pane-details .name { font-weight: 700; font-size: 1.4rem; margin: 0; color: var(--text-primary); }
 .info-pane-details .nationality { display: flex; align-items: center; font-size: 0.9rem; margin-top: 4px; color: var(--text-secondary); }
 .info-pane-flag { width: 20px; margin-right: 8px; border-radius: 2px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
@@ -103,7 +118,7 @@ main {
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* --- Filter Controls Styling --- */
+/* --- Filter Controls Styling (Re-design) --- */
 #filter-controls-container {
     background-color: #f8f9fa;
     border-radius: 8px;
@@ -148,13 +163,19 @@ main {
 .filter-group { display: flex; flex-direction: column; }
 .filter-group label { font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.25rem; }
 .filter-group input, .filter-group select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 0.9rem;
+    background-color: #fff;
+    border: 1px solid #dfe4ea;
+    padding: 0.75rem; /* Meer interne witruimte */
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
-#filter-reset-btn { padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 4px; background-color: var(--canvas-background); cursor: pointer; }
+.filter-group input:focus, .filter-group select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(45, 52, 54, 0.15); /* Duidelijke focus state */
+}
+#filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
 /* --- Navigatie Styling --- */
 #country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; }
@@ -189,6 +210,7 @@ main {
 .coach-divider { stroke: var(--canvas-background); stroke-width: 2px; pointer-events: none; }
 .season-divider { stroke: #e9ecef; stroke-width: 1px; shape-rendering: crispEdges; pointer-events: none; }
 .prize-group { pointer-events: none; }
+.event-catcher { fill: none; pointer-events: all; }
 
 /* --- Modal Styling --- */
 .modal-hidden { display: none; }
@@ -196,7 +218,6 @@ main {
 .modal-content { background-color: #fefefe; margin: 10% auto; padding: 2rem; border: 1px solid #888; width: 80%; max-width: 600px; border-radius: 8px; position: relative; }
 .modal-close-btn { color: #aaa; position: absolute; top: 1rem; right: 1.5rem; font-size: 28px; font-weight: bold; cursor: pointer; }
 #club-list-container { max-height: 400px; overflow-y: auto; margin-top: 1rem; }
-/* Verdere styling voor club-items in de modal volgt... */
 
 .hidden { display: none !important; }
 
