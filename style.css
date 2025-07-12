@@ -1,4 +1,4 @@
-/* CSS Versie: 3.9 - Finale layout- en uitlijning-fixes, deel 2. */
+/* CSS Versie: 3.9 - Finale layout- en uitlijning-fixes. */
 
 :root {
     --background-color: #f8f9fa;
@@ -79,7 +79,7 @@ main {
 /* --- Info Pane Styling (Re-design) --- */
 #info-pane-container {
     background-color: #fff;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color); /* Lijn om infopaneel */
     border-radius: 8px;
     padding: 1.5rem;
     /* Correcte uitlijning met D3 margin (220px left, 20px right) */
@@ -198,7 +198,7 @@ main {
 .nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
 .nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-#heatmap-container { overflow-x: auto; width: 100%;}
+#heatmap-container { overflow-x: auto; width: 100%; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
 
 /* --- Compare Controls Styling --- */
 #compare-controls-container { display: flex; justify-content: center; gap: 1rem; padding-top: 1rem; }
