@@ -1,4 +1,4 @@
-/* CSS Versie: 8.3 - Prijzenkast-items naast elkaar uitgelijnd. */
+/* CSS Versie: 8.3 - Career Mode functionaliteit toegevoegd. */
 
 :root {
     --background-color: #f8f9fa;
@@ -141,13 +141,13 @@ main {
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* --- Prijzenkast Styling (Aangepast) --- */
+/* --- Prijzenkast Styling --- */
 .info-pane-trophies {
     display: flex;
-    flex-direction: row; /* Items naast elkaar */
+    flex-direction: row; 
     justify-content: center;
     align-items: center;
-    gap: 2rem; /* Ruimte tussen de items */
+    gap: 2rem; 
 }
 
 .trophy-item {
@@ -174,7 +174,7 @@ main {
 #filter-controls-container {
     transition: opacity 0.3s, transform 0.3s;
 }
-#filter-controls-container.hidden-by-compare {
+#filter-controls-container.hidden-by-mode {
     opacity: 0;
     transform: scaleY(0.95);
     pointer-events: none;
@@ -238,7 +238,11 @@ main {
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
 /* --- Navigatie Styling --- */
-#country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; }
+#country-nav-container.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+#country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; transition: opacity 0.3s; }
 .nav-link { flex-grow: 1; text-align: center; padding: 0.6rem 1rem; color: var(--text-secondary); text-decoration: none; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s ease-in-out; }
 .nav-link:hover { background-color: #dce1e6; color: var(--text-primary); }
 .nav-link.active { background-color: var(--accent-color); color: white; box-shadow: 0 2px 8px rgba(45, 52, 54, 0.4); }
