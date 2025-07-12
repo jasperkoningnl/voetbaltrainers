@@ -1,5 +1,5 @@
-// Script Versie: 17.5 - Nieuwe kleurenschaal geïmplementeerd en legenda bijgewerkt.
-console.log("Script versie: 17.5 geladen.");
+// Script Versie: 17.6 - Bugfix voor highlight bij verlaten SVG, layout-fixes verwerkt.
+console.log("Script versie: 17.6 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -282,17 +282,19 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
+    // BUGFIX: Mouseleave event nu op de SVG zelf voor robuustheid.
+    svg.on('mouseleave', () => {
+        appState.hoveredTenureId = null;
+        updateVisuals();
+        if (!appState.selectedTenureId) setInfoPaneDefault();
+    });
+
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     g.append('rect')
         .attr('class', 'event-catcher')
         .attr('width', width > 0 ? width : 0)
-        .attr('height', height)
-        .on('mouseleave', () => {
-            appState.hoveredTenureId = null;
-            updateVisuals();
-            if (!appState.selectedTenureId) setInfoPaneDefault();
-        });
+        .attr('height', height);
 
     svg.on('click', (event) => {
         if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
@@ -305,7 +307,6 @@ function drawVisualization(data) {
     });
     
     y.domain(clubs).range([0, height]);
-    // AANGEPASTE KLEURENSCHAAL
     const getColor = d3.scaleThreshold()
         .domain([1, 2, 3, 5, 7, 10])
         .range(["#ccc", "#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"]);
@@ -418,15 +419,7 @@ function updateInfoPane(d) {
 
 function drawLegend() {
     DOMElements.legendContainer.html("");
-    // AANGEPASTE LEGENDA DATA
-    const legendData = [ 
-        { color: "#FF0033", label: "1 Season" }, 
-        { color: "#66ff66", label: "2 Seasons" }, 
-        { color: "#33cc33", label: "3-4 Seasons" }, 
-        { color: "#339933", label: "5-6 Seasons" }, 
-        { color: "#006600", label: "7-9 Seasons" }, 
-        { color: "#003300", label: "10+ Seasons" } 
-    ];
+    const legendData = [ { color: "#FF0033", label: "1 Season" }, { color: "#66ff66", label: "2 Seasons" }, { color: "#33cc33", label: "3-4 Seasons" }, { color: "#339933", label: "5-6 Seasons" }, { color: "#006600", label: "7-9 Seasons" }, { color: "#003300", label: "10+ Seasons" } ];
     const prizeData = [ { color: '#FFD700', label: 'European Trophy' }, { color: '#C0C0C0', label: 'National Title' }, { color: '#CD7F32', label: 'National Cup' } ];
     
     const tenureGroup = DOMElements.legendContainer.append("div").attr("class", "legend-section");
