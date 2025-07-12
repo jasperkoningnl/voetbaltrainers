@@ -1,5 +1,5 @@
-// Script Versie: 17.8 - Prijzenkast toegevoegd aan info-paneel.
-console.log("Script versie: 17.8 geladen.");
+// Script Versie: 17.9 - Prijzenkast in info-paneel verticaal uitgelijnd.
+console.log("Script versie: 17.9 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -424,22 +424,34 @@ function updateInfoPane(d) {
         }
     });
 
-    const trophyHtml = `
-    <div class="info-pane-trophies">
-        <div class="trophy-item" title="Total European Trophies">
+    // Bouw de HTML voor de prijzenkast (Aangepast)
+    let trophyHtml = '<div class="info-pane-trophies">';
+    if (totalTrophies.european > 0) {
+        const label = totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs';
+        trophyHtml += `
+        <div class="trophy-item" title="Totaal Europese prijzen">
             <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg>
-            <span class="trophy-count">${totalTrophies.european}</span>
-        </div>
-        <div class="trophy-item" title="Total National Titles">
+            <span class="trophy-count">${totalTrophies.european} ${label}</span>
+        </div>`;
+    }
+    if (totalTrophies.title > 0) {
+        const label = totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel';
+        trophyHtml += `
+        <div class="trophy-item" title="Totaal nationale titels">
             <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg>
-            <span class="trophy-count">${totalTrophies.title}</span>
-        </div>
-        <div class="trophy-item" title="Total National Cups">
+            <span class="trophy-count">${totalTrophies.title} ${label}</span>
+        </div>`;
+    }
+    if (totalTrophies.cup > 0) {
+        const label = totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker';
+        trophyHtml += `
+        <div class="trophy-item" title="Totaal nationale bekers">
             <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg>
-            <span class="trophy-count">${totalTrophies.cup}</span>
-        </div>
-    </div>
-    `;
+            <span class="trophy-count">${totalTrophies.cup} ${label}</span>
+        </div>`;
+    }
+    trophyHtml += '</div>';
+
 
     const content = `
         ${imageHtml}
