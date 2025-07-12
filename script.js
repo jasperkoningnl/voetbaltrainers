@@ -1,5 +1,5 @@
-// Script Versie: 18.1 - Prijzenkast-logica gecorrigeerd naar specifieke periode.
-console.log("Script versie: 18.1 geladen.");
+// Script Versie: 18.2 - UI voor Compare-modus geïntegreerd in Y-as.
+console.log("Script versie: 18.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -28,7 +28,6 @@ const DOMElements = {
     nationalityFilterSelect: document.getElementById('nationality-filter-select'),
     filterResetBtn: document.getElementById('filter-reset-btn'),
     compareControlsContainer: document.getElementById('compare-controls-container'),
-    addRowBtn: document.getElementById('add-row-btn'),
     clearCompareBtn: document.getElementById('clear-compare-btn'),
     clubModal: document.getElementById('club-modal'),
     modalCloseBtn: document.querySelector('.modal-close-btn'),
@@ -37,6 +36,8 @@ const DOMElements = {
 };
 
 let currentResizeObserver = null;
+const ADD_CLUB_PLACEHOLDER = 'ADD_CLUB_PLACEHOLDER';
+
 
 // --- 3. INITIALISATIE ---
 document.addEventListener('DOMContentLoaded', initApp);
@@ -68,8 +69,6 @@ function setupEventListeners() {
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
     DOMElements.filterResetBtn.addEventListener('click', resetAll);
     
-    // Compare Mode Listeners
-    DOMElements.addRowBtn.addEventListener('click', openClubModal);
     DOMElements.clearCompareBtn.addEventListener('click', clearComparison);
     DOMElements.modalCloseBtn.addEventListener('click', closeClubModal);
     DOMElements.clubSearchInputModal.addEventListener('input', filterClubList);
@@ -179,7 +178,6 @@ function processTenures(data) {
         }
         const eindJaar = eindJaarNum.toString();
 
-        // Bereken prijzen per periode
         const tenureTrophies = { european: 0, title: 0, cup: 0 };
         const countedPrizes = new Set();
         p.seizoenen.forEach(s => {
@@ -230,23 +228,22 @@ function renderApp() {
         populateFilterOptions(dataForView);
     }
 
-    if (dataForView.length > 0) {
+    if (dataForView.length > 0 || appState.currentView === 'compare') {
         const updateFunc = drawVisualization(dataForView);
         currentResizeObserver = new ResizeObserver(entries => {
             if (entries[0].contentRect.width > 0) updateFunc();
         });
         currentResizeObserver.observe(DOMElements.heatmapContainer.node());
     } else {
-        const message = appState.currentView === 'compare' 
-            ? 'Select clubs with the "[+] Add" button to start comparing.'
-            : `No data found for ${appState.activeCountry}.`;
-        DOMElements.heatmapContainer.html(`<p class="loading-text">${message}</p>`);
+        DOMElements.heatmapContainer.html(`<p class="loading-text">No data found for ${appState.activeCountry}.</p>`);
     }
 }
 
 function updateControlVisibility() {
     const isCompareView = appState.currentView === 'compare';
-    DOMElements.compareControlsContainer.classList.toggle('hidden', !isCompareView);
+    const hasClubsInCompare = appState.comparisonClubs.length > 0;
+    
+    DOMElements.compareControlsContainer.classList.toggle('hidden', !isCompareView || !hasClubsInCompare);
     DOMElements.filterControlsContainer.classList.toggle('hidden-by-compare', isCompareView);
 }
 
@@ -318,9 +315,18 @@ const y = d3.scaleBand().padding(0.15);
 
 function drawVisualization(data) {
     DOMElements.heatmapContainer.html('');
-    const clubs = [...new Set(data.map(d => d.club))].sort(d3.ascending);
+    
+    const isCompare = appState.currentView === 'compare';
+    let yDomain = isCompare 
+        ? appState.comparisonClubs.map(c => c.naam)
+        : [...new Set(data.map(d => d.club))].sort(d3.ascending);
+    
+    if (isCompare) {
+        yDomain.push(ADD_CLUB_PLACEHOLDER);
+    }
+
     const seasons = [...new Set(appState.allSeasons.map(d => d.seizoen))].sort(d3.ascending);
-    const height = clubs.length * 55;
+    const height = yDomain.length * 55;
     
     const width = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
 
@@ -351,7 +357,7 @@ function drawVisualization(data) {
         }
     });
     
-    y.domain(clubs).range([0, height]);
+    y.domain(yDomain).range([0, height]);
     const getColor = d3.scaleThreshold()
         .domain([1, 2, 3, 5, 7, 10])
         .range(["#ccc", "#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"]);
@@ -359,18 +365,41 @@ function drawVisualization(data) {
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    const logoData = clubs.map(clubName => {
-        const clubDetails = appState.allClubs.find(c => c.naam === clubName);
-        return { club: clubName, logo_url: clubDetails ? clubDetails.logo_url : '' };
+    const yAxisData = yDomain.map(name => {
+        if (name === ADD_CLUB_PLACEHOLDER) {
+            return { id: ADD_CLUB_PLACEHOLDER, club: name };
+        }
+        const clubDetails = appState.allClubs.find(c => c.naam === name);
+        return { id: clubDetails.id, club: name, logo_url: clubDetails ? clubDetails.logo_url : '' };
     });
     
-    const yAxisLabels = yAxisG.selectAll(".club-label").data(logoData, d => d.club).join("g")
-        .attr("class", "club-label").attr("transform", d => `translate(0, ${y(d.club)})`);
+    const yAxisLabels = yAxisG.selectAll(".y-axis-label-group").data(yAxisData, d => d.id).join("g")
+        .attr("class", "y-axis-label-group").attr("transform", d => `translate(0, ${y(d.club)})`);
 
-    yAxisLabels.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("fill", "#fff").attr("rx", 6);
-    yAxisLabels.append("image").attr("xlink:href", d => d.logo_url).attr("x", -margin.left + 30).attr("y", y.bandwidth() / 2 - 16).attr("width", 32).attr("height", 32).on("error", function() { d3.select(this).style("display", "none"); });
-    yAxisLabels.append("text").attr("x", -margin.left + 75).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "start").text(d => d.club);
-    
+    // Draw club labels
+    yAxisLabels.filter(d => d.id !== ADD_CLUB_PLACEHOLDER)
+        .append('g').attr('class', 'club-label')
+        .each(function(d) {
+            const group = d3.select(this);
+            group.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("fill", "#fff").attr("rx", 6);
+            group.append("image").attr("xlink:href", d.logo_url).attr("x", -margin.left + 30).attr("y", y.bandwidth() / 2 - 16).attr("width", 32).attr("height", 32).on("error", function() { d3.select(this).style("display", "none"); });
+            group.append("text").attr("x", -margin.left + 75).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "start").text(d.club);
+            
+            const removeBtn = group.append('g').attr('class', 'remove-club-btn').on('click', () => removeClubFromComparison(d.id));
+            removeBtn.append('circle').attr('class', 'remove-club-btn-bg').attr('cx', -margin.left + 200).attr('cy', y.bandwidth() / 2).attr('r', 10);
+            removeBtn.append('line').attr('class', 'remove-club-btn-cross').attr('x1', -margin.left + 195).attr('y1', y.bandwidth() / 2 - 5).attr('x2', -margin.left + 205).attr('y2', y.bandwidth() / 2 + 5);
+            removeBtn.append('line').attr('class', 'remove-club-btn-cross').attr('x1', -margin.left + 195).attr('y1', y.bandwidth() / 2 + 5).attr('x2', -margin.left + 205).attr('y2', y.bandwidth() / 2 - 5);
+        });
+
+    // Draw "Add Club" placeholder
+    yAxisLabels.filter(d => d.id === ADD_CLUB_PLACEHOLDER)
+        .append('g').attr('class', 'add-club-placeholder').on('click', openClubModal)
+        .each(function() {
+            const group = d3.select(this);
+            group.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("rx", 6);
+            group.append("text").attr("x", -margin.left + 115).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "middle").text("+ Add Club");
+        });
+
     const barGroup = g.append("g").attr("class", "bars-group");
     const seasonDividerGroup = g.append("g").attr("class", "season-dividers-group");
     const coachDividerGroup = g.append("g").attr("class", "coach-dividers-group");
@@ -447,7 +476,6 @@ function updateInfoPane(d) {
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
-    // Gebruik de pre-berekende prijzen voor de specifieke periode
     const totalTrophies = d.tenureTrophies;
 
     let trophyHtml = '<div class="info-pane-trophies">';
@@ -535,6 +563,11 @@ function addClubToComparison(clubId) {
         appState.comparisonClubs.push(club);
     }
     closeClubModal();
+    renderApp();
+}
+
+function removeClubFromComparison(clubId) {
+    appState.comparisonClubs = appState.comparisonClubs.filter(c => c.id !== clubId);
     renderApp();
 }
 
