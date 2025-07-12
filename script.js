@@ -1,5 +1,5 @@
-// Script Versie: 17.4 - Bugfix voor 'trillen', reset-logica aangescherpt, layout-wijzigingen verwerkt.
-console.log("Script versie: 17.4 geladen.");
+// Script Versie: 17.5 - Nieuwe kleurenschaal geïmplementeerd en legenda bijgewerkt.
+console.log("Script versie: 17.5 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -276,7 +276,6 @@ function drawVisualization(data) {
     const seasons = [...new Set(data.map(d => d.seizoen))].sort(d3.ascending);
     const height = clubs.length * 55;
     
-    // De width is hier nodig voor de event-catcher
     const width = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
 
     const svg = DOMElements.heatmapContainer.append("svg")
@@ -285,7 +284,6 @@ function drawVisualization(data) {
 
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
-    // BUGFIX: Onzichtbare rechthoek voor stabiele mouseleave events.
     g.append('rect')
         .attr('class', 'event-catcher')
         .attr('width', width > 0 ? width : 0)
@@ -297,7 +295,6 @@ function drawVisualization(data) {
         });
 
     svg.on('click', (event) => {
-        // Klik op de achtergrond reset de selectie
         if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
             if (appState.selectedTenureId) {
                 appState.selectedTenureId = null;
@@ -308,9 +305,10 @@ function drawVisualization(data) {
     });
     
     y.domain(clubs).range([0, height]);
+    // AANGEPASTE KLEURENSCHAAL
     const getColor = d3.scaleThreshold()
         .domain([1, 2, 3, 5, 7, 10])
-        .range(["#ccc", "#ff0033", "#ccffcc", "#99ff99", "#66cc66", "#00ff00", "#006600"]);
+        .range(["#ccc", "#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"]);
 
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
@@ -320,7 +318,7 @@ function drawVisualization(data) {
     const yAxisLabels = yAxisG.selectAll(".club-label").data(logoData, d => d.club).join("g")
         .attr("class", "club-label").attr("transform", d => `translate(0, ${y(d.club)})`);
 
-    yAxisLabels.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("fill", "#f8f9fa").attr("rx", 6);
+    yAxisLabels.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("fill", "#fff").attr("rx", 6);
     yAxisLabels.append("image").attr("xlink:href", d => d.logo_url).attr("x", -margin.left + 30).attr("y", y.bandwidth() / 2 - 16).attr("width", 32).attr("height", 32).on("error", function() { d3.select(this).style("display", "none"); });
     yAxisLabels.append("text").attr("x", -margin.left + 75).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "start").text(d => d.club);
     
@@ -333,7 +331,7 @@ function drawVisualization(data) {
         const currentWidth = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
         if (currentWidth <= 0) return;
 
-        g.select('.event-catcher').attr('width', currentWidth); // Update breedte van de catcher
+        g.select('.event-catcher').attr('width', currentWidth);
         x.domain(seasons).range([0, currentWidth]);
         svg.attr("viewBox", `0 0 ${currentWidth + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
         const tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
@@ -420,7 +418,15 @@ function updateInfoPane(d) {
 
 function drawLegend() {
     DOMElements.legendContainer.html("");
-    const legendData = [ { color: "#ff0033", label: "1 Season" }, { color: "#ccffcc", label: "2 Seasons" }, { color: "#99ff99", label: "3-4 Seasons" }, { color: "#66cc66", label: "5-6 Seasons" }, { color: "#00ff00", label: "7-9 Seasons" }, { color: "#006600", label: "10+ Seasons" } ];
+    // AANGEPASTE LEGENDA DATA
+    const legendData = [ 
+        { color: "#FF0033", label: "1 Season" }, 
+        { color: "#66ff66", label: "2 Seasons" }, 
+        { color: "#33cc33", label: "3-4 Seasons" }, 
+        { color: "#339933", label: "5-6 Seasons" }, 
+        { color: "#006600", label: "7-9 Seasons" }, 
+        { color: "#003300", label: "10+ Seasons" } 
+    ];
     const prizeData = [ { color: '#FFD700', label: 'European Trophy' }, { color: '#C0C0C0', label: 'National Title' }, { color: '#CD7F32', label: 'National Cup' } ];
     
     const tenureGroup = DOMElements.legendContainer.append("div").attr("class", "legend-section");
