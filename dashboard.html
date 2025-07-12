@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 16.0 - Inline bewerken en toevoegen ingeschakeld voor Clubs, Coaches en Seizoenen.
+  Dashboard Versie: 16.2 - Coach van een seizoen kan nu worden gewijzigd (gecorrigeerde versie).
   Changelog:
-  - Volledige CRUD (Create, Read, Update, Delete) functionaliteit voor Clubs, Coaches en Seizoenen.
-  - Inline bewerken direct in de tabellen voor snelle aanpassingen.
-  - Formulieren om nieuwe clubs, coaches en seizoenen toe te voegen.
-  - Verbeterde gebruikersfeedback met laadindicatoren en meldingen.
+  - In de bewerkingsmodus voor seizoenen is 'Coach' nu een dropdown-menu.
+  - De club kan niet meer worden gewijzigd in de bewerkingsmodus, zoals gevraagd.
 -->
 <html lang="nl">
 <head>
@@ -498,17 +496,20 @@
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {filteredSeasons.map(season => {
-                                    const coach = coachesMap.get(season.coachId);
                                     const club = clubsMap.get(season.club);
                                     return (
                                         editingRowId === season.id ? (
                                         <tr key={season.id}>
-                                            <td className="px-4 py-2 font-semibold">{club?.naam || 'Onbekend'}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap font-semibold">{club?.naam || 'Onbekend'}</td>
                                             <td className="px-4 py-2"><input type="text" name="seizoen" value={editedData.seizoen} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
-                                            <td className="px-4 py-2">{coach?.naam || 'Onbekend'}</td>
-                                            <td className="px-2 py-2"><input type="text" name="landstitel" value={editedData.landstitel} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
-                                            <td className="px-2 py-2"><input type="text" name="nationale_beker" value={editedData.nationale_beker} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
-                                            <td className="px-2 py-2"><input type="text" name="europese_prijs" value={editedData.europese_prijs} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-4 py-2">
+                                                <select name="coachId" value={editedData.coachId} onChange={handleInputChange} className="p-1 border rounded w-full">
+                                                    {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                                                </select>
+                                            </td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="landstitel" value={editedData.landstitel} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="nationale_beker" value={editedData.nationale_beker} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="europese_prijs" value={editedData.europese_prijs} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
                                             <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
                                                 <button onClick={() => handleSaveClick(season.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
                                                 <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
@@ -518,7 +519,7 @@
                                         <tr key={season.id}>
                                             <td className="px-4 py-2 whitespace-nowrap font-semibold">{club?.naam || 'Onbekend'}</td>
                                             <td className="px-4 py-2 whitespace-nowrap">{season.seizoen}</td>
-                                            <td className="px-4 py-2 whitespace-nowrap">{coach?.naam || 'Onbekend'}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap">{coachesMap.get(season.coachId)?.naam || 'Onbekend'}</td>
                                             <td className="px-2 py-2 text-center">{season.landstitel}</td>
                                             <td className="px-2 py-2 text-center">{season.nationale_beker}</td>
                                             <td className="px-2 py-2 text-center">{season.europese_prijs}</td>
@@ -684,7 +685,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v16.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v16.2</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
