@@ -1,4 +1,4 @@
-/* CSS Versie: 8.2 - UI voor Compare-modus geïntegreerd in Y-as. */
+/* CSS Versie: 8.3 - Prijzenkast-items naast elkaar uitgelijnd. */
 
 :root {
     --background-color: #f8f9fa;
@@ -141,13 +141,13 @@ main {
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* --- Prijzenkast Styling --- */
+/* --- Prijzenkast Styling (Aangepast) --- */
 .info-pane-trophies {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Items naast elkaar */
     justify-content: center;
-    align-items: center; /* Gecentreerd zoals in screenshot */
-    gap: 0.75rem;
+    align-items: center;
+    gap: 2rem; /* Ruimte tussen de items */
 }
 
 .trophy-item {
