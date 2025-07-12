@@ -1,5 +1,5 @@
-// Script Versie: 17.6 - Bugfix voor highlight bij verlaten SVG, layout-fixes verwerkt.
-console.log("Script versie: 17.6 geladen.");
+// Script Versie: 5.0 - Info-paneel visueel geïntegreerd met heatmap.
+console.log("Script versie: 5.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -282,7 +282,6 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
-    // BUGFIX: Mouseleave event nu op de SVG zelf voor robuustheid.
     svg.on('mouseleave', () => {
         appState.hoveredTenureId = null;
         updateVisuals();
