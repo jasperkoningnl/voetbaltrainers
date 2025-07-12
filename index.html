@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 3.4 - Tabblad voor Portugal toegevoegd. -->
+<!-- HTML Versie: 3.5 - Layout opgedeeld in twee visuele blokken: Controls en Output. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -48,62 +48,61 @@
     <main>
         <div class="visualization-canvas">
             
-            <!-- 1. Landentabs -->
-            <div id="country-nav-container">
-                <a href="#" class="nav-link" data-country="England">England</a>
-                <a href="#" class="nav-link" data-country="France">France</a>
-                <a href="#" class="nav-link" data-country="Germany">Germany</a>
-                <a href="#" class="nav-link" data-country="Italy">Italy</a>
-                <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
-                <a href="#" class="nav-link" data-country="Portugal">Portugal</a>
-                <a href="#" class="nav-link" data-country="Spain">Spain</a>
-                <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
-            </div>
-
-            <!-- 2. Filter Controls -->
-            <div id="filter-controls-container">
-                <button id="filter-toggle-btn">
-                    <div class="filter-toggle-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                        </svg>
-                        <span>Filter & Search</span>
-                    </div>
-                    <span class="filter-arrow"></span>
-                </button>
-                <div id="filter-panel" class="hidden">
-                    <div class="filter-group">
-                        <label for="coach-search-input">Find a coach</label>
-                        <input type="text" id="coach-search-input" placeholder="e.g. José Mourinho">
-                    </div>
-                    <div class="filter-group">
-                        <label for="nationality-filter-select">Filter by nationality</label>
-                        <select id="nationality-filter-select">
-                            <option value="">All Nationalities</option>
-                        </select>
-                    </div>
-                    <button id="filter-reset-btn">Reset All</button>
+            <!-- BLOK 1: CONTROLS -->
+            <div id="controls-block" class="content-block">
+                <div id="country-nav-container">
+                    <a href="#" class="nav-link" data-country="England">England</a>
+                    <a href="#" class="nav-link" data-country="France">France</a>
+                    <a href="#" class="nav-link" data-country="Germany">Germany</a>
+                    <a href="#" class="nav-link" data-country="Italy">Italy</a>
+                    <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
+                    <a href="#" class="nav-link" data-country="Portugal">Portugal</a>
+                    <a href="#" class="nav-link" data-country="Spain">Spain</a>
+                    <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
                 </div>
-            </div>
-            
-            <!-- 3. Info Pane -->
-            <div id="info-pane-container">
-                <div id="info-pane" class="default-state">
-                    <p>Hover over a tenure for details, or click to lock the selection.</p>
+                <div id="filter-controls-container">
+                    <button id="filter-toggle-btn">
+                        <div class="filter-toggle-content">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                            <span>Filter & Search</span>
+                        </div>
+                        <span class="filter-arrow"></span>
+                    </button>
+                    <div id="filter-panel" class="hidden">
+                        <div class="filter-group">
+                            <label for="coach-search-input">Find a coach</label>
+                            <input type="text" id="coach-search-input" placeholder="e.g. José Mourinho">
+                        </div>
+                        <div class="filter-group">
+                            <label for="nationality-filter-select">Filter by nationality</label>
+                            <select id="nationality-filter-select">
+                                <option value="">All Nationalities</option>
+                            </select>
+                        </div>
+                        <button id="filter-reset-btn">Reset All</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- 4. Visualisatie -->
-            <div id="heatmap-container">
-                <!-- Visualisatie wordt hier gerenderd -->
+            <!-- BLOK 2: OUTPUT -->
+            <div id="output-block" class="content-block">
+                <div id="info-pane-container">
+                    <div id="info-pane" class="default-state">
+                        <p>Hover over a tenure for details, or click to lock the selection.</p>
+                    </div>
+                </div>
+                <div id="heatmap-container">
+                    <!-- Visualisatie wordt hier gerenderd -->
+                </div>
+                <div id="compare-controls-container" class="hidden">
+                     <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
+                     <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
+                </div>
+                <div id="legend-container"></div>
             </div>
 
-            <div id="compare-controls-container" class="hidden">
-                 <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
-                 <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
-            </div>
-            
-            <div id="legend-container"></div>
         </div>
     </main>
 
