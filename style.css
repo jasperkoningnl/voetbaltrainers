@@ -1,4 +1,4 @@
-/* CSS Versie: 6.3 - Finale layout-correctie voor exacte uitlijning info-paneel. */
+/* CSS Versie: 6.5 - Prijzenkast toegevoegd aan info-paneel voor visuele balans. */
 
 :root {
     --background-color: #f8f9fa;
@@ -81,15 +81,14 @@ main {
     gap: 1rem; /* Minder verticale ruimte */
 }
 
-/* --- Info Pane Container (GECORRIGEERD) --- */
+/* --- Info Pane Container --- */
 #info-pane-container {
-    background-color: #fff; /* Witte achtergrond zoals gevraagd */
+    background-color: #fff;
     padding: 1.5rem;
     border-radius: 8px;
-    /* Deze marges lijnen het paneel uit met de D3 visualisatie */
-    margin-left: 20px; /* Uitlijnen met de club-naam blokken */
-    margin-right: 20px; /* Uitlijnen met de rechterkant van de heatmap */
-    border: none; /* Geen rand zoals gevraagd */
+    margin-left: 20px;
+    margin-right: 20px;
+    border: none;
 }
 
 
@@ -126,19 +125,48 @@ main {
 }
 
 .info-pane-content {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Details | Trophies (vult ruimte) | Club Info */
     align-items: center;
     width: 100%;
+    gap: 2rem;
 }
 
 .info-pane-details .name { font-weight: 700; font-size: 1.4rem; margin: 0; color: var(--text-primary); }
 .info-pane-details .nationality { display: flex; align-items: center; font-size: 0.9rem; margin-top: 4px; color: var(--text-secondary); }
 .info-pane-flag { width: 20px; margin-right: 8px; border-radius: 2px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
+
 .info-pane-extra { text-align: right; }
 .info-pane-extra p { margin: 0; line-height: 1.5; }
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
+
+/* --- Prijzenkast Styling --- */
+.info-pane-trophies {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.trophy-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.trophy-icon {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+}
+
+.trophy-count {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
 
 /* --- Filter Controls Styling --- */
 #filter-toggle-btn {
