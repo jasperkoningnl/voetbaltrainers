@@ -1,5 +1,5 @@
-// Script Versie: 18.0 - Compare-modus functionaliteit toegevoegd.
-console.log("Script versie: 18.0 geladen.");
+// Script Versie: 18.1 - Prijzenkast-logica gecorrigeerd naar specifieke periode.
+console.log("Script versie: 18.1 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -179,11 +179,31 @@ function processTenures(data) {
         }
         const eindJaar = eindJaarNum.toString();
 
+        // Bereken prijzen per periode
+        const tenureTrophies = { european: 0, title: 0, cup: 0 };
+        const countedPrizes = new Set();
+        p.seizoenen.forEach(s => {
+            const seasonKey = `${s.club}-${s.seizoen}`;
+            if (s.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) {
+                tenureTrophies.european++;
+                countedPrizes.add(`${seasonKey}-eu`);
+            }
+            if (s.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) {
+                tenureTrophies.title++;
+                countedPrizes.add(`${seasonKey}-ti`);
+            }
+            if (s.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) {
+                tenureTrophies.cup++;
+                countedPrizes.add(`${seasonKey}-cu`);
+            }
+        });
+
         p.seizoenen.forEach(s => {
             s.stintLength = p.seizoenen.length;
             s.tenureId = p.id;
             s.tenureStartYear = startJaar;
             s.tenureEndYear = eindJaar;
+            s.tenureTrophies = tenureTrophies;
         });
     });
     return data;
@@ -427,43 +447,21 @@ function updateInfoPane(d) {
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
-    const coachName = d.Coach;
-    const coachCareerData = appState.allSeasons.filter(s => {
-        const coachInfo = appState.allCoaches.find(c => c.id === s.coachId);
-        return coachInfo && coachInfo.naam === coachName;
-    });
-
-    const totalTrophies = { european: 0, title: 0, cup: 0 };
-    const countedPrizes = new Set(); 
-
-    coachCareerData.forEach(season => {
-        const seasonKey = `${season.club}-${season.seizoen}`;
-        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) {
-            totalTrophies.european++;
-            countedPrizes.add(`${seasonKey}-eu`);
-        }
-        if (season.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) {
-            totalTrophies.title++;
-            countedPrizes.add(`${seasonKey}-ti`);
-        }
-        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) {
-            totalTrophies.cup++;
-            countedPrizes.add(`${seasonKey}-cu`);
-        }
-    });
+    // Gebruik de pre-berekende prijzen voor de specifieke periode
+    const totalTrophies = d.tenureTrophies;
 
     let trophyHtml = '<div class="info-pane-trophies">';
     if (totalTrophies.european > 0) {
         const label = totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs';
-        trophyHtml += `<div class="trophy-item" title="Totaal Europese prijzen"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${label}</span></div>`;
+        trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${label}</span></div>`;
     }
     if (totalTrophies.title > 0) {
         const label = totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel';
-        trophyHtml += `<div class="trophy-item" title="Totaal nationale titels"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${label}</span></div>`;
+        trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${label}</span></div>`;
     }
     if (totalTrophies.cup > 0) {
         const label = totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker';
-        trophyHtml += `<div class="trophy-item" title="Totaal nationale bekers"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${label}</span></div>`;
+        trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${label}</span></div>`;
     }
     trophyHtml += '</div>';
 
