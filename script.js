@@ -1,5 +1,5 @@
-// Script Versie: 17.9 - Prijzenkast in info-paneel verticaal uitgelijnd.
-console.log("Script versie: 17.9 geladen.");
+// Script Versie: 18.0 - Compare-modus functionaliteit toegevoegd.
+console.log("Script versie: 18.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -21,11 +21,19 @@ const DOMElements = {
     heatmapContainer: d3.select("#heatmap-container"),
     legendContainer: d3.select("#legend-container"),
     navLinks: document.querySelectorAll('.nav-link'),
+    filterControlsContainer: document.getElementById('filter-controls-container'),
     filterToggleButton: document.getElementById('filter-toggle-btn'),
     filterPanel: document.getElementById('filter-panel'),
     coachSearchInput: document.getElementById('coach-search-input'),
     nationalityFilterSelect: document.getElementById('nationality-filter-select'),
     filterResetBtn: document.getElementById('filter-reset-btn'),
+    compareControlsContainer: document.getElementById('compare-controls-container'),
+    addRowBtn: document.getElementById('add-row-btn'),
+    clearCompareBtn: document.getElementById('clear-compare-btn'),
+    clubModal: document.getElementById('club-modal'),
+    modalCloseBtn: document.querySelector('.modal-close-btn'),
+    clubListContainer: document.getElementById('club-list-container'),
+    clubSearchInputModal: document.getElementById('club-search-input-modal'),
 };
 
 let currentResizeObserver = null;
@@ -59,16 +67,29 @@ function setupEventListeners() {
     DOMElements.coachSearchInput.addEventListener('input', applyFilters);
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
     DOMElements.filterResetBtn.addEventListener('click', resetAll);
+    
+    // Compare Mode Listeners
+    DOMElements.addRowBtn.addEventListener('click', openClubModal);
+    DOMElements.clearCompareBtn.addEventListener('click', clearComparison);
+    DOMElements.modalCloseBtn.addEventListener('click', closeClubModal);
+    DOMElements.clubSearchInputModal.addEventListener('input', filterClubList);
+    window.addEventListener('click', (event) => {
+        if (event.target === DOMElements.clubModal) {
+            closeClubModal();
+        }
+    });
 }
 
 function handleNavigation(target) {
+    if (appState.currentView === 'country' && target === appState.activeCountry) return;
+
     if (target === 'compare') {
         appState.currentView = 'compare';
     } else {
         appState.currentView = 'country';
         appState.activeCountry = target;
     }
-    resetAll(false); // Reset state zonder re-render
+    resetAll(false);
     renderApp();
 }
 
@@ -103,8 +124,9 @@ function getPreparedDataForView() {
     let rawData;
     if (appState.currentView === 'country') {
         rawData = appState.allSeasons.filter(s => s.land === appState.activeCountry);
-    } else {
-        rawData = []; // Logica voor 'compare' komt hier
+    } else { // 'compare' view
+        const clubIds = appState.comparisonClubs.map(c => c.id);
+        rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
     }
 
     const joinedData = rawData.map(seizoen => {
@@ -174,6 +196,7 @@ function renderApp() {
     DOMElements.heatmapContainer.html('');
     
     updateActiveNav();
+    updateControlVisibility();
     setInfoPaneDefault();
     
     if (appState.isLoading) {
@@ -181,25 +204,30 @@ function renderApp() {
         return;
     }
 
+    const dataForView = getPreparedDataForView();
+
     if (appState.currentView === 'country') {
-        const dataForCountry = getPreparedDataForView();
-        populateFilterOptions(dataForCountry);
-        if (dataForCountry.length > 0) {
-            const updateFunc = drawVisualization(dataForCountry);
-            currentResizeObserver = new ResizeObserver(entries => {
-                if (entries[0].contentRect.width > 0) updateFunc();
-            });
-            currentResizeObserver.observe(DOMElements.heatmapContainer.node());
-        } else {
-            DOMElements.heatmapContainer.html(`<p class="error">No data found for ${appState.activeCountry}.</p>`);
-        }
-    } else if (appState.currentView === 'compare') {
-        renderCompareView();
+        populateFilterOptions(dataForView);
+    }
+
+    if (dataForView.length > 0) {
+        const updateFunc = drawVisualization(dataForView);
+        currentResizeObserver = new ResizeObserver(entries => {
+            if (entries[0].contentRect.width > 0) updateFunc();
+        });
+        currentResizeObserver.observe(DOMElements.heatmapContainer.node());
+    } else {
+        const message = appState.currentView === 'compare' 
+            ? 'Select clubs with the "[+] Add" button to start comparing.'
+            : `No data found for ${appState.activeCountry}.`;
+        DOMElements.heatmapContainer.html(`<p class="loading-text">${message}</p>`);
     }
 }
 
-function renderCompareView() {
-    DOMElements.heatmapContainer.html('<p>Vergelijkingsmodus is nog in aanbouw.</p>');
+function updateControlVisibility() {
+    const isCompareView = appState.currentView === 'compare';
+    DOMElements.compareControlsContainer.classList.toggle('hidden', !isCompareView);
+    DOMElements.filterControlsContainer.classList.toggle('hidden-by-compare', isCompareView);
 }
 
 function updateActiveNav() {
@@ -214,7 +242,6 @@ function updateActiveNav() {
 function applyFilters() {
     appState.activeFilters.coach = DOMElements.coachSearchInput.value.toLowerCase();
     appState.activeFilters.nationality = DOMElements.nationalityFilterSelect.value;
-    console.log('Filters applied:', appState.activeFilters);
     updateVisuals();
 }
 
@@ -222,12 +249,11 @@ function resetAll(reRender = true) {
     appState.activeFilters.coach = '';
     appState.activeFilters.nationality = '';
     appState.selectedTenureId = null;
+    appState.comparisonClubs = [];
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
-    console.log('Filters & selection reset');
     if (reRender) {
-        updateVisuals();
-        setInfoPaneDefault();
+        renderApp();
     }
 }
 
@@ -249,7 +275,7 @@ function updateVisuals() {
     if (g.empty()) return;
 
     const { coach, nationality } = appState.activeFilters;
-    const hasActiveFilter = coach || nationality;
+    const hasActiveFilter = (coach || nationality) && appState.currentView === 'country';
 
     g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
         .classed("is-highlighted", d => d.tenureId === appState.selectedTenureId)
@@ -273,7 +299,7 @@ const y = d3.scaleBand().padding(0.15);
 function drawVisualization(data) {
     DOMElements.heatmapContainer.html('');
     const clubs = [...new Set(data.map(d => d.club))].sort(d3.ascending);
-    const seasons = [...new Set(data.map(d => d.seizoen))].sort(d3.ascending);
+    const seasons = [...new Set(appState.allSeasons.map(d => d.seizoen))].sort(d3.ascending);
     const height = clubs.length * 55;
     
     const width = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
@@ -313,7 +339,10 @@ function drawVisualization(data) {
     const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
     const yAxisG = g.append("g").attr("class", "axis y-axis");
 
-    const logoData = clubs.map(club => ({ club: club, logo_url: (data.find(d => d.club === club) || {}).logo_url || '' }));
+    const logoData = clubs.map(clubName => {
+        const clubDetails = appState.allClubs.find(c => c.naam === clubName);
+        return { club: clubName, logo_url: clubDetails ? clubDetails.logo_url : '' };
+    });
     
     const yAxisLabels = yAxisG.selectAll(".club-label").data(logoData, d => d.club).join("g")
         .attr("class", "club-label").attr("transform", d => `translate(0, ${y(d.club)})`);
@@ -398,7 +427,6 @@ function updateInfoPane(d) {
     let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
-    // Bereken de totale prijzenkast
     const coachName = d.Coach;
     const coachCareerData = appState.allSeasons.filter(s => {
         const coachInfo = appState.allCoaches.find(c => c.id === s.coachId);
@@ -424,34 +452,20 @@ function updateInfoPane(d) {
         }
     });
 
-    // Bouw de HTML voor de prijzenkast (Aangepast)
     let trophyHtml = '<div class="info-pane-trophies">';
     if (totalTrophies.european > 0) {
         const label = totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs';
-        trophyHtml += `
-        <div class="trophy-item" title="Totaal Europese prijzen">
-            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg>
-            <span class="trophy-count">${totalTrophies.european} ${label}</span>
-        </div>`;
+        trophyHtml += `<div class="trophy-item" title="Totaal Europese prijzen"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${label}</span></div>`;
     }
     if (totalTrophies.title > 0) {
         const label = totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel';
-        trophyHtml += `
-        <div class="trophy-item" title="Totaal nationale titels">
-            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg>
-            <span class="trophy-count">${totalTrophies.title} ${label}</span>
-        </div>`;
+        trophyHtml += `<div class="trophy-item" title="Totaal nationale titels"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${label}</span></div>`;
     }
     if (totalTrophies.cup > 0) {
         const label = totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker';
-        trophyHtml += `
-        <div class="trophy-item" title="Totaal nationale bekers">
-            <svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg>
-            <span class="trophy-count">${totalTrophies.cup} ${label}</span>
-        </div>`;
+        trophyHtml += `<div class="trophy-item" title="Totaal nationale bekers"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${label}</span></div>`;
     }
     trophyHtml += '</div>';
-
 
     const content = `
         ${imageHtml}
@@ -482,4 +496,60 @@ function drawLegend() {
 
     tenureGroup.selectAll(".legend-item").data(legendData).join("div").attr("class", "legend-item").html(d => `<div class="legend-swatch" style="background-color:${d.color};"></div><span>${d.label}</span>`);
     prizeGroup.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item").html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
+}
+
+// --- 9. COMPARE MODE LOGIC ---
+function openClubModal() {
+    DOMElements.clubModal.classList.remove('modal-hidden');
+    DOMElements.clubSearchInputModal.value = '';
+    
+    const availableClubs = appState.allClubs
+        .filter(club => !appState.comparisonClubs.some(c => c.id === club.id))
+        .sort((a,b) => a.land.localeCompare(b.land) || a.naam.localeCompare(b.naam));
+
+    const groupedByCountry = d3.groups(availableClubs, d => d.land);
+
+    DOMElements.clubListContainer.innerHTML = '';
+    groupedByCountry.forEach(([country, clubs]) => {
+        const countryGroup = document.createElement('div');
+        countryGroup.className = 'club-list-country-group';
+        countryGroup.innerHTML = `<h3>${country}</h3>`;
+        
+        clubs.forEach(club => {
+            const item = document.createElement('div');
+            item.className = 'club-list-item';
+            item.dataset.clubId = club.id;
+            item.innerHTML = `<img src="${club.logo_url}" alt="${club.naam} logo"><span>${club.naam}</span>`;
+            item.addEventListener('click', () => addClubToComparison(club.id));
+            countryGroup.appendChild(item);
+        });
+        DOMElements.clubListContainer.appendChild(countryGroup);
+    });
+}
+
+function closeClubModal() {
+    DOMElements.clubModal.classList.add('modal-hidden');
+}
+
+function addClubToComparison(clubId) {
+    const club = appState.allClubs.find(c => c.id === clubId);
+    if (club && !appState.comparisonClubs.some(c => c.id === clubId)) {
+        appState.comparisonClubs.push(club);
+    }
+    closeClubModal();
+    renderApp();
+}
+
+function clearComparison() {
+    appState.comparisonClubs = [];
+    renderApp();
+}
+
+function filterClubList() {
+    const searchTerm = DOMElements.clubSearchInputModal.value.toLowerCase();
+    document.querySelectorAll('.club-list-item').forEach(item => {
+        const clubName = item.querySelector('span').textContent.toLowerCase();
+        const matches = clubName.includes(searchTerm);
+        item.style.display = matches ? 'flex' : 'none';
+    });
 }
