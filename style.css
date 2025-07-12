@@ -1,4 +1,4 @@
-/* CSS Versie: 3.8 - Finale layout- en uitlijning-fixes. */
+/* CSS Versie: 3.9 - Finale layout- en uitlijning-fixes, deel 2. */
 
 :root {
     --background-color: #f8f9fa;
@@ -198,7 +198,7 @@ main {
 .nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
 .nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
-#heatmap-container { overflow-x: auto; width: 100%; border-top: 1px solid var(--border-color); padding-top: 1.5rem; }
+#heatmap-container { overflow-x: auto; width: 100%;}
 
 /* --- Compare Controls Styling --- */
 #compare-controls-container { display: flex; justify-content: center; gap: 1rem; padding-top: 1rem; }
