@@ -1,4 +1,4 @@
-/* CSS Versie: 3.3 - Layout opgedeeld in visuele blokken. */
+/* CSS Versie: 3.5 - Visuele scheidingslijnen en uitlijning-fixes. */
 
 :root {
     --background-color: #f8f9fa;
@@ -8,7 +8,7 @@
     --accent-color: #2d3436; /* Neutrale antraciet accentkleur */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
-    --block-background: #f8f9fa;
+    --block-background: #ffffff; 
 }
 
 body {
@@ -62,10 +62,10 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem; /* Ruimte tussen de twee hoofdblokken */
+    gap: 2rem;
 }
 
-/* --- Nieuwe Blok Styling --- */
+/* --- Blok Styling --- */
 .content-block {
     background-color: var(--block-background);
     border: 1px solid var(--border-color);
@@ -76,15 +76,27 @@ main {
     gap: 1.5rem;
 }
 
-/* Verwijder individuele achtergronden/randen, die worden nu door .content-block afgehandeld */
-#info-pane-container, #filter-controls-container {
+#controls-block > div + div,
+#output-block > div + div {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+#info-pane-container, #filter-controls-container, #legend-container {
     background-color: transparent;
     border: none;
     padding: 0;
 }
+#legend-container {
+    padding-top: 1.5rem;
+}
 
 
 /* --- Info Pane Styling --- */
+#info-pane-container {
+    padding-left: 220px; /* Match D3 margin.left */
+    padding-right: 20px; /* Match D3 margin.right */
+}
 #info-pane {
     min-height: 80px;
     display: flex;
@@ -138,7 +150,7 @@ main {
     justify-content: space-between;
     gap: 8px;
     width: 100%;
-    padding: 0; /* Padding zit nu in .content-block */
+    padding: 0;
     background: none;
     border: none;
     font-size: 1rem;
@@ -202,7 +214,10 @@ main {
 .compare-btn:hover { background-color: #f8f9fa; }
 
 /* --- Legenda Styling --- */
-#legend-container { background-color: transparent; border: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; }
+#legend-container {
+    padding-left: 220px; /* Match D3 margin.left */
+    padding-right: 20px; /* Match D3 margin.right */
+}
 .legend-section { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; }
 .legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
 .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #333; }
