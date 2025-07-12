@@ -1,4 +1,4 @@
-/* CSS Versie: 4.0 - Finale layout- en uitlijning-fixes. */
+/* CSS Versie: 5.0 - Info-paneel visueel geïntegreerd met heatmap. */
 
 :root {
     --background-color: #f8f9fa;
@@ -62,7 +62,7 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem; /* Aangepaste ruimte tussen blokken */
 }
 
 /* --- Blok Styling --- */
@@ -76,16 +76,19 @@ main {
     gap: 1.5rem;
 }
 
-/* --- Info Pane Styling (Corrected) --- */
+/* --- Info Pane Styling (Aangepast) --- */
 #output-block {
-    padding: 0; /* Verwijder padding van de parent */
+    padding: 0;
+    border: none;
+    background-color: transparent;
 }
+
 #info-pane-container {
     background-color: #fff;
-    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
-    margin: 1.5rem 20px 1.5rem 220px; /* Match D3 margin */
+    margin: 0 20px 1rem 220px; /* Match D3 margin, met minder bottom margin */
+    border: 1px solid var(--border-color);
 }
 
 #info-pane {
@@ -124,6 +127,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .info-pane-details .name { font-weight: 700; font-size: 1.4rem; margin: 0; color: var(--text-primary); }
@@ -206,10 +210,14 @@ main {
 
 /* --- Legenda Styling --- */
 #legend-container {
-    padding: 0 20px 1.5rem 220px; /* Match D3 margin */
+    padding: 1.5rem 20px 1.5rem 220px; /* Match D3 margin */
     display: flex;
     justify-content: center;
     gap: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin: 0 20px; /* Aligns with info pane */
 }
 .legend-section { display: flex; flex-wrap: nowrap; gap: 1rem; align-items: center; }
 .legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
