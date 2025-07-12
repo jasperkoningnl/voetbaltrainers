@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 3.1 - Filterbalk verplaatst, pijl-element toegevoegd. -->
+<!-- HTML Versie: 3.2 - Layout herzien: info-paneel onder de visualisatie. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -47,7 +47,7 @@
 
     <main>
         <div class="visualization-canvas">
-            <!-- Filter Controls staan nu bovenaan -->
+            <!-- Filter Controls staan bovenaan -->
             <div id="filter-controls-container">
                 <button id="filter-toggle-btn">
                     <div class="filter-toggle-content">
@@ -69,13 +69,7 @@
                             <option value="">All Nationalities</option>
                         </select>
                     </div>
-                    <button id="filter-reset-btn">Reset</button>
-                </div>
-            </div>
-
-            <div id="info-pane-container">
-                <div id="info-pane" class="default-state">
-                    <p>Hover over a tenure for details, or click to lock the selection.</p>
+                    <button id="filter-reset-btn">Reset All</button>
                 </div>
             </div>
 
@@ -95,6 +89,13 @@
                 <div id="compare-controls-container" class="hidden">
                      <button id="add-row-btn" class="compare-btn">[+] Add comparison row</button>
                      <button id="clear-compare-btn" class="compare-btn">[&times;] Clear all</button>
+                </div>
+            </div>
+            
+            <!-- Info Pane staat nu onder de visualisatie -->
+            <div id="info-pane-container">
+                <div id="info-pane" class="default-state">
+                    <p>Hover over a tenure for details, or click to lock the selection.</p>
                 </div>
             </div>
             
