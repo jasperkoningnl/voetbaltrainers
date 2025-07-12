@@ -1,4 +1,4 @@
-/* CSS Versie: 3.2 - Design voor info-paneel en filter-inputs verbeterd. */
+/* CSS Versie: 3.3 - Layout opgedeeld in visuele blokken. */
 
 :root {
     --background-color: #f8f9fa;
@@ -8,6 +8,7 @@
     --accent-color: #2d3436; /* Neutrale antraciet accentkleur */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
+    --block-background: #f8f9fa;
 }
 
 body {
@@ -61,17 +62,29 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    gap: 2rem; /* Ruimte tussen de twee hoofdblokken */
+}
+
+/* --- Nieuwe Blok Styling --- */
+.content-block {
+    background-color: var(--block-background);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
     gap: 1.5rem;
 }
 
-/* --- Info Pane Styling (Re-design) --- */
-#info-pane-container {
-    background-color: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
+/* Verwijder individuele achtergronden/randen, die worden nu door .content-block afgehandeld */
+#info-pane-container, #filter-controls-container {
+    background-color: transparent;
+    border: none;
+    padding: 0;
 }
 
+
+/* --- Info Pane Styling --- */
 #info-pane {
     min-height: 80px;
     display: flex;
@@ -89,7 +102,7 @@ main {
 
 #info-pane.details-state {
     display: grid;
-    grid-template-columns: 80px 1fr; /* Kolom voor grotere afbeelding */
+    grid-template-columns: 80px 1fr;
     gap: 20px;
     align-items: center;
     width: 100%;
@@ -98,7 +111,7 @@ main {
 .info-pane-img {
     width: 80px;
     height: 80px;
-    border-radius: 8px; /* Geen cirkel meer */
+    border-radius: 8px;
     object-fit: cover;
     background-color: #e9ecef;
     flex-shrink: 0;
@@ -118,19 +131,14 @@ main {
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* --- Filter Controls Styling (Re-design) --- */
-#filter-controls-container {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    border: 1px solid #e9ecef;
-}
+/* --- Filter Controls Styling --- */
 #filter-toggle-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     width: 100%;
-    padding: 0.75rem 1.5rem;
+    padding: 0; /* Padding zit nu in .content-block */
     background: none;
     border: none;
     font-size: 1rem;
@@ -154,7 +162,8 @@ main {
 }
 
 #filter-panel {
-    padding: 0 1.5rem 1.5rem 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
     display: grid;
     grid-template-columns: 1fr 1fr auto;
     gap: 1rem;
@@ -165,7 +174,7 @@ main {
 .filter-group input, .filter-group select {
     background-color: #fff;
     border: 1px solid #dfe4ea;
-    padding: 0.75rem; /* Meer interne witruimte */
+    padding: 0.75rem;
     font-size: 1rem;
     border-radius: 6px;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -173,7 +182,7 @@ main {
 .filter-group input:focus, .filter-group select:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(45, 52, 54, 0.15); /* Duidelijke focus state */
+    box-shadow: 0 0 0 3px rgba(45, 52, 54, 0.15);
 }
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
@@ -193,9 +202,9 @@ main {
 .compare-btn:hover { background-color: #f8f9fa; }
 
 /* --- Legenda Styling --- */
-#legend-container { background-color: #f8f9fa; padding: 1.5rem 2rem; border-radius: 8px; border: 1px solid #e9ecef; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; }
+#legend-container { background-color: transparent; border: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem 2rem; }
 .legend-section { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center; }
-.legend-section:first-child { padding-right: 2rem; border-right: 1px solid #e0e0e0; }
+.legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
 .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 12px; color: #333; }
 .legend-swatch { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
 
