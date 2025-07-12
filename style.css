@@ -1,4 +1,4 @@
-/* CSS Versie: 6.5 - Prijzenkast toegevoegd aan info-paneel voor visuele balans. */
+/* CSS Versie: 6.6 - Prijzenkast in info-paneel verticaal uitgelijnd. */
 
 :root {
     --background-color: #f8f9fa;
@@ -141,30 +141,32 @@ main {
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* --- Prijzenkast Styling --- */
+/* --- Prijzenkast Styling (Aangepast) --- */
 .info-pane-trophies {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    gap: 1.5rem;
+    align-items: flex-start;
+    gap: 0.75rem;
 }
 
 .trophy-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.75rem;
 }
 
 .trophy-icon {
-    width: 24px;
-    height: 24px;
-    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.2));
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
 }
 
 .trophy-count {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
 }
 
 
