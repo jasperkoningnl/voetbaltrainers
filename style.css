@@ -1,4 +1,4 @@
-/* CSS Versie: 5.0 - Info-paneel visueel geïntegreerd met heatmap. */
+/* CSS Versie: 6.0 - Layout-correcties voor visuele samenhang. */
 
 :root {
     --background-color: #f8f9fa;
@@ -62,7 +62,7 @@ main {
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Aangepaste ruimte tussen blokken */
+    gap: 1.5rem;
 }
 
 /* --- Blok Styling --- */
@@ -76,19 +76,17 @@ main {
     gap: 1.5rem;
 }
 
-/* --- Info Pane Styling (Aangepast) --- */
+/* --- Output Block Styling (Aangepast) --- */
 #output-block {
-    padding: 0;
-    border: none;
-    background-color: transparent;
+    gap: 1rem; /* Ruimte tussen info-pane, heatmap en legenda */
 }
 
 #info-pane-container {
-    background-color: #fff;
+    background-color: #fff; /* Witte achtergrond zoals gevraagd */
     border-radius: 8px;
     padding: 1.5rem;
-    margin: 0 20px 1rem 220px; /* Match D3 margin, met minder bottom margin */
-    border: 1px solid var(--border-color);
+    margin: 0; /* Geen externe marge */
+    border: none; /* Geen rand */
 }
 
 #info-pane {
@@ -208,16 +206,14 @@ main {
 .compare-btn { background: none; border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
 .compare-btn:hover { background-color: #f8f9fa; }
 
-/* --- Legenda Styling --- */
+/* --- Legenda Styling (Aangepast) --- */
 #legend-container {
-    padding: 1.5rem 20px 1.5rem 220px; /* Match D3 margin */
+    padding-top: 1rem; /* Ruimte boven de legenda */
     display: flex;
     justify-content: center;
     gap: 2rem;
-    background-color: #fff;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-    margin: 0 20px; /* Aligns with info pane */
+    border: none; /* Geen rand */
+    background-color: transparent; /* Transparante achtergrond */
 }
 .legend-section { display: flex; flex-wrap: nowrap; gap: 1rem; align-items: center; }
 .legend-section:first-child { padding-right: 2rem; border-right: 1px solid var(--border-color); }
@@ -229,6 +225,8 @@ main {
 .axis .domain, .axis .tick line { stroke: none; }
 .axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; }
 .y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
+/* De witte achtergrond voor de Y-as labels */
+.y-axis .club-label rect { fill: #fff; }
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
 .is-dimmed { opacity: 0.15; }
 .is-highlighted { filter: saturate(150%) brightness(105%); }
