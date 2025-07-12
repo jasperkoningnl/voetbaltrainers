@@ -1,4 +1,4 @@
-/* CSS Versie: 6.2 - Finale layout-correctie voor uitlijning info-paneel. */
+/* CSS Versie: 6.3 - Finale layout-correctie voor exacte uitlijning info-paneel. */
 
 :root {
     --background-color: #f8f9fa;
@@ -86,10 +86,10 @@ main {
     background-color: #fff; /* Witte achtergrond zoals gevraagd */
     padding: 1.5rem;
     border-radius: 8px;
-    /* Deze marges lijnen het paneel uit met de D3 visualisatie (margin.left & margin.right) */
-    margin-left: 220px;
-    margin-right: 20px;
-    border: 1px solid var(--border-color);
+    /* Deze marges lijnen het paneel uit met de D3 visualisatie */
+    margin-left: 20px; /* Uitlijnen met de club-naam blokken */
+    margin-right: 20px; /* Uitlijnen met de rechterkant van de heatmap */
+    border: none; /* Geen rand zoals gevraagd */
 }
 
 
