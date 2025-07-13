@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 9.0 - Career Mode verwijderd, filter-functionaliteit hersteld. -->
+<!-- HTML Versie: 9.0 - Advanced tab met Career Mode geïmplementeerd. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -58,8 +58,22 @@
                     <a href="#" class="nav-link" data-country="Netherlands">Netherlands</a>
                     <a href="#" class="nav-link" data-country="Portugal">Portugal</a>
                     <a href="#" class="nav-link" data-country="Spain">Spain</a>
-                    <a href="#" class="nav-link nav-link-special" id="compare-tab" data-country="compare">⚖️ Compare</a>
+                    <a href="#" class="nav-link nav-link-special" id="advanced-tab" data-country="advanced">⚙️ Advanced</a>
                 </div>
+
+                <div id="advanced-nav-container" class="hidden">
+                    <button class="advanced-nav-btn active" data-mode="chooseClubs">Choose Clubs</button>
+                    <button class="advanced-nav-btn" data-mode="careerMode">Career Mode</button>
+                </div>
+
+                <div id="career-mode-controls" class="hidden">
+                    <div class="filter-group">
+                        <label for="career-coach-search-input">Search for a coach</label>
+                        <input type="text" id="career-coach-search-input" list="coach-datalist" placeholder="e.g. Pep Guardiola">
+                        <datalist id="coach-datalist"></datalist>
+                    </div>
+                </div>
+
                 <div id="filter-controls-container">
                     <button id="filter-toggle-btn">
                         <div class="filter-toggle-content">
@@ -72,7 +86,7 @@
                     </button>
                     <div id="filter-panel" class="hidden">
                         <div class="filter-group">
-                            <label for="coach-search-input">Find a coach</label>
+                            <label for="coach-search-input">Find a coach in current view</label>
                             <input type="text" id="coach-search-input" placeholder="e.g. José Mourinho">
                         </div>
                         <div class="filter-group">
