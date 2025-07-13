@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 17.0 - Analysemodule toegevoegd.
+  Dashboard Versie: 18.0 - Uitgebreide nationaliteit- en succesanalyses.
   Changelog:
-  - Nieuwe 'Analyse' weergave toegevoegd in het dashboard.
-  - De module berekent en toont automatisch inzichten over:
-    - Clubstabiliteit (meeste/minste coachwissels) vs. prijzen.
-    - Landencultuur (gemiddelde duur van trainerschap per land).
-    - Coachsucces (meeste prijzen per coach).
+  - Nieuwe analyses toegevoegd voor coaches die in het buitenland werken.
+  - Analyse toegevoegd om de verhouding binnenlandse/buitenlandse coaches per competitie te zien.
+  - De 'Coach Succes' tabel is uitgebreid met 'Prijzen per Seizoen'.
 -->
 <html lang="nl">
 <head>
@@ -543,103 +541,105 @@
             );
         }
 
-        // --- NIEUW ANALYSE COMPONENT ---
+        // --- UITGEBREID ANALYSE COMPONENT ---
         function AnalysisView({ seasons, coaches, clubs }) {
             const analysisData = useMemo(() => {
                 if (!seasons.length || !coaches.length || !clubs.length) {
-                    return { clubStats: [], countryStats: [], coachStats: [] };
+                    return { clubStats: [], countryStats: [], coachStats: [], dutchAbroad: [], coachExports: [], leagueImports: [] };
                 }
 
                 const clubsMap = new Map(clubs.map(c => [c.id, c]));
                 const coachesMap = new Map(coaches.map(c => [c.id, c]));
 
-                // 1. Club Analyse
+                // --- Basisberekeningen ---
                 const seasonsByClub = d3.group(seasons, d => d.club);
                 const clubStats = Array.from(seasonsByClub.entries()).map(([clubId, clubSeasons]) => {
                     const clubInfo = clubsMap.get(clubId);
                     if (!clubInfo) return null;
-
                     clubSeasons.sort((a, b) => a.seizoen.localeCompare(b.seizoen));
-                    
                     let coachChanges = 0;
                     for (let i = 1; i < clubSeasons.length; i++) {
-                        if (clubSeasons[i].coachId !== clubSeasons[i - 1].coachId) {
-                            coachChanges++;
-                        }
+                        if (clubSeasons[i].coachId !== clubSeasons[i - 1].coachId) coachChanges++;
                     }
-
-                    const totalTrophies = clubSeasons.reduce((acc, s) => {
-                        if (s.landstitel === 'Y') acc++;
-                        if (s.nationale_beker === 'Y') acc++;
-                        if (s.europese_prijs === 'Y') acc++;
-                        return acc;
-                    }, 0);
-
+                    const totalTrophies = clubSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1:0) + (s.nationale_beker === 'Y' ? 1:0) + (s.europese_prijs === 'Y' ? 1:0), 0);
                     const avgTenure = clubSeasons.length / (coachChanges + 1);
-
-                    return {
-                        id: clubId,
-                        name: clubInfo.naam,
-                        country: clubInfo.land,
-                        seasons: clubSeasons.length,
-                        coachChanges,
-                        totalTrophies,
-                        avgTenure
-                    };
+                    return { id: clubId, name: clubInfo.naam, country: clubInfo.land, seasons: clubSeasons.length, coachChanges, totalTrophies, avgTenure };
                 }).filter(Boolean);
 
-                // 2. Landen Analyse
-                const seasonsByCountry = d3.group(seasons, d => clubsMap.get(d.club)?.land);
-                const countryStats = Array.from(seasonsByCountry.entries()).map(([country, countrySeasons]) => {
-                    if (!country) return null;
-                    const clubsInCountry = new Set(countrySeasons.map(s => s.club));
-                    const totalCoachChanges = Array.from(clubsInCountry).reduce((sum, clubId) => {
-                        const clubData = clubStats.find(cs => cs.id === clubId);
-                        return sum + (clubData ? clubData.coachChanges : 0);
-                    }, 0);
-                    
-                    const avgTenureCountry = countrySeasons.length / (totalCoachChanges + clubsInCountry.size);
-
-                    return {
-                        name: country,
-                        clubs: clubsInCountry.size,
-                        seasons: countrySeasons.length,
-                        coachChanges: totalCoachChanges,
-                        avgTenure: avgTenureCountry
-                    };
-                }).filter(Boolean).sort((a,b) => b.avgTenure - a.avgTenure);
-
-                // 3. Coach Analyse
                 const seasonsByCoach = d3.group(seasons, d => d.coachId);
                 const coachStats = Array.from(seasonsByCoach.entries()).map(([coachId, coachSeasons]) => {
                     const coachInfo = coachesMap.get(coachId);
                     if (!coachInfo) return null;
-                    
                     const totalTrophies = coachSeasons.reduce((acc, s) => {
                         if (s.landstitel === 'Y') acc.titles++;
                         if (s.nationale_beker === 'Y') acc.cups++;
                         if (s.europese_prijs === 'Y') acc.european++;
                         return acc;
                     }, { titles: 0, cups: 0, european: 0 });
-                    
                     const total = totalTrophies.titles + totalTrophies.cups + totalTrophies.european;
                     const clubsManaged = new Set(coachSeasons.map(s => s.club)).size;
-
-                    return {
-                        id: coachId,
-                        name: coachInfo.naam,
-                        nationality: coachInfo.nationaliteit,
-                        ...totalTrophies,
-                        total,
-                        clubsManaged
-                    };
+                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, ...totalTrophies, total, clubsManaged, seasons: coachSeasons.length, trophiesPerSeason: total / coachSeasons.length };
                 }).filter(Boolean).sort((a,b) => b.total - a.total);
 
-                return { 
-                    clubStats, 
-                    countryStats,
-                    coachStats
-                };
+                // --- Nieuwe Nationaliteit-analyses ---
+
+                // 1. Nederlandse coaches in het buitenland
+                const dutchAbroad = coachStats
+                    .filter(c => c.nationality === 'Dutch')
+                    .map(coach => {
+                        const foreignClubs = new Set();
+                        seasonsByCoach.get(coach.id).forEach(s => {
+                            const clubInfo = clubsMap.get(s.club);
+                            if (clubInfo && clubInfo.land !== 'Netherlands') {
+                                foreignClubs.add(`${clubInfo.naam} (${clubInfo.land})`);
+                            }
+                        });
+                        return foreignClubs.size > 0 ? { ...coach, foreignClubs: Array.from(foreignClubs) } : null;
+                    }).filter(Boolean);
+
+                // 2. Coach export per nationaliteit
+                const coachExports = Array.from(d3.group(coachStats, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
+                    const foreignStints = new Map();
+                    let totalAbroad = 0;
+                    coachesOfNat.forEach(coach => {
+                        const coachSeasons = seasonsByCoach.get(coach.id);
+                        const foreignCountries = new Set(coachSeasons.map(s => clubsMap.get(s.club)?.land).filter(land => land && land !== nationality));
+                        if (foreignCountries.size > 0) totalAbroad++;
+                        foreignCountries.forEach(country => {
+                            foreignStints.set(country, (foreignStints.get(country) || 0) + 1);
+                        });
+                    });
+                    return {
+                        nationality,
+                        totalCoaches: coachesOfNat.length,
+                        coachesAbroad: totalAbroad,
+                        popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1])
+                    };
+                }).sort((a,b) => b.coachesAbroad - a.coachesAbroad);
+                
+                // 3. Competitie import
+                const leagueImports = Array.from(d3.group(seasons, s => clubsMap.get(s.club)?.land).entries()).map(([leagueCountry, leagueSeasons]) => {
+                    if (!leagueCountry) return null;
+                    let domesticCoaches = 0;
+                    let foreignCoaches = 0;
+                    leagueSeasons.forEach(s => {
+                        const coachNat = coachesMap.get(s.coachId)?.nationaliteit;
+                        if (coachNat) {
+                            if (coachNat === leagueCountry) domesticCoaches++;
+                            else foreignCoaches++;
+                        }
+                    });
+                    const total = domesticCoaches + foreignCoaches;
+                    return {
+                        country: leagueCountry,
+                        domestic: domesticCoaches,
+                        foreign: foreignCoaches,
+                        foreignPct: total > 0 ? (foreignCoaches / total * 100) : 0
+                    };
+                }).filter(Boolean).sort((a,b) => a.foreignPct - b.foreignPct);
+
+
+                return { clubStats, coachStats, dutchAbroad, coachExports, leagueImports };
             }, [seasons, coaches, clubs]);
 
             const AnalysisTable = ({ title, headers, data, renderRow }) => (
@@ -666,77 +666,67 @@
                 <div className="space-y-8">
                     <h1 className="text-3xl font-bold">Data Analyse</h1>
                     
+                    {/* Nationaliteit Analyses */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <AnalysisTable
-                            title="Clubstabiliteit: Meeste Coachwissels"
+                            title="Competitie Import: Aandeel Buitenlandse Coaches"
                             headers={[
-                                { label: 'Club' },
-                                { label: 'Wissels', textAlign: 'text-center' },
-                                { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' },
-                                { label: 'Prijzen', textAlign: 'text-center' }
+                                { label: 'Competitie' },
+                                { label: '% Buitenlands', textAlign: 'text-center' },
+                                { label: 'Details (Buitenlands / Totaal)', textAlign: 'text-center' },
                             ]}
-                            data={[...analysisData.clubStats].sort((a,b) => b.coachChanges - a.coachChanges).slice(0, 15)}
-                            renderRow={(club) => (
-                                <tr key={club.id}>
-                                    <td className="px-4 py-2 font-medium">{club.name}</td>
-                                    <td className="px-4 py-2 text-center">{club.coachChanges}</td>
-                                    <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td>
-                                    <td className="px-4 py-2 text-center">{club.totalTrophies}</td>
+                            data={analysisData.leagueImports}
+                            renderRow={(l) => (
+                                <tr key={l.country}>
+                                    <td className="px-4 py-2 font-medium">{l.country}</td>
+                                    <td className="px-4 py-2 text-center font-bold">{l.foreignPct.toFixed(1)}%</td>
+                                    <td className="px-4 py-2 text-center text-sm">{l.foreign} / {l.foreign + l.domestic}</td>
                                 </tr>
                             )}
                         />
-                        <AnalysisTable
-                            title="Clubstabiliteit: Minste Coachwissels (Stabielste Clubs)"
+                         <AnalysisTable
+                            title="Coach Export: Welke Nationaliteiten Reizen het Meest?"
                             headers={[
-                                { label: 'Club' },
-                                { label: 'Wissels', textAlign: 'text-center' },
-                                { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' },
-                                { label: 'Prijzen', textAlign: 'text-center' }
+                                { label: 'Nationaliteit' },
+                                { label: 'Coaches in Buitenland', textAlign: 'text-center' },
+                                { label: 'Populaire Bestemmingen' },
                             ]}
-                            data={[...analysisData.clubStats].sort((a,b) => a.coachChanges - b.coachChanges || b.avgTenure - a.avgTenure).slice(0, 15)}
-                            renderRow={(club) => (
-                                <tr key={club.id}>
-                                    <td className="px-4 py-2 font-medium">{club.name}</td>
-                                    <td className="px-4 py-2 text-center">{club.coachChanges}</td>
-                                    <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td>
-                                    <td className="px-4 py-2 text-center">{club.totalTrophies}</td>
+                            data={analysisData.coachExports.filter(c => c.coachesAbroad > 0).slice(0, 10)}
+                            renderRow={(c) => (
+                                <tr key={c.nationality}>
+                                    <td className="px-4 py-2 font-medium">{c.nationality}</td>
+                                    <td className="px-4 py-2 text-center font-bold">{c.coachesAbroad} / {c.totalCoaches}</td>
+                                    <td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td>
                                 </tr>
                             )}
                         />
                     </div>
 
-                     <AnalysisTable
-                        title="Landencultuur: Stabiliteit per Land"
-                        headers={[
-                            { label: 'Land' },
-                            { label: 'Aantal Clubs', textAlign: 'text-center' },
-                            { label: 'Totaal Wissels', textAlign: 'text-center' },
-                            { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }
-                        ]}
-                        data={analysisData.countryStats}
-                        renderRow={(country) => (
-                            <tr key={country.name}>
-                                <td className="px-4 py-2 font-medium">{country.name}</td>
-                                <td className="px-4 py-2 text-center">{country.clubs}</td>
-                                <td className="px-4 py-2 text-center">{country.coachChanges}</td>
-                                <td className="px-4 py-2 text-center font-bold">{country.avgTenure.toFixed(2)}</td>
-                            </tr>
-                        )}
-                    />
+                    {/* Club & Coach Analyses */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <AnalysisTable
+                            title="Clubstabiliteit: Meeste Coachwissels"
+                            headers={[ { label: 'Club' }, { label: 'Wissels', textAlign: 'text-center' }, { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { label: 'Prijzen', textAlign: 'text-center' } ]}
+                            data={[...analysisData.clubStats].sort((a,b) => b.coachChanges - a.coachChanges).slice(0, 15)}
+                            renderRow={(club) => ( <tr key={club.id}> <td className="px-4 py-2 font-medium">{club.name}</td> <td className="px-4 py-2 text-center">{club.coachChanges}</td> <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td> <td className="px-4 py-2 text-center">{club.totalTrophies}</td> </tr> )}
+                        />
+                        <AnalysisTable
+                            title="Clubstabiliteit: Stabielste Clubs"
+                            headers={[ { label: 'Club' }, { label: 'Wissels', textAlign: 'text-center' }, { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { label: 'Prijzen', textAlign: 'text-center' } ]}
+                            data={[...analysisData.clubStats].sort((a,b) => a.coachChanges - b.coachChanges || b.avgTenure - a.avgTenure).slice(0, 15)}
+                            renderRow={(club) => ( <tr key={club.id}> <td className="px-4 py-2 font-medium">{club.name}</td> <td className="px-4 py-2 text-center">{club.coachChanges}</td> <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td> <td className="px-4 py-2 text-center">{club.totalTrophies}</td> </tr> )}
+                        />
+                    </div>
 
                     <AnalysisTable
                         title="Coach Succes: Top 25 Meest Succesvolle Coaches"
-                        headers={[
-                            { label: 'Coach' },
-                            { label: 'Clubs', textAlign: 'text-center' },
-                            { label: 'Totaal Prijzen', textAlign: 'text-center' },
-                            { label: 'Details' }
-                        ]}
+                        headers={[ { label: 'Coach' }, { label: 'Clubs', textAlign: 'text-center' }, { label: 'Prijzen / Seizoen', textAlign: 'text-center' }, { label: 'Totaal Prijzen', textAlign: 'text-center' }, { label: 'Details' } ]}
                         data={analysisData.coachStats.slice(0, 25)}
                         renderRow={(coach) => (
                             <tr key={coach.id}>
                                 <td className="px-4 py-2 font-medium">{coach.name} <span className="text-gray-500">({coach.nationality})</span></td>
                                 <td className="px-4 py-2 text-center">{coach.clubsManaged}</td>
+                                <td className="px-4 py-2 text-center font-semibold">{coach.trophiesPerSeason.toFixed(2)}</td>
                                 <td className="px-4 py-2 text-center font-bold">{coach.total}</td>
                                 <td className="px-4 py-2 text-xs">
                                     {coach.titles > 0 && <span>{coach.titles}x Titel </span>}
@@ -897,7 +887,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v17.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
