@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 18.1 - Foutoplossing voor het laden van modules.
+  Dashboard Versie: 18.1 - Logische fouten in nationaliteit-analyse gecorrigeerd.
   Changelog:
-  - Correctie voor 'd3 is not defined' fout door D3.js correct te laden.
-  - Correctie voor 'Failed to resolve module specifier' fout in Firebase imports.
+  - Fout opgelost waarbij coaches in eigen land als 'buitenlands' werden geteld.
+  - De analyse voor 'Coach Export' en 'Competitie Import' toont nu correcte data.
+  - D3.js script-tag toegevoegd om 'd3 is not defined' fout te voorkomen.
 -->
 <html lang="nl">
 <head>
@@ -545,11 +546,20 @@
         function AnalysisView({ seasons, coaches, clubs }) {
             const analysisData = useMemo(() => {
                 if (!seasons.length || !coaches.length || !clubs.length) {
-                    return { clubStats: [], countryStats: [], coachStats: [], dutchAbroad: [], coachExports: [], leagueImports: [] };
+                    return { clubStats: [], coachStats: [], dutchAbroad: [], coachExports: [], leagueImports: [] };
                 }
 
                 const clubsMap = new Map(clubs.map(c => [c.id, c]));
                 const coachesMap = new Map(coaches.map(c => [c.id, c]));
+                
+                // FIX: Map nationaliteiten (bv. "Dutch") naar landnamen (bv. "Netherlands")
+                const nationalityToCountryMap = {
+                    'Dutch': 'Netherlands', 'German': 'Germany', 'English': 'England', 'Spanish': 'Spain',
+                    'French': 'France', 'Italian': 'Italy', 'Portuguese': 'Portugal', 'Argentine': 'Argentina',
+                    'Slovak': 'Slovakia', 'Yugoslav': 'Yugoslavia', 'Paraguayan': 'Paraguay', 'Welsh': 'Wales',
+                    'Serbian': 'Serbia', 'Croatian': 'Croatia', 'Austrian': 'Austria', 'Brazilian': 'Brazil',
+                    'Mexican': 'Mexico', 'Chilean': 'Chile', 'Uruguayan': 'Uruguay', 'Hungarian': 'Hungary'
+                };
 
                 // --- Basisberekeningen ---
                 const seasonsByClub = d3.group(seasons, d => d.club);
@@ -578,68 +588,67 @@
                     }, { titles: 0, cups: 0, european: 0 });
                     const total = totalTrophies.titles + totalTrophies.cups + totalTrophies.european;
                     const clubsManaged = new Set(coachSeasons.map(s => s.club)).size;
-                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, ...totalTrophies, total, clubsManaged, seasons: coachSeasons.length, trophiesPerSeason: total / coachSeasons.length };
+                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, ...totalTrophies, total, clubsManaged, seasons: coachSeasons.length, trophiesPerSeason: total > 0 ? total / coachSeasons.length : 0 };
                 }).filter(Boolean).sort((a,b) => b.total - a.total);
 
-                // --- Nieuwe Nationaliteit-analyses ---
-
-                // 1. Nederlandse coaches in het buitenland
-                const dutchAbroad = coachStats
-                    .filter(c => c.nationality === 'Dutch')
-                    .map(coach => {
-                        const foreignClubs = new Set();
-                        seasonsByCoach.get(coach.id).forEach(s => {
-                            const clubInfo = clubsMap.get(s.club);
-                            if (clubInfo && clubInfo.land !== 'Netherlands') {
-                                foreignClubs.add(`${clubInfo.naam} (${clubInfo.land})`);
-                            }
-                        });
-                        return foreignClubs.size > 0 ? { ...coach, foreignClubs: Array.from(foreignClubs) } : null;
-                    }).filter(Boolean);
-
-                // 2. Coach export per nationaliteit
-                const coachExports = Array.from(d3.group(coachStats, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
-                    const foreignStints = new Map();
-                    let totalAbroad = 0;
-                    coachesOfNat.forEach(coach => {
-                        const coachSeasons = seasonsByCoach.get(coach.id);
-                        const foreignCountries = new Set(coachSeasons.map(s => clubsMap.get(s.club)?.land).filter(land => land && land !== nationality));
-                        if (foreignCountries.size > 0) totalAbroad++;
-                        foreignCountries.forEach(country => {
-                            foreignStints.set(country, (foreignStints.get(country) || 0) + 1);
-                        });
-                    });
-                    return {
-                        nationality,
-                        totalCoaches: coachesOfNat.length,
-                        coachesAbroad: totalAbroad,
-                        popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1])
-                    };
-                }).sort((a,b) => b.coachesAbroad - a.coachesAbroad);
+                // --- Gecorrigeerde Nationaliteit-analyses ---
                 
                 // 3. Competitie import
                 const leagueImports = Array.from(d3.group(seasons, s => clubsMap.get(s.club)?.land).entries()).map(([leagueCountry, leagueSeasons]) => {
                     if (!leagueCountry) return null;
-                    let domesticCoaches = 0;
-                    let foreignCoaches = 0;
+                    let domesticSeasons = 0;
+                    let foreignSeasons = 0;
                     leagueSeasons.forEach(s => {
                         const coachNat = coachesMap.get(s.coachId)?.nationaliteit;
                         if (coachNat) {
-                            if (coachNat === leagueCountry) domesticCoaches++;
-                            else foreignCoaches++;
+                            const coachHomeCountry = nationalityToCountryMap[coachNat];
+                            if (coachHomeCountry === leagueCountry) {
+                                domesticSeasons++;
+                            } else {
+                                foreignSeasons++;
+                            }
                         }
                     });
-                    const total = domesticCoaches + foreignCoaches;
+                    const total = domesticSeasons + foreignSeasons;
                     return {
                         country: leagueCountry,
-                        domestic: domesticCoaches,
-                        foreign: foreignCoaches,
-                        foreignPct: total > 0 ? (foreignCoaches / total * 100) : 0
+                        domestic: domesticSeasons,
+                        foreign: foreignSeasons,
+                        foreignPct: total > 0 ? (foreignSeasons / total * 100) : 0
                     };
-                }).filter(Boolean).sort((a,b) => a.foreignPct - b.foreignPct);
+                }).filter(Boolean).sort((a,b) => b.foreignPct - a.foreignPct);
+
+                // 2. Coach export per nationaliteit
+                const coachExports = Array.from(d3.group(coachStats, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
+                    const foreignStints = new Map();
+                    let coachesAbroadCount = 0;
+                    coachesOfNat.forEach(coach => {
+                        const coachSeasons = seasonsByCoach.get(coach.id);
+                        const coachHomeCountry = nationalityToCountryMap[nationality];
+                        
+                        const foreignCountriesManaged = new Set(
+                            coachSeasons
+                                .map(s => clubsMap.get(s.club)?.land)
+                                .filter(land => land && land !== coachHomeCountry)
+                        );
+
+                        if (foreignCountriesManaged.size > 0) {
+                            coachesAbroadCount++;
+                            foreignCountriesManaged.forEach(country => {
+                                foreignStints.set(country, (foreignStints.get(country) || 0) + 1);
+                            });
+                        }
+                    });
+                    return {
+                        nationality,
+                        totalCoaches: coachesOfNat.length,
+                        coachesAbroad: coachesAbroadCount,
+                        popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1])
+                    };
+                }).sort((a,b) => b.coachesAbroad - a.coachesAbroad);
 
 
-                return { clubStats, coachStats, dutchAbroad, coachExports, leagueImports };
+                return { clubStats, coachStats, coachExports, leagueImports };
             }, [seasons, coaches, clubs]);
 
             const AnalysisTable = ({ title, headers, data, renderRow }) => (
@@ -669,7 +678,7 @@
                     {/* Nationaliteit Analyses */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <AnalysisTable
-                            title="Competitie Import: Aandeel Buitenlandse Coaches"
+                            title="Competitie Import: Aandeel Buitenlandse Coaches (per seizoen)"
                             headers={[
                                 { label: 'Competitie' },
                                 { label: '% Buitenlands', textAlign: 'text-center' },
@@ -887,7 +896,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
