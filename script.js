@@ -1,5 +1,5 @@
-// Script Versie: 19.1 - Bugfix voor navigatie naar 'Advanced' tab.
-console.log("Script versie: 19.1 geladen.");
+// Script Versie: 19.2 - Chronologische sortering voor clubs in Career Mode toegevoegd.
+console.log("Script versie: 19.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -61,7 +61,6 @@ async function initApp() {
 
 // --- 4. EVENT LISTENERS ---
 function setupEventListeners() {
-    // CORRECTED: Event listener now correctly handles all nav links
     DOMElements.navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -100,34 +99,28 @@ function setupEventListeners() {
     DOMElements.careerCoachSearchInput.addEventListener('input', handleCareerCoachSearch);
 }
 
-// CORRECTED: Navigation logic no longer incorrectly resets the view
 function handleNavigation(target) {
     const targetIsCountry = !['advanced'].includes(target);
     const newView = targetIsCountry ? 'country' : 'advanced';
 
-    // Voorkom onnodige re-render als de weergave niet verandert
     if (appState.currentView === newView && (!targetIsCountry || target === appState.activeCountry)) {
         return;
     }
 
-    // Reset alleen de staat die niet persistent moet zijn tussen weergaves
     appState.selectedTenureId = null;
     appState.hoveredTenureId = null;
     appState.activeFilters = { coach: '', nationality: '' };
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
 
-    // Stel de nieuwe weergave in
     if (targetIsCountry) {
         appState.currentView = 'country';
         appState.activeCountry = target;
     } else {
         appState.currentView = 'advanced';
-        // Zet de default modus voor de 'advanced' weergave
         appState.advancedViewMode = 'chooseClubs';
     }
     
-    // Herteken de applicatie met de nieuwe staat
     renderApp();
 }
 
@@ -435,7 +428,30 @@ function drawVisualization(data) {
     if (isCompare) {
         yDomain = appState.comparisonClubs.map(c => c.naam);
         yDomain.push(ADD_CLUB_PLACEHOLDER);
-    } else {
+    } else if (isCareer && appState.careerCoachName) {
+        // NEW: Chronological sorting for Career Mode
+        const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+        if (coach) {
+            // 1. Find all seasons for the selected coach
+            const coachSeasons = appState.allSeasons
+                .filter(s => s.coachId === coach.id)
+                // 2. Sort these seasons chronologically
+                .sort((a, b) => d3.ascending(a.seizoen, b.seizoen));
+            
+            // 3. Get the unique club IDs from the sorted list to maintain order
+            const orderedClubIds = [...new Set(coachSeasons.map(s => s.club))];
+            
+            // 4. Convert the ordered IDs to club names for the Y-axis domain
+            yDomain = orderedClubIds.map(id => {
+                const clubInfo = appState.allClubs.find(c => c.id === id);
+                return clubInfo ? clubInfo.naam : null;
+            }).filter(Boolean); // Filter out any nulls if a club isn't found
+        } else {
+            yDomain = [];
+        }
+    }
+    else {
+        // Default alphabetical sort for country view
         yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     }
 
