@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 16.2 - Coach van een seizoen kan nu worden gewijzigd (gecorrigeerde versie).
+  Dashboard Versie: 17.0 - Analysemodule toegevoegd.
   Changelog:
-  - In de bewerkingsmodus voor seizoenen is 'Coach' nu een dropdown-menu.
-  - De club kan niet meer worden gewijzigd in de bewerkingsmodus, zoals gevraagd.
+  - Nieuwe 'Analyse' weergave toegevoegd in het dashboard.
+  - De module berekent en toont automatisch inzichten over:
+    - Clubstabiliteit (meeste/minste coachwissels) vs. prijzen.
+    - Landencultuur (gemiddelde duur van trainerschap per land).
+    - Coachsucces (meeste prijzen per coach).
 -->
 <html lang="nl">
 <head>
@@ -66,6 +69,8 @@
         const LogOutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>;
         const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
         const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
+        const ChartBarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" x2="12" y1="20" y2="10"></line><line x1="18" x2="18" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="16"></line></svg>;
+        const TrophyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-yellow-500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M8 12v-5a4 4 0 0 1 8 0v5"/></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
         const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
         const DeleteIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>;
@@ -538,6 +543,213 @@
             );
         }
 
+        // --- NIEUW ANALYSE COMPONENT ---
+        function AnalysisView({ seasons, coaches, clubs }) {
+            const analysisData = useMemo(() => {
+                if (!seasons.length || !coaches.length || !clubs.length) {
+                    return { clubStats: [], countryStats: [], coachStats: [] };
+                }
+
+                const clubsMap = new Map(clubs.map(c => [c.id, c]));
+                const coachesMap = new Map(coaches.map(c => [c.id, c]));
+
+                // 1. Club Analyse
+                const seasonsByClub = d3.group(seasons, d => d.club);
+                const clubStats = Array.from(seasonsByClub.entries()).map(([clubId, clubSeasons]) => {
+                    const clubInfo = clubsMap.get(clubId);
+                    if (!clubInfo) return null;
+
+                    clubSeasons.sort((a, b) => a.seizoen.localeCompare(b.seizoen));
+                    
+                    let coachChanges = 0;
+                    for (let i = 1; i < clubSeasons.length; i++) {
+                        if (clubSeasons[i].coachId !== clubSeasons[i - 1].coachId) {
+                            coachChanges++;
+                        }
+                    }
+
+                    const totalTrophies = clubSeasons.reduce((acc, s) => {
+                        if (s.landstitel === 'Y') acc++;
+                        if (s.nationale_beker === 'Y') acc++;
+                        if (s.europese_prijs === 'Y') acc++;
+                        return acc;
+                    }, 0);
+
+                    const avgTenure = clubSeasons.length / (coachChanges + 1);
+
+                    return {
+                        id: clubId,
+                        name: clubInfo.naam,
+                        country: clubInfo.land,
+                        seasons: clubSeasons.length,
+                        coachChanges,
+                        totalTrophies,
+                        avgTenure
+                    };
+                }).filter(Boolean);
+
+                // 2. Landen Analyse
+                const seasonsByCountry = d3.group(seasons, d => clubsMap.get(d.club)?.land);
+                const countryStats = Array.from(seasonsByCountry.entries()).map(([country, countrySeasons]) => {
+                    if (!country) return null;
+                    const clubsInCountry = new Set(countrySeasons.map(s => s.club));
+                    const totalCoachChanges = Array.from(clubsInCountry).reduce((sum, clubId) => {
+                        const clubData = clubStats.find(cs => cs.id === clubId);
+                        return sum + (clubData ? clubData.coachChanges : 0);
+                    }, 0);
+                    
+                    const avgTenureCountry = countrySeasons.length / (totalCoachChanges + clubsInCountry.size);
+
+                    return {
+                        name: country,
+                        clubs: clubsInCountry.size,
+                        seasons: countrySeasons.length,
+                        coachChanges: totalCoachChanges,
+                        avgTenure: avgTenureCountry
+                    };
+                }).filter(Boolean).sort((a,b) => b.avgTenure - a.avgTenure);
+
+                // 3. Coach Analyse
+                const seasonsByCoach = d3.group(seasons, d => d.coachId);
+                const coachStats = Array.from(seasonsByCoach.entries()).map(([coachId, coachSeasons]) => {
+                    const coachInfo = coachesMap.get(coachId);
+                    if (!coachInfo) return null;
+                    
+                    const totalTrophies = coachSeasons.reduce((acc, s) => {
+                        if (s.landstitel === 'Y') acc.titles++;
+                        if (s.nationale_beker === 'Y') acc.cups++;
+                        if (s.europese_prijs === 'Y') acc.european++;
+                        return acc;
+                    }, { titles: 0, cups: 0, european: 0 });
+                    
+                    const total = totalTrophies.titles + totalTrophies.cups + totalTrophies.european;
+                    const clubsManaged = new Set(coachSeasons.map(s => s.club)).size;
+
+                    return {
+                        id: coachId,
+                        name: coachInfo.naam,
+                        nationality: coachInfo.nationaliteit,
+                        ...totalTrophies,
+                        total,
+                        clubsManaged
+                    };
+                }).filter(Boolean).sort((a,b) => b.total - a.total);
+
+                return { 
+                    clubStats, 
+                    countryStats,
+                    coachStats
+                };
+            }, [seasons, coaches, clubs]);
+
+            const AnalysisTable = ({ title, headers, data, renderRow }) => (
+                <div className="bg-white p-6 rounded-lg shadow">
+                    <h3 className="text-lg font-semibold mb-4">{title}</h3>
+                    <div className="overflow-x-auto max-h-96">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50 sticky top-0">
+                                <tr>
+                                    {headers.map((header, i) => (
+                                        <th key={i} className={`px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase ${header.textAlign || ''}`}>{header.label}</th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {data.map(renderRow)}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="space-y-8">
+                    <h1 className="text-3xl font-bold">Data Analyse</h1>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <AnalysisTable
+                            title="Clubstabiliteit: Meeste Coachwissels"
+                            headers={[
+                                { label: 'Club' },
+                                { label: 'Wissels', textAlign: 'text-center' },
+                                { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' },
+                                { label: 'Prijzen', textAlign: 'text-center' }
+                            ]}
+                            data={[...analysisData.clubStats].sort((a,b) => b.coachChanges - a.coachChanges).slice(0, 15)}
+                            renderRow={(club) => (
+                                <tr key={club.id}>
+                                    <td className="px-4 py-2 font-medium">{club.name}</td>
+                                    <td className="px-4 py-2 text-center">{club.coachChanges}</td>
+                                    <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td>
+                                    <td className="px-4 py-2 text-center">{club.totalTrophies}</td>
+                                </tr>
+                            )}
+                        />
+                        <AnalysisTable
+                            title="Clubstabiliteit: Minste Coachwissels (Stabielste Clubs)"
+                            headers={[
+                                { label: 'Club' },
+                                { label: 'Wissels', textAlign: 'text-center' },
+                                { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' },
+                                { label: 'Prijzen', textAlign: 'text-center' }
+                            ]}
+                            data={[...analysisData.clubStats].sort((a,b) => a.coachChanges - b.coachChanges || b.avgTenure - a.avgTenure).slice(0, 15)}
+                            renderRow={(club) => (
+                                <tr key={club.id}>
+                                    <td className="px-4 py-2 font-medium">{club.name}</td>
+                                    <td className="px-4 py-2 text-center">{club.coachChanges}</td>
+                                    <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td>
+                                    <td className="px-4 py-2 text-center">{club.totalTrophies}</td>
+                                </tr>
+                            )}
+                        />
+                    </div>
+
+                     <AnalysisTable
+                        title="Landencultuur: Stabiliteit per Land"
+                        headers={[
+                            { label: 'Land' },
+                            { label: 'Aantal Clubs', textAlign: 'text-center' },
+                            { label: 'Totaal Wissels', textAlign: 'text-center' },
+                            { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }
+                        ]}
+                        data={analysisData.countryStats}
+                        renderRow={(country) => (
+                            <tr key={country.name}>
+                                <td className="px-4 py-2 font-medium">{country.name}</td>
+                                <td className="px-4 py-2 text-center">{country.clubs}</td>
+                                <td className="px-4 py-2 text-center">{country.coachChanges}</td>
+                                <td className="px-4 py-2 text-center font-bold">{country.avgTenure.toFixed(2)}</td>
+                            </tr>
+                        )}
+                    />
+
+                    <AnalysisTable
+                        title="Coach Succes: Top 25 Meest Succesvolle Coaches"
+                        headers={[
+                            { label: 'Coach' },
+                            { label: 'Clubs', textAlign: 'text-center' },
+                            { label: 'Totaal Prijzen', textAlign: 'text-center' },
+                            { label: 'Details' }
+                        ]}
+                        data={analysisData.coachStats.slice(0, 25)}
+                        renderRow={(coach) => (
+                            <tr key={coach.id}>
+                                <td className="px-4 py-2 font-medium">{coach.name} <span className="text-gray-500">({coach.nationality})</span></td>
+                                <td className="px-4 py-2 text-center">{coach.clubsManaged}</td>
+                                <td className="px-4 py-2 text-center font-bold">{coach.total}</td>
+                                <td className="px-4 py-2 text-xs">
+                                    {coach.titles > 0 && <span>{coach.titles}x Titel </span>}
+                                    {coach.cups > 0 && <span>{coach.cups}x Beker </span>}
+                                    {coach.european > 0 && <span>{coach.european}x Europees</span>}
+                                </td>
+                            </tr>
+                        )}
+                    />
+                </div>
+            );
+        }
+
         // --- HULPCOMPONENTEN (onveranderd) ---
         function DataCleanupView({ onUpdate }) {
             const [isLoading, setIsLoading] = useState(false);
@@ -616,7 +828,7 @@
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
-            const [view, setView] = useState('importer'); 
+            const [view, setView] = useState('analysis'); // Start op de analyse pagina
             const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
             const [dataLoading, setDataLoading] = useState(true);
             const [dataError, setDataError] = useState(null);
@@ -685,8 +897,9 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v16.2</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v17.0</span></div>
                         <nav className="flex-grow p-2">
+                             <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
@@ -699,6 +912,7 @@
                         {dataLoading ? <div className="text-center">Database data aan het laden...</div> : 
                          dataError ? <div className="text-center text-red-500">{dataError}</div> :
                             {
+                                'analysis': <AnalysisView seasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} />,
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
