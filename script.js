@@ -1,5 +1,5 @@
-// Script Versie: 19.0 - Advanced tab met Career Mode geïmplementeerd.
-console.log("Script versie: 19.0 geladen.");
+// Script Versie: 19.1 - Bugfix voor navigatie naar 'Advanced' tab.
+console.log("Script versie: 19.1 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -61,11 +61,12 @@ async function initApp() {
 
 // --- 4. EVENT LISTENERS ---
 function setupEventListeners() {
+    // CORRECTED: Event listener now correctly handles all nav links
     DOMElements.navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetView = e.target.dataset.view;
-            handleNavigation(targetView);
+            const target = e.target.dataset.view || e.target.dataset.country;
+            handleNavigation(target);
         });
     });
 
@@ -99,20 +100,34 @@ function setupEventListeners() {
     DOMElements.careerCoachSearchInput.addEventListener('input', handleCareerCoachSearch);
 }
 
+// CORRECTED: Navigation logic no longer incorrectly resets the view
 function handleNavigation(target) {
     const targetIsCountry = !['advanced'].includes(target);
     const newView = targetIsCountry ? 'country' : 'advanced';
 
-    if (appState.currentView === newView && (!targetIsCountry || target === appState.activeCountry)) return;
+    // Voorkom onnodige re-render als de weergave niet verandert
+    if (appState.currentView === newView && (!targetIsCountry || target === appState.activeCountry)) {
+        return;
+    }
 
+    // Reset alleen de staat die niet persistent moet zijn tussen weergaves
+    appState.selectedTenureId = null;
+    appState.hoveredTenureId = null;
+    appState.activeFilters = { coach: '', nationality: '' };
+    DOMElements.coachSearchInput.value = '';
+    DOMElements.nationalityFilterSelect.value = '';
+
+    // Stel de nieuwe weergave in
     if (targetIsCountry) {
         appState.currentView = 'country';
         appState.activeCountry = target;
     } else {
         appState.currentView = 'advanced';
+        // Zet de default modus voor de 'advanced' weergave
+        appState.advancedViewMode = 'chooseClubs';
     }
     
-    resetAll(false);
+    // Herteken de applicatie met de nieuwe staat
     renderApp();
 }
 
