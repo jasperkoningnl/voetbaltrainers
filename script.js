@@ -1,10 +1,12 @@
-// Script Versie: 18.4 - Bugfix: Compare-tab functionaliteit hersteld.
-console.log("Script versie: 18.4 geladen.");
+// Script Versie: 19.0 - Advanced tab met Career Mode geïmplementeerd.
+console.log("Script versie: 19.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
-    currentView: 'country',
+    currentView: 'country', // 'country', 'advanced'
+    advancedViewMode: 'chooseClubs', // 'chooseClubs', 'careerMode'
     activeCountry: 'England',
+    careerCoachName: null,
     comparisonClubs: [],
     allClubs: [],
     allCoaches: [],
@@ -34,6 +36,11 @@ const DOMElements = {
     modalCloseBtn: document.querySelector('.modal-close-btn'),
     clubListContainer: document.getElementById('club-list-container'),
     clubSearchInputModal: document.getElementById('club-search-input-modal'),
+    advancedNavContainer: document.getElementById('advanced-nav-container'),
+    advancedNavBtns: document.querySelectorAll('.advanced-nav-btn'),
+    careerModeControls: document.getElementById('career-mode-controls'),
+    careerCoachSearchInput: document.getElementById('career-coach-search-input'),
+    coachDatalist: document.getElementById('coach-datalist'),
 };
 
 let currentResizeObserver = null;
@@ -47,6 +54,7 @@ async function initApp() {
     console.log("Applicatie initialiseren...");
     setupEventListeners();
     await fetchAllInitialData();
+    populateCoachDatalist();
     renderApp();
     console.log("Applicatie gereed.");
 }
@@ -56,8 +64,18 @@ function setupEventListeners() {
     DOMElements.navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const targetView = e.target.dataset.country;
+            const targetView = e.target.dataset.view;
             handleNavigation(targetView);
+        });
+    });
+
+    DOMElements.advancedNavBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const newMode = e.target.dataset.mode;
+            if (newMode !== appState.advancedViewMode) {
+                appState.advancedViewMode = newMode;
+                renderApp();
+            }
         });
     });
 
@@ -68,14 +86,7 @@ function setupEventListeners() {
 
     DOMElements.coachSearchInput.addEventListener('input', applyFilters);
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
-    DOMElements.filterResetBtn.addEventListener('click', () => {
-        // When the user clicks the reset button, we force a reset to the default country view
-        if (appState.currentView !== 'country') {
-            appState.currentView = 'country';
-            appState.activeCountry = 'England';
-        }
-        resetAll(true);
-    });
+    DOMElements.filterResetBtn.addEventListener('click', () => resetAll(true));
     
     DOMElements.clearCompareBtn.addEventListener('click', clearComparison);
     DOMElements.modalCloseBtn.addEventListener('click', closeClubModal);
@@ -85,21 +96,39 @@ function setupEventListeners() {
             closeClubModal();
         }
     });
+    DOMElements.careerCoachSearchInput.addEventListener('input', handleCareerCoachSearch);
 }
 
 function handleNavigation(target) {
-    if (appState.currentView === 'country' && target === appState.activeCountry) return;
-    if (appState.currentView === 'compare' && target === 'compare') return;
+    const targetIsCountry = !['advanced'].includes(target);
+    const newView = targetIsCountry ? 'country' : 'advanced';
 
-    if (target === 'compare') {
-        appState.currentView = 'compare';
-    } else {
+    if (appState.currentView === newView && (!targetIsCountry || target === appState.activeCountry)) return;
+
+    if (targetIsCountry) {
         appState.currentView = 'country';
         appState.activeCountry = target;
+    } else {
+        appState.currentView = 'advanced';
     }
-    resetAll(false); // Reset filters but not the view
+    
+    resetAll(false);
     renderApp();
 }
+
+function handleCareerCoachSearch(event) {
+    const coachName = event.target.value;
+    const isValidCoach = appState.allCoaches.some(c => c.naam === coachName);
+
+    if (isValidCoach) {
+        appState.careerCoachName = coachName;
+        renderApp();
+    } else if (!coachName && appState.careerCoachName) {
+        appState.careerCoachName = null;
+        renderApp();
+    }
+}
+
 
 // --- 5. DATA FETCHING ---
 async function fetchAllInitialData() {
@@ -132,9 +161,24 @@ function getPreparedDataForView() {
     let rawData;
     if (appState.currentView === 'country') {
         rawData = appState.allSeasons.filter(s => s.land === appState.activeCountry);
-    } else { // 'compare' view
-        const clubIds = appState.comparisonClubs.map(c => c.id);
-        rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
+    } else if (appState.currentView === 'advanced') {
+        if (appState.advancedViewMode === 'chooseClubs') {
+            const clubIds = appState.comparisonClubs.map(c => c.id);
+            rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
+        } else { // careerMode
+            if (appState.careerCoachName) {
+                const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+                if (coach) {
+                    const coachSeasons = appState.allSeasons.filter(s => s.coachId === coach.id);
+                    const clubIds = [...new Set(coachSeasons.map(s => s.club))];
+                    rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
+                } else {
+                    rawData = [];
+                }
+            } else {
+                 rawData = [];
+            }
+        }
     }
 
     const joinedData = rawData.map(seizoen => {
@@ -218,7 +262,7 @@ function processTenures(data) {
 
 // --- 7. RENDERING & UI LOGIC ---
 function renderApp() {
-    console.log(`Rendering view: ${appState.currentView}`);
+    console.log(`Rendering view: ${appState.currentView} / ${appState.advancedViewMode}`);
     if (currentResizeObserver) currentResizeObserver.disconnect();
     DOMElements.heatmapContainer.html('');
     
@@ -231,39 +275,59 @@ function renderApp() {
         return;
     }
 
+    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
+        showCareerInfoPane();
+    }
+
     const dataForView = getPreparedDataForView();
 
     if (appState.currentView === 'country') {
         populateFilterOptions(dataForView);
     }
 
-    if (dataForView.length > 0 || appState.currentView === 'compare') {
+    if (dataForView.length > 0 || appState.currentView === 'advanced') {
         const updateFunc = drawVisualization(dataForView);
         currentResizeObserver = new ResizeObserver(entries => {
             if (entries[0].contentRect.width > 0) updateFunc();
         });
         currentResizeObserver.observe(DOMElements.heatmapContainer.node());
     } else {
-        const message = appState.currentView === 'compare' 
-            ? 'Select clubs with the "[+] Add" button to start comparing.'
-            : `No data found for ${appState.activeCountry}.`;
+        let message = `No data found for ${appState.activeCountry}.`;
+        if (appState.currentView === 'advanced') {
+            if (appState.advancedViewMode === 'chooseClubs') {
+                message = 'Select clubs with the "[+] Add" button to start comparing.';
+            } else {
+                message = 'Search for a coach to see their career timeline.';
+            }
+        }
         DOMElements.heatmapContainer.html(`<p class="loading-text">${message}</p>`);
     }
 }
 
 function updateControlVisibility() {
-    const isCompareView = appState.currentView === 'compare';
-    const hasClubsInCompare = appState.comparisonClubs.length > 0;
-    
-    DOMElements.compareControlsContainer.classList.toggle('hidden', !isCompareView || !hasClubsInCompare);
-    DOMElements.filterControlsContainer.classList.toggle('hidden-by-compare', isCompareView);
+    const isAdvancedView = appState.currentView === 'advanced';
+    DOMElements.advancedNavContainer.classList.toggle('hidden', !isAdvancedView);
+    DOMElements.filterControlsContainer.classList.toggle('hidden', isAdvancedView);
+
+    if (isAdvancedView) {
+        const isCareerMode = appState.advancedViewMode === 'careerMode';
+        DOMElements.careerModeControls.classList.toggle('hidden', !isCareerMode);
+        DOMElements.compareControlsContainer.classList.toggle('hidden', isCareerMode || appState.comparisonClubs.length === 0);
+        
+        DOMElements.advancedNavBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === appState.advancedViewMode);
+        });
+    } else {
+        DOMElements.careerModeControls.classList.add('hidden');
+        DOMElements.compareControlsContainer.classList.add('hidden');
+    }
 }
 
 function updateActiveNav() {
     DOMElements.navLinks.forEach(link => {
-        const linkTarget = link.dataset.country;
+        const linkTarget = link.dataset.view || link.dataset.country;
         const isActive = (appState.currentView === 'country' && linkTarget === appState.activeCountry) ||
-                         (appState.currentView === 'compare' && linkTarget === 'compare');
+                         (appState.currentView === 'advanced' && linkTarget === 'advanced');
         link.classList.toggle('active', isActive);
     });
 }
@@ -274,15 +338,18 @@ function applyFilters() {
     updateVisuals();
 }
 
-// GECORRIGEERDE FUNCTIE
 function resetAll(reRender = true) {
-    appState.activeFilters.coach = '';
-    appState.activeFilters.nationality = '';
+    appState.activeFilters = { coach: '', nationality: '' };
     appState.selectedTenureId = null;
     appState.comparisonClubs = [];
-    
+    appState.careerCoachName = null;
+    appState.currentView = 'country';
+    appState.advancedViewMode = 'chooseClubs';
+    appState.activeCountry = 'England';
+
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
+    DOMElements.careerCoachSearchInput.value = '';
 
     if (reRender) {
         renderApp();
@@ -302,16 +369,30 @@ function populateFilterOptions(data) {
     DOMElements.nationalityFilterSelect.value = currentSelection;
 }
 
+function populateCoachDatalist() {
+    DOMElements.coachDatalist.innerHTML = '';
+    const uniqueCoaches = [...new Set(appState.allCoaches.map(c => c.naam))].sort();
+    uniqueCoaches.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        DOMElements.coachDatalist.appendChild(option);
+    });
+}
+
 function updateVisuals() {
     const g = d3.select("#heatmap-container svg > g");
     if (g.empty()) return;
 
     const { coach, nationality } = appState.activeFilters;
     const hasActiveFilter = (coach || nationality) && appState.currentView === 'country';
+    const isCareerMode = appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode';
 
     g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
         .classed("is-highlighted", d => d.tenureId === appState.selectedTenureId)
         .classed("is-dimmed", d => {
+            if (isCareerMode) {
+                return d.Coach !== appState.careerCoachName;
+            }
             if (appState.selectedTenureId) return d.tenureId !== appState.selectedTenureId;
             if (hasActiveFilter) {
                 const coachMatch = coach ? d.Coach.toLowerCase().includes(coach) : true;
@@ -320,7 +401,8 @@ function updateVisuals() {
             }
             if (appState.hoveredTenureId) return d.tenureId !== appState.hoveredTenureId;
             return false;
-        });
+        })
+        .classed("is-inactive", isCareerMode && (d => d.Coach !== appState.careerCoachName));
 }
 
 // --- 8. D3 VISUALISATIE ---
@@ -331,14 +413,15 @@ const y = d3.scaleBand().padding(0.15);
 function drawVisualization(data) {
     DOMElements.heatmapContainer.html('');
     
-    const isCompare = appState.currentView === 'compare';
-    
-    let yDomain = isCompare 
-        ? appState.comparisonClubs.map(c => c.naam)
-        : [...new Set(data.map(d => d.club))].sort(d3.ascending);
-    
+    const isCompare = appState.currentView === 'advanced' && appState.advancedViewMode === 'chooseClubs';
+    const isCareer = appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode';
+
+    let yDomain;
     if (isCompare) {
+        yDomain = appState.comparisonClubs.map(c => c.naam);
         yDomain.push(ADD_CLUB_PLACEHOLDER);
+    } else {
+        yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     }
 
     const seasons = [...new Set(appState.allSeasons.map(d => d.seizoen))].sort(d3.ascending);
@@ -351,6 +434,7 @@ function drawVisualization(data) {
         .attr("height", height + margin.top + margin.bottom);
 
     svg.on('mouseleave', () => {
+        if (isCareer) return;
         appState.hoveredTenureId = null;
         updateVisuals();
         if (!appState.selectedTenureId) setInfoPaneDefault();
@@ -364,6 +448,7 @@ function drawVisualization(data) {
         .attr('height', height);
 
     svg.on('click', (event) => {
+        if (isCareer) return;
         if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
             if (appState.selectedTenureId) {
                 appState.selectedTenureId = null;
@@ -392,7 +477,6 @@ function drawVisualization(data) {
     const yAxisLabels = yAxisG.selectAll(".y-axis-label-group").data(yAxisData, d => d.id).join("g")
         .attr("class", "y-axis-label-group").attr("transform", d => `translate(0, ${y(d.club)})`);
 
-    // Draw club labels
     yAxisLabels.filter(d => d.id !== ADD_CLUB_PLACEHOLDER)
         .append('g').attr('class', 'club-label')
         .each(function(d) {
@@ -409,7 +493,6 @@ function drawVisualization(data) {
             }
         });
 
-    // Draw "Add Club" placeholder
     yAxisLabels.filter(d => d.id === ADD_CLUB_PLACEHOLDER)
         .append('g').attr('class', 'add-club-placeholder').on('click', openClubModal)
         .each(function() {
@@ -470,6 +553,7 @@ function drawVisualization(data) {
 }
 
 function handleMouseClick(event, d) {
+    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
     event.stopPropagation();
     appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
     updateVisuals();
@@ -478,6 +562,7 @@ function handleMouseClick(event, d) {
 }
 
 function handleMouseOver(event, d) {
+    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
     appState.hoveredTenureId = d.tenureId;
     updateVisuals();
     if (!appState.selectedTenureId) {
@@ -530,6 +615,50 @@ function updateInfoPane(d) {
     DOMElements.infoPane.attr("class", "details-state").html(content);
 }
 
+function showCareerInfoPane() {
+    const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+    if (!coach) {
+        setInfoPaneDefault();
+        return;
+    }
+
+    const coachCareerData = appState.allSeasons.filter(s => s.coachId === coach.id);
+    const totalTrophies = { european: 0, title: 0, cup: 0 };
+    const countedPrizes = new Set();
+    coachCareerData.forEach(season => {
+        const seasonKey = `${season.club}-${season.seizoen}`;
+        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) { totalTrophies.european++; countedPrizes.add(`${seasonKey}-eu`); }
+        if (season.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) { totalTrophies.title++; countedPrizes.add(`${seasonKey}-ti`); }
+        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) { totalTrophies.cup++; countedPrizes.add(`${seasonKey}-cu`); }
+    });
+
+    let trophyHtml = '<div class="info-pane-trophies">';
+    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs'}</span></div>`; }
+    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel'}</span></div>`; }
+    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker'}</span></div>`; }
+    trophyHtml += '</div>';
+
+    const hasPhoto = coach.foto_url && coach.foto_url.trim() !== '';
+    const flagApiUrl = coach.nat_code ? `https://flagcdn.com/w40/${coach.nat_code.toLowerCase()}.png` : '';
+    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+    let imageHtml = hasPhoto ? `<img src="${coach.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+
+    const content = `
+        ${imageHtml}
+        <div class="info-pane-content">
+            <div class="info-pane-details">
+                <p class="name">${coach.naam}</p>
+                <div class="nationality">
+                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
+                    <span>${coach.nationaliteit}</span>
+                </div>
+            </div>
+            ${trophyHtml}
+        </div>`;
+    DOMElements.infoPane.attr("class", "details-state").html(content);
+}
+
+
 function drawLegend() {
     DOMElements.legendContainer.html("");
     const legendData = [ { color: "#FF0033", label: "1 Season" }, { color: "#66ff66", label: "2 Seasons" }, { color: "#33cc33", label: "3-4 Seasons" }, { color: "#339933", label: "5-6 Seasons" }, { color: "#006600", label: "7-9 Seasons" }, { color: "#003300", label: "10+ Seasons" } ];
@@ -542,7 +671,7 @@ function drawLegend() {
     prizeGroup.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item").html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
 }
 
-// --- 9. COMPARE MODE LOGIC ---
+// --- 9. COMPARE & CAREER MODE LOGIC ---
 function openClubModal() {
     DOMElements.clubModal.classList.remove('modal-hidden');
     DOMElements.clubSearchInputModal.value = '';
