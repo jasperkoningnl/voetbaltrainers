@@ -1,5 +1,5 @@
-// Script Versie: 18.3 - Career Mode verwijderd, filter-functionaliteit hersteld.
-console.log("Script versie: 18.3 geladen.");
+// Script Versie: 18.4 - Bugfix: Compare-tab functionaliteit hersteld.
+console.log("Script versie: 18.4 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -68,7 +68,7 @@ function setupEventListeners() {
 
     DOMElements.coachSearchInput.addEventListener('input', applyFilters);
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
-    DOMElements.filterResetBtn.addEventListener('click', resetAll);
+    DOMElements.filterResetBtn.addEventListener('click', () => resetAll(true));
     
     DOMElements.clearCompareBtn.addEventListener('click', clearComparison);
     DOMElements.modalCloseBtn.addEventListener('click', closeClubModal);
@@ -272,14 +272,17 @@ function resetAll(reRender = true) {
     appState.selectedTenureId = null;
     appState.comparisonClubs = [];
     
-    if (appState.currentView !== 'country') {
-        appState.currentView = 'country';
-    }
-
+    // De problematische regel is verwijderd. De view wordt niet meer gereset.
+    
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
 
     if (reRender) {
+        // Als de reset-knop wordt geklikt, willen we terug naar de standaard country view.
+        if (appState.currentView !== 'country') {
+            appState.currentView = 'country';
+            appState.activeCountry = 'England'; // of een andere default
+        }
         renderApp();
     }
 }
