@@ -1,4 +1,4 @@
-/* CSS Versie: 8.3 - Career Mode functionaliteit toegevoegd. */
+/* CSS Versie: 8.3 - Career Mode verwijderd, filter-functionaliteit hersteld. */
 
 :root {
     --background-color: #f8f9fa;
@@ -174,7 +174,7 @@ main {
 #filter-controls-container {
     transition: opacity 0.3s, transform 0.3s;
 }
-#filter-controls-container.hidden-by-mode {
+#filter-controls-container.hidden-by-compare {
     opacity: 0;
     transform: scaleY(0.95);
     pointer-events: none;
@@ -238,10 +238,6 @@ main {
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
 /* --- Navigatie Styling --- */
-#country-nav-container.disabled {
-    pointer-events: none;
-    opacity: 0.5;
-}
 #country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; transition: opacity 0.3s; }
 .nav-link { flex-grow: 1; text-align: center; padding: 0.6rem 1rem; color: var(--text-secondary); text-decoration: none; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s ease-in-out; }
 .nav-link:hover { background-color: #dce1e6; color: var(--text-primary); }
