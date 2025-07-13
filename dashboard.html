@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 18.0 - Uitgebreide nationaliteit- en succesanalyses.
+  Dashboard Versie: 18.1 - Foutoplossing voor het laden van modules.
   Changelog:
-  - Nieuwe analyses toegevoegd voor coaches die in het buitenland werken.
-  - Analyse toegevoegd om de verhouding binnenlandse/buitenlandse coaches per competitie te zien.
-  - De 'Coach Succes' tabel is uitgebreid met 'Prijzen per Seizoen'.
+  - Correctie voor 'd3 is not defined' fout door D3.js correct te laden.
+  - Correctie voor 'Failed to resolve module specifier' fout in Firebase imports.
 -->
 <html lang="nl">
 <head>
@@ -16,6 +15,7 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
