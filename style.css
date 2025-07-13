@@ -1,4 +1,4 @@
-/* CSS Versie: 8.3 - Career Mode verwijderd, filter-functionaliteit hersteld. */
+/* CSS Versie: 9.0 - Advanced tab met Career Mode geïmplementeerd. */
 
 :root {
     --background-color: #f8f9fa;
@@ -170,18 +170,42 @@ main {
 }
 
 
-/* --- Filter Controls Styling --- */
-#filter-controls-container {
-    transition: opacity 0.3s, transform 0.3s;
+/* --- Filter & Advanced Controls Styling --- */
+#filter-controls-container.hidden,
+#advanced-nav-container.hidden,
+#career-mode-controls.hidden {
+    display: none;
 }
-#filter-controls-container.hidden-by-compare {
-    opacity: 0;
-    transform: scaleY(0.95);
-    pointer-events: none;
-    height: 0;
-    overflow: hidden;
-    margin-top: -1.5rem; /* Compenseer voor gap */
+
+#advanced-nav-container {
+    display: flex;
+    justify-content: center;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    padding: 5px;
+    margin-top: -0.5rem; /* Nette aansluiting */
 }
+.advanced-nav-btn {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.25s ease-in-out;
+    background: none;
+    cursor: pointer;
+}
+.advanced-nav-btn:hover { background-color: #dce1e6; color: var(--text-primary); }
+.advanced-nav-btn.active { background-color: var(--canvas-background); color: var(--text-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+#career-mode-controls {
+    padding-top: 1rem;
+}
+
 
 #filter-toggle-btn {
     display: flex;
@@ -238,6 +262,10 @@ main {
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
 /* --- Navigatie Styling --- */
+#country-nav-container.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
 #country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; transition: opacity 0.3s; }
 .nav-link { flex-grow: 1; text-align: center; padding: 0.6rem 1rem; color: var(--text-secondary); text-decoration: none; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s ease-in-out; }
 .nav-link:hover { background-color: #dce1e6; color: var(--text-primary); }
@@ -276,6 +304,7 @@ main {
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
 .is-dimmed { opacity: 0.15; }
 .is-highlighted { filter: saturate(150%) brightness(105%); }
+.is-inactive { pointer-events: none; }
 .coach-divider { stroke: var(--canvas-background); stroke-width: 2px; pointer-events: none; }
 .season-divider { stroke: #e9ecef; stroke-width: 1px; shape-rendering: crispEdges; pointer-events: none; }
 .prize-group { pointer-events: none; }
