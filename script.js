@@ -1,11 +1,10 @@
-// Script Versie: 18.2 - Career Mode functionaliteit toegevoegd.
-console.log("Script versie: 18.2 geladen.");
+// Script Versie: 18.3 - Career Mode verwijderd, filter-functionaliteit hersteld.
+console.log("Script versie: 18.3 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
     currentView: 'country',
     activeCountry: 'England',
-    careerCoachName: null,
     comparisonClubs: [],
     allClubs: [],
     allCoaches: [],
@@ -27,7 +26,6 @@ const DOMElements = {
     filterToggleButton: document.getElementById('filter-toggle-btn'),
     filterPanel: document.getElementById('filter-panel'),
     coachSearchInput: document.getElementById('coach-search-input'),
-    coachDatalist: document.getElementById('coach-datalist'),
     nationalityFilterSelect: document.getElementById('nationality-filter-select'),
     filterResetBtn: document.getElementById('filter-reset-btn'),
     compareControlsContainer: document.getElementById('compare-controls-container'),
@@ -49,7 +47,6 @@ async function initApp() {
     console.log("Applicatie initialiseren...");
     setupEventListeners();
     await fetchAllInitialData();
-    populateCoachDatalist();
     renderApp();
     console.log("Applicatie gereed.");
 }
@@ -69,7 +66,7 @@ function setupEventListeners() {
         DOMElements.filterToggleButton.classList.toggle('open');
     });
 
-    DOMElements.coachSearchInput.addEventListener('input', handleCoachSearch);
+    DOMElements.coachSearchInput.addEventListener('input', applyFilters);
     DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
     DOMElements.filterResetBtn.addEventListener('click', resetAll);
     
@@ -95,19 +92,6 @@ function handleNavigation(target) {
     resetAll(false);
     renderApp();
 }
-
-function handleCoachSearch(event) {
-    const coachName = event.target.value;
-    const isValidCoach = appState.allCoaches.some(c => c.naam === coachName);
-
-    if (isValidCoach) {
-        enterCareerMode(coachName);
-    } else if (appState.currentView === 'career') {
-        // Als de input wordt gewist, ga terug naar de landenweergave
-        resetAll(true);
-    }
-}
-
 
 // --- 5. DATA FETCHING ---
 async function fetchAllInitialData() {
@@ -140,13 +124,6 @@ function getPreparedDataForView() {
     let rawData;
     if (appState.currentView === 'country') {
         rawData = appState.allSeasons.filter(s => s.land === appState.activeCountry);
-    } else if (appState.currentView === 'career') {
-        const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
-        if (coach) {
-            rawData = appState.allSeasons.filter(s => s.coachId === coach.id);
-        } else {
-            rawData = [];
-        }
     } else { // 'compare' view
         const clubIds = appState.comparisonClubs.map(c => c.id);
         rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
@@ -268,12 +245,10 @@ function renderApp() {
 
 function updateControlVisibility() {
     const isCompareView = appState.currentView === 'compare';
-    const isCareerView = appState.currentView === 'career';
     const hasClubsInCompare = appState.comparisonClubs.length > 0;
     
     DOMElements.compareControlsContainer.classList.toggle('hidden', !isCompareView || !hasClubsInCompare);
-    DOMElements.filterControlsContainer.classList.toggle('hidden-by-mode', isCompareView || isCareerView);
-    DOMElements.countryNavContainer.classList.toggle('disabled', isCareerView);
+    DOMElements.filterControlsContainer.classList.toggle('hidden-by-compare', isCompareView);
 }
 
 function updateActiveNav() {
@@ -296,8 +271,10 @@ function resetAll(reRender = true) {
     appState.activeFilters.nationality = '';
     appState.selectedTenureId = null;
     appState.comparisonClubs = [];
-    appState.careerCoachName = null;
-    appState.currentView = 'country';
+    
+    if (appState.currentView !== 'country') {
+        appState.currentView = 'country';
+    }
 
     DOMElements.coachSearchInput.value = '';
     DOMElements.nationalityFilterSelect.value = '';
@@ -318,16 +295,6 @@ function populateFilterOptions(data) {
         DOMElements.nationalityFilterSelect.appendChild(option);
     });
     DOMElements.nationalityFilterSelect.value = currentSelection;
-}
-
-function populateCoachDatalist() {
-    DOMElements.coachDatalist.innerHTML = '';
-    const uniqueCoaches = [...new Set(appState.allCoaches.map(c => c.naam))].sort();
-    uniqueCoaches.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        DOMElements.coachDatalist.appendChild(option);
-    });
 }
 
 function updateVisuals() {
@@ -360,16 +327,13 @@ function drawVisualization(data) {
     DOMElements.heatmapContainer.html('');
     
     const isCompare = appState.currentView === 'compare';
-    const isCareer = appState.currentView === 'career';
-
-    let yDomain;
+    
+    let yDomain = isCompare 
+        ? appState.comparisonClubs.map(c => c.naam)
+        : [...new Set(data.map(d => d.club))].sort(d3.ascending);
+    
     if (isCompare) {
-        yDomain = appState.comparisonClubs.map(c => c.naam);
         yDomain.push(ADD_CLUB_PLACEHOLDER);
-    } else if (isCareer) {
-        yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
-    } else {
-        yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     }
 
     const seasons = [...new Set(appState.allSeasons.map(d => d.seizoen))].sort(d3.ascending);
@@ -573,14 +537,7 @@ function drawLegend() {
     prizeGroup.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item").html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
 }
 
-// --- 9. COMPARE & CAREER MODE LOGIC ---
-function enterCareerMode(coachName) {
-    appState.currentView = 'career';
-    appState.careerCoachName = coachName;
-    appState.comparisonClubs = [];
-    renderApp();
-}
-
+// --- 9. COMPARE MODE LOGIC ---
 function openClubModal() {
     DOMElements.clubModal.classList.remove('modal-hidden');
     DOMElements.clubSearchInputModal.value = '';
