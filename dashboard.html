@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 19.1 - Foutoplossing in analysemodule.
+  Dashboard Versie: 19.1 - Verbeterde en gecorrigeerde analysemodule.
   Changelog:
-  - 'TypeError: object is not extensible' fout opgelost die optrad bij het renderen van de analyse-tabbladen.
-  - De useRef-logica voor de kopieer-tekstvakken is gecorrigeerd.
+  - Logica voor 'Populairste nationaliteiten' telt nu unieke coaches i.p.v. seizoenen.
+  - Logica voor 'Coach Export' telt nu elke buitenlandse club als een apart 'avontuur'.
+  - Samenvattingen per tabblad zijn significant uitgebreid met dynamische data voor betere context.
 -->
 <html lang="nl">
 <head>
@@ -642,36 +643,38 @@
                 const popularNationsInLeague = {};
                 leagueImports.forEach(l => {
                     const leagueSeasons = seasons.filter(s => clubsMap.get(s.club)?.land === l.country);
-                    const foreignCoachNats = leagueSeasons
+                    const foreignCoachIds = new Set(leagueSeasons
                         .map(s => coachesMap.get(s.coachId))
                         .filter(c => c && nationalityToCountryMap[c.nationaliteit] !== l.country)
-                        .map(c => c.nationaliteit);
+                        .map(c => c.id)
+                    );
+                    const foreignCoachNats = Array.from(foreignCoachIds).map(id => coachesMap.get(id).nationaliteit);
                     popularNationsInLeague[l.country] = Array.from(d3.group(foreignCoachNats, d => d), ([nat, arr]) => ({nat, count: arr.length})).sort((a,b) => b.count - a.count);
                 });
 
                 const coachExports = Array.from(d3.group(successfulCoaches, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
-                    let coachesAbroadCount = 0;
-                    const foreignStints = new Map();
+                    let foreignClubStints = 0;
+                    const foreignStintsByCountry = new Map();
                     coachesOfNat.forEach(coach => {
                         const coachSeasons = seasonsByCoach.get(coach.id);
                         const coachHomeCountry = nationalityToCountryMap[nationality];
-                        const foreignCountriesManaged = new Set(coachSeasons.map(s => clubsMap.get(s.club)?.land).filter(land => land && land !== coachHomeCountry));
-                        if (foreignCountriesManaged.size > 0) {
-                            coachesAbroadCount++;
-                            foreignCountriesManaged.forEach(country => foreignStints.set(country, (foreignStints.get(country) || 0) + 1));
-                        }
+                        const foreignClubsManaged = new Set(coachSeasons.map(s => clubsMap.get(s.club)).filter(c => c && c.land !== coachHomeCountry));
+                        foreignClubStints += foreignClubsManaged.size;
+                        foreignClubsManaged.forEach(club => {
+                            foreignStintsByCountry.set(club.land, (foreignStintsByCountry.get(club.land) || 0) + 1);
+                        });
                     });
-                    return { nationality, totalCoaches: coachesOfNat.length, coachesAbroad: coachesAbroadCount, popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1]) };
-                }).filter(c => c.coachesAbroad > 0);
+                    return { nationality, totalCoaches: coachesOfNat.length, foreignClubStints, popularDestinations: Array.from(foreignStintsByCountry.entries()).sort((a,b) => b[1] - a[1]) };
+                }).filter(c => c.foreignClubStints > 0);
 
                 return { clubStability, longestTenures, countryStability, successfulCoaches, successfulClubs, leagueImports, popularNationsInLeague, coachExports };
             }, [seasons, coaches, clubs]);
 
-            const getSortedData = (data) => {
-                if (!sortConfig.key) return data;
+            const getSortedData = (data, config = sortConfig) => {
+                if (!config.key) return data;
                 return [...data].sort((a, b) => {
-                    if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
-                    if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ascending' ? 1 : -1;
+                    if (a[config.key] < b[config.key]) return config.direction === 'ascending' ? -1 : 1;
+                    if (a[config.key] > b[config.key]) return config.direction === 'ascending' ? 1 : -1;
                     return 0;
                 });
             };
@@ -732,7 +735,7 @@
                            <CopyIcon /> Kopiëren
                         </button>
                     </div>
-                    <textarea ref={el => { summaryRefs.current[tabKey] = el; }} readOnly className="w-full h-32 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
+                    <textarea ref={el => { summaryRefs.current[tabKey] = el; }} readOnly className="w-full h-48 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
                 </div>
             );
 
@@ -752,26 +755,32 @@
                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <AnalysisTable
                                     title="Aandeel Buitenlandse Coaches per Competitie"
-                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'foreignPct', label: '% Buitenlands', textAlign: 'text-center' }, { key: 'details', label: 'Details', textAlign: 'text-center' } ]}
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'foreignPct', label: '% Buitenlands', textAlign: 'text-center' }, { key: 'details', label: 'Details (Buitenlands / Totaal)', textAlign: 'text-center' } ]}
                                     data={analysisData.leagueImports}
                                     renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-center font-bold">{l.foreignPct.toFixed(1)}%</td><td className="px-4 py-2 text-center text-sm">{l.details}</td></tr> )}
                                     sortable={true}
                                 />
                                 <AnalysisTable
                                     title="Populairste Buitenlandse Nationaliteiten per Competitie"
-                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (aantal seizoenen)' } ]}
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (unieke coaches)' } ]}
                                     data={Object.entries(analysisData.popularNationsInLeague).map(([country, nats]) => ({ country, nationalities: nats }))}
                                     renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-sm">{l.nationalities.slice(0,3).map(n => `${n.nat} (${n.count})`).join(', ')}</td></tr> )}
                                 />
                              </div>
                              <AnalysisTable
                                 title="Populaire Nationaliteiten (Export)"
-                                headers={[ { key: 'nationality', label: 'Nationaliteit' }, { key: 'coachesAbroad', label: 'Coaches in Buitenland', textAlign: 'text-center' }, { key: 'popularDestinations', label: 'Populaire Bestemmingen' } ]}
+                                headers={[ { key: 'nationality', label: 'Nationaliteit' }, { key: 'foreignClubStints', label: 'Buitenlandse Avonturen', textAlign: 'text-center' }, { key: 'popularDestinations', label: 'Populaire Bestemmingen' } ]}
                                 data={analysisData.coachExports}
-                                renderRow={(c) => ( <tr key={c.nationality}><td className="px-4 py-2 font-medium">{c.nationality}</td><td className="px-4 py-2 text-center font-bold">{c.coachesAbroad} / {c.totalCoaches}</td><td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td></tr> )}
+                                renderRow={(c) => ( <tr key={c.nationality}><td className="px-4 py-2 font-medium">{c.nationality}</td><td className="px-4 py-2 text-center font-bold">{c.foreignClubStints}</td><td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td></tr> )}
                                 sortable={true}
                             />
-                            <SummaryBox tabKey="import-export" content={`Analyse Import/Export:\n- Meest geïnternationaliseerde competitie: ${analysisData.leagueImports[0]?.country} (${analysisData.leagueImports[0]?.foreignPct.toFixed(1)}% buitenlands).\n- Meest gesloten competitie: ${analysisData.leagueImports[analysisData.leagueImports.length-1]?.country} (${analysisData.leagueImports[analysisData.leagueImports.length-1]?.foreignPct.toFixed(1)}% buitenlands).\n- Top exportland voor coaches: ${analysisData.coachExports[0]?.nationality} met ${analysisData.coachExports[0]?.coachesAbroad} coaches in het buitenland.`} />
+                            <SummaryBox tabKey="import-export" content={
+`Analyse Import/Export:
+De competitie met het hoogste percentage buitenlandse coaches is ${analysisData.leagueImports.sort((a,b) => b.foreignPct - a.foreignPct)[0]?.country} (${analysisData.leagueImports.sort((a,b) => b.foreignPct - a.foreignPct)[0]?.foreignPct.toFixed(1)}%).
+De meest gesloten competitie is ${analysisData.leagueImports.sort((a,b) => a.foreignPct - b.foreignPct)[0]?.country} met slechts ${analysisData.leagueImports.sort((a,b) => a.foreignPct - b.foreignPct)[0]?.foreignPct.toFixed(1)}% buitenlandse coaches.
+
+De nationaliteit met de meeste buitenlandse avonturen is ${analysisData.coachExports[0]?.nationality}, met ${analysisData.coachExports[0]?.foreignClubStints} stints verdeeld over hun coaches. Populaire bestemmingen voor hen zijn ${analysisData.coachExports[0]?.popularDestinations.slice(0,2).map(d=>d[0]).join(' en ')}.
+`} />
                         </div>
                     )}
 
@@ -790,7 +799,13 @@
                                 data={analysisData.longestTenures.slice(0,20)}
                                 renderRow={(t) => ( <tr key={`${t.coachName}-${t.clubName}`}><td className="px-4 py-2 font-medium">{t.coachName}</td><td className="px-4 py-2">{t.clubName}</td><td className="px-4 py-2 text-center font-bold">{t.duration}</td></tr> )}
                             />
-                            <SummaryBox tabKey="stability" content={`Analyse Stabiliteit:\n- Meest stabiele club: ${getSortedData(analysisData.clubStability).sort((a,b) => b.avgTenure - a.avgTenure)[0]?.name} (gem. ${getSortedData(analysisData.clubStability).sort((a,b) => b.avgTenure - a.avgTenure)[0]?.avgTenure.toFixed(2)} seizoenen).\n- Meest instabiele club: ${getSortedData(analysisData.clubStability).sort((a,b) => a.avgTenure - b.avgTenure)[0]?.name} (gem. ${getSortedData(analysisData.clubStability).sort((a,b) => a.avgTenure - b.avgTenure)[0]?.avgTenure.toFixed(2)} seizoenen).\n- Langste termijn: ${analysisData.longestTenures[0]?.coachName} bij ${analysisData.longestTenures[0]?.clubName} (${analysisData.longestTenures[0]?.duration} seizoenen).`} />
+                            <SummaryBox tabKey="stability" content={
+`Analyse Stabiliteit:
+De meest stabiele club in de dataset is ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.name}, waar een coach gemiddeld ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.avgTenure.toFixed(2)} seizoenen blijft. Dit leverde hen ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.totalTrophies} prijzen op.
+De meest instabiele club (het 'trainerskerkhof') is ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'ascending'})[0]?.name} met een gemiddelde termijn van slechts ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'ascending'})[0]?.avgTenure.toFixed(2)} seizoenen per coach.
+
+De langste termijn staat op naam van ${analysisData.longestTenures[0]?.coachName} bij ${analysisData.longestTenures[0]?.clubName}, die maar liefst ${analysisData.longestTenures[0]?.duration} seizoenen aan het roer stond.
+`} />
                         </div>
                     )}
                     
@@ -810,7 +825,13 @@
                                 renderRow={(club) => ( <tr key={club.id}><td className="px-4 py-2 font-medium">{club.name}</td><td className="px-4 py-2 text-center font-bold">{club.totalTrophies}</td><td className="px-4 py-2 text-center font-semibold">{club.trophiesPerSeason.toFixed(2)}</td><td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td></tr> )}
                                 sortable={true}
                             />
-                            <SummaryBox tabKey="success" content={`Analyse Succes:\n- Meest succesvolle coach: ${analysisData.successfulCoaches[0]?.name} (${analysisData.successfulCoaches[0]?.totalTrophies} prijzen).\n- Meest efficiënte coach: ${[...analysisData.successfulCoaches].sort((a,b) => b.trophiesPerSeason - a.trophiesPerSeason)[0]?.name} (${[...analysisData.successfulCoaches].sort((a,b) => b.trophiesPerSeason - a.trophiesPerSeason)[0]?.trophiesPerSeason.toFixed(2)} prijzen/seizoen).\n- Meest succesvolle club: ${[...analysisData.successfulClubs].sort((a,b) => b.totalTrophies - a.totalTrophies)[0]?.name} (${[...analysisData.successfulClubs].sort((a,b) => b.totalTrophies - a.totalTrophies)[0]?.totalTrophies} prijzen).`} />
+                            <SummaryBox tabKey="success" content={
+`Analyse Succes:
+De meest succesvolle coach qua totaal aantal prijzen is ${analysisData.successfulCoaches[0]?.name} met ${analysisData.successfulCoaches[0]?.totalTrophies} prijzen.
+Gekeken naar efficiëntie (prijzen per seizoen) is ${getSortedData(analysisData.successfulCoaches, {key: 'trophiesPerSeason', direction: 'descending'})[0]?.name} de koploper met een gemiddelde van ${getSortedData(analysisData.successfulCoaches, {key: 'trophiesPerSeason', direction: 'descending'})[0]?.trophiesPerSeason.toFixed(2)} prijzen per seizoen.
+
+De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key: 'totalTrophies', direction: 'descending'})[0]?.name} met ${getSortedData(analysisData.successfulClubs, {key: 'totalTrophies', direction: 'descending'})[0]?.totalTrophies} prijzen.
+`} />
                          </div>
                     )}
                 </div>
@@ -964,7 +985,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v19.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v19.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
