@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 19.0 - Volledig vernieuwde en uitgebreide analysemodule.
+  Dashboard Versie: 19.1 - Foutoplossing in analysemodule.
   Changelog:
-  - Analysemodule opgedeeld in tabbladen: 'Import/Export', 'Stabiel/Instabiel', en 'Succes'.
-  - Nieuwe analyses toegevoegd: 'Populair per land', 'Langste termijnen', 'Succesvolle clubs'.
-  - Sorteerfunctionaliteit toegevoegd aan de meeste tabellen.
-  - Tekstvak met kopieerbare samenvatting toegevoegd aan elk tabblad voor eenvoudige export.
-  - Logische fouten in nationaliteit-analyse permanent opgelost.
+  - 'TypeError: object is not extensible' fout opgelost die optrad bij het renderen van de analyse-tabbladen.
+  - De useRef-logica voor de kopieer-tekstvakken is gecorrigeerd.
 -->
 <html lang="nl">
 <head>
@@ -549,7 +546,7 @@
         function AnalysisView({ seasons, coaches, clubs }) {
             const [activeTab, setActiveTab] = useState('import-export');
             const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
-            const summaryRef = useRef({});
+            const summaryRefs = useRef({});
 
             const analysisData = useMemo(() => {
                 if (!seasons.length || !coaches.length || !clubs.length) {
@@ -592,7 +589,7 @@
                         if (i === 0 || clubSeasons[i].coachId === clubSeasons[i-1].coachId) {
                             currentTenure.push(clubSeasons[i]);
                         } else {
-                            tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: club.id, seasons: currentTenure });
+                            if(currentTenure.length > 0) tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: club.id, seasons: currentTenure });
                             currentTenure = [clubSeasons[i]];
                         }
                     }
@@ -623,7 +620,7 @@
 
                 const successfulClubs = clubStability.map(club => ({
                     ...club,
-                    trophiesPerSeason: club.totalTrophies / club.seasons,
+                    trophiesPerSeason: club.seasons > 0 ? club.totalTrophies / club.seasons : 0,
                 }));
 
                 // --- IMPORT/EXPORT ---
@@ -687,10 +684,15 @@
                 setSortConfig({ key, direction });
             };
             
-            const handleCopy = (ref) => {
-                if (ref.current) {
-                    ref.current.select();
-                    document.execCommand('copy');
+            const handleCopy = (tabKey) => {
+                const element = summaryRefs.current[tabKey];
+                if (element) {
+                    element.select();
+                    try {
+                        document.execCommand('copy');
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                    }
                 }
             };
             
@@ -726,11 +728,11 @@
                  <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
                     <div className="flex justify-between items-center mb-2">
                         <h4 className="font-semibold">Samenvatting voor Artikel</h4>
-                        <button onClick={() => handleCopy(summaryRef[tabKey])} className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 flex items-center gap-2">
+                        <button onClick={() => handleCopy(tabKey)} className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 flex items-center gap-2">
                            <CopyIcon /> Kopiëren
                         </button>
                     </div>
-                    <textarea ref={el => summaryRef[tabKey] = el} readOnly className="w-full h-32 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
+                    <textarea ref={el => { summaryRefs.current[tabKey] = el; }} readOnly className="w-full h-32 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
                 </div>
             );
 
@@ -757,7 +759,7 @@
                                 />
                                 <AnalysisTable
                                     title="Populairste Buitenlandse Nationaliteiten per Competitie"
-                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (aantal coaches)' } ]}
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (aantal seizoenen)' } ]}
                                     data={Object.entries(analysisData.popularNationsInLeague).map(([country, nats]) => ({ country, nationalities: nats }))}
                                     renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-sm">{l.nationalities.slice(0,3).map(n => `${n.nat} (${n.count})`).join(', ')}</td></tr> )}
                                 />
@@ -962,7 +964,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.2</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v19.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
