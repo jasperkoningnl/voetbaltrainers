@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 18.2 - Logische fouten in nationaliteit-analyse gecorrigeerd.
+  Dashboard Versie: 19.0 - Volledig vernieuwde en uitgebreide analysemodule.
   Changelog:
-  - Fout opgelost waarbij coaches in eigen land als 'buitenlands' werden geteld door een uitgebreide mapping van nationaliteit naar landnaam.
-  - De analyse voor 'Coach Export' en 'Competitie Import' toont nu correcte en realistische data.
+  - Analysemodule opgedeeld in tabbladen: 'Import/Export', 'Stabiel/Instabiel', en 'Succes'.
+  - Nieuwe analyses toegevoegd: 'Populair per land', 'Langste termijnen', 'Succesvolle clubs'.
+  - Sorteerfunctionaliteit toegevoegd aan de meeste tabellen.
+  - Tekstvak met kopieerbare samenvatting toegevoegd aan elk tabblad voor eenvoudige export.
+  - Logische fouten in nationaliteit-analyse permanent opgelost.
 -->
 <html lang="nl">
 <head>
@@ -75,6 +78,7 @@
         const SaveIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>;
         const CancelIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
         const AddIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
+        const CopyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>;
 
         // --- COMPONENTEN ---
 
@@ -541,43 +545,34 @@
             );
         }
 
-        // --- UITGEBREID ANALYSE COMPONENT ---
+        // --- VERNIEUWDE ANALYSE COMPONENT ---
         function AnalysisView({ seasons, coaches, clubs }) {
+            const [activeTab, setActiveTab] = useState('import-export');
+            const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+            const summaryRef = useRef({});
+
             const analysisData = useMemo(() => {
                 if (!seasons.length || !coaches.length || !clubs.length) {
-                    return { clubStats: [], coachStats: [], dutchAbroad: [], coachExports: [], leagueImports: [] };
+                    return { clubStability: [], longestTenures: [], countryStability: [], successfulCoaches: [], successfulClubs: [], leagueImports: [], popularNationsInLeague: {}, coachExports: [] };
                 }
 
                 const clubsMap = new Map(clubs.map(c => [c.id, c]));
                 const coachesMap = new Map(coaches.map(c => [c.id, c]));
                 
-                // FIX: Uitgebreide map van nationaliteiten naar landnamen
                 const nationalityToCountryMap = {
-                    'Dutch': 'Netherlands', 'Netherlands': 'Netherlands',
-                    'German': 'Germany', 'Germany': 'Germany',
-                    'English': 'England', 'England': 'England',
-                    'Spanish': 'Spain', 'Spain': 'Spain',
-                    'French': 'France', 'France': 'France',
-                    'Italian': 'Italy', 'Italy': 'Italy',
-                    'Portuguese': 'Portugal', 'Portugal': 'Portugal',
-                    'Argentine': 'Argentina',
-                    'Slovak': 'Slovakia',
-                    'Yugoslav': 'Yugoslavia',
-                    'Paraguayan': 'Paraguay',
-                    'Welsh': 'Wales',
-                    'Serbian': 'Serbia',
-                    'Croatian': 'Croatia',
-                    'Austrian': 'Austria',
-                    'Brazilian': 'Brazil',
-                    'Mexican': 'Mexico',
-                    'Chilean': 'Chile',
-                    'Uruguayan': 'Uruguay',
-                    'Hungarian': 'Hungary'
+                    'Dutch': 'Netherlands', 'Netherlands': 'Netherlands', 'German': 'Germany', 'Germany': 'Germany',
+                    'English': 'England', 'England': 'England', 'Spanish': 'Spain', 'Spain': 'Spain',
+                    'French': 'France', 'France': 'France', 'Italian': 'Italy', 'Italy': 'Italy',
+                    'Portuguese': 'Portugal', 'Portugal': 'Portugal', 'Argentine': 'Argentina', 'Slovak': 'Slovakia',
+                    'Yugoslav': 'Yugoslavia', 'Paraguayan': 'Paraguay', 'Welsh': 'Wales', 'Serbian': 'Serbia',
+                    'Croatian': 'Croatia', 'Austrian': 'Austria', 'Brazilian': 'Brazil', 'Mexican': 'Mexico',
+                    'Chilean': 'Chile', 'Uruguayan': 'Uruguay', 'Hungarian': 'Hungary', 'Scottish': 'Scotland',
+                    'Northern Irish': 'Northern Ireland', 'Swedish': 'Sweden', 'Romanian': 'Romania', 'Belgian': 'Belgium'
                 };
 
-                // --- Basisberekeningen ---
+                // --- STABILITEIT ---
                 const seasonsByClub = d3.group(seasons, d => d.club);
-                const clubStats = Array.from(seasonsByClub.entries()).map(([clubId, clubSeasons]) => {
+                const clubStability = Array.from(seasonsByClub.entries()).map(([clubId, clubSeasons]) => {
                     const clubInfo = clubsMap.get(clubId);
                     if (!clubInfo) return null;
                     clubSeasons.sort((a, b) => a.seizoen.localeCompare(b.seizoen));
@@ -585,180 +580,237 @@
                     for (let i = 1; i < clubSeasons.length; i++) {
                         if (clubSeasons[i].coachId !== clubSeasons[i - 1].coachId) coachChanges++;
                     }
-                    const totalTrophies = clubSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1:0) + (s.nationale_beker === 'Y' ? 1:0) + (s.europese_prijs === 'Y' ? 1:0), 0);
-                    const avgTenure = clubSeasons.length / (coachChanges + 1);
-                    return { id: clubId, name: clubInfo.naam, country: clubInfo.land, seasons: clubSeasons.length, coachChanges, totalTrophies, avgTenure };
+                    const totalTrophies = clubSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+                    return { id: clubId, name: clubInfo.naam, country: clubInfo.land, seasons: clubSeasons.length, coachChanges, totalTrophies, avgTenure: clubSeasons.length / (coachChanges + 1) };
                 }).filter(Boolean);
+                
+                const tenures = [];
+                clubStability.forEach(club => {
+                    const clubSeasons = seasonsByClub.get(club.id);
+                    let currentTenure = [];
+                    for(let i = 0; i < clubSeasons.length; i++) {
+                        if (i === 0 || clubSeasons[i].coachId === clubSeasons[i-1].coachId) {
+                            currentTenure.push(clubSeasons[i]);
+                        } else {
+                            tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: club.id, seasons: currentTenure });
+                            currentTenure = [clubSeasons[i]];
+                        }
+                    }
+                    if (currentTenure.length > 0) tenures.push({ coachId: currentTenure[0].coachId, clubId: club.id, seasons: currentTenure });
+                });
+                const longestTenures = tenures.map(t => ({
+                    coachName: coachesMap.get(t.coachId)?.naam,
+                    clubName: clubsMap.get(t.clubId)?.naam,
+                    duration: t.seasons.length,
+                    startYear: t.seasons[0].seizoen.split('/')[0],
+                    endYear: t.seasons[t.seasons.length - 1].seizoen.split('/')[1] || t.seasons[t.seasons.length - 1].seizoen.split('/')[0],
+                })).sort((a,b) => b.duration - a.duration);
 
+                const countryStability = clubStability.length > 0 ? Array.from(d3.group(clubStability, d => d.country).entries()).map(([country, clubsInCountry]) => {
+                    const totalChanges = d3.sum(clubsInCountry, c => c.coachChanges);
+                    const totalSeasons = d3.sum(clubsInCountry, c => c.seasons);
+                    return { country, avgTenure: totalSeasons / (totalChanges + clubsInCountry.length) };
+                }) : [];
+
+                // --- SUCCES ---
                 const seasonsByCoach = d3.group(seasons, d => d.coachId);
-                const coachStats = Array.from(seasonsByCoach.entries()).map(([coachId, coachSeasons]) => {
+                const successfulCoaches = Array.from(seasonsByCoach.entries()).map(([coachId, coachSeasons]) => {
                     const coachInfo = coachesMap.get(coachId);
                     if (!coachInfo) return null;
-                    const totalTrophies = coachSeasons.reduce((acc, s) => {
-                        if (s.landstitel === 'Y') acc.titles++;
-                        if (s.nationale_beker === 'Y') acc.cups++;
-                        if (s.europese_prijs === 'Y') acc.european++;
-                        return acc;
-                    }, { titles: 0, cups: 0, european: 0 });
-                    const total = totalTrophies.titles + totalTrophies.cups + totalTrophies.european;
-                    const clubsManaged = new Set(coachSeasons.map(s => s.club)).size;
-                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, ...totalTrophies, total, clubsManaged, seasons: coachSeasons.length, trophiesPerSeason: total > 0 ? total / coachSeasons.length : 0 };
-                }).filter(Boolean).sort((a,b) => b.total - a.total);
+                    const totalTrophies = coachSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, clubsManaged: new Set(coachSeasons.map(s => s.club)).size, seasons: coachSeasons.length, totalTrophies, trophiesPerSeason: totalTrophies > 0 ? totalTrophies / coachSeasons.length : 0 };
+                }).filter(Boolean);
 
-                // --- Gecorrigeerde Nationaliteit-analyses ---
-                
-                // Competitie import
+                const successfulClubs = clubStability.map(club => ({
+                    ...club,
+                    trophiesPerSeason: club.totalTrophies / club.seasons,
+                }));
+
+                // --- IMPORT/EXPORT ---
                 const leagueImports = Array.from(d3.group(seasons, s => clubsMap.get(s.club)?.land).entries()).map(([leagueCountry, leagueSeasons]) => {
                     if (!leagueCountry) return null;
-                    let domesticSeasons = 0;
-                    let foreignSeasons = 0;
+                    let domesticSeasons = 0, foreignSeasons = 0;
                     leagueSeasons.forEach(s => {
                         const coachNat = coachesMap.get(s.coachId)?.nationaliteit;
                         if (coachNat) {
                             const coachHomeCountry = nationalityToCountryMap[coachNat];
-                            if (coachHomeCountry === leagueCountry) {
-                                domesticSeasons++;
-                            } else {
-                                foreignSeasons++;
-                            }
+                            if (coachHomeCountry === leagueCountry) domesticSeasons++;
+                            else foreignSeasons++;
                         }
                     });
                     const total = domesticSeasons + foreignSeasons;
-                    return {
-                        country: leagueCountry,
-                        domestic: domesticSeasons,
-                        foreign: foreignSeasons,
-                        foreignPct: total > 0 ? (foreignSeasons / total * 100) : 0
-                    };
-                }).filter(Boolean).sort((a,b) => b.foreignPct - a.foreignPct);
+                    return { country: leagueCountry, foreignPct: total > 0 ? (foreignSeasons / total * 100) : 0, details: `${foreignSeasons} / ${total}` };
+                }).filter(Boolean);
 
-                // Coach export per nationaliteit
-                const coachExports = Array.from(d3.group(coachStats, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
-                    const foreignStints = new Map();
+                const popularNationsInLeague = {};
+                leagueImports.forEach(l => {
+                    const leagueSeasons = seasons.filter(s => clubsMap.get(s.club)?.land === l.country);
+                    const foreignCoachNats = leagueSeasons
+                        .map(s => coachesMap.get(s.coachId))
+                        .filter(c => c && nationalityToCountryMap[c.nationaliteit] !== l.country)
+                        .map(c => c.nationaliteit);
+                    popularNationsInLeague[l.country] = Array.from(d3.group(foreignCoachNats, d => d), ([nat, arr]) => ({nat, count: arr.length})).sort((a,b) => b.count - a.count);
+                });
+
+                const coachExports = Array.from(d3.group(successfulCoaches, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
                     let coachesAbroadCount = 0;
+                    const foreignStints = new Map();
                     coachesOfNat.forEach(coach => {
                         const coachSeasons = seasonsByCoach.get(coach.id);
                         const coachHomeCountry = nationalityToCountryMap[nationality];
-                        
-                        const foreignCountriesManaged = new Set(
-                            coachSeasons
-                                .map(s => clubsMap.get(s.club)?.land)
-                                .filter(land => land && land !== coachHomeCountry)
-                        );
-
+                        const foreignCountriesManaged = new Set(coachSeasons.map(s => clubsMap.get(s.club)?.land).filter(land => land && land !== coachHomeCountry));
                         if (foreignCountriesManaged.size > 0) {
                             coachesAbroadCount++;
-                            foreignCountriesManaged.forEach(country => {
-                                foreignStints.set(country, (foreignStints.get(country) || 0) + 1);
-                            });
+                            foreignCountriesManaged.forEach(country => foreignStints.set(country, (foreignStints.get(country) || 0) + 1));
                         }
                     });
-                    return {
-                        nationality,
-                        totalCoaches: coachesOfNat.length,
-                        coachesAbroad: coachesAbroadCount,
-                        popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1])
-                    };
-                }).sort((a,b) => b.coachesAbroad - a.coachesAbroad);
+                    return { nationality, totalCoaches: coachesOfNat.length, coachesAbroad: coachesAbroadCount, popularDestinations: Array.from(foreignStints.entries()).sort((a,b) => b[1] - a[1]) };
+                }).filter(c => c.coachesAbroad > 0);
 
-
-                return { clubStats, coachStats, coachExports, leagueImports };
+                return { clubStability, longestTenures, countryStability, successfulCoaches, successfulClubs, leagueImports, popularNationsInLeague, coachExports };
             }, [seasons, coaches, clubs]);
 
-            const AnalysisTable = ({ title, headers, data, renderRow }) => (
+            const getSortedData = (data) => {
+                if (!sortConfig.key) return data;
+                return [...data].sort((a, b) => {
+                    if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
+                    if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ascending' ? 1 : -1;
+                    return 0;
+                });
+            };
+
+            const requestSort = (key) => {
+                let direction = 'ascending';
+                if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+                    direction = 'descending';
+                }
+                setSortConfig({ key, direction });
+            };
+            
+            const handleCopy = (ref) => {
+                if (ref.current) {
+                    ref.current.select();
+                    document.execCommand('copy');
+                }
+            };
+            
+            const renderSortArrow = (key) => {
+                if (sortConfig.key !== key) return null;
+                return sortConfig.direction === 'ascending' ? ' ▲' : ' ▼';
+            };
+
+            const AnalysisTable = ({ title, headers, data, renderRow, sortable = false }) => (
                 <div className="bg-white p-6 rounded-lg shadow">
                     <h3 className="text-lg font-semibold mb-4">{title}</h3>
                     <div className="overflow-x-auto max-h-96">
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50 sticky top-0">
                                 <tr>
-                                    {headers.map((header, i) => (
-                                        <th key={i} className={`px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase ${header.textAlign || ''}`}>{header.label}</th>
+                                    {headers.map((header) => (
+                                        <th key={header.key} className={`px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase ${header.textAlign || ''} ${sortable ? 'cursor-pointer' : ''}`} onClick={() => sortable && requestSort(header.key)}>
+                                            {header.label}
+                                            {sortable && renderSortArrow(header.key)}
+                                        </th>
                                     ))}
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {data.map(renderRow)}
+                                {getSortedData(data).map(renderRow)}
                             </tbody>
                         </table>
                     </div>
                 </div>
             );
 
+            const SummaryBox = ({ tabKey, content }) => (
+                 <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold">Samenvatting voor Artikel</h4>
+                        <button onClick={() => handleCopy(summaryRef[tabKey])} className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 flex items-center gap-2">
+                           <CopyIcon /> Kopiëren
+                        </button>
+                    </div>
+                    <textarea ref={el => summaryRef[tabKey] = el} readOnly className="w-full h-32 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
+                </div>
+            );
+
             return (
                 <div className="space-y-8">
                     <h1 className="text-3xl font-bold">Data Analyse</h1>
+                    <div className="border-b border-gray-200">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button onClick={() => setActiveTab('import-export')} className={`${activeTab === 'import-export' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Import/Export</button>
+                            <button onClick={() => setActiveTab('stability')} className={`${activeTab === 'stability' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Stabiel/Instabiel</button>
+                            <button onClick={() => setActiveTab('success')} className={`${activeTab === 'success' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Succes</button>
+                        </nav>
+                    </div>
+
+                    {activeTab === 'import-export' && (
+                        <div className="space-y-8">
+                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <AnalysisTable
+                                    title="Aandeel Buitenlandse Coaches per Competitie"
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'foreignPct', label: '% Buitenlands', textAlign: 'text-center' }, { key: 'details', label: 'Details', textAlign: 'text-center' } ]}
+                                    data={analysisData.leagueImports}
+                                    renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-center font-bold">{l.foreignPct.toFixed(1)}%</td><td className="px-4 py-2 text-center text-sm">{l.details}</td></tr> )}
+                                    sortable={true}
+                                />
+                                <AnalysisTable
+                                    title="Populairste Buitenlandse Nationaliteiten per Competitie"
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (aantal coaches)' } ]}
+                                    data={Object.entries(analysisData.popularNationsInLeague).map(([country, nats]) => ({ country, nationalities: nats }))}
+                                    renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-sm">{l.nationalities.slice(0,3).map(n => `${n.nat} (${n.count})`).join(', ')}</td></tr> )}
+                                />
+                             </div>
+                             <AnalysisTable
+                                title="Populaire Nationaliteiten (Export)"
+                                headers={[ { key: 'nationality', label: 'Nationaliteit' }, { key: 'coachesAbroad', label: 'Coaches in Buitenland', textAlign: 'text-center' }, { key: 'popularDestinations', label: 'Populaire Bestemmingen' } ]}
+                                data={analysisData.coachExports}
+                                renderRow={(c) => ( <tr key={c.nationality}><td className="px-4 py-2 font-medium">{c.nationality}</td><td className="px-4 py-2 text-center font-bold">{c.coachesAbroad} / {c.totalCoaches}</td><td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td></tr> )}
+                                sortable={true}
+                            />
+                            <SummaryBox tabKey="import-export" content={`Analyse Import/Export:\n- Meest geïnternationaliseerde competitie: ${analysisData.leagueImports[0]?.country} (${analysisData.leagueImports[0]?.foreignPct.toFixed(1)}% buitenlands).\n- Meest gesloten competitie: ${analysisData.leagueImports[analysisData.leagueImports.length-1]?.country} (${analysisData.leagueImports[analysisData.leagueImports.length-1]?.foreignPct.toFixed(1)}% buitenlands).\n- Top exportland voor coaches: ${analysisData.coachExports[0]?.nationality} met ${analysisData.coachExports[0]?.coachesAbroad} coaches in het buitenland.`} />
+                        </div>
+                    )}
+
+                    {activeTab === 'stability' && (
+                        <div className="space-y-8">
+                            <AnalysisTable
+                                title="Coachwissels per Club"
+                                headers={[ { key: 'name', label: 'Club' }, { key: 'coachChanges', label: 'Wissels', textAlign: 'text-center' }, { key: 'avgTenure', label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { key: 'totalTrophies', label: 'Prijzen', textAlign: 'text-center' } ]}
+                                data={analysisData.clubStability}
+                                renderRow={(club) => ( <tr key={club.id}><td className="px-4 py-2 font-medium">{club.name}</td><td className="px-4 py-2 text-center">{club.coachChanges}</td><td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td><td className="px-4 py-2 text-center">{club.totalTrophies}</td></tr> )}
+                                sortable={true}
+                            />
+                            <AnalysisTable
+                                title="Langste Termijnen (Top 20)"
+                                headers={[ { key: 'coachName', label: 'Coach' }, { key: 'clubName', label: 'Club' }, { key: 'duration', label: 'Duur (seiz.)', textAlign: 'text-center' } ]}
+                                data={analysisData.longestTenures.slice(0,20)}
+                                renderRow={(t) => ( <tr key={`${t.coachName}-${t.clubName}`}><td className="px-4 py-2 font-medium">{t.coachName}</td><td className="px-4 py-2">{t.clubName}</td><td className="px-4 py-2 text-center font-bold">{t.duration}</td></tr> )}
+                            />
+                            <SummaryBox tabKey="stability" content={`Analyse Stabiliteit:\n- Meest stabiele club: ${getSortedData(analysisData.clubStability).sort((a,b) => b.avgTenure - a.avgTenure)[0]?.name} (gem. ${getSortedData(analysisData.clubStability).sort((a,b) => b.avgTenure - a.avgTenure)[0]?.avgTenure.toFixed(2)} seizoenen).\n- Meest instabiele club: ${getSortedData(analysisData.clubStability).sort((a,b) => a.avgTenure - b.avgTenure)[0]?.name} (gem. ${getSortedData(analysisData.clubStability).sort((a,b) => a.avgTenure - b.avgTenure)[0]?.avgTenure.toFixed(2)} seizoenen).\n- Langste termijn: ${analysisData.longestTenures[0]?.coachName} bij ${analysisData.longestTenures[0]?.clubName} (${analysisData.longestTenures[0]?.duration} seizoenen).`} />
+                        </div>
+                    )}
                     
-                    {/* Nationaliteit Analyses */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <AnalysisTable
-                            title="Competitie Import: Aandeel Buitenlandse Coaches (per seizoen)"
-                            headers={[
-                                { label: 'Competitie' },
-                                { label: '% Buitenlands', textAlign: 'text-center' },
-                                { label: 'Details (Buitenlands / Totaal)', textAlign: 'text-center' },
-                            ]}
-                            data={analysisData.leagueImports}
-                            renderRow={(l) => (
-                                <tr key={l.country}>
-                                    <td className="px-4 py-2 font-medium">{l.country}</td>
-                                    <td className="px-4 py-2 text-center font-bold">{l.foreignPct.toFixed(1)}%</td>
-                                    <td className="px-4 py-2 text-center text-sm">{l.foreign} / {l.foreign + l.domestic}</td>
-                                </tr>
-                            )}
-                        />
-                         <AnalysisTable
-                            title="Coach Export: Welke Nationaliteiten Reizen het Meest?"
-                            headers={[
-                                { label: 'Nationaliteit' },
-                                { label: 'Coaches in Buitenland', textAlign: 'text-center' },
-                                { label: 'Populaire Bestemmingen' },
-                            ]}
-                            data={analysisData.coachExports.filter(c => c.coachesAbroad > 0).slice(0, 10)}
-                            renderRow={(c) => (
-                                <tr key={c.nationality}>
-                                    <td className="px-4 py-2 font-medium">{c.nationality}</td>
-                                    <td className="px-4 py-2 text-center font-bold">{c.coachesAbroad} / {c.totalCoaches}</td>
-                                    <td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td>
-                                </tr>
-                            )}
-                        />
-                    </div>
-
-                    {/* Club & Coach Analyses */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <AnalysisTable
-                            title="Clubstabiliteit: Meeste Coachwissels"
-                            headers={[ { label: 'Club' }, { label: 'Wissels', textAlign: 'text-center' }, { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { label: 'Prijzen', textAlign: 'text-center' } ]}
-                            data={[...analysisData.clubStats].sort((a,b) => b.coachChanges - a.coachChanges).slice(0, 15)}
-                            renderRow={(club) => ( <tr key={club.id}> <td className="px-4 py-2 font-medium">{club.name}</td> <td className="px-4 py-2 text-center">{club.coachChanges}</td> <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td> <td className="px-4 py-2 text-center">{club.totalTrophies}</td> </tr> )}
-                        />
-                        <AnalysisTable
-                            title="Clubstabiliteit: Stabielste Clubs"
-                            headers={[ { label: 'Club' }, { label: 'Wissels', textAlign: 'text-center' }, { label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { label: 'Prijzen', textAlign: 'text-center' } ]}
-                            data={[...analysisData.clubStats].sort((a,b) => a.coachChanges - b.coachChanges || b.avgTenure - a.avgTenure).slice(0, 15)}
-                            renderRow={(club) => ( <tr key={club.id}> <td className="px-4 py-2 font-medium">{club.name}</td> <td className="px-4 py-2 text-center">{club.coachChanges}</td> <td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td> <td className="px-4 py-2 text-center">{club.totalTrophies}</td> </tr> )}
-                        />
-                    </div>
-
-                    <AnalysisTable
-                        title="Coach Succes: Top 25 Meest Succesvolle Coaches"
-                        headers={[ { label: 'Coach' }, { label: 'Clubs', textAlign: 'text-center' }, { label: 'Prijzen / Seizoen', textAlign: 'text-center' }, { label: 'Totaal Prijzen', textAlign: 'text-center' }, { label: 'Details' } ]}
-                        data={analysisData.coachStats.slice(0, 25)}
-                        renderRow={(coach) => (
-                            <tr key={coach.id}>
-                                <td className="px-4 py-2 font-medium">{coach.name} <span className="text-gray-500">({coach.nationality})</span></td>
-                                <td className="px-4 py-2 text-center">{coach.clubsManaged}</td>
-                                <td className="px-4 py-2 text-center font-semibold">{coach.trophiesPerSeason.toFixed(2)}</td>
-                                <td className="px-4 py-2 text-center font-bold">{coach.total}</td>
-                                <td className="px-4 py-2 text-xs">
-                                    {coach.titles > 0 && <span>{coach.titles}x Titel </span>}
-                                    {coach.cups > 0 && <span>{coach.cups}x Beker </span>}
-                                    {coach.european > 0 && <span>{coach.european}x Europees</span>}
-                                </td>
-                            </tr>
-                        )}
-                    />
+                    {activeTab === 'success' && (
+                         <div className="space-y-8">
+                            <AnalysisTable
+                                title="Succesvolle Coaches"
+                                headers={[ { key: 'name', label: 'Coach' }, { key: 'clubsManaged', label: 'Clubs', textAlign: 'text-center' }, { key: 'trophiesPerSeason', label: 'Prijzen/Seizoen', textAlign: 'text-center' }, { key: 'totalTrophies', label: 'Totaal Prijzen', textAlign: 'text-center' } ]}
+                                data={analysisData.successfulCoaches}
+                                renderRow={(coach) => ( <tr key={coach.id}><td className="px-4 py-2 font-medium">{coach.name} <span className="text-gray-500">({coach.nationality})</span></td><td className="px-4 py-2 text-center">{coach.clubsManaged}</td><td className="px-4 py-2 text-center font-semibold">{coach.trophiesPerSeason.toFixed(2)}</td><td className="px-4 py-2 text-center font-bold">{coach.totalTrophies}</td></tr> )}
+                                sortable={true}
+                            />
+                            <AnalysisTable
+                                title="Succesvolle Clubs"
+                                headers={[ { key: 'name', label: 'Club' }, { key: 'totalTrophies', label: 'Totaal Prijzen', textAlign: 'text-center' }, { key: 'trophiesPerSeason', label: 'Prijzen/Seizoen', textAlign: 'text-center' }, { key: 'avgTenure', label: 'Gem. Coach Termijn', textAlign: 'text-center' } ]}
+                                data={analysisData.successfulClubs}
+                                renderRow={(club) => ( <tr key={club.id}><td className="px-4 py-2 font-medium">{club.name}</td><td className="px-4 py-2 text-center font-bold">{club.totalTrophies}</td><td className="px-4 py-2 text-center font-semibold">{club.trophiesPerSeason.toFixed(2)}</td><td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td></tr> )}
+                                sortable={true}
+                            />
+                            <SummaryBox tabKey="success" content={`Analyse Succes:\n- Meest succesvolle coach: ${analysisData.successfulCoaches[0]?.name} (${analysisData.successfulCoaches[0]?.totalTrophies} prijzen).\n- Meest efficiënte coach: ${[...analysisData.successfulCoaches].sort((a,b) => b.trophiesPerSeason - a.trophiesPerSeason)[0]?.name} (${[...analysisData.successfulCoaches].sort((a,b) => b.trophiesPerSeason - a.trophiesPerSeason)[0]?.trophiesPerSeason.toFixed(2)} prijzen/seizoen).\n- Meest succesvolle club: ${[...analysisData.successfulClubs].sort((a,b) => b.totalTrophies - a.totalTrophies)[0]?.name} (${[...analysisData.successfulClubs].sort((a,b) => b.totalTrophies - a.totalTrophies)[0]?.totalTrophies} prijzen).`} />
+                         </div>
+                    )}
                 </div>
             );
         }
@@ -834,7 +886,7 @@
             const uniqueClubs = useMemo(() => [...new Set(processedData.map(d => d.club))], [processedData]);
             const uniqueCoaches = useMemo(() => { const coaches = new Map(); processedData.forEach(s => { if (s.coach && !coaches.has(s.coach)) { coaches.set(s.coach, { naam: s.coach, nationaliteit: s.nationaliteit, nat_code: s.nat_code, foto_url: s.foto_url || '' }); } else if (s.coach && s.foto_url && !coaches.get(s.coach).foto_url) { coaches.get(s.coach).foto_url = s.foto_url; } }); return Array.from(coaches.values()); }, [processedData]);
             const CorrectionRow = ({ season, club, original, correction }) => { if (!correction) return null; const changes = Object.keys(correction).filter(key => original[key] !== correction[key]); if (changes.length === 0) return null; return ( <tr className="bg-blue-50"><td className="px-4 py-2 whitespace-nowrap font-semibold">{club}</td><td className="px-4 py-2 whitespace-nowrap font-semibold">{season}</td><td className="px-4 py-2 whitespace-nowrap" colSpan="2">{changes.map(key => ( <div key={key}><span className="font-medium capitalize">{key.replace(/_/g, ' ')}:</span><span className="text-red-600 ml-2">{original[key]}</span> → <span className="text-green-600">{correction[key]}</span></div>))}</td></tr> ); };
-            return ( <div> <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold">Data Importer</h1>{step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}</div> {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>} {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>} {step === 1 && ( <div className="bg-white p-8 rounded-lg shadow text-center"><h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2><p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p><input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} /><label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><UploadIcon /> <span className="ml-2">Kies bestand</span></label></div> )} {step === 2 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 2: Controleer Prijzen</h2><p className="text-gray-600">Data voor <strong>{uniqueClubs.length} clubs</strong> uit <strong>{fileName}</strong> is geladen. Controleer de prijzen via Wikidata.</p><div className="flex items-center gap-4"><button onClick={handleVerifyTrophies} disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">Controleer Prijzen</button><button onClick={() => setStep(3)} disabled={isLoading} className={`px-4 py-2 rounded-md ${verificationDone ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}>{verificationDone ? 'Volgende Stap' : 'Stap overslaan'} &raquo;</button></div> {verificationDone && Object.keys(corrections).length > 0 && ( <div className="border p-4 rounded-lg bg-gray-50"><div className="flex justify-between items-center mb-2"><h3 className="font-semibold">Voorgestelde Correcties</h3><button onClick={applyCorrections} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">Alle Correcties Toepassen</button></div><div className="max-h-80 overflow-y-auto"><table className="min-w-full"><tbody>{processedData.map(s => <CorrectionRow key={s._id} season={s.seizoen} club={s.club} original={s} correction={corrections[s.seizoen]?.[s.club]} />)}</tbody></table></div></div> )} {verificationDone && Object.keys(corrections).length === 0 && !error && ( <p className="text-green-600 font-medium">Controle voltooid: geen correcties gevonden.</p> )}</div> )} {step === 3 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 3: Verrijk Coach Afbeeldingen</h2><p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p><div className="flex items-center gap-4"><button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button><button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Volgende Stap &raquo;</button></div> <div className="max-h-96 overflow-y-auto border rounded-lg"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{uniqueCoaches.map((c) => <tr key={c.naam}><td className="px-4 py-2 whitespace-nowrap">{c.naam}</td><td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td><td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td></tr>)}</tbody></table></div></div> )} {step === 4 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 4: Finale Import</h2><p className="text-gray-600">Controleer de definitieve data. Voeg clublogo's toe en importeer alles naar de database.</p><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{uniqueClubs.map(club => ( <div key={club}><label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label><div className="flex items-center mt-1">{clubLogos[club] && <img src={clubLogos[club]} alt={`${club} logo`} className="h-8 w-8 mr-2"/>}<input type="text" id={`logo-${club}`} value={clubLogos[club] || ''} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="block w-full p-2 border border-gray-300 rounded-md"/></div></div> ))}</div><details><summary className="cursor-pointer text-indigo-600">Toon Volledige Seizoensdata Preview</summary><div className="max-h-96 overflow-y-auto border rounded-lg mt-4"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Titel">T</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Beker">B</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europees">E</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{processedData.sort((a,b) => `${a.club}${b.seizoen}`.localeCompare(`${b.club}${a.seizoen}`)).map((s) => <tr key={s._id} className={s._corrected ? 'bg-blue-50' : ''}><td className="px-4 py-2 whitespace-nowrap">{s.club}</td><td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td><td className="px-4 py-2 whitespace-nowrap">{s.coach}</td><td className="px-2 py-2 text-center">{s.landstitel}</td><td className="px-2 py-2 text-center">{s.nationale_beker}</td><td className="px-2 py-2 text-center">{s.europese_prijs}</td></tr>)}</tbody></table></div></details><button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Importeer Data naar Firebase</button></div> )}</div> );
+            return ( <div> <div className="flex justify-between items-center mb-6"><h1 className="text-2xl font-bold">Data Importer</h1>{step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}</div> {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>} {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>} {step === 1 && ( <div className="bg-white p-8 rounded-lg shadow text-center"><h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2><p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p><input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} /><label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"><UploadIcon /> <span className="ml-2">Kies bestand</span></label></div> )} {step === 2 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 2: Controleer Prijzen</h2><p className="text-gray-600">Data voor <strong>{uniqueClubs.length} clubs</strong> uit <strong>{fileName}</strong> is geladen. Controleer de prijzen via Wikidata.</p><div className="flex items-center gap-4"><button onClick={handleVerifyTrophies} disabled={isLoading} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">Controleer Prijzen</button><button onClick={() => setStep(3)} disabled={isLoading} className={`px-4 py-2 rounded-md ${verificationDone ? 'bg-green-600 text-white hover:bg-green-700' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'}`}>{verificationDone ? 'Volgende Stap' : 'Stap overslaan'} &raquo;</button></div> {verificationDone && Object.keys(corrections).length > 0 && ( <div className="border p-4 rounded-lg bg-gray-50"><div className="flex justify-between items-center mb-2"><h3 className="font-semibold">Voorgestelde Correcties</h3><button onClick={applyCorrections} className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm">Alle Correcties Toepassen</button></div><div className="max-h-80 overflow-y-auto"><table className="min-w-full"><tbody>{processedData.map(s => <CorrectionRow key={s._id} season={s.seizoen} club={s.club} original={s} correction={corrections[s.seizoen]?.[s.club]} />)}</tbody></table></div></div> )} {verificationDone && Object.keys(corrections).length === 0 && !error && ( <p className="text-green-600 font-medium">Controle voltooid: geen correcties gevonden.</p> )}</div> )} {step === 3 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 3: Verrijk Coach Afbeeldingen</h2><p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p><div className="flex items-center gap-4"><button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button><button onClick={() => setStep(4)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300">Volgende Stap &raquo;</button></div> <div className="max-h-96 overflow-y-auto border rounded-lg"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{uniqueCoaches.map((c) => <tr key={c.naam}><td className="px-4 py-2 whitespace-nowrap">{c.naam}</td><td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td><td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td></tr>)}</tbody></table></div></div> )} {step === 4 && ( <div className="bg-white p-6 rounded-lg shadow space-y-6"><h2 className="text-xl font-bold">Stap 4: Finale Import</h2><p className="text-gray-600">Controleer de definitieve data. Voeg clublogo's toe en importeer alles naar de database.</p><div className="grid grid-cols-1 md:grid-cols-2 gap-4">{uniqueClubs.map(club => ( <div key={club}><label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label><div className="flex items-center mt-1">{clubLogos[club] && <img src={clubLogos[club]} alt={`${club} logo`} className="h-8 w-8 mr-2"/>}<input type="text" id={`logo-${club}`} value={clubLogos[club] || ''} onChange={(e) => setClubLogos({...clubLogos, [club]: e.target.value})} className="block w-full p-2 border border-gray-300 rounded-md"/></div></div> ))}</div><details><summary className="cursor-pointer text-indigo-600">Toon Volledige Seizoensdata Preview</summary><div className="max-h-96 overflow-y-auto border rounded-lg mt-4"><table className="min-w-full divide-y divide-gray-200"><thead className="bg-gray-50 sticky top-0"><tr><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th><th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Titel">T</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Beker">B</th><th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europees">E</th></tr></thead><tbody className="bg-white divide-y divide-gray-200">{processedData.sort((a,b) => `${a.club}${b.seizoen}`.localeCompare(`${b.club}${a.seizoen}`)).map((s) => <tr key={s._id} className={s._corrected ? 'bg-blue-50' : ''}><td className="px-4 py-2 whitespace-nowrap">{s.club}</td><td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td><td className="px-4 py-2 whitespace-nowrap">{s.coach}</td><td className="px-2 py-2 text-center">{s.landstitel}</td><td className="px-2 py-2 text-center">{s.nationale_beker}</td><td className="px-2 py-2 text-center">{s.europese_prijs}</td></tr>)}</tbody></table></div></details><button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Importeer Data naar Firebase</button></div> )}</div> );
         }
 
         // --- HOOFD APPLICATIE ---
