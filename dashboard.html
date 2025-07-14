@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 18.1 - Logische fouten in nationaliteit-analyse gecorrigeerd.
+  Dashboard Versie: 18.2 - Logische fouten in nationaliteit-analyse gecorrigeerd.
   Changelog:
-  - Fout opgelost waarbij coaches in eigen land als 'buitenlands' werden geteld.
-  - De analyse voor 'Coach Export' en 'Competitie Import' toont nu correcte data.
-  - D3.js script-tag toegevoegd om 'd3 is not defined' fout te voorkomen.
+  - Fout opgelost waarbij coaches in eigen land als 'buitenlands' werden geteld door een uitgebreide mapping van nationaliteit naar landnaam.
+  - De analyse voor 'Coach Export' en 'Competitie Import' toont nu correcte en realistische data.
 -->
 <html lang="nl">
 <head>
@@ -552,13 +551,28 @@
                 const clubsMap = new Map(clubs.map(c => [c.id, c]));
                 const coachesMap = new Map(coaches.map(c => [c.id, c]));
                 
-                // FIX: Map nationaliteiten (bv. "Dutch") naar landnamen (bv. "Netherlands")
+                // FIX: Uitgebreide map van nationaliteiten naar landnamen
                 const nationalityToCountryMap = {
-                    'Dutch': 'Netherlands', 'German': 'Germany', 'English': 'England', 'Spanish': 'Spain',
-                    'French': 'France', 'Italian': 'Italy', 'Portuguese': 'Portugal', 'Argentine': 'Argentina',
-                    'Slovak': 'Slovakia', 'Yugoslav': 'Yugoslavia', 'Paraguayan': 'Paraguay', 'Welsh': 'Wales',
-                    'Serbian': 'Serbia', 'Croatian': 'Croatia', 'Austrian': 'Austria', 'Brazilian': 'Brazil',
-                    'Mexican': 'Mexico', 'Chilean': 'Chile', 'Uruguayan': 'Uruguay', 'Hungarian': 'Hungary'
+                    'Dutch': 'Netherlands', 'Netherlands': 'Netherlands',
+                    'German': 'Germany', 'Germany': 'Germany',
+                    'English': 'England', 'England': 'England',
+                    'Spanish': 'Spain', 'Spain': 'Spain',
+                    'French': 'France', 'France': 'France',
+                    'Italian': 'Italy', 'Italy': 'Italy',
+                    'Portuguese': 'Portugal', 'Portugal': 'Portugal',
+                    'Argentine': 'Argentina',
+                    'Slovak': 'Slovakia',
+                    'Yugoslav': 'Yugoslavia',
+                    'Paraguayan': 'Paraguay',
+                    'Welsh': 'Wales',
+                    'Serbian': 'Serbia',
+                    'Croatian': 'Croatia',
+                    'Austrian': 'Austria',
+                    'Brazilian': 'Brazil',
+                    'Mexican': 'Mexico',
+                    'Chilean': 'Chile',
+                    'Uruguayan': 'Uruguay',
+                    'Hungarian': 'Hungary'
                 };
 
                 // --- Basisberekeningen ---
@@ -593,7 +607,7 @@
 
                 // --- Gecorrigeerde Nationaliteit-analyses ---
                 
-                // 3. Competitie import
+                // Competitie import
                 const leagueImports = Array.from(d3.group(seasons, s => clubsMap.get(s.club)?.land).entries()).map(([leagueCountry, leagueSeasons]) => {
                     if (!leagueCountry) return null;
                     let domesticSeasons = 0;
@@ -618,7 +632,7 @@
                     };
                 }).filter(Boolean).sort((a,b) => b.foreignPct - a.foreignPct);
 
-                // 2. Coach export per nationaliteit
+                // Coach export per nationaliteit
                 const coachExports = Array.from(d3.group(coachStats, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
                     const foreignStints = new Map();
                     let coachesAbroadCount = 0;
@@ -896,7 +910,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.1</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v18.2</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
