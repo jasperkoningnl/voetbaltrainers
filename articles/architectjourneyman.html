@@ -31,6 +31,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
+            background-image: url('./header.png'); /* Updated to static header image */
             background-size: cover;
             background-position: center;
             color: white;
@@ -38,7 +39,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            transition: background-image 1.5s ease-in-out;
         }
 
         .hero-section::after {
@@ -112,8 +112,8 @@
         .explore-box {
             background-color: #f0f2f5;
             border-radius: 0.75rem;
-            padding: 1.5rem 2rem;
-            margin-top: 2.5rem;
+            padding: 2rem;
+            margin-top: 3rem;
             text-align: center;
         }
         
@@ -129,7 +129,7 @@
             font-size: 1rem;
             line-height: 1.6;
             color: #4a5568;
-            max-width: 90%;
+            max-width: 95%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 1.5rem;
@@ -151,7 +151,7 @@
 
     <main>
         <article>
-            <header class="hero-section" id="hero-section">
+            <header class="hero-section">
                 <div class="hero-content">
                     <h1 class="hero-title">The Architect and The Journeyman</h1>
                     <p class="hero-subtitle">Deconstructing Football's Two Paths to Glory</p>
@@ -228,30 +228,8 @@
             </div>
         </article>
     </main>
-
-    <script>
-        // Simple script for hero image slideshow
-        document.addEventListener('DOMContentLoaded', function() {
-            const hero = document.getElementById('hero-section');
-            const images = [
-                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fd.ibtimes.co.uk%2Fen%2Ffull%2F1432794%2Fjose-mourinho.jpg&f=1&nofb=1&ipt=1a4a53d9cf3f84c2e2477591424837fdf1ac458c5d5c1ed39d651348e0def811",
-                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fd.newsweek.com%2Fen%2Ffull%2F563313%2Fferguson-mourinho.jpg&f=1&nofb=1&ipt=996eb98a8c379f6c28220cf6f4d4f0c350ad7714fc3e3e8deb3f6e7531d999ef",
-                "https://images.unsplash.com/photo-1551941582-59769a0c7387?q=80&w=2835&auto=format&fit=crop" // Original image as fallback
-            ];
-            let currentImageIndex = 0;
-
-            function changeImage() {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                hero.style.backgroundImage = `url('${images[currentImageIndex]}')`;
-            }
-
-            // Set initial image
-            hero.style.backgroundImage = `url('${images[0]}')`;
-
-            // Change image every 7 seconds
-            setInterval(changeImage, 7000);
-        });
-    </script>
+    
+    <!-- Removed the hero image slideshow script as it's no longer needed -->
 
 </body>
 </html>
