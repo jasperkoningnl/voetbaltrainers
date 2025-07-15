@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 10.1 - Uitlijning teaser-afbeelding gecorrigeerd. -->
+<!-- HTML Versie: 10.2 - Teaser-titel over afbeelding geplaatst. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -51,50 +51,53 @@
         }
 
         .teaser-card {
-            display: flex;
-            flex-direction: column;
-            background-color: var(--canvas-background);
+            position: relative;
+            display: block;
+            height: 220px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px var(--shadow-color);
             overflow: hidden;
             text-decoration: none;
-            color: var(--text-primary);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            color: white;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .teaser-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
+        
+        .teaser-card:hover .teaser-image {
+            transform: scale(1.05);
+        }
 
         .teaser-image {
             width: 100%;
-            height: 150px;
+            height: 100%;
             object-fit: cover;
             object-position: center 25%; /* This will shift the image up to show the heads */
-            border-bottom: 1px solid var(--border-color);
+            transition: transform 0.4s ease;
         }
 
         .teaser-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             padding: 1rem 1.25rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
         }
 
         .teaser-content h3 {
             font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin: 0 0 0.5rem 0;
+            margin: 0;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
         }
 
         .teaser-content p {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin: 0;
+           display: none; /* Hide paragraph for a cleaner look */
         }
 
         .teaser-card.is-placeholder {
@@ -104,12 +107,26 @@
             align-items: center;
             text-align: center;
             color: #6c757d;
-            min-height: 250px;
+            height: 220px;
+            display: flex;
         }
         .teaser-card.is-placeholder:hover {
             transform: none;
             box-shadow: 0 4px 12px var(--shadow-color);
             border-color: #bdc3c7;
+        }
+        .teaser-card.is-placeholder .teaser-content {
+            position: static;
+            background: none;
+            color: inherit;
+        }
+         .teaser-card.is-placeholder .teaser-content h3 {
+            color: #2d3436;
+            text-shadow: none;
+        }
+        .teaser-card.is-placeholder .teaser-content p {
+            display: block;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -130,7 +147,6 @@
                 <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png" alt="Silhouette of a football manager" class="teaser-image">
                 <div class="teaser-content">
                     <h3>The Architect vs. The Journeyman</h3>
-                    <p>Is a long-serving manager still the key to success, or do modern clubs need short-term specialists? A deep dive into the data.</p>
                 </div>
             </a>
             <!-- Teaser 2: Placeholder -->
