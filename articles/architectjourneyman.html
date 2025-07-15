@@ -31,7 +31,6 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('https://images.unsplash.com/photo-1551941582-59769a0c7387?q=80&w=2835&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             color: white;
@@ -39,6 +38,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            transition: background-image 1.5s ease-in-out;
         }
 
         .hero-section::after {
@@ -84,8 +84,8 @@
             font-size: 2rem;
             margin-top: 3rem;
             margin-bottom: 1.5rem;
-            border-left: 4px solid #a0aec0;
-            padding-left: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         blockquote {
@@ -106,9 +106,17 @@
             color: #718096;
             text-align: center;
             margin-top: 0.75rem;
-            margin-bottom: 2rem; /* Extra space added */
+            margin-bottom: 2.5rem; /* Extra space added */
         }
         
+        .explore-box {
+            background-color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
         .source-list {
             font-size: 0.8rem;
             color: #a0aec0;
@@ -125,7 +133,7 @@
 
     <main>
         <article>
-            <header class="hero-section">
+            <header class="hero-section" id="hero-section">
                 <div class="hero-content">
                     <h1 class="hero-title">The Architect and The Journeyman</h1>
                     <p class="hero-subtitle">Deconstructing Football's Two Paths to Glory</p>
@@ -175,10 +183,11 @@
                 <p>Opposite that is the pragmatic reality of the Journeyman, the specialist like Ancelotti or Mourinho, hired for a specific task: win now. It's a model perfectly suited to the fast-paced, results-oriented world of modern top-level football.</p>
                 <p>Ultimately, the "Managerial Merry-Go-Round" shows that both patience and opportunism can lead to the pinnacle of the sport. The choice for any club is: are we building a monument for the ages, or are we hiring the best specialist for today's job?</p>
                 
-                <div class="mt-12 pt-8 border-t border-gray-300">
-                    <h3 class="text-2xl">Explore the Data Yourself</h3>
-                    <p>Dive into the data yourself. Our interactive visualization allows you to explore club histories, filter by a coach's nationality, or use the 'Advanced' tab to track a manager's entire career path across different leagues. See for yourself how long Guardiola stayed at Barcelona versus Bayern. Compare the trophy haul of Italian coaches in England to Dutch coaches in Spain. The patterns are there to be discovered.</p>
-                    <a href="https://jasperkoningnl.github.io/voetbaltrainers/" target="_blank" class="inline-block mt-4 bg-gray-800 text-white font-bold py-3 px-6 rounded-lg hover:bg-gray-700 transition-colors">Launch the Interactive Visualization</a>
+                <div class="explore-box">
+                    <h3 class="text-2xl border-none p-0 mb-4">Explore the Data Yourself</h3>
+                    <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-6 max-w-full w-full md:w-2/3">
+                    <p class="max-w-xl mx-auto mb-6">Dive into the data yourself. Our interactive visualization allows you to explore club histories, filter by a coach's nationality, or use the 'Advanced' tab to track a manager's entire career path across different leagues. The patterns are there to be discovered.</p>
+                    <a href="https://jasperkoningnl.github.io/voetbaltrainers/" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg">Launch the Interactive Visualization</a>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-300">
@@ -199,6 +208,30 @@
             </div>
         </article>
     </main>
+
+    <script>
+        // Simple script for hero image slideshow
+        document.addEventListener('DOMContentLoaded', function() {
+            const hero = document.getElementById('hero-section');
+            const images = [
+                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fd.ibtimes.co.uk%2Fen%2Ffull%2F1432794%2Fjose-mourinho.jpg&f=1&nofb=1&ipt=1a4a53d9cf3f84c2e2477591424837fdf1ac458c5d5c1ed39d651348e0def811",
+                "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fd.newsweek.com%2Fen%2Ffull%2F563313%2Fferguson-mourinho.jpg&f=1&nofb=1&ipt=996eb98a8c379f6c28220cf6f4d4f0c350ad7714fc3e3e8deb3f6e7531d999ef",
+                "https://images.unsplash.com/photo-1551941582-59769a0c7387?q=80&w=2835&auto=format&fit=crop" // Original image as fallback
+            ];
+            let currentImageIndex = 0;
+
+            function changeImage() {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                hero.style.backgroundImage = `url('${images[currentImageIndex]}')`;
+            }
+
+            // Set initial image
+            hero.style.backgroundImage = `url('${images[0]}')`;
+
+            // Change image every 7 seconds
+            setInterval(changeImage, 7000);
+        });
+    </script>
 
 </body>
 </html>
