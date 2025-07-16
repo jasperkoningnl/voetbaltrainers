@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  HTML Versie: 1.0
+  Changelog:
+  - Initiële versie van de artikel-overzichtspagina.
+  - Toont de drie bestaande artikelen in een card-based layout.
+  - Maakt gebruik van Tailwind CSS voor styling.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles - The Managerial Merry-Go-Round</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-image-container {
+            height: 200px;
+        }
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <a href="index.html" class="text-lg font-bold text-gray-800 hover:text-gray-600">The Managerial Merry-Go-Round</a>
+            </div>
+            <div class="flex space-x-4">
+                <a href="index.html" class="px-4 py-2 text-gray-600 hover:text-gray-800">Visualization</a>
+                <a href="articles.html" class="px-4 py-2 text-gray-800 font-semibold border-b-2 border-gray-800">Articles</a>
+                <a href="about.html" class="px-4 py-2 text-gray-600 hover:text-gray-800">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">Stories from the Sidelines</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Dive deeper into the data with our collection of articles, exploring the narratives and patterns behind managerial careers.</p>
+        </div>
+
+        <!-- Articles Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Article 1: The Architect vs. The Journeyman -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                <a href="architectjourneyman.html" class="block">
+                    <div class="card-image-container">
+                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png" alt="Image of Ferguson and Mourinho" class="card-image">
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The Architect vs. The Journeyman</h2>
+                        <p class="text-gray-700 mb-4">A deep dive into the two dominant philosophies of modern coaching: building a long-term dynasty versus achieving short-term, high-impact success.</p>
+                        <span class="font-semibold text-indigo-600 hover:text-indigo-500">Read More &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Article 2: The Global Tactician -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                <a href="globaltactician.html" class="block">
+                    <div class="card-image-container">
+                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png" alt="Image of a world map with coach routes" class="card-image">
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The Global Tactician</h2>
+                        <p class="text-gray-700 mb-4">Which nations export the most successful coaching philosophies, and which leagues are the biggest importers of foreign talent? The data reveals all.</p>
+                        <span class="font-semibold text-indigo-600 hover:text-indigo-500">Read More &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Article 3: The GOAT Debate -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                <a href="thegoat.html" class="block">
+                    <div class="card-image-container">
+                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png" alt="Image of Mount Rushmore with football managers" class="card-image">
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The GOAT Debate</h2>
+                        <p class="text-gray-700 mb-4">Using data to analyze the claims of football's greatest managers. Is it about trophy volume, efficiency, or revolutionary impact?</p>
+                        <span class="font-semibold text-indigo-600 hover:text-indigo-500">Read More &rarr;</span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-12 py-8 text-center text-gray-500">
+        <p>Created by <a href="https://github.com/jasperkoningnl" target="_blank" class="text-gray-700 hover:underline">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank" class="text-gray-700 hover:underline">Gemini</a>.</p>
+        <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank" class="text-gray-700 hover:underline">View project on GitHub</a></p>
+    </footer>
+
+</body>
+</html>
