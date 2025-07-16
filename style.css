@@ -1,11 +1,19 @@
-/* CSS Versie: 9.0 - Advanced tab met Career Mode geïmplementeerd. */
+/*
+  CSS Versie: 10.0
+  Changelog:
+  - Globale navigatiebalk en design-stroomlijning geïmplementeerd.
+  - Nieuwe steunkleur (--accent-color) toegevoegd: een diepe blauwtint.
+  - Lettertype 'Inter' als standaard voor het hele project ingesteld. 'Oswald' voor H1-koppen.
+  - Nieuwe header-stijl voor de hoofdpagina.
+  - Filter/Search-knop opnieuw vormgegeven.
+*/
 
 :root {
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --accent-color: #2d3436; /* Neutrale antraciet accentkleur */
+    --accent-color: #0A3A6B; /* Nieuwe steunkleur: diepblauw */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
     --block-background: #f8f9fa;
@@ -22,6 +30,11 @@ body {
     min-height: 100vh;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+}
+
 main {
     width: 100%;
     max-width: 1600px;
@@ -29,30 +42,88 @@ main {
     box-sizing: border-box;
 }
 
+/* --- Nieuwe Globale Navigatiebalk --- */
+.site-header {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+.site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    height: 70px;
+    box-sizing: border-box;
+}
+
+.site-nav .logo a {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.site-nav .nav-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.site-nav .nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    border-bottom: 2px solid transparent;
+}
+
+.site-nav .nav-links a:hover {
+    color: var(--text-primary);
+    background-color: #f1f3f5;
+}
+
+.site-nav .nav-links a.active {
+    color: var(--accent-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+
+/* --- Aangepaste Header voor Homepage --- */
 .page-header {
     width: 100%;
     max-width: 1600px;
-    padding: 0 2rem;
+    padding: 4rem 2rem;
     box-sizing: border-box;
-    margin: 2rem 0;
     text-align: center;
+    background-color: #fff;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .page-header h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
+    font-family: 'Oswald', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 700;
     color: #1d2d3d;
     margin-bottom: 0.5rem;
     margin-top: 0;
+    letter-spacing: -1px;
 }
 
 .page-header .subtitle {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 650px;
+    max-width: 700px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .visualization-canvas {
@@ -207,23 +278,29 @@ main {
 }
 
 
+/* --- VERNIEUWDE FILTER KNOP --- */
 #filter-toggle-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
     width: 100%;
-    padding: 0;
-    background: none;
-    border: none;
+    padding: 0.75rem 1rem;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-secondary);
     cursor: pointer;
     text-align: left;
+    transition: all 0.2s ease-in-out;
 }
 .filter-toggle-content { display: flex; align-items: center; gap: 8px; }
-#filter-toggle-btn:hover { color: var(--text-primary); }
+#filter-toggle-btn:hover { border-color: #aab; color: var(--text-primary); }
+#filter-toggle-btn.open {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(10, 58, 107, 0.1);
+}
 .filter-arrow {
     border: solid var(--text-secondary);
     border-width: 0 2px 2px 0;
@@ -257,11 +334,11 @@ main {
 .filter-group input:focus, .filter-group select:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(45, 52, 54, 0.15);
+    box-shadow: 0 0 0 3px rgba(10, 58, 107, 0.15);
 }
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
-/* --- Navigatie Styling --- */
+/* --- Navigatie Styling (in-page) --- */
 #country-nav-container.disabled {
     pointer-events: none;
     opacity: 0.5;
@@ -269,7 +346,7 @@ main {
 #country-nav-container { display: flex; background-color: #e9ecef; border-radius: 8px; padding: 5px; flex-wrap: wrap; transition: opacity 0.3s; }
 .nav-link { flex-grow: 1; text-align: center; padding: 0.6rem 1rem; color: var(--text-secondary); text-decoration: none; border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600; transition: all 0.25s ease-in-out; }
 .nav-link:hover { background-color: #dce1e6; color: var(--text-primary); }
-.nav-link.active { background-color: var(--accent-color); color: white; box-shadow: 0 2px 8px rgba(45, 52, 54, 0.4); }
+.nav-link.active { background-color: var(--accent-color); color: white; box-shadow: 0 2px 8px rgba(10, 58, 107, 0.4); }
 .nav-link-special { background-color: #e9ecef; border: 1px dashed var(--border-color); color: var(--text-secondary); }
 .nav-link-special.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
 
@@ -382,3 +459,22 @@ main {
 .page-footer { width: 100%; text-align: center; padding: 2rem 0; margin-top: auto; font-size: 0.9rem; color: #888; }
 .page-footer a { color: var(--accent-color); text-decoration: none; font-weight: 500; }
 .page-footer a:hover { text-decoration: underline; }
+
+/* --- Stijlen voor artikelpagina's --- */
+.article-body h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+.article-body p {
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1.125rem;
+}
+.article-body a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
