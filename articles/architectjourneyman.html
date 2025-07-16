@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.0
+  HTML Versie: 2.1
   Changelog:
-  - Globale, consistente navigatiebalk toegevoegd.
-  - Link naar style.css toegevoegd voor gedeelde stijlen (kleuren, lettertypes).
+  - Paden naar stylesheet, navigatielinks en afbeeldingen gecorrigeerd.
 -->
 <html lang="en">
 <head>
@@ -20,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
     
     <!-- Gedeelde Stijlen -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 
     <style>
         /* Custom styles for a premium magazine look */
@@ -40,7 +39,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('./articles/header.png');
+            background-image: url('./header.png');
             background-size: cover;
             background-position: center 15%;
             color: white;
@@ -64,7 +63,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-w: 800px;
             padding: 2rem;
         }
 
@@ -161,12 +160,12 @@
     <header class="site-header">
         <nav class="site-nav">
             <div class="logo">
-                <a href="index.html">The Managerial Merry-Go-Round</a>
+                <a href="../index.html">The Managerial Merry-Go-Round</a>
             </div>
             <div class="nav-links">
-                <a href="index.html">Visualization</a>
-                <a href="articles.html" class="active">Articles</a>
-                <a href="about.html">About</a>
+                <a href="../index.html">Visualization</a>
+                <a href="../articles.html" class="active">Articles</a>
+                <a href="../about.html">About</a>
             </div>
         </nav>
     </header>
@@ -190,8 +189,8 @@
                 <p>When you think of a dynasty, you think of <strong>Sir Alex Ferguson</strong>. His 26-year reign at Manchester United is the definitive blueprint for long-term success. It's a tenure that seems almost impossible today. After a difficult start, a famous fan banner on a cold December day in 1989 read, <strong>"3 years of excuses and we're still crap. Ta-ra Fergie."</strong> The board’s decision to stick by their man would become the single most important in the club's modern history.</p>
                 
                 <figure>
-                    <a href="index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./articles/alex_ferguson.png" alt="Data visualization showing Sir Alex Ferguson's long tenure at Manchester United" class="rounded-lg shadow-lg mx-auto">
+                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                        <img src="./alex_ferguson.png" alt="Data visualization showing Sir Alex Ferguson's long tenure at Manchester United" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>A snapshot from our data visualization showing Ferguson's unprecedented 26-year reign at Manchester United, dotted with trophies.</figcaption>
                 </figure>
@@ -207,8 +206,8 @@
                 <p><strong>José Mourinho</strong> is the prototype. His career is a grand tour of Europe's footballing capitals, defined by an "us against the world" mentality. Nothing illustrates this better than a story from his time at Chelsea in 2005. After being banned from the touchline for a Champions League quarter-final, he reportedly arrived at Stamford Bridge early, hid in the dressing room, and was then wheeled out of the stadium hidden in a laundry basket to avoid being seen. It's a tale that perfectly captures his siege mentality. It worked. Our data tracks his path: an improbable Champions League with FC Porto, domestic dominance with Chelsea, a historic treble with Internazionale, and a La Liga title with Real Madrid. His stays are often short and combustible. After winning the treble with Inter in 2010, president Massimo Moratti confessed to feeling "a bit abandoned" by his immediate departure.</p>
 
                 <figure>
-                    <a href="index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./articles/jose_mourinho.png" alt="Data visualization showing the career path of a 'journeyman' coach" class="rounded-lg shadow-lg mx-auto">
+                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                        <img src="./jose_mourinho.png" alt="Data visualization showing the career path of a 'journeyman' coach" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>The 'Career Mode' in our visualization tracks the path of a journeyman like Mourinho across different clubs and countries.</figcaption>
                 </figure>
@@ -225,11 +224,11 @@
                 
                 <div class="explore-box">
                     <h3 class="text-2xl">Explore the Data Yourself</h3>
-                    <a href="index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./articles/visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                        <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
-                    <a href="index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
+                    <a href="../index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-300">
