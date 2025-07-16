@@ -1,11 +1,7 @@
 /*
-  CSS Versie: 10.0
+  CSS Versie: 10.1
   Changelog:
-  - Globale navigatiebalk en design-stroomlijning geïmplementeerd.
-  - Nieuwe steunkleur (--accent-color) toegevoegd: een diepe blauwtint.
-  - Lettertype 'Inter' als standaard voor het hele project ingesteld. 'Oswald' voor H1-koppen.
-  - Nieuwe header-stijl voor de hoofdpagina.
-  - Filter/Search-knop opnieuw vormgegeven.
+  - Class '.axis-tick-active' toegevoegd voor het highlighten van jaartallen op de X-as.
 */
 
 :root {
@@ -48,6 +44,8 @@ main {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     z-index: 100;
+    position: sticky;
+    top: 0;
 }
 
 .site-nav {
@@ -56,7 +54,7 @@ main {
     align-items: center;
     max-width: 1600px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
     height: 70px;
     box-sizing: border-box;
 }
@@ -81,6 +79,7 @@ main {
     padding: 0.5rem 1rem;
     border-radius: 6px;
     transition: all 0.2s ease-in-out;
+    position: relative;
     border-bottom: 2px solid transparent;
 }
 
@@ -92,7 +91,16 @@ main {
 .site-nav .nav-links a.active {
     color: var(--accent-color);
     font-weight: 700;
-    border-bottom: 2px solid var(--accent-color);
+}
+
+.site-nav .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--accent-color);
 }
 
 
@@ -211,6 +219,8 @@ main {
 .info-pane-extra p { margin: 0; line-height: 1.5; }
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
+.info-pane-extra .tenure-summary { font-size: 0.9rem; color: var(--text-secondary); font-style: italic; margin-top: 4px; }
+
 
 /* --- Prijzenkast Styling --- */
 .info-pane-trophies {
@@ -374,7 +384,11 @@ main {
 /* --- D3 Visualisatie Styling --- */
 .axis path, .axis line { fill: none; stroke: var(--border-color); shape-rendering: crispEdges; }
 .axis .domain, .axis .tick line { stroke: none; }
-.axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; }
+.axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; transition: fill 0.2s, font-weight 0.2s; }
+.axis .tick text.axis-tick-active {
+    fill: var(--accent-color);
+    font-weight: 700;
+}
 .y-axis .club-label { position: relative; }
 .y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
 .y-axis .club-label rect { fill: #fff; }
