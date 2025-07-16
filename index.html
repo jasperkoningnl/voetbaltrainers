@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<!-- HTML Versie: 10.4 - Derde teaser toegevoegd. -->
+<!-- 
+  HTML Versie: 11.0
+  Changelog:
+  - Globale navigatiebalk geïmplementeerd voor consistentie.
+  - Header/introductie sectie opnieuw vormgegeven voor een modernere uitstraling.
+  - Lettertypes en steunkleur gesynchroniseerd met de rest van het project.
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +14,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     
@@ -75,7 +81,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 25%; /* This will shift the image up to show the heads */
+            object-position: center 25%;
             transition: transform 0.4s ease;
         }
 
@@ -95,69 +101,46 @@
             margin: 0;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
         }
-
-        .teaser-content p {
-           display: none; /* Hide paragraph for a cleaner look */
-        }
-
-        .teaser-card.is-placeholder {
-            background-color: #e9ecef;
-            border: 2px dashed #dee2e6;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #6c757d;
-            height: 220px;
-            display: flex;
-        }
-        .teaser-card.is-placeholder:hover {
-            transform: none;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            border-color: #bdc3c7;
-        }
-        .teaser-card.is-placeholder .teaser-content {
-            position: static;
-            background: none;
-            color: inherit;
-        }
-         .teaser-card.is-placeholder .teaser-content h3 {
-            color: #2d3436;
-            text-shadow: none;
-        }
-        .teaser-card.is-placeholder .teaser-content p {
-            display: block;
-            color: #6c757d;
-        }
     </style>
 </head>
 <body>
 
-    <header class="page-header">
+    <header class="site-header">
+        <nav class="site-nav">
+            <div class="logo">
+                <a href="index.html">The Managerial Merry-Go-Round</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Visualization</a>
+                <a href="articles.html">Articles</a>
+                <a href="about.html">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="page-header">
         <h1>The Managerial Merry-Go-Round</h1>
         <p class="subtitle">
-            Was Sir Alex Ferguson's reign at Manchester United truly an outlier? This visualization explores the relationship between tenure and trophies at Europe's top clubs.
+            Was Sir Alex Ferguson's 26-year reign an anomaly? This visualization explores the relationship between managerial tenure and trophies won at Europe's top clubs.
         </p>
-    </header>
+    </div>
 
     <!-- Article Teaser Section -->
     <section class="teasers-section">
         <div class="teasers-grid">
-            <!-- Teaser 1: Architect vs Journeyman -->
-            <a href="https://jasperkoningnl.github.io/voetbaltrainers/articles/architectjourneyman.html" target="_blank" class="teaser-card">
+            <a href="architectjourneyman.html" class="teaser-card">
                 <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png" alt="Ferguson and Mourinho" class="teaser-image">
                 <div class="teaser-content">
                     <h3>The Architect vs. The Journeyman</h3>
                 </div>
             </a>
-            <!-- Teaser 2: Global Tactician -->
-            <a href="https://jasperkoningnl.github.io/voetbaltrainers/articles/globaltactician.html" target="_blank" class="teaser-card">
+            <a href="globaltactician.html" class="teaser-card">
                 <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png" alt="Coaches on a map" class="teaser-image" style="object-position: center;">
                 <div class="teaser-content">
                     <h3>The Global Tactician</h3>
                 </div>
             </a>
-            <!-- Teaser 3: GOAT Debate -->
-            <a href="https://jasperkoningnl.github.io/voetbaltrainers/articles/thegoat.html" target="_blank" class="teaser-card">
+            <a href="thegoat.html" class="teaser-card">
                 <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png" alt="Mount Goatmore" class="teaser-image" style="object-position: center;">
                 <div class="teaser-content">
                     <h3>The GOAT Debate</h3>
