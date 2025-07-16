@@ -31,7 +31,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2940&auto=format&fit=crop');
+            background-image: url('./mountgoat.png'); /* Updated to static header image */
             background-size: cover;
             background-position: center;
             color: white;
@@ -149,6 +149,32 @@
             line-height: 1.6;
             color: #e2e8f0;
         }
+
+        .explore-box {
+            background-color: #e9ecef;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .explore-box h3 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .explore-box p {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.5rem;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -164,7 +190,7 @@
 
             <div class="article-body max-w-4xl mx-auto py-12 px-4">
                 <p class="text-lg text-gray-600">What makes a manager the greatest of all time? Is it the sheer volume of silverware, gleaming in a packed trophy cabinet? Is it the tactical revolution that changes how the game is played? Or is it the ability to conquer Europe, to win anywhere, or to build a dynasty that outlasts a generation?</p>
-                <p>The debate is endless, and every fan has their champion. But what does the data say? Using a rich dataset spanning nearly 70 years and 35 of Europe's elite clubs, we can move beyond gut feeling and analyse greatness through different lenses. We've identified key pillars of managerial excellence: **Sustained Dominance**, **European Glory**, **Global Success**, and perhaps most importantly in the modern era, **Winning Efficiency**.</p>
+                <p>The debate is endless, and every fan has their champion. But what does the data say? Using a rich dataset spanning nearly 70 years and 35 of Europe's elite clubs, we can move beyond gut feeling and analyse greatness through different lenses. We've identified key pillars of managerial excellence: <strong>Sustained Dominance</strong>, <strong>European Glory</strong>, **Global Success**, and perhaps most importantly in the modern era, <strong>Winning Efficiency</strong>.</p>
                 <p>This is not a definitive ranking, but an exploration of the different forms of greatness, a data-driven "Mount Rushmore" of the men who have shaped modern football.</p>
 
                 <h3>The Kings of Longevity: Building an Empire</h3>
@@ -209,25 +235,35 @@
                         <div class="rushmore-item">
                             <h4>Sir Alex Ferguson</h4>
                             <p class="title">The Architect</p>
-                            <p>For unparalleled longevity, sustained dominance, and building an empire at a single club that defined an era.</p>
+                            <p>For unparalleled longevity, sustained dominance, and building an empire at a single club.</p>
                         </div>
                         <div class="rushmore-item">
                             <h4>Pep Guardiola</h4>
                             <p class="title">The Revolutionary</p>
-                            <p>For tactical innovation, unprecedented efficiency, and redefining what it means to win across multiple leagues in the modern era.</p>
+                            <p>For tactical innovation, unprecedented efficiency, and redefining what it means to win in the modern era.</p>
                         </div>
                         <div class="rushmore-item">
                             <h4>Carlo Ancelotti</h4>
                             <p class="title">The Globetrotter</p>
-                            <p>For supreme European success and the unique ability to conquer all of Europe's top five leagues with a calm, adaptable authority.</p>
+                            <p>For supreme European success and the unique ability to conquer all of Europe's top five leagues.</p>
                         </div>
                         <div class="rushmore-item">
                             <h4>Johan Cruyff</h4>
                             <p class="title">The Godfather</p>
-                            <p>For a philosophical impact that transcends trophies. While Rinus Michels invented the system, Cruyff perfected it as a coaching ideology and shaped generations of the world's best coaches and players.</p>
+                            <p>For a philosophical impact that transcends trophies and shaped generations of the world's best coaches and players.</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="explore-box">
+                    <h3 class="text-2xl">Explore the Data Yourself</h3>
+                    <a href="https://jasperkoningnl.github.io/voetbaltrainers/" target="_blank" rel="noopener noreferrer">
+                        <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                    </a>
+                    <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's entire career path. Dive in and discover the patterns for yourself.</p>
+                    <a href="https://jasperkoningnl.github.io/voetbaltrainers/" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg">Launch the Interactive Visualization</a>
+                </div>
+
             </div>
         </article>
     </main>
