@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.0
+  HTML Versie: 2.1
   Changelog:
-  - Globale, consistente navigatiebalk toegevoegd.
-  - Link naar style.css toegevoegd voor gedeelde stijlen (kleuren, lettertypes).
+  - Paden naar stylesheet, navigatielinks en afbeeldingen gecorrigeerd.
 -->
 <html lang="en">
 <head>
@@ -20,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
     <!-- Gedeelde Stijlen -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 
     <style>
         /* Custom styles for a premium magazine look */
@@ -40,7 +39,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('./articles/global.png');
+            background-image: url('./global.png');
             background-size: cover;
             background-position: center;
             color: white;
@@ -64,7 +63,7 @@
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
+            max-w: 800px;
             padding: 2rem;
         }
 
@@ -140,12 +139,12 @@
     <header class="site-header">
         <nav class="site-nav">
             <div class="logo">
-                <a href="index.html">The Managerial Merry-Go-Round</a>
+                <a href="../index.html">The Managerial Merry-Go-Round</a>
             </div>
             <div class="nav-links">
-                <a href="index.html">Visualization</a>
-                <a href="articles.html" class="active">Articles</a>
-                <a href="about.html">About</a>
+                <a href="../index.html">Visualization</a>
+                <a href="../articles.html" class="active">Articles</a>
+                <a href="../about.html">About</a>
             </div>
         </nav>
     </header>
