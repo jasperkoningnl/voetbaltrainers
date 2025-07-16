@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.1
+  HTML Versie: 2.2
   Changelog:
-  - Paden naar stylesheet, navigatielinks en afbeeldingen gecorrigeerd.
+  - Lettertypegebruik gestandaardiseerd naar Inter en Oswald.
 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Global Tactician: How Coaching Philosophies Conquered Europe</title>
+    <title>The GOAT Debate: An Analytical Approach to Football's Greatest Managers</title>
     
     <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -24,11 +24,10 @@
     <style>
         /* Custom styles for a premium magazine look */
         body {
-            font-family: 'Merriweather', serif;
-            background-color: #f8f9fa;
+            font-family: 'Inter', sans-serif;
         }
 
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
@@ -39,7 +38,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('./global.png');
+            background-image: url('./mountgoat.png');
             background-size: cover;
             background-position: center;
             color: white;
@@ -74,14 +73,6 @@
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-family: 'Merriweather', serif;
-            font-style: italic;
-            margin-top: 1rem;
-            opacity: 0.9;
-        }
-
         .article-body p {
             line-height: 1.8;
             margin-bottom: 1.5rem;
@@ -112,25 +103,83 @@
             margin-bottom: 1rem;
         }
         
-        .data-focus-box ul {
+        .data-focus-box ol {
             list-style-type: none;
             padding: 0;
         }
 
         .data-focus-box li {
             margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
         }
-
-        figure {
-            margin: 2.5rem 0;
-        }
-
-        figcaption {
-            font-size: 0.9rem;
+        .data-focus-box li .ratio {
             color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .mount-rushmore {
+            background-color: #2d3748;
+            color: #f7fafc;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-radius: 0.5rem;
+        }
+        .mount-rushmore h3 {
+            color: white;
             text-align: center;
-            margin-top: 0.75rem;
-            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #4a5568;
+        }
+        .mount-rushmore-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+        }
+        @media (min-width: 768px) {
+            .mount-rushmore-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .rushmore-item h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .rushmore-item .title {
+            font-style: italic;
+            color: #a0aec0;
+            margin-bottom: 1rem;
+        }
+        .rushmore-item p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        .explore-box {
+            background-color: #e9ecef;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .explore-box h3 {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .explore-box p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #4a5568;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
@@ -153,67 +202,87 @@
         <article>
             <header class="hero-section">
                 <div class="hero-content">
-                    <h1 class="hero-title">The Global Tactician</h1>
-                    <p class="hero-subtitle">How Coaching Philosophies from Europe's Powerhouses Conquered the Continent</p>
+                    <h1 class="hero-title">The GOAT Debate</h1>
+                    <p class="hero-subtitle">An Analytical Approach to Football's Greatest Managers</p>
                 </div>
             </header>
 
             <div class="article-body max-w-4xl mx-auto py-12 px-4">
-                <p class="text-lg text-gray-600">In football, ideas travel. A tactical innovation born in Amsterdam can find a home in Barcelona, while a pressing system perfected in Mainz can conquer Liverpool. The modern game is a melting pot of philosophies, often imported by the managers themselves. These coaches are more than just employees; they are cultural ambassadors, carrying a distinct footballing identity across borders.</p>
-                <p>But which nations are the most successful exporters of tactical DNA? And which leagues are most open to foreign influence? Our data, covering nearly 70 years across a sample of 35 major clubs (five per country) in Europe's top leagues, reveals some stark contrasts. Based on this sample, the English Premier League stands out as the ultimate melting pot, with a staggering 64% of its coaching positions held by foreigners. At the other end of the spectrum, France's Ligue 1 appears the most insular, with only 21% of its top club managers coming from abroad. It's important to note this reflects the top clubs, and the picture across the entire league might differ.</p>
-                <p>Let's dive into the data to trace the influence of the Dutch, German, Italian, Spanish, Portuguese, and French coaching schools across the continent.</p>
+                <p class="text-lg text-gray-600">What makes a manager the greatest of all time? Is it the sheer volume of silverware, gleaming in a packed trophy cabinet? Is it the tactical revolution that changes how the game is played? Or is it the ability to conquer Europe, to win anywhere, or to build a dynasty that outlasts a generation?</p>
+                <p>The debate is endless, and every fan has their champion. But what does the data say? Using a rich dataset spanning nearly 70 years and 35 of Europe's elite clubs, we can move beyond gut feeling and analyse greatness through different lenses. We've identified key pillars of managerial excellence: <strong>Sustained Dominance</strong>, <strong>European Glory</strong>, **Global Success**, and perhaps most importantly in the modern era, <strong>Winning Efficiency</strong>.</p>
+                <p>This is not a definitive ranking, but an exploration of the different forms of greatness, a data-driven "Mount Rushmore" of the men who have shaped modern football.</p>
 
-                <h3>The Dutch School: An Orange Blueprint for Success</h3>
-                <p>For decades, Dutch football has been a byword for innovation. From "Total Football" to the modern possession-based game, its influence is undeniable. The data shows this isn't just a philosophy; it's a highly successful export product. The story begins with two titans: <strong>Rinus Michels</strong> and his most gifted student, <strong>Johan Cruyff</strong>. Michels laid the groundwork at Barcelona in the 70s, but it was Cruyff who, upon his return as manager in 1988, built the "Dream Team" and cemented an ideological bond between Ajax and Barcelona that persists to this day.</p>
-                <p>This Dutch influence peaked in the late 90s and 2000s. <strong>Louis van Gaal</strong>, fresh from his Champions League victory with Ajax, brought his rigid, philosophical approach—and a host of Dutch players—to Barcelona, where he won two league titles. A decade later, our data shows him repeating the feat in Germany with Bayern Munich, winning the double in 2010. His compatriot, <strong>Frank Rijkaard</strong>, offered a calmer, more player-centric version of the Dutch school and led a Ronaldinho-inspired Barcelona to a Champions League title in 2006. Even <strong>Ruud Gullit</strong> had a taste of success abroad, winning the FA Cup with Chelsea as a player-manager.</p>
-                <p>Not all Dutch exports were an unqualified success. The data shows that <strong>Peter Bosz</strong>, successful in the Netherlands, had more difficult spells abroad at Borussia Dortmund and Olympique Lyonnais. <strong>Ronald Koeman</strong>'s time at Valencia was turbulent, despite winning the Copa del Rey. Yet, the demand for Dutch know-how persisted. **Guus Hiddink** had a brief, trophyless spell at Real Madrid but later won the FA Cup with Chelsea. Even the more pragmatic Dutch coaches like <strong>Dick Advocaat</strong>, <strong>Huub Stevens</strong>, and <strong>Bert van Marwijk</strong> found work across the border, while <strong>Leo Beenhakker</strong> managed to win the league with Real Madrid.</p>
-                <p>The newest wave continues this tradition. <strong>Erik ten Hag</strong>, despite constant criticism of his style, ended a five-season trophy drought at Manchester United by winning two cups in his first two years. And <strong>Arne Slot</strong>, who won the title in his debut season with Liverpool, proves that the allure of the Dutch tactical school remains as strong as ever.</p>
-                
+                <h3>The Kings of Longevity: Building an Empire</h3>
+                <p>This is the realm of relentless, sustained dominance, where winning year after year was the standard. When we look at the pure volume of trophies won, one name stands as the benchmark for longevity: <strong>Sir Alex Ferguson</strong>. His haul of 25 major trophies with Manchester United is a monument to adaptation, building multiple legendary teams over 26 years. His prizes-per-season ratio of 0.93 is incredibly impressive over such a long period.</p>
+                <p>Alongside him stand other titans who defined their eras at a single club. <strong>Miguel Muñoz</strong>, the architect of the great Real Madrid side of the 50s and 60s, managed the club for 14 years, securing 12 trophies, including two European Cups. And <strong>Arsène Wenger</strong>, with his 22-year tenure at Arsenal, is another prime example. While his trophy count (12) and efficiency (0.41) are lower, his impact in building a club identity and overseeing a stadium move solidifies his status as a true dynasty-builder. These men represent the classic model of greatness: achieving consistent, long-term success through loyalty and evolution.</p>
+
                 <div class="data-focus-box">
-                    <h4>Data Focus: The Coaching Trade Balance</h4>
-                    <p class="text-sm text-gray-600 mb-4">*Based on a sample of 35 clubs across 7 leagues since 1955.*</p>
-                    <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
-                        <div>
-                            <h5 class="font-bold text-base mb-2">Top 5 Exporting Nations (by foreign stints)</h5>
-                            <ul>
-                                <li><strong>1. Argentina:</strong> 38 stints (Mainly to Spain and Italy)</li>
-                                <li><strong>2. Brazil:</strong> 26 stints (Mainly to Portugal)</li>
-                                <li><strong>3. Netherlands:</strong> 25 stints (Popular in Germany and Spain)</li>
-                                <li><strong>4. Scotland:</strong> 17 stints (Almost exclusively to England)</li>
-                                <li><strong>5. Italy:</strong> 15 stints (Spread across England, Spain, and France)</li>
-                            </ul>
+                    <h4>Data Focus: The Trophy Kings</h4>
+                    <p class="text-sm text-gray-600 mb-4">*Top 10 coaches based on total trophies won within the dataset, including their prizes-per-season ratio.*</p>
+                    <ol>
+                        <li><span>1. <strong>Pep Guardiola</strong> - 25 Trophies</span> <span class="ratio">(1.56 per season)</span></li>
+                        <li><span>2. <strong>Sir Alex Ferguson</strong> - 25 Trophies</span> <span class="ratio">(0.93 per season)</span></li>
+                        <li><span>3. <strong>José Mourinho</strong> - 20 Trophies</span> <span class="ratio">(1.18 per season)</span></li>
+                        <li><span>4. <strong>Giovanni Trapattoni</strong> - 17 Trophies</span> <span class="ratio">(0.71 per season)</span></li>
+                        <li><span>5. <strong>Udo Lattek</strong> - 16 Trophies</span> <span class="ratio">(0.94 per season)</span></li>
+                        <li><span>6. <strong>Carlo Ancelotti</strong> - 15 Trophies</span> <span class="ratio">(0.68 per season)</span></li>
+                        <li><span>7. <strong>Louis van Gaal</strong> - 13 Trophies</span> <span class="ratio">(0.72 per season)</span></li>
+                        <li><span>8. <strong>Arsène Wenger</strong> - 12 Trophies</span> <span class="ratio">(0.41 per season)</span></li>
+                        <li><span>9. <strong>Ottmar Hitzfeld</strong> - 12 Trophies</span> <span class="ratio">(0.92 per season)</span></li>
+                        <li><span>10. <strong>Miguel Muñoz</strong> - 12 Trophies</span> <span class="ratio">(0.92 per season)</span></li>
+                    </ol>
+                </div>
+
+                <h3>The Modern Super-Coaches: Efficiency and Global Conquest</h3>
+                <p>While the old guard built their legends over decades, the modern era has produced a new breed of super-coach, defined by intense, concentrated dominance and the ability to win anywhere.</p>
+                <p>No one embodies this more than <strong>Pep Guardiola</strong>. The data positions him as arguably the most complete manager of the 21st century. He matches Ferguson's staggering 25 trophies but has done so in a far shorter timeframe, resulting in a phenomenal prizes-per-season ratio of 1.56. He is not just a winner; he is a tactical revolutionary, a "Globetrotter" with league titles in Spain, Germany, and England, and a "Perfectionist" who has achieved the historic treble twice. He combines volume, efficiency, and game-changing impact in a way no other manager has.</p>
+                <p>His great rival, <strong>José Mourinho</strong>, is the ultimate pragmatic conqueror. With 20 trophies and an excellent efficiency rating of 1.18, he has proven he can win in any environment, from his underdog Champions League victory with Porto to his treble with Inter. Then there is <strong>Carlo Ancelotti</strong>, the specialist's specialist. While his volume and efficiency are lower in our data, his record five Champions League titles and his unique achievement of winning the league in all five major European countries make him a master of global success and European glory. This group, which also includes multi-league winners like <strong>Louis van Gaal</strong> (Netherlands, Spain, Germany) and <strong>Giovanni Trapattoni</strong> (Italy, Germany, Portugal), represents a different kind of greatness: the ability to export a winning formula.</p>
+
+                <h3>The Revolutionaries: More Than Just Trophies</h3>
+                <p>Finally, there are managers whose greatness is difficult to capture in numbers alone, or who achieved such unique feats that they stand apart.</p>
+                <p><strong>Zinedine Zidane</strong> falls into this category. His achievement of winning three consecutive Champions League titles with Real Madrid is an anomaly in the modern game, a feat of knockout-tournament mastery that may never be repeated.</p>
+                <p>And then there is <strong>Johan Cruyff</strong>. Though his trophy count is more modest than the serial winners, his influence is arguably greater than any other. He didn't just manage Barcelona; he installed a footballing philosophy, a DNA that directly led to the success of his disciples, including Guardiola and Rijkaard. His legacy is not measured in silverware, but in the very way modern football is played and understood. The German duo of <strong>Udo Lattek</strong> and <strong>Ottmar Hitzfeld</strong> can also be seen in this light; they didn't just win, they established a culture of dominance at Bayern Munich and Borussia Dortmund that defined German football for generations.</p>
+
+                <h3>Conclusion: A New GOAT for a New Era?</h3>
+                <p>So, who is the greatest? The ultimate debate may now be a Mancunian affair: Ferguson's United dynasty versus Guardiola's City machine, two different models of success that have defined their respective eras. The data doesn't give one simple answer, but it does illuminate a shift. While Ferguson set the 20th-century benchmark for sustained, single-club dominance, <strong>Pep Guardiola</strong> has redefined what managerial greatness looks like in the 21st century.</p>
+                <p>His unprecedented combination of winning volume, revolutionary tactics, staggering efficiency, and proven success across multiple top leagues makes him, based on the data, the most complete candidate for the modern "GOAT" title. While the romanticism of Ferguson's long reign and the European genius of Ancelotti provide compelling counterarguments, Guardiola's record represents a new, higher-velocity era of managerial dominance. The debate will rage on, but the data suggests the benchmark has been raised.</p>
+
+                <div class="mount-rushmore">
+                    <h3>The Mount Rushmore of Modern Management</h3>
+                    <p class="text-center text-gray-400 mb-8">If we were forced to carve four faces into the mountain, representing the different pillars of managerial greatness, our data points to these titans:</p>
+                    <div class="mount-rushmore-grid">
+                        <div class="rushmore-item">
+                            <h4>Sir Alex Ferguson</h4>
+                            <p class="title">The Architect</p>
+                            <p>For unparalleled longevity, sustained dominance, and building an empire at a single club.</p>
                         </div>
-                        <div>
-                            <h5 class="font-bold text-base mb-2">League Openness (% foreign coaches)</h5>
-                            <ul>
-                                <li><strong>Most Open:</strong> England (64.0%), Portugal (48.2%), Spain (44.1%)</li>
-                                <li><strong>Most Closed:</strong> France (21.1%), Netherlands (24.6%), Italy (28.9%)</li>
-                            </ul>
+                        <div class="rushmore-item">
+                            <h4>Pep Guardiola</h4>
+                            <p class="title">The Revolutionary</p>
+                            <p>For tactical innovation, unprecedented efficiency, and redefining what it means to win in the modern era.</p>
+                        </div>
+                        <div class="rushmore-item">
+                            <h4>Carlo Ancelotti</h4>
+                            <p class="title">The Globetrotter</p>
+                            <p>For supreme European success and the unique ability to conquer all of Europe's top five leagues.</p>
+                        </div>
+                        <div class="rushmore-item">
+                            <h4>Johan Cruyff</h4>
+                            <p class="title">The Godfather</p>
+                            <p>For a philosophical impact that transcends trophies and shaped generations of the world's best coaches and players.</p>
                         </div>
                     </div>
                 </div>
 
-                <h3>The German Gegen-Wave: Heavy Metal Football Takes Over</h3>
-                <p>If the Dutch taught Europe how to play with the ball, the Germans taught them how to win it back. While pioneers like <strong>Udo Lattek</strong> (Barcelona) and <strong>Jupp Heynckes</strong> had already found success abroad—with Heynckes famously winning the Champions League with Real Madrid in 1998—the modern era is defined by the "Gegenpressing" revolution.</p>
-                <p>This wave was spearheaded by two managers forged in the same crucible: <strong>Jürgen Klopp</strong> and <strong>Thomas Tuchel</strong>. Both honed their craft at Mainz 05 before making their names at Borussia Dortmund. Klopp arrived at Liverpool in 2015 and famously described his philosophy as "heavy metal football." He promised to turn "doubters into believers," and he delivered, winning both the Champions League (2019) and Liverpool's first league title in 30 years (2020). Tuchel followed a similar path, taking his intense, tactically flexible approach to PSG and then winning a Champions League with Chelsea in 2021 just months after taking over.</p>
-                <p>The data shows a clear trend: where German coaches go, intensity and tactical discipline follow. <strong>Ralf Rangnick</strong>, considered the godfather of this pressing style, had a brief consultancy at Manchester United in an attempt to import the philosophy wholesale. Meanwhile, <strong>Roger Schmidt</strong>'s recent title success with Benfica proves the effectiveness of the German model beyond just the top-tier leagues. Even <strong>Hansi Flick</strong>, who led Bayern to a historic sextuple, has now exported his winning mentality to Barcelona.</p>
+                <div class="explore-box">
+                    <h3 class="text-2xl">Explore the Data Yourself</h3>
+                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                        <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                    </a>
+                    <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's entire career path. Dive in and discover the patterns for yourself.</p>
+                    <a href="../index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
+                </div>
 
-                <h3>The Italian Job: Pragmatism as a Passport</h3>
-                <p>Italian coaches have long been stereotyped as defensive masters of "Catenaccio." While there's a kernel of truth in their tactical discipline, the data reveals their greatest strength is actually a relentless, adaptable pragmatism. They don't export a single philosophy; they export winning.</p>
-                <p>The legendary <strong>Giovanni Trapattoni</strong> is a prime example. After dominating with Juventus, he won league titles in Germany with Bayern Munich and in Portugal with Benfica, adapting his style each time. But the ultimate chameleon is <strong>Carlo Ancelotti</strong>. The data shows him winning major honours in Italy (AC Milan), England (Chelsea), France (PSG), Germany (Bayern Munich), and Spain (Real Madrid)—a feat no other manager has accomplished. His genius lies in his serene man-management, calmly handling dressing rooms full of superstars and finding a system that fits them, rather than forcing them into his.</p>
-                
-                <h3>The Spanish Armada & The Portuguese Wave</h3>
-                <p>For decades, Spain exported world-class players, but not necessarily coaches. That changed dramatically with one man: <strong>Pep Guardiola</strong>. His revolutionary success at Barcelona created a global demand for Spanish coaches. Guardiola himself became a top export, dominating the Bundesliga with Bayern Munich and then creating an era of unprecedented success at Manchester City. He paved the way for others like <strong>Luis Enrique</strong> (PSG) and European specialist **Unai Emery** (PSG, Arsenal). Before them, **Rafael Benítez** had already shown that Spanish tactical intelligence was a valuable commodity, famously winning the Champions League with Liverpool in 2005.</p>
-                <p>Simultaneously, Portugal has emerged as a modern powerhouse of coaching talent. The data is dominated by one figure: <strong>José Mourinho</strong>. His journey from Porto to Chelsea, Inter, Real Madrid, and Manchester United is a masterclass in winning through pragmatic, often confrontational, tactics. But he is not alone. A new generation, including **André Villas-Boas** (Chelsea, Marseille), **Paulo Fonseca** (Roma), and the highly-rated **Rúben Amorim**, whose success at Sporting CP earned him the top job at Manchester United, has successfully managed top clubs across Europe.</p>
-
-                <h3>French Exceptionalism: A Paradox of Talent</h3>
-                <p>The French story is a paradox. While France produces a seemingly endless stream of world-class players who dominate leagues across the continent, the nation has been a modest exporter of top-tier coaching talent. Our data shows that top French clubs historically prefer domestic managers, making Ligue 1 the most "closed" league in our sample. This doesn't necessarily mean French coaches lack ambition to go abroad, but it does paint a picture of a more inward-looking coaching culture compared to its neighbours.</p>
-                <p>However, the few who do venture abroad often make a significant, lasting impact, making them notable exceptions to the trend. The towering example is, of course, <strong>Arsène Wenger</strong>. His 22-year reign at Arsenal makes him an 'Architect' abroad, an anomaly who didn't just win trophies but reshaped the identity of a major English club. <strong>Gérard Houllier</strong> also found great success in England, leading Liverpool to a cup treble in 2001. Interestingly, both men coached only one club abroad for an extended, loyal period.</p>
-                <p>This pattern of loyalty to a single foreign club is mirrored by <strong>Zinedine Zidane</strong>. He achieved immense success at Real Madrid, the same club where he shone as a player, winning multiple Champions League titles. Finally, there is <strong>Didier Deschamps</strong>. While he has primarily found success in France, he had a crucial one-season spell at Juventus, where he successfully guided the club back to Serie A after their demotion. These men prove that French coaching possesses immense quality, but they remain rare, high-impact exports rather than a consistent wave. They are not journeymen, but rather icons who commit fully to a specific project abroad, often one with which they have a personal connection.</p>
-                
-                <h3>Conclusion: The Shifting Tides of Tactical Influence</h3>
-                <p>Looking at the data over time, distinct patterns emerge. The 90s and early 2000s were marked by the widespread influence of the Dutch school. The last decade has been defined by the high-intensity German approach, the continued success of adaptable Italian pragmatists, and the rise of the Spanish possession game, with Portuguese coaches emerging as the new tactical heavyweights.</p>
-                <p>What drives these trends? Success is cyclical. A groundbreaking victory, like Arrigo Sacchi's Milan or Cruyff's Barcelona, creates a blueprint that others rush to copy. A nation's economic strength and the global appeal of its top league also play a role, turning managers into highly sought-after global commodities. Ultimately, success abroad is not just about tactical knowledge, but about the ability to communicate a clear idea, adapt to a new culture, and, above all, win.</p>
             </div>
         </article>
     </main>
