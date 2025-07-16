@@ -1,5 +1,8 @@
-// Script Versie: 19.2 - Chronologische sortering voor clubs in Career Mode toegevoegd.
-console.log("Script versie: 19.2 geladen.");
+// Script Versie: 20.0 - Interactie-verbeteringen
+// Changelog:
+// - X-as jaartallen worden gehighlight bij hover/selectie van een periode.
+// - Info-paneel toont nu een extra samenvattende zin over de duur van de periode.
+console.log("Script versie: 20.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -429,29 +432,21 @@ function drawVisualization(data) {
         yDomain = appState.comparisonClubs.map(c => c.naam);
         yDomain.push(ADD_CLUB_PLACEHOLDER);
     } else if (isCareer && appState.careerCoachName) {
-        // NEW: Chronological sorting for Career Mode
         const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
         if (coach) {
-            // 1. Find all seasons for the selected coach
             const coachSeasons = appState.allSeasons
                 .filter(s => s.coachId === coach.id)
-                // 2. Sort these seasons chronologically
                 .sort((a, b) => d3.ascending(a.seizoen, b.seizoen));
-            
-            // 3. Get the unique club IDs from the sorted list to maintain order
             const orderedClubIds = [...new Set(coachSeasons.map(s => s.club))];
-            
-            // 4. Convert the ordered IDs to club names for the Y-axis domain
             yDomain = orderedClubIds.map(id => {
                 const clubInfo = appState.allClubs.find(c => c.id === id);
                 return clubInfo ? clubInfo.naam : null;
-            }).filter(Boolean); // Filter out any nulls if a club isn't found
+            }).filter(Boolean);
         } else {
             yDomain = [];
         }
     }
     else {
-        // Default alphabetical sort for country view
         yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
     }
 
@@ -468,6 +463,7 @@ function drawVisualization(data) {
         if (isCareer) return;
         appState.hoveredTenureId = null;
         updateVisuals();
+        updateAxisHighlight(appState.selectedTenureId); // Revert to selected state
         if (!appState.selectedTenureId) setInfoPaneDefault();
     });
 
@@ -484,6 +480,7 @@ function drawVisualization(data) {
             if (appState.selectedTenureId) {
                 appState.selectedTenureId = null;
                 updateVisuals();
+                updateAxisHighlight(null);
                 setInfoPaneDefault();
             }
         }
@@ -551,6 +548,8 @@ function drawVisualization(data) {
         seasonDividerGroup.selectAll(".season-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         coachDividerGroup.selectAll(".coach-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
+        
+        updateAxisHighlight(appState.selectedTenureId || appState.hoveredTenureId);
     }
 
     barGroup.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("y", d => y(d.club)).attr("height", y.bandwidth()).style("fill", d => getColor(d.stintLength)).on("click", handleMouseClick).on("mouseover", handleMouseOver);
@@ -588,6 +587,7 @@ function handleMouseClick(event, d) {
     event.stopPropagation();
     appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
     updateVisuals();
+    updateAxisHighlight(appState.selectedTenureId);
     if (appState.selectedTenureId) updateInfoPane(d);
     else setInfoPaneDefault();
 }
@@ -596,12 +596,36 @@ function handleMouseOver(event, d) {
     if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
     appState.hoveredTenureId = d.tenureId;
     updateVisuals();
+    updateAxisHighlight(d.tenureId);
     if (!appState.selectedTenureId) {
         updateInfoPane(d);
     }
 }
 
-function setInfoPaneDefault() { DOMElements.infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>'); }
+function updateAxisHighlight(tenureId) {
+    const allTicks = d3.selectAll(".axis.x-axis .tick text");
+    allTicks.classed("axis-tick-active", false);
+
+    if (tenureId) {
+        const dataForView = getPreparedDataForView();
+        const tenureSeasons = new Set(
+            dataForView
+                .filter(item => item.tenureId === tenureId)
+                .map(item => item.seizoen)
+        );
+
+        if (tenureSeasons.size > 0) {
+            allTicks
+                .filter(tickValue => tenureSeasons.has(tickValue))
+                .classed("axis-tick-active", true);
+        }
+    }
+}
+
+function setInfoPaneDefault() { 
+    DOMElements.infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>'); 
+    updateAxisHighlight(null);
+}
 
 function updateInfoPane(d) {
     const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
@@ -627,6 +651,8 @@ function updateInfoPane(d) {
     }
     trophyHtml += '</div>';
 
+    const tenureSummary = `In dienst voor ${d.stintLength} ${d.stintLength > 1 ? 'seizoenen' : 'seizoen'}.`;
+
     const content = `
         ${imageHtml}
         <div class="info-pane-content">
@@ -640,7 +666,8 @@ function updateInfoPane(d) {
             ${trophyHtml}
             <div class="info-pane-extra">
                 <p class="club">${d.club}</p>
-                <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+                <p class="tenure">${tenureYears}</p>
+                <p class="tenure-summary">${tenureSummary}</p>
             </div>
         </div>`;
     DOMElements.infoPane.attr("class", "details-state").html(content);
