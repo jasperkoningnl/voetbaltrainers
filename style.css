@@ -6,12 +6,7 @@
 
 :root {
     /* Huidige steunkleur */
-    --accent-color: #ffcc33; /* Geel */
-
-    /* Alternatieven (vervang de bovenstaande regel om te testen) */
-    /* --accent-color: #0A3A6B; */ /* Diepblauw */
-    /* --accent-color: #9933cc; */ /* Paars */
-
+    --accent-color: #9933cc; /* Paars */
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
