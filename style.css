@@ -1,19 +1,16 @@
 /*
-  CSS Versie: 10.2
+  CSS Versie: 10.3
   Changelog:
-  - Breedte van de introductietekst op de homepage vergroot.
-  - Styling toegevoegd voor de nieuwe samenvattende zin in het info-paneel.
-  - Commentaar toegevoegd met alternatieve steunkleuren.
-  - Class '.axis-tick-active' toegevoegd voor het highlighten van jaartallen op de X-as.
+  - Highlighting op X-as aangepast: accentkleur verwijderd, gebruikt nu --text-primary.
 */
 
 :root {
     /* Huidige steunkleur */
-    --accent-color: #9933cc; /* Paars */
+    --accent-color: #ffcc33; /* Geel */
 
     /* Alternatieven (vervang de bovenstaande regel om te testen) */
-    /* --accent-color: #ffcc33; */ /* Geel */
     /* --accent-color: #0A3A6B; */ /* Diepblauw */
+    /* --accent-color: #9933cc; */ /* Paars */
 
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
@@ -138,7 +135,7 @@ main {
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 800px; /* Was 700px */
+    max-width: 800px;
     margin: 0 auto;
     line-height: 1.7;
 }
@@ -166,7 +163,7 @@ main {
 
 /* --- Output Block Styling --- */
 #output-block {
-    gap: 1rem; /* Minder verticale ruimte */
+    gap: 1rem;
 }
 
 /* --- Info Pane Container --- */
@@ -214,7 +211,7 @@ main {
 
 .info-pane-content {
     display: grid;
-    grid-template-columns: auto 1fr auto; /* Details | Trophies (vult ruimte) | Club Info */
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     width: 100%;
     gap: 2rem;
@@ -271,7 +268,7 @@ main {
     background-color: #e9ecef;
     border-radius: 8px;
     padding: 5px;
-    margin-top: -0.5rem; /* Nette aansluiting */
+    margin-top: -0.5rem;
 }
 .advanced-nav-btn {
     flex-grow: 1;
@@ -393,7 +390,7 @@ main {
 .axis .domain, .axis .tick line { stroke: none; }
 .axis text { font-size: 13px; fill: var(--text-secondary); cursor: default; transition: fill 0.2s, font-weight 0.2s; }
 .axis .tick text.axis-tick-active {
-    fill: var(--accent-color);
+    fill: var(--text-primary);
     font-weight: 700;
 }
 .y-axis .club-label { position: relative; }
