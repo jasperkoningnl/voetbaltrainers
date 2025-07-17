@@ -1,8 +1,9 @@
-// Script Versie: 20.0 - Interactie-verbeteringen
+// Script Versie: 20.2 - Correcties op Interactie & Info-paneel
 // Changelog:
-// - X-as jaartallen worden gehighlight bij hover/selectie van een periode.
-// - Info-paneel toont nu een extra samenvattende zin over de duur van de periode.
-console.log("Script versie: 20.0 geladen.");
+// - Foute zin "In dienst voor..." in info-paneel verwijderd en vervangen door de originele Engelse "(X seasons)" tekst.
+// - Standaardtekst van het info-paneel bijgewerkt met extra uitleg.
+// - Logica voor het highlighten van de X-as gecorrigeerd en geïmplementeerd zoals besproken.
+console.log("Script versie: 20.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -227,6 +228,7 @@ function processTenures(data) {
     });
     
     periodes.forEach(p => {
+        const tenureSeasons = p.seizoenen.map(s => s.seizoen);
         const startJaar = p.seizoenen[0].seizoen.substring(0, 4);
         const laatsteSeizoen = p.seizoenen[p.seizoenen.length - 1].seizoen;
         const [startDeel, eindDeel] = laatsteSeizoen.split('/');
@@ -266,6 +268,7 @@ function processTenures(data) {
             s.tenureStartYear = startJaar;
             s.tenureEndYear = eindJaar;
             s.tenureTrophies = tenureTrophies;
+            s.tenureAllSeasons = tenureSeasons; // Store all seasons of the tenure
         });
     });
     return data;
@@ -463,7 +466,7 @@ function drawVisualization(data) {
         if (isCareer) return;
         appState.hoveredTenureId = null;
         updateVisuals();
-        updateAxisHighlight(appState.selectedTenureId); // Revert to selected state
+        updateXAxis();
         if (!appState.selectedTenureId) setInfoPaneDefault();
     });
 
@@ -480,7 +483,7 @@ function drawVisualization(data) {
             if (appState.selectedTenureId) {
                 appState.selectedTenureId = null;
                 updateVisuals();
-                updateAxisHighlight(null);
+                updateXAxis();
                 setInfoPaneDefault();
             }
         }
@@ -541,18 +544,61 @@ function drawVisualization(data) {
         g.select('.event-catcher').attr('width', currentWidth);
         x.domain(seasons).range([0, currentWidth]);
         svg.attr("viewBox", `0 0 ${currentWidth + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
-        const tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
-        xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0)).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-65)");
+        
+        const tenureId = appState.selectedTenureId || appState.hoveredTenureId;
+        const defaultTicks = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
+        let tenureSeasons = new Set();
+        let extraTicks = new Set();
+
+        if (tenureId) {
+            const tenureData = data.find(item => item.tenureId === tenureId);
+            if (tenureData) {
+                tenureData.tenureAllSeasons.forEach(s => tenureSeasons.add(s));
+                extraTicks.add(tenureData.tenureAllSeasons[0]);
+                extraTicks.add(tenureData.tenureAllSeasons[tenureData.tenureAllSeasons.length - 1]);
+            }
+        }
+        
+        const tickValues = [...new Set([...defaultTicks, ...extraTicks])].sort();
+
+        xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
+            .selectAll(".tick text")
+            .classed("axis-tick-active", d => tenureSeasons.has(d))
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
 
         barGroup.selectAll(".bar").attr("x", d => x(d.seizoen)).attr("width", x.bandwidth()).attr("rx", 2);
         seasonDividerGroup.selectAll(".season-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         coachDividerGroup.selectAll(".coach-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
         prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
-        
-        updateAxisHighlight(appState.selectedTenureId || appState.hoveredTenureId);
     }
 
-    barGroup.selectAll(".bar").data(data).enter().append("rect").attr("class", "bar").attr("y", d => y(d.club)).attr("height", y.bandwidth()).style("fill", d => getColor(d.stintLength)).on("click", handleMouseClick).on("mouseover", handleMouseOver);
+    barGroup.selectAll(".bar").data(data).enter().append("rect")
+        .attr("class", "bar")
+        .attr("y", d => y(d.club))
+        .attr("height", y.bandwidth())
+        .style("fill", d => getColor(d.stintLength))
+        .on("click", (event, d) => {
+            if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
+            event.stopPropagation();
+            appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
+            updateVisuals();
+            updateXAxis();
+            if (appState.selectedTenureId) updateInfoPane(d);
+            else setInfoPaneDefault();
+        })
+        .on("mouseover", (event, d) => {
+            if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
+            appState.hoveredTenureId = d.tenureId;
+            updateVisuals();
+            updateXAxis();
+            if (!appState.selectedTenureId) {
+                updateInfoPane(d);
+            }
+        });
+
     seasonDividerGroup.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line").attr("class", "season-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
     coachDividerGroup.selectAll(".coach-divider").data(data.filter(d => {
         const prevSeason = seasons[seasons.indexOf(d.seizoen) - 1];
@@ -582,49 +628,11 @@ function drawVisualization(data) {
     return updateXAxis;
 }
 
-function handleMouseClick(event, d) {
-    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
-    event.stopPropagation();
-    appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
-    updateVisuals();
-    updateAxisHighlight(appState.selectedTenureId);
-    if (appState.selectedTenureId) updateInfoPane(d);
-    else setInfoPaneDefault();
-}
-
-function handleMouseOver(event, d) {
-    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
-    appState.hoveredTenureId = d.tenureId;
-    updateVisuals();
-    updateAxisHighlight(d.tenureId);
-    if (!appState.selectedTenureId) {
-        updateInfoPane(d);
-    }
-}
-
-function updateAxisHighlight(tenureId) {
-    const allTicks = d3.selectAll(".axis.x-axis .tick text");
-    allTicks.classed("axis-tick-active", false);
-
-    if (tenureId) {
-        const dataForView = getPreparedDataForView();
-        const tenureSeasons = new Set(
-            dataForView
-                .filter(item => item.tenureId === tenureId)
-                .map(item => item.seizoen)
-        );
-
-        if (tenureSeasons.size > 0) {
-            allTicks
-                .filter(tickValue => tenureSeasons.has(tickValue))
-                .classed("axis-tick-active", true);
-        }
-    }
-}
-
 function setInfoPaneDefault() { 
-    DOMElements.infoPane.attr("class", "default-state").html('<p>Hover over a tenure for details, or click to lock the selection.</p>'); 
-    updateAxisHighlight(null);
+    DOMElements.infoPane.attr("class", "default-state").html('<p>Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
+    if (d3.select(".axis.x-axis").node()) {
+        updateXAxisHighlighting(null);
+    }
 }
 
 function updateInfoPane(d) {
@@ -638,20 +646,18 @@ function updateInfoPane(d) {
 
     let trophyHtml = '<div class="info-pane-trophies">';
     if (totalTrophies.european > 0) {
-        const label = totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs';
+        const label = totalTrophies.european > 1 ? 'European trophies' : 'European trophy';
         trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${label}</span></div>`;
     }
     if (totalTrophies.title > 0) {
-        const label = totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel';
+        const label = totalTrophies.title > 1 ? 'national titles' : 'national title';
         trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${label}</span></div>`;
     }
     if (totalTrophies.cup > 0) {
-        const label = totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker';
+        const label = totalTrophies.cup > 1 ? 'national cups' : 'national cup';
         trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${label}</span></div>`;
     }
     trophyHtml += '</div>';
-
-    const tenureSummary = `In dienst voor ${d.stintLength} ${d.stintLength > 1 ? 'seizoenen' : 'seizoen'}.`;
 
     const content = `
         ${imageHtml}
@@ -666,8 +672,7 @@ function updateInfoPane(d) {
             ${trophyHtml}
             <div class="info-pane-extra">
                 <p class="club">${d.club}</p>
-                <p class="tenure">${tenureYears}</p>
-                <p class="tenure-summary">${tenureSummary}</p>
+                <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
             </div>
         </div>`;
     DOMElements.infoPane.attr("class", "details-state").html(content);
@@ -691,9 +696,9 @@ function showCareerInfoPane() {
     });
 
     let trophyHtml = '<div class="info-pane-trophies">';
-    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'Europese prijzen' : 'Europese prijs'}</span></div>`; }
-    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'nationale titels' : 'nationale titel'}</span></div>`; }
-    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'nationale bekers' : 'nationale beker'}</span></div>`; }
+    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
+    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
+    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
     trophyHtml += '</div>';
 
     const hasPhoto = coach.foto_url && coach.foto_url.trim() !== '';
