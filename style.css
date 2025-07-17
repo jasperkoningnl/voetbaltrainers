@@ -1,15 +1,24 @@
 /*
-  CSS Versie: 10.1
+  CSS Versie: 10.2
   Changelog:
+  - Breedte van de introductietekst op de homepage vergroot.
+  - Styling toegevoegd voor de nieuwe samenvattende zin in het info-paneel.
+  - Commentaar toegevoegd met alternatieve steunkleuren.
   - Class '.axis-tick-active' toegevoegd voor het highlighten van jaartallen op de X-as.
 */
 
 :root {
+    /* Huidige steunkleur */
+    --accent-color: #9933cc; /* Paars */
+
+    /* Alternatieven (vervang de bovenstaande regel om te testen) */
+    /* --accent-color: #ffcc33; */ /* Geel */
+    /* --accent-color: #0A3A6B; */ /* Diepblauw */
+
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
     --text-secondary: #6c757d;
-    --accent-color: #0A3A6B; /* Nieuwe steunkleur: diepblauw */
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
     --block-background: #f8f9fa;
@@ -129,7 +138,7 @@ main {
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 700px;
+    max-width: 800px; /* Was 700px */
     margin: 0 auto;
     line-height: 1.7;
 }
@@ -219,8 +228,6 @@ main {
 .info-pane-extra p { margin: 0; line-height: 1.5; }
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
-.info-pane-extra .tenure-summary { font-size: 0.9rem; color: var(--text-secondary); font-style: italic; margin-top: 4px; }
-
 
 /* --- Prijzenkast Styling --- */
 .info-pane-trophies {
