@@ -1,9 +1,10 @@
-// Script Versie: 20.2 - Correcties op Interactie & Info-paneel
+// Script Versie: 20.3 - X-as highlighting correct geïmplementeerd
 // Changelog:
-// - Foute zin "In dienst voor..." in info-paneel verwijderd en vervangen door de originele Engelse "(X seasons)" tekst.
-// - Standaardtekst van het info-paneel bijgewerkt met extra uitleg.
-// - Logica voor het highlighten van de X-as gecorrigeerd en geïmplementeerd zoals besproken.
-console.log("Script versie: 20.2 geladen.");
+// - Bij mouseover worden nu alle seizoenen op de X-as getoond.
+// - Seizoenen die bij de geselecteerde periode horen, worden vetgedrukt.
+// - Bij mouseout keert de X-as terug naar de standaardweergave (elke 5 jaar).
+// - Info-paneel teksten zijn gecorrigeerd naar de afgesproken versies.
+console.log("Script versie: 20.3 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -268,7 +269,7 @@ function processTenures(data) {
             s.tenureStartYear = startJaar;
             s.tenureEndYear = eindJaar;
             s.tenureTrophies = tenureTrophies;
-            s.tenureAllSeasons = tenureSeasons; // Store all seasons of the tenure
+            s.tenureAllSeasons = tenureSeasons;
         });
     });
     return data;
@@ -546,21 +547,19 @@ function drawVisualization(data) {
         svg.attr("viewBox", `0 0 ${currentWidth + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
         
         const tenureId = appState.selectedTenureId || appState.hoveredTenureId;
-        const defaultTicks = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
+        let tickValues;
         let tenureSeasons = new Set();
-        let extraTicks = new Set();
 
         if (tenureId) {
+            tickValues = seasons; // Toon ALLE seizoenen
             const tenureData = data.find(item => item.tenureId === tenureId);
             if (tenureData) {
                 tenureData.tenureAllSeasons.forEach(s => tenureSeasons.add(s));
-                extraTicks.add(tenureData.tenureAllSeasons[0]);
-                extraTicks.add(tenureData.tenureAllSeasons[tenureData.tenureAllSeasons.length - 1]);
             }
+        } else {
+            tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1); // Standaardweergave
         }
         
-        const tickValues = [...new Set([...defaultTicks, ...extraTicks])].sort();
-
         xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
             .selectAll(".tick text")
             .classed("axis-tick-active", d => tenureSeasons.has(d))
@@ -631,7 +630,7 @@ function drawVisualization(data) {
 function setInfoPaneDefault() { 
     DOMElements.infoPane.attr("class", "default-state").html('<p>Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
     if (d3.select(".axis.x-axis").node()) {
-        updateXAxisHighlighting(null);
+        updateXAxis();
     }
 }
 
