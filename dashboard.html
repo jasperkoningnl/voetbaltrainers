@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 23.0 - Data Opschonen: Nationaliteiten
+  Dashboard Versie: 22.2 - Bugfix & Volledige Code
   Changelog:
-  - Functie "Corrigeer Nationaliteiten" toegevoegd aan het "Data Opschonen" tabblad.
-  - Deze tool scant en corrigeert veelvoorkomende fouten in de nationaliteit van coaches (bv. "England" -> "English").
-  - Toont een gedetailleerd logboek van de uitgevoerde correcties.
+  - Fout "Nothing was returned from render" opgelost door de volledige code voor alle React-componenten te herstellen.
+  - Knop "Zoek ontbrekende afbeeldingen" toegevoegd aan de "Coaches" pagina.
+  - Filter- en zoekfunctionaliteit in "Clubs" en "Coaches" is aanwezig.
 -->
 <html lang="nl">
 <head>
@@ -24,7 +24,6 @@
         import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
-        // Firebase configuratie
         const firebaseConfig = {
             apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
             authDomain: "voetbaltrainers.firebaseapp.com",
@@ -38,7 +37,6 @@
         const app = initializeApp(firebaseConfig);
         const functions = getFunctions(app, 'europe-west1');
 
-        // Maak Firebase services globaal beschikbaar
         window.firebaseServices = {
             auth: getAuth(app),
             db: getFirestore(app),
@@ -79,11 +77,854 @@
 
         // --- COMPONENTEN ---
 
-        function ClubsView({ initialClubs, onUpdate }) { /* ... onveranderde code ... */ }
-        function CoachesView({ initialCoaches, onUpdate }) { /* ... onveranderde code ... */ }
-        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) { /* ... onveranderde code ... */ }
-        function AnalysisView({ seasons, coaches, clubs }) { /* ... onveranderde code ... */ }
-        function ImporterView({ onUpdateAll }) { /* ... onveranderde code ... */ }
+        function ClubsView({ initialClubs, onUpdate }) {
+            const [clubs, setClubs] = useState(initialClubs);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newClub, setNewClub] = useState({ naam: '', land: '', logo_url: '' });
+            const [isLoading, setIsLoading] = useState(false);
+            const [filters, setFilters] = useState({ land: '', zoekterm: '' });
+
+            useEffect(() => { setClubs(initialClubs); }, [initialClubs]);
+            
+            const uniqueLands = useMemo(() => [...new Set(initialClubs.map(c => c.land))].sort(), [initialClubs]);
+
+            const filteredClubs = useMemo(() => {
+                return clubs.filter(club => {
+                    const landMatch = filters.land ? club.land === filters.land : true;
+                    const searchMatch = filters.zoekterm ? club.naam.toLowerCase().includes(filters.zoekterm.toLowerCase()) : true;
+                    return landMatch && searchMatch;
+                });
+            }, [clubs, filters]);
+
+            const handleEditClick = (club) => {
+                setEditingRowId(club.id);
+                setEditedData({ ...club });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (clubId) => {
+                setIsLoading(true);
+                try {
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "clubs", clubId), dataToSave);
+                    setEditingRowId(null);
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij opslaan club:", e);
+                    alert("Kon de club niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleAddClub = async (e) => {
+                e.preventDefault();
+                if(!newClub.naam || !newClub.land) {
+                    alert("Clubnaam en land zijn verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    await addDoc(collection(db, "clubs"), newClub);
+                    setNewClub({ naam: '', land: '', logo_url: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen club:", e);
+                    alert("Kon de club niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleDelete = async (clubId) => {
+                if (!confirm(`Weet je zeker dat je deze club wilt verwijderen? Alle bijbehorende seizoenen worden ook verwijderd!`)) return;
+                setIsLoading(true);
+                try {
+                    const seasonsQuery = query(collection(db, "seizoenen"), where("club", "==", clubId));
+                    const seasonsSnapshot = await getDocs(seasonsQuery);
+                    const batch = writeBatch(db);
+                    seasonsSnapshot.forEach(doc => batch.delete(doc.ref));
+                    batch.delete(doc(db, "clubs", clubId));
+                    await batch.commit();
+                    onUpdate();
+                } catch (e) {
+                     console.error("Fout bij verwijderen club:", e);
+                    alert("Kon de club niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewClubChange = (e) => setNewClub({ ...newClub, [e.target.name]: e.target.value });
+            const handleFilterChange = (e) => setFilters({ ...filters, [e.target.name]: e.target.value });
+
+            return (
+                <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Clubs ({filteredClubs.length} / {clubs.length})</h2>
+                    
+                    <form onSubmit={handleAddClub} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuwe Club Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" name="naam" value={newClub.naam} onChange={handleNewClubChange} placeholder="Clubnaam" className="p-2 border rounded col-span-1" required />
+                            <input type="text" name="land" value={newClub.land} onChange={handleNewClubChange} placeholder="Land" className="p-2 border rounded col-span-1" required />
+                            <input type="text" name="logo_url" value={newClub.logo_url} onChange={handleNewClubChange} placeholder="Logo URL" className="p-2 border rounded col-span-2" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 border rounded-lg bg-gray-50">
+                        <input type="text" name="zoekterm" value={filters.zoekterm} onChange={handleFilterChange} placeholder="Zoek op clubnaam..." className="p-2 border rounded" />
+                        <select name="land" value={filters.land} onChange={handleFilterChange} className="p-2 border rounded">
+                            <option value="">Alle Landen</option>
+                            {uniqueLands.map(l => <option key={l} value={l}>{l}</option>)}
+                        </select>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Logo</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naam</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Land</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {filteredClubs.map(club => (
+                                    editingRowId === club.id ? (
+                                    <tr key={club.id}>
+                                        <td className="px-6 py-4"><input type="text" name="logo_url" value={editedData.logo_url} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="naam" value={editedData.naam} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="land" value={editedData.land} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleSaveClick(club.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                            <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                        </td>
+                                    </tr>
+                                    ) : (
+                                    <tr key={club.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {club.logo_url ? <img src={club.logo_url} alt={club.naam} className="h-8 w-8" onError={(e) => e.target.style.display='none'} /> : ''}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{club.naam}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{club.land}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleEditClick(club)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                            <button onClick={() => handleDelete(club.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
+                                        </td>
+                                    </tr>
+                                    )
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        function CoachesView({ initialCoaches, onUpdate }) {
+            const [coaches, setCoaches] = useState(initialCoaches);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newCoach, setNewCoach] = useState({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' });
+            const [isLoading, setIsLoading] = useState(false);
+            const [isEnriching, setIsEnriching] = useState(false);
+            const [enrichStatus, setEnrichStatus] = useState('');
+            const [filters, setFilters] = useState({ nationaliteit: '', zoekterm: '' });
+
+            useEffect(() => { setCoaches(initialCoaches); }, [initialCoaches]);
+
+            const uniqueNationalities = useMemo(() => [...new Set(initialCoaches.map(c => c.nationaliteit).filter(Boolean))].sort(), [initialCoaches]);
+
+            const filteredCoaches = useMemo(() => {
+                return coaches.filter(coach => {
+                    const natMatch = filters.nationaliteit ? coach.nationaliteit === filters.nationaliteit : true;
+                    const searchMatch = filters.zoekterm ? coach.naam.toLowerCase().includes(filters.zoekterm.toLowerCase()) : true;
+                    return natMatch && searchMatch;
+                });
+            }, [coaches, filters]);
+
+            const handleFindMissingImages = async () => {
+                const coachesToEnrich = coaches.filter(c => !c.foto_url);
+                if (coachesToEnrich.length === 0) {
+                    setEnrichStatus("Alle coaches hebben al een afbeelding.");
+                    setTimeout(() => setEnrichStatus(''), 3000);
+                    return;
+                }
+                
+                setIsEnriching(true);
+                setEnrichStatus(`Zoeken naar afbeeldingen voor ${coachesToEnrich.length} coaches...`);
+                
+                try {
+                    const namesToEnrich = coachesToEnrich.map(c => c.naam);
+                    const result = await functions.enrichCoachData({ coaches: namesToEnrich });
+                    const enrichedData = new Map(result.data.coaches.map(c => [c.naam, c.foto_url]));
+
+                    const batch = writeBatch(db);
+                    let updatedCount = 0;
+                    
+                    coachesToEnrich.forEach(coach => {
+                        const newUrl = enrichedData.get(coach.naam);
+                        if (newUrl) {
+                            const coachRef = doc(db, "coaches", coach.id);
+                            batch.update(coachRef, { foto_url: newUrl });
+                            updatedCount++;
+                        }
+                    });
+
+                    if (updatedCount > 0) {
+                        await batch.commit();
+                        setEnrichStatus(`${updatedCount} afbeelding(en) gevonden en bijgewerkt. Data wordt herladen.`);
+                        onUpdate();
+                    } else {
+                        setEnrichStatus("Geen nieuwe afbeeldingen gevonden.");
+                    }
+
+                } catch (error) {
+                    console.error("Fout bij verrijken afbeeldingen:", error);
+                    setEnrichStatus("Er is een fout opgetreden.");
+                } finally {
+                    setIsEnriching(false);
+                    setTimeout(() => setEnrichStatus(''), 5000);
+                }
+            };
+
+            const handleEditClick = (coach) => {
+                setEditingRowId(coach.id);
+                setEditedData({ ...coach });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (coachId) => {
+                setIsLoading(true);
+                try {
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "coaches", coachId), dataToSave);
+                    setEditingRowId(null);
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij opslaan coach:", e);
+                    alert("Kon de coach niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleAddCoach = async (e) => {
+                e.preventDefault();
+                if(!newCoach.naam) {
+                    alert("Naam is verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    await addDoc(collection(db, "coaches"), newCoach);
+                    setNewCoach({ naam: '', nationaliteit: '', nat_code: '', foto_url: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen coach:", e);
+                    alert("Kon de coach niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleDelete = async (coachId) => {
+                setIsLoading(true);
+                try {
+                    const seasonsQuery = query(collection(db, "seizoenen"), where("coachId", "==", coachId));
+                    const seasonsSnapshot = await getDocs(seasonsQuery);
+                    if (!seasonsSnapshot.empty) {
+                        alert(`Kan coach niet verwijderen. De coach is nog gekoppeld aan ${seasonsSnapshot.size} seizoen(en).`);
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    if (!confirm(`Weet je zeker dat je deze coach wilt verwijderen?`)) {
+                        setIsLoading(false);
+                        return;
+                    }
+                    await deleteDoc(doc(db, "coaches", coachId));
+                    onUpdate();
+                } catch (e) {
+                     console.error("Fout bij verwijderen coach:", e);
+                    alert("Kon de coach niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewCoachChange = (e) => setNewCoach({ ...newCoach, [e.target.name]: e.target.value });
+            const handleFilterChange = (e) => setFilters({ ...filters, [e.target.name]: e.target.value });
+
+            return (
+                <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Coaches ({filteredCoaches.length} / {coaches.length})</h2>
+                    
+                    <form onSubmit={handleAddCoach} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuwe Coach Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" name="naam" value={newCoach.naam} onChange={handleNewCoachChange} placeholder="Naam" className="p-2 border rounded" required />
+                            <input type="text" name="nationaliteit" value={newCoach.nationaliteit} onChange={handleNewCoachChange} placeholder="Nationaliteit" className="p-2 border rounded" />
+                            <input type="text" name="nat_code" value={newCoach.nat_code} onChange={handleNewCoachChange} placeholder="Landcode (bv. NED)" className="p-2 border rounded" />
+                            <input type="text" name="foto_url" value={newCoach.foto_url} onChange={handleNewCoachChange} placeholder="Foto URL" className="p-2 border rounded" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
+                    <div className="p-4 border rounded-lg bg-gray-50 space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" name="zoekterm" value={filters.zoekterm} onChange={handleFilterChange} placeholder="Zoek op coachnaam..." className="p-2 border rounded" />
+                            <select name="nationaliteit" value={filters.nationaliteit} onChange={handleFilterChange} className="p-2 border rounded">
+                                <option value="">Alle Nationaliteiten</option>
+                                {uniqueNationalities.map(n => <option key={n} value={n}>{n}</option>)}
+                            </select>
+                        </div>
+                        <div>
+                            <button onClick={handleFindMissingImages} disabled={isEnriching} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400 flex items-center gap-2">
+                                <ImageIcon /> {isEnriching ? 'Bezig met zoeken...' : 'Zoek ontbrekende afbeeldingen'}
+                            </button>
+                            {enrichStatus && <p className="text-sm text-gray-600 mt-2">{enrichStatus}</p>}
+                        </div>
+                    </div>
+
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foto</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naam</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nationaliteit</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {filteredCoaches.map(coach => (
+                                    editingRowId === coach.id ? (
+                                    <tr key={coach.id}>
+                                        <td className="px-6 py-4"><input type="text" name="foto_url" value={editedData.foto_url} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4"><input type="text" name="naam" value={editedData.naam} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                        <td className="px-6 py-4">
+                                            <input type="text" name="nationaliteit" value={editedData.nationaliteit} onChange={handleInputChange} className="p-1 border rounded w-full mb-1" placeholder="Nationaliteit"/>
+                                            <input type="text" name="nat_code" value={editedData.nat_code} onChange={handleInputChange} className="p-1 border rounded w-full" placeholder="Landcode"/>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleSaveClick(coach.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                            <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                        </td>
+                                    </tr>
+                                    ) : (
+                                    <tr key={coach.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            {coach.foto_url ? <img src={coach.foto_url} alt={coach.naam} className="h-10 w-10 rounded-full object-cover" onError={(e) => e.target.style.display='none'} /> : <AvatarIcon />}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap font-medium">{coach.naam}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{coach.nationaliteit} {coach.nat_code && `(${coach.nat_code})`}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleEditClick(coach)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                            <button onClick={() => handleDelete(coach.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
+                                        </td>
+                                    </tr>
+                                    )
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        function SeasonsView({ initialSeasons, coaches, clubs, onUpdate, filters, setFilters }) {
+            const [seasons, setSeasons] = useState(initialSeasons);
+            const [editingRowId, setEditingRowId] = useState(null);
+            const [editedData, setEditedData] = useState({});
+            const [newSeason, setNewSeason] = useState({ seizoen: '', club: '', coachId: '', landstitel: '', nationale_beker: '', europese_prijs: '' });
+            const [isLoading, setIsLoading] = useState(false);
+            
+            const coachesMap = useMemo(() => new Map(coaches.map(c => [c.id, c])), [coaches]);
+            const clubsMap = useMemo(() => new Map(clubs.map(c => [c.id, c])), [clubs]);
+
+            useEffect(() => { setSeasons(initialSeasons); }, [initialSeasons]);
+
+            const filteredSeasons = useMemo(() => {
+                return seasons.filter(s => {
+                    const club = clubsMap.get(s.club);
+                    if (filters.land && club?.land !== filters.land) return false;
+                    if (filters.club && s.club !== filters.club) return false;
+                    return true;
+                });
+            }, [seasons, filters, clubsMap]);
+            
+            const uniqueLands = useMemo(() => [...new Set(clubs.map(c => c.land))].sort(), [clubs]);
+
+            const handleEditClick = (season) => {
+                setEditingRowId(season.id);
+                setEditedData({ ...season });
+            };
+
+            const handleCancelClick = () => {
+                setEditingRowId(null);
+                setEditedData({});
+            };
+
+            const handleSaveClick = async (seasonId) => {
+                setIsLoading(true);
+                try {
+                    const { id, ...dataToSave } = editedData;
+                    await updateDoc(doc(db, "seizoenen", seasonId), dataToSave);
+                    setEditingRowId(null);
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij opslaan seizoen:", e);
+                    alert("Kon het seizoen niet opslaan.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleAddSeason = async (e) => {
+                e.preventDefault();
+                if(!newSeason.seizoen || !newSeason.club || !newSeason.coachId) {
+                    alert("Seizoen, club en coach zijn verplicht.");
+                    return;
+                }
+                setIsLoading(true);
+                try {
+                    const clubRef = doc(db, "clubs", newSeason.club);
+                    const clubSnap = await getDoc(clubRef);
+                    const clubData = clubSnap.data();
+
+                    await addDoc(collection(db, "seizoenen"), {
+                        ...newSeason,
+                        land: clubData.land,
+                    });
+                    setNewSeason({ seizoen: '', club: '', coachId: '', landstitel: '', nationale_beker: '', europese_prijs: '' });
+                    onUpdate();
+                } catch (e) {
+                    console.error("Fout bij toevoegen seizoen:", e);
+                    alert("Kon het seizoen niet toevoegen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleDelete = async (seasonId) => {
+                if (!confirm(`Weet je zeker dat je dit seizoen wilt verwijderen?`)) return;
+                setIsLoading(true);
+                try {
+                    await deleteDoc(doc(db, "seizoenen", seasonId));
+                    onUpdate();
+                } catch (e) {
+                     console.error("Fout bij verwijderen seizoen:", e);
+                    alert("Kon het seizoen niet verwijderen.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
+            const handleInputChange = (e) => setEditedData({ ...editedData, [e.target.name]: e.target.value });
+            const handleNewSeasonChange = (e) => setNewSeason({ ...newSeason, [e.target.name]: e.target.value });
+
+            return (
+                 <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <h2 className="text-xl font-bold">Seizoenen ({filteredSeasons.length} / {seasons.length})</h2>
+                    
+                    <form onSubmit={handleAddSeason} className="p-4 border rounded-lg bg-gray-50 space-y-3">
+                        <h3 className="font-semibold text-lg">Nieuw Seizoen Toevoegen</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" name="seizoen" value={newSeason.seizoen} onChange={handleNewSeasonChange} placeholder="Seizoen (bv. 2023-2024)" className="p-2 border rounded" required />
+                            <select name="club" value={newSeason.club} onChange={handleNewSeasonChange} className="p-2 border rounded" required>
+                                <option value="">Kies een club</option>
+                                {clubs.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                            </select>
+                            <select name="coachId" value={newSeason.coachId} onChange={handleNewSeasonChange} className="p-2 border rounded" required>
+                                <option value="">Kies een coach</option>
+                                {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                            </select>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="text" name="landstitel" value={newSeason.landstitel} onChange={handleNewSeasonChange} placeholder="Landstitel" className="p-2 border rounded" />
+                            <input type="text" name="nationale_beker" value={newSeason.nationale_beker} onChange={handleNewSeasonChange} placeholder="Nationale Beker" className="p-2 border rounded" />
+                            <input type="text" name="europese_prijs" value={newSeason.europese_prijs} onChange={handleNewSeasonChange} placeholder="Europese Prijs" className="p-2 border rounded" />
+                        </div>
+                        <button type="submit" disabled={isLoading} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:bg-gray-400 flex items-center gap-2">
+                            <AddIcon /> {isLoading ? 'Bezig...' : 'Toevoegen'}
+                        </button>
+                    </form>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <select value={filters.land} onChange={e => setFilters({...filters, land: e.target.value, club: ''})} className="p-2 border rounded">
+                            <option value="">Alle Landen</option>
+                            {uniqueLands.map(l => <option key={l} value={l}>{l}</option>)}
+                        </select>
+                         <select value={filters.club} onChange={e => setFilters({...filters, club: e.target.value})} className="p-2 border rounded" disabled={!filters.land}>
+                            <option value="">Alle Clubs</option>
+                            {clubs.filter(c => c.land === filters.land).map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                        </select>
+                    </div>
+                    <div className="overflow-x-auto max-h-[60vh]">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50 sticky top-0">
+                                <tr>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th>
+                                    <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Landstitel">T</th>
+                                    <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Nationale Beker">B</th>
+                                    <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europese Prijs">E</th>
+                                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {filteredSeasons.map(season => {
+                                    const club = clubsMap.get(season.club);
+                                    return (
+                                        editingRowId === season.id ? (
+                                        <tr key={season.id}>
+                                            <td className="px-4 py-2 whitespace-nowrap font-semibold">{club?.naam || 'Onbekend'}</td>
+                                            <td className="px-4 py-2"><input type="text" name="seizoen" value={editedData.seizoen} onChange={handleInputChange} className="p-1 border rounded w-full" /></td>
+                                            <td className="px-4 py-2">
+                                                <select name="coachId" value={editedData.coachId} onChange={handleInputChange} className="p-1 border rounded w-full">
+                                                    {coaches.map(c => <option key={c.id} value={c.id}>{c.naam}</option>)}
+                                                </select>
+                                            </td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="landstitel" value={editedData.landstitel} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="nationale_beker" value={editedData.nationale_beker} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
+                                            <td className="px-2 py-2 text-center"><input type="text" name="europese_prijs" value={editedData.europese_prijs} onChange={handleInputChange} className="p-1 border rounded w-full text-center" /></td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                <button onClick={() => handleSaveClick(season.id)} disabled={isLoading} className="text-green-600 hover:text-green-900"><SaveIcon /></button>
+                                                <button onClick={handleCancelClick} className="text-gray-600 hover:text-gray-900 ml-2"><CancelIcon /></button>
+                                            </td>
+                                        </tr>
+                                        ) : (
+                                        <tr key={season.id}>
+                                            <td className="px-4 py-2 whitespace-nowrap font-semibold">{club?.naam || 'Onbekend'}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap">{season.seizoen}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap">{coachesMap.get(season.coachId)?.naam || 'Onbekend'}</td>
+                                            <td className="px-2 py-2 text-center">{season.landstitel}</td>
+                                            <td className="px-2 py-2 text-center">{season.nationale_beker}</td>
+                                            <td className="px-2 py-2 text-center">{season.europese_prijs}</td>
+                                            <td className="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                                                <button onClick={() => handleEditClick(season)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                                <button onClick={() => handleDelete(season.id)} disabled={isLoading} className="text-red-600 hover:text-red-900 ml-2"><DeleteIcon /></button>
+                                            </td>
+                                        </tr>
+                                        )
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
+        function AnalysisView({ seasons, coaches, clubs }) {
+            const [activeTab, setActiveTab] = useState('import-export');
+            const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+            const summaryRefs = useRef({});
+
+            const analysisData = useMemo(() => {
+                if (!seasons.length || !coaches.length || !clubs.length) {
+                    return { clubStability: [], longestTenures: [], countryStability: [], successfulCoaches: [], successfulClubs: [], leagueImports: [], popularNationsInLeague: {}, coachExports: [] };
+                }
+
+                const clubsMap = new Map(clubs.map(c => [c.id, c]));
+                const coachesMap = new Map(coaches.map(c => [c.id, c]));
+                
+                const nationalityToCountryMap = {
+                    'Dutch': 'Netherlands', 'Netherlands': 'Netherlands', 'German': 'Germany', 'Germany': 'Germany',
+                    'English': 'England', 'England': 'England', 'Spanish': 'Spain', 'Spain': 'Spain',
+                    'French': 'France', 'France': 'France', 'Italian': 'Italy', 'Italy': 'Italy',
+                    'Portuguese': 'Portugal', 'Portugal': 'Portugal', 'Argentine': 'Argentina', 'Slovak': 'Slovakia',
+                    'Yugoslav': 'Yugoslavia', 'Paraguayan': 'Paraguay', 'Welsh': 'Wales', 'Serbian': 'Serbia',
+                    'Croatian': 'Croatia', 'Austrian': 'Austria', 'Brazilian': 'Brazil', 'Mexican': 'Mexico',
+                    'Chilean': 'Chile', 'Uruguayan': 'Uruguay', 'Hungarian': 'Hungary', 'Scottish': 'Scotland',
+                    'Northern Irish': 'Northern Ireland', 'Swedish': 'Sweden', 'Romanian': 'Romania', 'Belgian': 'Belgium'
+                };
+
+                const seasonsByClub = d3.group(seasons, d => d.club);
+                const clubStability = Array.from(seasonsByClub.entries()).map(([clubId, clubSeasons]) => {
+                    const clubInfo = clubsMap.get(clubId);
+                    if (!clubInfo) return null;
+                    clubSeasons.sort((a, b) => a.seizoen.localeCompare(b.seizoen));
+                    let coachChanges = 0;
+                    for (let i = 1; i < clubSeasons.length; i++) {
+                        if (clubSeasons[i].coachId !== clubSeasons[i - 1].coachId) coachChanges++;
+                    }
+                    const totalTrophies = clubSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+                    return { id: clubId, name: clubInfo.naam, country: clubInfo.land, seasons: clubSeasons.length, coachChanges, totalTrophies, avgTenure: clubSeasons.length / (coachChanges + 1) };
+                }).filter(Boolean);
+                
+                const tenures = [];
+                clubStability.forEach(club => {
+                    const clubSeasons = seasonsByClub.get(club.id);
+                    let currentTenure = [];
+                    for(let i = 0; i < clubSeasons.length; i++) {
+                        if (i === 0 || clubSeasons[i].coachId === clubSeasons[i-1].coachId) {
+                            currentTenure.push(clubSeasons[i]);
+                        } else {
+                            if(currentTenure.length > 0) tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: club.id, seasons: currentTenure });
+                            currentTenure = [clubSeasons[i]];
+                        }
+                    }
+                    if (currentTenure.length > 0) tenures.push({ coachId: currentTenure[0].coachId, clubId: club.id, seasons: currentTenure });
+                });
+                const longestTenures = tenures.map(t => ({
+                    coachName: coachesMap.get(t.coachId)?.naam,
+                    clubName: clubsMap.get(t.clubId)?.naam,
+                    duration: t.seasons.length,
+                    startYear: t.seasons[0].seizoen.split('/')[0],
+                    endYear: t.seasons[t.seasons.length - 1].seizoen.split('/')[1] || t.seasons[t.seasons.length - 1].seizoen.split('/')[0],
+                })).sort((a,b) => b.duration - a.duration);
+
+                const countryStability = clubStability.length > 0 ? Array.from(d3.group(clubStability, d => d.country).entries()).map(([country, clubsInCountry]) => {
+                    const totalChanges = d3.sum(clubsInCountry, c => c.coachChanges);
+                    const totalSeasons = d3.sum(clubsInCountry, c => c.seasons);
+                    return { country, avgTenure: totalSeasons / (totalChanges + clubsInCountry.length) };
+                }) : [];
+
+                const seasonsByCoach = d3.group(seasons, d => d.coachId);
+                const successfulCoaches = Array.from(seasonsByCoach.entries()).map(([coachId, coachSeasons]) => {
+                    const coachInfo = coachesMap.get(coachId);
+                    if (!coachInfo) return null;
+                    const totalTrophies = coachSeasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+                    return { id: coachId, name: coachInfo.naam, nationality: coachInfo.nationaliteit, clubsManaged: new Set(coachSeasons.map(s => s.club)).size, seasons: coachSeasons.length, totalTrophies, trophiesPerSeason: totalTrophies > 0 ? totalTrophies / coachSeasons.length : 0 };
+                }).filter(Boolean);
+
+                const successfulClubs = clubStability.map(club => ({
+                    ...club,
+                    trophiesPerSeason: club.seasons > 0 ? club.totalTrophies / club.seasons : 0,
+                }));
+
+                const leagueImports = Array.from(d3.group(seasons, s => clubsMap.get(s.club)?.land).entries()).map(([leagueCountry, leagueSeasons]) => {
+                    if (!leagueCountry) return null;
+                    let domesticSeasons = 0, foreignSeasons = 0;
+                    leagueSeasons.forEach(s => {
+                        const coachNat = coachesMap.get(s.coachId)?.nationaliteit;
+                        if (coachNat) {
+                            const coachHomeCountry = nationalityToCountryMap[coachNat];
+                            if (coachHomeCountry === leagueCountry) domesticSeasons++;
+                            else foreignSeasons++;
+                        }
+                    });
+                    const total = domesticSeasons + foreignSeasons;
+                    return { country: leagueCountry, foreignPct: total > 0 ? (foreignSeasons / total * 100) : 0, details: `${foreignSeasons} / ${total}` };
+                }).filter(Boolean);
+
+                const popularNationsInLeague = {};
+                leagueImports.forEach(l => {
+                    const leagueSeasons = seasons.filter(s => clubsMap.get(s.club)?.land === l.country);
+                    const foreignCoachIds = new Set(leagueSeasons
+                        .map(s => coachesMap.get(s.coachId))
+                        .filter(c => c && nationalityToCountryMap[c.nationaliteit] !== l.country)
+                        .map(c => c.id)
+                    );
+                    const foreignCoachNats = Array.from(foreignCoachIds).map(id => coachesMap.get(id).nationaliteit);
+                    popularNationsInLeague[l.country] = Array.from(d3.group(foreignCoachNats, d => d), ([nat, arr]) => ({nat, count: arr.length})).sort((a,b) => b.count - a.count);
+                });
+
+                const coachExports = Array.from(d3.group(successfulCoaches, c => c.nationality).entries()).map(([nationality, coachesOfNat]) => {
+                    let foreignClubStints = 0;
+                    const foreignStintsByCountry = new Map();
+                    coachesOfNat.forEach(coach => {
+                        const coachSeasons = seasonsByCoach.get(coach.id);
+                        const coachHomeCountry = nationalityToCountryMap[nationality];
+                        const foreignClubsManaged = new Set(coachSeasons.map(s => clubsMap.get(s.club)).filter(c => c && c.land !== coachHomeCountry));
+                        foreignClubStints += foreignClubsManaged.size;
+                        foreignClubsManaged.forEach(club => {
+                            foreignStintsByCountry.set(club.land, (foreignStintsByCountry.get(club.land) || 0) + 1);
+                        });
+                    });
+                    return { nationality, totalCoaches: coachesOfNat.length, foreignClubStints, popularDestinations: Array.from(foreignStintsByCountry.entries()).sort((a,b) => b[1] - a[1]) };
+                }).filter(c => c.foreignClubStints > 0);
+
+                return { clubStability, longestTenures, countryStability, successfulCoaches, successfulClubs, leagueImports, popularNationsInLeague, coachExports };
+            }, [seasons, coaches, clubs]);
+
+            const getSortedData = (data, config = sortConfig) => {
+                if (!config.key) return data;
+                return [...data].sort((a, b) => {
+                    if (a[config.key] < b[config.key]) return config.direction === 'ascending' ? -1 : 1;
+                    if (a[config.key] > b[config.key]) return config.direction === 'ascending' ? 1 : -1;
+                    return 0;
+                });
+            };
+
+            const requestSort = (key) => {
+                let direction = 'ascending';
+                if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+                    direction = 'descending';
+                }
+                setSortConfig({ key, direction });
+            };
+            
+            const handleCopy = (tabKey) => {
+                const element = summaryRefs.current[tabKey];
+                if (element) {
+                    element.select();
+                    try {
+                        document.execCommand('copy');
+                    } catch (err) {
+                        console.error('Failed to copy: ', err);
+                    }
+                }
+            };
+            
+            const renderSortArrow = (key) => {
+                if (sortConfig.key !== key) return null;
+                return sortConfig.direction === 'ascending' ? ' ▲' : ' ▼';
+            };
+
+            const AnalysisTable = ({ title, headers, data, renderRow, sortable = false }) => (
+                <div className="bg-white p-6 rounded-lg shadow">
+                    <h3 className="text-lg font-semibold mb-4">{title}</h3>
+                    <div className="overflow-x-auto max-h-96">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50 sticky top-0">
+                                <tr>
+                                    {headers.map((header) => (
+                                        <th key={header.key} className={`px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase ${header.textAlign || ''} ${sortable ? 'cursor-pointer' : ''}`} onClick={() => sortable && requestSort(header.key)}>
+                                            {header.label}
+                                            {sortable && renderSortArrow(header.key)}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {getSortedData(data).map(renderRow)}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+
+            const SummaryBox = ({ tabKey, content }) => (
+                 <div className="mt-6 bg-gray-50 p-4 rounded-lg border">
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold">Samenvatting voor Artikel</h4>
+                        <button onClick={() => handleCopy(tabKey)} className="text-sm bg-gray-200 px-3 py-1 rounded-md hover:bg-gray-300 flex items-center gap-2">
+                           <CopyIcon /> Kopiëren
+                        </button>
+                    </div>
+                    <textarea ref={el => { summaryRefs.current[tabKey] = el; }} readOnly className="w-full h-48 p-2 border rounded-md bg-white font-mono text-xs" value={content}></textarea>
+                </div>
+            );
+
+            return (
+                <div className="space-y-8">
+                    <h1 className="text-3xl font-bold">Data Analyse</h1>
+                    <div className="border-b border-gray-200">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button onClick={() => setActiveTab('import-export')} className={`${activeTab === 'import-export' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Import/Export</button>
+                            <button onClick={() => setActiveTab('stability')} className={`${activeTab === 'stability' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Stabiel/Instabiel</button>
+                            <button onClick={() => setActiveTab('success')} className={`${activeTab === 'success' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}>Succes</button>
+                        </nav>
+                    </div>
+
+                    {activeTab === 'import-export' && (
+                        <div className="space-y-8">
+                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <AnalysisTable
+                                    title="Aandeel Buitenlandse Coaches per Competitie"
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'foreignPct', label: '% Buitenlands', textAlign: 'text-center' }, { key: 'details', label: 'Details (Buitenlands / Totaal)', textAlign: 'text-center' } ]}
+                                    data={analysisData.leagueImports}
+                                    renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-center font-bold">{l.foreignPct.toFixed(1)}%</td><td className="px-4 py-2 text-center text-sm">{l.details}</td></tr> )}
+                                    sortable={true}
+                                />
+                                <AnalysisTable
+                                    title="Populairste Buitenlandse Nationaliteiten per Competitie"
+                                    headers={[ { key: 'country', label: 'Competitie' }, { key: 'nationalities', label: 'Top 3 Nationaliteiten (unieke coaches)' } ]}
+                                    data={Object.entries(analysisData.popularNationsInLeague).map(([country, nats]) => ({ country, nationalities: nats }))}
+                                    renderRow={(l) => ( <tr key={l.country}><td className="px-4 py-2 font-medium">{l.country}</td><td className="px-4 py-2 text-sm">{l.nationalities.slice(0,3).map(n => `${n.nat} (${n.count})`).join(', ')}</td></tr> )}
+                                />
+                             </div>
+                             <AnalysisTable
+                                title="Populaire Nationaliteiten (Export)"
+                                headers={[ { key: 'nationality', label: 'Nationaliteit' }, { key: 'foreignClubStints', label: 'Buitenlandse Avonturen', textAlign: 'text-center' }, { key: 'popularDestinations', label: 'Populaire Bestemmingen' } ]}
+                                data={analysisData.coachExports}
+                                renderRow={(c) => ( <tr key={c.nationality}><td className="px-4 py-2 font-medium">{c.nationality}</td><td className="px-4 py-2 text-center font-bold">{c.foreignClubStints}</td><td className="px-4 py-2 text-sm">{c.popularDestinations.slice(0,3).map(([country, count]) => `${country} (${count})`).join(', ')}</td></tr> )}
+                                sortable={true}
+                            />
+                            <SummaryBox tabKey="import-export" content={
+`Analyse Import/Export:
+De competitie met het hoogste percentage buitenlandse coaches is ${analysisData.leagueImports.sort((a,b) => b.foreignPct - a.foreignPct)[0]?.country} (${analysisData.leagueImports.sort((a,b) => b.foreignPct - a.foreignPct)[0]?.foreignPct.toFixed(1)}%).
+De meest gesloten competitie is ${analysisData.leagueImports.sort((a,b) => a.foreignPct - b.foreignPct)[0]?.country} met slechts ${analysisData.leagueImports.sort((a,b) => a.foreignPct - b.foreignPct)[0]?.foreignPct.toFixed(1)}% buitenlandse coaches.
+
+De nationaliteit met de meeste buitenlandse avonturen is ${analysisData.coachExports[0]?.nationality}, met ${analysisData.coachExports[0]?.foreignClubStints} stints verdeeld over hun coaches. Populaire bestemmingen voor hen zijn ${analysisData.coachExports[0]?.popularDestinations.slice(0,2).map(d=>d[0]).join(' en ')}.
+`} />
+                        </div>
+                    )}
+
+                    {activeTab === 'stability' && (
+                        <div className="space-y-8">
+                            <AnalysisTable
+                                title="Coachwissels per Club"
+                                headers={[ { key: 'name', label: 'Club' }, { key: 'coachChanges', label: 'Wissels', textAlign: 'text-center' }, { key: 'avgTenure', label: 'Gem. Termijn (seiz.)', textAlign: 'text-center' }, { key: 'totalTrophies', label: 'Prijzen', textAlign: 'text-center' } ]}
+                                data={analysisData.clubStability}
+                                renderRow={(club) => ( <tr key={club.id}><td className="px-4 py-2 font-medium">{club.name}</td><td className="px-4 py-2 text-center">{club.coachChanges}</td><td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td><td className="px-4 py-2 text-center">{club.totalTrophies}</td></tr> )}
+                                sortable={true}
+                            />
+                            <AnalysisTable
+                                title="Langste Termijnen (Top 20)"
+                                headers={[ { key: 'coachName', label: 'Coach' }, { key: 'clubName', label: 'Club' }, { key: 'duration', label: 'Duur (seiz.)', textAlign: 'text-center' } ]}
+                                data={analysisData.longestTenures.slice(0,20)}
+                                renderRow={(t) => ( <tr key={`${t.coachName}-${t.clubName}`}><td className="px-4 py-2 font-medium">{t.coachName}</td><td className="px-4 py-2">{t.clubName}</td><td className="px-4 py-2 text-center font-bold">{t.duration}</td></tr> )}
+                            />
+                            <SummaryBox tabKey="stability" content={
+`Analyse Stabiliteit:
+De meest stabiele club in de dataset is ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.name}, waar een coach gemiddeld ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.avgTenure.toFixed(2)} seizoenen blijft. Dit leverde hen ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'descending'})[0]?.totalTrophies} prijzen op.
+De meest instabiele club (het 'trainerskerkhof') is ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'ascending'})[0]?.name} met een gemiddelde termijn van slechts ${getSortedData(analysisData.clubStability, {key: 'avgTenure', direction: 'ascending'})[0]?.avgTenure.toFixed(2)} seizoenen per coach.
+
+De langste termijn staat op naam van ${analysisData.longestTenures[0]?.coachName} bij ${analysisData.longestTenures[0]?.clubName}, die maar liefst ${analysisData.longestTenures[0]?.duration} seizoenen aan het roer stond.
+`} />
+                        </div>
+                    )}
+                    
+                    {activeTab === 'success' && (
+                         <div className="space-y-8">
+                            <AnalysisTable
+                                title="Succesvolle Coaches"
+                                headers={[ { key: 'name', label: 'Coach' }, { key: 'clubsManaged', label: 'Clubs', textAlign: 'text-center' }, { key: 'trophiesPerSeason', label: 'Prijzen/Seizoen', textAlign: 'text-center' }, { key: 'totalTrophies', label: 'Totaal Prijzen', textAlign: 'text-center' } ]}
+                                data={analysisData.successfulCoaches}
+                                renderRow={(coach) => ( <tr key={coach.id}><td className="px-4 py-2 font-medium">{coach.name} <span className="text-gray-500">({coach.nationality})</span></td><td className="px-4 py-2 text-center">{coach.clubsManaged}</td><td className="px-4 py-2 text-center font-semibold">{coach.trophiesPerSeason.toFixed(2)}</td><td className="px-4 py-2 text-center font-bold">{coach.totalTrophies}</td></tr> )}
+                                sortable={true}
+                            />
+                            <AnalysisTable
+                                title="Succesvolle Clubs"
+                                headers={[ { key: 'name', label: 'Club' }, { key: 'totalTrophies', label: 'Totaal Prijzen', textAlign: 'text-center' }, { key: 'trophiesPerSeason', label: 'Prijzen/Seizoen', textAlign: 'text-center' }, { key: 'avgTenure', label: 'Gem. Coach Termijn', textAlign: 'text-center' } ]}
+                                data={analysisData.successfulClubs}
+                                renderRow={(club) => ( <tr key={club.id}><td className="px-4 py-2 font-medium">{club.name}</td><td className="px-4 py-2 text-center font-bold">{club.totalTrophies}</td><td className="px-4 py-2 text-center font-semibold">{club.trophiesPerSeason.toFixed(2)}</td><td className="px-4 py-2 text-center">{club.avgTenure.toFixed(2)}</td></tr> )}
+                                sortable={true}
+                            />
+                            <SummaryBox tabKey="success" content={
+`Analyse Succes:
+De meest succesvolle coach qua totaal aantal prijzen is ${analysisData.successfulCoaches[0]?.name} met ${analysisData.successfulCoaches[0]?.totalTrophies} prijzen.
+Gekeken naar efficiëntie (prijzen per seizoen) is ${getSortedData(analysisData.successfulCoaches, {key: 'trophiesPerSeason', direction: 'descending'})[0]?.name} de koploper met een gemiddelde van ${getSortedData(analysisData.successfulCoaches, {key: 'trophiesPerSeason', direction: 'descending'})[0]?.trophiesPerSeason.toFixed(2)} prijzen per seizoen.
+
+De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key: 'totalTrophies', direction: 'descending'})[0]?.name} met ${getSortedData(analysisData.successfulClubs, {key: 'totalTrophies', direction: 'descending'})[0]?.totalTrophies} prijzen.
+`} />
+                         </div>
+                    )}
+                </div>
+            );
+        }
 
         function DataCleanupView({ onUpdate }) {
             const [isLoadingOrphans, setIsLoadingOrphans] = useState(false);
@@ -213,6 +1054,252 @@
             );
         }
 
+        function ImporterView({ onUpdateAll }) {
+            const [step, setStep] = useState(1);
+            const [status, setStatus] = useState('');
+            const [isLoading, setIsLoading] = useState(false);
+            const [error, setError] = useState('');
+            const [fileName, setFileName] = useState('');
+            const [processedData, setProcessedData] = useState([]);
+            const [clubLogos, setClubLogos] = useState({});
+
+            const resetWizard = () => {
+                setStep(1);
+                setStatus('');
+                setIsLoading(false);
+                setError('');
+                setFileName('');
+                setProcessedData([]);
+                setClubLogos({});
+            };
+
+            const handleFileChange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                setFileName(file.name);
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const parsedData = JSON.parse(event.target.result);
+                        if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
+                        const dataWithIds = parsedData.map((row, index) => ({ ...row, _id: index, foto_url: '' }));
+                        setProcessedData(dataWithIds);
+                        setStep(2);
+                    } catch (err) {
+                        setError(`Fout bij lezen van JSON: ${err.message}`);
+                    }
+                };
+                reader.readAsText(file);
+            };
+
+            const handleEnrichCoaches = async () => {
+                const uniqueCoaches = [...new Set(processedData.map(s => s.coach))].filter(Boolean);
+                setIsLoading(true);
+                setError('');
+                setStatus(`Afbeeldingen zoeken voor ${uniqueCoaches.length} coaches...`);
+                try {
+                    const result = await functions.enrichCoachData({ coaches: uniqueCoaches });
+                    const enrichedPhotos = new Map(result.data.coaches.map(c => [c.naam, c.foto_url]));
+                    const enrichedData = processedData.map(season => ({ ...season, foto_url: enrichedPhotos.get(season.coach) || season.foto_url || '' }));
+                    setProcessedData(enrichedData);
+                    setStatus('Afbeeldingen verrijkt.');
+                } catch (e) {
+                    setError(e.message);
+                    setStatus('Fout bij zoeken naar afbeeldingen.');
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            
+            const handleImportData = async () => {
+                setIsLoading(true);
+                setError('');
+                setStatus('Data importeren naar database...');
+                try {
+                    const [clubsSnapshot, coachesSnapshot] = await Promise.all([
+                        getDocs(collection(db, "clubs")),
+                        getDocs(collection(db, "coaches"))
+                    ]);
+                    const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id]));
+                    const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id]));
+                    const batch = writeBatch(db);
+                    const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name));
+                    const newCoachData = new Map();
+                    processedData.forEach(s => {
+                        if (s.coach && !existingCoachesMap.has(s.coach) && !newCoachData.has(s.coach)) {
+                            newCoachData.set(s.coach, {
+                                naam: s.coach,
+                                nationaliteit: s.nationaliteit || '',
+                                nat_code: s.nat_code || '',
+                                foto_url: s.foto_url || ''
+                            });
+                        }
+                    });
+                    const clubIdMap = new Map(existingClubsMap);
+                    newClubNames.forEach(name => {
+                        const newClubRef = doc(collection(db, "clubs"));
+                        const clubData = processedData.find(s => s.club === name);
+                        batch.set(newClubRef, {
+                            naam: name,
+                            land: clubData.land,
+                            logo_url: clubLogos[name] || ''
+                        });
+                        clubIdMap.set(name, newClubRef.id);
+                    });
+                    const coachIdMap = new Map(existingCoachesMap);
+                    for (const [name, data] of newCoachData.entries()) {
+                        const newCoachRef = doc(collection(db, 'coaches'));
+                        batch.set(newCoachRef, data);
+                        coachIdMap.set(name, newCoachRef.id);
+                    }
+                    processedData.forEach(season => {
+                        const coachId = coachIdMap.get(season.coach);
+                        const clubId = clubIdMap.get(season.club);
+                        if (coachId && clubId) {
+                            const newSeasonRef = doc(collection(db, 'seizoenen'));
+                            batch.set(newSeasonRef, {
+                                seizoen: season.seizoen,
+                                coachId: coachId,
+                                club: clubId,
+                                land: season.land,
+                                landstitel: season.landstitel,
+                                nationale_beker: season.nationale_beker,
+                                europese_prijs: season.europese_prijs,
+                            });
+                        }
+                    });
+                    await batch.commit();
+                    alert('Import succesvol! Alle data wordt herladen.');
+                    onUpdateAll();
+                    resetWizard();
+                } catch (e) {
+                    setError("Fout bij importeren: " + e.message);
+                } finally {
+                    setIsLoading(false);
+                    setStatus('');
+                }
+            };
+
+            const uniqueClubs = useMemo(() => [...new Set(processedData.map(d => d.club))], [processedData]);
+            const uniqueCoaches = useMemo(() => {
+                const coaches = new Map();
+                processedData.forEach(s => {
+                    if (s.coach && !coaches.has(s.coach)) {
+                        coaches.set(s.coach, {
+                            naam: s.coach,
+                            nationaliteit: s.nationaliteit,
+                            nat_code: s.nat_code,
+                            foto_url: s.foto_url || ''
+                        });
+                    } else if (s.coach && s.foto_url && !coaches.get(s.coach).foto_url) {
+                        coaches.get(s.coach).foto_url = s.foto_url;
+                    }
+                });
+                return Array.from(coaches.values());
+            }, [processedData]);
+
+            return (
+                <div>
+                    <div className="flex justify-between items-center mb-6">
+                        <h1 className="text-2xl font-bold">Data Importer</h1>
+                        {step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}
+                    </div>
+                    {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
+                    {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>}
+                    
+                    {step === 1 && (
+                        <div className="bg-white p-8 rounded-lg shadow text-center">
+                            <h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2>
+                            <p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p>
+                            <input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} />
+                            <label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                                <UploadIcon /> <span className="ml-2">Kies bestand</span>
+                            </label>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                            <h2 className="text-xl font-bold">Stap 2: Verrijk Coach Afbeeldingen</h2>
+                            <p className="text-gray-600">{uniqueCoaches.length} unieke coaches gevonden. Klik op de knop om afbeeldingen te zoeken.</p>
+                            <div className="flex items-center gap-4">
+                                <button onClick={handleEnrichCoaches} disabled={isLoading} className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 disabled:bg-gray-400">Zoek Afbeeldingen</button>
+                                <button onClick={() => setStep(3)} disabled={isLoading} className="px-4 py-2 bg-gray-200 text-gray-800 hover:bg-gray-300">Volgende Stap &raquo;</button>
+                            </div>
+                            <div className="max-h-96 overflow-y-auto border rounded-lg">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                    <thead className="bg-gray-50 sticky top-0">
+                                        <tr>
+                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Naam</th>
+                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Nationaliteit</th>
+                                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Foto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="bg-white divide-y divide-gray-200">
+                                        {uniqueCoaches.map((c) => (
+                                            <tr key={c.naam}>
+                                                <td className="px-4 py-2 whitespace-nowrap">{c.naam}</td>
+                                                <td className="px-4 py-2 whitespace-nowrap">{c.nationaliteit} ({c.nat_code})</td>
+                                                <td className="px-4 py-2 whitespace-nowrap">{c.foto_url ? <img src={c.foto_url} className="h-8 w-8 object-cover rounded-full" /> : '(geen)'}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 3 && (
+                        <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                            <h2 className="text-xl font-bold">Stap 3: Finale Import</h2>
+                            <p className="text-gray-600">Controleer de definitieve data. Voeg eventueel ontbrekende clublogo's toe en importeer alles naar de database.</p>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {uniqueClubs.map(club => (
+                                    <div key={club}>
+                                        <label htmlFor={`logo-${club}`} className="block text-sm font-medium text-gray-700">Logo URL voor {club}</label>
+                                        <div className="flex items-center mt-1">
+                                            {clubLogos[club] && <img src={clubLogos[club]} alt={`${club} logo`} className="h-8 w-8 mr-2" />}
+                                            <input type="text" id={`logo-${club}`} value={clubLogos[club] || ''} onChange={(e) => setClubLogos({ ...clubLogos, [club]: e.target.value })} className="block w-full p-2 border border-gray-300 rounded-md" />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <details>
+                                <summary className="cursor-pointer text-indigo-600">Toon Volledige Seizoensdata Preview</summary>
+                                <div className="max-h-96 overflow-y-auto border rounded-lg mt-4">
+                                    <table className="min-w-full divide-y divide-gray-200">
+                                        <thead className="bg-gray-50 sticky top-0">
+                                            <tr>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Club</th>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seizoen</th>
+                                                <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Coach</th>
+                                                <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Titel">T</th>
+                                                <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Beker">B</th>
+                                                <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 uppercase" title="Europees">E</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="bg-white divide-y divide-gray-200">
+                                            {processedData.sort((a, b) => `${a.club}${b.seizoen}`.localeCompare(`${b.club}${a.seizoen}`)).map((s) => (
+                                                <tr key={s._id}>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{s.club}</td>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{s.seizoen}</td>
+                                                    <td className="px-4 py-2 whitespace-nowrap">{s.coach}</td>
+                                                    <td className="px-2 py-2 text-center">{s.landstitel}</td>
+                                                    <td className="px-2 py-2 text-center">{s.nationale_beker}</td>
+                                                    <td className="px-2 py-2 text-center">{s.europese_prijs}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </details>
+                            <button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Importeer Data naar Firebase</button>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
         // --- HOOFD APPLICATIE ---
         function App() {
             const [user, setUser] = useState(null);
@@ -286,7 +1373,7 @@
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v23.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v22.2</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
