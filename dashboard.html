@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 22.2 - Bugfix & Volledige Code
+  Dashboard Versie: 23.1 - Verbeterde Nationaliteit Opschoning
   Changelog:
-  - Fout "Nothing was returned from render" opgelost door de volledige code voor alle React-componenten te herstellen.
-  - Knop "Zoek ontbrekende afbeeldingen" toegevoegd aan de "Coaches" pagina.
-  - Filter- en zoekfunctionaliteit in "Clubs" en "Coaches" is aanwezig.
+  - De functie 'handleNationalityCleanup' in de 'DataCleanupView' is bijgewerkt met een uitgebreide en complete lijst van te corrigeren nationaliteiten.
+  - De oude, beperkte correctielijst is vervangen om alle bekende inconsistenties (bv. 'Nederland' -> 'Dutch', 'Brasil' -> 'Brazilian') in één keer op te lossen.
+  - De rest van de functionaliteit blijft ongewijzigd.
 -->
 <html lang="nl">
 <head>
@@ -976,16 +976,19 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                 setNatLog([]);
                 addNatLog("Starten met corrigeren van nationaliteiten...");
 
+                // Uitgebreide en complete lijst van correcties
                 const corrections = {
-                    "England": "English",
-                    "Netherlands": "Dutch",
-                    "Germany": "German",
-                    "Spain": "Spanish",
-                    "France": "French",
-                    "Italy": "Italian",
-                    "Portugal": "Portuguese",
-                    "Argentina": "Argentine",
-                    "Brazil": "Brazilian"
+                    "Engeland": "English", "Noord-Ierland": "Northern Irish", "Schotland": "Scottish",
+                    "Frankrijk": "French", "Spanje": "Spanish", "Brazilië": "Brazilian",
+                    "Nederland": "Dutch", "Italië": "Italian", "Duitsland": "German",
+                    "Wales": "Welsh", "Zweden": "Swedish", "Chili": "Chilean",
+                    "Noorwegen": "Norwegian", "Argentinië": "Argentine", "Portugal": "Portuguese",
+                    "Netherlands": "Dutch", "Hungary": "Hungarian", "Croatia": "Croatian",
+                    "Austria": "Austrian", "Yugoslav": "Yugoslavian", "Czech-Italian": "Italian",
+                    "Brasil": "Brazilian", "Belgium": "Belgian", "Spain": "Spanish",
+                    "Germany": "German", "France": "French", "Italy": "Italian",
+                    "England": "English", "Brazil": "Brazilian", "Argentinia": "Argentine",
+                    "Bosnia": "Bosnian", "Servië": "Serbian", "Schotland": "Scottish"
                 };
 
                 try {
@@ -998,9 +1001,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         const originalNat = coach.nationaliteit;
                         if (originalNat && corrections[originalNat]) {
                             const correctedNat = corrections[originalNat];
-                            batch.update(coachDoc.ref, { nationaliteit: correctedNat });
-                            addNatLog(`[${coach.naam}]: "${originalNat}" -> "${correctedNat}"`);
-                            correctedCount++;
+                            if (coach.nationaliteit !== correctedNat) {
+                                batch.update(coachDoc.ref, { nationaliteit: correctedNat });
+                                addNatLog(`[${coach.naam}]: "${originalNat}" -> "${correctedNat}"`);
+                                correctedCount++;
+                            }
                         }
                     });
 
@@ -1009,7 +1014,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         addNatLog(`Opschonen voltooid. ${correctedCount} nationaliteiten gecorrigeerd. Data wordt herladen.`);
                         onUpdate();
                     } else {
-                        addNatLog("Geen nationaliteiten gevonden die correctie vereisen.");
+                        addNatLog("Geen nationaliteiten gevonden die correctie vereisen op basis van de lijst.");
                     }
                 } catch(e) {
                     addNatLog(`Fout: ${e.message}`);
@@ -1042,7 +1047,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         <button onClick={handleNationalityCleanup} disabled={isLoadingNats} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
                             {isLoadingNats ? 'Bezig...' : 'Corrigeer Nationaliteiten'}
                         </button>
-                        <p className="text-sm text-gray-500 mt-2">Corrigeert veelvoorkomende fouten in nationaliteiten (bv. 'England' naar 'English').</p>
+                        <p className="text-sm text-gray-500 mt-2">Corrigeert veelvoorkomende fouten in nationaliteiten (bv. 'Nederland' naar 'Dutch').</p>
                          {natLog.length > 0 && (
                             <div className="mt-4 p-4 bg-gray-100 rounded-md max-h-60 overflow-y-auto">
                                 <h4 className="font-semibold mb-2">Log:</h4>
@@ -1373,7 +1378,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v22.2</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v23.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
