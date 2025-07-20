@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 23.1 - Verbeterde Nationaliteit Opschoning
+  Dashboard Versie: 24.0 - CMS Functionaliteit
   Changelog:
-  - De functie 'handleNationalityCleanup' in de 'DataCleanupView' is bijgewerkt met een uitgebreide en complete lijst van te corrigeren nationaliteiten.
-  - De oude, beperkte correctielijst is vervangen om alle bekende inconsistenties (bv. 'Nederland' -> 'Dutch', 'Brasil' -> 'Brazilian') in één keer op te lossen.
-  - De rest van de functionaliteit blijft ongewijzigd.
+  - Nieuwe sectie "Artikelen" toegevoegd aan de navigatie.
+  - ArticlesView component gebouwd voor het tonen van een lijst met artikelen uit Firestore.
+  - ArticleEditor component gebouwd voor het aanmaken en bewerken van artikelen met velden voor titel, slug, afbeelding, content (Markdown) en status.
+  - CRUD-functionaliteit (Create, Read, Update, Delete) voor artikelen geïmplementeerd.
+  - Eenmalige importfunctie toegevoegd om de 3 bestaande HTML-artikelen naar Firestore te migreren.
 -->
 <html lang="nl">
 <head>
@@ -21,7 +23,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
         const firebaseConfig = {
@@ -47,7 +49,7 @@
             signInWithPopup,
             signOut,
             onAuthStateChanged,
-            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc
+            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp
         };
     </script>
 </head>
@@ -56,7 +58,7 @@
 
     <script type="text/babel">
         const { useState, useEffect, useCallback, useMemo, useRef } = React;
-        const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc } = window.firebaseServices;
+        const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp } = window.firebaseServices;
 
         // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -74,6 +76,7 @@
         const AddIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
         const ImageIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>;
         const CopyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>;
+        const ArticleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>;
 
         // --- COMPONENTEN ---
 
@@ -976,9 +979,25 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                 setNatLog([]);
                 addNatLog("Starten met corrigeren van nationaliteiten...");
 
-                // Uitgebreide en complete lijst van correcties
                 const corrections = {
-                    "Scotland": "Scottish",
+                    "Engeland": "English", "Noord-Ierland": "Northern Irish", "Schotland": "Scottish",
+                    "Frankrijk": "French", "Spanje": "Spanish", "Brazilië": "Brazilian",
+                    "Nederland": "Dutch", "Italië": "Italian", "Duitsland": "German",
+                    "Wales": "Welsh", "Zweden": "Swedish", "Chili": "Chilean",
+                    "Noorwegen": "Norwegian", "Argentinië": "Argentine", "Portugal": "Portuguese",
+                    "Servië": "Serbian", "Ierland": "Irish", "Denemarken": "Danish",
+                    "Netherlands": "Dutch", "Hungary": "Hungarian", "Croatia": "Croatian",
+                    "Austria": "Austrian", "Yugoslav": "Yugoslavian", "Czech-Italian": "Italian",
+                    "Brasil": "Brazilian", "Belgium": "Belgian", "Spain": "Spanish",
+                    "Germany": "German", "France": "French", "Italy": "Italian",
+                    "England": "English", "Brazil": "Brazilian", "Argentinia": "Argentine",
+                    "Bosnia": "Bosnian", "Scotland": "Scottish", "Denmark": "Danish",
+                    "Czech": "Czech", "Yugoslavian": "Yugoslav", "Swiss": "Swiss",
+                    "Romanian": "Romanian", "Polish": "Polish", "Bosnian": "Bosnian",
+                    "Slovak": "Slovak", "Mexican": "Mexican", "Uruguayan": "Uruguayan",
+                    "Monegasque": "Monegasque", "Angolan": "Angolan", "Bolivian": "Bolivian",
+                    "Montenegrin": "Montenegrin", "American": "American", "Turkish": "Turkish",
+                    "Israël": "Israeli"
                 };
 
                 try {
@@ -1294,6 +1313,203 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                 </div>
             );
         }
+        
+        // --- NIEUWE COMPONENTEN VOOR ARTIKELEN ---
+
+        function ArticleEditor({ article, onSave, onCancel }) {
+            const [formData, setFormData] = useState(article || { title: '', header_image_url: '', content: '', status: 'draft' });
+
+            useEffect(() => {
+                setFormData(article || { title: '', header_image_url: '', content: '', status: 'draft' });
+            }, [article]);
+
+            const handleChange = (e) => {
+                const { name, value } = e.target;
+                setFormData(prev => ({ ...prev, [name]: value }));
+            };
+
+            const generateSlug = (title) => {
+                return title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+            };
+
+            const handleSave = (e) => {
+                e.preventDefault();
+                const slug = formData.slug || generateSlug(formData.title);
+                onSave({ ...formData, slug });
+            };
+
+            return (
+                <div className="bg-white p-6 rounded-lg shadow">
+                    <h2 className="text-2xl font-bold mb-6">{article ? 'Artikel Bewerken' : 'Nieuw Artikel'}</h2>
+                    <form onSubmit={handleSave} className="space-y-6">
+                        <div>
+                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">Titel</label>
+                            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required />
+                        </div>
+                        <div>
+                            <label htmlFor="slug" className="block text-sm font-medium text-gray-700">Slug (URL)</label>
+                            <input type="text" name="slug" id="slug" value={formData.slug || generateSlug(formData.title)} disabled className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" />
+                        </div>
+                        <div>
+                            <label htmlFor="header_image_url" className="block text-sm font-medium text-gray-700">Header Afbeelding URL</label>
+                            <input type="text" name="header_image_url" id="header_image_url" value={formData.header_image_url} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label htmlFor="content" className="block text-sm font-medium text-gray-700">Inhoud (Markdown)</label>
+                            <textarea name="content" id="content" value={formData.content} onChange={handleChange} rows="20" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status</label>
+                            <select name="status" id="status" value={formData.status} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="draft">Concept (Draft)</option>
+                                <option value="published">Gepubliceerd (Published)</option>
+                            </select>
+                        </div>
+                        <div className="flex justify-end space-x-4">
+                            <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Annuleren</button>
+                            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Opslaan</button>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
+
+        function ArticlesView({ onUpdate }) {
+            const [articles, setArticles] = useState([]);
+            const [isLoading, setIsLoading] = useState(true);
+            const [editorMode, setEditorMode] = useState(null); // null, 'new', of article.id
+            const [selectedArticle, setSelectedArticle] = useState(null);
+            
+            const fetchArticles = useCallback(async () => {
+                setIsLoading(true);
+                const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+                const articlesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setArticles(articlesData);
+                setIsLoading(false);
+            }, []);
+
+            useEffect(() => {
+                fetchArticles();
+            }, [fetchArticles]);
+
+            const handleSaveArticle = async (articleData) => {
+                const dataToSave = { ...articleData };
+                
+                if (editorMode === 'new') {
+                    dataToSave.createdAt = serverTimestamp();
+                    if(dataToSave.status === 'published') {
+                        dataToSave.publishedAt = serverTimestamp();
+                    }
+                    await addDoc(collection(db, "articles"), dataToSave);
+                } else {
+                    const articleRef = doc(db, "articles", selectedArticle.id);
+                    if(dataToSave.status === 'published' && !selectedArticle.publishedAt) {
+                        dataToSave.publishedAt = serverTimestamp();
+                    }
+                    await updateDoc(articleRef, dataToSave);
+                }
+                setEditorMode(null);
+                setSelectedArticle(null);
+                fetchArticles();
+            };
+
+            const handleDeleteArticle = async (articleId) => {
+                if(confirm('Weet je zeker dat je dit artikel wilt verwijderen?')) {
+                    await deleteDoc(doc(db, "articles", articleId));
+                    fetchArticles();
+                }
+            };
+            
+            const handleEdit = (article) => {
+                setSelectedArticle(article);
+                setEditorMode(article.id);
+            };
+
+            const handleNew = () => {
+                setSelectedArticle(null);
+                setEditorMode('new');
+            };
+
+            const handleCancel = () => {
+                setEditorMode(null);
+                setSelectedArticle(null);
+            };
+
+            const handleInitialImport = async () => {
+                if (!confirm("Weet je zeker dat je de 3 initiële artikelen wilt importeren? Doe dit alleen als de 'articles' collectie leeg is.")) return;
+                
+                const initialArticles = [
+                    { title: 'The Architect and The Journeyman', slug: 'architect-vs-journeyman', header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png', status: 'published', content: `... content ...` },
+                    { title: 'The Global Tactician', slug: 'global-tactician', header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png', status: 'published', content: `... content ...` },
+                    { title: 'The GOAT Debate', slug: 'the-goat-debate', header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png', status: 'published', content: `... content ...` }
+                ];
+
+                // Placeholder content for brevity
+                initialArticles.forEach(a => a.content = `# ${a.title}\n\nDit is placeholder content. Vervang dit met de daadwerkelijke Markdown-tekst.`);
+
+                const batch = writeBatch(db);
+                initialArticles.forEach(article => {
+                    const docRef = doc(collection(db, "articles"));
+                    batch.set(docRef, { ...article, createdAt: serverTimestamp(), publishedAt: serverTimestamp() });
+                });
+                await batch.commit();
+                alert('De 3 artikelen zijn geïmporteerd.');
+                fetchArticles();
+            };
+
+            if (isLoading) {
+                return <div>Artikelen laden...</div>;
+            }
+
+            if (editorMode) {
+                return <ArticleEditor article={selectedArticle} onSave={handleSaveArticle} onCancel={handleCancel} />;
+            }
+
+            return (
+                <div className="bg-white p-6 rounded-lg shadow space-y-6">
+                    <div className="flex justify-between items-center">
+                        <h2 className="text-xl font-bold">Artikelen ({articles.length})</h2>
+                        <div className="space-x-2">
+                            <button onClick={handleInitialImport} className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Importeer 3 Bestaande Artikelen</button>
+                            <button onClick={handleNew} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Nieuw Artikel</button>
+                        </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead className="bg-gray-50">
+                                <tr>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titel</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aangemaakt op</th>
+                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acties</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {articles.map(article => (
+                                    <tr key={article.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap font-medium">{article.title}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${article.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                {article.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            {article.createdAt?.toDate().toLocaleDateString('nl-NL')}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <button onClick={() => handleEdit(article)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
+                                            <button onClick={() => handleDeleteArticle(article.id)} className="text-red-600 hover:text-red-900 ml-4"><DeleteIcon /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        }
+
 
         // --- HOOFD APPLICATIE ---
         function App() {
@@ -1368,9 +1584,10 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v23.1</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v24.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
+                             <a href="#" onClick={(e) => {e.preventDefault(); setView('articles');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'articles' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ArticleIcon /> Artikelen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
@@ -1384,6 +1601,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                          dataError ? <div className="text-center text-red-500">{dataError}</div> :
                             {
                                 'analysis': <AnalysisView seasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} />,
+                                'articles': <ArticlesView />,
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
