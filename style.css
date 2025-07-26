@@ -1,10 +1,9 @@
 /*
-  CSS Versie: 12.0
+  CSS Versie: 13.0
   Changelog:
-  - Definitief logo geïmplementeerd in de header-stijlen.
-  - 'THE' verwijderd uit het logo-ontwerp voor een strakkere look.
-  - Nieuwe .credo-block class toegevoegd voor een consistente introductie op elke pagina.
-  - .site-header-home verwijderd voor een uniforme header op de hele site.
+  - .site-header heeft nu een paarse achtergrond en witte tekst voor een krachtigere merkuitstraling.
+  - .credo-block is breder gemaakt voor een betere layout op grotere schermen.
+  - Hover- en active-states van de navigatie aangepast voor de donkere achtergrond.
 */
 
 :root {
@@ -46,8 +45,8 @@ main {
 /* --- Definitieve Header & Logo Styling --- */
 .site-header {
     width: 100%;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background-color: var(--accent-color);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 100;
     position: sticky;
     top: 0;
@@ -69,7 +68,6 @@ main {
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    color: var(--text-primary);
 }
 
 .logo-text {
@@ -77,6 +75,7 @@ main {
     font-size: 1.4rem;
     letter-spacing: -1px;
     line-height: 1.1;
+    color: #ffffff;
 }
 
 .site-nav .nav-links {
@@ -87,7 +86,7 @@ main {
 
 .site-nav .nav-links a {
     text-decoration: none;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 6px;
@@ -97,12 +96,12 @@ main {
 }
 
 .site-nav .nav-links a:hover {
-    color: var(--text-primary);
-    background-color: #f1f3f5;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .site-nav .nav-links a.active {
-    color: var(--accent-color);
+    color: #ffffff;
     font-weight: 700;
 }
 
@@ -113,7 +112,7 @@ main {
     left: 0;
     right: 0;
     height: 2px;
-    background-color: var(--accent-color);
+    background-color: #ffffff;
 }
 
 /* --- Credo Block Styling --- */
@@ -129,7 +128,7 @@ main {
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 700px;
+    max-width: 900px; /* Verbreed voor enkele regel */
     margin: 0 auto;
     text-align: center;
     line-height: 1.7;
