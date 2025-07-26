@@ -1,9 +1,9 @@
 /*
-  CSS Versie: 13.0
+  CSS Versie: 14.0
   Changelog:
-  - .site-header heeft nu een paarse achtergrond en witte tekst voor een krachtigere merkuitstraling.
-  - .credo-block is breder gemaakt voor een betere layout op grotere schermen.
-  - Hover- en active-states van de navigatie aangepast voor de donkere achtergrond.
+  - .site-header-home class her-geïntroduceerd voor een prominenter logo op de homepage.
+  - Standaard .site-header gestandaardiseerd om verspringen te voorkomen.
+  - .credo-block p aangepast (breder, kleiner lettertype) zodat de tekst op één regel past.
 */
 
 :root {
@@ -61,6 +61,7 @@ main {
     padding: 0 2rem;
     height: 70px;
     box-sizing: border-box;
+    transition: height 0.2s ease-in-out;
 }
 
 .logo a {
@@ -70,13 +71,31 @@ main {
     text-decoration: none;
 }
 
+.logo-icon-wrapper {
+    display: flex;
+    transition: transform 0.2s ease-in-out;
+}
+
 .logo-text {
     font-family: 'Archivo Black', sans-serif;
     font-size: 1.4rem;
     letter-spacing: -1px;
     line-height: 1.1;
     color: #ffffff;
+    transition: font-size 0.2s ease-in-out;
 }
+
+/* Prominente header voor homepage */
+.site-header-home .site-nav {
+    height: 80px;
+}
+.site-header-home .logo-text {
+    font-size: 1.6rem;
+}
+.site-header-home .logo-icon-wrapper {
+    transform: scale(1.1);
+}
+
 
 .site-nav .nav-links {
     display: flex;
@@ -125,10 +144,10 @@ main {
 }
 
 .credo-block p {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Iets kleiner lettertype */
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 900px; /* Verbreed voor enkele regel */
+    max-width: 1100px; /* Verbreed voor enkele regel */
     margin: 0 auto;
     text-align: center;
     line-height: 1.7;
