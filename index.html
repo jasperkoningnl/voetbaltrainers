@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  HTML Versie: 11.1
+  HTML Versie: 13.0
   Changelog:
-  - Links naar de artikelpagina's gecorrigeerd door het pad '/articles/' toe te voegen.
+  - Header volledig vernieuwd met SVG-logo en sitenaam.
+  - 'site-header-home' class toegevoegd voor een prominenter logo.
+  - Oude page-header verwijderd.
+  - Tagline over Ferguson boven de artikel-teasers geplaatst.
 -->
 <html lang="en">
 <head>
@@ -38,75 +41,26 @@
         window.db = db;
         window.firestore = { query, collection, where, getDocs };
     </script>
-    <style>
-        /* Extra stijlen voor de teaser sectie */
-        .teasers-section {
-            width: 100%;
-            max-width: 1600px;
-            padding: 0 2rem 2rem 2rem;
-            box-sizing: border-box;
-            margin: 0 auto;
-        }
-
-        .teasers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .teaser-card {
-            position: relative;
-            display: block;
-            height: 220px;
-            border-radius: 12px;
-            overflow: hidden;
-            text-decoration: none;
-            color: white;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-
-        .teaser-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
-        
-        .teaser-card:hover .teaser-image {
-            transform: scale(1.05);
-        }
-
-        .teaser-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 25%;
-            transition: transform 0.4s ease;
-        }
-
-        .teaser-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1rem 1.25rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
-        }
-
-        .teaser-content h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin: 0;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-    </style>
 </head>
 <body>
 
-    <header class="site-header">
+    <header class="site-header site-header-home">
         <nav class="site-nav">
             <div class="logo">
-                <a href="index.html">The Managerial Merry-Go-Round</a>
+                <a href="index.html">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:var(--accent-color);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#c471ed;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path fill="url(#grad1)" d="M 50,5 A 45,45 0 1 1 5,50" stroke="none" />
+                        <path fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" d="M 50,5 A 45,45 0 1 1 5,50" />
+                        <path fill="#fff" d="M 5 40 L 5 60 L 25 50 z" />
+                    </svg>
+                    <span class="logo-text">The Managerial Merry-Go-Round</span>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="index.html" class="active">Visualization</a>
@@ -116,38 +70,35 @@
         </nav>
     </header>
 
-    <div class="page-header">
-        <h1>The Managerial Merry-Go-Round</h1>
-        <p class="subtitle">
-            Was Sir Alex Ferguson's 26-year reign an anomaly? This visualization explores the relationship between managerial tenure and trophies won at Europe's top clubs.
-        </p>
-    </div>
-
-    <!-- Article Teaser Section -->
-    <section class="teasers-section">
-        <div class="teasers-grid">
-            <a href="articles/architectjourneyman.html" class="teaser-card">
-                <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png" alt="Ferguson and Mourinho" class="teaser-image">
-                <div class="teaser-content">
-                    <h3>The Architect vs. The Journeyman</h3>
-                </div>
-            </a>
-            <a href="articles/globaltactician.html" class="teaser-card">
-                <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png" alt="Coaches on a map" class="teaser-image" style="object-position: center;">
-                <div class="teaser-content">
-                    <h3>The Global Tactician</h3>
-                </div>
-            </a>
-            <a href="articles/thegoat.html" class="teaser-card">
-                <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png" alt="Mount Goatmore" class="teaser-image" style="object-position: center;">
-                <div class="teaser-content">
-                    <h3>The GOAT Debate</h3>
-                </div>
-            </a>
-        </div>
-    </section>
+    <p class="tagline">
+        Was Sir Alex Ferguson's 26-year reign an anomaly? This visualization explores the relationship between managerial tenure and trophies won at Europe's top clubs.
+    </p>
 
     <main>
+        <!-- Article Teaser Section -->
+        <section class="teasers-section">
+            <div class="teasers-grid">
+                <a href="articles/architectjourneyman.html" class="teaser-card">
+                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png" alt="Ferguson and Mourinho" class="teaser-image">
+                    <div class="teaser-content">
+                        <h3>The Architect vs. The Journeyman</h3>
+                    </div>
+                </a>
+                <a href="articles/globaltactician.html" class="teaser-card">
+                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png" alt="Coaches on a map" class="teaser-image" style="object-position: center;">
+                    <div class="teaser-content">
+                        <h3>The Global Tactician</h3>
+                    </div>
+                </a>
+                <a href="articles/thegoat.html" class="teaser-card">
+                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png" alt="Mount Goatmore" class="teaser-image" style="object-position: center;">
+                    <div class="teaser-content">
+                        <h3>The GOAT Debate</h3>
+                    </div>
+                </a>
+            </div>
+        </section>
+
         <div class="visualization-canvas">
             
             <!-- BLOK 1: CONTROLS -->
