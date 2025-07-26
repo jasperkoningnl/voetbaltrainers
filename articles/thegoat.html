@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.2
+  HTML Versie: 3.0
   Changelog:
-  - Lettertypegebruik gestandaardiseerd naar Inter en Oswald.
+  - Header bijgewerkt naar de nieuwe, paarse huisstijl voor consistentie.
 -->
 <html lang="en">
 <head>
@@ -16,24 +16,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
     <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="../style.css">
 
     <style>
         /* Custom styles for a premium magazine look */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         .hero-section {
             position: relative;
             height: 60vh;
@@ -67,24 +56,23 @@
         }
 
         .hero-title {
+            font-family: 'Oswald', sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 1.1;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
-
-        .article-body p {
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-            font-size: 1.125rem;
+        
+        figure {
+            margin: 2.5rem 0;
         }
 
-        .article-body h3 {
-            font-size: 2rem;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
+        figcaption {
+            font-size: 0.9rem;
+            color: #718096;
+            text-align: center;
+            margin-top: 0.75rem;
+            margin-bottom: 2.5rem;
         }
 
         .data-focus-box {
@@ -157,8 +145,8 @@
         }
 
         .explore-box {
-            background-color: #e9ecef;
-            border-radius: 0.5rem;
+            background-color: #f0f2f5;
+            border-radius: 0.75rem;
             padding: 2rem;
             margin-top: 3rem;
             text-align: center;
@@ -176,7 +164,7 @@
             font-size: 1rem;
             line-height: 1.6;
             color: #4a5568;
-            max-width: 90%;
+            max-width: 95%;
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 1.5rem;
@@ -188,7 +176,21 @@
     <header class="site-header">
         <nav class="site-nav">
             <div class="logo">
-                <a href="../index.html">The Managerial Merry-Go-Round</a>
+                <a href="../index.html">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="display: flex;">
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            Managerial<br>Merry-Go-Round
+                        </div>
+                    </div>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="../index.html">Visualization</a>
@@ -236,6 +238,14 @@
                 <h3>The Modern Super-Coaches: Efficiency and Global Conquest</h3>
                 <p>While the old guard built their legends over decades, the modern era has produced a new breed of super-coach, defined by intense, concentrated dominance and the ability to win anywhere.</p>
                 <p>No one embodies this more than <strong>Pep Guardiola</strong>. The data positions him as arguably the most complete manager of the 21st century. He matches Ferguson's staggering 25 trophies but has done so in a far shorter timeframe, resulting in a phenomenal prizes-per-season ratio of 1.56. He is not just a winner; he is a tactical revolutionary, a "Globetrotter" with league titles in Spain, Germany, and England, and a "Perfectionist" who has achieved the historic treble twice. He combines volume, efficiency, and game-changing impact in a way no other manager has.</p>
+                
+                <figure>
+                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                        <img src="./pep_vs_fergie.png" alt="Data visualization comparing the careers of Pep Guardiola and Sir Alex Ferguson" class="rounded-lg shadow-lg mx-auto">
+                    </a>
+                    <figcaption>Using the 'Advanced' mode in our tool to compare the careers of Guardiola and Ferguson reveals two different paths to greatness: Ferguson's long-term dynasty vs. Guardiola's high-intensity, multi-club dominance.</figcaption>
+                </figure>
+                
                 <p>His great rival, <strong>José Mourinho</strong>, is the ultimate pragmatic conqueror. With 20 trophies and an excellent efficiency rating of 1.18, he has proven he can win in any environment, from his underdog Champions League victory with Porto to his treble with Inter. Then there is <strong>Carlo Ancelotti</strong>, the specialist's specialist. While his volume and efficiency are lower in our data, his record five Champions League titles and his unique achievement of winning the league in all five major European countries make him a master of global success and European glory. This group, which also includes multi-league winners like <strong>Louis van Gaal</strong> (Netherlands, Spain, Germany) and <strong>Giovanni Trapattoni</strong> (Italy, Germany, Portugal), represents a different kind of greatness: the ability to export a winning formula.</p>
 
                 <h3>The Revolutionaries: More Than Just Trophies</h3>
@@ -277,7 +287,7 @@
                 <div class="explore-box">
                     <h3 class="text-2xl">Explore the Data Yourself</h3>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                        <img src="../visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's entire career path. Dive in and discover the patterns for yourself.</p>
                     <a href="../index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
