@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.2
+  HTML Versie: 3.0
   Changelog:
-  - Lettertypegebruik gestandaardiseerd naar Inter en Oswald.
+  - Header bijgewerkt naar de nieuwe, paarse huisstijl voor consistentie.
 -->
 <html lang="en">
 <head>
@@ -16,24 +16,13 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
     <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="../style.css">
 
     <style>
         /* Custom styles for a premium magazine look */
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
         .hero-section {
             position: relative;
             height: 60vh;
@@ -67,6 +56,7 @@
         }
 
         .hero-title {
+            font-family: 'Oswald', sans-serif;
             font-size: 3.5rem;
             font-weight: 700;
             line-height: 1.1;
@@ -123,7 +113,21 @@
     <header class="site-header">
         <nav class="site-nav">
             <div class="logo">
-                <a href="../index.html">The Managerial Merry-Go-Round</a>
+                <a href="../index.html">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="display: flex;">
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            Managerial<br>Merry-Go-Round
+                        </div>
+                    </div>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="../index.html">Visualization</a>
