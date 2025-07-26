@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 2.2
+  HTML Versie: 3.0
   Changelog:
-  - Lettertypegebruik gestandaardiseerd naar Inter en Oswald voor consistentie.
+  - Header vernieuwd met standaardformaat logo.
+  - Pagina voorzien van een consistente h1.page-title voor een uniforme look.
 -->
 <html lang="en">
 <head>
@@ -18,56 +19,26 @@
     <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="style.css">
     
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .about-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-        .about-container h3 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.75rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-        }
-        .about-container h4 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-         .about-container p, .about-container ul {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-        .about-container ul {
-            list-style-position: inside;
-            padding-left: 0;
-        }
-        .about-container li {
-            margin-bottom: 0.5rem;
-        }
-        .about-divider {
-            margin: 3rem 0;
-            border-color: var(--border-color);
-        }
-    </style>
 </head>
 <body class="bg-gray-100">
 
     <header class="site-header">
         <nav class="site-nav">
             <div class="logo">
-                <a href="index.html">The Managerial Merry-Go-Round</a>
+                <a href="index.html">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:var(--accent-color);stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#c471ed;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path fill="url(#grad1)" d="M 50,5 A 45,45 0 1 1 5,50" stroke="none" />
+                        <path fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" d="M 50,5 A 45,45 0 1 1 5,50" />
+                        <path fill="#fff" d="M 5 40 L 5 60 L 25 50 z" />
+                    </svg>
+                    <span class="logo-text">The Managerial Merry-Go-Round</span>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="index.html">Visualization</a>
@@ -78,6 +49,7 @@
     </header>
 
     <main>
+        <h1 class="page-title">About This Project</h1>
         <div class="about-container">
             <h3>The Story</h3>
             <p>This project started with a simple question: how exceptional was Sir Alex Ferguson's 27-year tenure at Manchester United in the context of modern football? This visualization attempts to answer that by mapping the tenures of managers at Europe's top clubs since the 1955/56 season, the dawn of European club competitions.</p>
