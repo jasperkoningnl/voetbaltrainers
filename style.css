@@ -1,11 +1,13 @@
 /*
-  CSS Versie: 10.3
+  CSS Versie: 11.0
   Changelog:
-  - Highlighting op X-as aangepast: accentkleur verwijderd, gebruikt nu --text-primary.
+  - Nieuw logo-ontwerp met SVG-icoon geïmplementeerd.
+  - Header-structuur aangepast voor een modernere, redactionele look.
+  - .site-header-home class toegevoegd voor een prominenter logo op de homepage.
+  - .page-header class verwijderd en vervangen door een consistente .page-title (h1) en .tagline (p).
 */
 
 :root {
-    /* Huidige steunkleur */
     --accent-color: #9933cc; /* Paars */
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
@@ -39,7 +41,7 @@ main {
     box-sizing: border-box;
 }
 
-/* --- Nieuwe Globale Navigatiebalk --- */
+/* --- Nieuwe Header & Logo Styling --- */
 .site-header {
     width: 100%;
     background-color: #fff;
@@ -60,11 +62,43 @@ main {
     box-sizing: border-box;
 }
 
-.site-nav .logo a {
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: transform 0.2s ease-in-out;
+}
+
+.logo a:hover {
+    transform: scale(1.02);
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    transition: all 0.3s ease;
+}
+
+.logo-text {
     font-size: 1.25rem;
     font-weight: 800;
-    color: var(--text-primary);
-    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+}
+
+/* Prominent logo voor de homepage */
+.site-header-home .logo-icon {
+    width: 40px;
+    height: 40px;
+}
+.site-header-home .logo-text {
+    font-size: 1.5rem;
+}
+.site-header-home .site-nav {
+    height: 80px;
 }
 
 .site-nav .nav-links {
@@ -104,35 +138,25 @@ main {
     background-color: var(--accent-color);
 }
 
-
-/* --- Aangepaste Header voor Homepage --- */
-.page-header {
-    width: 100%;
-    max-width: 1600px;
-    padding: 4rem 2rem;
-    box-sizing: border-box;
-    text-align: center;
-    background-color: #fff;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.page-header h1 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 700;
-    color: #1d2d3d;
-    margin-bottom: 0.5rem;
-    margin-top: 0;
-    letter-spacing: -1px;
-}
-
-.page-header .subtitle {
+/* --- Nieuwe Paginatitel & Tagline Styling --- */
+.tagline {
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 700px;
+    margin: 2.5rem auto;
+    text-align: center;
     line-height: 1.7;
+}
+
+.page-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1d2d3d;
+    text-align: center;
+    margin: 2.5rem auto;
+    letter-spacing: -1px;
 }
 
 .visualization-canvas {
@@ -490,4 +514,105 @@ main {
 .article-body a {
     color: var(--accent-color);
     text-decoration: underline;
+}
+
+/* --- Extra stijlen voor teaser sectie op homepage --- */
+.teasers-section {
+    width: 100%;
+    max-width: 1600px;
+    padding: 2rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+}
+
+.teasers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.teaser-card {
+    position: relative;
+    display: block;
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.teaser-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.teaser-card:hover .teaser-image {
+    transform: scale(1.05);
+}
+
+.teaser-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    transition: transform 0.4s ease;
+}
+
+.teaser-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+}
+
+.teaser-content h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+/* --- About pagina container --- */
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+.about-container h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.75rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+.about-container h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+ .about-container p, .about-container ul {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+.about-container ul {
+    list-style-position: inside;
+    padding-left: 0;
+}
+.about-container li {
+    margin-bottom: 0.5rem;
+}
+.about-divider {
+    margin: 3rem 0;
+    border-color: var(--border-color);
 }
