@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 3.0
+  HTML Versie: 4.0
   Changelog:
-  - Header vernieuwd met standaardformaat logo.
-  - Oude paginakop vervangen door een consistente h1.page-title.
+  - Definitief logo (SVG) geïmplementeerd in de header.
+  - Consistente paginastructuur met een .credo-block geïmplementeerd.
 -->
 <html lang="en">
 <head>
@@ -17,7 +17,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
     <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="style.css">
@@ -42,18 +42,19 @@
         <nav class="site-nav">
             <div class="logo">
                 <a href="index.html">
-                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:var(--accent-color);stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#c471ed;stop-opacity:1" />
-                            </linearGradient>
-                        </defs>
-                        <path fill="url(#grad1)" d="M 50,5 A 45,45 0 1 1 5,50" stroke="none" />
-                        <path fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" d="M 50,5 A 45,45 0 1 1 5,50" />
-                        <path fill="#fff" d="M 5 40 L 5 60 L 25 50 z" />
-                    </svg>
-                    <span class="logo-text">The Managerial Merry-Go-Round</span>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="display: flex;">
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <svg width="8" height="36" viewBox="0 0 8 36">
+                                <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="logo-text">
+                            Managerial<br>Merry-Go-Round
+                        </div>
+                    </div>
                 </a>
             </div>
             <div class="nav-links">
@@ -64,10 +65,12 @@
         </nav>
     </header>
 
+    <div class="credo-block">
+        <p>Dive deeper into the data with our collection of articles, exploring the narratives and patterns behind managerial careers.</p>
+    </div>
+
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-12">
-        <h1 class="page-title">Stories from the Sidelines</h1>
-
         <!-- Articles Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
