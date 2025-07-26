@@ -1,14 +1,14 @@
 /*
-  CSS Versie: 11.0
+  CSS Versie: 12.0
   Changelog:
-  - Nieuw logo-ontwerp met SVG-icoon geïmplementeerd.
-  - Header-structuur aangepast voor een modernere, redactionele look.
-  - .site-header-home class toegevoegd voor een prominenter logo op de homepage.
-  - .page-header class verwijderd en vervangen door een consistente .page-title (h1) en .tagline (p).
+  - Definitief logo geïmplementeerd in de header-stijlen.
+  - 'THE' verwijderd uit het logo-ontwerp voor een strakkere look.
+  - Nieuwe .credo-block class toegevoegd voor een consistente introductie op elke pagina.
+  - .site-header-home verwijderd voor een uniforme header op de hele site.
 */
 
 :root {
-    --accent-color: #9933cc; /* Paars */
+    --accent-color: #9933cc;
     --background-color: #f8f9fa;
     --canvas-background: #ffffff;
     --text-primary: #212529;
@@ -16,6 +16,8 @@
     --border-color: #dee2e6;
     --shadow-color: rgba(0, 0, 0, 0.07);
     --block-background: #f8f9fa;
+    --arrow-up: #22c55e;
+    --arrow-down: #ef4444;
 }
 
 body {
@@ -41,7 +43,7 @@ main {
     box-sizing: border-box;
 }
 
-/* --- Nieuwe Header & Logo Styling --- */
+/* --- Definitieve Header & Logo Styling --- */
 .site-header {
     width: 100%;
     background-color: #fff;
@@ -68,37 +70,13 @@ main {
     gap: 0.75rem;
     text-decoration: none;
     color: var(--text-primary);
-    transition: transform 0.2s ease-in-out;
-}
-
-.logo a:hover {
-    transform: scale(1.02);
-}
-
-.logo-icon {
-    width: 32px;
-    height: 32px;
-    transition: all 0.3s ease;
 }
 
 .logo-text {
-    font-size: 1.25rem;
-    font-weight: 800;
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: -0.5px;
-    transition: all 0.3s ease;
-}
-
-/* Prominent logo voor de homepage */
-.site-header-home .logo-icon {
-    width: 40px;
-    height: 40px;
-}
-.site-header-home .logo-text {
-    font-size: 1.5rem;
-}
-.site-header-home .site-nav {
-    height: 80px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: -1px;
+    line-height: 1.1;
 }
 
 .site-nav .nav-links {
@@ -138,25 +116,23 @@ main {
     background-color: var(--accent-color);
 }
 
-/* --- Nieuwe Paginatitel & Tagline Styling --- */
-.tagline {
+/* --- Credo Block Styling --- */
+.credo-block {
+    width: 100%;
+    padding: 2rem;
+    background-color: #f1f3f5;
+    border-bottom: 1px solid var(--border-color);
+    box-sizing: border-box;
+}
+
+.credo-block p {
     font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-secondary);
     max-width: 700px;
-    margin: 2.5rem auto;
+    margin: 0 auto;
     text-align: center;
     line-height: 1.7;
-}
-
-.page-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 3rem;
-    font-weight: 700;
-    color: #1d2d3d;
-    text-align: center;
-    margin: 2.5rem auto;
-    letter-spacing: -1px;
 }
 
 .visualization-canvas {
@@ -575,6 +551,19 @@ main {
     font-weight: 700;
     margin: 0;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+}
+
+.more-articles-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+.more-articles-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
 }
 
 /* --- About pagina container --- */
