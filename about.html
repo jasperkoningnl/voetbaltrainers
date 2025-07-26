@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 5.0
+  HTML Versie: 7.0
   Changelog:
-  - Header is nu paars met witte tekst, conform de nieuwe huisstijl.
+  - Volledig nieuw, uitgebreid artikel voor de 'About' pagina, gebaseerd op het interview.
+  - De oude changelog is nu onderdeel van het verhaal.
 -->
 <html lang="en">
 <head>
@@ -25,7 +26,7 @@
         <nav class="site-nav">
             <div class="logo">
                 <a href="index.html">
-                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div class="logo-icon-wrapper">
                         <div style="display: flex;">
                             <svg width="8" height="36" viewBox="0 0 8 36">
                                 <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -34,9 +35,9 @@
                                 <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <div class="logo-text">
-                            Managerial<br>Merry-Go-Round
-                        </div>
+                    </div>
+                    <div class="logo-text">
+                        Managerial<br>Merry-Go-Round
                     </div>
                 </a>
             </div>
@@ -53,40 +54,38 @@
     </div>
 
     <main>
-        <div class="about-container">
-            <h3>The Story</h3>
-            <p>This project started with a simple question: how exceptional was Sir Alex Ferguson's 27-year tenure at Manchester United in the context of modern football? This visualization attempts to answer that by mapping the tenures of managers at Europe's top clubs since the 1955/56 season, the dawn of European club competitions.</p>
-            <p>The heatmap visualizes managerial stability. Each row represents a club, and each colored block represents a season. The color scheme indicates the manager's tenure at that point: a fiery red for a one-season stint, transitioning through shades of green for longer, more stable periods. Trophies won in a season are marked with shield icons, allowing for a visual analysis of the correlation between stability and success.</p>
-            <p>This project is an ongoing collaboration between Jasper Koning and Google's Gemini, built iteratively with D3.js for the visualization and Google Firestore for data management.</p>
+        <div class="about-container article-body">
+            <h3>The Story Behind the Data</h3>
+            <p>This project didn't start a month ago. It started in January 2022, with a static visualization based on a manually compiled dataset. The idea was there, but the data was incomplete. Going further back in time, determining which manager had the longest tenure each season, was a monumental task. Still, I was proud of it and posted the result on Reddit's r/dataisbeautiful.</p>
             
+            <figure>
+                <img src="https://jasperkoningnl.github.io/voetbaltrainers/visualisatie.jpg" alt="The first version of the visualization from 2022" class="rounded-lg shadow-md mx-auto">
+                <figcaption>The original, static visualization from January 2022 that started it all.</figcaption>
+            </figure>
+
+            <p>The feedback was... disillusioning. The project went dormant, but the idea never died. It became a personal benchmark for AI progress. Starting in late 2023, with every new version of ChatGPT, I would test it with the same prompt: create a complete list of Ajax managers. Every time, it failed spectacularly, inventing names and hallucinating data. It was a dead end.</p>
+            
+            <p>Then, about a month ago, I switched to Gemini and tried the prompt one last time. It worked. That was the spark that ignited an intense journey, transforming a dormant idea into the interactive site you see today.</p>
+
             <hr class="about-divider">
 
-            <h3>Changelog</h3>
+            <h3>A Story of Vibe Coding & Over-Engineering</h3>
+            <p>This entire project is a testament to what I call "vibe coding." I had a clear vision in my head, and with Gemini as a partner, I finally had the tool to build it. Is the code perfect? I have no doubt it's bizarrely structured, and I can't fully vet it myself. But I felt a sense of accomplishment deploying functions via Windows Powershell and tinkering with APIs, even if much of it turned out to be over-engineered.</p>
             
-            <h4>v3.0 - The Great Migration (June 18-19, 2025)</h4>
-            <ul>
-                <li>Recognized that the CSV workflow was becoming a bottleneck.</li>
-                <li>Completely re-architected the data backend, migrating from a static <code>engeland.csv</code> file to a scalable Google Firestore database.</li>
-                <li>Data was separated into two collections (<code>coaches</code> and <code>seizoenen</code>) for data integrity and easier maintenance.</li>
-                <li>Developed and executed a one-time migration script to transfer all existing data to the new structure.</li>
-                <li>Rewrote the <code>script.js</code> to fetch and join data from Firestore and successfully fixed all outstanding bugs related to the interactive tooltip.</li>
-                <li><strong>Milestone: Project is now scalable and ready for Fase 3.</strong></li>
-            </ul>
+            <p>The initial plan was ambitious. After migrating the data from a fragile CSV file to a robust Firestore database, I built a full dashboard to manage the content. I tried to integrate a Gemini API directly into the dashboard to automate data collection, only to find out it was an older version. I spent ages trying to integrate other APIs to fetch manager photos and verify trophy data, but these attempts were ultimately scrapped. The most reliable method turned out to be a focused chat with Gemini, using specific Wikipedia pages as a source of truth, and importing the resulting JSON files through the dashboard.</p>
 
-            <h4>v2.0 - The Polish & Interactivity (June 18, 2025)</h4>
-            <ul>
-                <li>Completed <strong>Fase 1 (Visual Polish)</strong>: redesigned the page layout, improved the X and Y axes (including club logos), and added a comprehensive legend.</li>
-                <li>Initiated <strong>Fase 2 (Interactivity)</strong> by adding the core tooltip functionality.</li>
-                <li>Encountered and debugged several critical issues related to data quality and buggy tooltip behavior, leading to the strategic decision to migrate the data backend.</li>
-            </ul>
+            <p>The process was unpredictable. Getting the visual design right felt like it took forever, with endless file overwrites on GitHub. Yet, other monumental tasks—"Gemini, build a data analysis tool in the dashboard"—worked almost perfectly on the first try.</p>
 
-            <h4>v1.0 - The Foundation (June 17-18, 2025)</h4>
-            <ul>
-                <li>Established the project's core principles and data structure.</li>
-                <li>Built the initial D3.js heatmap visualization based on a CSV file.</li>
-                <li>Iteratively refined the visual logic, including the color scheme for manager tenure, the representation of trophies, and the merging of coach periods into single visual blocks.</li>
-                <li>Set up the project on GitHub and deployed the first live version via GitHub Pages.</li>
-            </ul>
+            <hr class="about-divider">
+
+            <h3>The Human-AI Collaboration</h3>
+            <p>Working with an AI is a unique experience. It's a dance of immense speed and maddening frustration. Chats would fill up, causing Gemini to get stuck in loops, answering old requests. I must have written a new, detailed prompt explaining the project's ground rules a thousand times:</p>
+            
+            <blockquote>"We communicate in Dutch, but the visualization is in English. Always provide the full code in the canvas without placeholders. Use version numbers and descriptions. Be professional, don't apologize, don't call my ideas brilliant, never use the word 'robust', never say something is 'final', and always ask me before you code."</blockquote>
+            
+            <p>But despite the quirks, the result is here. A fully interactive visualization with accompanying articles. I had planned to build a full CMS into the dashboard for the articles, but that attempt was abandoned. The data still needs a final double-check, so if you spot any errors, please let me know. And I'm still debating the core data choice: focusing on the one manager with the most games per season, ignoring the chaos of interim spells. So yes, updates can (and should) follow.</p>
+            
+            <p>Until now, it has been a remarkable process for me, amazing to finally pull this idea out of my head and present it interactively here. And I couldn't have done it without you, my dear, annoying, dumb, brilliant Gemini.</p>
         </div>
     </main>
 
