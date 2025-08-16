@@ -1,9 +1,8 @@
-// Script Versie: 22.2 - Bugfix Deelbare URL's
+// Script Versie: 22.3 - Bugfix Scope & URL's
 // Changelog:
-// - De functie die de URL leest (applyStateFromURL) is robuuster gemaakt en kan nu ook clubnamen in de URL verwerken.
-// - De functie die de URL schrijft (updateURLHash) zorgt er nu gegarandeerd voor dat alleen club-ID's worden gebruikt.
-// - Hiermee is de bug verholpen waarbij een mix van namen en ID's in de URL verscheen.
-console.log("Script versie: 22.2 geladen.");
+// - Een scope-probleem opgelost dat een 'updateXAxis is not defined' fout veroorzaakte en de visualisatie brak.
+// - De logica voor het lezen en schrijven van club-URL's verder verbeterd om de bug met gemixte ID's en namen definitief op te lossen.
+console.log("Script versie: 22.3 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -49,6 +48,8 @@ const DOMElements = {
 
 let currentResizeObserver = null;
 const ADD_CLUB_PLACEHOLDER = 'ADD_CLUB_PLACEHOLDER';
+// Variabele om de updatefunctie van de X-as buiten de scope van drawVisualization beschikbaar te maken
+let currentUpdateXAxis = () => {};
 
 
 // --- 3. INITIALISATIE ---
@@ -170,8 +171,8 @@ function updateURLHash() {
             newHash = `career=${encodeURIComponent(appState.careerCoachName)}`;
         } else if (appState.advancedViewMode === 'chooseClubs' && appState.comparisonClubs.length > 0) {
             // Garandeer dat alleen geldige ID's worden gebruikt
-            const clubIds = appState.comparisonClubs.map(c => c.id).join(',');
-            newHash = `clubs=${clubIds}`;
+            const clubIds = appState.comparisonClubs.map(c => c.id).filter(Boolean).join(',');
+            if(clubIds) newHash = `clubs=${clubIds}`;
         }
     }
     
@@ -207,7 +208,7 @@ async function applyStateFromURL() {
                 const clubIdentifiers = params.get('clubs').split(',');
                 
                 appState.comparisonClubs = clubIdentifiers.map(identifier => {
-                    // Zoek eerst op ID (meest betrouwbaar), dan op naam als fallback
+                    // Zoek eerst op ID (meest betrouwbaar), dan op naam als fallback voor oude/foute URLs
                     return appState.allClubs.find(c => c.id === identifier) || appState.allClubs.find(c => c.naam === decodeURIComponent(identifier));
                 }).filter(Boolean); // Verwijder nulls als een club niet gevonden wordt
             }
@@ -543,32 +544,12 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
-    svg.on('mouseleave', () => {
-        if (isCareer) return;
-        appState.hoveredTenureId = null;
-        updateVisuals();
-        updateXAxis();
-        if (!appState.selectedTenureId) setInfoPaneDefault();
-    });
-
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     g.append('rect')
         .attr('class', 'event-catcher')
         .attr('width', width > 0 ? width : 0)
         .attr('height', height);
-
-    svg.on('click', (event) => {
-        if (isCareer) return;
-        if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
-            if (appState.selectedTenureId) {
-                appState.selectedTenureId = null;
-                updateVisuals();
-                updateXAxis();
-                setInfoPaneDefault();
-            }
-        }
-    });
     
     y.domain(yDomain).range([0, height]);
     const getColor = d3.scaleThreshold()
@@ -654,6 +635,29 @@ function drawVisualization(data) {
         prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
     }
 
+    // Wijs de lokaal gedefinieerde functie toe aan de globale variabele
+    currentUpdateXAxis = updateXAxis;
+
+    svg.on('mouseleave', () => {
+        if (isCareer) return;
+        appState.hoveredTenureId = null;
+        updateVisuals();
+        updateXAxis();
+        if (!appState.selectedTenureId) setInfoPaneDefault();
+    });
+
+    svg.on('click', (event) => {
+        if (isCareer) return;
+        if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
+            if (appState.selectedTenureId) {
+                appState.selectedTenureId = null;
+                updateVisuals();
+                updateXAxis();
+                setInfoPaneDefault();
+            }
+        }
+    });
+
     barGroup.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", "bar")
         .attr("y", d => y(d.club))
@@ -710,7 +714,7 @@ function drawVisualization(data) {
 function setInfoPaneDefault() { 
     DOMElements.infoPane.attr("class", "default-state").html('<p>Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
     if (d3.select(".axis.x-axis").node()) {
-        updateXAxis();
+        currentUpdateXAxis();
     }
 }
 
