@@ -1,9 +1,9 @@
-// Script Versie: 21.0 - Deelbare URL's geïmplementeerd
+// Script Versie: 22.0 - Leesbare & Dynamische URL's
 // Changelog:
-// - Functies toegevoegd om de huidige selectie (view, clubs, coach) op te slaan in de URL-hash.
-// - Bij het laden van de pagina wordt de URL-hash gelezen om een gedeelde weergave te herstellen.
-// - De URL wordt automatisch bijgewerkt bij het wijzigen van de weergave.
-console.log("Script versie: 21.0 geladen.");
+// - URL-management volledig herschreven om leesbare parameters te gebruiken (bv. #country=Spain).
+// - Base64-codering verwijderd.
+// - Een 'hashchange' event listener toegevoegd zodat de visualisatie update als een URL in een bestaand venster wordt geplakt.
+console.log("Script versie: 22.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -57,10 +57,8 @@ document.addEventListener('DOMContentLoaded', initApp);
 async function initApp() {
     console.log("Applicatie initialiseren...");
     setupEventListeners();
-    // Eerst alle data ophalen
     await fetchAllInitialData();
-    // Dan de staat vanuit de URL toepassen (heeft data nodig)
-    await applyStateFromURL();
+    await applyStateFromURL(); // Pas de staat toe op basis van de initiële URL
     populateCoachDatalist();
     renderApp();
     console.log("Applicatie gereed.");
@@ -68,6 +66,12 @@ async function initApp() {
 
 // --- 4. EVENT LISTENERS ---
 function setupEventListeners() {
+    // Luister naar wijzigingen in de URL-hash
+    window.addEventListener('hashchange', async () => {
+        await applyStateFromURL();
+        renderApp();
+    });
+
     DOMElements.navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -81,6 +85,9 @@ function setupEventListeners() {
             const newMode = e.target.dataset.mode;
             if (newMode !== appState.advancedViewMode) {
                 appState.advancedViewMode = newMode;
+                // Reset de andere modus
+                if (newMode === 'careerMode') appState.comparisonClubs = [];
+                if (newMode === 'chooseClubs') appState.careerCoachName = null;
                 renderApp();
                 updateURLHash();
             }
@@ -126,7 +133,6 @@ function handleNavigation(target) {
         appState.activeCountry = target;
     } else {
         appState.currentView = 'advanced';
-        // Reset naar default advanced mode bij wisselen
         appState.advancedViewMode = 'chooseClubs';
         appState.comparisonClubs = [];
         appState.careerCoachName = null;
@@ -153,61 +159,66 @@ function handleCareerCoachSearch(event) {
     }
 }
 
-// --- 5. URL STATE MANAGEMENT ---
+// --- 5. URL STATE MANAGEMENT (VERNIEUWD) ---
 
 function updateURLHash() {
-    const stateToSave = {
-        v: appState.currentView,
-        c: appState.activeCountry,
-        av: appState.advancedViewMode,
-        // Sla alleen club IDs op om de URL kort te houden
-        cc: appState.comparisonClubs.map(club => club.id),
-        cn: appState.careerCoachName
-    };
-    try {
-        // Gebruik btoa om de JSON string te coderen naar Base64
-        const hash = btoa(JSON.stringify(stateToSave));
-        // Gebruik replaceState om de geschiedenis niet te vervuilen met elke kleine update
-        history.replaceState(null, '', '#' + hash);
-    } catch (e) {
-        console.error("Kon URL hash niet aanmaken:", e);
+    let newHash = '';
+    if (appState.currentView === 'country') {
+        newHash = `country=${encodeURIComponent(appState.activeCountry)}`;
+    } else if (appState.currentView === 'advanced') {
+        if (appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
+            newHash = `career=${encodeURIComponent(appState.careerCoachName)}`;
+        } else if (appState.advancedViewMode === 'chooseClubs' && appState.comparisonClubs.length > 0) {
+            const clubIds = appState.comparisonClubs.map(c => c.id).join(',');
+            newHash = `clubs=${clubIds}`;
+        }
+    }
+    
+    // Gebruik replaceState om de browsergeschiedenis niet te vervuilen
+    if (window.location.hash !== `#${newHash}`) {
+         history.replaceState(null, '', `#${newHash}`);
     }
 }
 
 async function applyStateFromURL() {
+    // Reset de staat voor we de URL lezen, behalve de data die al geladen is
+    Object.assign(appState, {
+        currentView: 'country',
+        advancedViewMode: 'chooseClubs',
+        activeCountry: 'England',
+        careerCoachName: null,
+        comparisonClubs: [],
+    });
+
     if (window.location.hash) {
         try {
-            const hash = window.location.hash.substring(1);
-            // Gebruik atob om de Base64 string te decoderen
-            const decodedState = JSON.parse(atob(hash));
-            
-            // Herstel de staat, met fallbacks naar de default waarden
-            appState.currentView = decodedState.v || 'country';
-            appState.activeCountry = decodedState.c || 'England';
-            appState.advancedViewMode = decodedState.av || 'chooseClubs';
-            appState.careerCoachName = decodedState.cn || null;
-            
-            if (decodedState.cc && Array.isArray(decodedState.cc)) {
-                // De allClubs data is al geladen in initApp, dus we kunnen de IDs direct mappen
-                appState.comparisonClubs = decodedState.cc
-                    .map(clubId => appState.allClubs.find(c => c.id === clubId))
-                    .filter(Boolean); // Verwijder eventuele nulls als een ID niet gevonden wordt
-            } else {
-                appState.comparisonClubs = [];
+            const params = new URLSearchParams(window.location.hash.substring(1));
+
+            if (params.has('country')) {
+                appState.currentView = 'country';
+                appState.activeCountry = decodeURIComponent(params.get('country'));
+            } else if (params.has('career')) {
+                appState.currentView = 'advanced';
+                appState.advancedViewMode = 'careerMode';
+                appState.careerCoachName = decodeURIComponent(params.get('career'));
+            } else if (params.has('clubs')) {
+                appState.currentView = 'advanced';
+                appState.advancedViewMode = 'chooseClubs';
+                const clubIds = params.get('clubs').split(',');
+                appState.comparisonClubs = clubIds
+                    .map(id => appState.allClubs.find(c => c.id === id))
+                    .filter(Boolean);
             }
-            
-            console.log("State hersteld vanuit URL:", appState);
         } catch (e) {
-            console.error("Kon URL hash niet lezen, herstellen naar standaard:", e);
-            history.replaceState(null, '', ' '); // Maak de foute hash leeg
+            console.error("Kon URL parameters niet lezen, herstellen naar standaard:", e);
+            history.replaceState(null, '', ' ');
         }
     }
 }
 
-
 // --- 6. DATA FETCHING ---
 async function fetchAllInitialData() {
-    if (appState.allClubs.length > 0) return; // Data al geladen
+    if (appState.allClubs.length > 0) return;
     if (!window.db || !window.firestore) {
         console.error("Firestore is niet geïnitialiseerd.");
         appState.isLoading = false;
@@ -570,7 +581,7 @@ function drawVisualization(data) {
             return { id: ADD_CLUB_PLACEHOLDER, club: name };
         }
         const clubDetails = appState.allClubs.find(c => c.naam === name);
-        return { id: clubDetails.id, club: name, logo_url: clubDetails ? clubDetails.logo_url : '' };
+        return { id: clubDetails ? clubDetails.id : name, club: name, logo_url: clubDetails ? clubDetails.logo_url : '' };
     });
     
     const yAxisLabels = yAxisG.selectAll(".y-axis-label-group").data(yAxisData, d => d.id).join("g")
@@ -861,5 +872,4 @@ function filterClubList() {
         const clubName = item.querySelector('span').textContent.toLowerCase();
         const matches = clubName.includes(searchTerm);
         item.style.display = matches ? 'flex' : 'none';
-    });
-}
+    })
