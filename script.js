@@ -1,9 +1,9 @@
-// Script Versie: 22.0 - Leesbare & Dynamische URL's
+// Script Versie: 22.1 - Foutcorrectie
 // Changelog:
-// - URL-management volledig herschreven om leesbare parameters te gebruiken (bv. #country=Spain).
-// - Base64-codering verwijderd.
-// - Een 'hashchange' event listener toegevoegd zodat de visualisatie update als een URL in een bestaand venster wordt geplakt.
-console.log("Script versie: 22.0 geladen.");
+// - Herstelt een syntaxisfout waardoor het script niet laadde (Unexpected end of input).
+// - URL-management met leesbare parameters (bv. #country=Spain).
+// - 'hashchange' event listener zorgt ervoor dat de visualisatie update als een URL in een bestaand venster wordt geplakt.
+console.log("Script versie: 22.1 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -174,7 +174,6 @@ function updateURLHash() {
         }
     }
     
-    // Gebruik replaceState om de browsergeschiedenis niet te vervuilen
     if (window.location.hash !== `#${newHash}`) {
          history.replaceState(null, '', `#${newHash}`);
     }
@@ -872,4 +871,5 @@ function filterClubList() {
         const clubName = item.querySelector('span').textContent.toLowerCase();
         const matches = clubName.includes(searchTerm);
         item.style.display = matches ? 'flex' : 'none';
-    })
+    });
+}
