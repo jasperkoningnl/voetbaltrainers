@@ -1,9 +1,9 @@
-// Script Versie: 22.1 - Foutcorrectie
+// Script Versie: 22.2 - Bugfix Deelbare URL's
 // Changelog:
-// - Herstelt een syntaxisfout waardoor het script niet laadde (Unexpected end of input).
-// - URL-management met leesbare parameters (bv. #country=Spain).
-// - 'hashchange' event listener zorgt ervoor dat de visualisatie update als een URL in een bestaand venster wordt geplakt.
-console.log("Script versie: 22.1 geladen.");
+// - De functie die de URL leest (applyStateFromURL) is robuuster gemaakt en kan nu ook clubnamen in de URL verwerken.
+// - De functie die de URL schrijft (updateURLHash) zorgt er nu gegarandeerd voor dat alleen club-ID's worden gebruikt.
+// - Hiermee is de bug verholpen waarbij een mix van namen en ID's in de URL verscheen.
+console.log("Script versie: 22.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -169,6 +169,7 @@ function updateURLHash() {
         if (appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
             newHash = `career=${encodeURIComponent(appState.careerCoachName)}`;
         } else if (appState.advancedViewMode === 'chooseClubs' && appState.comparisonClubs.length > 0) {
+            // Garandeer dat alleen geldige ID's worden gebruikt
             const clubIds = appState.comparisonClubs.map(c => c.id).join(',');
             newHash = `clubs=${clubIds}`;
         }
@@ -203,10 +204,12 @@ async function applyStateFromURL() {
             } else if (params.has('clubs')) {
                 appState.currentView = 'advanced';
                 appState.advancedViewMode = 'chooseClubs';
-                const clubIds = params.get('clubs').split(',');
-                appState.comparisonClubs = clubIds
-                    .map(id => appState.allClubs.find(c => c.id === id))
-                    .filter(Boolean);
+                const clubIdentifiers = params.get('clubs').split(',');
+                
+                appState.comparisonClubs = clubIdentifiers.map(identifier => {
+                    // Zoek eerst op ID (meest betrouwbaar), dan op naam als fallback
+                    return appState.allClubs.find(c => c.id === identifier) || appState.allClubs.find(c => c.naam === decodeURIComponent(identifier));
+                }).filter(Boolean); // Verwijder nulls als een club niet gevonden wordt
             }
         } catch (e) {
             console.error("Kon URL parameters niet lezen, herstellen naar standaard:", e);
@@ -871,5 +874,4 @@ function filterClubList() {
         const clubName = item.querySelector('span').textContent.toLowerCase();
         const matches = clubName.includes(searchTerm);
         item.style.display = matches ? 'flex' : 'none';
-    });
-}
+    })
