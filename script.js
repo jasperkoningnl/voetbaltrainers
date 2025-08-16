@@ -874,4 +874,5 @@ function filterClubList() {
         const clubName = item.querySelector('span').textContent.toLowerCase();
         const matches = clubName.includes(searchTerm);
         item.style.display = matches ? 'flex' : 'none';
-    })
+    });
+}
