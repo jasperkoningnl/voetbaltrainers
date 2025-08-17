@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 5.3
+  HTML Versie: 6.0
   Changelog:
-  - Knop-styling definitief gecorrigeerd door 'color: white' toe te voegen aan de inline style voor hogere prioriteit.
+  - Markdown opmaak (*...* en **...**) vervangen door <em> en <strong>.
+  - Nieuw ontwerp voor het 'Explore the Data' blok geïmplementeerd.
 -->
 <html lang="en">
 <head>
@@ -10,19 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Global Tactician: How Coaching Philosophies Conquered Europe</title>
     
-    <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
 
-    <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="../style.css">
 
     <style>
-        /* Custom styles for a premium magazine look */
         .hero-section {
             position: relative;
             height: 60vh;
@@ -36,7 +32,6 @@
             justify-content: center;
             text-align: center;
         }
-
         .hero-section::after {
             content: '';
             position: absolute;
@@ -47,14 +42,12 @@
             background: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
-
         .hero-content {
             position: relative;
             z-index: 2;
             max-w: 800px;
             padding: 2rem;
         }
-
         .hero-title {
             font-family: 'Oswald', sans-serif;
             font-size: 3.5rem;
@@ -62,14 +55,12 @@
             line-height: 1.1;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
-
         .hero-subtitle {
             font-size: 1.25rem;
             font-style: italic;
             margin-top: 1rem;
             opacity: 0.9;
         }
-
         .data-focus-box {
             background-color: #f7fafc;
             border: 1px solid #e2e8f0;
@@ -78,27 +69,18 @@
             margin: 2.5rem 0;
             font-family: 'Inter', sans-serif;
         }
-
         .data-focus-box h4 {
             font-family: 'Oswald', sans-serif;
             font-size: 1.25rem;
             margin-top: 0;
             margin-bottom: 1rem;
         }
-        
         .data-focus-box ul {
             list-style-type: none;
             padding: 0;
         }
-
-        .data-focus-box li {
-            margin-bottom: 0.5rem;
-        }
-
-        figure {
-            margin: 2.5rem 0;
-        }
-
+        .data-focus-box li { margin-bottom: 0.5rem; }
+        figure { margin: 2.5rem 0; }
         figcaption {
             font-size: 0.9rem;
             color: #718096;
@@ -106,35 +88,9 @@
             margin-top: 0.75rem;
             margin-bottom: 2.5rem;
         }
-        
-        .explore-box {
-            background-color: #f0f2f5;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            margin-top: 3rem;
-            text-align: center;
-        }
-        
-        .explore-box h3 {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-
-        .explore-box p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #4a5568;
-            max-width: 95%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 1.5rem;
-        }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-white">
 
     <header class="site-header">
         <nav class="site-nav">
@@ -183,12 +139,12 @@
                 </figure>
 
                 <p>This Dutch influence peaked in the late 90s and 2000s. <strong>Louis van Gaal</strong>, fresh from his Champions League victory with Ajax, brought his rigid, philosophical approach—and a host of Dutch players—to Barcelona, where he won two league titles. A decade later, our data shows him repeating the feat in Germany with Bayern Munich, winning the double in 2010. His compatriot, <strong>Frank Rijkaard</strong>, offered a calmer, more player-centric version of the Dutch school and led a Ronaldinho-inspired Barcelona to a Champions League title in 2006. Even <strong>Ruud Gullit</strong> had a taste of success abroad, winning the FA Cup with Chelsea as a player-manager.</p>
-                <p>Not all Dutch exports were an unqualified success. The data shows that <strong>Peter Bosz</strong>, successful in the Netherlands, had more difficult spells abroad at Borussia Dortmund and Olympique Lyonnais. <strong>Ronald Koeman</strong>'s time at Valencia was turbulent, despite winning the Copa del Rey. Yet, the demand for Dutch know-how persisted. **Guus Hiddink** had a brief, trophyless spell at Real Madrid but later won the FA Cup with Chelsea. Even the more pragmatic Dutch coaches like <strong>Dick Advocaat</strong>, <strong>Huub Stevens</strong>, and <strong>Bert van Marwijk</strong> found work across the border, while <strong>Leo Beenhakker</strong> managed to win the league with Real Madrid.</p>
+                <p>Not all Dutch exports were an unqualified success. The data shows that <strong>Peter Bosz</strong>, successful in the Netherlands, had more difficult spells abroad at Borussia Dortmund and Olympique Lyonnais. <strong>Ronald Koeman</strong>'s time at Valencia was turbulent, despite winning the Copa del Rey. Yet, the demand for Dutch know-how persisted. <strong>Guus Hiddink</strong> had a brief, trophyless spell at Real Madrid but later won the FA Cup with Chelsea. Even the more pragmatic Dutch coaches like <strong>Dick Advocaat</strong>, <strong>Huub Stevens</strong>, and <strong>Bert van Marwijk</strong> found work across the border, while <strong>Leo Beenhakker</strong> managed to win the league with Real Madrid.</p>
                 <p>The newest wave continues this tradition. <strong>Erik ten Hag</strong>, despite constant criticism of his style, ended a five-season trophy drought at Manchester United by winning two cups in his first two years. And <strong>Arne Slot</strong>, who won the title in his debut season with Liverpool, proves that the allure of the Dutch tactical school remains as strong as ever.</p>
                 
                 <div class="data-focus-box">
                     <h4>Data Focus: The Coaching Trade Balance</h4>
-                    <p class="text-sm text-gray-600 mb-4">*Based on a sample of 35 clubs across 7 leagues since 1955.*</p>
+                    <p class="text-sm text-gray-600 mb-4"><em>Based on a sample of 35 clubs across 7 leagues since 1955.</em></p>
                     <div class="grid md:grid-cols-2 gap-x-8 gap-y-4">
                         <div>
                             <h5 class="font-bold text-base mb-2">Top 5 Exporting Nations (by foreign stints)</h5>
@@ -228,7 +184,7 @@
                 <p>The legendary <strong>Giovanni Trapattoni</strong> is a prime example. After dominating with Juventus, he won league titles in Germany with Bayern Munich and in Portugal with Benfica, adapting his style each time. But the ultimate chameleon is <strong>Carlo Ancelotti</strong>. The data shows him winning major honours in Italy (AC Milan), England (Chelsea), France (PSG), Germany (Bayern Munich), and Spain (Real Madrid)—a feat no other manager has accomplished. His genius lies in his serene man-management, calmly handling dressing rooms full of superstars and finding a system that fits them, rather than forcing them into his.</p>
                 
                 <h3>The Spanish Armada & The Portuguese Wave</h3>
-                <p>For decades, Spain exported world-class players, but not necessarily coaches. That changed dramatically with one man: <strong>Pep Guardiola</strong>. His revolutionary success at Barcelona created a global demand for Spanish coaches. Guardiola himself became a top export, dominating the Bundesliga with Bayern Munich and then creating an era of unprecedented success at Manchester City. He paved the way for others like <strong>Luis Enrique</strong> (PSG) and European specialist **Unai Emery** (PSG, Arsenal). Before them, **Rafael Benítez** had already shown that Spanish tactical intelligence was a valuable commodity, famously winning the Champions League with Liverpool in 2005.</p>
+                <p>For decades, Spain exported world-class players, but not necessarily coaches. That changed dramatically with one man: <strong>Pep Guardiola</strong>. His revolutionary success at Barcelona created a global demand for Spanish coaches. Guardiola himself became a top export, dominating the Bundesliga with Bayern Munich and then creating an era of unprecedented success at Manchester City. He paved the way for others like <strong>Luis Enrique</strong> (PSG) and European specialist <strong>Unai Emery</strong> (PSG, Arsenal). Before them, <strong>Rafael Benítez</strong> had already shown that Spanish tactical intelligence was a valuable commodity, famously winning the Champions League with Liverpool in 2005.</p>
                 
                 <figure>
                     <a href="../index.html#country=England" target="_blank" rel="noopener noreferrer">
@@ -237,7 +193,7 @@
                     <figcaption>Pep Guardiola's dominance with Manchester City marks the high point of the Spanish coaching influence in the Premier League.</figcaption>
                 </figure>
 
-                <p>Simultaneously, Portugal has emerged as a modern powerhouse of coaching talent. The data is dominated by one figure: <strong>José Mourinho</strong>. His journey from Porto to Chelsea, Inter, Real Madrid, and Manchester United is a masterclass in winning through pragmatic, often confrontational, tactics. But he is not alone. A new generation, including **André Villas-Boas** (Chelsea, Marseille), **Paulo Fonseca** (Roma), and the highly-rated **Rúben Amorim**, whose success at Sporting CP earned him the top job at Manchester United, has successfully managed top clubs across Europe.</p>
+                <p>Simultaneously, Portugal has emerged as a modern powerhouse of coaching talent. The data is dominated by one figure: <strong>José Mourinho</strong>. His journey from Porto to Chelsea, Inter, Real Madrid, and Manchester United is a masterclass in winning through pragmatic, often confrontational, tactics. But he is not alone. A new generation, including <strong>André Villas-Boas</strong> (Chelsea, Marseille), <strong>Paulo Fonseca</strong> (Roma), and the highly-rated <strong>Rúben Amorim</strong>, whose success at Sporting CP earned him the top job at Manchester United, has successfully managed top clubs across Europe.</p>
 
                 <h3>French Exceptionalism: A Paradox of Talent</h3>
                 <p>The French story is a paradox. While France produces a seemingly endless stream of world-class players who dominate leagues across the continent, the nation has been a modest exporter of top-tier coaching talent. Our data shows that top French clubs historically prefer domestic managers, making Ligue 1 the most "closed" league in our sample. This doesn't necessarily mean French coaches lack ambition to go abroad, but it does paint a picture of a more inward-looking coaching culture compared to its neighbours.</p>
@@ -249,12 +205,12 @@
                 <p>What drives these trends? Success is cyclical. A groundbreaking victory, like Arrigo Sacchi's Milan or Cruyff's Barcelona, creates a blueprint that others rush to copy. A nation's economic strength and the global appeal of its top league also play a role, turning managers into highly sought-after global commodities. Ultimately, success abroad is not just about tactical knowledge, but about the ability to communicate a clear idea, adapt to a new culture, and, above all, win.</p>
                 
                 <div class="explore-box">
-                    <h3 class="text-2xl">Explore the Data Yourself</h3>
+                    <h3>Explore the Data Yourself</h3>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                        <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="explore-image">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="inline-block font-bold py-3 px-8 rounded-lg transition-colors text-lg" style="background-color: var(--accent-color); color: white;">Launch the Interactive Visualization</a>
+                    <a href="../index.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
                 </div>
             </div>
         </article>
