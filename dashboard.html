@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 25.1 - Bugfix Data Export
+  Dashboard Versie: 26.0 - JSON Export & Cleanup
   Changelog:
-  - De 'appData' prop wordt nu correct doorgegeven aan de 'DataCleanupView' component.
-  - Dit lost de 'Cannot read properties of undefined (reading 'map')' fout op die optrad bij het exporteren van data naar JSON.
+  - JSON export-formaat gecorrigeerd naar het platte array-formaat zoals in het voorbeeld `italy.json`.
+  - Alle functionaliteit voor artikelbeheer is verwijderd om het dashboard te stroomlijnen.
+  - Console-fout 'Unterminated string constant' opgelost die werd veroorzaakt door een eerder onvolledig bestand.
 -->
 <html lang="nl">
 <head>
@@ -74,8 +75,7 @@
         const AddIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
         const ImageIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>;
         const CopyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>;
-        const ArticleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>;
-
+        
         // --- COMPONENTEN ---
 
         function ClubsView({ initialClubs, onUpdate }) {
@@ -936,7 +936,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             const [natLog, setNatLog] = useState([]);
             const addNatLog = (message) => setNatLog(prev => [...prev, message]);
 
-            // --- NIEUWE STATE VOOR EXPORT ---
             const [countries, setCountries] = useState([]);
             const [isScanning, setIsScanning] = useState(false);
             const [exportingCountry, setExportingCountry] = useState(null);
@@ -956,7 +955,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             const handleExportCountry = async (country) => {
                 setExportingCountry(country);
                 try {
-                    // De appData prop bevat nu alle data die we nodig hebben
                     const { seasons, clubs, coaches } = appData;
 
                     const clubsMap = new Map(clubs.map(c => [c.id, c]));
@@ -967,33 +965,27 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         return club && club.land === country;
                     });
                     
-                    const uniqueCoachIds = new Set(countrySeasons.map(s => s.coachId));
-
-                    const formattedSeasons = countrySeasons.map(season => {
+                    const formattedData = countrySeasons.map(season => {
                         const club = clubsMap.get(season.club);
                         const coach = coachesMap.get(season.coachId);
                         if (!club || !coach) return null;
+                        
                         return {
-                            seizoen: season.seizoen, club: club.naam, coachNaam: coach.naam,
-                            landstitel: season.landstitel, nationale_beker: season.nationale_beker,
-                            europese_prijs: season.europese_prijs, land: club.land, logo_url: club.logo_url,
+                            club: club.naam,
+                            land: club.land,
+                            seizoen: season.seizoen,
+                            coach: coach.naam,
+                            nationaliteit: coach.nationaliteit || "",
+                            nat_code: coach.nat_code || "",
+                            landstitel: season.landstitel,
+                            nationale_beker: season.nationale_beker,
+                            europese_prijs: season.europese_prijs
                         };
                     }).filter(Boolean);
 
-                    const formattedCoaches = Array.from(uniqueCoachIds).map(id => {
-                        const coach = coachesMap.get(id);
-                        return {
-                            naam: coach.naam, nationaliteit: coach.nationaliteit || "",
-                            nat_code: coach.nat_code || "", foto_url: coach.foto_url || "",
-                        };
-                    });
-
-                    const finalJson = {
-                        coaches: formattedCoaches.sort((a, b) => a.naam.localeCompare(b.naam)),
-                        seizoenen: formattedSeasons.sort((a, b) => b.seizoen.localeCompare(a.seizoen)),
-                    };
+                    formattedData.sort((a, b) => a.club.localeCompare(b.club) || a.seizoen.localeCompare(b.seizoen));
                     
-                    downloadJson(finalJson, `${country.toLowerCase()}.json`);
+                    downloadJson(formattedData, `${country.toLowerCase()}.json`);
 
                 } catch (e) {
                     console.error("Fout bij exporteren", e);
@@ -1414,218 +1406,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             );
         }
         
-        // --- NIEUWE COMPONENTEN VOOR ARTIKELEN ---
-
-        function ArticleEditor({ article, onSave, onCancel }) {
-            const [formData, setFormData] = useState(article || { title: '', header_image_url: '', content: '', status: 'draft' });
-
-            useEffect(() => {
-                setFormData(article || { title: '', header_image_url: '', content: '', status: 'draft' });
-            }, [article]);
-
-            const handleChange = (e) => {
-                const { name, value } = e.target;
-                setFormData(prev => ({ ...prev, [name]: value }));
-            };
-
-            const generateSlug = (title) => {
-                return title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-            };
-
-            const handleSave = (e) => {
-                e.preventDefault();
-                const slug = formData.slug || generateSlug(formData.title);
-                onSave({ ...formData, slug });
-            };
-
-            return (
-                <div className="bg-white p-6 rounded-lg shadow">
-                    <h2 className="text-2xl font-bold mb-6">{article ? 'Artikel Bewerken' : 'Nieuw Artikel'}</h2>
-                    <form onSubmit={handleSave} className="space-y-6">
-                        <div>
-                            <label htmlFor="title" className="block text-sm font-medium text-gray-700">Titel</label>
-                            <input type="text" name="title" id="title" value={formData.title} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required />
-                        </div>
-                        <div>
-                            <label htmlFor="slug" className="block text-sm font-medium text-gray-700">Slug (URL)</label>
-                            <input type="text" name="slug" id="slug" value={formData.slug || generateSlug(formData.title)} disabled className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100" />
-                        </div>
-                        <div>
-                            <label htmlFor="header_image_url" className="block text-sm font-medium text-gray-700">Header Afbeelding URL</label>
-                            <input type="text" name="header_image_url" id="header_image_url" value={formData.header_image_url} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-                        </div>
-                        <div>
-                            <label htmlFor="content" className="block text-sm font-medium text-gray-700">Inhoud (Markdown)</label>
-                            <textarea name="content" id="content" value={formData.content} onChange={handleChange} rows="20" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm"></textarea>
-                        </div>
-                        <div>
-                            <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status</label>
-                            <select name="status" id="status" value={formData.status} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                                <option value="draft">Concept (Draft)</option>
-                                <option value="published">Gepubliceerd (Published)</option>
-                            </select>
-                        </div>
-                        <div className="flex justify-end space-x-4">
-                            <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Annuleren</button>
-                            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Opslaan</button>
-                        </div>
-                    </form>
-                </div>
-            );
-        }
-
-        function ArticlesView({ onUpdate }) {
-            const [articles, setArticles] = useState([]);
-            const [isLoading, setIsLoading] = useState(true);
-            const [editorMode, setEditorMode] = useState(null); // null, 'new', of article.id
-            const [selectedArticle, setSelectedArticle] = useState(null);
-            
-            const fetchArticles = useCallback(async () => {
-                setIsLoading(true);
-                const q = query(collection(db, "articles"), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
-                const articlesData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setArticles(articlesData);
-                setIsLoading(false);
-            }, []);
-
-            useEffect(() => {
-                fetchArticles();
-            }, [fetchArticles]);
-
-            const handleSaveArticle = async (articleData) => {
-                const dataToSave = { ...articleData };
-                
-                if (editorMode === 'new') {
-                    dataToSave.createdAt = serverTimestamp();
-                    if(dataToSave.status === 'published') {
-                        dataToSave.publishedAt = serverTimestamp();
-                    }
-                    await addDoc(collection(db, "articles"), dataToSave);
-                } else {
-                    const articleRef = doc(db, "articles", selectedArticle.id);
-                    if(dataToSave.status === 'published' && !selectedArticle.publishedAt) {
-                        dataToSave.publishedAt = serverTimestamp();
-                    }
-                    await updateDoc(articleRef, dataToSave);
-                }
-                setEditorMode(null);
-                setSelectedArticle(null);
-                fetchArticles();
-            };
-
-            const handleDeleteArticle = async (articleId) => {
-                if(confirm('Weet je zeker dat je dit artikel wilt verwijderen?')) {
-                    await deleteDoc(doc(db, "articles", articleId));
-                    fetchArticles();
-                }
-            };
-            
-            const handleEdit = (article) => {
-                setSelectedArticle(article);
-                setEditorMode(article.id);
-            };
-
-            const handleNew = () => {
-                setSelectedArticle(null);
-                setEditorMode('new');
-            };
-
-            const handleCancel = () => {
-                setEditorMode(null);
-                setSelectedArticle(null);
-            };
-
-            const handleInitialImport = async () => {
-                if (!confirm("Weet je zeker dat je de 3 initiële artikelen wilt importeren? Doe dit alleen als de 'articles' collectie leeg is.")) return;
-                
-                const initialArticles = [
-                    { 
-                        title: 'The Architect and The Journeyman', 
-                        slug: 'architect-vs-journeyman', 
-                        header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/header.png', 
-                        status: 'published', 
-                        content: `In the frantic, high-stakes world of modern football, the manager's seat is the hottest in the house. It’s a results-driven business, a relentless merry-go-round where a handful of bad games can undo years of work. The romantic ideal of a long-serving manager, an architect patiently building a club in their own image, feels like a relic from a bygone era.\n\nOr is it?\n\nWhile the managerial carousel spins faster than ever, history shows us that the game's greatest triumphs have often been born from two vastly different philosophies. There is the **Architect**, the dynasty-builder who becomes synonymous with their club, and there is the **Journeyman**, the hired gun who conquers, leaves, and conquers again elsewhere.\n\nWhich path truly leads to glory? Using a rich dataset spanning nearly 70 years and 35 of Europe's elite clubs, we can dissect these two archetypes and explore whether stability or surgical strikes yield the ultimate prize.\n\n### The Architects: Forging an Empire\n\nWhen you think of a dynasty, you think of **Sir Alex Ferguson**. His 26-year reign at Manchester United is the definitive blueprint for long-term success. It's a tenure that seems almost impossible today. After a difficult start, a famous fan banner on a cold December day in 1989 read, **"3 years of excuses and we're still crap. Ta-ra Fergie."** The board’s decision to stick by their man would become the single most important in the club's modern history.\n\nFerguson's genius wasn't just winning; it was *rebuilding*. The data clearly shows his ability to construct multiple great sides, winning the league with the swashbuckling team of the mid-90s built around the "Class of '92," and doing it all over again a decade later with the ruthless European force led by Cristiano Ronaldo and Wayne Rooney. His relentless drive was underpinned by his infamous "hairdryer treatment"—a face-to-face tirade so intense that, as his players said, it would physically blow their hair back. It was this relentless demand for excellence that underpinned his dynasty. The result: 13 league titles, 5 FA Cups, and 2 Champions League trophies.\n\nAcross the continent, another architect was laying the foundations for a different kind of dynasty. **Johan Cruyff**’s time at FC Barcelona (1988-1996) was shorter, but his impact was arguably just as profound. He delivered the club's first-ever European Cup in 1992 and strung together four consecutive La Liga titles. More than the silverware, Cruyff gifted Barcelona an identity. He implemented a footballing philosophy—a legacy carried on by his own players, most notably Pep Guardiola—that was so total and so revolutionary, it became the club's very DNA. His self-belief was legendary, captured in one of his most famous quotes:\n\n> "If I wanted you to understand it, I would have explained it better."\n\n### The Journeymen: Have Trophies, Will Travel\n\nIn stark contrast to the builders are the specialists—elite coaches who move from city to city, collecting silverware like souvenirs.\n\n**José Mourinho** is the prototype. His career is a grand tour of Europe's footballing capitals, defined by an "us against the world" mentality. Nothing illustrates this better than a story from his time at Chelsea in 2005. After being banned from the touchline for a Champions League quarter-final, he reportedly arrived at Stamford Bridge early, hid in the dressing room, and was then wheeled out of the stadium hidden in a laundry basket to avoid being seen. It's a tale that perfectly captures his siege mentality. It worked. Our data tracks his path: an improbable Champions League with FC Porto, domestic dominance with Chelsea, a historic treble with Internazionale, and a La Liga title with Real Madrid. His stays are often short and combustible. After winning the treble with Inter in 2010, president Massimo Moratti confessed to feeling "a bit abandoned" by his immediate departure.\n\nIf Mourinho is fire, then **Carlo Ancelotti** is ice. The calm, paternal Italian has a CV that is, frankly, absurd in its breadth. Our data confirms his status as a serial winner, lifting league titles or European Cups with AC Milan, Chelsea, Real Madrid, Paris Saint-Germain, and Bayern Munich. Like Mourinho, he has answered the call to return to former clubs, managing both Chelsea and Real Madrid in two separate spells. Yet where Mourinho’s returns can be fraught, Ancelotti’s calm authority brought even more success to Madrid, including two more Champions League trophies, cementing his status as perhaps the greatest "hired gun" of all.\n\n### The Grey Area: When Brilliance Burns Bright, and Fast\n\nNot every great manager fits neatly into these two boxes. Some, like the mercurial **Brian Clough**, were architects who were forced to be journeymen. Though not in our core dataset of 35 clubs, his story is essential. He took two unfashionable, provincial clubs, Derby County and Nottingham Forest, and led them to the English league title. With Forest, he achieved the unthinkable by winning back-to-back European Cups. Yet, his confrontational style meant he could never land a top job. His infamous spell at Leeds United in 1974 lasted just 44 days. In his very first address to the reigning champions, he reportedly told them that as far as he was concerned, they could throw all their medals in the bin because they had won them by cheating. He was a dynasty-builder at heart, but his personality made him too volatile for most boardrooms.\n\n### Conclusion: Two Paths to the Top\n\nThe data confirms there is no single blueprint for success. The romantic ideal of the Architect, like Ferguson, is rare and requires an almost unconditional trust between club and coach. It forges a legacy that transcends trophies.\n\nOpposite that is the pragmatic reality of the Journeyman, the specialist like Ancelotti or Mourinho, hired for a specific task: win now. It's a model perfectly suited to the fast-paced, results-oriented world of modern top-level football.\n\nUltimately, the "Managerial Merry-Go-Round" shows that both patience and opportunism can lead to the pinnacle of the sport. The choice for any club is: are we building a monument for the ages, or are we hiring the best specialist for today's job?` 
-                    },
-                    { 
-                        title: 'The Global Tactician', 
-                        slug: 'global-tactician', 
-                        header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/global.png', 
-                        status: 'published', 
-                        content: `In football, ideas travel. A tactical innovation born in Amsterdam can find a home in Barcelona, while a pressing system perfected in Mainz can conquer Liverpool. The modern game is a melting pot of philosophies, often imported by the managers themselves. These coaches are more than just employees; they are cultural ambassadors, carrying a distinct footballing identity across borders.\n\nBut which nations are the most successful exporters of tactical DNA? And which leagues are most open to foreign influence? Our data, covering nearly 70 years across a sample of 35 major clubs (five per country) in Europe's top leagues, reveals some stark contrasts. Based on this sample, the English Premier League stands out as the ultimate melting pot, with a staggering 64% of its coaching positions held by foreigners. At the other end of the spectrum, France's Ligue 1 appears the most insular, with only 21% of its top club managers coming from abroad. It's important to note this reflects the top clubs, and the picture across the entire league might differ.\n\nLet's dive into the data to trace the influence of the Dutch, German, Italian, Spanish, Portuguese, and French coaching schools across the continent.\n\n### The Dutch School: An Orange Blueprint for Success\n\nFor decades, Dutch football has been a byword for innovation. From "Total Football" to the modern possession-based game, its influence is undeniable. The data shows this isn't just a philosophy; it's a highly successful export product. The story begins with two titans: **Rinus Michels** and his most gifted student, **Johan Cruyff**. Michels laid the groundwork at Barcelona in the 70s, but it was Cruyff who, upon his return as manager in 1988, built the "Dream Team" and cemented an ideological bond between Ajax and Barcelona that persists to this day.\n\nThis Dutch influence peaked in the late 90s and 2000s. **Louis van Gaal**, fresh from his Champions League victory with Ajax, brought his rigid, philosophical approach—and a host of Dutch players—to Barcelona, where he won two league titles. A decade later, our data shows him repeating the feat in Germany with Bayern Munich, winning the double in 2010. His compatriot, **Frank Rijkaard**, offered a calmer, more player-centric version of the Dutch school and led a Ronaldinho-inspired Barcelona to a Champions League title in 2006. Even **Ruud Gullit** had a taste of success abroad, winning the FA Cup with Chelsea as a player-manager.\n\nNot all Dutch exports were an unqualified success. The data shows that **Peter Bosz**, successful in the Netherlands, had more difficult spells abroad at Borussia Dortmund and Olympique Lyonnais. **Ronald Koeman**'s time at Valencia was turbulent, despite winning the Copa del Rey. Yet, the demand for Dutch know-how persisted. **Guus Hiddink** had a brief, trophyless spell at Real Madrid but later won the FA Cup with Chelsea. Even the more pragmatic Dutch coaches like **Dick Advocaat**, **Huub Stevens**, and **Bert van Marwijk** found work across the border, while **Leo Beenhakker** managed to win the league with Real Madrid.\n\nThe newest wave continues this tradition. **Erik ten Hag**, despite constant criticism of his style, ended a five-season trophy drought at Manchester United by winning two cups in his first two years. And **Arne Slot**, who won the title in his debut season with Liverpool, proves that the allure of the Dutch tactical school remains as strong as ever.\n\n### The German Gegen-Wave: Heavy Metal Football Takes Over\n\nIf the Dutch taught Europe how to play with the ball, the Germans taught them how to win it back. While pioneers like **Udo Lattek** (Barcelona) and **Jupp Heynckes** had already found success abroad—with Heynckes famously winning the Champions League with Real Madrid in 1998—the modern era is defined by the "Gegenpressing" revolution.\n\nThis wave was spearheaded by two managers forged in the same crucible: **Jürgen Klopp** and **Thomas Tuchel**. Both honed their craft at Mainz 05 before making their names at Borussia Dortmund. Klopp arrived at Liverpool in 2015 and famously described his philosophy as "heavy metal football." He promised to turn "doubters into believers," and he delivered, winning both the Champions League (2019) and Liverpool's first league title in 30 years (2020). Tuchel followed a similar path, taking his intense, tactically flexible approach to PSG and then winning a Champions League with Chelsea in 2021 just months after taking over.\n\nThe data shows a clear trend: where German coaches go, intensity and tactical discipline follow. **Ralf Rangnick**, considered the godfather of this pressing style, had a brief consultancy at Manchester United in an attempt to import the philosophy wholesale. Meanwhile, **Roger Schmidt**'s recent title success with Benfica proves the effectiveness of the German model beyond just the top-tier leagues. Even **Hansi Flick**, who led Bayern to a historic sextuple, has now exported his winning mentality to Barcelona.\n\n### The Italian Job: Pragmatism as a Passport\n\nItalian coaches have long been stereotyped as defensive masters of "Catenaccio." While there's a kernel of truth in their tactical discipline, the data reveals their greatest strength is actually a relentless, adaptable pragmatism. They don't export a single philosophy; they export winning.\n\nThe legendary **Giovanni Trapattoni** is a prime example. After dominating with Juventus, he won league titles in Germany with Bayern Munich and in Portugal with Benfica, adapting his style each time. But the ultimate chameleon is **Carlo Ancelotti**. The data shows him winning major honours in Italy (AC Milan), England (Chelsea), France (PSG), Germany (Bayern Munich), and Spain (Real Madrid)—a feat no other manager has accomplished. His genius lies in his serene man-management, calmly handling dressing rooms full of superstars and finding a system that fits them, rather than forcing them into his.\n\n### The Spanish Armada & The Portuguese Wave\n\nFor decades, Spain exported world-class players, but not necessarily coaches. That changed dramatically with one man: **Pep Guardiola**. His revolutionary success at Barcelona created a global demand for Spanish coaches. Guardiola himself became a top export, dominating the Bundesliga with Bayern Munich and then creating an era of unprecedented success at Manchester City. He paved the way for others like **Luis Enrique** (PSG) and European specialist **Unai Emery** (PSG, Arsenal). Before them, **Rafael Benítez** had already shown that Spanish tactical intelligence was a valuable commodity, famously winning the Champions League with Liverpool in 2005.\n\nSimultaneously, Portugal has emerged as a modern powerhouse of coaching talent. The data is dominated by one figure: **José Mourinho**. His journey from Porto to Chelsea, Inter, Real Madrid, and Manchester United is a masterclass in winning through pragmatic, often confrontational, tactics. But he is not alone. A new generation, including **André Villas-Boas** (Chelsea, Marseille), **Paulo Fonseca** (Roma), and the highly-rated **Rúben Amorim**, whose success at Sporting CP earned him the top job at Manchester United, has successfully managed top clubs across Europe.\n\n### French Exceptionalism: A Paradox of Talent\n\nThe French story is a paradox. While France produces a seemingly endless stream of world-class players who dominate leagues across the continent, the nation has been a modest exporter of top-tier coaching talent. Our data shows that top French clubs historically prefer domestic managers, making Ligue 1 the most "closed" league in our sample. This doesn't necessarily mean French coaches lack ambition to go abroad, but it does paint a picture of a more inward-looking coaching culture compared to its neighbours.\n\nHowever, the few who do venture abroad often make a significant, lasting impact, making them notable exceptions to the trend. The towering example is, of course, **Arsène Wenger**. His 22-year reign at Arsenal makes him an 'Architect' abroad, an anomaly who didn't just win trophies but reshaped the identity of a major English club. **Gérard Houllier** also found great success in England, leading Liverpool to a cup treble in 2001. Interestingly, both men coached only one club abroad for an extended, loyal period.\n\nThis pattern of loyalty to a single foreign club is mirrored by **Zinedine Zidane**. He achieved immense success at Real Madrid, the same club where he shone as a player, winning multiple Champions League titles. Finally, there is **Didier Deschamps**. While he has primarily found success in France, he had a crucial one-season spell at Juventus, where he successfully guided the club back to Serie A after their demotion. These men prove that French coaching possesses immense quality, but they remain rare, high-impact exports rather than a consistent wave. They are not journeymen, but rather icons who commit fully to a specific project abroad, often one with which they have a personal connection.\n\n### Conclusion: The Shifting Tides of Tactical Influence\n\nLooking at the data over time, distinct patterns emerge. The 90s and early 2000s were marked by the widespread influence of the Dutch school. The last decade has been defined by the high-intensity German approach, the continued success of adaptable Italian pragmatists, and the rise of the Spanish possession game, with Portuguese coaches emerging as the new tactical heavyweights.\n\nWhat drives these trends? Success is cyclical. A groundbreaking victory, like Arrigo Sacchi's Milan or Cruyff's Barcelona, creates a blueprint that others rush to copy. A nation's economic strength and the global appeal of its top league also play a role, turning managers into highly sought-after global commodities. Ultimately, success abroad is not just about tactical knowledge, but about the ability to communicate a clear idea, adapt to a new culture, and, above all, win.`
-                    },
-                    { 
-                        title: 'The GOAT Debate', 
-                        slug: 'the-goat-debate', 
-                        header_image_url: 'https://jasperkoningnl.github.io/voetbaltrainers/articles/mountgoat.png', 
-                        status: 'published', 
-                        content: `What makes a manager the greatest of all time? Is it the sheer volume of silverware, gleaming in a packed trophy cabinet? Is it the tactical revolution that changes how the game is played? Or is it the ability to conquer Europe, to win anywhere, or to build a dynasty that outlasts a generation?\n\nThe debate is endless, and every fan has their champion. But what does the data say? Using a rich dataset spanning nearly 70 years and 35 of Europe's elite clubs, we can move beyond gut feeling and analyse greatness through different lenses. We've identified key pillars of managerial excellence: **Sustained Dominance**, **European Glory**, **Global Success**, and perhaps most importantly in the modern era, **Winning Efficiency**.\n\nThis is not a definitive ranking, but an exploration of the different forms of greatness, a data-driven "Mount Rushmore" of the men who have shaped modern football.\n\n### The Kings of Longevity: Building an Empire\n\nThis is the realm of relentless, sustained dominance, where winning year after year was the standard. When we look at the pure volume of trophies won, one name stands as the benchmark for longevity: **Sir Alex Ferguson**. His haul of 25 major trophies with Manchester United is a monument to adaptation, building multiple legendary teams over 26 years. His prizes-per-season ratio of 0.93 is incredibly impressive over such a long period.\n\nAlongside him stand other titans who defined their eras at a single club. **Miguel Muñoz**, the architect of the great Real Madrid side of the 50s and 60s, managed the club for 14 years, securing 12 trophies, including two European Cups. And **Arsène Wenger**, with his 22-year tenure at Arsenal, is another prime example. While his trophy count (12) and efficiency (0.41) are lower, his impact in building a club identity and overseeing a stadium move solidifies his status as a true dynasty-builder. These men represent the classic model of greatness: achieving consistent, long-term success through loyalty and evolution.\n\n### The Modern Super-Coaches: Efficiency and Global Conquest\n\nWhile the old guard built their legends over decades, the modern era has produced a new breed of super-coach, defined by intense, concentrated dominance and the ability to win anywhere.\n\nNo one embodies this more than **Pep Guardiola**. The data positions him as arguably the most complete manager of the 21st century. He matches Ferguson's staggering 25 trophies but has done so in a far shorter timeframe, resulting in a phenomenal prizes-per-season ratio of 1.56. He is not just a winner; he is a tactical revolutionary, a "Globetrotter" with league titles in Spain, Germany, and England, and a "Perfectionist" who has achieved the historic treble twice. He combines volume, efficiency, and game-changing impact in a way no other manager has.\n\nHis great rival, **José Mourinho**, is the ultimate pragmatic conqueror. With 20 trophies and an excellent efficiency rating of 1.18, he has proven he can win in any environment, from his underdog Champions League victory with Porto to his treble with Inter. Then there is **Carlo Ancelotti**, the specialist's specialist. While his volume and efficiency are lower in our data, his record five Champions League titles and his unique achievement of winning the league in all five major European countries make him a master of global success and European glory. This group, which also includes multi-league winners like **Louis van Gaal** (Netherlands, Spain, Germany) and **Giovanni Trapattoni** (Italy, Germany, Portugal), represents a different kind of greatness: the ability to export a winning formula.\n\n### The Revolutionaries: More Than Just Trophies\n\nFinally, there are managers whose greatness is difficult to capture in numbers alone, or who achieved such unique feats that they stand apart.\n\n**Zinedine Zidane** falls into this category. His achievement of winning three consecutive Champions League titles with Real Madrid is an anomaly in the modern game, a feat of knockout-tournament mastery that may never be repeated.\n\nAnd then there is **Johan Cruyff**. Though his trophy count is more modest than the serial winners, his influence is arguably greater than any other. He didn't just manage Barcelona; he installed a footballing philosophy, a DNA that directly led to the success of his disciples, including Guardiola and Rijkaard. His legacy is not measured in silverware, but in the very way modern football is played and understood. The German duo of **Udo Lattek** and **Ottmar Hitzfeld** can also be seen in this light; they didn't just win, they established a culture of dominance at Bayern Munich and Borussia Dortmund that defined German football for generations.\n\n### Conclusion: A New GOAT for a New Era?\n\nSo, who is the greatest? The ultimate debate may now be a Mancunian affair: Ferguson's United dynasty versus Guardiola's City machine, two different models of success that have defined their respective eras. The data doesn't give one simple answer, but it does illuminate a shift. While Ferguson set the 20th-century benchmark for sustained, single-club dominance, **Pep Guardiola** has redefined what managerial greatness looks like in the 21st century.\n\nHis unprecedented combination of winning volume, revolutionary tactics, staggering efficiency, and proven success across multiple top leagues makes him, based on the data, the most complete candidate for the modern "GOAT" title. While the romanticism of Ferguson's long reign and the European genius of Ancelotti provide compelling counterarguments, Guardiola's record represents a new, higher-velocity era of managerial dominance. The debate will rage on, but the data suggests the benchmark has been raised.`
-                    }
-                ];
-
-                const batch = writeBatch(db);
-                initialArticles.forEach(article => {
-                    const docRef = doc(collection(db, "articles"));
-                    batch.set(docRef, { ...article, createdAt: serverTimestamp(), publishedAt: serverTimestamp() });
-                });
-                await batch.commit();
-                alert('De 3 artikelen zijn geïmporteerd.');
-                fetchArticles();
-            };
-
-            if (isLoading) {
-                return <div>Artikelen laden...</div>;
-            }
-
-            if (editorMode) {
-                return <ArticleEditor article={selectedArticle} onSave={handleSaveArticle} onCancel={handleCancel} />;
-            }
-
-            return (
-                <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                    <div className="flex justify-between items-center">
-                        <h2 className="text-xl font-bold">Artikelen ({articles.length})</h2>
-                        <div className="space-x-2">
-                            <button onClick={handleInitialImport} className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">Importeer 3 Bestaande Artikelen</button>
-                            <button onClick={handleNew} className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Nieuw Artikel</button>
-                        </div>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200">
-                            <thead className="bg-gray-50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titel</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Aangemaakt op</th>
-                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Acties</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                                {articles.map(article => (
-                                    <tr key={article.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap font-medium">{article.title}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${article.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                                                {article.status}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {article.createdAt?.toDate().toLocaleDateString('nl-NL')}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button onClick={() => handleEdit(article)} className="text-indigo-600 hover:text-indigo-900"><EditIcon /></button>
-                                            <button onClick={() => handleDeleteArticle(article.id)} className="text-red-600 hover:text-red-900 ml-4"><DeleteIcon /></button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            );
-        }
-
-
         // --- HOOFD APPLICATIE ---
         function App() {
             const [user, setUser] = useState(null);
@@ -1699,10 +1479,9 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v25.1</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v26.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
-                             <a href="#" onClick={(e) => {e.preventDefault(); setView('articles');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'articles' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ArticleIcon /> Artikelen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
@@ -1716,12 +1495,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                          dataError ? <div className="text-center text-red-500">{dataError}</div> :
                             {
                                 'analysis': <AnalysisView seasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} />,
-                                'articles': <ArticlesView />,
+                                'importer': <ImporterView onUpdateAll={fetchAllData} />,
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                 'cleanup': <DataCleanupView appData={appData} onUpdate={fetchAllData} />,
-                                'importer': <ImporterView onUpdateAll={fetchAllData} />
                             }[view]
                         }
                     </main>
