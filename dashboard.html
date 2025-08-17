@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- 
+  Dashboard Versie: 25.1 - Bugfix Data Export
+  Changelog:
+  - De 'appData' prop wordt nu correct doorgegeven aan de 'DataCleanupView' component.
+  - Dit lost de 'Cannot read properties of undefined (reading 'map')' fout op die optrad bij het exporteren van data naar JSON.
+-->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -950,12 +956,13 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             const handleExportCountry = async (country) => {
                 setExportingCountry(country);
                 try {
-                    const { allSeasons, allClubs, allCoaches } = appData;
+                    // De appData prop bevat nu alle data die we nodig hebben
+                    const { seasons, clubs, coaches } = appData;
 
-                    const clubsMap = new Map(allClubs.map(c => [c.id, c]));
-                    const coachesMap = new Map(allCoaches.map(c => [c.id, c]));
+                    const clubsMap = new Map(clubs.map(c => [c.id, c]));
+                    const coachesMap = new Map(coaches.map(c => [c.id, c]));
 
-                    const countrySeasons = allSeasons.filter(s => {
+                    const countrySeasons = seasons.filter(s => {
                         const club = clubsMap.get(s.club);
                         return club && club.land === country;
                     });
@@ -1110,7 +1117,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                     <h2 className="text-xl font-bold">Data Management</h2>
                     <p className="text-gray-600">Voer onderhouds- en exporttaken uit op de database.</p>
                     
-                    {/* --- NIEUWE EXPORT SECTIE --- */}
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Export Data to JSON</h3>
                         <p className="text-sm text-gray-500 mb-4">Genereer een JSON-bestand per land voor datakwaliteitscontrole. De knoppen verschijnen zodra de landen zijn gedetecteerd.</p>
@@ -1693,7 +1699,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v25.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v25.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('articles');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'articles' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ArticleIcon /> Artikelen</a>
