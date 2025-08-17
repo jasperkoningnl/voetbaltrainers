@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 4.0
+  HTML Versie: 5.0
   Changelog:
-  - Header gestandaardiseerd om verspringen te voorkomen.
+  - Nieuw typografisch logo geïmplementeerd.
+  - Afbeeldingspaden aangepast naar de /images/ map.
+  - Nieuwe screenshots van de visualisatie toegevoegd met bijschriften.
+  - Knop-styling in het explore-blok gecorrigeerd.
 -->
 <html lang="en">
 <head>
@@ -27,7 +30,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('./mountgoat.png');
+            background-image: url('../images/mountgoat.png');
             background-size: cover;
             background-position: center;
             color: white;
@@ -177,18 +180,13 @@
         <nav class="site-nav">
             <div class="logo">
                 <a href="../index.html">
-                    <div class="logo-icon-wrapper">
-                        <div style="display: flex;">
-                            <svg width="8" height="36" viewBox="0 0 8 36">
-                                <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <svg width="8" height="36" viewBox="0 0 8 36">
-                                <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                    </div>
                     <div class="logo-text">
-                        Managerial<br>Merry-Go-Round
+                        <div>
+                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
+                        </div>
+                        <div>
+                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -216,6 +214,14 @@
 
                 <h3>The Kings of Longevity: Building an Empire</h3>
                 <p>This is the realm of relentless, sustained dominance, where winning year after year was the standard. When we look at the pure volume of trophies won, one name stands as the benchmark for longevity: <strong>Sir Alex Ferguson</strong>. His haul of 25 major trophies with Manchester United is a monument to adaptation, building multiple legendary teams over 26 years. His prizes-per-season ratio of 0.93 is incredibly impressive over such a long period.</p>
+                
+                <figure>
+                    <a href="../index.html#career=Sir%20Alex%20Ferguson" target="_blank" rel="noopener noreferrer">
+                        <img src="../images/ferguson.png" alt="Data visualization showing the career of Sir Alex Ferguson" class="rounded-lg shadow-lg mx-auto">
+                    </a>
+                    <figcaption>The visualization in 'Career Mode' highlights the sheer length and consistent success of Ferguson's dynasty at Manchester United.</figcaption>
+                </figure>
+
                 <p>Alongside him stand other titans who defined their eras at a single club. <strong>Miguel Muñoz</strong>, the architect of the great Real Madrid side of the 50s and 60s, managed the club for 14 years, securing 12 trophies, including two European Cups. And <strong>Arsène Wenger</strong>, with his 22-year tenure at Arsenal, is another prime example. While his trophy count (12) and efficiency (0.41) are lower, his impact in building a club identity and overseeing a stadium move solidifies his status as a true dynasty-builder. These men represent the classic model of greatness: achieving consistent, long-term success through loyalty and evolution.</p>
 
                 <div class="data-focus-box">
@@ -240,18 +246,32 @@
                 <p>No one embodies this more than <strong>Pep Guardiola</strong>. The data positions him as arguably the most complete manager of the 21st century. He matches Ferguson's staggering 25 trophies but has done so in a far shorter timeframe, resulting in a phenomenal prizes-per-season ratio of 1.56. He is not just a winner; he is a tactical revolutionary, a "Globetrotter" with league titles in Spain, Germany, and England, and a "Perfectionist" who has achieved the historic treble twice. He combines volume, efficiency, and game-changing impact in a way no other manager has.</p>
                 
                 <figure>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./pep_vs_fergie.png" alt="Data visualization comparing the careers of Pep Guardiola and Sir Alex Ferguson" class="rounded-lg shadow-lg mx-auto">
+                    <a href="../index.html#career=Pep%20Guardiola" target="_blank" rel="noopener noreferrer">
+                        <img src="../images/guardiola.png" alt="Data visualization comparing the careers of Pep Guardiola" class="rounded-lg shadow-lg mx-auto">
                     </a>
-                    <figcaption>Using the 'Advanced' mode in our tool to compare the careers of Guardiola and Ferguson reveals two different paths to greatness: Ferguson's long-term dynasty vs. Guardiola's high-intensity, multi-club dominance.</figcaption>
+                    <figcaption>Guardiola's career path shows a different model: intense, trophy-laden periods at multiple superclubs.</figcaption>
                 </figure>
                 
                 <p>His great rival, <strong>José Mourinho</strong>, is the ultimate pragmatic conqueror. With 20 trophies and an excellent efficiency rating of 1.18, he has proven he can win in any environment, from his underdog Champions League victory with Porto to his treble with Inter. Then there is <strong>Carlo Ancelotti</strong>, the specialist's specialist. While his volume and efficiency are lower in our data, his record five Champions League titles and his unique achievement of winning the league in all five major European countries make him a master of global success and European glory. This group, which also includes multi-league winners like <strong>Louis van Gaal</strong> (Netherlands, Spain, Germany) and <strong>Giovanni Trapattoni</strong> (Italy, Germany, Portugal), represents a different kind of greatness: the ability to export a winning formula.</p>
+                
+                <figure>
+                    <a href="../index.html#career=Carlo%20Ancelotti" target="_blank" rel="noopener noreferrer">
+                        <img src="../images/ancelotti.png" alt="Data visualization showing the career of Carlo Ancelotti" class="rounded-lg shadow-lg mx-auto">
+                    </a>
+                    <figcaption>Ancelotti's career visualized: a grand tour of Europe's elite, collecting trophies in every major league.</figcaption>
+                </figure>
 
                 <h3>The Revolutionaries: More Than Just Trophies</h3>
                 <p>Finally, there are managers whose greatness is difficult to capture in numbers alone, or who achieved such unique feats that they stand apart.</p>
                 <p><strong>Zinedine Zidane</strong> falls into this category. His achievement of winning three consecutive Champions League titles with Real Madrid is an anomaly in the modern game, a feat of knockout-tournament mastery that may never be repeated.</p>
                 <p>And then there is <strong>Johan Cruyff</strong>. Though his trophy count is more modest than the serial winners, his influence is arguably greater than any other. He didn't just manage Barcelona; he installed a footballing philosophy, a DNA that directly led to the success of his disciples, including Guardiola and Rijkaard. His legacy is not measured in silverware, but in the very way modern football is played and understood. The German duo of <strong>Udo Lattek</strong> and <strong>Ottmar Hitzfeld</strong> can also be seen in this light; they didn't just win, they established a culture of dominance at Bayern Munich and Borussia Dortmund that defined German football for generations.</p>
+
+                <figure>
+                    <a href="../index.html#career=Johan%20Cruyff" target="_blank" rel="noopener noreferrer">
+                        <img src="../images/cruyff.png" alt="Data visualization showing the career of Johan Cruyff" class="rounded-lg shadow-lg mx-auto">
+                    </a>
+                    <figcaption>Cruyff's career shows fewer clubs than other globetrotters, but his time at Barcelona created a lasting legacy.</figcaption>
+                </figure>
 
                 <h3>Conclusion: A New GOAT for a New Era?</h3>
                 <p>So, who is the greatest? The ultimate debate may now be a Mancunian affair: Ferguson's United dynasty versus Guardiola's City machine, two different models of success that have defined their respective eras. The data doesn't give one simple answer, but it does illuminate a shift. While Ferguson set the 20th-century benchmark for sustained, single-club dominance, <strong>Pep Guardiola</strong> has redefined what managerial greatness looks like in the 21st century.</p>
@@ -287,10 +307,10 @@
                 <div class="explore-box">
                     <h3 class="text-2xl">Explore the Data Yourself</h3>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="../visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                        <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's entire career path. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
+                    <a href="../index.html" target="_blank" class="inline-block font-bold py-3 px-8 rounded-lg transition-colors text-lg" style="background-color: var(--accent-color); color: white;">Launch the Interactive Visualization</a>
                 </div>
 
             </div>
