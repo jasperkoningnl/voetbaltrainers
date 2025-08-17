@@ -1,9 +1,9 @@
 /*
-  CSS Versie: 14.0
+  CSS Versie: 15.0
   Changelog:
-  - .site-header-home class her-geïntroduceerd voor een prominenter logo op de homepage.
-  - Standaard .site-header gestandaardiseerd om verspringen te voorkomen.
-  - .credo-block p aangepast (breder, kleiner lettertype) zodat de tekst op één regel past.
+  - Nieuw typografisch logo geïmplementeerd.
+  - Oude .logo-icon-wrapper class verwijderd.
+  - Nieuwe .arrow-up, .arrow-down, .arrow-down-shifted classes toegevoegd.
 */
 
 :root {
@@ -71,19 +71,31 @@ main {
     text-decoration: none;
 }
 
-.logo-icon-wrapper {
-    display: flex;
-    transition: transform 0.2s ease-in-out;
-}
-
 .logo-text {
     font-family: 'Archivo Black', sans-serif;
     font-size: 1.4rem;
-    letter-spacing: -1px;
+    letter-spacing: -1.5px; /* Iets strakker voor het nieuwe logo */
     line-height: 1.1;
     color: #ffffff;
     transition: font-size 0.2s ease-in-out;
 }
+
+/* Nieuwe logo stijlen */
+.arrow-up {
+    color: var(--arrow-up);
+    display: inline-block;
+    margin-right: 0.04em;
+}
+.arrow-down {
+    color: var(--arrow-down);
+    display: inline-block;
+    transform: scaleY(-1);
+    margin-right: 0.04em;
+}
+.arrow-down-shifted {
+     transform: scaleY(-1) translateY(-0.1em);
+}
+
 
 /* Prominente header voor homepage */
 .site-header-home .site-nav {
@@ -91,9 +103,6 @@ main {
 }
 .site-header-home .logo-text {
     font-size: 1.6rem;
-}
-.site-header-home .logo-icon-wrapper {
-    transform: scale(1.1);
 }
 
 
