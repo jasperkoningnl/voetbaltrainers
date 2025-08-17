@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 5.1
+  HTML Versie: 6.0
   Changelog:
-  - Afbeeldingspad voor visualisatie-preview (mmga.png) gecorrigeerd.
-  - Conflicterende CSS classes op de knop 'Launch Visualization' verwijderd om tekst zichtbaar te maken.
+  - Markdown opmaak (*...*) vervangen door <em>.
+  - Nieuw ontwerp voor het 'Explore the Data' blok geïmplementeerd.
 -->
 <html lang="en">
 <head>
@@ -11,19 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Architect and The Journeyman</title>
     
-    <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
     
-    <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="../style.css">
 
     <style>
-        /* Custom styles for a premium magazine look */
         .hero-section {
             position: relative;
             height: 60vh;
@@ -37,7 +32,6 @@
             justify-content: center;
             text-align: center;
         }
-
         .hero-section::after {
             content: '';
             position: absolute;
@@ -48,14 +42,12 @@
             background: rgba(0, 0, 0, 0.6);
             z-index: 1;
         }
-
         .hero-content {
             position: relative;
             z-index: 2;
             max-w: 800px;
             padding: 2rem;
         }
-
         .hero-title {
             font-family: 'Oswald', sans-serif;
             font-size: 4rem;
@@ -63,14 +55,12 @@
             line-height: 1.1;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
-
         .hero-subtitle {
             font-size: 1.25rem;
             font-style: italic;
             margin-top: 1rem;
             opacity: 0.9;
         }
-
         blockquote {
             border-left: 5px solid #cbd5e0;
             padding-left: 2rem;
@@ -79,11 +69,7 @@
             font-style: italic;
             color: #2d3748;
         }
-
-        figure {
-            margin: 2.5rem 0;
-        }
-
+        figure { margin: 2.5rem 0; }
         figcaption {
             font-size: 0.9rem;
             color: #718096;
@@ -91,33 +77,6 @@
             margin-top: 0.75rem;
             margin-bottom: 2.5rem;
         }
-        
-        .explore-box {
-            background-color: #f0f2f5;
-            border-radius: 0.75rem;
-            padding: 2rem;
-            margin-top: 3rem;
-            text-align: center;
-        }
-        
-        .explore-box h3 {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-
-        .explore-box p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #4a5568;
-            max-width: 95%;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 1.5rem;
-        }
-        
         .source-list {
             font-size: 0.8rem;
             color: #a0aec0;
@@ -130,7 +89,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-white">
 
     <header class="site-header">
         <nav class="site-nav">
@@ -179,7 +138,7 @@
                     <figcaption>A snapshot from our data visualization showing Ferguson's unprecedented 26-year reign at Manchester United, dotted with trophies.</figcaption>
                 </figure>
 
-                <p>Ferguson's genius wasn't just winning; it was *rebuilding*. The data clearly shows his ability to construct multiple great sides, winning the league with the swashbuckling team of the mid-90s built around the "Class of '92," and doing it all over again a decade later with the ruthless European force led by Cristiano Ronaldo and Wayne Rooney. His relentless drive was underpinned by his infamous "hairdryer treatment"—a face-to-face tirade so intense that, as his players said, it would physically blow their hair back. It was this relentless demand for excellence that underpinned his dynasty. The result: 13 league titles, 5 FA Cups, and 2 Champions League trophies.</p>
+                <p>Ferguson's genius wasn't just winning; it was <em>rebuilding</em>. The data clearly shows his ability to construct multiple great sides, winning the league with the swashbuckling team of the mid-90s built around the "Class of '92," and doing it all over again a decade later with the ruthless European force led by Cristiano Ronaldo and Wayne Rooney. His relentless drive was underpinned by his infamous "hairdryer treatment"—a face-to-face tirade so intense that, as his players said, it would physically blow their hair back. It was this relentless demand for excellence that underpinned his dynasty. The result: 13 league titles, 5 FA Cups, and 2 Champions League trophies.</p>
                 
                 <p>Across the continent, another architect was laying the foundations for a different kind of dynasty. <strong>Johan Cruyff</strong>’s time at FC Barcelona (1988-1996) was shorter, but his impact was arguably just as profound. He delivered the club's first-ever European Cup in 1992 and strung together four consecutive La Liga titles. More than the silverware, Cruyff gifted Barcelona an identity. He implemented a footballing philosophy—a legacy carried on by his own players, most notably Pep Guardiola—that was so total and so revolutionary, it became the club's very DNA. His self-belief was legendary, captured in one of his most famous quotes:</p>
                 
@@ -196,7 +155,7 @@
                     <figcaption>The 'Career Mode' in our visualization tracks the path of a journeyman like Mourinho across different clubs and countries.</figcaption>
                 </figure>
 
-                <p>If Mourinho is fire, then <strong>Carlo Ancelotti</strong> is ice. The calm, paternal Italian has a CV that is, frankly, absurd in its breadth. Our data confirms his status as a serial winner, lifting league titles or European Cups with AC Milan, Chelsea, Real Madrid, Paris Saint-Germain, and Bayern Munich. Like Mourinho, he has answered the call to return to former clubs, managing both Chelsea and Real Madrid in two separate spells. Yet where Mourinho’s returns can be fraught, Ancelotti’s calm authority brought even more success to Madrid, including two more Champions League trophies, cementing his status as perhaps the greatest "hired gun" of all.</p>
+                <p>If Mourinho is fire, then <strong>Carlo Ancelotti</strong> is ice. The calm, paternal Italian has a CV that is, frankly, absurd in its breadth. Our data confirms his status as a serial winner, lifting league titles or European Cups with AC Milan, Chelsea, Real Madrid, Paris-Saint-Germain, and Bayern Munich. Like Mourinho, he has answered the call to return to former clubs, managing both Chelsea and Real Madrid in two separate spells. Yet where Mourinho’s returns can be fraught, Ancelotti’s calm authority brought even more success to Madrid, including two more Champions League trophies, cementing his status as perhaps the greatest "hired gun" of all.</p>
 
                 <h3>The Grey Area: When Brilliance Burns Bright, and Fast</h3>
                 <p>Not every great manager fits neatly into these two boxes. Some, like the mercurial <strong>Brian Clough</strong>, were architects who were forced to be journeymen. Though not in our core dataset of 35 clubs, his story is essential. He took two unfashionable, provincial clubs, Derby County and Nottingham Forest, and led them to the English league title. With Forest, he achieved the unthinkable by winning back-to-back European Cups. Yet, his confrontational style meant he could never land a top job. His infamous spell at Leeds United in 1974 lasted just 44 days. In his very first address to the reigning champions, he reportedly told them that as far as he was concerned, they could throw all their medals in the bin because they had won them by cheating. He was a dynasty-builder at heart, but his personality made him too volatile for most boardrooms.</p>
@@ -207,12 +166,12 @@
                 <p>Ultimately, the "Managerial Merry-Go-Round" shows that both patience and opportunism can lead to the pinnacle of the sport. The choice for any club is: are we building a monument for the ages, or are we hiring the best specialist for today's job?</p>
                 
                 <div class="explore-box">
-                    <h3 class="text-2xl">Explore the Data Yourself</h3>
+                    <h3>Explore the Data Yourself</h3>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                        <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="explore-image">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="inline-block font-bold py-3 px-8 rounded-lg transition-colors text-lg" style="background-color: var(--accent-color); color: white;">Launch the Interactive Visualization</a>
+                    <a href="../index.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-300">
