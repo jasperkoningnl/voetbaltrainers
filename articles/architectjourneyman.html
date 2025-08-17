@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 4.0
+  HTML Versie: 5.0
   Changelog:
-  - Header gestandaardiseerd om verspringen te voorkomen.
+  - Nieuw typografisch logo geïmplementeerd.
+  - Afbeeldingspaden aangepast naar de /images/ map.
 -->
 <html lang="en">
 <head>
@@ -27,7 +28,7 @@
             position: relative;
             height: 60vh;
             min-height: 400px;
-            background-image: url('./header.png');
+            background-image: url('../images/header.png');
             background-size: cover;
             background-position: center 15%;
             color: white;
@@ -135,18 +136,13 @@
         <nav class="site-nav">
             <div class="logo">
                 <a href="../index.html">
-                    <div class="logo-icon-wrapper">
-                        <div style="display: flex;">
-                            <svg width="8" height="36" viewBox="0 0 8 36">
-                                <path d="M4 36 V 1 L 1 6 M 4 1 L 7 6" fill="none" stroke="var(--arrow-up)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <svg width="8" height="36" viewBox="0 0 8 36">
-                                <path d="M4 0 V 35 L 1 30 M 4 35 L 7 30" fill="none" stroke="var(--arrow-down)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                     <div class="logo-text">
+                        <div>
+                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
                         </div>
-                    </div>
-                    <div class="logo-text">
-                        Managerial<br>Merry-Go-Round
+                        <div>
+                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -178,7 +174,7 @@
                 
                 <figure>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./alex_ferguson.png" alt="Data visualization showing Sir Alex Ferguson's long tenure at Manchester United" class="rounded-lg shadow-lg mx-auto">
+                        <img src="../images/ferguson.png" alt="Data visualization showing Sir Alex Ferguson's long tenure at Manchester United" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>A snapshot from our data visualization showing Ferguson's unprecedented 26-year reign at Manchester United, dotted with trophies.</figcaption>
                 </figure>
@@ -195,7 +191,7 @@
 
                 <figure>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./jose_mourinho.png" alt="Data visualization showing the career path of a 'journeyman' coach" class="rounded-lg shadow-lg mx-auto">
+                        <img src="../images/mourinho.png" alt="Data visualization showing the career path of a 'journeyman' coach" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>The 'Career Mode' in our visualization tracks the path of a journeyman like Mourinho across different clubs and countries.</figcaption>
                 </figure>
@@ -213,7 +209,7 @@
                 <div class="explore-box">
                     <h3 class="text-2xl">Explore the Data Yourself</h3>
                     <a href="../index.html" target="_blank" rel="noopener noreferrer">
-                        <img src="./visualisatie.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
+                        <img src="../mmga.png" alt="A preview of the interactive data visualization" class="rounded-lg shadow-md mx-auto mb-4 max-w-full w-full md:w-3/4">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
                     <a href="../index.html" target="_blank" class="inline-block bg-gray-800 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700 transition-colors text-lg" style="background-color: var(--accent-color);">Launch the Interactive Visualization</a>
