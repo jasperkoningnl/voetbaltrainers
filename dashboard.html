@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 26.0 - JSON Export & Cleanup
+  Dashboard Versie: 27.0 - Tool voor Bulk Correctie Portugal
   Changelog:
-  - JSON export-formaat gecorrigeerd naar het platte array-formaat zoals in het voorbeeld `italy.json`.
-  - Alle functionaliteit voor artikelbeheer is verwijderd om het dashboard te stroomlijnen.
-  - Console-fout 'Unterminated string constant' opgelost die werd veroorzaakt door een eerder onvolledig bestand.
+  - Nieuwe tool toegevoegd in "Data Management" om met één klik de probleemseizoenen van Boavista en Braga te corrigeren.
+  - De tool koppelt de betreffende seizoenen aan een speciale '[Data Unavailable]' coach, die automatisch wordt aangemaakt indien nodig.
+  - Dit zorgt ervoor dat de data-integriteit behouden blijft en bereidt de data voor op een toekomstige afwijkende weergave in de visualisatie.
+  - De view "Data Opschonen" is hernoemd naar "Data Management" voor een betere dekking van de functionaliteit.
 -->
 <html lang="nl">
 <head>
@@ -940,6 +941,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             const [isScanning, setIsScanning] = useState(false);
             const [exportingCountry, setExportingCountry] = useState(null);
 
+            // --- NIEUWE STATE & FUNCTIE VOOR PORTUGAL FIX ---
+            const [isFixingPortugal, setIsFixingPortugal] = useState(false);
+            const [fixLog, setFixLog] = useState([]);
+            const addFixLog = (message) => setFixLog(prev => [...prev, message]);
+
             const findCountries = useCallback(async () => {
                 setIsScanning(true);
                 const clubsSnap = await getDocs(collection(db, "clubs"));
@@ -965,7 +971,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         return club && club.land === country;
                     });
                     
-                    const formattedData = countrySeasons.map(season => {
+                    const finalJson = countrySeasons.map(season => {
                         const club = clubsMap.get(season.club);
                         const coach = coachesMap.get(season.coachId);
                         if (!club || !coach) return null;
@@ -981,11 +987,9 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                             nationale_beker: season.nationale_beker,
                             europese_prijs: season.europese_prijs
                         };
-                    }).filter(Boolean);
-
-                    formattedData.sort((a, b) => a.club.localeCompare(b.club) || a.seizoen.localeCompare(b.seizoen));
+                    }).filter(Boolean).sort((a, b) => a.club.localeCompare(b.club) || b.seizoen.localeCompare(a.seizoen));
                     
-                    downloadJson(formattedData, `${country.toLowerCase()}.json`);
+                    downloadJson(finalJson, `${country.toLowerCase()}.json`);
 
                 } catch (e) {
                     console.error("Fout bij exporteren", e);
@@ -1009,6 +1013,88 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                     URL.revokeObjectURL(url);
                 }, 150);
             };
+
+            const handleFixPortugalData = async () => {
+                if (!confirm("Weet je zeker dat je de probleemseizoenen voor Boavista en Braga wilt corrigeren? Deze actie kan niet ongedaan worden gemaakt.")) return;
+                
+                setIsFixingPortugal(true);
+                setFixLog([]);
+                addFixLog("Starten met correctie van Portugese data...");
+
+                try {
+                    // Stap 1: Zoek of maak de placeholder coach
+                    addFixLog("Controleren op '[Data Unavailable]' coach...");
+                    const coachesRef = collection(db, "coaches");
+                    const q = query(coachesRef, where("naam", "==", "[Data Unavailable]"));
+                    let querySnapshot = await getDocs(q);
+                    let placeholderCoachId;
+
+                    if (querySnapshot.empty) {
+                        addFixLog("Placeholder coach niet gevonden, nieuwe wordt aangemaakt...");
+                        const newCoachRef = await addDoc(coachesRef, { naam: "[Data Unavailable]", nationaliteit: "" });
+                        placeholderCoachId = newCoachRef.id;
+                        addFixLog(`Placeholder coach aangemaakt met ID: ${placeholderCoachId}`);
+                    } else {
+                        placeholderCoachId = querySnapshot.docs[0].id;
+                        addFixLog(`Placeholder coach gevonden met ID: ${placeholderCoachId}`);
+                    }
+
+                    // Stap 2: Definieer de probleemdata
+                    const problematicSeasons = {
+                        'Boavista': ['1955/56', '1956/57', '1957/58', '1958/59', '1959/60', '1960/61', '1961/62', '1962/63', '1963/64', '1964/65', '1965/66', '1966/67', '1967/68', '1968/69'],
+                        'SC Braga': ['1958/59', '1959/60', '1961/62', '1962/63', '1963/64', '1970/71', '1974/75']
+                    };
+
+                    const clubsRef = collection(db, "clubs");
+                    const seasonsRef = collection(db, "seizoenen");
+                    const batch = writeBatch(db);
+                    let updatedCount = 0;
+
+                    for (const clubName of Object.keys(problematicSeasons)) {
+                        addFixLog(`--- Verwerken van ${clubName} ---`);
+                        const clubQuery = query(clubsRef, where("naam", "==", clubName), where("land", "==", "Portugal"));
+                        const clubSnapshot = await getDocs(clubQuery);
+
+                        if (clubSnapshot.empty) {
+                            addFixLog(`Club ${clubName} niet gevonden in de database.`);
+                            continue;
+                        }
+                        const clubId = clubSnapshot.docs[0].id;
+                        addFixLog(`Club ID voor ${clubName} is ${clubId}.`);
+
+                        const seasonsToUpdateQuery = query(seasonsRef, where("club", "==", clubId), where("seizoen", "in", problematicSeasons[clubName]));
+                        const seasonsToUpdateSnapshot = await getDocs(seasonsToUpdateQuery);
+                        
+                        seasonsToUpdateSnapshot.forEach(seasonDoc => {
+                            addFixLog(`Markeren voor update: ${clubName} seizoen ${seasonDoc.data().seizoen} (Doc ID: ${seasonDoc.id})`);
+                            batch.update(seasonDoc.ref, {
+                                coachId: placeholderCoachId,
+                                landstitel: "N",
+                                nationale_beker: "N",
+                                europese_prijs: "N"
+                            });
+                            updatedCount++;
+                        });
+                    }
+                    
+                    if (updatedCount > 0) {
+                        addFixLog(`Totaal ${updatedCount} seizoenen worden bijgewerkt. Bezig met uitvoeren...`);
+                        await batch.commit();
+                        addFixLog("Correctie succesvol uitgevoerd! Data wordt herladen.");
+                        onUpdate(); // Herlaad alle data in de app
+                    } else {
+                        addFixLog("Geen seizoenen gevonden om te corrigeren. Mogelijk is de actie al uitgevoerd.");
+                    }
+
+                } catch (e) {
+                    console.error("Fout bij corrigeren Portugese data:", e);
+                    addFixLog(`FOUT: ${e.message}`);
+                    alert("Er is een fout opgetreden. Controleer de console voor details.");
+                } finally {
+                    setIsFixingPortugal(false);
+                }
+            };
+
 
             const handleOrphanCleanup = async () => {
                 setIsLoadingOrphans(true);
@@ -1107,11 +1193,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                  <div className="bg-white p-6 rounded-lg shadow space-y-6">
                     <h2 className="text-xl font-bold">Data Management</h2>
-                    <p className="text-gray-600">Voer onderhouds- en exporttaken uit op de database.</p>
+                    <p className="text-gray-600">Voer onderhouds-, correctie- en exporttaken uit op de database.</p>
                     
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Export Data to JSON</h3>
-                        <p className="text-sm text-gray-500 mb-4">Genereer een JSON-bestand per land voor datakwaliteitscontrole. De knoppen verschijnen zodra de landen zijn gedetecteerd.</p>
+                        <p className="text-sm text-gray-500 mb-4">Genereer een JSON-bestand per land voor datakwaliteitscontrole.</p>
                         {isScanning ? <p>Landen scannen...</p> : (
                             <div className="flex flex-wrap gap-3">
                                 {countries.map(country => (
@@ -1129,6 +1215,27 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         )}
                     </div>
                     
+                    {/* --- NIEUWE TOOL VOOR PORTUGAL --- */}
+                    <div className="p-4 border border-orange-300 bg-orange-50 rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2 text-orange-800">Bulk Correctie: Portugal</h3>
+                        <p className="text-sm text-orange-700 mb-2">Deze tool past de data aan voor de volgende seizoenen waarvoor geen betrouwbare coach-data beschikbaar is:</p>
+                        <ul className="text-xs text-orange-600 list-disc list-inside mb-4">
+                            <li><b>Boavista:</b> 1955/56 t/m 1968/69</li>
+                            <li><b>SC Braga:</b> 1958/59, 1959/60, 1961/62-'63/64, 1970/71, 1974/75</li>
+                        </ul>
+                        <p className="text-sm text-orange-700 mb-4">De seizoenen worden gekoppeld aan een '[Data Unavailable]' coach. Deze actie is permanent.</p>
+
+                        <button onClick={handleFixPortugalData} disabled={isFixingPortugal} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 disabled:bg-gray-400">
+                            {isFixingPortugal ? 'Bezig met corrigeren...' : 'Corrigeer Probleemseizoenen'}
+                        </button>
+                        {fixLog.length > 0 && (
+                            <div className="mt-4 p-4 bg-orange-100 rounded-md max-h-60 overflow-y-auto">
+                                <h4 className="font-semibold mb-2 text-orange-800">Log:</h4>
+                                <pre className="text-xs whitespace-pre-wrap text-orange-900">{fixLog.join('\n')}</pre>
+                            </div>
+                        )}
+                    </div>
+
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Wees-seizoenen</h3>
                         <button onClick={handleOrphanCleanup} disabled={isLoadingOrphans} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400">
@@ -1479,14 +1586,14 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v26.0</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v27.0</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('coaches');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches</a>
-                            <a href="#" onClick={(e) => {e.preventDefault(); setView('cleanup');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'cleanup' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ToolIcon /> Data Opschonen</a>
+                            <a href="#" onClick={(e) => {e.preventDefault(); setView('cleanup');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'cleanup' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ToolIcon /> Data Management</a>
                         </nav>
                          <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
