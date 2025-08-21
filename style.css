@@ -1,8 +1,9 @@
 /*
   CSS Versie: 16.0
   Changelog:
-  - Nieuwe styling voor het 'explore-box' blok in de artikelen toegevoegd.
-  - Body background-color aangepast naar wit voor een cleanere look op de artikelpagina's.
+  - Nieuwe klasse '.bar-unavailable' toegevoegd voor seizoenen met ontbrekende coachdata.
+  - Deze klasse geeft de balk een lichtgrijze achtergrond met een diagonaal streeppatroon.
+  - Nieuwe stijlen voor de '.info-pane-content.unavailable' om de call-to-action-tekst correct weer te geven.
 */
 
 :root {
@@ -20,7 +21,7 @@
 
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #ffffff; /* Aangepast voor cleanere artikelpagina's */
+    background-color: var(--background-color);
     color: var(--text-primary);
     margin: 0;
     display: flex;
@@ -94,14 +95,20 @@ main {
      transform: scaleY(-1) translateY(-0.1em);
 }
 
-.site-header-home .site-nav { height: 80px; }
-.site-header-home .logo-text { font-size: 1.6rem; }
+.site-header-home .site-nav {
+    height: 80px;
+}
+.site-header-home .logo-text {
+    font-size: 1.6rem;
+}
+
 
 .site-nav .nav-links {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
+
 .site-nav .nav-links a {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.7);
@@ -112,14 +119,17 @@ main {
     position: relative;
     border-bottom: 2px solid transparent;
 }
+
 .site-nav .nav-links a:hover {
     color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
 }
+
 .site-nav .nav-links a.active {
     color: #ffffff;
     font-weight: 700;
 }
+
 .site-nav .nav-links a.active::after {
     content: '';
     position: absolute;
@@ -138,6 +148,7 @@ main {
     border-bottom: 1px solid var(--border-color);
     box-sizing: border-box;
 }
+
 .credo-block p {
     font-size: 1.1rem;
     font-weight: 400;
@@ -158,7 +169,6 @@ main {
     gap: 1.5rem;
 }
 
-/* --- Blok Styling --- */
 .content-block {
     background-color: var(--block-background);
     border: 1px solid var(--border-color);
@@ -169,7 +179,9 @@ main {
     gap: 1.5rem;
 }
 
-#output-block { gap: 1rem; }
+#output-block {
+    gap: 1rem;
+}
 
 #info-pane-container {
     background-color: #fff;
@@ -179,12 +191,15 @@ main {
     margin-right: 20px;
     border: none;
 }
+
+
 #info-pane {
     min-height: 80px;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
 }
+
 #info-pane.default-state p {
     color: #888;
     font-style: italic;
@@ -192,6 +207,7 @@ main {
     text-align: center;
     font-size: 0.9rem;
 }
+
 #info-pane.details-state {
     display: grid;
     grid-template-columns: 80px 1fr;
@@ -199,6 +215,7 @@ main {
     align-items: center;
     width: 100%;
 }
+
 .info-pane-img {
     width: 80px;
     height: 80px;
@@ -207,6 +224,7 @@ main {
     background-color: #e9ecef;
     flex-shrink: 0;
 }
+
 .info-pane-content {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -214,13 +232,36 @@ main {
     width: 100%;
     gap: 2rem;
 }
+
+.info-pane-content.unavailable {
+    display: block;
+    grid-template-columns: none;
+    text-align: center;
+}
+.info-pane-content.unavailable h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+.info-pane-content.unavailable p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+.info-pane-content.unavailable a {
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+
 .info-pane-details .name { font-weight: 700; font-size: 1.4rem; margin: 0; color: var(--text-primary); }
 .info-pane-details .nationality { display: flex; align-items: center; font-size: 0.9rem; margin-top: 4px; color: var(--text-secondary); }
 .info-pane-flag { width: 20px; margin-right: 8px; border-radius: 2px; box-shadow: 0 0 3px rgba(0,0,0,0.2); }
+
 .info-pane-extra { text-align: right; }
 .info-pane-extra p { margin: 0; line-height: 1.5; }
 .info-pane-extra .club { font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
 .info-pane-extra .tenure { font-size: 0.9rem; color: var(--text-secondary); }
+
 .info-pane-trophies {
     display: flex;
     flex-direction: row; 
@@ -228,29 +269,32 @@ main {
     align-items: center;
     gap: 2rem; 
 }
+
 .trophy-item {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.75rem;
 }
+
 .trophy-icon {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
 }
+
 .trophy-count {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-secondary);
 }
 
-/* --- Filter & Advanced Controls Styling --- */
 #filter-controls-container.hidden,
 #advanced-nav-container.hidden,
 #career-mode-controls.hidden {
     display: none;
 }
+
 #advanced-nav-container {
     display: flex;
     justify-content: center;
@@ -275,7 +319,11 @@ main {
 }
 .advanced-nav-btn:hover { background-color: #dce1e6; color: var(--text-primary); }
 .advanced-nav-btn.active { background-color: var(--canvas-background); color: var(--text-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-#career-mode-controls { padding-top: 1rem; }
+
+#career-mode-controls {
+    padding-top: 1rem;
+}
+
 #filter-toggle-btn {
     display: flex;
     align-items: center;
@@ -306,7 +354,10 @@ main {
     transform: rotate(45deg);
     transition: transform 0.3s ease;
 }
-#filter-toggle-btn.open .filter-arrow { transform: rotate(-135deg); }
+#filter-toggle-btn.open .filter-arrow {
+    transform: rotate(-135deg);
+}
+
 #filter-panel {
     padding-top: 1.5rem;
     border-top: 1px solid var(--border-color);
@@ -332,7 +383,6 @@ main {
 }
 #filter-reset-btn { padding: 0.75rem 1.5rem; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--canvas-background); cursor: pointer; font-size: 1rem; }
 
-/* --- Navigatie Styling (in-page) --- */
 #country-nav-container.disabled {
     pointer-events: none;
     opacity: 0.5;
@@ -346,12 +396,10 @@ main {
 
 #heatmap-container { overflow-x: auto; width: 100%; min-height: 50px;}
 
-/* --- Compare Controls Styling --- */
 #compare-controls-container { display: flex; justify-content: center; gap: 1rem; }
 .compare-btn { background: none; border: 1px solid var(--border-color); padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 500; }
 .compare-btn:hover { background-color: #f1f3f5; }
 
-/* --- Legenda Styling --- */
 #legend-container {
     padding-top: 1rem;
     display: flex;
@@ -377,6 +425,13 @@ main {
 .y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
 .y-axis .club-label rect { fill: #fff; }
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
+
+.bar-unavailable {
+    background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 50%, #e0e0e0 50%, #e0e0e0 75%, transparent 75%, transparent 100%);
+    background-size: 8px 8px;
+    fill: #f0f0f0;
+}
+
 .is-dimmed { opacity: 0.15; }
 .is-highlighted { filter: saturate(150%) brightness(105%); }
 .is-inactive { pointer-events: none; }
@@ -385,7 +440,6 @@ main {
 .prize-group { pointer-events: none; }
 .event-catcher { fill: none; pointer-events: all; }
 
-/* --- Compare Mode Y-Axis Styling --- */
 .y-axis .add-club-placeholder rect {
     fill: #f8f9fa;
     stroke: #e0e0e0;
@@ -394,7 +448,9 @@ main {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.y-axis .add-club-placeholder:hover rect { background-color: #f1f3f5; }
+.y-axis .add-club-placeholder:hover rect {
+    background-color: #f1f3f5;
+}
 .y-axis .add-club-placeholder text {
     fill: var(--text-secondary);
     font-weight: 500;
@@ -404,12 +460,16 @@ main {
     opacity: 0;
     transition: opacity 0.2s;
 }
-.y-axis .club-label:hover .remove-club-btn { opacity: 1; }
+.y-axis .club-label:hover .remove-club-btn {
+    opacity: 1;
+}
 .y-axis .club-label .remove-club-btn-bg {
     fill: #fff;
     stroke: var(--border-color);
 }
-.y-axis .club-label:hover .remove-club-btn-bg { fill: #e9ecef; }
+.y-axis .club-label:hover .remove-club-btn-bg {
+    fill: #e9ecef;
+}
 .y-axis .club-label .remove-club-btn-cross {
     stroke: var(--text-secondary);
     stroke-width: 2px;
@@ -431,7 +491,10 @@ main {
     align-items: center;
     justify-content: center;
 }
-#club-modal:not(.modal-hidden) { display: flex; }
+#club-modal:not(.modal-hidden) {
+    display: flex;
+}
+
 .modal-content { background-color: #fefefe; padding: 2rem; border: none; width: 90%; max-width: 600px; border-radius: 12px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
 .modal-close-btn { color: #aaa; position: absolute; top: 1rem; right: 1.5rem; font-size: 28px; font-weight: bold; cursor: pointer; line-height: 1; }
 #club-search-input-modal { width: 100%; box-sizing: border-box; padding: 0.75rem; font-size: 1rem; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 1rem; }
@@ -468,61 +531,6 @@ main {
     text-decoration: underline;
 }
 
-/* --- Nieuwe styling voor Explore Box --- */
-.explore-box {
-    background-color: #f0f2f5;
-    border: 1px solid #e2e8f0;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    margin-top: 3rem;
-    text-align: center;
-}
-.explore-box h3 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.75rem;
-    color: #2d3748;
-    margin-top: 0;
-    margin-bottom: 0.75rem;
-    border-bottom: none;
-    padding-bottom: 0;
-}
-.explore-box p {
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 1.25rem;
-}
-.explore-box .explore-image {
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
-    max-width: 60%;
-    width: 100%;
-    display: inline-block;
-}
-.explore-box .explore-button {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: white;
-    font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    padding: 0.75rem 2rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.2s ease-in-out;
-}
-.explore-box .explore-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 14px rgba(0,0,0,0.1);
-    background-color: #862cb3;
-}
-
-
 /* --- Extra stijlen voor teaser sectie op homepage --- */
 .teasers-section {
     width: 100%;
@@ -531,11 +539,13 @@ main {
     box-sizing: border-box;
     margin: 0 auto;
 }
+
 .teasers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
+
 .teaser-card {
     position: relative;
     display: block;
@@ -547,11 +557,16 @@ main {
     box-shadow: 0 4px 12px var(--shadow-color);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
+
 .teaser-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
-.teaser-card:hover .teaser-image { transform: scale(1.05); }
+
+.teaser-card:hover .teaser-image {
+    transform: scale(1.05);
+}
+
 .teaser-image {
     width: 100%;
     height: 100%;
@@ -559,6 +574,7 @@ main {
     object-position: center 25%;
     transition: transform 0.4s ease;
 }
+
 .teaser-content {
     position: absolute;
     bottom: 0;
@@ -567,6 +583,7 @@ main {
     padding: 1rem 1.25rem;
     background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
 }
+
 .teaser-content h3 {
     font-family: 'Inter', sans-serif;
     font-size: 1.25rem;
@@ -574,6 +591,7 @@ main {
     margin: 0;
     text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
 }
+
 .more-articles-link {
     display: block;
     text-align: center;
@@ -619,7 +637,9 @@ main {
     list-style-position: inside;
     padding-left: 0;
 }
-.about-container li { margin-bottom: 0.5rem; }
+.about-container li {
+    margin-bottom: 0.5rem;
+}
 .about-divider {
     margin: 3rem 0;
     border-color: var(--border-color);
