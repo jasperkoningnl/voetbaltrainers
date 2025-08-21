@@ -1,8 +1,11 @@
-// Script Versie: 22.3 - Bugfix Scope & URL's
+// Script Versie: 23.0 - Visuele oplossing voor ontbrekende data
 // Changelog:
-// - Een scope-probleem opgelost dat een 'updateXAxis is not defined' fout veroorzaakte en de visualisatie brak.
-// - De logica voor het lezen en schrijven van club-URL's verder verbeterd om de bug met gemixte ID's en namen definitief op te lossen.
-console.log("Script versie: 22.3 geladen.");
+// - De D3-visualisatie herkent nu seizoenen met coach '[Data Unavailable]'.
+// - Er wordt een 'bar-unavailable' CSS-klasse toegevoegd aan de balken van deze seizoenen.
+// - De info-pane (tooltip) toont een specifieke boodschap met een call-to-action als een seizoen met ontbrekende data wordt geselecteerd.
+// - De getColor schaal is aangepast om te voorkomen dat '[Data Unavailable]' tenures een kleur krijgen.
+
+console.log("Script versie: 23.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -48,7 +51,6 @@ const DOMElements = {
 
 let currentResizeObserver = null;
 const ADD_CLUB_PLACEHOLDER = 'ADD_CLUB_PLACEHOLDER';
-// Variabele om de updatefunctie van de X-as buiten de scope van drawVisualization beschikbaar te maken
 let currentUpdateXAxis = () => {};
 
 
@@ -59,7 +61,7 @@ async function initApp() {
     console.log("Applicatie initialiseren...");
     setupEventListeners();
     await fetchAllInitialData();
-    await applyStateFromURL(); // Pas de staat toe op basis van de initiële URL
+    await applyStateFromURL(); 
     populateCoachDatalist();
     renderApp();
     console.log("Applicatie gereed.");
@@ -67,7 +69,6 @@ async function initApp() {
 
 // --- 4. EVENT LISTENERS ---
 function setupEventListeners() {
-    // Luister naar wijzigingen in de URL-hash
     window.addEventListener('hashchange', async () => {
         await applyStateFromURL();
         renderApp();
@@ -86,7 +87,6 @@ function setupEventListeners() {
             const newMode = e.target.dataset.mode;
             if (newMode !== appState.advancedViewMode) {
                 appState.advancedViewMode = newMode;
-                // Reset de andere modus
                 if (newMode === 'careerMode') appState.comparisonClubs = [];
                 if (newMode === 'chooseClubs') appState.careerCoachName = null;
                 renderApp();
@@ -160,8 +160,7 @@ function handleCareerCoachSearch(event) {
     }
 }
 
-// --- 5. URL STATE MANAGEMENT (VERNIEUWD) ---
-
+// --- 5. URL STATE MANAGEMENT ---
 function updateURLHash() {
     let newHash = '';
     if (appState.currentView === 'country') {
@@ -170,7 +169,6 @@ function updateURLHash() {
         if (appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
             newHash = `career=${encodeURIComponent(appState.careerCoachName)}`;
         } else if (appState.advancedViewMode === 'chooseClubs' && appState.comparisonClubs.length > 0) {
-            // Garandeer dat alleen geldige ID's worden gebruikt
             const clubIds = appState.comparisonClubs.map(c => c.id).filter(Boolean).join(',');
             if(clubIds) newHash = `clubs=${clubIds}`;
         }
@@ -182,7 +180,6 @@ function updateURLHash() {
 }
 
 async function applyStateFromURL() {
-    // Reset de staat voor we de URL lezen, behalve de data die al geladen is
     Object.assign(appState, {
         currentView: 'country',
         advancedViewMode: 'chooseClubs',
@@ -208,9 +205,8 @@ async function applyStateFromURL() {
                 const clubIdentifiers = params.get('clubs').split(',');
                 
                 appState.comparisonClubs = clubIdentifiers.map(identifier => {
-                    // Zoek eerst op ID (meest betrouwbaar), dan op naam als fallback voor oude/foute URLs
                     return appState.allClubs.find(c => c.id === identifier) || appState.allClubs.find(c => c.naam === decodeURIComponent(identifier));
-                }).filter(Boolean); // Verwijder nulls als een club niet gevonden wordt
+                }).filter(Boolean);
             }
         } catch (e) {
             console.error("Kon URL parameters niet lezen, herstellen naar standaard:", e);
@@ -612,13 +608,13 @@ function drawVisualization(data) {
         let tenureSeasons = new Set();
 
         if (tenureId) {
-            tickValues = seasons; // Toon ALLE seizoenen
+            tickValues = seasons;
             const tenureData = data.find(item => item.tenureId === tenureId);
             if (tenureData) {
                 tenureData.tenureAllSeasons.forEach(s => tenureSeasons.add(s));
             }
         } else {
-            tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1); // Standaardweergave
+            tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
         }
         
         xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
@@ -635,7 +631,6 @@ function drawVisualization(data) {
         prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
     }
 
-    // Wijs de lokaal gedefinieerde functie toe aan de globale variabele
     currentUpdateXAxis = updateXAxis;
 
     svg.on('mouseleave', () => {
@@ -659,10 +654,10 @@ function drawVisualization(data) {
     });
 
     barGroup.selectAll(".bar").data(data).enter().append("rect")
-        .attr("class", "bar")
+        .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
         .attr("y", d => y(d.club))
         .attr("height", y.bandwidth())
-        .style("fill", d => getColor(d.stintLength))
+        .style("fill", d => d.Coach === '[Data Unavailable]' ? null : getColor(d.stintLength))
         .on("click", (event, d) => {
             if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
             event.stopPropagation();
@@ -719,6 +714,17 @@ function setInfoPaneDefault() {
 }
 
 function updateInfoPane(d) {
+    if (d.Coach === '[Data Unavailable]') {
+        const content = `
+            <div class="info-pane-content unavailable">
+                <h3>No reliable data</h3>
+                <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
+                <p>Do you have a reliable source for this data? Please <a href="mailto:example@example.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
+            </div>`;
+        DOMElements.infoPane.attr("class", "details-state").html(content);
+        return;
+    }
+
     const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
     const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
     const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
