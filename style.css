@@ -1,9 +1,9 @@
 /*
-  CSS Versie: 16.0
+  CSS Versie: 16.1 - Bugfix weergave ontbrekende data
   Changelog:
-  - Nieuwe klasse '.bar-unavailable' toegevoegd voor seizoenen met ontbrekende coachdata.
-  - Deze klasse geeft de balk een lichtgrijze achtergrond met een diagonaal streeppatroon.
-  - Nieuwe stijlen voor de '.info-pane-content.unavailable' om de call-to-action-tekst correct weer te geven.
+  - De stijl voor '.info-pane-content.unavailable' is aangepast om de grid-layout te overschrijven.
+  - Dit lost de visuele bug op waarbij de pagina-layout instortte ("trillen").
+  - Een icoon-stijl '.unavailable-icon' toegevoegd voor de info-pane.
 */
 
 :root {
@@ -225,6 +225,19 @@ main {
     flex-shrink: 0;
 }
 
+.info-pane-img.unavailable-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ced4da;
+}
+
+.info-pane-img.unavailable-icon svg {
+    width: 50px;
+    height: 50px;
+}
+
+
 .info-pane-content {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -236,7 +249,7 @@ main {
 .info-pane-content.unavailable {
     display: block;
     grid-template-columns: none;
-    text-align: center;
+    text-align: left;
 }
 .info-pane-content.unavailable h3 {
     margin-top: 0;
