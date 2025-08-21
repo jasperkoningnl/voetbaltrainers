@@ -1,11 +1,9 @@
-// Script Versie: 23.0 - Visuele oplossing voor ontbrekende data
+// Script Versie: 23.1 - Bugfix weergave ontbrekende data
 // Changelog:
-// - De D3-visualisatie herkent nu seizoenen met coach '[Data Unavailable]'.
-// - Er wordt een 'bar-unavailable' CSS-klasse toegevoegd aan de balken van deze seizoenen.
-// - De info-pane (tooltip) toont een specifieke boodschap met een call-to-action als een seizoen met ontbrekende data wordt geselecteerd.
-// - De getColor schaal is aangepast om te voorkomen dat '[Data Unavailable]' tenures een kleur krijgen.
+// - De HTML-structuur in de `updateInfoPane` functie voor seizoenen met '[Data Unavailable]' is gecorrigeerd.
+// - Dit lost de visuele bug op waarbij de layout instortte en de pagina leek te "trillen".
 
-console.log("Script versie: 23.0 geladen.");
+console.log("Script versie: 23.1 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -716,10 +714,13 @@ function setInfoPaneDefault() {
 function updateInfoPane(d) {
     if (d.Coach === '[Data Unavailable]') {
         const content = `
+            <div class="info-pane-img unavailable-icon">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
+            </div>
             <div class="info-pane-content unavailable">
                 <h3>No reliable data</h3>
                 <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
-                <p>Do you have a reliable source for this data? Please <a href="mailto:example@example.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
+                <p>Do you have a reliable source? Please <a href="mailto:jasper.koning@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
             </div>`;
         DOMElements.infoPane.attr("class", "details-state").html(content);
         return;
