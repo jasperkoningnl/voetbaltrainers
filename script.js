@@ -2,6 +2,7 @@
 // Changelog:
 // - De HTML-structuur in de `updateInfoPane` functie voor seizoenen met '[Data Unavailable]' is gecorrigeerd.
 // - Dit lost de visuele bug op waarbij de layout instortte en de pagina leek te "trillen".
+// - Het e-mailadres in de call-to-action is gecorrigeerd.
 
 console.log("Script versie: 23.1 geladen.");
 
@@ -720,7 +721,7 @@ function updateInfoPane(d) {
             <div class="info-pane-content unavailable">
                 <h3>No reliable data</h3>
                 <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
-                <p>Do you have a reliable source? Please <a href="mailto:jasper.koning@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
+                <p>Do you have a reliable source? Please <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
             </div>`;
         DOMElements.infoPane.attr("class", "details-state").html(content);
         return;
