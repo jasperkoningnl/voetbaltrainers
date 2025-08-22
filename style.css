@@ -1,9 +1,9 @@
 /*
-  CSS Versie: 16.2 - Bugfix weergave ontbrekende data
+  CSS Versie: 16.3 - Zichtbaarheid tussenlijnen hersteld
   Changelog:
-  - De stijl voor '.bar-unavailable' is aangepast met een donkerdere kleur en een duidelijker patroon.
-  - De stijl voor '.info-pane-content.unavailable' is aangepast om de grid-layout te overschrijven, wat de visuele "tril"-bug oplost.
-  - Een icoon-stijl '.unavailable-icon' toegevoegd met een gele achtergrond voor de info-pane.
+  - De stijl voor '.bar-unavailable' is aangepast naar een donkerdere, effen grijstint (#ced4da).
+  - Dit zorgt voor voldoende contrast met de lichtere tussenlijntjes, waardoor individuele seizoenen weer zichtbaar zijn.
+  - Het SVG-patroon wordt niet langer gebruikt om dit probleem op te lossen.
 */
 
 :root {
@@ -442,7 +442,7 @@ main {
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
 
 .bar-unavailable {
-    fill: url(#pattern-unavailable);
+    fill: #ced4da; /* Donkerder grijs */
 }
 
 .is-dimmed { opacity: 0.15; }
