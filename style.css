@@ -1,9 +1,9 @@
 /*
   CSS Versie: 16.1 - Bugfix weergave ontbrekende data
   Changelog:
-  - De stijl voor '.info-pane-content.unavailable' is aangepast om de grid-layout te overschrijven.
-  - Dit lost de visuele bug op waarbij de pagina-layout instortte ("trillen").
-  - Een icoon-stijl '.unavailable-icon' toegevoegd voor de info-pane.
+  - De stijl voor '.bar-unavailable' is aangepast met een donkerdere kleur en een duidelijker patroon.
+  - De stijl voor '.info-pane-content.unavailable' is aangepast om de grid-layout te overschrijven, wat de visuele "tril"-bug oplost.
+  - Een icoon-stijl '.unavailable-icon' toegevoegd met een gele achtergrond voor de info-pane.
 */
 
 :root {
@@ -229,7 +229,9 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ced4da;
+    background-color: #fffbe6; /* Geel */
+    border: 1px solid #ffe58f;
+    color: #d48806; /* Donkergeel */
 }
 
 .info-pane-img.unavailable-icon svg {
@@ -247,7 +249,7 @@ main {
 }
 
 .info-pane-content.unavailable {
-    display: block;
+    display: block; /* Overschrijft de grid layout */
     grid-template-columns: none;
     text-align: left;
 }
@@ -440,9 +442,9 @@ main {
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
 
 .bar-unavailable {
-    background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%, transparent 50%, #e0e0e0 50%, #e0e0e0 75%, transparent 75%, transparent 100%);
-    background-size: 8px 8px;
-    fill: #f0f0f0;
+    background-image: linear-gradient(45deg, #d8d8d8 25%, transparent 25%, transparent 50%, #d8d8d8 50%, #d8d8d8 75%, transparent 75%, transparent 100%);
+    background-size: 7px 7px;
+    fill: #e9ecef;
 }
 
 .is-dimmed { opacity: 0.15; }
