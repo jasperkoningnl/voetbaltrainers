@@ -1,5 +1,5 @@
 /*
-  CSS Versie: 16.1 - Bugfix weergave ontbrekende data
+  CSS Versie: 16.2 - Bugfix weergave ontbrekende data
   Changelog:
   - De stijl voor '.bar-unavailable' is aangepast met een donkerdere kleur en een duidelijker patroon.
   - De stijl voor '.info-pane-content.unavailable' is aangepast om de grid-layout te overschrijven, wat de visuele "tril"-bug oplost.
@@ -442,9 +442,7 @@ main {
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
 
 .bar-unavailable {
-    background-image: linear-gradient(45deg, #d8d8d8 25%, transparent 25%, transparent 50%, #d8d8d8 50%, #d8d8d8 75%, transparent 75%, transparent 100%);
-    background-size: 7px 7px;
-    fill: #e9ecef;
+    fill: url(#pattern-unavailable);
 }
 
 .is-dimmed { opacity: 0.15; }
