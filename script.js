@@ -1,10 +1,10 @@
-// Script Versie: 23.1 - Bugfix weergave ontbrekende data
+// Script Versie: 23.2 - Patroon voor ontbrekende data
 // Changelog:
-// - De HTML-structuur in de `updateInfoPane` functie voor seizoenen met '[Data Unavailable]' is gecorrigeerd.
-// - Dit lost de visuele bug op waarbij de layout instortte en de pagina leek te "trillen".
-// - Het e-mailadres in de call-to-action is gecorrigeerd.
+// - Een SVG <defs> en <pattern> wordt nu in de visualisatie aangemaakt.
+// - Dit patroon (een donkergrijze achtergrond met lichtere strepen) wordt gebruikt voor seizoenen met ontbrekende data.
+// - Dit is de correcte technische implementatie voor het tonen van een patroon op SVG-elementen.
 
-console.log("Script versie: 23.1 geladen.");
+console.log("Script versie: 23.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -539,6 +539,27 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
+    // --- SVG Patroon Definitie ---
+    const defs = svg.append('defs');
+    const pattern = defs.append('pattern')
+        .attr('id', 'pattern-unavailable')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('patternTransform', 'rotate(45)');
+    pattern.append('rect')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('fill', '#e9ecef'); // Donkerder grijs
+    pattern.append('line')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', 8)
+        .attr('stroke', '#f8f9fa') // Lichtere streep
+        .attr('stroke-width', 2);
+
+
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     g.append('rect')
@@ -656,7 +677,12 @@ function drawVisualization(data) {
         .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
         .attr("y", d => y(d.club))
         .attr("height", y.bandwidth())
-        .style("fill", d => d.Coach === '[Data Unavailable]' ? null : getColor(d.stintLength))
+        .style("fill", d => {
+            if (d.Coach === '[Data Unavailable]') {
+                return "url(#pattern-unavailable)";
+            }
+            return getColor(d.stintLength);
+        })
         .on("click", (event, d) => {
             if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
             event.stopPropagation();
