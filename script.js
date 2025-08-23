@@ -1,9 +1,10 @@
-// Script Versie: 24.0
+// Script Versie: 25.0
 // Changelog:
-// - Visuele update voor seizoenen met ontbrekende data: patroon verwijderd en vervangen door een solide, donkergrijze vulling. Dit herstelt de zichtbaarheid van individuele seizoenen.
-// - Het infopaneel voor seizoenen met ontbrekende data is opnieuw ontworpen voor betere consistentie met het standaardpaneel.
+// - Het SVG-patroon voor ontbrekende data is opnieuw geïntroduceerd.
+// - Het patroon wordt nu correct toegepast op individuele seizoensblokken, waardoor de zichtbaarheid van de scheidingslijnen behouden blijft.
+// - De solide grijze vulling is verwijderd.
 
-console.log("Script versie: 24.0 geladen.");
+console.log("Script versie: 25.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -538,6 +539,26 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
+    // --- SVG Patroon Definitie ---
+    const defs = svg.append('defs');
+    const pattern = defs.append('pattern')
+        .attr('id', 'pattern-unavailable')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('patternTransform', 'rotate(45)');
+    pattern.append('rect')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('fill', '#e9ecef');
+    pattern.append('line')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', 8)
+        .attr('stroke', '#f8f9fa')
+        .attr('stroke-width', 2);
+
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     g.append('rect')
@@ -652,12 +673,12 @@ function drawVisualization(data) {
     });
 
     barGroup.selectAll(".bar").data(data).enter().append("rect")
-        .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
+        .attr("class", "bar")
         .attr("y", d => y(d.club))
         .attr("height", y.bandwidth())
         .style("fill", d => {
             if (d.Coach === '[Data Unavailable]') {
-                return "#ced4da"; // Solid, darker grey
+                return "url(#pattern-unavailable)";
             }
             return getColor(d.stintLength);
         })
