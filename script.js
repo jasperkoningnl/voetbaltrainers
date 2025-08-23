@@ -1,10 +1,9 @@
-// Script Versie: 23.2 - Patroon voor ontbrekende data
+// Script Versie: 24.0
 // Changelog:
-// - Een SVG <defs> en <pattern> wordt nu in de visualisatie aangemaakt.
-// - Dit patroon (een donkergrijze achtergrond met lichtere strepen) wordt gebruikt voor seizoenen met ontbrekende data.
-// - Dit is de correcte technische implementatie voor het tonen van een patroon op SVG-elementen.
+// - Visuele update voor seizoenen met ontbrekende data: patroon verwijderd en vervangen door een solide, donkergrijze vulling. Dit herstelt de zichtbaarheid van individuele seizoenen.
+// - Het infopaneel voor seizoenen met ontbrekende data is opnieuw ontworpen voor betere consistentie met het standaardpaneel.
 
-console.log("Script versie: 23.2 geladen.");
+console.log("Script versie: 24.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -539,27 +538,6 @@ function drawVisualization(data) {
         .attr("width", '100%')
         .attr("height", height + margin.top + margin.bottom);
 
-    // --- SVG Patroon Definitie ---
-    const defs = svg.append('defs');
-    const pattern = defs.append('pattern')
-        .attr('id', 'pattern-unavailable')
-        .attr('width', 8)
-        .attr('height', 8)
-        .attr('patternUnits', 'userSpaceOnUse')
-        .attr('patternTransform', 'rotate(45)');
-    pattern.append('rect')
-        .attr('width', 8)
-        .attr('height', 8)
-        .attr('fill', '#e9ecef'); // Donkerder grijs
-    pattern.append('line')
-        .attr('x1', 0)
-        .attr('y1', 0)
-        .attr('x2', 0)
-        .attr('y2', 8)
-        .attr('stroke', '#f8f9fa') // Lichtere streep
-        .attr('stroke-width', 2);
-
-
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
     g.append('rect')
@@ -679,7 +657,7 @@ function drawVisualization(data) {
         .attr("height", y.bandwidth())
         .style("fill", d => {
             if (d.Coach === '[Data Unavailable]') {
-                return "url(#pattern-unavailable)";
+                return "#ced4da"; // Solid, darker grey
             }
             return getColor(d.stintLength);
         })
@@ -740,14 +718,33 @@ function setInfoPaneDefault() {
 
 function updateInfoPane(d) {
     if (d.Coach === '[Data Unavailable]') {
+        const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+        const imageHtml = `
+            <svg class="info-pane-img unavailable-avatar" viewBox="0 0 50 50">
+                <path d="${avatarIconPath}" fill="#e9ecef"></path>
+                <text x="25" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#adb5bd">?</text>
+            </svg>`;
+
+        const callToActionHtml = `
+            <div class="info-pane-trophies unavailable-cta">
+                <p><strong>No reliable data found.</strong></p>
+                <p>Do you have a source? <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">Please let us know</a>.</p>
+            </div>`;
+
         const content = `
-            <div class="info-pane-img unavailable-icon">
-                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
-            </div>
-            <div class="info-pane-content unavailable">
-                <h3>No reliable data</h3>
-                <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
-                <p>Do you have a reliable source? Please <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
+            ${imageHtml}
+            <div class="info-pane-content">
+                <div class="info-pane-details">
+                    <p class="name">Data onbekend</p>
+                    <div class="nationality">
+                        <span>&nbsp;</span>
+                    </div>
+                </div>
+                ${callToActionHtml}
+                <div class="info-pane-extra">
+                    <p class="club">${d.club}</p>
+                    <p class="tenure">${d.seizoen}</p>
+                </div>
             </div>`;
         DOMElements.infoPane.attr("class", "details-state").html(content);
         return;
