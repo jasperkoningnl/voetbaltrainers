@@ -1,8 +1,7 @@
 /*
-  CSS Versie: 17.0
+  CSS Versie: 18.0
   Changelog:
-  - Stijlen toegevoegd voor het vernieuwde infopaneel voor ontbrekende data voor een consistente look.
-  - De .bar-unavailable class is bijgewerkt om een solide grijze vulling te gebruiken, in lijn met de wijzigingen in script.js.
+  - De .bar-unavailable class is verwijderd, aangezien de vulling met het SVG-patroon nu volledig via JavaScript wordt afgehandeld.
 */
 
 :root {
@@ -268,7 +267,7 @@ main {
     color: var(--text-secondary);
 }
 
-/* --- Nieuwe stijlen voor 'Data onbekend' infopaneel --- */
+/* --- Stijlen voor 'Data onbekend' infopaneel --- */
 .unavailable-avatar {
     background-color: #fff;
 }
@@ -432,10 +431,6 @@ main {
 .y-axis .club-label text { font-size: 14px; font-weight: 500; fill: var(--text-primary); }
 .y-axis .club-label rect { fill: #fff; }
 .bar { stroke: none; transition: opacity 0.2s ease-in-out, filter 0.2s ease-in-out; cursor: pointer; }
-
-.bar-unavailable {
-    fill: #ced4da;
-}
 
 .is-dimmed { opacity: 0.15; }
 .is-highlighted { filter: saturate(150%) brightness(105%); }
