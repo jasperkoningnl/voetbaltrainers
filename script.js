@@ -1,10 +1,10 @@
-// Script Versie: 26.0
+// Script Versie: 27.0
 // Changelog:
-// - De datalogica in processTenures() is aangepast.
-// - Elk seizoen met '[Data Unavailable]' wordt nu behandeld als een unieke, individuele periode.
-// - Dit zorgt ervoor dat elk 'geen data'-blokje een eigen, losse mouseover-interactie heeft, consistent met de andere blokken.
+// - Het icoon in het infopaneel voor '[Data Unavailable]' is visueel aangepast.
+// - Er is een geel, vierkant achtergrondvlak toegevoegd achter de avatar.
+// - Het vraagteken in de avatar heeft nu ook een gele kleur gekregen voor betere zichtbaarheid en consistentie.
 
-console.log("Script versie: 26.0 geladen.");
+console.log("Script versie: 27.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -747,8 +747,9 @@ function updateInfoPane(d) {
         const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
         const imageHtml = `
             <svg class="info-pane-img unavailable-avatar" viewBox="0 0 50 50">
+                <rect width="50" height="50" fill="#fffbe6" rx="8"></rect>
                 <path d="${avatarIconPath}" fill="#e9ecef"></path>
-                <text x="25" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#adb5bd">?</text>
+                <text x="25" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#fcc419">?</text>
             </svg>`;
 
         const callToActionHtml = `
