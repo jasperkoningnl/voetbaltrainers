@@ -1,10 +1,10 @@
-// Script Versie: 25.0
+// Script Versie: 26.0
 // Changelog:
-// - Het SVG-patroon voor ontbrekende data is opnieuw geïntroduceerd.
-// - Het patroon wordt nu correct toegepast op individuele seizoensblokken, waardoor de zichtbaarheid van de scheidingslijnen behouden blijft.
-// - De solide grijze vulling is verwijderd.
+// - De datalogica in processTenures() is aangepast.
+// - Elk seizoen met '[Data Unavailable]' wordt nu behandeld als een unieke, individuele periode.
+// - Dit zorgt ervoor dat elk 'geen data'-blokje een eigen, losse mouseover-interactie heeft, consistent met de andere blokken.
 
-console.log("Script versie: 25.0 geladen.");
+console.log("Script versie: 26.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -292,8 +292,13 @@ function processTenures(data) {
     let huidigePeriode = null;
     
     data.forEach(d => {
-        if (!huidigePeriode || d.Coach !== huidigePeriode.coach || d.club !== huidigePeriode.club) {
-            const id = `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`;
+        // Aangepaste logica: als coach '[Data Unavailable]' is, maak ALTIJD een nieuwe periode.
+        const isUnavailable = d.Coach === '[Data Unavailable]';
+        if (!huidigePeriode || isUnavailable || d.Coach !== huidigePeriode.coach || d.club !== huidigePeriode.club) {
+            // Geef elk 'unavailable' seizoen een unieke ID om het als een los blok te behandelen.
+            const id = isUnavailable 
+                ? `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen}`
+                : `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`;
             huidigePeriode = { coach: d.Coach, club: d.club, seizoenen: [], id: id };
             periodes.push(huidigePeriode);
         }
