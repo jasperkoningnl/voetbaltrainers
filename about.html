@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 10.1
+  HTML Versie: 10.2
   Changelog:
-  - Link toegevoegd naar de nieuwe Data Methodology pagina.
+  - Submenu toegevoegd voor navigatie tussen 'About' en 'Data Methodology'.
 -->
 <html lang="en">
 <head>
@@ -18,6 +18,38 @@
     <!-- Gedeelde Stijlen -->
     <link rel="stylesheet" href="style.css">
     
+    <style>
+        .about-nav {
+            display: flex;
+            justify-content: center;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 5px;
+            margin: 0 auto 2rem auto;
+            max-width: 500px;
+        }
+        .about-nav-link {
+            flex-grow: 1;
+            text-align: center;
+            padding: 0.6rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.25s ease-in-out;
+        }
+        .about-nav-link:hover {
+            background-color: #dce1e6;
+            color: var(--text-primary);
+        }
+        .about-nav-link.active {
+            background-color: var(--canvas-background);
+            color: var(--text-primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
@@ -48,6 +80,11 @@
     </div>
 
     <main>
+        <div class="about-nav">
+            <a href="about.html" class="about-nav-link active">The Story</a>
+            <a href="data-methodology.html" class="about-nav-link">Data Methodology</a>
+        </div>
+
         <div class="about-container article-body">
             <h3>The Story Behind the Data</h3>
             <p>This project didn't start a month ago. It started in January 2022, with a static visualization based on a manually compiled dataset. The idea was there, but the data was incomplete. Going further back in time, determining which manager had the longest tenure each season, was a monumental task. Still, I was proud of it and <a href="https://www.reddit.com/r/dataisbeautiful/comments/1fm00ma/oc_i_made_this_visualisation_of_coaches_from/" target="_blank" rel="noopener noreferrer">posted the result on Reddit's r/dataisbeautiful</a>.</p>
