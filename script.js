@@ -1,10 +1,10 @@
-// Script Versie: 27.0
+// Script Versie: 25.0 - Implementatie UI/UX Verbeteringen
 // Changelog:
-// - Het icoon in het infopaneel voor '[Data Unavailable]' is visueel aangepast.
-// - Er is een geel, vierkant achtergrondvlak toegevoegd achter de avatar.
-// - Het vraagteken in de avatar heeft nu ook een gele kleur gekregen voor betere zichtbaarheid en consistentie.
+// - Infopaneel toont nu land-specifieke statistieken wanneer er geen coach is geselecteerd.
+// - Een 'Share View' knop is toegevoegd om de huidige URL naar het klembord te kopiëren.
+// - Een overlay wordt getoond op mobiele schermen (<768px) met het advies de site op desktop te bekijken.
 
-console.log("Script versie: 27.0 geladen.");
+console.log("Script versie: 25.0 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -46,6 +46,9 @@ const DOMElements = {
     careerModeControls: document.getElementById('career-mode-controls'),
     careerCoachSearchInput: document.getElementById('career-coach-search-input'),
     coachDatalist: document.getElementById('coach-datalist'),
+    shareBtn: document.getElementById('share-btn'),
+    mobileOverlay: document.getElementById('mobile-overlay'),
+    overlayCloseBtn: document.getElementById('overlay-close-btn'),
 };
 
 let currentResizeObserver = null;
@@ -79,6 +82,11 @@ function setupEventListeners() {
             const target = e.target.dataset.view || e.target.closest('[data-country]')?.dataset.country;
             if (target) handleNavigation(target);
         });
+    });
+    
+    DOMElements.shareBtn.addEventListener('click', shareView);
+    DOMElements.overlayCloseBtn.addEventListener('click', () => {
+        DOMElements.mobileOverlay.classList.add('mobile-overlay-hidden');
     });
 
     DOMElements.advancedNavBtns.forEach(btn => {
@@ -159,7 +167,7 @@ function handleCareerCoachSearch(event) {
     }
 }
 
-// --- 5. URL STATE MANAGEMENT ---
+// --- 5. URL & SHARE MANAGEMENT ---
 function updateURLHash() {
     let newHash = '';
     if (appState.currentView === 'country') {
@@ -214,6 +222,30 @@ async function applyStateFromURL() {
     }
 }
 
+function shareView() {
+    const url = window.location.href;
+    const tempInput = document.createElement('input');
+    document.body.appendChild(tempInput);
+    tempInput.value = url;
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    const originalText = DOMElements.shareBtn.innerHTML;
+    DOMElements.shareBtn.classList.add('clicked');
+    DOMElements.shareBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+        <span>Link Copied!</span>`;
+
+    setTimeout(() => {
+        DOMElements.shareBtn.classList.remove('clicked');
+        DOMElements.shareBtn.innerHTML = originalText;
+    }, 2000);
+}
+
+
 // --- 6. DATA FETCHING ---
 async function fetchAllInitialData() {
     if (appState.allClubs.length > 0) return;
@@ -241,7 +273,7 @@ async function fetchAllInitialData() {
     }
 }
 
-// --- 7. DATA PROCESSING ---
+// --- 7. DATA PROCESSING & ANALYSIS ---
 function getPreparedDataForView() {
     let rawData;
     if (appState.currentView === 'country') {
@@ -292,13 +324,8 @@ function processTenures(data) {
     let huidigePeriode = null;
     
     data.forEach(d => {
-        // Aangepaste logica: als coach '[Data Unavailable]' is, maak ALTIJD een nieuwe periode.
-        const isUnavailable = d.Coach === '[Data Unavailable]';
-        if (!huidigePeriode || isUnavailable || d.Coach !== huidigePeriode.coach || d.club !== huidigePeriode.club) {
-            // Geef elk 'unavailable' seizoen een unieke ID om het als een los blok te behandelen.
-            const id = isUnavailable 
-                ? `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen}`
-                : `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`;
+        if (!huidigePeriode || d.Coach !== huidigePeriode.coach || d.club !== huidigePeriode.club) {
+            const id = `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`;
             huidigePeriode = { coach: d.Coach, club: d.club, seizoenen: [], id: id };
             periodes.push(huidigePeriode);
         }
@@ -328,18 +355,9 @@ function processTenures(data) {
         const countedPrizes = new Set();
         p.seizoenen.forEach(s => {
             const seasonKey = `${s.club}-${s.seizoen}`;
-            if (s.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) {
-                tenureTrophies.european++;
-                countedPrizes.add(`${seasonKey}-eu`);
-            }
-            if (s.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) {
-                tenureTrophies.title++;
-                countedPrizes.add(`${seasonKey}-ti`);
-            }
-            if (s.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) {
-                tenureTrophies.cup++;
-                countedPrizes.add(`${seasonKey}-cu`);
-            }
+            if (s.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) { tenureTrophies.european++; countedPrizes.add(`${seasonKey}-eu`); }
+            if (s.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) { tenureTrophies.title++; countedPrizes.add(`${seasonKey}-ti`); }
+            if (s.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) { tenureTrophies.cup++; countedPrizes.add(`${seasonKey}-cu`); }
         });
 
         p.seizoenen.forEach(s => {
@@ -353,6 +371,66 @@ function processTenures(data) {
     });
     return data;
 }
+
+function calculateCountryStats(countryName) {
+    const countryClubs = appState.allClubs.filter(c => c.land === countryName);
+    const countryClubIds = countryClubs.map(c => c.id);
+    const countrySeasons = appState.allSeasons.filter(s => countryClubIds.includes(s.club));
+
+    if (countrySeasons.length === 0) return null;
+
+    // 1. Longest Tenure
+    const tenures = [];
+    const seasonsByClub = d3.group(countrySeasons, d => d.club);
+    seasonsByClub.forEach(clubSeasons => {
+        clubSeasons.sort((a,b) => a.seizoen.localeCompare(b.seizoen));
+        let currentTenure = [];
+        for(let i = 0; i < clubSeasons.length; i++) {
+            if (i === 0 || clubSeasons[i].coachId === clubSeasons[i-1].coachId) {
+                currentTenure.push(clubSeasons[i]);
+            } else {
+                if(currentTenure.length > 0) tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: clubSeasons[i-1].club, duration: currentTenure.length });
+                currentTenure = [clubSeasons[i]];
+            }
+        }
+        if (currentTenure.length > 0) tenures.push({ coachId: currentTenure[0].coachId, clubId: currentTenure[0].club, duration: currentTenure.length });
+    });
+    
+    const longestTenure = tenures.reduce((max, t) => t.duration > max.duration ? t : max, { duration: 0 });
+    const longestTenureCoach = appState.allCoaches.find(c => c.id === longestTenure.coachId)?.naam;
+    const longestTenureClub = appState.allClubs.find(c => c.id === longestTenure.clubId)?.naam;
+
+    // 2. Stability
+    const stabilityStats = countryClubs.map(club => {
+        const seasons = seasonsByClub.get(club.id) || [];
+        if (seasons.length === 0) return null;
+        let changes = 0;
+        for (let i = 1; i < seasons.length; i++) {
+            if (seasons[i].coachId !== seasons[i-1].coachId) changes++;
+        }
+        return { name: club.naam, avg: seasons.length / (changes + 1) };
+    }).filter(Boolean);
+
+    const mostStable = stabilityStats.reduce((max, c) => c.avg > max.avg ? c : max, { avg: 0 });
+    const mostUnstable = stabilityStats.reduce((min, c) => c.avg < min.avg ? c : min, { avg: Infinity });
+
+    // 3. Success
+    const successStats = countryClubs.map(club => {
+        const seasons = seasonsByClub.get(club.id) || [];
+        const trophies = seasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+        return { name: club.naam, trophies };
+    });
+
+    const mostSuccessful = successStats.reduce((max, c) => c.trophies > max.trophies ? c : max, { trophies: -1 });
+
+    return {
+        longestTenure: { coach: longestTenureCoach, club: longestTenureClub, duration: longestTenure.duration },
+        mostStable: { name: mostStable.name, avg: mostStable.avg.toFixed(1) },
+        mostUnstable: { name: mostUnstable.name, avg: mostUnstable.avg.toFixed(1) },
+        mostSuccessful: { name: mostSuccessful.name, trophies: mostSuccessful.trophies }
+    };
+}
+
 
 // --- 8. RENDERING & UI LOGIC ---
 function renderApp() {
@@ -555,14 +633,15 @@ function drawVisualization(data) {
     pattern.append('rect')
         .attr('width', 8)
         .attr('height', 8)
-        .attr('fill', '#e9ecef');
+        .attr('fill', '#e9ecef'); // Donkerder grijs
     pattern.append('line')
         .attr('x1', 0)
         .attr('y1', 0)
         .attr('x2', 0)
         .attr('y2', 8)
-        .attr('stroke', '#f8f9fa')
+        .attr('stroke', '#f8f9fa') // Lichtere streep
         .attr('stroke-width', 2);
+
 
     const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
     
@@ -678,7 +757,7 @@ function drawVisualization(data) {
     });
 
     barGroup.selectAll(".bar").data(data).enter().append("rect")
-        .attr("class", "bar")
+        .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
         .attr("y", d => y(d.club))
         .attr("height", y.bandwidth())
         .style("fill", d => {
@@ -735,43 +814,88 @@ function drawVisualization(data) {
     return updateXAxis;
 }
 
-function setInfoPaneDefault() { 
+function setInfoPaneDefault() {
+    if (appState.currentView === 'country' && !appState.isLoading) {
+        const stats = calculateCountryStats(appState.activeCountry);
+        if (stats) {
+            renderCountryStats(stats);
+            return;
+        }
+    }
     DOMElements.infoPane.attr("class", "default-state").html('<p>Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
     if (d3.select(".axis.x-axis").node()) {
         currentUpdateXAxis();
     }
 }
 
-function updateInfoPane(d) {
-    if (d.Coach === '[Data Unavailable]') {
-        const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
-        const imageHtml = `
-            <svg class="info-pane-img unavailable-avatar" viewBox="0 0 50 50">
-                <rect width="50" height="50" fill="#fffbe6" rx="8"></rect>
-                <path d="${avatarIconPath}" fill="#e9ecef"></path>
-                <text x="25" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="bold" fill="#fcc419">?</text>
-            </svg>`;
-
-        const callToActionHtml = `
-            <div class="info-pane-trophies unavailable-cta">
-                <p><strong>No reliable data found.</strong></p>
-                <p>Do you have a source? <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">Please let us know</a>.</p>
-            </div>`;
-
-        const content = `
-            ${imageHtml}
-            <div class="info-pane-content">
-                <div class="info-pane-details">
-                    <p class="name">Data onbekend</p>
-                    <div class="nationality">
-                        <span>&nbsp;</span>
+function renderCountryStats(stats) {
+    const content = `
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h13.5m-13.5 7.5h13.5m-1.875-3.75a4.5 4.5 0 11-8.25 0 4.5 4.5 0 018.25 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Longest Tenure</div>
+                    <div class="stat-value">${stats.longestTenure.coach}</div>
+                    <div class="stat-sub-value">${stats.longestTenure.duration} seasons</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #22c55e;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Most Stable Club</div>
+                    <div class="stat-value">${stats.mostStable.name}</div>
+                    <div class="stat-sub-value">avg. ${stats.mostStable.avg} seasons/manager</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #ef4444;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Most Unstable Club</div>
+                    <div class="stat-value">${stats.mostUnstable.name}</div>
+                    <div class="stat-sub-value">avg. ${stats.mostUnstable.avg} seasons/manager</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #495057;">
+                    <div class="trophy-cluster">
+                        <svg style="top: 0; left: 7px; z-index: 1; color: #eab308;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
+                        <svg style="bottom: 0; left: 0; color: #C0C0C0;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
+                        <svg style="bottom: 0; right: 0; color: #CD7F32;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
                     </div>
                 </div>
-                ${callToActionHtml}
-                <div class="info-pane-extra">
-                    <p class="club">${d.club}</p>
-                    <p class="tenure">${d.seizoen}</p>
+                <div>
+                    <div class="stat-label">Most Successful Club</div>
+                    <div class="stat-value">${stats.mostSuccessful.name}</div>
+                    <div class="stat-sub-value">${stats.mostSuccessful.trophies} trophies</div>
                 </div>
+            </div>
+        </div>
+    `;
+    DOMElements.infoPane.attr("class", "default-state").html(content);
+}
+
+function updateInfoPane(d) {
+    if (d.Coach === '[Data Unavailable]') {
+        const content = `
+            <div class="info-pane-img unavailable-icon">
+                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
+            </div>
+            <div class="info-pane-content unavailable">
+                <h3>No reliable data</h3>
+                <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
+                <p>Do you have a reliable source? Please <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
             </div>`;
         DOMElements.infoPane.attr("class", "details-state").html(content);
         return;
@@ -786,18 +910,9 @@ function updateInfoPane(d) {
     const totalTrophies = d.tenureTrophies;
 
     let trophyHtml = '<div class="info-pane-trophies">';
-    if (totalTrophies.european > 0) {
-        const label = totalTrophies.european > 1 ? 'European trophies' : 'European trophy';
-        trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${label}</span></div>`;
-    }
-    if (totalTrophies.title > 0) {
-        const label = totalTrophies.title > 1 ? 'national titles' : 'national title';
-        trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${label}</span></div>`;
-    }
-    if (totalTrophies.cup > 0) {
-        const label = totalTrophies.cup > 1 ? 'national cups' : 'national cup';
-        trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${label}</span></div>`;
-    }
+    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
+    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
+    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
     trophyHtml += '</div>';
 
     const content = `
