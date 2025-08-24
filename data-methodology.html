@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<!--
+  HTML Versie: 1.0
+  Changelog:
+  - Eerste versie van de data-methodologie pagina.
+  - Bevat een gedetailleerde uitleg van het dataverzamelings- en verificatieproces.
+  - Inclusief interactieve component voor het tonen van prompts in NL/EN.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Methodology - The Managerial Merry-Go-Round</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Gedeelde Stijlen -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .methodology-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+        .article-body h3 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.75rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .article-body p, .article-body ul, .article-body li {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        .article-body ul {
+            list-style-position: inside;
+            padding-left: 0;
+        }
+        .article-body li {
+            margin-bottom: 0.5rem;
+        }
+        .article-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .prompt-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .prompt-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 1rem;
+        }
+        .toggle-switch {
+            display: inline-flex;
+            background-color: #e9ecef;
+            border-radius: 15px;
+            padding: 3px;
+            cursor: pointer;
+        }
+        .toggle-switch button {
+            background: none;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            color: #6c757d;
+        }
+        .toggle-switch button.active {
+            background-color: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            color: var(--text-primary);
+        }
+        .timestamp {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #888;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header class="site-header">
+        <nav class="site-nav">
+            <div class="logo">
+                <a href="index.html">
+                    <div class="logo-text">
+                        <div>
+                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
+                        </div>
+                        <div>
+                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Visualization</a>
+                <a href="articles.html">Articles</a>
+                <a href="about.html" class="active">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="methodology-container article-body">
+            <h2>Data Methodology & Known Limitations</h2>
+            <p>Transparency is a cornerstone of any data-driven project. This page outlines the process of data collection, verification, and the methodological choices made during the creation of this visualization.</p>
+
+            <h3>Data Collection: An Evolving Process</h3>
+            <p>The initial datasets for England and the Netherlands were gathered through an extensive trial-and-error process using various prompts with Google's Gemini, resulting in CSV files. This early phase revealed the complexities of sourcing consistent historical data. To streamline and improve data quality, the workflow was standardized: all data was migrated to a Firestore database and subsequent data collection for France, Germany, Italy, Portugal, and Spain was performed using a single, optimized prompt to generate structured JSON files.</p>
+            
+            <p>The standardized prompt used for this process is shown below.</p>
+            
+            <div class="prompt-box" id="prompt-1">
+                <div class="prompt-toggle">
+                    <div class="toggle-switch">
+                        <button class="active" data-lang="nl">NL</button>
+                        <button data-lang="en">EN</button>
+                    </div>
+                </div>
+                <div class="prompt-content">
+                    <div class="nl">"Genereer een JSON-array met de managergeschiedenis voor de volgende 5 Portugese voetbalclubs: Sporting CP, Benfica, FC Porto, Boavista, en S.C. Braga.
+Instructies:
+Periode: De data moet elk seizoen van 1955/56 tot en met 2024/25 bevatten.
+Volledigheid: Zorg ervoor dat elk afzonderlijk seizoen voor elke club aanwezig is in de output. Sla geen jaren over. Elke club moet precies 70 seizoenen in de data hebben.
+Manager: Gebruik voor elk seizoen de manager die het grootste deel van dat seizoen de leiding had. Gebruik geen interim-managers.
+JSON Structuur:
+De output moet één enkele, grote JSON-array zijn. Elk object in de array vertegenwoordigt één seizoen voor één club en moet de volgende structuur hebben:
+{
+"club": "Naam van de Club",
+"land": "Portugal",
+"seizoen": "YYYY/YY",
+"coach": "Volledige Naam van de Coach",
+"nationaliteit": "Nationaliteit in het Engels",
+"nat_code": "ISO 3166-1 alpha-2 landcode (in kleine letters)",
+"landstitel": "Y/N",
+"nationale_beker": "Y/N",
+"europese_prijs": "Y/N"
+}
+Voorbeeld van een object:
+{
+"club": "Sporting CP",
+"land": "Portugal",
+"seizoen": "2023/24",
+"coach": "Ruben Amorim",
+"nationaliteit": "Portuguese",
+"nat_code": "pt",
+"landstitel": "Y",
+"nationale_beker": "N",
+"europese_prijs": "N"
+}
+Start nu met het genereren van de volledige JSON-array."</div>
+                    <div class="en" style="display: none;">"Generate a JSON array with the manager history for the following 5 Portuguese football clubs: Sporting CP, Benfica, FC Porto, Boavista, and S.C. Braga.
+Instructions:
+Period: The data must cover every season from 1955/56 up to and including 2024/25.
+Completeness: Ensure that every single season for each club is present in the output. Do not skip any years. Each club must have exactly 70 seasons in the data.
+Manager: For each season, use the manager who was in charge for the majority of that season. Do not use interim managers.
+JSON Structure:
+The output must be a single, large JSON array. Each object in the array represents one season for one club and must have the following structure:
+{
+"club": "Name of the Club",
+"land": "Portugal",
+"seizoen": "YYYY/YY",
+"coach": "Full Name of the Coach",
+"nationaliteit": "Nationality in English",
+"nat_code": "ISO 3166-1 alpha-2 country code (in lowercase)",
+"landstitel": "Y/N",
+"nationale_beker": "Y/N",
+"europese_prijs": "Y/N"
+}
+Example of an object:
+{
+"club": "Sporting CP",
+"land": "Portugal",
+"seizoen": "2023/24",
+"coach": "Ruben Amorim",
+"nationaliteit": "Portuguese",
+"nat_code": "pt",
+"landstitel": "Y",
+"nationale_beker": "N",
+"europese_prijs": "N"
+}
+Now, start generating the complete JSON array."</div>
+                </div>
+            </div>
+
+            <h3>Data Verification and Enrichment</h3>
+            <p>After the initial generation, all data underwent a rigorous verification process. While initial plans to build automated API checks into the dashboard proved overly complex, a focused, prompt-based approach with Gemini, using specific online sources, turned out to be the most reliable method.</p>
+
+            <h4>Trophies</h4>
+            <p>All trophy data was meticulously checked against dedicated Wikipedia pages listing the winners of national titles, national cups, and European competitions. The following definitions were used:</p>
+            <ul>
+                <li><strong>European Trophy (europese_prijs):</strong> A 'Y' was assigned for winning any of the following: European Cup I, Champions League, UEFA Cup, Europa League, UEFA Cup Winners' Cup, Inter-Cities Fairs Cup, or the Conference League.</li>
+                <li><strong>National Cup (nationale_beker):</strong> A 'Y' was assigned for winning the primary domestic cup competition. In countries with multiple cups, like England (FA Cup and EFL Cup), winning either was sufficient. Winning multiple cups in one season still results in a single 'Y' and one icon in the visualization.</li>
+            </ul>
+            <p>An example of a verification prompt for European trophies in the German dataset is shown below.</p>
+            <div class="prompt-box" id="prompt-2">
+                <div class="prompt-toggle">
+                    <div class="toggle-switch">
+                        <button class="active" data-lang="nl">NL</button>
+                        <button data-lang="en">EN</button>
+                    </div>
+                </div>
+                <div class="prompt-content">
+                    <div class="nl">"Kun je de categorie "europese_prijs" in bijgaande JSON controleren? Voor de categorie Europese prijs geldt dat een Europese prijs winnen een Y oplevert en geen Europese prijs een N. Het winnen van 1 van deze prijzen volstaat voor een Y bij Europese prijs:
+- Europa Cup I
+- Europa Cup II
+- Europa Cup III
+- Champions League
+- UEFA Cup
+- UEFA Europe League
+- UEFA Cup Winners Cup
+- InterCities Fair Cup
+- Conference League
+
+Je moet dus de data uit de JSON vergelijken met de winnaars genoemd op deze Wikipedia-pagina's.
+
+https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+https://en.wikipedia.org/wiki/List_of_UEFA_Cup_and_Europa_League_finals
+https://en.wikipedia.org/wiki/List_of_UEFA_Cup_Winners%27_Cup_finals
+https://en.wikipedia.org/wiki/Inter-Cities_Fairs_Cup#Finals
+https://nl.wikipedia.org/wiki/UEFA_Conference_League#Finales
+
+Geef aan als er een verschil is tussen Wikipedia en de JSON."</div>
+                    <div class="en" style="display: none;">"Can you check the "europese_prijs" category in the attached JSON? For the European prize category, winning a European prize results in a Y, and not winning one results in an N. Winning one of the following prizes is sufficient for a Y:
+- European Cup I
+- European Cup II
+- European Cup III
+- Champions League
+- UEFA Cup
+- UEFA Europa League
+- UEFA Cup Winners' Cup
+- Inter-Cities Fairs Cup
+- Conference League
+
+You must compare the data from the JSON with the winners mentioned on these Wikipedia pages.
+
+https://en.wikipedia.org/wiki/List_of_European_Cup_and_UEFA_Champions_League_finals
+https://en.wikipedia.org/wiki/List_of_UEFA_Cup_and_Europa_League_finals
+https://en.wikipedia.org/wiki/List_of_UEFA_Cup_Winners%27_Cup_finals
+https://en.wikipedia.org/wiki/Inter-Cities_Fairs_Cup#Finals
+https://en.wikipedia.org/wiki/UEFA_Conference_League#Finales
+
+Indicate if there is a difference between Wikipedia and the JSON."</div>
+                </div>
+            </div>
+            
+            <h4>Coaches and Images</h4>
+            <p>Finding correct images for each coach was a significant challenge. A custom tool was built into the dashboard that queries the Wikipedia/Wikimedia API to find a corresponding image for each coach's name. However, this automated process was not flawless and required manual oversight to correct errors, such as initially displaying an image of the darts player Phil Taylor instead of the former Liverpool manager of the same name.</p>
+            <p>The coach listed for each season was also manually verified using a combination of Wikipedia manager lists and historical data from Transfermarkt.com to ensure accuracy according to the project's core principle.</p>
+
+            <h3>Methodological Choices & Known Limitations</h3>
+            <p>This dataset is built on a specific set of rules and, like any dataset, has its limitations. The following choices were made to prioritize clarity and consistency in the visualization:</p>
+            <ul>
+                <li><strong>One Coach Per Season:</strong> The primary principle is to display only one coach per season—the one who managed the most matches. This was a difficult choice made to keep the visualization clean and readable. A significant consequence is that it omits the "chaos" of mid-season sackings and the impact of interim managers. For example, in the 2023/24 season for Ajax, Maurice Steijn is listed, even though interim coach John van 't Schip managed more games, as Steijn was the official head coach at the start of the season.</li>
+                <li><strong>Edge Cases:</strong> Determining the longest-serving manager can be complex, especially in cases of mid-season dismissals around the winter break. The changing length of football seasons over the decades adds another layer of complexity. While every effort has been made to be accurate, this remains a potential weak point in the dataset.</li>
+                <li><strong>Missing Data (Portugal):</strong> During verification, the historical data for Boavista and S.C. Braga from the 1950s to the early 1970s was found to be highly unreliable, with many entries likely fabricated by the AI. These seasons have been marked as "[Data Unavailable]" in the visualization to reflect this.</li>
+                <li><strong>Merged Clubs:</strong> Paris Saint-Germain, FC Twente, and AZ are all merger clubs. For the early seasons in the dataset, the data shown corresponds to their predecessor clubs (Stade Saint-Germain, S.C. Enschede, and AZ'67, respectively). A clearer visual distinction for these periods is on the to-do list. <span class="timestamp">(Status: August 2025)</span></li>
+            </ul>
+
+            <h3>Future Development</h3>
+            <p>This project is a continuous work in progress. A major future ambition is to expand the dataset to include multiple coaches per season. This would allow for a more nuanced visual representation of managerial instability and provide deeper insights into the core research question. <span class="timestamp">(Status: August 2025)</span></p>
+
+        </div>
+    </main>
+
+    <footer class="page-footer">
+        <p>Created by <a href="https://github.com/jasperkoningnl" target="_blank">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank">Gemini</a>.</p>
+        <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.prompt-toggle .toggle-switch').forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'BUTTON') {
+                        const lang = e.target.dataset.lang;
+                        const promptBox = e.target.closest('.prompt-box');
+                        
+                        promptBox.querySelectorAll('.toggle-switch button').forEach(btn => btn.classList.remove('active'));
+                        e.target.classList.add('active');
+                        
+                        promptBox.querySelectorAll('.prompt-content > div').forEach(content => {
+                            content.style.display = 'none';
+                        });
+                        promptBox.querySelector(`.prompt-content .${lang}`).style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
