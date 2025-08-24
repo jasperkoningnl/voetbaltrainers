@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!-- 
-  HTML Versie: 17.0
+  HTML Versie: 18.0 - Implementatie UI/UX Verbeteringen
   Changelog:
-  - Nieuw typografisch logo geïmplementeerd in de header.
-  - Oude SVG-pijlen verwijderd.
+  - Deelknop toegevoegd aan de controls-sectie.
+  - HTML-structuur voor de mobiele overlay toegevoegd (standaard verborgen).
 -->
 <html lang="en">
 <head>
@@ -71,31 +71,6 @@
     </div>
 
     <main>
-        <!-- Article Teaser Section -->
-        <section class="teasers-section">
-            <div class="teasers-grid">
-                <a href="articles/architectjourneyman.html" class="teaser-card">
-                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/header.png" alt="Ferguson and Mourinho" class="teaser-image">
-                    <div class="teaser-content">
-                        <h3>The Architect vs. The Journeyman</h3>
-                    </div>
-                </a>
-                <a href="articles/globaltactician.html" class="teaser-card">
-                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/global.png" alt="Coaches on a map" class="teaser-image" style="object-position: center;">
-                    <div class="teaser-content">
-                        <h3>The Global Tactician</h3>
-                    </div>
-                </a>
-                <a href="articles/thegoat.html" class="teaser-card">
-                    <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/mountgoat.png" alt="Mount Goatmore" class="teaser-image" style="object-position: center;">
-                    <div class="teaser-content">
-                        <h3>The GOAT Debate</h3>
-                    </div>
-                </a>
-            </div>
-            <a href="articles.html" class="more-articles-link">More articles &rarr;</a>
-        </section>
-
         <div class="visualization-canvas">
             
             <!-- BLOK 1: CONTROLS -->
@@ -125,15 +100,23 @@
                 </div>
 
                 <div id="filter-controls-container">
-                    <button id="filter-toggle-btn">
-                        <div class="filter-toggle-content">
+                     <div id="filter-share-container">
+                        <button id="filter-toggle-btn">
+                            <div class="filter-toggle-content">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                </svg>
+                                <span>Filter & Search</span>
+                            </div>
+                            <span class="filter-arrow"></span>
+                        </button>
+                        <button class="share-button" id="share-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                              <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
                             </svg>
-                            <span>Filter & Search</span>
-                        </div>
-                        <span class="filter-arrow"></span>
-                    </button>
+                            <span>Share View</span>
+                        </button>
+                    </div>
                     <div id="filter-panel" class="hidden">
                         <div class="filter-group">
                             <label for="coach-search-input">Find a coach in current view</label>
@@ -154,7 +137,7 @@
             <div id="output-block" class="content-block">
                 <div id="info-pane-container">
                     <div id="info-pane" class="default-state">
-                        <p>Hover over a tenure for details, or click to lock the selection.</p>
+                        <!-- Inhoud wordt door script.js gevuld -->
                     </div>
                 </div>
                 <div id="heatmap-container">
@@ -186,8 +169,22 @@
         </div>
     </div>
 
+    <!-- Mobiele Overlay -->
+    <div id="mobile-overlay" class="mobile-overlay-hidden">
+        <div class="overlay-content">
+            <div class="overlay-close-btn" id="overlay-close-btn">&times;</div>
+            <div class="overlay-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-1.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" />
+                </svg>
+            </div>
+            <p class="overlay-title">Desktop View Recommended</p>
+            <p class="overlay-text">For the full interactive experience, please visit on a desktop or tablet.</p>
+        </div>
+    </div>
+
+
     <script id="main-script" type="module" src="script.js"></script>
 
 </body>
 </html>
-
