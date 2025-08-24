@@ -1,10 +1,11 @@
-// Script Versie: 25.0 - Implementatie UI/UX Verbeteringen
+// Script Versie: 25.1 - Correctie Implementatie
 // Changelog:
-// - Infopaneel toont nu land-specifieke statistieken wanneer er geen coach is geselecteerd.
-// - Een 'Share View' knop is toegevoegd om de huidige URL naar het klembord te kopiëren.
-// - Een overlay wordt getoond op mobiele schermen (<768px) met het advies de site op desktop te bekijken.
+// - Infopaneel toont nu correct de land-specifieke statistieken met kop en juiste iconen.
+// - Berekening 'Longest Tenure' negeert nu "[Data Unavailable]".
+// - Deelknop is functioneel.
+// - Sluitknop op mobiele overlay is functioneel.
 
-console.log("Script versie: 25.0 geladen.");
+console.log("Script versie: 25.1 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -86,7 +87,7 @@ function setupEventListeners() {
     
     DOMElements.shareBtn.addEventListener('click', shareView);
     DOMElements.overlayCloseBtn.addEventListener('click', () => {
-        DOMElements.mobileOverlay.classList.add('mobile-overlay-hidden');
+        DOMElements.mobileOverlay.style.display = 'none';
     });
 
     DOMElements.advancedNavBtns.forEach(btn => {
@@ -231,7 +232,7 @@ function shareView() {
     document.execCommand('copy');
     document.body.removeChild(tempInput);
 
-    const originalText = DOMElements.shareBtn.innerHTML;
+    const originalHTML = DOMElements.shareBtn.innerHTML;
     DOMElements.shareBtn.classList.add('clicked');
     DOMElements.shareBtn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -241,7 +242,7 @@ function shareView() {
 
     setTimeout(() => {
         DOMElements.shareBtn.classList.remove('clicked');
-        DOMElements.shareBtn.innerHTML = originalText;
+        DOMElements.shareBtn.innerHTML = originalHTML;
     }, 2000);
 }
 
@@ -376,12 +377,15 @@ function calculateCountryStats(countryName) {
     const countryClubs = appState.allClubs.filter(c => c.land === countryName);
     const countryClubIds = countryClubs.map(c => c.id);
     const countrySeasons = appState.allSeasons.filter(s => countryClubIds.includes(s.club));
+    const validCoaches = appState.allCoaches.filter(c => c.naam !== '[Data Unavailable]');
+    const validCoachIds = new Set(validCoaches.map(c => c.id));
+    const validSeasons = countrySeasons.filter(s => validCoachIds.has(s.coachId));
 
-    if (countrySeasons.length === 0) return null;
+    if (validSeasons.length === 0) return null;
 
     // 1. Longest Tenure
     const tenures = [];
-    const seasonsByClub = d3.group(countrySeasons, d => d.club);
+    const seasonsByClub = d3.group(validSeasons, d => d.club);
     seasonsByClub.forEach(clubSeasons => {
         clubSeasons.sort((a,b) => a.seizoen.localeCompare(b.seizoen));
         let currentTenure = [];
@@ -815,6 +819,7 @@ function drawVisualization(data) {
 }
 
 function setInfoPaneDefault() {
+    DOMElements.infoPane.html(''); // Clear previous content
     if (appState.currentView === 'country' && !appState.isLoading) {
         const stats = calculateCountryStats(appState.activeCountry);
         if (stats) {
@@ -822,7 +827,7 @@ function setInfoPaneDefault() {
             return;
         }
     }
-    DOMElements.infoPane.attr("class", "default-state").html('<p>Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
+    DOMElements.infoPane.html('<p class="info-pane-default-text">Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
     if (d3.select(".axis.x-axis").node()) {
         currentUpdateXAxis();
     }
@@ -830,6 +835,10 @@ function setInfoPaneDefault() {
 
 function renderCountryStats(stats) {
     const content = `
+    <div class="stat-grid-wrapper">
+        <div class="mb-3">
+            <h2 class="text-xl font-bold text-gray-800">${appState.activeCountry}: Key Insights</h2>
+        </div>
         <div class="stat-grid">
             <div class="stat-card">
                 <div class="stat-icon">
@@ -882,22 +891,25 @@ function renderCountryStats(stats) {
                 </div>
             </div>
         </div>
+    </div>
     `;
-    DOMElements.infoPane.attr("class", "default-state").html(content);
+    DOMElements.infoPane.html(content);
 }
 
 function updateInfoPane(d) {
+    DOMElements.infoPane.html(''); // Clear stats
     if (d.Coach === '[Data Unavailable]') {
         const content = `
-            <div class="info-pane-img unavailable-icon">
-                <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
-            </div>
-            <div class="info-pane-content unavailable">
-                <h3>No reliable data</h3>
-                <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
-                <p>Do you have a reliable source? Please <a href="mailto:kingjay@gmail.com?subject=Data Correction: Managerial Merry-Go-Round">let us know</a>.</p>
+            <div class="info-pane-details unavailable">
+                <div class="info-pane-img unavailable-icon">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
+                </div>
+                <div class="info-pane-content unavailable">
+                    <h3>No reliable data</h3>
+                    <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
+                </div>
             </div>`;
-        DOMElements.infoPane.attr("class", "details-state").html(content);
+        DOMElements.infoPane.html(content);
         return;
     }
 
@@ -916,6 +928,7 @@ function updateInfoPane(d) {
     trophyHtml += '</div>';
 
     const content = `
+      <div class="info-pane-details">
         ${imageHtml}
         <div class="info-pane-content">
             <div class="info-pane-details">
@@ -930,8 +943,9 @@ function updateInfoPane(d) {
                 <p class="club">${d.club}</p>
                 <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
             </div>
-        </div>`;
-    DOMElements.infoPane.attr("class", "details-state").html(content);
+        </div>
+      </div>`;
+    DOMElements.infoPane.html(content);
 }
 
 function showCareerInfoPane() {
@@ -963,6 +977,7 @@ function showCareerInfoPane() {
     let imageHtml = hasPhoto ? `<img src="${coach.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
 
     const content = `
+      <div class="info-pane-details">
         ${imageHtml}
         <div class="info-pane-content">
             <div class="info-pane-details">
@@ -973,8 +988,9 @@ function showCareerInfoPane() {
                 </div>
             </div>
             ${trophyHtml}
-        </div>`;
-    DOMElements.infoPane.attr("class", "details-state").html(content);
+        </div>
+      </div>`;
+    DOMElements.infoPane.html(content);
 }
 
 
