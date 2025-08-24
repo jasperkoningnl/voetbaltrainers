@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <!-- 
-  Dashboard Versie: 27.3 - Spelling Braga gewijzigd
+  Dashboard Versie: 28.1 - Data Health Tool
   Changelog:
-  - De zoekopdracht in de tool "Bulk Correctie: Portugal" is aangepast om 'S.C. Braga' correct te vinden.
-  - De tool zal nu voor beide clubs de data correct aanpassen.
+  - Nieuwe sectie 'Data Health' vervangt 'Data Management'.
+  - Tool 1: 'Duplicate Coaches' identificeert coaches met dezelfde naam maar verschillende ID's en biedt een merge-functionaliteit om dataverlies te voorkomen.
+  - Tool 2: 'Nationality Consistency' groepeert alle nationaliteiten en landcodes en biedt een bulk-update functie om deze te standaardiseren.
+  - De specifieke 'Bulk Correctie: Portugal' en de oude nationaliteitencorrectie zijn verwijderd.
+  - De JSON-export en 'wees-seizoenen' opschonen zijn behouden binnen de nieuwe 'Data Health' sectie.
 -->
 <html lang="nl">
 <head>
@@ -64,7 +67,6 @@
         const DownloadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>;
         const LogOutIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" x2="9" y1="12" y2="12"></line></svg>;
         const ListIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="8" x2="21" y1="6" y2="6"></line><line x1="8" x2="21" y1="12" y2="12"></line><line x1="8" x2="21" y1="18" y2="18"></line><line x1="3" x2="3.01" y1="6" y2="6"></line><line x1="3" x2="3.01" y1="12" y2="12"></line><line x1="3" x2="3.01" y1="18" y2="18"></line></svg>;
-        const ToolIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>;
         const ChartBarIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" x2="12" y1="20" y2="10"></line><line x1="18" x2="18" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="16"></line></svg>;
         const AvatarIcon = () => <span className="inline-block h-10 w-10 rounded-full overflow-hidden bg-gray-100"><svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.997A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg></span>;
         const EditIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>;
@@ -74,6 +76,8 @@
         const AddIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
         const ImageIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>;
         const CopyIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>;
+        const HealthIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>;
+        const MergeIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4"><path d="M16 22h4a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4m-4 17V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2Zm-2-7V9"/></svg>;
         
         // --- COMPONENTEN ---
 
@@ -926,29 +930,167 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             );
         }
 
-        function DataCleanupView({ appData, onUpdate }) {
+        function DataHealthView({ appData, onUpdate }) {
+            const { coaches, seasons, clubs } = appData;
+            
+            // --- Duplicate Coaches Logic ---
+            const [duplicateCoaches, setDuplicateCoaches] = useState([]);
+            const [isScanningDuplicates, setIsScanningDuplicates] = useState(false);
+            const [isMerging, setIsMerging] = useState(false);
+            const [mergeLog, setMergeLog] = useState([]);
+
+            const findDuplicateCoaches = useCallback(() => {
+                if (!coaches || coaches.length === 0) return;
+                setIsScanningDuplicates(true);
+                const coachesByName = d3.group(coaches, d => d.naam);
+                const duplicates = Array.from(coachesByName.entries())
+                    .filter(([name, entries]) => entries.length > 1)
+                    .map(([name, entries]) => {
+                        const hydratedEntries = entries.map(entry => ({
+                            ...entry,
+                            seasonCount: seasons.filter(s => s.coachId === entry.id).length
+                        }));
+                        return { name, entries: hydratedEntries, masterId: hydratedEntries[0].id };
+                    });
+                setDuplicateCoaches(duplicates);
+                setIsScanningDuplicates(false);
+            }, [coaches, seasons]);
+
+            const handleMasterSelect = (coachName, masterId) => {
+                setDuplicateCoaches(prev => prev.map(dup => 
+                    dup.name === coachName ? { ...dup, masterId } : dup
+                ));
+            };
+
+            const handleMerge = async (coachName, entries, masterId) => {
+                const masterCoach = entries.find(e => e.id === masterId);
+                const coachesToDelete = entries.filter(e => e.id !== masterId);
+                const coachIdsToDelete = coachesToDelete.map(c => c.id);
+
+                if (!confirm(`Weet je zeker dat je ${coachesToDelete.length} record(s) voor ${coachName} wilt samenvoegen in het record van ${masterCoach.id}? Dit kan niet ongedaan gemaakt worden.`)) return;
+
+                setIsMerging(true);
+                setMergeLog([]);
+                const addLog = (msg) => setMergeLog(prev => [...prev, msg]);
+
+                try {
+                    addLog(`Starten met samenvoegen voor ${coachName}...`);
+                    addLog(`Master coach ID: ${masterId}`);
+                    const batch = writeBatch(db);
+                    
+                    const seasonsToUpdateQuery = query(collection(db, "seizoenen"), where("coachId", "in", coachIdsToDelete));
+                    const seasonsSnapshot = await getDocs(seasonsToUpdateQuery);
+
+                    addLog(`${seasonsSnapshot.size} seizoenen gevonden om bij te werken.`);
+                    seasonsSnapshot.forEach(seasonDoc => {
+                        batch.update(seasonDoc.ref, { coachId: masterId });
+                    });
+
+                    coachIdsToDelete.forEach(id => {
+                        addLog(`Coach record ${id} wordt verwijderd.`);
+                        batch.delete(doc(db, "coaches", id));
+                    });
+
+                    await batch.commit();
+                    addLog("Samenvoegen succesvol voltooid! Data wordt herladen.");
+                    setTimeout(onUpdate, 2000);
+
+                } catch (e) {
+                    addLog(`FOUT: ${e.message}`);
+                    console.error("Fout bij samenvoegen:", e);
+                } finally {
+                    setIsMerging(false);
+                }
+            };
+            
+            // --- Nationality Consistency Logic ---
+            const [nationalities, setNationalities] = useState([]);
+            const [isScanningNats, setIsScanningNats] = useState(false);
+            const [isUpdatingNats, setIsUpdatingNats] = useState(false);
+            const [natLog, setNatLog] = useState([]);
+
+            const findNationalityInconsistencies = useCallback(() => {
+                if (!coaches || coaches.length === 0) return;
+                setIsScanningNats(true);
+                const groupedByNat = d3.group(coaches, d => (d.nationaliteit || "").trim());
+                const processed = Array.from(groupedByNat.entries()).map(([nat, entries]) => {
+                    const variations = d3.group(entries, d => (d.nat_code || "").trim());
+                    return {
+                        name: nat,
+                        count: entries.length,
+                        variations: Array.from(variations.entries()).map(([code, codeEntries]) => ({
+                            code,
+                            count: codeEntries.length
+                        })),
+                        standardNat: nat,
+                        standardCode: variations.size === 1 ? variations.keys().next().value : ''
+                    }
+                }).sort((a,b) => a.name.localeCompare(b.name));
+                setNationalities(processed);
+                setIsScanningNats(false);
+            }, [coaches]);
+            
+            const handleNatChange = (index, field, value) => {
+                const newNats = [...nationalities];
+                newNats[index][field] = value;
+                setNationalities(newNats);
+            };
+            
+            const handleStandardizeNats = async (natGroup) => {
+                if (!confirm(`Weet je zeker dat je alle varianten van "${natGroup.name}" wilt standaardiseren naar "${natGroup.standardNat}" (${natGroup.standardCode})?`)) return;
+                setIsUpdatingNats(true);
+                setNatLog([]);
+                const addNatLog = msg => setNatLog(prev => [...prev, msg]);
+                
+                try {
+                    const originalNatNames = [natGroup.name, ...natGroup.variations.map(v => v.name)].filter(Boolean);
+                    const coachesToUpdateQuery = query(collection(db, "coaches"), where("nationaliteit", "==", natGroup.name));
+                    const coachesSnapshot = await getDocs(coachesToUpdateQuery);
+                    
+                    const batch = writeBatch(db);
+                    let updatedCount = 0;
+                    coachesSnapshot.forEach(coachDoc => {
+                        const data = coachDoc.data();
+                        if(data.nationaliteit !== natGroup.standardNat || data.nat_code !== natGroup.standardCode) {
+                           batch.update(coachDoc.ref, {
+                                nationaliteit: natGroup.standardNat,
+                                nat_code: natGroup.standardCode
+                            });
+                            updatedCount++;
+                        }
+                    });
+                    
+                    if (updatedCount > 0) {
+                        addNatLog(`Bezig met updaten van ${updatedCount} records...`);
+                        await batch.commit();
+                        addNatLog("Update succesvol! Data wordt herladen.");
+                        setTimeout(onUpdate, 2000);
+                    } else {
+                        addNatLog("Geen records gevonden die een update nodig hebben.");
+                    }
+
+                } catch(e) {
+                    addNatLog(`FOUT: ${e.message}`);
+                    console.error("Fout bij standaardiseren:", e);
+                } finally {
+                    setIsUpdatingNats(false);
+                }
+            };
+
+            // --- Orphan/Export Logic ---
             const [isLoadingOrphans, setIsLoadingOrphans] = useState(false);
             const [orphanLog, setOrphanLog] = useState([]);
             const addOrphanLog = (message) => setOrphanLog(prev => [...prev, message]);
-            
-            const [isLoadingNats, setIsLoadingNats] = useState(false);
-            const [natLog, setNatLog] = useState([]);
-            const addNatLog = (message) => setNatLog(prev => [...prev, message]);
-
-            const [countries, setCountries] = useState([]);
-            const [isScanning, setIsScanning] = useState(false);
+            const [countriesForExport, setCountriesForExport] = useState([]);
+            const [isScanningCountries, setIsScanningCountries] = useState(false);
             const [exportingCountry, setExportingCountry] = useState(null);
 
-            const [isFixingPortugal, setIsFixingPortugal] = useState(false);
-            const [fixLog, setFixLog] = useState([]);
-            const addFixLog = (message) => setFixLog(prev => [...prev, message]);
-
             const findCountries = useCallback(async () => {
-                setIsScanning(true);
+                setIsScanningCountries(true);
                 const clubsSnap = await getDocs(collection(db, "clubs"));
                 const lands = [...new Set(clubsSnap.docs.map(doc => doc.data().land))].sort();
-                setCountries(lands);
-                setIsScanning(false);
+                setCountriesForExport(lands);
+                setIsScanningCountries(false);
             }, []);
             
             useEffect(() => {
@@ -958,11 +1100,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             const handleExportCountry = async (country) => {
                 setExportingCountry(country);
                 try {
-                    const { seasons, clubs, coaches } = appData;
-
                     const clubsMap = new Map(clubs.map(c => [c.id, c]));
                     const coachesMap = new Map(coaches.map(c => [c.id, c]));
-
                     const countrySeasons = seasons.filter(s => {
                         const club = clubsMap.get(s.club);
                         return club && club.land === country;
@@ -987,7 +1126,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                     }).filter(Boolean).sort((a, b) => a.club.localeCompare(b.club) || b.seizoen.localeCompare(a.seizoen));
                     
                     downloadJson(finalJson, `${country.toLowerCase()}.json`);
-
                 } catch (e) {
                     console.error("Fout bij exporteren", e);
                     alert(`Kon de data voor ${country} niet exporteren.`);
@@ -1011,112 +1149,21 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                 }, 150);
             };
 
-            const handleFixPortugalData = async () => {
-                if (!confirm("Weet je zeker dat je de probleemseizoenen voor Boavista en Braga wilt corrigeren? Deze actie kan niet ongedaan worden gemaakt.")) return;
-                
-                setIsFixingPortugal(true);
-                setFixLog([]);
-                addFixLog("Starten met correctie van Portugese data...");
-
-                try {
-                    addFixLog("Controleren op '[Data Unavailable]' coach...");
-                    const coachesRef = collection(db, "coaches");
-                    const q = query(coachesRef, where("naam", "==", "[Data Unavailable]"));
-                    let querySnapshot = await getDocs(q);
-                    let placeholderCoachId;
-
-                    if (querySnapshot.empty) {
-                        addFixLog("Placeholder coach niet gevonden, nieuwe wordt aangemaakt...");
-                        const newCoachRef = await addDoc(coachesRef, { naam: "[Data Unavailable]", nationaliteit: "" });
-                        placeholderCoachId = newCoachRef.id;
-                        addFixLog(`Placeholder coach aangemaakt met ID: ${placeholderCoachId}`);
-                    } else {
-                        placeholderCoachId = querySnapshot.docs[0].id;
-                        addFixLog(`Placeholder coach gevonden met ID: ${placeholderCoachId}`);
-                    }
-
-                    const problematicSeasons = {
-                        'Boavista': ['1955/56', '1956/57', '1957/58', '1958/59', '1959/60', '1960/61', '1961/62', '1962/63', '1963/64', '1964/65', '1965/66', '1966/67', '1967/68', '1968/69'],
-                        'S.C. Braga': ['1958/59', '1959/60', '1961/62', '1962/63', '1963/64', '1970/71', '1974/75']
-                    };
-
-                    const clubsRef = collection(db, "clubs");
-                    const seasonsRef = collection(db, "seizoenen");
-                    const batch = writeBatch(db);
-                    let updatedCount = 0;
-
-                    const chunkArray = (arr, size) => arr.length > size ? [arr.slice(0, size), ...chunkArray(arr.slice(size), size)] : [arr];
-
-                    for (const clubName of Object.keys(problematicSeasons)) {
-                        addFixLog(`--- Verwerken van ${clubName} ---`);
-                        const clubQuery = query(clubsRef, where("naam", "==", clubName), where("land", "==", "Portugal"));
-                        const clubSnapshot = await getDocs(clubQuery);
-
-                        if (clubSnapshot.empty) {
-                            addFixLog(`Club ${clubName} niet gevonden in de database.`);
-                            continue;
-                        }
-                        const clubId = clubSnapshot.docs[0].id;
-                        addFixLog(`Club ID voor ${clubName} is ${clubId}.`);
-                        
-                        const seasonChunks = chunkArray(problematicSeasons[clubName], 10);
-
-                        for(const chunk of seasonChunks) {
-                            addFixLog(`Zoeken naar seizoenen: ${chunk.join(', ')}`);
-                            const seasonsToUpdateQuery = query(seasonsRef, where("club", "==", clubId), where("seizoen", "in", chunk));
-                            const seasonsToUpdateSnapshot = await getDocs(seasonsToUpdateQuery);
-                            
-                            seasonsToUpdateSnapshot.forEach(seasonDoc => {
-                                addFixLog(`Markeren voor update: ${clubName} seizoen ${seasonDoc.data().seizoen} (Doc ID: ${seasonDoc.id})`);
-                                batch.update(seasonDoc.ref, {
-                                    coachId: placeholderCoachId,
-                                    landstitel: "N",
-                                    nationale_beker: "N",
-                                    europese_prijs: "N"
-                                });
-                                updatedCount++;
-                            });
-                        }
-                    }
-                    
-                    if (updatedCount > 0) {
-                        addFixLog(`Totaal ${updatedCount} seizoenen worden bijgewerkt. Bezig met uitvoeren...`);
-                        await batch.commit();
-                        addFixLog("Correctie succesvol uitgevoerd! Data wordt herladen.");
-                        onUpdate();
-                    } else {
-                        addFixLog("Geen seizoenen gevonden om te corrigeren. Mogelijk is de actie al uitgevoerd.");
-                    }
-
-                } catch (e) {
-                    console.error("Fout bij corrigeren Portugese data:", e);
-                    addFixLog(`FOUT: ${e.message}`);
-                    alert("Er is een fout opgetreden. Controleer de console voor details.");
-                } finally {
-                    setIsFixingPortugal(false);
-                }
-            };
-
             const handleOrphanCleanup = async () => {
                 setIsLoadingOrphans(true);
                 setOrphanLog([]);
                 addOrphanLog("Start opschonen van wees-seizoenen...");
                 try {
-                    const [seasonsSnap, clubsSnap, coachesSnap] = await Promise.all([
-                        getDocs(collection(db, "seizoenen")),
-                        getDocs(collection(db, "clubs")),
-                        getDocs(collection(db, "coaches"))
-                    ]);
-                    const existingClubIds = new Set(clubsSnap.docs.map(d => d.id));
-                    const existingCoachIds = new Set(coachesSnap.docs.map(d => d.id));
+                    const existingClubIds = new Set(clubs.map(d => d.id));
+                    const existingCoachIds = new Set(coaches.map(d => d.id));
                     const batch = writeBatch(db);
                     let deletedCount = 0;
-                    seasonsSnap.forEach(doc => {
-                        const season = doc.data();
+                    seasons.forEach(season => {
                         if (!existingClubIds.has(season.club) || !existingCoachIds.has(season.coachId)) {
-                            batch.delete(doc.ref);
+                            const seasonRef = doc(db, "seizoenen", season.id);
+                            batch.delete(seasonRef);
                             deletedCount++;
-                            addOrphanLog(`Seizoen ${doc.id} (${season.seizoen}) wordt verwijderd (ongeldige club/coach ID).`);
+                            addOrphanLog(`Seizoen ${season.id} (${season.seizoen}) wordt verwijderd (ongeldige club/coach ID).`);
                         }
                     });
                     if (deletedCount > 0) {
@@ -1133,75 +1180,89 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                 }
             };
 
-            const handleNationalityCleanup = async () => {
-                setIsLoadingNats(true);
-                setNatLog([]);
-                addNatLog("Starten met corrigeren van nationaliteiten...");
-
-                const corrections = {
-                    "Engeland": "English", "Noord-Ierland": "Northern Irish", "Schotland": "Scottish",
-                    "Frankrijk": "French", "Spanje": "Spanish", "Brazilië": "Brazilian",
-                    "Nederland": "Dutch", "Italië": "Italian", "Duitsland": "German",
-                    "Wales": "Welsh", "Zweden": "Swedish", "Chili": "Chilean",
-                    "Noorwegen": "Norwegian", "Argentinië": "Argentine", "Portugal": "Portuguese",
-                    "Servië": "Serbian", "Ierland": "Irish", "Denemarken": "Danish",
-                    "Netherlands": "Dutch", "Hungary": "Hungarian", "Croatia": "Croatian",
-                    "Austria": "Austrian", "Yugoslav": "Yugoslavian", "Czech-Italian": "Italian",
-                    "Brasil": "Brazilian", "Belgium": "Belgian", "Spain": "Spanish",
-                    "Germany": "German", "France": "French", "Italy": "Italian",
-                    "England": "English", "Brazil": "Brazilian", "Argentinia": "Argentine",
-                    "Bosnia": "Bosnian", "Scotland": "Scottish", "Denmark": "Danish",
-                    "Czech": "Czech", "Yugoslavian": "Yugoslav", "Swiss": "Swiss",
-                    "Romanian": "Romanian", "Polish": "Polish", "Bosnian": "Bosnian",
-                    "Slovak": "Slovak", "Mexican": "Mexican", "Uruguayan": "Uruguayan",
-                    "Monegasque": "Monegasque", "Angolan": "Angolan", "Bolivian": "Bolivian",
-                    "Montenegrin": "Montenegrin", "American": "American", "Turkish": "Turkish",
-                    "Israël": "Israeli"
-                };
-
-                try {
-                    const coachesSnap = await getDocs(collection(db, "coaches"));
-                    const batch = writeBatch(db);
-                    let correctedCount = 0;
-
-                    coachesSnap.forEach(coachDoc => {
-                        const coach = coachDoc.data();
-                        const originalNat = coach.nationaliteit;
-                        if (originalNat && corrections[originalNat]) {
-                            const correctedNat = corrections[originalNat];
-                            if (coach.nationaliteit !== correctedNat) {
-                                batch.update(coachDoc.ref, { nationaliteit: correctedNat });
-                                addNatLog(`[${coach.naam}]: "${originalNat}" -> "${correctedNat}"`);
-                                correctedCount++;
-                            }
-                        }
-                    });
-
-                    if (correctedCount > 0) {
-                        await batch.commit();
-                        addNatLog(`Opschonen voltooid. ${correctedCount} nationaliteiten gecorrigeerd. Data wordt herladen.`);
-                        onUpdate();
-                    } else {
-                        addNatLog("Geen nationaliteiten gevonden die correctie vereisen op basis van de lijst.");
-                    }
-                } catch(e) {
-                    addNatLog(`Fout: ${e.message}`);
-                } finally {
-                    setIsLoadingNats(false);
-                }
-            };
-
             return (
-                 <div className="bg-white p-6 rounded-lg shadow space-y-6">
-                    <h2 className="text-xl font-bold">Data Management</h2>
-                    <p className="text-gray-600">Voer onderhouds-, correctie- en exporttaken uit op de database.</p>
+                 <div className="bg-white p-6 rounded-lg shadow space-y-8">
+                    <h2 className="text-xl font-bold">Data Health</h2>
+                    <p className="text-gray-600">Tools om de datakwaliteit te controleren en te verbeteren.</p>
                     
+                    {/* Duplicate Coaches Tool */}
+                    <div className="p-4 border rounded-lg">
+                        <h3 className="font-semibold text-lg mb-2">Dubbele Coaches</h3>
+                        <p className="text-sm text-gray-500 mb-4">Vind en voeg coaches samen die dezelfde naam hebben maar als aparte records in de database staan.</p>
+                        <button onClick={findDuplicateCoaches} disabled={isScanningDuplicates || isMerging} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
+                            {isScanningDuplicates ? 'Scannen...' : 'Scan op Dubbele Coaches'}
+                        </button>
+                        {duplicateCoaches.length > 0 && (
+                            <div className="mt-4 space-y-4">
+                                {duplicateCoaches.map(dup => (
+                                    <div key={dup.name} className="p-4 bg-gray-50 border rounded-md">
+                                        <h4 className="font-bold text-lg">{dup.name}</h4>
+                                        <div className="mt-2 space-y-2">
+                                            {dup.entries.map(entry => (
+                                                <div key={entry.id} className="flex items-center gap-4 p-2 rounded-md bg-white border">
+                                                    <input type="radio" name={`master-${dup.name}`} value={entry.id} checked={dup.masterId === entry.id} onChange={() => handleMasterSelect(dup.name, entry.id)} className="h-4 w-4"/>
+                                                    <div className="flex-grow">
+                                                        <p className="font-mono text-xs text-gray-500">{entry.id}</p>
+                                                        <p>Nationaliteit: {entry.nationaliteit || 'N/A'}, Landcode: {entry.nat_code || 'N/A'}</p>
+                                                        <p className="font-semibold">{entry.seasonCount} seizoenen gekoppeld</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <button onClick={() => handleMerge(dup.name, dup.entries, dup.masterId)} disabled={isMerging} className="mt-3 px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:bg-gray-400 flex items-center gap-2">
+                                           <MergeIcon /> {isMerging ? 'Bezig...' : 'Samenvoegen'}
+                                        </button>
+                                    </div>
+                                ))}
+                                {mergeLog.length > 0 && (
+                                    <div className="mt-4 p-4 bg-blue-50 rounded-md max-h-60 overflow-y-auto">
+                                        <h4 className="font-semibold mb-2 text-blue-800">Merge Log:</h4>
+                                        <pre className="text-xs whitespace-pre-wrap text-blue-900">{mergeLog.join('\n')}</pre>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    
+                    {/* Nationality Consistency Tool */}
+                    <div className="p-4 border rounded-lg">
+                         <h3 className="font-semibold text-lg mb-2">Nationaliteiten Standaardiseren</h3>
+                         <p className="text-sm text-gray-500 mb-4">Vind en corrigeer inconsistente schrijfwijzen van nationaliteiten en landcodes.</p>
+                         <button onClick={findNationalityInconsistencies} disabled={isScanningNats || isUpdatingNats} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
+                            {isScanningNats ? 'Scannen...' : 'Scan op Inconsistenties'}
+                        </button>
+                        {nationalities.length > 0 && (
+                             <div className="mt-4 space-y-2 max-h-96 overflow-y-auto">
+                                {nationalities.map((nat, index) => (
+                                    <div key={nat.name} className="p-3 bg-gray-50 border rounded-md">
+                                        <div className="grid grid-cols-3 gap-4 items-end">
+                                            <div>
+                                                <label className="text-xs font-bold">{nat.name} ({nat.count} records)</label>
+                                                <ul className="text-xs text-gray-600 list-disc list-inside">
+                                                    {nat.variations.map(v => <li key={v.code}>Code: '{v.code}' ({v.count})</li>)}
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <input type="text" value={nat.standardNat} onChange={(e) => handleNatChange(index, 'standardNat', e.target.value)} className="p-1 border rounded w-full text-sm" placeholder="Correcte nationaliteit"/>
+                                                <input type="text" value={nat.standardCode} onChange={(e) => handleNatChange(index, 'standardCode', e.target.value)} className="p-1 border rounded w-full text-sm mt-1" placeholder="Correcte landcode"/>
+                                            </div>
+                                            <button onClick={() => handleStandardizeNats(nat)} disabled={isUpdatingNats} className="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:bg-gray-400">
+                                                Standaardiseer
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                             </div>
+                        )}
+                    </div>
+
+                    {/* JSON Export Tool */}
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Export Data to JSON</h3>
                         <p className="text-sm text-gray-500 mb-4">Genereer een JSON-bestand per land voor datakwaliteitscontrole.</p>
-                        {isScanning ? <p>Landen scannen...</p> : (
+                        {isScanningCountries ? <p>Landen scannen...</p> : (
                             <div className="flex flex-wrap gap-3">
-                                {countries.map(country => (
+                                {countriesForExport.map(country => (
                                     <button 
                                         key={country}
                                         onClick={() => handleExportCountry(country)}
@@ -1216,26 +1277,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                         )}
                     </div>
                     
-                    <div className="p-4 border border-orange-300 bg-orange-50 rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2 text-orange-800">Bulk Correctie: Portugal</h3>
-                        <p className="text-sm text-orange-700 mb-2">Deze tool past de data aan voor de volgende seizoenen waarvoor geen betrouwbare coach-data beschikbaar is:</p>
-                        <ul className="text-xs text-orange-600 list-disc list-inside mb-4">
-                            <li><b>Boavista:</b> 1955/56 t/m 1968/69</li>
-                            <li><b>SC Braga:</b> 1958/59, 1959/60, 1961/62-'63/64, 1970/71, 1974/75</li>
-                        </ul>
-                        <p className="text-sm text-orange-700 mb-4">De seizoenen worden gekoppeld aan een '[Data Unavailable]' coach. Deze actie is permanent.</p>
-
-                        <button onClick={handleFixPortugalData} disabled={isFixingPortugal} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 disabled:bg-gray-400">
-                            {isFixingPortugal ? 'Bezig met corrigeren...' : 'Corrigeer Probleemseizoenen'}
-                        </button>
-                        {fixLog.length > 0 && (
-                            <div className="mt-4 p-4 bg-orange-100 rounded-md max-h-60 overflow-y-auto">
-                                <h4 className="font-semibold mb-2 text-orange-800">Log:</h4>
-                                <pre className="text-xs whitespace-pre-wrap text-orange-900">{fixLog.join('\n')}</pre>
-                            </div>
-                        )}
-                    </div>
-
+                    {/* Orphan Cleanup Tool */}
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Wees-seizoenen</h3>
                         <button onClick={handleOrphanCleanup} disabled={isLoadingOrphans} className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-gray-400">
@@ -1246,20 +1288,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                             <div className="mt-4 p-4 bg-gray-100 rounded-md max-h-60 overflow-y-auto">
                                 <h4 className="font-semibold mb-2">Log:</h4>
                                 <pre className="text-xs whitespace-pre-wrap">{orphanLog.join('\n')}</pre>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="p-4 border rounded-lg">
-                        <h3 className="font-semibold text-lg mb-2">Nationaliteiten</h3>
-                        <button onClick={handleNationalityCleanup} disabled={isLoadingNats} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
-                            {isLoadingNats ? 'Bezig...' : 'Corrigeer Nationaliteiten'}
-                        </button>
-                        <p className="text-sm text-gray-500 mt-2">Corrigeert veelvoorkomende fouten in nationaliteiten (bv. 'Nederland' naar 'Dutch').</p>
-                         {natLog.length > 0 && (
-                            <div className="mt-4 p-4 bg-gray-100 rounded-md max-h-60 overflow-y-auto">
-                                <h4 className="font-semibold mb-2">Log:</h4>
-                                <pre className="text-xs whitespace-pre-wrap">{natLog.join('\n')}</pre>
                             </div>
                         )}
                     </div>
@@ -1586,14 +1614,14 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v27.3</span></div>
+                         <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v28.1</span></div>
                         <nav className="flex-grow p-2">
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('analysis');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('importer');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('seasons');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasons' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenen</a>
                              <a href="#" onClick={(e) => {e.preventDefault(); setView('clubs');}} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
                             <a href="#" onClick={(e) => {e.preventDefault(); setView('coaches');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches</a>
-                            <a href="#" onClick={(e) => {e.preventDefault(); setView('cleanup');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'cleanup' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ToolIcon /> Data Management</a>
+                            <a href="#" onClick={(e) => {e.preventDefault(); setView('health');}} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'health' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Data Health</a>
                         </nav>
                          <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
@@ -1606,7 +1634,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, {key:
                                 'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                 'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                 'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
-                                'cleanup': <DataCleanupView appData={appData} onUpdate={fetchAllData} />,
+                                'health': <DataHealthView appData={appData} onUpdate={fetchAllData} />,
                             }[view]
                         }
                     </main>
