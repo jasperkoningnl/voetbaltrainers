@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <!--
-  HTML Versie: 1.1
+  HTML Versie: 1.2
   Changelog:
-  - Submenu toegevoegd voor navigatie.
-  - Structuur en koppen aangepast voor betere leesbaarheid en consistentie.
-  - Sectie voor coachverificatie uitgebreid en een eigen kop gegeven.
+  - Tekst aangescherpt op basis van laatste feedback over naming conventions en historische nationaliteiten.
 -->
 <html lang="en">
 <head>
@@ -261,53 +259,17 @@ Now, start generating the complete JSON array."</div>
             
             <h4>Coaches</h4>
             <p>The coach listed for each season was manually verified using a combination of Wikipedia manager lists and historical data from Transfermarkt.com. This was a crucial step to ensure accuracy according to the project's core principle: identifying the single, non-interim manager who was in charge for the majority of matches in a given season.</p>
-            <div class="prompt-box" id="prompt-2">
-                <div class="prompt-toggle">
-                    <div class="toggle-switch">
-                        <button class="active" data-lang="nl">NL</button>
-                        <button data-lang="en">EN</button>
-                    </div>
-                </div>
-                <div class="prompt-content">
-                    <div class="nl">"Ik wil de namen van de trainers van Spaanse clubs uit deze JSON gaan controleren. Per seizoen wordt er 1 coach genoemd. Dat is de coach die de meeste wedstrijden in dat seizoen de coach was en die geen interim-coach was.
-
-Een voetbalseizoen loopt van augustus-september t/m mei-juni. De data is van 1955/56 t/m 2024/25. Dus van aug/sep 55 t/m mei/jun 56 en van aug/sep 24 t/m mei/jun 25. Met die gegevens kun je ook bepalen wie het langst de coach was. Er is een korte winterstop, in de zomer zijn er geen wedstrijden.
-
-Ik wil dat je de data alleen vergelijkt met 2 Wikipedia-bronnen en gegevens van Transfermarkt die ik hieronder link. Controleer eerst of je de data in de JSON goed kunt lezen en of je de data op de website goed kunt lezen en combineren. We doen het club voor club en beginnen met Real Madrid.
-
-Dit zijn de referentiebronnen voor Madrid:
-https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Real_Madrid_(mannen)
-https://es.wikipedia.org/wiki/Anexo:Entrenadores_del_Real_Madrid_Club_de_Fútbol
-https://www.transfermarkt.nl/real-madrid/mitarbeiter/verein/418
-
-Controleer nu alle seizoenen. Geef een kort overzicht van de seizoenen waarbij de JSON afwijkt van de online bronnen. Geef aan wie de correcte coach is voor dat seizoen volgens de online bronnen.
-
-Geef daarna een kort overzicht van seizoenen waarover je twijfelt en wie de correcte coach kan zijn volgens de online bronnen."</div>
-                    <div class="en" style="display: none;">"I want to verify the names of the managers of Spanish clubs from this JSON. For each season, one coach is listed. This should be the coach who managed the most matches in that season and was not an interim coach.
-
-A football season runs from August/September to May/June. The data spans from 1955/56 to 2024/25. So, from Aug/Sep '55 to May/Jun '56, and from Aug/Sep '24 to May/Jun '25. With this information, you can also determine who was the longest-serving coach. There is a short winter break; there are no matches in the summer.
-
-I want you to compare the data only with two Wikipedia sources and data from Transfermarkt that I will link below. First, check if you can read the data in the JSON correctly and if you can read and combine the data on the website correctly. We will do it club by club, starting with Real Madrid.
-
-These are the reference sources for Madrid:
-https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Real_Madrid_(mannen)
-https://es.wikipedia.org/wiki/Anexo:Entrenadores_del_Real_Madrid_Club_de_Fútbol
-https://www.transfermarkt.nl/real-madrid/mitarbeiter/verein/418
-
-Now, check all seasons. Provide a brief overview of the seasons where the JSON differs from the online sources. Indicate who the correct coach is for that season according to the online sources.
-
-Then, provide a brief overview of seasons you are doubtful about and who the correct coach might be according to the online sources."</div>
-                </div>
-            </div>
-
+            
             <h4>Images</h4>
-            <p>Finding correct images for each coach was a challenge. A custom tool was built into the dashboard that queries the Wikipedia/Wikimedia API to find a corresponding image for each coach's name. However, this automated process was not flawless and required manual oversight to correct errors, such as initially displaying an image of the darts player Phil Taylor instead of the former Liverpool manager of the same name.</p>
+            <p>Finding correct images for each coach was a significant challenge. A custom tool was built into the dashboard that queries the Wikipedia/Wikimedia API to find a corresponding image for each coach's name. However, this automated process was not flawless and required manual oversight to correct errors, such as initially displaying an image of the darts player Phil Taylor instead of the former Liverpool manager of the same name.</p>
             
             <h3>Methodological Choices & Known Limitations</h3>
             <p>This dataset is built on a specific set of rules and, like any dataset, has its limitations. The following choices were made to prioritize clarity and consistency in the visualization:</p>
             <ul>
                 <li><strong>One Coach Per Season:</strong> The primary principle is to display only one coach per season—the one who managed the most matches. This was a difficult choice made to keep the visualization clean and readable. A significant consequence is that it omits the "chaos" of mid-season sackings and the impact of interim managers. For example, in the 2023/24 season for Ajax, Maurice Steijn is listed, even though interim coach John van 't Schip managed more games, as Steijn was the official head coach at the start of the season.</li>
                 <li><strong>Edge Cases:</strong> Determining the longest-serving manager can be complex, especially in cases of mid-season dismissals around the winter break. The changing length of football seasons over the decades adds another layer of complexity. While every effort has been made to be accurate, this remains a potential weak point in the dataset.</li>
+                <li><strong>Naming Conventions:</strong> For readability, the name under which a coach is most commonly known is used. This may be a widely used nickname (e.g., 'Petit' for Armando Teixeira) instead of their full legal name.</li>
+                <li><strong>Historical Nationalities:</strong> Nationalities are recorded as they were relevant in the given time period. This explains the presence of designations for since-dissolved countries, such as Yugoslavia.</li>
                 <li><strong>Missing Data (Portugal):</strong> During verification, the historical data for Boavista and S.C. Braga from the 1950s to the early 1970s was found to be highly unreliable, with many entries likely fabricated by the AI. These seasons have been marked as "[Data Unavailable]" in the visualization to reflect this.</li>
                 <li><strong>Merged Clubs:</strong> Paris Saint-Germain, FC Twente, and AZ are all merger clubs. For the early seasons in the dataset, the data shown corresponds to their predecessor clubs (Stade Saint-Germain, S.C. Enschede, and AZ'67, respectively). A clearer visual distinction for these periods is on the to-do list. <span class="timestamp">(Status: August 2025)</span></li>
             </ul>
