@@ -1,8 +1,8 @@
 /*
-  CSS Versie: 17.1 - Correctie Implementatie
+  CSS Versie: 17.2 - Finale Correctie Implementatie
   Changelog:
   - Hoogte van infopaneel gefixeerd en layout van Key Insights aangepast om binnen de ruimte te passen.
-  - Stijlen voor de deelknop gecorrigeerd en layout aangepast.
+  - Deelknop hernoemd naar 'action-button' om adblocker-conflicten te vermijden.
   - Mobiele overlay wordt nu correct getoond via media query.
 */
 
@@ -182,10 +182,11 @@ main {
 
 /* --- Key Insights Styling --- */
 .stat-grid-wrapper { width: 100%; }
-.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem 1.5rem; width: 100%; }
+.stat-grid-wrapper h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-primary); }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; width: 100%; }
 .stat-card { display: flex; align-items: center; gap: 1rem; }
-.stat-icon { flex-shrink: 0; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #e9ecef; color: #495057; }
-.stat-icon svg { width: 24px; height: 24px; }
+.stat-icon { flex-shrink: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #e9ecef; color: #495057; }
+.stat-icon svg { width: 20px; height: 20px; }
 .stat-label { font-size: 0.8rem; color: #6c757d; line-height: 1.3; margin-bottom: 0.1rem; }
 .stat-value { font-weight: 700; font-size: 1rem; color: #212529; line-height: 1.2; }
 .stat-sub-value { font-size: 0.85rem; color: #495057; }
@@ -263,10 +264,10 @@ main {
 .y-axis .club-label .remove-club-btn-cross { stroke: var(--text-secondary); stroke-width: 2px; stroke-linecap: round; }
 
 /* --- Share Button --- */
-.share-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background-color: #fff; border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; color: var(--accent-color); cursor: pointer; transition: all 0.2s ease-in-out; white-space: nowrap; }
-.share-button:hover { background-color: #f3e8f9; border-color: var(--accent-color); }
-.share-button.clicked { background-color: #22c55e; border-color: #22c55e; color: white; }
-.share-button svg { width: 16px; height: 16px; }
+.action-button { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background-color: #fff; border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; color: var(--accent-color); cursor: pointer; transition: all 0.2s ease-in-out; white-space: nowrap; }
+.action-button:hover { background-color: #f3e8f9; border-color: var(--accent-color); }
+.action-button.clicked { background-color: #22c55e; border-color: #22c55e; color: white; }
+.action-button svg { width: 16px; height: 16px; }
 
 /* --- Modal Styling --- */
 #club-modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; }
@@ -315,7 +316,7 @@ main {
     display: none;
 }
 @media (max-width: 768px) {
-    .mobile-overlay-hidden {
+    #mobile-overlay:not(.mobile-overlay-hidden) {
         position: fixed;
         top: 0;
         left: 0;
