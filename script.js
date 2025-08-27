@@ -1,11 +1,11 @@
-// Script Versie: 25.1 - Correctie Implementatie
+// Script Versie: 25.2 - Finale Correctie Implementatie
 // Changelog:
-// - Infopaneel toont nu correct de land-specifieke statistieken met kop en juiste iconen.
+// - Infopaneel toont nu correct de land-specifieke statistieken met kop en juiste iconen. Hoogte is gefixeerd.
 // - Berekening 'Longest Tenure' negeert nu "[Data Unavailable]".
-// - Deelknop is functioneel.
+// - Deelknop is hernoemd naar 'copy-link-btn' en 'action-button' en is functioneel.
 // - Sluitknop op mobiele overlay is functioneel.
 
-console.log("Script versie: 25.1 geladen.");
+console.log("Script versie: 25.2 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -47,7 +47,7 @@ const DOMElements = {
     careerModeControls: document.getElementById('career-mode-controls'),
     careerCoachSearchInput: document.getElementById('career-coach-search-input'),
     coachDatalist: document.getElementById('coach-datalist'),
-    shareBtn: document.getElementById('share-btn'),
+    shareBtn: document.getElementById('copy-link-btn'),
     mobileOverlay: document.getElementById('mobile-overlay'),
     overlayCloseBtn: document.getElementById('overlay-close-btn'),
 };
@@ -85,9 +85,9 @@ function setupEventListeners() {
         });
     });
     
-    DOMElements.shareBtn.addEventListener('click', shareView);
-    DOMElements.overlayCloseBtn.addEventListener('click', () => {
-        DOMElements.mobileOverlay.style.display = 'none';
+    if(DOMElements.shareBtn) DOMElements.shareBtn.addEventListener('click', shareView);
+    if(DOMElements.overlayCloseBtn) DOMElements.overlayCloseBtn.addEventListener('click', () => {
+        DOMElements.mobileOverlay.classList.add('mobile-overlay-hidden');
     });
 
     DOMElements.advancedNavBtns.forEach(btn => {
@@ -837,7 +837,7 @@ function renderCountryStats(stats) {
     const content = `
     <div class="stat-grid-wrapper">
         <div class="mb-3">
-            <h2 class="text-xl font-bold text-gray-800">${appState.activeCountry}: Key Insights</h2>
+            <h2 class="text-xl font-bold text-gray-800">Key Insights</h2>
         </div>
         <div class="stat-grid">
             <div class="stat-card">
