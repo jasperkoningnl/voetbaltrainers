@@ -1,586 +1,1066 @@
-/*
-  JS Versie: 17.4 - Correctie Icoon & Herstel Firebase
-  Changelog:
-  - De foutieve Firebase-initialisatie die de visualisatie brak, is hersteld naar de werkende versie.
-  - SVG-icoon voor 'Longest Tenure' in het Key Insights-paneel is vervangen door een correct zandloper-icoon.
-*/
+// Script Versie: 25.3 - Correctie Icoon Infopaneel
+// Changelog:
+// - Het SVG-icoon voor 'Longest Tenure' in het land-specifieke infopaneel is vervangen door een correct zandloper-icoon.
 
-document.addEventListener('DOMContentLoaded', () => {
-    // NOTE: Firebase initialisatie wordt verwacht in de HTML via de Firebase SDK scripts.
-    const db = firebase.firestore();
+console.log("Script versie: 25.3 geladen.");
 
-    // Global state object
-    const state = {
-        allData: {},
-        currentCountry: 'england',
-        activeClubs: [],
-        allClubs: {},
-        colorScale: null,
-        prizeScale: null,
-        currentMode: 'default',
-        careerCoach: null,
-        lastHoveredData: null,
-        isFilterPanelOpen: false,
-        activeFilters: {
-            nationality: '',
-            minTenure: '',
-            hasPrizes: '',
-            coachName: ''
-        },
-        viewState: { // To remember clubs for each country
-            england: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester City', 'Manchester United', 'Tottenham Hotspur'],
-            spain: ['FC Barcelona', 'Real Madrid', 'Atlético Madrid'],
-            italy: ['Juventus', 'AC Milan', 'Inter Milan'],
-            germany: ['Bayern Munich', 'Borussia Dortmund'],
-            france: ['Paris Saint-Germain', 'Olympique Marseille'],
-            netherlands: ['Ajax', 'PSV', 'Feyenoord'],
-            portugal: ['SL Benfica', 'FC Porto', 'Sporting CP']
+// --- 1. STATE MANAGEMENT ---
+const appState = {
+    currentView: 'country', // 'country', 'advanced'
+    advancedViewMode: 'chooseClubs', // 'chooseClubs', 'careerMode'
+    activeCountry: 'England',
+    careerCoachName: null,
+    comparisonClubs: [],
+    allClubs: [],
+    allCoaches: [],
+    allSeasons: [],
+    activeFilters: { coach: '', nationality: '' },
+    selectedTenureId: null,
+    hoveredTenureId: null,
+    isLoading: true,
+};
+
+// --- 2. DOM ELEMENT SELECTORS ---
+const DOMElements = {
+    infoPane: d3.select("#info-pane"),
+    heatmapContainer: d3.select("#heatmap-container"),
+    legendContainer: d3.select("#legend-container"),
+    countryNavContainer: document.getElementById('country-nav-container'),
+    navLinks: document.querySelectorAll('.nav-link'),
+    filterControlsContainer: document.getElementById('filter-controls-container'),
+    filterToggleButton: document.getElementById('filter-toggle-btn'),
+    filterPanel: document.getElementById('filter-panel'),
+    coachSearchInput: document.getElementById('coach-search-input'),
+    nationalityFilterSelect: document.getElementById('nationality-filter-select'),
+    filterResetBtn: document.getElementById('filter-reset-btn'),
+    compareControlsContainer: document.getElementById('compare-controls-container'),
+    clearCompareBtn: document.getElementById('clear-compare-btn'),
+    clubModal: document.getElementById('club-modal'),
+    modalCloseBtn: document.querySelector('.modal-close-btn'),
+    clubListContainer: document.getElementById('club-list-container'),
+    clubSearchInputModal: document.getElementById('club-search-input-modal'),
+    advancedNavContainer: document.getElementById('advanced-nav-container'),
+    advancedNavBtns: document.querySelectorAll('.advanced-nav-btn'),
+    careerModeControls: document.getElementById('career-mode-controls'),
+    careerCoachSearchInput: document.getElementById('career-coach-search-input'),
+    coachDatalist: document.getElementById('coach-datalist'),
+    shareBtn: document.getElementById('copy-link-btn'),
+    mobileOverlay: document.getElementById('mobile-overlay'),
+    overlayCloseBtn: document.getElementById('overlay-close-btn'),
+};
+
+let currentResizeObserver = null;
+const ADD_CLUB_PLACEHOLDER = 'ADD_CLUB_PLACEHOLDER';
+let currentUpdateXAxis = () => {};
+
+
+// --- 3. INITIALISATIE ---
+document.addEventListener('DOMContentLoaded', initApp);
+
+async function initApp() {
+    console.log("Applicatie initialiseren...");
+    setupEventListeners();
+    await fetchAllInitialData();
+    await applyStateFromURL(); 
+    populateCoachDatalist();
+    renderApp();
+    console.log("Applicatie gereed.");
+}
+
+// --- 4. EVENT LISTENERS ---
+function setupEventListeners() {
+    window.addEventListener('hashchange', async () => {
+        await applyStateFromURL();
+        renderApp();
+    });
+
+    DOMElements.navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = e.target.dataset.view || e.target.closest('[data-country]')?.dataset.country;
+            if (target) handleNavigation(target);
+        });
+    });
+    
+    if(DOMElements.shareBtn) DOMElements.shareBtn.addEventListener('click', shareView);
+    if(DOMElements.overlayCloseBtn) DOMElements.overlayCloseBtn.addEventListener('click', () => {
+        DOMElements.mobileOverlay.classList.add('mobile-overlay-hidden');
+    });
+
+    DOMElements.advancedNavBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const newMode = e.target.dataset.mode;
+            if (newMode !== appState.advancedViewMode) {
+                appState.advancedViewMode = newMode;
+                if (newMode === 'careerMode') appState.comparisonClubs = [];
+                if (newMode === 'chooseClubs') appState.careerCoachName = null;
+                renderApp();
+                updateURLHash();
+            }
+        });
+    });
+
+    DOMElements.filterToggleButton.addEventListener('click', () => {
+        DOMElements.filterPanel.classList.toggle('hidden');
+        DOMElements.filterToggleButton.classList.toggle('open');
+    });
+
+    DOMElements.coachSearchInput.addEventListener('input', applyFilters);
+    DOMElements.nationalityFilterSelect.addEventListener('change', applyFilters);
+    DOMElements.filterResetBtn.addEventListener('click', () => resetAll(true));
+    
+    DOMElements.clearCompareBtn.addEventListener('click', clearComparison);
+    DOMElements.modalCloseBtn.addEventListener('click', closeClubModal);
+    DOMElements.clubSearchInputModal.addEventListener('input', filterClubList);
+    window.addEventListener('click', (event) => {
+        if (event.target === DOMElements.clubModal) {
+            closeClubModal();
         }
-    };
+    });
+    DOMElements.careerCoachSearchInput.addEventListener('input', handleCareerCoachSearch);
+}
 
-    // DOM Elements
-    const elements = {
-        countryNav: document.getElementById('country-nav-container'),
-        heatmapContainer: document.getElementById('heatmap-container'),
-        infoPane: document.getElementById('info-pane'),
-        statGrid: document.getElementById('stat-grid'),
-        filterToggleButton: document.getElementById('filter-toggle-btn'),
-        filterPanel: document.getElementById('filter-panel'),
-        filterResetButton: document.getElementById('filter-reset-btn'),
-        nationalityFilter: document.getElementById('nationality-filter'),
-        tenureFilter: document.getElementById('tenure-filter'),
-        prizeFilter: document.getElementById('prize-filter'),
-        nameFilter: document.getElementById('name-filter'),
-        clubModal: document.getElementById('club-modal'),
-        clubListContainer: document.getElementById('club-list-container'),
-        clubSearchInput: document.getElementById('club-search-input-modal'),
-        modalCloseButton: document.querySelector('.modal-close-btn'),
-        advancedNav: document.getElementById('advanced-nav-container'),
-        careerControls: document.getElementById('career-mode-controls'),
-        shareButton: document.getElementById('share-btn'),
-        mobileOverlay: document.getElementById('mobile-overlay'),
-        mobileOverlayClose: document.querySelector('.overlay-close-btn'),
-        siteHeader: document.querySelector('.site-header')
-    };
+function handleNavigation(target) {
+    const targetIsCountry = !['advanced'].includes(target);
+    const newView = targetIsCountry ? 'country' : 'advanced';
 
-    // --- INITIALIZATION ---
-    async function initializeApp() {
-        checkMobile();
-        setHeaderStyle();
-        setupEventListeners();
-        createColorScales();
+    if (appState.currentView === newView && (!targetIsCountry || target === appState.activeCountry)) {
+        return;
+    }
 
+    appState.selectedTenureId = null;
+    appState.hoveredTenureId = null;
+    appState.activeFilters = { coach: '', nationality: '' };
+    DOMElements.coachSearchInput.value = '';
+    DOMElements.nationalityFilterSelect.value = '';
+
+    if (targetIsCountry) {
+        appState.currentView = 'country';
+        appState.activeCountry = target;
+    } else {
+        appState.currentView = 'advanced';
+        appState.advancedViewMode = 'chooseClubs';
+        appState.comparisonClubs = [];
+        appState.careerCoachName = null;
+    }
+    
+    renderApp();
+    updateURLHash();
+}
+
+function handleCareerCoachSearch(event) {
+    const coachName = event.target.value;
+    const isValidCoach = appState.allCoaches.some(c => c.naam === coachName);
+
+    if (isValidCoach) {
+        if (appState.careerCoachName !== coachName) {
+            appState.careerCoachName = coachName;
+            renderApp();
+            updateURLHash();
+        }
+    } else if (!coachName && appState.careerCoachName) {
+        appState.careerCoachName = null;
+        renderApp();
+        updateURLHash();
+    }
+}
+
+// --- 5. URL & SHARE MANAGEMENT ---
+function updateURLHash() {
+    let newHash = '';
+    if (appState.currentView === 'country') {
+        newHash = `country=${encodeURIComponent(appState.activeCountry)}`;
+    } else if (appState.currentView === 'advanced') {
+        if (appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
+            newHash = `career=${encodeURIComponent(appState.careerCoachName)}`;
+        } else if (appState.advancedViewMode === 'chooseClubs' && appState.comparisonClubs.length > 0) {
+            const clubIds = appState.comparisonClubs.map(c => c.id).filter(Boolean).join(',');
+            if(clubIds) newHash = `clubs=${clubIds}`;
+        }
+    }
+    
+    if (window.location.hash !== `#${newHash}`) {
+         history.replaceState(null, '', `#${newHash}`);
+    }
+}
+
+async function applyStateFromURL() {
+    Object.assign(appState, {
+        currentView: 'country',
+        advancedViewMode: 'chooseClubs',
+        activeCountry: 'England',
+        careerCoachName: null,
+        comparisonClubs: [],
+    });
+
+    if (window.location.hash) {
         try {
-            await parseUrlAndLoadData();
-            console.log("Initialization complete.");
-        } catch (error) {
-            console.error("Initialization failed:", error);
-            await loadCountryData(state.currentCountry, state.viewState[state.currentCountry]);
-        }
-    }
+            const params = new URLSearchParams(window.location.hash.substring(1));
 
-    // --- DATA LOADING & HANDLING ---
-    async function parseUrlAndLoadData() {
-        const params = new URLSearchParams(window.location.search);
-        const country = params.get('country') || 'england';
-        const clubsParam = params.get('clubs');
-        const coach = params.get('coach');
-
-        let clubs = clubsParam ? clubsParam.split(',') : state.viewState[country];
-
-        await loadCountryData(country, clubs);
-
-        if (coach) {
-            state.careerCoach = coach;
-            setActiveMode('career');
-            // Attempt to find data for the hovered pane
-            for (const club of state.activeClubs) {
-                for (const season in club.seasons) {
-                    if (club.seasons[season].coachId === coach) {
-                        state.lastHoveredData = { ...club.seasons[season], club: club.name, season: season };
-                        break;
-                    }
-                }
-                if (state.lastHoveredData) break;
-            }
-        }
-    }
-
-    async function loadCountryData(country, clubNames) {
-        state.currentCountry = country;
-        updateCountryNav();
-
-        if (!state.allData[country]) {
-            try {
-                const doc = await db.collection('countries').doc(country).get();
-                if (doc.exists) {
-                    const data = doc.data();
-                    state.allData[country] = data.clubs;
-                    state.allClubs[country] = Object.values(data.clubs).sort((a, b) => a.name.localeCompare(b.name));
-                } else {
-                    console.error(`No data found for ${country}`);
-                    return;
-                }
-            } catch (error) {
-                console.error("Error loading country data:", error);
-                return;
-            }
-        }
-        
-        setActiveClubs(clubNames);
-        populateNationalityFilter();
-        renderHeatmap();
-        renderCountryStats();
-    }
-    
-    function setActiveClubs(clubNames) {
-        if (!state.allClubs[state.currentCountry]) return;
-        state.activeClubs = clubNames
-            .map(name => state.allClubs[state.currentCountry].find(c => c.name === name))
-            .filter(Boolean); // Filter out any undefined clubs
-        state.viewState[state.currentCountry] = state.activeClubs.map(c => c.name);
-    }
-
-    // --- STATE MANAGEMENT ---
-    function setActiveMode(mode) {
-        state.currentMode = mode;
-        updateAdvancedNav();
-        renderHeatmap();
-        updateInfoPaneForMode();
-    }
-    
-    function updateInfoPaneForMode() {
-        if (state.currentMode === 'career' && state.lastHoveredData) {
-            renderInfoPane(state.lastHoveredData);
-        } else {
-            renderInfoPane(null);
-        }
-    }
-
-    function updateURL() {
-        const params = new URLSearchParams();
-        params.set('country', state.currentCountry);
-        if (state.activeClubs.length > 0) {
-            params.set('clubs', state.activeClubs.map(c => c.name).join(','));
-        }
-        if (state.currentMode === 'career' && state.careerCoach) {
-            params.set('coach', state.careerCoach);
-        }
-        history.pushState({}, '', `${window.location.pathname}?${params.toString()}`);
-    }
-
-    // --- UI RENDERING ---
-    function createColorScales() {
-        state.colorScale = d3.scaleSequential(d3.interpolateCividis).domain([15, 0]);
-        state.prizeScale = d3.scaleSqrt().domain([1, 5]).range([5, 10]).clamp(true);
-    }
-
-    function renderHeatmap() {
-        d3.select(elements.heatmapContainer).select("svg").remove();
-
-        if (state.activeClubs.length === 0) {
-            elements.heatmapContainer.innerHTML = `<div style="text-align:center; padding: 2rem; color: #888;">Add a club to the visualization to get started.</div>`;
-            renderAddClubButton(); // Special case to render the "add" button
-            return;
-        }
-
-        const data = state.activeClubs;
-        const allSeasons = new Set();
-        Object.values(state.allData[state.currentCountry]).forEach(club => {
-             Object.keys(club.seasons).forEach(season => allSeasons.add(season));
-        });
-        const seasons = Array.from(allSeasons).sort();
-        
-        const firstSeason = parseInt(seasons[0].split('/')[0]);
-        const lastSeason = parseInt(seasons[seasons.length - 1].split('/')[0]);
-
-        const margin = { top: 20, right: 20, bottom: 30, left: 200 };
-        const barHeight = 40;
-        const width = (lastSeason - firstSeason + 1) * 20;
-        const height = (data.length + 1) * barHeight + margin.top + margin.bottom; // +1 for add button
-
-        const svg = d3.select(elements.heatmapContainer)
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
-
-        const x = d3.scaleLinear().domain([firstSeason, lastSeason + 1]).range([0, width]);
-        const y = d3.scaleBand().domain([...data.map(d => d.name), "add-club"]).range([0, height - margin.top - margin.bottom]).padding(0.1);
-
-        svg.append("g").attr("class", "x-axis axis").attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
-            .call(d3.axisBottom(x).tickFormat(d => `'${String(d).slice(-2)}`).tickValues(d3.range(firstSeason, lastSeason + 1, 5).filter(d => d % 5 === 0)));
-
-        const yAxis = svg.append("g").attr("class", "y-axis axis").call(d3.axisLeft(y).tickSize(0).tickPadding(10));
-        yAxis.selectAll(".tick").remove();
-
-        const clubLabels = yAxis.selectAll(".club-label").data(data).enter().append("g")
-            .attr("class", "club-label").attr("transform", d => `translate(0, ${y(d.name) + y.bandwidth() / 2})`);
-        
-        clubLabels.append("rect").attr("x", -margin.left).attr("y", -y.bandwidth()/2).attr("width", margin.left).attr("height", y.bandwidth());
-        clubLabels.append("text").attr("x", -10).attr("dy", "0.32em").attr("text-anchor", "end").text(d => d.name);
-        
-        renderAddClubButton(svg, y, "add-club");
-        
-        // Remove button for existing clubs
-        clubLabels.append("g").attr("class", "remove-club-btn").attr("transform", `translate(${-margin.left + 10}, 0)`)
-            .on('click', (e, d) => {
-                const newClubs = state.activeClubs.filter(c => c.name !== d.name).map(c => c.name);
-                setActiveClubs(newClubs);
-                renderHeatmap();
-                updateURL();
-            })
-            .append("circle").attr("r", 8).attr("class", "remove-club-btn-bg")
-            .append("title").text(d => `Remove ${d.name}`);
-        clubLabels.selectAll(".remove-club-btn").append("path").attr("d", "M-4,-4 L4,4 M-4,4 L4,-4").attr("class", "remove-club-btn-cross");
-
-
-        const clubsGroup = svg.selectAll(".club-group").data(data).enter().append("g")
-            .attr("class", "club-group").attr("transform", d => `translate(0, ${y(d.name)})`);
-
-        clubsGroup.each(function(clubData) {
-            const group = d3.select(this);
-            group.append("rect").attr("class", "event-catcher").attr("width", width).attr("height", y.bandwidth());
-
-            const seasonData = Object.entries(clubData.seasons);
-            let currentCoach = null;
-            let startYear = 0;
-            let tenureYears = 0;
-            
-            seasonData.forEach(([season, coachInfo], i) => {
-                const year = parseInt(season.split('/')[0]);
-                if (coachInfo.coachId !== currentCoach) {
-                    currentCoach = coachInfo.coachId;
-                    startYear = year;
-                    tenureYears = coachInfo.tenureInYears;
-                }
+            if (params.has('country')) {
+                appState.currentView = 'country';
+                appState.activeCountry = decodeURIComponent(params.get('country'));
+            } else if (params.has('career')) {
+                appState.currentView = 'advanced';
+                appState.advancedViewMode = 'careerMode';
+                appState.careerCoachName = decodeURIComponent(params.get('career'));
+            } else if (params.has('clubs')) {
+                appState.currentView = 'advanced';
+                appState.advancedViewMode = 'chooseClubs';
+                const clubIdentifiers = params.get('clubs').split(',');
                 
-                const isFilteredOut = checkFilters(coachInfo);
-                const isCareerHighlight = state.currentMode === 'career' && coachInfo.coachId === state.careerCoach;
-
-                const bar = group.append("rect").attr("class", "bar")
-                    .attr("x", x(year)).attr("y", 0).attr("width", x(year + 1) - x(year))
-                    .attr("height", y.bandwidth())
-                    .attr("fill", coachInfo.coachId ? state.colorScale(tenureYears) : '#f0f0f0')
-                    .classed('is-dimmed', isFilteredOut && !isCareerHighlight)
-                    .classed('is-highlighted', isCareerHighlight)
-                    .datum({ ...coachInfo, club: clubData.name, season: season });
-
-                if (i > 0 && coachInfo.coachId !== seasonData[i - 1][1].coachId) {
-                    group.append("line").attr("class", "coach-divider")
-                        .attr("x1", x(year)).attr("y1", 0).attr("x2", x(year)).attr("y2", y.bandwidth());
-                }
-
-                if (coachInfo.prizes && coachInfo.prizes.length > 0 && !isFilteredOut) {
-                    const prizeGroup = group.append("g").attr("class", "prize-group");
-                    coachInfo.prizes.forEach((prize, j) => {
-                        prizeGroup.append('text')
-                            .attr('x', x(year) + (x(year + 1) - x(year)) / 2)
-                            .attr('y', y.bandwidth() / 2)
-                            .attr('dy', (j - (coachInfo.prizes.length - 1) / 2) * 10 + 4)
-                            .attr('text-anchor', 'middle').attr('font-size', '12px').attr('fill', '#fff').text(getPrizeEmoji(prize));
-                    });
-                }
-            });
-        });
-        
-        svg.selectAll(".bar")
-            .on('mouseover', function(event, d) {
-                state.lastHoveredData = d;
-                if (!checkFilters(d)) {
-                    renderInfoPane(d);
-                    if (state.currentMode !== 'career') highlightCoach(d.coachId);
-                }
-            })
-            .on('mouseout', function() {
-                if (state.currentMode !== 'career') {
-                    renderInfoPane(null);
-                    unhighlightAll();
-                }
-            })
-            .on('click', (event, d) => {
-                if (d.coachId && !checkFilters(d)) {
-                    state.careerCoach = d.coachId;
-                    state.lastHoveredData = d;
-                    setActiveMode('career');
-                    updateURL();
-                }
-            });
-    }
-    
-    function renderAddClubButton(container = elements.heatmapContainer, y, domainName) {
-        let selection = container;
-        if(container.select) { // It's an SVG container
-            selection = container.append("g").attr("class", "y-axis add-club-placeholder")
-                .attr("transform", `translate(0, ${y(domainName)})`);
-        } else { // It's the main div
-            d3.select(container).select("svg").remove();
-        }
-
-        const placeholder = selection.append("g")
-            .attr("transform", `translate(${-y.padding()*y.step()}, 0)`)
-            .on('click', () => elements.clubModal.classList.remove('modal-hidden'));
-
-        placeholder.append("rect").attr("width", y.step())
-            .attr("height", y.bandwidth()).attr("rx", 4);
-        placeholder.append("text").attr("x", y.step() / 2).attr("y", y.bandwidth() / 2)
-            .attr("text-anchor", "middle").attr("dy", "0.32em").text("+ Add Club");
-    }
-
-    function updateCountryNav() {
-        elements.countryNav.innerHTML = '';
-        const countries = ['england', 'spain', 'italy', 'germany', 'france', 'netherlands', 'portugal'];
-        countries.forEach(country => {
-            const link = document.createElement('a');
-            link.href = "#";
-            link.textContent = country.charAt(0).toUpperCase() + country.slice(1);
-            link.className = 'nav-link';
-            if (state.currentCountry === country) link.classList.add('active');
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                if (state.currentCountry !== country) {
-                    loadCountryData(country, state.viewState[country]);
-                    updateURL();
-                }
-            });
-            elements.countryNav.appendChild(link);
-        });
-    }
-
-    function updateAdvancedNav() {
-        elements.advancedNav.querySelectorAll('.advanced-nav-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.mode === state.currentMode);
-        });
-        elements.careerControls.classList.toggle('hidden', state.currentMode !== 'career');
-    }
-
-    function renderInfoPane(data) {
-        if (!data || !data.coachId) {
-            elements.infoPane.innerHTML = `<div class="info-pane-default-text">Hover over a season to see details or select a country to see stats.</div>`;
-            if (state.currentCountry) {
-                renderCountryStats();
+                appState.comparisonClubs = clubIdentifiers.map(identifier => {
+                    return appState.allClubs.find(c => c.id === identifier) || appState.allClubs.find(c => c.naam === decodeURIComponent(identifier));
+                }).filter(Boolean);
             }
+        } catch (e) {
+            console.error("Kon URL parameters niet lezen, herstellen naar standaard:", e);
+            history.replaceState(null, '', ' ');
+        }
+    }
+}
+
+function shareView() {
+    const url = window.location.href;
+    const tempInput = document.createElement('input');
+    document.body.appendChild(tempInput);
+    tempInput.value = url;
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+
+    const originalHTML = DOMElements.shareBtn.innerHTML;
+    DOMElements.shareBtn.classList.add('clicked');
+    DOMElements.shareBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+        <span>Link Copied!</span>`;
+
+    setTimeout(() => {
+        DOMElements.shareBtn.classList.remove('clicked');
+        DOMElements.shareBtn.innerHTML = originalHTML;
+    }, 2000);
+}
+
+
+// --- 6. DATA FETCHING ---
+async function fetchAllInitialData() {
+    if (appState.allClubs.length > 0) return;
+    if (!window.db || !window.firestore) {
+        console.error("Firestore is niet geïnitialiseerd.");
+        appState.isLoading = false;
+        return;
+    }
+    appState.isLoading = true;
+    try {
+        const { collection, getDocs } = window.firestore;
+        const [coachesSnapshot, clubsSnapshot, seizoenenSnapshot] = await Promise.all([
+            getDocs(collection(window.db, "coaches")),
+            getDocs(collection(window.db, "clubs")),
+            getDocs(collection(window.db, "seizoenen"))
+        ]);
+
+        appState.allCoaches = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        appState.allClubs = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        appState.allSeasons = seizoenenSnapshot.docs.map(doc => doc.data());
+    } catch (error) {
+        console.error("Fout bij het laden van initiële data:", error);
+    } finally {
+        appState.isLoading = false;
+    }
+}
+
+// --- 7. DATA PROCESSING & ANALYSIS ---
+function getPreparedDataForView() {
+    let rawData;
+    if (appState.currentView === 'country') {
+        rawData = appState.allSeasons.filter(s => s.land === appState.activeCountry);
+    } else if (appState.currentView === 'advanced') {
+        if (appState.advancedViewMode === 'chooseClubs') {
+            const clubIds = appState.comparisonClubs.map(c => c.id);
+            rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
+        } else { // careerMode
+            if (appState.careerCoachName) {
+                const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+                if (coach) {
+                    const coachSeasons = appState.allSeasons.filter(s => s.coachId === coach.id);
+                    const clubIds = [...new Set(coachSeasons.map(s => s.club))];
+                    rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
+                } else {
+                    rawData = [];
+                }
+            } else {
+                 rawData = [];
+            }
+        }
+    }
+
+    const joinedData = rawData.map(seizoen => {
+        const coachInfo = appState.allCoaches.find(c => c.id === seizoen.coachId);
+        const clubInfo = appState.allClubs.find(c => c.id === seizoen.club);
+        if (!coachInfo || !clubInfo) return null;
+        return {
+            ...seizoen,
+            club: clubInfo.naam,
+            logo_url: clubInfo.logo_url,
+            Coach: coachInfo.naam,
+            nationaliteit: coachInfo.nationaliteit,
+            nat_code: coachInfo.nat_code,
+            foto_url: coachInfo.foto_url,
+        };
+    }).filter(Boolean);
+
+    return processTenures(joinedData);
+}
+
+function processTenures(data) {
+    if (!data || data.length === 0) return [];
+    data.sort((a, b) => d3.ascending(a.club, b.club) || d3.ascending(a.seizoen, b.seizoen));
+    
+    const periodes = [];
+    let huidigePeriode = null;
+    
+    data.forEach(d => {
+        if (!huidigePeriode || d.Coach !== huidigePeriode.coach || d.club !== huidigePeriode.club) {
+            const id = `${d.Coach.replace(/\s+/g, '-')}-${d.club.replace(/\s+/g, '-')}-${d.seizoen.substring(0, 4)}`;
+            huidigePeriode = { coach: d.Coach, club: d.club, seizoenen: [], id: id };
+            periodes.push(huidigePeriode);
+        }
+        huidigePeriode.seizoenen.push(d);
+    });
+    
+    periodes.forEach(p => {
+        const tenureSeasons = p.seizoenen.map(s => s.seizoen);
+        const startJaar = p.seizoenen[0].seizoen.substring(0, 4);
+        const laatsteSeizoen = p.seizoenen[p.seizoenen.length - 1].seizoen;
+        const [startDeel, eindDeel] = laatsteSeizoen.split('/');
+        let eindJaarNum;
+
+        if (eindDeel && eindDeel.length === 4) eindJaarNum = parseInt(eindDeel);
+        else if (eindDeel) {
+            const eeuw = Math.floor(parseInt(startDeel) / 100) * 100;
+            const startJaarKort = parseInt(startDeel.substring(2, 4));
+            eindJaarNum = parseInt(eindDeel);
+            if (eindJaarNum < startJaarKort) eindJaarNum = eeuw + 100 + eindJaarNum;
+            else eindJaarNum = eeuw + eindJaarNum;
+        } else {
+            eindJaarNum = parseInt(startDeel) + 1;
+        }
+        const eindJaar = eindJaarNum.toString();
+
+        const tenureTrophies = { european: 0, title: 0, cup: 0 };
+        const countedPrizes = new Set();
+        p.seizoenen.forEach(s => {
+            const seasonKey = `${s.club}-${s.seizoen}`;
+            if (s.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) { tenureTrophies.european++; countedPrizes.add(`${seasonKey}-eu`); }
+            if (s.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) { tenureTrophies.title++; countedPrizes.add(`${seasonKey}-ti`); }
+            if (s.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) { tenureTrophies.cup++; countedPrizes.add(`${seasonKey}-cu`); }
+        });
+
+        p.seizoenen.forEach(s => {
+            s.stintLength = p.seizoenen.length;
+            s.tenureId = p.id;
+            s.tenureStartYear = startJaar;
+            s.tenureEndYear = eindJaar;
+            s.tenureTrophies = tenureTrophies;
+            s.tenureAllSeasons = tenureSeasons;
+        });
+    });
+    return data;
+}
+
+function calculateCountryStats(countryName) {
+    const countryClubs = appState.allClubs.filter(c => c.land === countryName);
+    const countryClubIds = countryClubs.map(c => c.id);
+    const countrySeasons = appState.allSeasons.filter(s => countryClubIds.includes(s.club));
+    const validCoaches = appState.allCoaches.filter(c => c.naam !== '[Data Unavailable]');
+    const validCoachIds = new Set(validCoaches.map(c => c.id));
+    const validSeasons = countrySeasons.filter(s => validCoachIds.has(s.coachId));
+
+    if (validSeasons.length === 0) return null;
+
+    // 1. Longest Tenure
+    const tenures = [];
+    const seasonsByClub = d3.group(validSeasons, d => d.club);
+    seasonsByClub.forEach(clubSeasons => {
+        clubSeasons.sort((a,b) => a.seizoen.localeCompare(b.seizoen));
+        let currentTenure = [];
+        for(let i = 0; i < clubSeasons.length; i++) {
+            if (i === 0 || clubSeasons[i].coachId === clubSeasons[i-1].coachId) {
+                currentTenure.push(clubSeasons[i]);
+            } else {
+                if(currentTenure.length > 0) tenures.push({ coachId: clubSeasons[i-1].coachId, clubId: clubSeasons[i-1].club, duration: currentTenure.length });
+                currentTenure = [clubSeasons[i]];
+            }
+        }
+        if (currentTenure.length > 0) tenures.push({ coachId: currentTenure[0].coachId, clubId: currentTenure[0].club, duration: currentTenure.length });
+    });
+    
+    const longestTenure = tenures.reduce((max, t) => t.duration > max.duration ? t : max, { duration: 0 });
+    const longestTenureCoach = appState.allCoaches.find(c => c.id === longestTenure.coachId)?.naam;
+    const longestTenureClub = appState.allClubs.find(c => c.id === longestTenure.clubId)?.naam;
+
+    // 2. Stability
+    const stabilityStats = countryClubs.map(club => {
+        const seasons = seasonsByClub.get(club.id) || [];
+        if (seasons.length === 0) return null;
+        let changes = 0;
+        for (let i = 1; i < seasons.length; i++) {
+            if (seasons[i].coachId !== seasons[i-1].coachId) changes++;
+        }
+        return { name: club.naam, avg: seasons.length / (changes + 1) };
+    }).filter(Boolean);
+
+    const mostStable = stabilityStats.reduce((max, c) => c.avg > max.avg ? c : max, { avg: 0 });
+    const mostUnstable = stabilityStats.reduce((min, c) => c.avg < min.avg ? c : min, { avg: Infinity });
+
+    // 3. Success
+    const successStats = countryClubs.map(club => {
+        const seasons = seasonsByClub.get(club.id) || [];
+        const trophies = seasons.reduce((acc, s) => acc + (s.landstitel === 'Y' ? 1 : 0) + (s.nationale_beker === 'Y' ? 1 : 0) + (s.europese_prijs === 'Y' ? 1 : 0), 0);
+        return { name: club.naam, trophies };
+    });
+
+    const mostSuccessful = successStats.reduce((max, c) => c.trophies > max.trophies ? c : max, { trophies: -1 });
+
+    return {
+        longestTenure: { coach: longestTenureCoach, club: longestTenureClub, duration: longestTenure.duration },
+        mostStable: { name: mostStable.name, avg: mostStable.avg.toFixed(1) },
+        mostUnstable: { name: mostUnstable.name, avg: mostUnstable.avg.toFixed(1) },
+        mostSuccessful: { name: mostSuccessful.name, trophies: mostSuccessful.trophies }
+    };
+}
+
+
+// --- 8. RENDERING & UI LOGIC ---
+function renderApp() {
+    console.log(`Rendering view: ${appState.currentView} / ${appState.advancedViewMode}`);
+    if (currentResizeObserver) currentResizeObserver.disconnect();
+    DOMElements.heatmapContainer.html('');
+    
+    updateActiveNav();
+    updateControlVisibility();
+    setInfoPaneDefault();
+    
+    if (appState.isLoading) {
+        DOMElements.heatmapContainer.html('<p class="loading-text">Loading data...</p>');
+        return;
+    }
+
+    if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode' && appState.careerCoachName) {
+        showCareerInfoPane();
+        DOMElements.careerCoachSearchInput.value = appState.careerCoachName;
+    }
+
+    const dataForView = getPreparedDataForView();
+
+    if (appState.currentView === 'country') {
+        populateFilterOptions(dataForView);
+    }
+
+    if (dataForView.length > 0 || appState.currentView === 'advanced') {
+        const updateFunc = drawVisualization(dataForView);
+        currentResizeObserver = new ResizeObserver(entries => {
+            if (entries[0].contentRect.width > 0) updateFunc();
+        });
+        currentResizeObserver.observe(DOMElements.heatmapContainer.node());
+    } else {
+        let message = `No data found for ${appState.activeCountry}.`;
+        if (appState.currentView === 'advanced') {
+            if (appState.advancedViewMode === 'chooseClubs') {
+                message = 'Select clubs with the "[+] Add" button to start comparing.';
+            } else {
+                message = 'Search for a coach to see their career timeline.';
+            }
+        }
+        DOMElements.heatmapContainer.html(`<p class="loading-text">${message}</p>`);
+    }
+}
+
+function updateControlVisibility() {
+    const isAdvancedView = appState.currentView === 'advanced';
+    DOMElements.advancedNavContainer.classList.toggle('hidden', !isAdvancedView);
+    DOMElements.filterControlsContainer.classList.toggle('hidden', isAdvancedView);
+
+    if (isAdvancedView) {
+        const isCareerMode = appState.advancedViewMode === 'careerMode';
+        DOMElements.careerModeControls.classList.toggle('hidden', !isCareerMode);
+        DOMElements.compareControlsContainer.classList.toggle('hidden', isCareerMode || appState.comparisonClubs.length === 0);
+        
+        DOMElements.advancedNavBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === appState.advancedViewMode);
+        });
+    } else {
+        DOMElements.careerModeControls.classList.add('hidden');
+        DOMElements.compareControlsContainer.classList.add('hidden');
+    }
+}
+
+function updateActiveNav() {
+    DOMElements.navLinks.forEach(link => {
+        const linkTarget = link.dataset.view || link.dataset.country;
+        const isActive = (appState.currentView === 'country' && linkTarget === appState.activeCountry) ||
+                         (appState.currentView === 'advanced' && linkTarget === 'advanced');
+        link.classList.toggle('active', isActive);
+    });
+}
+
+function applyFilters() {
+    appState.activeFilters.coach = DOMElements.coachSearchInput.value.toLowerCase();
+    appState.activeFilters.nationality = DOMElements.nationalityFilterSelect.value;
+    updateVisuals();
+}
+
+function resetAll(reRender = true) {
+    appState.activeFilters = { coach: '', nationality: '' };
+    appState.selectedTenureId = null;
+    appState.comparisonClubs = [];
+    appState.careerCoachName = null;
+    appState.currentView = 'country';
+    appState.advancedViewMode = 'chooseClubs';
+    appState.activeCountry = 'England';
+
+    DOMElements.coachSearchInput.value = '';
+    DOMElements.nationalityFilterSelect.value = '';
+    DOMElements.careerCoachSearchInput.value = '';
+
+    if (reRender) {
+        renderApp();
+    }
+    updateURLHash();
+}
+
+function populateFilterOptions(data) {
+    const nationalities = [...new Set(data.map(d => d.nationaliteit))].sort();
+    const currentSelection = DOMElements.nationalityFilterSelect.value;
+    DOMElements.nationalityFilterSelect.innerHTML = '<option value="">All Nationalities</option>';
+    nationalities.forEach(nat => {
+        const option = document.createElement('option');
+        option.value = nat;
+        option.textContent = nat;
+        DOMElements.nationalityFilterSelect.appendChild(option);
+    });
+    DOMElements.nationalityFilterSelect.value = currentSelection;
+}
+
+function populateCoachDatalist() {
+    DOMElements.coachDatalist.innerHTML = '';
+    const uniqueCoaches = [...new Set(appState.allCoaches.map(c => c.naam))].sort();
+    uniqueCoaches.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        DOMElements.coachDatalist.appendChild(option);
+    });
+}
+
+function updateVisuals() {
+    const g = d3.select("#heatmap-container svg > g");
+    if (g.empty()) return;
+
+    const { coach, nationality } = appState.activeFilters;
+    const hasActiveFilter = (coach || nationality) && appState.currentView === 'country';
+    const isCareerMode = appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode';
+
+    g.selectAll(".bar, .coach-divider, .season-divider, .prize-group")
+        .classed("is-highlighted", d => d.tenureId === appState.selectedTenureId)
+        .classed("is-dimmed", d => {
+            if (isCareerMode && appState.careerCoachName) {
+                return d.Coach !== appState.careerCoachName;
+            }
+            if (appState.selectedTenureId) return d.tenureId !== appState.selectedTenureId;
+            if (hasActiveFilter) {
+                const coachMatch = coach ? d.Coach.toLowerCase().includes(coach) : true;
+                const natMatch = nationality ? d.nationaliteit === nationality : true;
+                return !(coachMatch && natMatch);
+            }
+            if (appState.hoveredTenureId) return d.tenureId !== appState.hoveredTenureId;
+            return false;
+        })
+        .classed("is-inactive", isCareerMode && (d => d.Coach !== appState.careerCoachName));
+}
+
+// --- 9. D3 VISUALISATIE ---
+const margin = {top: 10, right: 20, bottom: 80, left: 220};
+const x = d3.scaleBand().padding(0);
+const y = d3.scaleBand().padding(0.15);
+
+function drawVisualization(data) {
+    DOMElements.heatmapContainer.html('');
+    
+    const isCompare = appState.currentView === 'advanced' && appState.advancedViewMode === 'chooseClubs';
+    const isCareer = appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode';
+
+    let yDomain;
+    if (isCompare) {
+        yDomain = appState.comparisonClubs.map(c => c.naam);
+        yDomain.push(ADD_CLUB_PLACEHOLDER);
+    } else if (isCareer && appState.careerCoachName) {
+        const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+        if (coach) {
+            const coachSeasons = appState.allSeasons
+                .filter(s => s.coachId === coach.id)
+                .sort((a, b) => d3.ascending(a.seizoen, b.seizoen));
+            const orderedClubIds = [...new Set(coachSeasons.map(s => s.club))];
+            yDomain = orderedClubIds.map(id => {
+                const clubInfo = appState.allClubs.find(c => c.id === id);
+                return clubInfo ? clubInfo.naam : null;
+            }).filter(Boolean);
+        } else {
+            yDomain = [];
+        }
+    }
+    else {
+        yDomain = [...new Set(data.map(d => d.club))].sort(d3.ascending);
+    }
+
+    const seasons = [...new Set(appState.allSeasons.map(d => d.seizoen))].sort(d3.ascending);
+    const height = yDomain.length * 55;
+    
+    const width = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
+
+    const svg = DOMElements.heatmapContainer.append("svg")
+        .attr("width", '100%')
+        .attr("height", height + margin.top + margin.bottom);
+
+    // --- SVG Patroon Definitie ---
+    const defs = svg.append('defs');
+    const pattern = defs.append('pattern')
+        .attr('id', 'pattern-unavailable')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('patternTransform', 'rotate(45)');
+    pattern.append('rect')
+        .attr('width', 8)
+        .attr('height', 8)
+        .attr('fill', '#e9ecef'); // Donkerder grijs
+    pattern.append('line')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', 8)
+        .attr('stroke', '#f8f9fa') // Lichtere streep
+        .attr('stroke-width', 2);
+
+
+    const g = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`);
+    
+    g.append('rect')
+        .attr('class', 'event-catcher')
+        .attr('width', width > 0 ? width : 0)
+        .attr('height', height);
+    
+    y.domain(yDomain).range([0, height]);
+    const getColor = d3.scaleThreshold()
+        .domain([1, 2, 3, 5, 7, 10])
+        .range(["#ccc", "#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"]);
+
+    const xAxisG = g.append("g").attr("class", "axis x-axis").attr("transform", `translate(0, ${height})`);
+    const yAxisG = g.append("g").attr("class", "axis y-axis");
+
+    const yAxisData = yDomain.map(name => {
+        if (name === ADD_CLUB_PLACEHOLDER) {
+            return { id: ADD_CLUB_PLACEHOLDER, club: name };
+        }
+        const clubDetails = appState.allClubs.find(c => c.naam === name);
+        return { id: clubDetails ? clubDetails.id : name, club: name, logo_url: clubDetails ? clubDetails.logo_url : '' };
+    });
+    
+    const yAxisLabels = yAxisG.selectAll(".y-axis-label-group").data(yAxisData, d => d.id).join("g")
+        .attr("class", "y-axis-label-group").attr("transform", d => `translate(0, ${y(d.club)})`);
+
+    yAxisLabels.filter(d => d.id !== ADD_CLUB_PLACEHOLDER)
+        .append('g').attr('class', 'club-label')
+        .each(function(d) {
+            const group = d3.select(this);
+            group.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("fill", "#fff").attr("rx", 6);
+            group.append("image").attr("xlink:href", d.logo_url).attr("x", -margin.left + 30).attr("y", y.bandwidth() / 2 - 16).attr("width", 32).attr("height", 32).on("error", function() { d3.select(this).style("display", "none"); });
+            group.append("text").attr("x", -margin.left + 75).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "start").text(d.club);
+            
+            if (isCompare) {
+                const removeBtn = group.append('g').attr('class', 'remove-club-btn').on('click', () => removeClubFromComparison(d.id));
+                removeBtn.append('circle').attr('class', 'remove-club-btn-bg').attr('cx', -margin.left + 200).attr('cy', y.bandwidth() / 2).attr('r', 10);
+                removeBtn.append('line').attr('class', 'remove-club-btn-cross').attr('x1', -margin.left + 195).attr('y1', y.bandwidth() / 2 - 5).attr('x2', -margin.left + 205).attr('y2', y.bandwidth() / 2 + 5);
+                removeBtn.append('line').attr('class', 'remove-club-btn-cross').attr('x1', -margin.left + 195).attr('y1', y.bandwidth() / 2 + 5).attr('x2', -margin.left + 205).attr('y2', y.bandwidth() / 2 - 5);
+            }
+        });
+
+    yAxisLabels.filter(d => d.id === ADD_CLUB_PLACEHOLDER)
+        .append('g').attr('class', 'add-club-placeholder').on('click', openClubModal)
+        .each(function() {
+            const group = d3.select(this);
+            group.append("rect").attr("x", -margin.left + 20).attr("y", 0).attr("width", 190).attr("height", y.bandwidth()).attr("rx", 6);
+            group.append("text").attr("x", -margin.left + 115).attr("y", y.bandwidth() / 2).attr("dy", ".35em").style("text-anchor", "middle").text("+ Add Club");
+        });
+
+    const barGroup = g.append("g").attr("class", "bars-group");
+    const seasonDividerGroup = g.append("g").attr("class", "season-dividers-group");
+    const coachDividerGroup = g.append("g").attr("class", "coach-dividers-group");
+    const prizeGroup = g.append("g").attr("class", "prizes-group");
+    
+    function updateXAxis() {
+        const currentWidth = DOMElements.heatmapContainer.node().clientWidth - margin.left - margin.right;
+        if (currentWidth <= 0) return;
+
+        g.select('.event-catcher').attr('width', currentWidth);
+        x.domain(seasons).range([0, currentWidth]);
+        svg.attr("viewBox", `0 0 ${currentWidth + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+        
+        const tenureId = appState.selectedTenureId || appState.hoveredTenureId;
+        let tickValues;
+        let tenureSeasons = new Set();
+
+        if (tenureId) {
+            tickValues = seasons;
+            const tenureData = data.find(item => item.tenureId === tenureId);
+            if (tenureData) {
+                tenureData.tenureAllSeasons.forEach(s => tenureSeasons.add(s));
+            }
+        } else {
+            tickValues = seasons.filter((d, i) => i % 5 === 0 || i === seasons.length - 1);
+        }
+        
+        xAxisG.call(d3.axisBottom(x).tickValues(tickValues).tickSizeOuter(0))
+            .selectAll(".tick text")
+            .classed("axis-tick-active", d => tenureSeasons.has(d))
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
+
+        barGroup.selectAll(".bar").attr("x", d => x(d.seizoen)).attr("width", x.bandwidth()).attr("rx", 2);
+        seasonDividerGroup.selectAll(".season-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
+        coachDividerGroup.selectAll(".coach-divider").attr("x1", d => x(d.seizoen)).attr("x2", d => x(d.seizoen));
+        prizeGroup.selectAll(".prize-group").attr("transform", d => `translate(${x(d.seizoen) + x.bandwidth() / 2}, ${y(d.club) + y.bandwidth() / 2})`);
+    }
+
+    currentUpdateXAxis = updateXAxis;
+
+    svg.on('mouseleave', () => {
+        if (isCareer) return;
+        appState.hoveredTenureId = null;
+        updateVisuals();
+        updateXAxis();
+        if (!appState.selectedTenureId) setInfoPaneDefault();
+    });
+
+    svg.on('click', (event) => {
+        if (isCareer) return;
+        if (event.target === svg.node() || event.target.classList.contains('event-catcher')) {
+            if (appState.selectedTenureId) {
+                appState.selectedTenureId = null;
+                updateVisuals();
+                updateXAxis();
+                setInfoPaneDefault();
+            }
+        }
+    });
+
+    barGroup.selectAll(".bar").data(data).enter().append("rect")
+        .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
+        .attr("y", d => y(d.club))
+        .attr("height", y.bandwidth())
+        .style("fill", d => {
+            if (d.Coach === '[Data Unavailable]') {
+                return "url(#pattern-unavailable)";
+            }
+            return getColor(d.stintLength);
+        })
+        .on("click", (event, d) => {
+            if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
+            event.stopPropagation();
+            appState.selectedTenureId = (appState.selectedTenureId === d.tenureId) ? null : d.tenureId;
+            updateVisuals();
+            updateXAxis();
+            if (appState.selectedTenureId) updateInfoPane(d);
+            else setInfoPaneDefault();
+        })
+        .on("mouseover", (event, d) => {
+            if (appState.currentView === 'advanced' && appState.advancedViewMode === 'careerMode') return;
+            appState.hoveredTenureId = d.tenureId;
+            updateVisuals();
+            updateXAxis();
+            if (!appState.selectedTenureId) {
+                updateInfoPane(d);
+            }
+        });
+
+    seasonDividerGroup.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line").attr("class", "season-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
+    coachDividerGroup.selectAll(".coach-divider").data(data.filter(d => {
+        const prevSeason = seasons[seasons.indexOf(d.seizoen) - 1];
+        if (!prevSeason) return false;
+        const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
+        return !prevData || prevData.tenureId !== d.tenureId;
+    })).enter().append("line").attr("class", "coach-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
+
+    const prizeData = data.filter(d => d.landstitel === 'Y' || d.nationale_beker === 'Y' || d.europese_prijs === 'Y');
+    prizeGroup.selectAll(".prize-group").data(prizeData).enter().append("g").attr("class", "prize-group").each(function(d) {
+        const currentGroup = d3.select(this);
+        const icons = { schild: "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" };
+        const prijzen = [];
+        if (d.europese_prijs === 'Y') prijzen.push('#FFD700');
+        if (d.landstitel === 'Y') prijzen.push('#C0C0C0');
+        if (d.nationale_beker === 'Y') prijzen.push('#CD7F32');
+        const totalHeight = (prijzen.length - 1) * 12;
+        prijzen.forEach((p, i) => {
+            currentGroup.append("path").attr("d", icons.schild).attr("fill", p).attr("stroke", "#222").attr("stroke-width", 0.5).attr("transform", `translate(-8, ${-totalHeight/2 + i*12 - 8}) scale(0.8)`);
+        });
+    });
+
+    updateXAxis();
+    drawLegend();
+    updateVisuals();
+    
+    return updateXAxis;
+}
+
+function setInfoPaneDefault() {
+    DOMElements.infoPane.html(''); // Clear previous content
+    if (appState.currentView === 'country' && !appState.isLoading) {
+        const stats = calculateCountryStats(appState.activeCountry);
+        if (stats) {
+            renderCountryStats(stats);
             return;
         }
+    }
+    DOMElements.infoPane.html('<p class="info-pane-default-text">Each block represents a manager\'s tenure; the color indicates its length. Hover over a tenure for details, or click to lock the selection.</p>'); 
+    if (d3.select(".axis.x-axis").node()) {
+        currentUpdateXAxis();
+    }
+}
 
-        const prizesHTML = data.prizes && data.prizes.length > 0 ?
-            `<div class="trophy-item"><span class="trophy-icon">🏆</span> <span class="trophy-count">${data.prizes.join(', ')}</span></div>` :
-            '';
-
-        elements.infoPane.innerHTML = `
-            <div class="info-pane-content">
-                <img src="${getFlagUrl(data.nationality, true)}" class="info-pane-img" alt="${data.nationality} flag">
-                <div>
-                    <h3 class="name">${data.coachName}</h3>
-                    <p class="nationality">${data.nationality}</p>
+function renderCountryStats(stats) {
+    const content = `
+    <div class="stat-grid-wrapper">
+        <div class="mb-3">
+            <h2 class="text-xl font-bold text-gray-800">Key Insights</h2>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
-                <div class="info-pane-extra">
-                    <p class="club">${data.club}</p>
-                    <p class="tenure">${data.season} &bull; ${(data.tenureInYears || 0).toFixed(1)} yrs</p>
+                <div>
+                    <div class="stat-label">Longest Tenure</div>
+                    <div class="stat-value">${stats.longestTenure.coach}</div>
+                    <div class="stat-sub-value">${stats.longestTenure.duration} seasons</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #22c55e;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Most Stable Club</div>
+                    <div class="stat-value">${stats.mostStable.name}</div>
+                    <div class="stat-sub-value">avg. ${stats.mostStable.avg} seasons/manager</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #ef4444;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="stat-label">Most Unstable Club</div>
+                    <div class="stat-value">${stats.mostUnstable.name}</div>
+                    <div class="stat-sub-value">avg. ${stats.mostUnstable.avg} seasons/manager</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color: #495057;">
+                    <div class="trophy-cluster">
+                        <svg style="top: 0; left: 7px; z-index: 1; color: #eab308;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
+                        <svg style="bottom: 0; left: 0; color: #C0C0C0;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
+                        <svg style="bottom: 0; right: 0; color: #CD7F32;" fill="currentColor" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"></path></svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="stat-label">Most Successful Club</div>
+                    <div class="stat-value">${stats.mostSuccessful.name}</div>
+                    <div class="stat-sub-value">${stats.mostSuccessful.trophies} trophies</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+    DOMElements.infoPane.html(content);
+}
+
+function updateInfoPane(d) {
+    DOMElements.infoPane.html(''); // Clear stats
+    if (d.Coach === '[Data Unavailable]') {
+        const content = `
+            <div class="info-pane-details unavailable">
+                <div class="info-pane-img unavailable-icon">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
+                </div>
+                <div class="info-pane-content unavailable">
+                    <h3>No reliable data</h3>
+                    <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
                 </div>
             </div>`;
+        DOMElements.infoPane.html(content);
+        return;
     }
 
-    function renderCountryStats() {
-        if (!state.currentCountry || !state.allData[state.currentCountry]) {
-            elements.statGrid.parentElement.classList.add('hidden');
-            return;
-        }
-        elements.statGrid.parentElement.classList.remove('hidden');
-
-        const allSpells = Object.values(state.allData[state.currentCountry])
-            .flatMap(club => Object.values(club.seasons).map(s => ({ ...s, clubName: club.name })));
-
-        if (allSpells.length === 0) return;
-
-        const coachTrophies = allSpells.reduce((acc, spell) => {
-            if (spell.prizes && spell.prizes.length > 0) {
-                acc[spell.coachId] = acc[spell.coachId] || { name: spell.coachName, count: 0 };
-                acc[spell.coachId].count += spell.prizes.length;
-            }
-            return acc;
-        }, {});
-        const mostSuccessful = Object.values(coachTrophies).sort((a, b) => b.count - a.count)[0];
-
-        const longestTenure = allSpells.filter(s => s.totalTenureDays).sort((a, b) => b.totalTenureDays - a.totalTenureDays)[0];
-
-        const uniqueTenures = [...new Map(allSpells.map(item => [item.coachId + item.clubName, item])).values()];
-        const avgTenureDays = uniqueTenures.reduce((sum, spell) => sum + (spell.totalTenureDays || 0), 0) / uniqueTenures.length;
-        
-        const coachClubs = allSpells.reduce((acc, spell) => {
-            if(!acc[spell.coachId]) acc[spell.coachId] = { name: spell.coachName, clubs: new Set() };
-            acc[spell.coachId].clubs.add(spell.clubName);
-            return acc;
-        }, {});
-        const journeyman = Object.values(coachClubs).sort((a, b) => b.clubs.size - a.clubs.size)[0];
-        
-        const icons = {
-            avgTenure: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.414-1.415L11 9.586V6z" clip-rule="evenodd" /></svg>',
-            longestTenure: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M5 3h10v3l-5 5 5 5v3H5v-3l5-5-5-5V3z" /></svg>',
-            mostSuccessful: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M11.982 1.993a1 1 0 00-1.964 0l-1.334 4.12a1 1 0 01-.95.693l-4.332.63a1 1 0 00-.554 1.706l3.135 3.056a1 1 0 01.286.885l-.74 4.316a1 1 0 001.451 1.054l3.875-2.037a1 1 0 01.93 0l3.875 2.037a1 1 0 001.45-1.054l-.74-4.316a1 1 0 01.287-.885l3.135-3.056a1 1 0 00-.554-1.706l-4.332-.63a1 1 0 01-.95-.693l-1.334-4.12z" /></svg>',
-            journeyman: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M8 1a3 3 0 100 6 3 3 0 000-6zM4 10a2 2 0 00-2 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 00-2-2H4zM16 8a3 3 0 100-6 3 3 0 000 6z" /></svg>'
-        };
-
-        elements.statGrid.innerHTML = `
-            <div class="stat-card"><div class="stat-icon">${icons.mostSuccessful}</div><div><div class="stat-label">Most Successful</div><div class="stat-value">${mostSuccessful ? mostSuccessful.name : 'N/A'}</div><div class="stat-sub-value">${mostSuccessful ? mostSuccessful.count + ' trophies' : ''}</div></div></div>
-            <div class="stat-card"><div class="stat-icon">${icons.longestTenure}</div><div><div class="stat-label">Longest Tenure</div><div class="stat-value">${longestTenure ? longestTenure.coachName : 'N/A'}</div><div class="stat-sub-value">${longestTenure ? (longestTenure.totalTenureDays / 365.25).toFixed(1) + ' yrs at ' + longestTenure.clubName : ''}</div></div></div>
-            <div class="stat-card"><div class="stat-icon">${icons.avgTenure}</div><div><div class="stat-label">Average Tenure</div><div class="stat-value">${(avgTenureDays / 365.25).toFixed(1)} years</div><div class="stat-sub-value">Across all clubs</div></div></div>
-            <div class="stat-card"><div class="stat-icon">${icons.journeyman}</div><div><div class="stat-label">Top Journeyman</div><div class="stat-value">${journeyman ? journeyman.name : 'N/A'}</div><div class="stat-sub-value">${journeyman ? journeyman.clubs.size + ' clubs' : ''}</div></div></div>
-        `;
-    }
-
-    // --- INTERACTIONS & HIGHLIGHTING ---
-    function highlightCoach(coachId) {
-        d3.selectAll('.bar').classed('is-dimmed', d => d.coachId !== coachId);
-    }
-    function unhighlightAll() {
-        d3.selectAll('.bar').classed('is-dimmed', false);
-    }
-
-    // --- FILTERS ---
-    function setupFilterListeners() {
-        elements.filterToggleButton.addEventListener('click', () => {
-            state.isFilterPanelOpen = !state.isFilterPanelOpen;
-            elements.filterPanel.classList.toggle('hidden', !state.isFilterPanelOpen);
-            elements.filterToggleButton.classList.toggle('open', state.isFilterPanelOpen);
-        });
-        
-        elements.filterResetButton.addEventListener('click', () => {
-            elements.nationalityFilter.value = "";
-            elements.tenureFilter.value = "";
-            elements.prizeFilter.value = "";
-            elements.nameFilter.value = "";
-            applyFilters();
-        });
-
-        ['change', 'keyup'].forEach(evt => {
-            elements.filterPanel.addEventListener(evt, applyFilters);
-        });
-    }
-
-    function applyFilters() {
-        state.activeFilters = {
-            nationality: elements.nationalityFilter.value,
-            minTenure: parseFloat(elements.tenureFilter.value) || 0,
-            hasPrizes: elements.prizeFilter.value,
-            coachName: elements.nameFilter.value.toLowerCase()
-        };
-        renderHeatmap();
-    }
-
-    function checkFilters(coachInfo) {
-        const { nationality, minTenure, hasPrizes, coachName } = state.activeFilters;
-        if (nationality && coachInfo.nationality !== nationality) return true;
-        if (minTenure && (coachInfo.tenureInYears || 0) < minTenure) return true;
-        if (hasPrizes === 'yes' && (!coachInfo.prizes || coachInfo.prizes.length === 0)) return true;
-        if (hasPrizes === 'no' && coachInfo.prizes && coachInfo.prizes.length > 0) return true;
-        if (coachName && !coachInfo.coachName.toLowerCase().includes(coachName)) return true;
-        return false;
-    }
-
-    function populateNationalityFilter() {
-        if (!state.currentCountry || !state.allData[state.currentCountry]) return;
-        const nationalities = new Set(Object.values(state.allData[state.currentCountry])
-            .flatMap(club => Object.values(club.seasons).map(s => s.nationality))
-            .filter(Boolean));
-        
-        elements.nationalityFilter.innerHTML = '<option value="">All Nationalities</option>' + 
-            [...nationalities].sort().map(n => `<option value="${n}">${n}</option>`).join('');
-    }
+    const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
+    const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
+    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+    let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+    const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
     
-    // --- MODAL ---
-    function setupModal() {
-        elements.modalCloseButton.addEventListener('click', () => elements.clubModal.classList.add('modal-hidden'));
-        window.addEventListener('click', (e) => {
-            if (e.target === elements.clubModal) elements.clubModal.classList.add('modal-hidden');
-        });
-        elements.clubSearchInput.addEventListener('keyup', renderClubList);
-        elements.clubModal.addEventListener('modal:open', renderClubList);
-    }
-    
-    function renderClubList() {
-        const searchTerm = elements.clubSearchInput.value.toLowerCase();
-        const availableClubs = state.allClubs[state.currentCountry]
-            .filter(c => !state.activeClubs.some(ac => ac.name === c.name))
-            .filter(c => c.name.toLowerCase().includes(searchTerm));
-        
-        elements.clubListContainer.innerHTML = availableClubs.map(club => `
-            <div class="club-list-item" data-club-name="${club.name}">
-                <span>${club.name}</span>
+    const totalTrophies = d.tenureTrophies;
+
+    let trophyHtml = '<div class="info-pane-trophies">';
+    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
+    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
+    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
+    trophyHtml += '</div>';
+
+    const content = `
+      <div class="info-pane-details">
+        ${imageHtml}
+        <div class="info-pane-content">
+            <div class="info-pane-details">
+                <p class="name">${d.Coach}</p>
+                <div class="nationality">
+                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
+                    <span>${d.nationaliteit}</span>
+                </div>
             </div>
-        `).join('');
-        
-        document.querySelectorAll('.club-list-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const clubName = item.dataset.clubName;
-                const newClubs = [...state.activeClubs.map(c => c.name), clubName];
-                setActiveClubs(newClubs);
-                renderHeatmap();
-                updateURL();
-                elements.clubModal.classList.add('modal-hidden');
-            });
-        });
+            ${trophyHtml}
+            <div class="info-pane-extra">
+                <p class="club">${d.club}</p>
+                <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+            </div>
+        </div>
+      </div>`;
+    DOMElements.infoPane.html(content);
+}
+
+function showCareerInfoPane() {
+    const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+    if (!coach) {
+        setInfoPaneDefault();
+        return;
     }
 
-    // --- UTILS ---
-    function getPrizeEmoji(prize) {
-        const p = prize.toLowerCase();
-        if (p.includes('league') || p.includes('divisi')) return '🏆';
-        if (p.includes('cup') || p.includes('copa')) return '🎟️';
-        if (p.includes('champions')) return '⭐';
-        if (p.includes('europa')) return '🇪🇺';
-        return '🏅';
-    }
+    const coachCareerData = appState.allSeasons.filter(s => s.coachId === coach.id);
+    const totalTrophies = { european: 0, title: 0, cup: 0 };
+    const countedPrizes = new Set();
+    coachCareerData.forEach(season => {
+        const seasonKey = `${season.club}-${season.seizoen}`;
+        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) { totalTrophies.european++; countedPrizes.add(`${seasonKey}-eu`); }
+        if (season.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) { totalTrophies.title++; countedPrizes.add(`${seasonKey}-ti`); }
+        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) { totalTrophies.cup++; countedPrizes.add(`${seasonKey}-cu`); }
+    });
+
+    let trophyHtml = '<div class="info-pane-trophies">';
+    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
+    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
+    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
+    trophyHtml += '</div>';
+
+    const hasPhoto = coach.foto_url && coach.foto_url.trim() !== '';
+    const flagApiUrl = coach.nat_code ? `https://flagcdn.com/w40/${coach.nat_code.toLowerCase()}.png` : '';
+    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+    let imageHtml = hasPhoto ? `<img src="${coach.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+
+    const content = `
+      <div class="info-pane-details">
+        ${imageHtml}
+        <div class="info-pane-content">
+            <div class="info-pane-details">
+                <p class="name">${coach.naam}</p>
+                <div class="nationality">
+                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
+                    <span>${coach.nationaliteit}</span>
+                </div>
+            </div>
+            ${trophyHtml}
+        </div>
+      </div>`;
+    DOMElements.infoPane.html(content);
+}
+
+
+function drawLegend() {
+    DOMElements.legendContainer.html("");
+    const legendData = [ { color: "#FF0033", label: "1 Season" }, { color: "#66ff66", label: "2 Seasons" }, { color: "#33cc33", label: "3-4 Seasons" }, { color: "#339933", label: "5-6 Seasons" }, { color: "#006600", label: "7-9 Seasons" }, { color: "#003300", label: "10+ Seasons" } ];
+    const prizeData = [ { color: '#FFD700', label: 'European Trophy' }, { color: '#C0C0C0', label: 'National Title' }, { color: '#CD7F32', label: 'National Cup' } ];
     
-    function getFlagUrl(nationality, large = false) {
-        const map = { "Spanish": "es", "English": "gb", "Italian": "it", "German": "de", "French": "fr", "Dutch": "nl", "Portuguese": "pt", "Argentine": "ar", "Scottish": "gb-sct", "Welsh": "gb-wls", "Northern Irish": "gb-nir", "Irish": "ie", "Brazilian": "br", "Swedish": "se", "Norwegian": "no", "Danish": "dk", "Chilean": "cl", "Uruguayan": "uy", "Mexican": "mx", "American": "us", "Swiss": "ch", "Austrian": "at", "Belgian": "be", "Croatian": "hr" };
-        const code = map[nationality] || "xx";
-        const size = large ? 'w80' : 'w20';
-        return `https://flagcdn.com/${size}/${code}.png`;
-    }
+    const tenureGroup = DOMElements.legendContainer.append("div").attr("class", "legend-section");
+    const prizeGroup = DOMElements.legendContainer.append("div").attr("class", "legend-section");
+
+    tenureGroup.selectAll(".legend-item").data(legendData).join("div").attr("class", "legend-item").html(d => `<div class="legend-swatch" style="background-color:${d.color};"></div><span>${d.label}</span>`);
+    prizeGroup.selectAll(".legend-item").data(prizeData).join("div").attr("class", "legend-item").html(d => `<svg class="legend-swatch" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="${d.color}" stroke="#444" stroke-width="0.5"></path></svg><span>${d.label}</span>`);
+}
+
+// --- 10. COMPARE & CAREER MODE LOGIC ---
+function openClubModal() {
+    DOMElements.clubModal.classList.remove('modal-hidden');
+    DOMElements.clubSearchInputModal.value = '';
     
-    function setupEventListeners() {
-        setupFilterListeners();
-        setupModal();
+    const availableClubs = appState.allClubs
+        .filter(club => !appState.comparisonClubs.some(c => c.id === club.id))
+        .sort((a,b) => a.land.localeCompare(b.land) || a.naam.localeCompare(b.naam));
+
+    const groupedByCountry = d3.groups(availableClubs, d => d.land);
+
+    DOMElements.clubListContainer.innerHTML = '';
+    groupedByCountry.forEach(([country, clubs]) => {
+        const countryGroup = document.createElement('div');
+        countryGroup.className = 'club-list-country-group';
+        countryGroup.innerHTML = `<h3>${country}</h3>`;
         
-        elements.advancedNav.addEventListener('click', (e) => {
-            if (e.target.classList.contains('advanced-nav-btn')) {
-                const mode = e.target.dataset.mode;
-                if (mode === 'default') state.careerCoach = null;
-                setActiveMode(mode);
-            }
+        clubs.forEach(club => {
+            const item = document.createElement('div');
+            item.className = 'club-list-item';
+            item.dataset.clubId = club.id;
+            item.innerHTML = `<img src="${club.logo_url}" alt="${club.naam} logo"><span>${club.naam}</span>`;
+            item.addEventListener('click', () => addClubToComparison(club.id));
+            countryGroup.appendChild(item);
         });
+        DOMElements.clubListContainer.appendChild(countryGroup);
+    });
+}
 
-        elements.shareButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(window.location.href).then(() => {
-                const originalContent = elements.shareButton.innerHTML;
-                elements.shareButton.innerHTML = `<span>✔️</span> Copied!`;
-                elements.shareButton.classList.add('clicked');
-                setTimeout(() => {
-                    elements.shareButton.innerHTML = originalContent;
-                    elements.shareButton.classList.remove('clicked');
-                }, 2000);
-            }).catch(err => console.error('Failed to copy: ', err));
-        });
+function closeClubModal() {
+    DOMElements.clubModal.classList.add('modal-hidden');
+}
 
-        if(elements.mobileOverlayClose) {
-            elements.mobileOverlayClose.addEventListener('click', () => elements.mobileOverlay.classList.add('mobile-overlay-hidden'));
-        }
-        
-        window.addEventListener('scroll', setHeaderStyle);
+function addClubToComparison(clubId) {
+    const club = appState.allClubs.find(c => c.id === clubId);
+    if (club && !appState.comparisonClubs.some(c => c.id === clubId)) {
+        appState.comparisonClubs.push(club);
     }
+    closeClubModal();
+    renderApp();
+    updateURLHash();
+}
 
-    function checkMobile() {
-        if (window.innerWidth <= 768) {
-            elements.mobileOverlay.classList.remove('mobile-overlay-hidden');
-        }
-    }
-    
-    function setHeaderStyle() {
-        elements.siteHeader.classList.toggle('site-header-home', window.scrollY <= 20);
-    }
+function removeClubFromComparison(clubId) {
+    appState.comparisonClubs = appState.comparisonClubs.filter(c => c.id !== clubId);
+    renderApp();
+    updateURLHash();
+}
 
-    // --- KICK OFF ---
-    initializeApp();
-});
+function clearComparison() {
+    appState.comparisonClubs = [];
+    renderApp();
+    updateURLHash();
+}
+
+function filterClubList() {
+    const searchTerm = DOMElements.clubSearchInputModal.value.toLowerCase();
+    document.querySelectorAll('.club-list-item').forEach(item => {
+        const clubName = item.querySelector('span').textContent.toLowerCase();
+        const matches = clubName.includes(searchTerm);
+        item.style.display = matches ? 'flex' : 'none';
+    });
+}
