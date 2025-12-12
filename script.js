@@ -1,11 +1,8 @@
-// Script Versie: 25.2 - Finale Correctie Implementatie
+// Script Versie: 25.3 - Correctie Icoon Infopaneel
 // Changelog:
-// - Infopaneel toont nu correct de land-specifieke statistieken met kop en juiste iconen. Hoogte is gefixeerd.
-// - Berekening 'Longest Tenure' negeert nu "[Data Unavailable]".
-// - Deelknop is hernoemd naar 'copy-link-btn' en 'action-button' en is functioneel.
-// - Sluitknop op mobiele overlay is functioneel.
+// - Het SVG-icoon voor 'Longest Tenure' in het land-specifieke infopaneel is vervangen door een correct zandloper-icoon.
 
-console.log("Script versie: 25.2 geladen.");
+console.log("Script versie: 25.3 geladen.");
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -842,9 +839,7 @@ function renderCountryStats(stats) {
         <div class="stat-grid">
             <div class="stat-card">
                 <div class="stat-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h13.5m-13.5 7.5h13.5m-1.875-3.75a4.5 4.5 0 11-8.25 0 4.5 4.5 0 018.25 0z" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <div>
                     <div class="stat-label">Longest Tenure</div>

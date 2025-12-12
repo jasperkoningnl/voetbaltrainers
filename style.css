@@ -1,9 +1,8 @@
 /*
-  CSS Versie: 17.2 - Finale Correctie Implementatie
+  CSS Versie: 18.3 - Correctie Witruimte Infopaneel
   Changelog:
-  - Hoogte van infopaneel gefixeerd en layout van Key Insights aangepast om binnen de ruimte te passen.
-  - Deelknop hernoemd naar 'action-button' om adblocker-conflicten te vermijden.
-  - Mobiele overlay wordt nu correct getoond via media query.
+  - Verticale uitlijning van #info-pane-container aangepast naar 'flex-start' om witruimte bovenaan te verwijderen.
+  - Verticale padding iets verminderd voor een compactere weergave.
 */
 
 :root {
@@ -136,14 +135,14 @@ main {
 
 #info-pane-container {
     background-color: #fff;
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     border-radius: 8px;
     margin-left: 20px;
     margin-right: 20px;
     border: none;
-    min-height: 110px; /* Zorgt voor consistente hoogte */
+    min-height: 110px;
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* MODIFIED: from 'center' */
 }
 
 #info-pane {
