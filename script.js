@@ -461,7 +461,7 @@ const AVATAR_FALLBACK = `<svg class="info-pane-img" viewBox="0 0 50 50"><path d=
 /** Bouwt de foto of avatar voor het infopaneel. Valideert de URL om javascript: te blokkeren. */
 function buildCoachImageHtml(foto_url) {
     if (foto_url && /^https?:\/\//i.test(foto_url.trim())) {
-        return `<img src="${esc(foto_url)}" class="info-pane-img" onerror="this.replaceWith(document.createRange().createContextualFragment('${AVATAR_FALLBACK.replace(/'/g, "\\'")}'))">`;
+        return `<img src="${esc(foto_url)}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${AVATAR_SVG_PATH}\\' fill=\\'#ccc\\'></path></svg>';">`;
     }
     return AVATAR_FALLBACK;
 }
@@ -940,7 +940,6 @@ function renderCountryStats(stats) {
 }
 
 function updateInfoPane(d) {
-    DOMElements.infoPane.html('');
     if (d.Coach === '[Data Unavailable]') {
         DOMElements.infoPane.html(`
             <div class="info-pane-details unavailable">
