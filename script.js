@@ -14,6 +14,10 @@ const appState = {
     allClubs: [],
     allCoaches: [],
     allSeasons: [],
+    // O(1) lookup maps – gebouwd na data-fetch
+    coachById: new Map(),
+    clubById: new Map(),
+    coachByName: new Map(),
     activeFilters: { coach: '', nationality: '' },
     selectedTenureId: null,
     hoveredTenureId: null,
@@ -263,7 +267,12 @@ async function fetchAllInitialData() {
 
         appState.allCoaches = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         appState.allClubs = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        appState.allSeasons = seizoenenSnapshot.docs.map(doc => doc.data());
+        appState.allSeasons = seizoenenSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        // Bouw O(1) lookup-maps
+        appState.coachById = new Map(appState.allCoaches.map(c => [c.id, c]));
+        appState.clubById = new Map(appState.allClubs.map(c => [c.id, c]));
+        appState.coachByName = new Map(appState.allCoaches.map(c => [c.naam, c]));
     } catch (error) {
         console.error("Fout bij het laden van initiële data:", error);
     } finally {
@@ -282,7 +291,7 @@ function getPreparedDataForView() {
             rawData = appState.allSeasons.filter(s => clubIds.includes(s.club));
         } else { // careerMode
             if (appState.careerCoachName) {
-                const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+                const coach = appState.coachByName.get(appState.careerCoachName);
                 if (coach) {
                     const coachSeasons = appState.allSeasons.filter(s => s.coachId === coach.id);
                     const clubIds = [...new Set(coachSeasons.map(s => s.club))];
@@ -297,8 +306,8 @@ function getPreparedDataForView() {
     }
 
     const joinedData = rawData.map(seizoen => {
-        const coachInfo = appState.allCoaches.find(c => c.id === seizoen.coachId);
-        const clubInfo = appState.allClubs.find(c => c.id === seizoen.club);
+        const coachInfo = appState.coachById.get(seizoen.coachId);
+        const clubInfo = appState.clubById.get(seizoen.club);
         if (!coachInfo || !clubInfo) return null;
         return {
             ...seizoen,
@@ -398,8 +407,8 @@ function calculateCountryStats(countryName) {
     });
     
     const longestTenure = tenures.reduce((max, t) => t.duration > max.duration ? t : max, { duration: 0 });
-    const longestTenureCoach = appState.allCoaches.find(c => c.id === longestTenure.coachId)?.naam;
-    const longestTenureClub = appState.allClubs.find(c => c.id === longestTenure.clubId)?.naam;
+    const longestTenureCoach = appState.coachById.get(longestTenure.coachId)?.naam;
+    const longestTenureClub = appState.clubById.get(longestTenure.clubId)?.naam;
 
     // 2. Stability
     const stabilityStats = countryClubs.map(club => {
@@ -432,6 +441,42 @@ function calculateCountryStats(countryName) {
     };
 }
 
+
+// --- 7b. HTML-HELPERS ---
+
+/** Escapet HTML-special-chars om XSS te voorkomen bij Firestore-data in innerHTML. */
+function esc(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+const AVATAR_SVG_PATH = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
+const AVATAR_FALLBACK = `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${AVATAR_SVG_PATH}" fill="#ccc"></path></svg>`;
+
+/** Bouwt de foto of avatar voor het infopaneel. Valideert de URL om javascript: te blokkeren. */
+function buildCoachImageHtml(foto_url) {
+    if (foto_url && /^https?:\/\//i.test(foto_url.trim())) {
+        return `<img src="${esc(foto_url)}" class="info-pane-img" onerror="this.replaceWith(document.createRange().createContextualFragment('${AVATAR_FALLBACK.replace(/'/g, "\\'")}'))">`;
+    }
+    return AVATAR_FALLBACK;
+}
+
+/** Bouwt het trophy-blok. Gedeeld door updateInfoPane en showCareerInfoPane. */
+function buildTrophyHtml(trophies) {
+    if (!trophies.european && !trophies.title && !trophies.cup) return '';
+    const SHIELD = `<svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z"`;
+    let html = '<div class="info-pane-trophies">';
+    if (trophies.european > 0) html += `<div class="trophy-item" title="Europese prijzen">${SHIELD} fill="#FFD700"></path></svg><span class="trophy-count">${trophies.european} ${trophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`;
+    if (trophies.title > 0)    html += `<div class="trophy-item" title="Nationale titels">${SHIELD} fill="#C0C0C0"></path></svg><span class="trophy-count">${trophies.title} ${trophies.title > 1 ? 'national titles' : 'national title'}</span></div>`;
+    if (trophies.cup > 0)      html += `<div class="trophy-item" title="Nationale bekers">${SHIELD} fill="#CD7F32"></path></svg><span class="trophy-count">${trophies.cup} ${trophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`;
+    html += '</div>';
+    return html;
+}
 
 // --- 8. RENDERING & UI LOGIC ---
 function renderApp() {
@@ -596,16 +641,13 @@ function drawVisualization(data) {
         yDomain = appState.comparisonClubs.map(c => c.naam);
         yDomain.push(ADD_CLUB_PLACEHOLDER);
     } else if (isCareer && appState.careerCoachName) {
-        const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+        const coach = appState.coachByName.get(appState.careerCoachName);
         if (coach) {
             const coachSeasons = appState.allSeasons
                 .filter(s => s.coachId === coach.id)
                 .sort((a, b) => d3.ascending(a.seizoen, b.seizoen));
             const orderedClubIds = [...new Set(coachSeasons.map(s => s.club))];
-            yDomain = orderedClubIds.map(id => {
-                const clubInfo = appState.allClubs.find(c => c.id === id);
-                return clubInfo ? clubInfo.naam : null;
-            }).filter(Boolean);
+            yDomain = orderedClubIds.map(id => appState.clubById.get(id)?.naam).filter(Boolean);
         } else {
             yDomain = [];
         }
@@ -663,7 +705,7 @@ function drawVisualization(data) {
         if (name === ADD_CLUB_PLACEHOLDER) {
             return { id: ADD_CLUB_PLACEHOLDER, club: name };
         }
-        const clubDetails = appState.allClubs.find(c => c.naam === name);
+        const clubDetails = appState.allClubs.find(c => c.naam === name); // naam-lookup, blijft find()
         return { id: clubDetails ? clubDetails.id : name, club: name, logo_url: clubDetails ? clubDetails.logo_url : '' };
     });
     
@@ -713,7 +755,7 @@ function drawVisualization(data) {
 
         if (tenureId) {
             tickValues = seasons;
-            const tenureData = data.find(item => item.tenureId === tenureId);
+            const tenureData = tenureFirstItem.get(tenureId);
             if (tenureData) {
                 tenureData.tenureAllSeasons.forEach(s => tenureSeasons.add(s));
             }
@@ -757,6 +799,12 @@ function drawVisualization(data) {
         }
     });
 
+    // Lookup-maps voor O(1) toegang in render-loops
+    const seasonIndex = new Map(seasons.map((s, i) => [s, i]));
+    const dataByClubSeason = new Map(data.map(d => [`${d.club}-${d.seizoen}`, d]));
+    const tenureFirstItem = new Map();
+    data.forEach(d => { if (!tenureFirstItem.has(d.tenureId)) tenureFirstItem.set(d.tenureId, d); });
+
     barGroup.selectAll(".bar").data(data).enter().append("rect")
         .attr("class", d => d.Coach === '[Data Unavailable]' ? "bar bar-unavailable" : "bar")
         .attr("y", d => y(d.club))
@@ -788,9 +836,9 @@ function drawVisualization(data) {
 
     seasonDividerGroup.selectAll(".season-divider").data(data.filter(d => d.seizoen.substring(0, 4) !== d.tenureStartYear)).enter().append("line").attr("class", "season-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
     coachDividerGroup.selectAll(".coach-divider").data(data.filter(d => {
-        const prevSeason = seasons[seasons.indexOf(d.seizoen) - 1];
-        if (!prevSeason) return false;
-        const prevData = data.find(item => item.club === d.club && item.seizoen === prevSeason);
+        const prevIdx = (seasonIndex.get(d.seizoen) ?? -1) - 1;
+        if (prevIdx < 0) return false;
+        const prevData = dataByClubSeason.get(`${d.club}-${seasons[prevIdx]}`);
         return !prevData || prevData.tenureId !== d.tenureId;
     })).enter().append("line").attr("class", "coach-divider").attr("y1", d => y(d.club)).attr("y2", d => y(d.club) + y.bandwidth());
 
@@ -843,8 +891,8 @@ function renderCountryStats(stats) {
                 </div>
                 <div>
                     <div class="stat-label">Longest Tenure</div>
-                    <div class="stat-value">${stats.longestTenure.coach}</div>
-                    <div class="stat-sub-value">${stats.longestTenure.duration} seasons</div>
+                    <div class="stat-value">${esc(stats.longestTenure.coach)}</div>
+                    <div class="stat-sub-value">${esc(String(stats.longestTenure.duration))} seasons</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -855,8 +903,8 @@ function renderCountryStats(stats) {
                 </div>
                 <div>
                     <div class="stat-label">Most Stable Club</div>
-                    <div class="stat-value">${stats.mostStable.name}</div>
-                    <div class="stat-sub-value">avg. ${stats.mostStable.avg} seasons/manager</div>
+                    <div class="stat-value">${esc(stats.mostStable.name)}</div>
+                    <div class="stat-sub-value">avg. ${esc(String(stats.mostStable.avg))} seasons/manager</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -867,8 +915,8 @@ function renderCountryStats(stats) {
                 </div>
                 <div>
                     <div class="stat-label">Most Unstable Club</div>
-                    <div class="stat-value">${stats.mostUnstable.name}</div>
-                    <div class="stat-sub-value">avg. ${stats.mostUnstable.avg} seasons/manager</div>
+                    <div class="stat-value">${esc(stats.mostUnstable.name)}</div>
+                    <div class="stat-sub-value">avg. ${esc(String(stats.mostUnstable.avg))} seasons/manager</div>
                 </div>
             </div>
             <div class="stat-card">
@@ -881,8 +929,8 @@ function renderCountryStats(stats) {
                 </div>
                 <div>
                     <div class="stat-label">Most Successful Club</div>
-                    <div class="stat-value">${stats.mostSuccessful.name}</div>
-                    <div class="stat-sub-value">${stats.mostSuccessful.trophies} trophies</div>
+                    <div class="stat-value">${esc(stats.mostSuccessful.name)}</div>
+                    <div class="stat-sub-value">${esc(String(stats.mostSuccessful.trophies))} trophies</div>
                 </div>
             </div>
         </div>
@@ -892,100 +940,76 @@ function renderCountryStats(stats) {
 }
 
 function updateInfoPane(d) {
-    DOMElements.infoPane.html(''); // Clear stats
+    DOMElements.infoPane.html('');
     if (d.Coach === '[Data Unavailable]') {
-        const content = `
+        DOMElements.infoPane.html(`
             <div class="info-pane-details unavailable">
                 <div class="info-pane-img unavailable-icon">
                     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2z M13,17h-2v-2h2v2z M13,13h-2L11,7h2v6z"></path></svg>
                 </div>
                 <div class="info-pane-content unavailable">
                     <h3>No reliable data</h3>
-                    <p>For the ${d.seizoen} season at ${d.club}, no single head coach could be reliably determined from available sources.</p>
+                    <p>For the ${esc(d.seizoen)} season at ${esc(d.club)}, no single head coach could be reliably determined from available sources.</p>
                 </div>
-            </div>`;
-        DOMElements.infoPane.html(content);
+            </div>`);
         return;
     }
 
-    const hasPhoto = d.foto_url && d.foto_url.trim() !== '';
-    const flagApiUrl = d.nat_code ? `https://flagcdn.com/w40/${d.nat_code.toLowerCase()}.png` : '';
-    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
-    let imageHtml = hasPhoto ? `<img src="${d.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
+    const flagUrl = d.nat_code ? `https://flagcdn.com/w40/${encodeURIComponent(d.nat_code.toLowerCase())}.png` : '';
     const tenureYears = d.tenureStartYear === d.tenureEndYear ? d.tenureStartYear : `${d.tenureStartYear} – ${d.tenureEndYear}`;
-    
-    const totalTrophies = d.tenureTrophies;
 
-    let trophyHtml = '<div class="info-pane-trophies">';
-    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item" title="Europese prijzen in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
-    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item" title="Nationale titels in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
-    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item" title="Nationale bekers in deze periode"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
-    trophyHtml += '</div>';
-
-    const content = `
+    DOMElements.infoPane.html(`
       <div class="info-pane-details">
-        ${imageHtml}
+        ${buildCoachImageHtml(d.foto_url)}
         <div class="info-pane-content">
             <div class="info-pane-details">
-                <p class="name">${d.Coach}</p>
+                <p class="name">${esc(d.Coach)}</p>
                 <div class="nationality">
-                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
-                    <span>${d.nationaliteit}</span>
+                    ${flagUrl ? `<img src="${esc(flagUrl)}" class="info-pane-flag">` : ''}
+                    <span>${esc(d.nationaliteit)}</span>
                 </div>
             </div>
-            ${trophyHtml}
+            ${buildTrophyHtml(d.tenureTrophies)}
             <div class="info-pane-extra">
-                <p class="club">${d.club}</p>
-                <p class="tenure">${tenureYears} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
+                <p class="club">${esc(d.club)}</p>
+                <p class="tenure">${esc(tenureYears)} (${d.stintLength} ${d.stintLength > 1 ? 'seasons' : 'season'})</p>
             </div>
         </div>
-      </div>`;
-    DOMElements.infoPane.html(content);
+      </div>`);
 }
 
 function showCareerInfoPane() {
-    const coach = appState.allCoaches.find(c => c.naam === appState.careerCoachName);
+    const coach = appState.coachByName.get(appState.careerCoachName);
     if (!coach) {
         setInfoPaneDefault();
         return;
     }
 
-    const coachCareerData = appState.allSeasons.filter(s => s.coachId === coach.id);
     const totalTrophies = { european: 0, title: 0, cup: 0 };
     const countedPrizes = new Set();
-    coachCareerData.forEach(season => {
-        const seasonKey = `${season.club}-${season.seizoen}`;
-        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${seasonKey}-eu`)) { totalTrophies.european++; countedPrizes.add(`${seasonKey}-eu`); }
-        if (season.landstitel === 'Y' && !countedPrizes.has(`${seasonKey}-ti`)) { totalTrophies.title++; countedPrizes.add(`${seasonKey}-ti`); }
-        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${seasonKey}-cu`)) { totalTrophies.cup++; countedPrizes.add(`${seasonKey}-cu`); }
+    appState.allSeasons.filter(s => s.coachId === coach.id).forEach(season => {
+        const key = `${season.club}-${season.seizoen}`;
+        if (season.europese_prijs === 'Y' && !countedPrizes.has(`${key}-eu`)) { totalTrophies.european++; countedPrizes.add(`${key}-eu`); }
+        if (season.landstitel === 'Y'    && !countedPrizes.has(`${key}-ti`)) { totalTrophies.title++;    countedPrizes.add(`${key}-ti`); }
+        if (season.nationale_beker === 'Y' && !countedPrizes.has(`${key}-cu`)) { totalTrophies.cup++;   countedPrizes.add(`${key}-cu`); }
     });
 
-    let trophyHtml = '<div class="info-pane-trophies">';
-    if (totalTrophies.european > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#FFD700"></path></svg><span class="trophy-count">${totalTrophies.european} ${totalTrophies.european > 1 ? 'European trophies' : 'European trophy'}</span></div>`; }
-    if (totalTrophies.title > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#C0C0C0"></path></svg><span class="trophy-count">${totalTrophies.title} ${totalTrophies.title > 1 ? 'national titles' : 'national title'}</span></div>`; }
-    if (totalTrophies.cup > 0) { trophyHtml += `<div class="trophy-item"><svg class="trophy-icon" viewBox="0 0 18 17"><path d="M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z" fill="#CD7F32"></path></svg><span class="trophy-count">${totalTrophies.cup} ${totalTrophies.cup > 1 ? 'national cups' : 'national cup'}</span></div>`; }
-    trophyHtml += '</div>';
+    const flagUrl = coach.nat_code ? `https://flagcdn.com/w40/${encodeURIComponent(coach.nat_code.toLowerCase())}.png` : '';
 
-    const hasPhoto = coach.foto_url && coach.foto_url.trim() !== '';
-    const flagApiUrl = coach.nat_code ? `https://flagcdn.com/w40/${coach.nat_code.toLowerCase()}.png` : '';
-    const avatarIconPath = "M25 26.5 C20 26.5 15 29 15 34 V37 H35 V34 C35 29 30 26.5 25 26.5 Z M25 15 C21.1 15 18 18.1 18 22 C18 25.9 21.1 29 25 29 C28.9 29 32 25.9 32 22 C32 18.1 28.9 15 25 15 Z";
-    let imageHtml = hasPhoto ? `<img src="${coach.foto_url}" class="info-pane-img" onerror="this.onerror=null; this.outerHTML='<svg class=\\'info-pane-img\\' viewBox=\\'0 0 50 50\\'><path d=\\'${avatarIconPath}\\' fill=\\'#ccc\\'></path></svg>';">` : `<svg class="info-pane-img" viewBox="0 0 50 50"><path d="${avatarIconPath}" fill="#ccc"></path></svg>`;
-
-    const content = `
+    DOMElements.infoPane.html(`
       <div class="info-pane-details">
-        ${imageHtml}
+        ${buildCoachImageHtml(coach.foto_url)}
         <div class="info-pane-content">
             <div class="info-pane-details">
-                <p class="name">${coach.naam}</p>
+                <p class="name">${esc(coach.naam)}</p>
                 <div class="nationality">
-                    ${flagApiUrl ? `<img src="${flagApiUrl}" class="info-pane-flag">` : ''}
-                    <span>${coach.nationaliteit}</span>
+                    ${flagUrl ? `<img src="${esc(flagUrl)}" class="info-pane-flag">` : ''}
+                    <span>${esc(coach.nationaliteit)}</span>
                 </div>
             </div>
-            ${trophyHtml}
+            ${buildTrophyHtml(totalTrophies)}
         </div>
-      </div>`;
-    DOMElements.infoPane.html(content);
+      </div>`);
 }
 
 
@@ -1022,7 +1046,7 @@ function openClubModal() {
             const item = document.createElement('div');
             item.className = 'club-list-item';
             item.dataset.clubId = club.id;
-            item.innerHTML = `<img src="${club.logo_url}" alt="${club.naam} logo"><span>${club.naam}</span>`;
+            item.innerHTML = `<img src="${esc(club.logo_url)}" alt="${esc(club.naam)} logo"><span>${esc(club.naam)}</span>`;
             item.addEventListener('click', () => addClubToComparison(club.id));
             countryGroup.appendChild(item);
         });

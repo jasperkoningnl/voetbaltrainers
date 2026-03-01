@@ -8,8 +8,7 @@
  */
 
 const { setGlobalOptions } = require("firebase-functions");
-const { onRequest } = require("firebase-functions/https");
-const { onCall } = require("firebase-functions/v2/https");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const fetch = require("node-fetch");
 
@@ -34,20 +33,23 @@ setGlobalOptions({ maxInstances: 10 });
 // });
 
 exports.enrichCoachData = onCall({ timeoutSeconds: 30 }, async (request) => {
-  const names = Array.isArray(request.data.coaches) ? request.data.coaches : [];
-  const results = [];
+  // Alleen ingelogde gebruikers mogen deze functie aanroepen
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Authentication required.");
+  }
 
-  for (const name of names) {
+  const names = Array.isArray(request.data.coaches) ? request.data.coaches : [];
+
+  // Alle Wikipedia-lookups parallel uitvoeren i.p.v. sequentieel
+  const results = await Promise.all(names.map(async (name) => {
     let foto_url = "";
     try {
-      const apiUrl =
-        `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&piprop=original&titles=${encodeURIComponent(name)}`;
+      const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&piprop=original&titles=${encodeURIComponent(name)}`;
       const res = await fetch(apiUrl);
       const data = await res.json();
       const pages = data.query && data.query.pages;
       if (pages) {
-        const page = Object.values(pages)[0];
-        const source = page?.original?.source;
+        const source = Object.values(pages)[0]?.original?.source;
         if (source) {
           try {
             const head = await fetch(source, { method: "HEAD" });
@@ -60,9 +62,8 @@ exports.enrichCoachData = onCall({ timeoutSeconds: 30 }, async (request) => {
     } catch (err) {
       logger.error("Wikipedia lookup failed", err);
     }
-
-    results.push({ naam: name, nationaliteit: "", nat_code: "", foto_url });
-  }
+    return { naam: name, nationaliteit: "", nat_code: "", foto_url };
+  }));
 
   return { coaches: results };
 });
