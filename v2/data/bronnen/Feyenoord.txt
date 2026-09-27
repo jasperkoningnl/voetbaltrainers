@@ -1,0 +1,19 @@
+#type season
+#src https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Feyenoord_(mannen)
+#range 1955/56-2024/25
+1972/73 | Ernst Happel ; Ad Zonderland [i]
+1975/76 | Antoni Brzeżańczyk ; Ad Zonderland [i]
+1980/81 | Václav Ježek ; Clemens Westerhof [i]
+1982/83 | Hans Kraay ; Ab Fafié [i]
+1984/85 | Thijs Libregts ; Ab Fafié
+1989/90 | Pim Verbeek ; Gunder Bengtsson
+1990/91 | Gunder Bengtsson ; Wim Jansen
+1991/92 | Hans Dorjee ; Wim Jansen
+1995/96 | Willem van Hanegem ; Geert Meijer ; Arie Haan
+1997/98 | Arie Haan ; Leo Beenhakker
+1999/00 | Leo Beenhakker ; Henk van Stee
+2006/07 | Erwin Koeman ; Leo Beenhakker
+2008/09 | Gertjan Verbeek ; Leon Vlemmings
+2014/15 | Fred Rutten ; Giovanni van Bronckhorst
+2019/20 | Jaap Stam ; Dick Advocaat
+2024/25 | Brian Priske ; Pascal Bosschaart ; Robin van Persie

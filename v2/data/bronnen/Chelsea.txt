@@ -1,0 +1,42 @@
+#src https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers
+Ted Drake | 1 June 1952 | 30 September 1961 | no
+Tommy Docherty | 1 October 1961 | 6 October 1967 | no
+Ron Suart | 6 October 1967 | 23 October 1967 | yes
+Dave Sexton | 23 October 1967 | 3 October 1974 | no
+Ron Suart | 3 October 1974 | 16 April 1975 | yes
+Eddie McCreadie | 16 April 1975 | 1 July 1977 | no
+Ken Shellito | 7 July 1977 | 13 December 1978 | no
+Danny Blanchflower | 14 December 1978 | 11 September 1979 | no
+Geoff Hurst | 13 September 1979 | 23 April 1981 | no
+Bobby Gould | 23 April 1981 | 28 May 1981 | yes
+John Neal | 28 May 1981 | 11 June 1985 | no
+John Hollins | 11 June 1985 | 6 March 1988 | no
+Bobby Campbell | 6 March 1988 | 12 May 1991 | no
+Ian Porterfield | 11 June 1991 | 15 February 1993 | no
+David Webb | 15 February 1993 | 11 May 1993 | yes
+Glenn Hoddle | 4 June 1993 | 10 May 1996 | no
+Ruud Gullit | 10 May 1996 | 12 February 1998 | no
+Gianluca Vialli | 12 February 1998 | 12 September 2000 | no
+Graham Rix | 13 September 2000 | 17 September 2000 | yes
+Claudio Ranieri | 18 September 2000 | 31 May 2004 | no
+José Mourinho | 2 June 2004 | 20 September 2007 | no
+Avram Grant | 20 September 2007 | 24 May 2008 | no
+Luiz Felipe Scolari | 1 July 2008 | 9 February 2009 | no
+Ray Wilkins | 9 February 2009 | 16 February 2009 | yes
+Guus Hiddink | 16 February 2009 | 31 May 2009 | yes
+Carlo Ancelotti | 1 July 2009 | 22 May 2011 | no
+André Villas-Boas | 22 June 2011 | 4 March 2012 | no
+Roberto Di Matteo | 4 March 2012 | 21 November 2012 | no
+Rafael Benítez | 21 November 2012 | 29 May 2013 | yes
+José Mourinho | 3 June 2013 | 17 December 2015 | no
+Steve Holland | 18 December 2015 | 20 December 2015 | yes
+Guus Hiddink | 20 December 2015 | 3 July 2016 | yes
+Antonio Conte | 3 July 2016 | 13 July 2018 | no
+Maurizio Sarri | 14 July 2018 | 16 June 2019 | no
+Frank Lampard | 4 July 2019 | 25 January 2021 | no
+Thomas Tuchel | 26 January 2021 | 7 September 2022 | no
+Graham Potter | 8 September 2022 | 2 April 2023 | no
+Bruno Saltor | 2 April 2023 | 6 April 2023 | yes
+Frank Lampard | 6 April 2023 | 30 June 2023 | yes
+Mauricio Pochettino | 1 July 2023 | 21 May 2024 | no
+Enzo Maresca | 1 July 2024 | 1 January 2026 | no

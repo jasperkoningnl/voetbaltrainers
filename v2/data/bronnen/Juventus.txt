@@ -1,0 +1,15 @@
+#type season
+#src https://it.wikipedia.org/wiki/Allenatori_della_Juventus_Football_Club
+#range 1955/56-2024/25
+1956/57 | Sandro Puppo ; Teobaldo Depetrini
+1958/59 | Ljubiša Broćić ; Teobaldo Depetrini
+1961/62 | Július Korostelev ; Carlo Parola
+1963/64 | Paulo Amaral Lima ; Eraldo Monzeglio ; Ercole Rabitti
+1969/70 | Luis Carniglia ; Ercole Rabitti
+1970/71 | Armando Picchi ; Čestmír Vycpálek
+1998/99 | Marcello Lippi ; Carlo Ancelotti
+2006/07 | Didier Deschamps ; Giancarlo Corradini [i]
+2008/09 | Claudio Ranieri ; Ciro Ferrara
+2009/10 | Ciro Ferrara ; Alberto Zaccheroni
+2023/24 | Massimiliano Allegri ; Paolo Montero [i]
+2024/25 | Thiago Motta ; Igor Tudor
