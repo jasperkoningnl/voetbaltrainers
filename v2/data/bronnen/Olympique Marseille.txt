@@ -1,4 +1,5 @@
 #src https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille
+#date_precision geschat
 Roger Rolhion | 1954-07-01 | 1956-02-15 | no
 Jean Robin | 1956-02-15 | 1958-02-15 | no
 Giuseppe Zilizzi | 1958-02-15 | 1958-06-15 | no

@@ -14,7 +14,9 @@ Regel voor het gestreepte vlak: een trainer telt mee voor een seizoen als hij mi
 ## Bronnen extra trainers
 
 - `data/bronnen/*.txt`: per club de bronlijst (Wikipedia, per club de taal met de meest precieze lijst) met bron-URL bovenaan. Twee formaten: trainersperiodes met datums, of per seizoen de volgorde van trainers (`#type season`).
-- `data/bronnen/build_trainers.py`: zet de bronlijsten om naar `data/trainers_seizoen.json` en vergelijkt elk seizoen met de hoofdtrainer in Firestore (verwacht lokale exports `seizoenen.json`, `coaches.json`, `clubs.json` en de map `src/`).
+- `data/bronnen/build_trainers.py`: bouwt de ruwe bronlijsten met lokale exports van `seizoenen`, `coaches` en `clubs`.
+- `data/bronnen/normaliseer_trainers.mjs`: splitst gezamenlijke trainers, verwijdert expliciete technische directeuren en past controleerbare correcties toe.
+- `data/BRONNEN.md`: werkwijze voor bronrevisies en aanvullende controle met API-Football, Transfermarkt en football-data.org.
 - `data/controlelijst.md`: seizoenen waar bron en database uit elkaar lopen. De database is niet aangepast.
 - Nog geen data voor AS Monaco, Athletic Bilbao, Boavista en S.C. Braga (bronnen geven alleen jaartallen).
 

@@ -1,4 +1,5 @@
 #src https://fr.wikipedia.org/wiki/Olympique_lyonnais
+#date_precision geschat
 Julien Darui | 1954-07-01 | 1955-06-30 | no
 Lucien Troupel | 1955-07-01 | 1959-06-30 | no
 Gabriel Robert | 1959-07-01 | 1961-06-30 | no

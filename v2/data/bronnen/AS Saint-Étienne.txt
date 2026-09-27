@@ -1,4 +1,6 @@
 #src https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne
+#src_revision https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232
+#date_precision geschat
 Jean Snella | 1950-07-01 | 1959-06-30 | no
 René Vernier | 1959-07-01 | 1960-11-15 | no
 François Wicart | 1960-11-15 | 1961-06-30 | no

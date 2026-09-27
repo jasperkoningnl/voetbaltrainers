@@ -40,6 +40,19 @@ const fmt1 = x => (Math.round(x * 100) / 100).toFixed(2);
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DUR = reduceMotion ? 0 : 750;
 
+// Oude imports kunnen gezamenlijke trainers nog in één naamveld bevatten.
+// Expliciete technische directeuren tellen niet mee als hoofdtrainer.
+function normalizeSeasonTrainers(list) {
+    if (!Array.isArray(list)) return null;
+    return list.flatMap(trainer => {
+        const original = String(trainer.naam || "").replace(/\s+/g, " ").trim();
+        return original.split(/\s*(?:,|&|\bet\b|\ben\b|\band\b|\be\b)\s*/iu)
+            .map(name => name.trim()).filter(Boolean)
+            .filter(name => !/\(DT\)\s*$/iu.test(name))
+            .map(name => ({ ...trainer, naam: name.replace(/\s*\(DT\)\s*$/iu, "").trim() }));
+    });
+}
+
 // ------------------------------------------------------------------
 // Data
 // ------------------------------------------------------------------
@@ -66,8 +79,7 @@ async function loadData() {
         const coach = DB.coaches.get(s.coachId) || { naam: UNKNOWN };
         const club = DB.clubById.get(s.club);
         if (!club) return null;
-        let trainers = Array.isArray(s.trainers_seizoen) ? s.trainers_seizoen : fallbackMap.get(`${s.club}|${s.seizoen}`) || null;
-        if (trainers) DB.coverage.add(s.club);
+        let trainers = normalizeSeasonTrainers(Array.isArray(s.trainers_seizoen) ? s.trainers_seizoen : fallbackMap.get(`${s.club}|${s.seizoen}`));
         return {
             key: `${s.club}|${s.seizoen}`,
             clubId: s.club, club: club.naam, country: club.land,
@@ -80,6 +92,11 @@ async function loadData() {
             nCoaches: trainers ? new Set(trainers.map(t => t.naam)).size : 1,
         };
     }).filter(Boolean);
+
+    // Een club telt pas mee als elk seizoen in de database trainerdata heeft.
+    d3.group(DB.seasons, s => s.clubId).forEach((seasons, clubId) => {
+        if (seasons.length && seasons.every(s => Array.isArray(s.trainers) && s.trainers.length > 0)) DB.coverage.add(clubId);
+    });
 
     DB.seasonList = [...new Set(DB.seasons.map(s => s.season))].sort(d3.ascending);
 
