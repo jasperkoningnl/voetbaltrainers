@@ -54,3 +54,7 @@ Transfermarkt heeft geen publiek ondersteunde API. De site blijft daarom alleen 
 
 football-data.org v4 is bruikbaar voor clubs, wedstrijden en actuele opstellingen. Wedstrijdobjecten kunnen een coach bevatten, maar de API biedt geen compleet historisch overzicht van trainersperiodes. Daardoor is deze bron alleen geschikt voor gerichte controle van een concrete wedstrijd of recente situatie, niet voor het opbouwen van de historische dataset.
 
+
+### API-bewijs in twijfelgevallen
+
+`voeg_api_bewijs_toe.py <cache.json>` zet per twijfelgeval het veld `api_football` (gevonden periodes en dagen binnen het seizoen). Er wordt alleen een `langst` ingevuld als alle kandidaten in API-Football zijn opgezocht én gevonden; anders blijft het `null`. Het dashboard toont dit onder elke kaart. De eerste ronde (27 september 2026) dekte 10 van de 66 gevallen; daarna werd het API-account geschorst na ongeveer 35 requests.

@@ -1798,6 +1798,15 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             {mainCoachDoc ? ` (bestaande coach: ${mainCoachDoc.naam})` : ' (nieuwe coach wordt aangemaakt, vul daarna nationaliteit en foto aan bij Coaches)'}.
                         </p>
                     )}
+                    {c.api_football && (
+                        <div className="text-sm bg-gray-50 border rounded p-3 mb-3">
+                            <div className="font-semibold mb-1">Tweede bron: API-Football (maandprecisie)</div>
+                            {c.api_football.trainers.map((t, i) => <div key={i}>{t.naam}: {t.van} – {t.tot || 'heden'} · {t.dagen} dagen in dit seizoen</div>)}
+                            {c.api_football.langst
+                                ? <div className="mt-1">Langst volgens API-Football: <b>{c.api_football.langst}</b>{sameName(c.api_football.langst, c.dbCoach) ? ' (bevestigt database)' : ' (wijkt af van database)'}</div>
+                                : <div className="mt-1 text-gray-500">Geen oordeel over wie het langst stond: niet alle trainers zijn in API-Football gevonden{c.api_football.niet_opgezocht && c.api_football.niet_opgezocht.length ? ` (niet opgezocht: ${c.api_football.niet_opgezocht.join(', ')})` : ''}.</div>}
+                        </div>
+                    )}
                     <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mb-4">
                         {caseLinks(c).map(l => <a key={l.label} href={l.url} target="_blank" rel="noreferrer" className="text-indigo-600 underline">{l.label}</a>)}
                     </div>

@@ -27,6 +27,15 @@ const PRIZE = { euro: "#FFD700", title: "#C0C0C0", cup: "#CD7F32" };
 const SHIELD = "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z";
 const AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50"><rect width="50" height="50" fill="#e9ecef"/><path fill="#c7cdd3" d="M25 26.5c-5 0-10 2.5-10 7.5v3h20v-3c0-5-5-7.5-10-7.5zM25 15a7 7 0 100 14 7 7 0 000-14z"/></svg>');
 const UNKNOWN = "[Data Unavailable]";
+// Clublogo's staan in de repo (images/logos, bron: Wikipedia). De logo_url's in Firestore werken niet meer
+// (Wikimedia weigert 1200px/640px-formaten, football-logos.cc blokkeert). Onbekende club: terugval op logo_url.
+const LOCAL_LOGOS = new Set(["ajax", "arsenal", "as-monaco", "as-saint-etienne", "athletic-bilbao", "atletico-madrid", "az",
+    "bayern-munchen", "benfica", "boavista", "borussia-dortmund", "borussia-monchengladbach", "chelsea", "fc-barcelona", "fc-porto",
+    "fc-twente", "feyenoord", "hamburger-sv", "internazionale", "juventus", "liverpool", "manchester-city", "manchester-united", "milan",
+    "napoli", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
+    "sporting-cp", "valencia-cf", "vfb-stuttgart"]);
+const slug = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const logoOf = club => LOCAL_LOGOS.has(slug(club.naam)) ? `../images/logos/${slug(club.naam)}.png` : club.logo_url || "";
 
 const tenureBucket = n => n <= 1 ? 0 : n === 2 ? 1 : n <= 4 ? 2 : n <= 6 ? 3 : n <= 9 ? 4 : 5;
 const startYear = s => parseInt(s.slice(0, 4), 10);
@@ -87,6 +96,7 @@ async function loadData() {
     const fallbackMap = new Map((fallback.seizoenen || []).map(s => [`${s.club}|${s.seizoen}`, s.trainers]));
 
     DB.clubs = snap.clubs.slice().sort((a, b) => d3.ascending(a.naam, b.naam));
+    DB.clubs.forEach(c => { c.logo_url = logoOf(c); });
     DB.clubs.forEach(c => DB.clubById.set(c.id, c));
     snap.coaches.forEach(c => DB.coaches.set(c.id, c));
 
@@ -172,8 +182,8 @@ function addPatterns(defs) {
     });
     const u = defs.append("pattern").attr("id", `${uid}-unknown`).attr("width", 8).attr("height", 8)
         .attr("patternUnits", "userSpaceOnUse").attr("patternTransform", "rotate(45)");
-    u.append("rect").attr("width", 8).attr("height", 8).attr("fill", "#e9ecef");
-    u.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 8).attr("stroke", "#f8f9fa").attr("stroke-width", 3);
+    u.append("rect").attr("width", 8).attr("height", 8).attr("fill", "#d5d9de");
+    u.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 8).attr("stroke", "#e9ecef").attr("stroke-width", 3);
     return uid;
 }
 
@@ -185,7 +195,7 @@ class Heatmap {
         this.uid = addPatterns(this.svg.append("defs"));
         this.g = this.svg.append("g");
         this.gCells = this.g.append("g");
-        this.gDiv = this.g.append("g");
+        this.gDiv = this.g.append("g").attr("pointer-events", "none");
         this.gLabels = this.g.append("g");
         this.gPrizes = this.g.append("g").attr("pointer-events", "none");
         this.gRows = this.g.append("g");
@@ -255,12 +265,17 @@ class Heatmap {
             .attr("fill", d => this.fill(d))
             .attr("opacity", d => !visible(d) ? 0 : lit(d) ? 1 : 0.12);
 
-        // Tenure dividers (witte lijn waar een nieuwe hoofdtrainer begint)
-        const dividers = data.filter(d => d.index === 1 && d.season !== spec.seasons[0]);
+        // Scheidingslijnen: haarlijn tussen elk seizoen, dikkere witte lijn waar een nieuwe hoofdtrainer begint (zoals v1)
+        const dividers = data.filter(d => d.season !== spec.seasons[0]);
         this.gDiv.selectAll("line").data(dividers, d => d.key).join(
-            enter => enter.append("line").attr("stroke", "#fff").attr("stroke-width", 2).attr("opacity", 0),
+            enter => enter.append("line").attr("opacity", 0)
+                .attr("x1", d => x(d.season)).attr("x2", d => x(d.season))
+                .attr("y1", d => y(d.clubId)).attr("y2", d => y(d.clubId) + y.bandwidth()),
             update => update, exit => exit.remove()
-        ).transition(t)
+        )
+            .attr("class", d => d.index === 1 ? "divider-tenure" : "divider-season")
+            .transition(t)
+            .delay(d => spec.stagger && visible(d) ? spec.stagger(d) : 0)
             .attr("x1", d => x(d.season)).attr("x2", d => x(d.season))
             .attr("y1", d => y(d.clubId)).attr("y2", d => y(d.clubId) + y.bandwidth())
             .attr("opacity", d => visible(d) ? 1 : 0);
@@ -327,7 +342,8 @@ class Heatmap {
         const rows = this.gRows.selectAll("g.row-label").data(labelW ? spec.rows : [], d => d).join(
             enter => {
                 const g = enter.append("g").attr("class", "row-label").attr("opacity", 0);
-                g.append("image").attr("width", 26).attr("height", 26).attr("preserveAspectRatio", "xMidYMid meet");
+                g.append("image").attr("width", 26).attr("height", 26).attr("preserveAspectRatio", "xMidYMid meet")
+                    .on("error", function () { d3.select(this).style("display", "none"); });
                 g.append("text").attr("dy", ".35em");
                 return g;
             },
@@ -468,7 +484,7 @@ function drawScatter(stage, stats, highlight) {
     const nodes = svg.append("g").selectAll("g").data(stats).join("g")
         .attr("transform", d => `translate(${x(1)},${y(0)})`).attr("opacity", 0);
     nodes.append("circle").attr("r", s / 2 + 2).attr("fill", "#fff").attr("stroke", "#dee2e6");
-    nodes.append("image").attr("href", d => d.club.logo_url).attr("width", s).attr("height", s).attr("x", -s / 2).attr("y", -s / 2);
+    nodes.append("image").on("error", function () { d3.select(this).style("display", "none"); }).attr("href", d => d.club.logo_url).attr("width", s).attr("height", s).attr("x", -s / 2).attr("y", -s / 2);
     nodes.append("title").text(d => `${d.club.naam}: ${fmt1(d.avg)} seasons per manager, ${d.trophies} trophies (${fmt1(d.perSeason)} per season)`);
     // Labels: rechts van het logo, links als er rechts al een label in de buurt staat
     const placed = [];
@@ -520,7 +536,7 @@ function drawDuel(stage, F, M) {
 function legendHTML({ stripes = true, prizes = true, unknown = false } = {}) {
     const tenure = TENURE_COLORS.map((c, i) => `<span class="legend-item"><span class="swatch" style="background:${c}"></span>${TENURE_LABELS[i]}</span>`).join("");
     const stripe = stripes ? `<span class="legend-sep"></span>` + [2, 3, 4, 5].map(k => `<span class="legend-item">${stripeSwatch(k)}${k === 5 ? "5+" : k} managers in one season</span>`).join("") : "";
-    const unk = unknown ? `<span class="legend-item"><span class="swatch" style="background:repeating-linear-gradient(45deg,#e9ecef 0 3px,#f8f9fa 3px 6px)"></span>no reliable data</span>` : "";
+    const unk = unknown ? `<span class="legend-item"><span class="swatch" style="background:repeating-linear-gradient(45deg,#d5d9de 0 3px,#e9ecef 3px 6px)"></span>no reliable data</span>` : "";
     const pr = prizes ? `<span class="legend-sep"></span>` + [["euro", "European trophy"], ["title", "League title"], ["cup", "National cup"]]
         .map(([k, l]) => `<span class="legend-item">${shieldSVG(PRIZE[k])}${l}</span>`).join("") : "";
     return `<div class="legend">${tenure}${stripe}${unk}${pr}</div>`;
@@ -799,7 +815,7 @@ function buildClubGrid() {
         return g;
     }).select(".items").selectAll(".club-item").data(d => d[1], c => c.id).join(enter => {
         const it = enter.append("div").attr("class", "club-item").attr("role", "checkbox").attr("tabindex", 0);
-        it.append("img").attr("src", c => c.logo_url).attr("alt", "");
+        it.append("img").on("error", function () { this.style.visibility = "hidden"; }).attr("src", c => c.logo_url).attr("alt", "");
         it.append("span").text(c => c.naam);
         return it;
     }).classed("selected", c => state.clubs.includes(c.id)).attr("aria-checked", c => state.clubs.includes(c.id))

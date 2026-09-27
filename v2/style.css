@@ -179,6 +179,12 @@ a { color: var(--accent); }
     padding: 1rem 1.25rem;
     display: flex; align-items: center;
 }
+.info-pane > * { margin-block: auto; }
+/* Vaste hoogte bij muisbediening: als het vak meegroeit met de inhoud, verschuift de grafiek onder de muis
+   en springt hover aan/uit (trillen). Zelfde principe als v1. Langere inhoud scrolt binnen het vak. */
+@media (hover: hover) and (pointer: fine) {
+    .info-pane { height: 190px; overflow-y: auto; align-items: stretch; }
+}
 .info-default { color: var(--muted); width: 100%; }
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; width: 100%; }
 .stat-card { display: flex; gap: .75rem; align-items: center; }
@@ -216,6 +222,8 @@ a { color: var(--accent); }
 /* SVG */
 .cell { cursor: pointer; transition: opacity .25s; }
 .cell.dim { opacity: .13; }
+.divider-season { stroke: #fff; stroke-opacity: .75; stroke-width: 1px; shape-rendering: crispEdges; }
+.divider-tenure { stroke: #fff; stroke-width: 2px; }
 .cell-label { pointer-events: none; font-size: 11px; font-weight: 700; }
 .row-label text { font-size: 13px; font-weight: 600; fill: var(--text); }
 .axis text { font-size: 10.5px; fill: var(--muted); font-family: 'Inter', sans-serif; }
