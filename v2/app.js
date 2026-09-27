@@ -22,7 +22,8 @@ const firebaseConfig = {
 // ------------------------------------------------------------------
 const COUNTRIES = ["England", "France", "Germany", "Italy", "Netherlands", "Portugal", "Spain"];
 const TENURE_COLORS = ["#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"];
-const TENURE_LABELS = ["1 season", "2 seasons", "3–4", "5–6", "7–9", "10+"];
+const TENURE_LABELS = ["1 full season", "2 full seasons", "3–4", "5–6", "7–9", "10+"];
+const STRIPE_BG = "#ffd6de";
 const TENURE_TEXT = ["#fff", "#14391d", "#0d2b14", "#fff", "#fff", "#fff"];
 const PRIZE = { euro: "#FFD700", title: "#C0C0C0", cup: "#CD7F32" };
 const SHIELD = "M9 0 L1 4 V9 C1 14 9 17 9 17 S17 14 17 9 V4 L9 0 Z";
@@ -75,7 +76,8 @@ async function loadData() {
             unknown: coach.naam === UNKNOWN,
             title: s.landstitel === "Y", cup: s.nationale_beker === "Y", euro: s.europese_prijs === "Y",
             trainers,
-            multi: !!trainers && trainers.length > 1,
+            multi: !!trainers && new Set(trainers.map(t => t.naam)).size > 1,
+            nCoaches: trainers ? new Set(trainers.map(t => t.naam)).size : 1,
         };
     }).filter(Boolean);
 
@@ -99,7 +101,10 @@ async function loadData() {
         if (!t.done) {
             t.done = true;
             t.length = t.seasons.length;
-            t.bucket = tenureBucket(t.length);
+            // Kleur: alleen volle seizoenen (één trainer het hele seizoen) tellen mee.
+            // Seizoenen met meerdere trainers zijn altijd rood gestreept.
+            t.full = t.seasons.filter(x => !x.multi).length;
+            t.bucket = tenureBucket(Math.max(1, t.full));
             t.first = t.seasons[0].season;
             t.last = t.seasons[t.length - 1].season;
             t.trophies = {
@@ -124,11 +129,14 @@ const total = t => t.title + t.cup + t.euro;
 let patternSeq = 0;
 function addPatterns(defs) {
     const uid = `p${patternSeq++}`;
-    TENURE_COLORS.forEach((c, i) => {
-        const p = defs.append("pattern").attr("id", `${uid}-stripe-${i}`).attr("width", 7).attr("height", 7)
-            .attr("patternUnits", "userSpaceOnUse").attr("patternTransform", "rotate(45)");
-        p.append("rect").attr("width", 7).attr("height", 7).attr("fill", c);
-        p.append("rect").attr("width", i === 0 ? 3 : 2.2).attr("height", 7).attr("fill", i === 0 ? "#ffc2cf" : "#FF0033");
+    // Rood gestreept: aantal strepen = aantal trainers dat seizoen (2, 3, 4, 5+)
+    [2, 3, 4, 5].forEach(k => {
+        const h = 1 / k;
+        const p = defs.append("pattern").attr("id", `${uid}-stripe-${k}`).attr("width", 1).attr("height", h)
+            .attr("patternUnits", "objectBoundingBox").attr("patternContentUnits", "objectBoundingBox");
+        p.append("rect").attr("width", 1).attr("height", h).attr("fill", STRIPE_BG);
+        p.append("polygon").attr("fill", "#FF0033")
+            .attr("points", `0,${h * 0.55} 1,${h * 0.05} 1,${h * 0.45} 0,${h * 0.95}`);
     });
     const u = defs.append("pattern").attr("id", `${uid}-unknown`).attr("width", 8).attr("height", 8)
         .attr("patternUnits", "userSpaceOnUse").attr("patternTransform", "rotate(45)");
@@ -163,8 +171,7 @@ class Heatmap {
 
     fill(d) {
         if (d.unknown) return `url(#${this.uid}-unknown)`;
-        const b = d.tenure.bucket;
-        return d.multi ? `url(#${this.uid}-stripe-${b})` : TENURE_COLORS[b];
+        return d.multi ? `url(#${this.uid}-stripe-${Math.min(5, Math.max(2, d.nCoaches))})` : TENURE_COLORS[d.tenure.bucket];
     }
 
     // spec: { rows:[clubId], seasons:[..], reveal:(d)=>bool, highlight:(d)=>bool|null, names:bool, prizes:bool, rowH }
@@ -233,7 +240,8 @@ class Heatmap {
             data.forEach(d => {
                 if (seen.has(d.tenure.id) || d.unknown) return;
                 seen.add(d.tenure.id);
-                const inRange = d.tenure.seasons.filter(s => inView.has(s.season) && visible(s));
+                // Naam alleen over de volle (niet-gestreepte) seizoenen
+                const inRange = d.tenure.seasons.filter(s => !s.multi && inView.has(s.season) && visible(s));
                 if (!inRange.length) return;
                 const w = inRange.length * x.bandwidth();
                 const parts = d.coach.split(" ");
@@ -351,17 +359,18 @@ class Heatmap {
 // ------------------------------------------------------------------
 // Charts for the story (bars + scatter)
 // ------------------------------------------------------------------
+// Alleen clubs waarvan bekend is welke seizoenen meerdere trainers hadden, anders klopt de vergelijking niet.
 function tenureStats() {
-    const valid = DB.seasons.filter(s => !s.unknown);
-    return d3.range(6).map(b => {
-        const list = valid.filter(s => s.tenure.bucket === b);
-        return {
-            b, n: list.length,
-            any: list.filter(s => s.trophyCount > 0).length / list.length,
-            title: list.filter(s => s.title).length / list.length,
-        };
+    const valid = DB.seasons.filter(s => !s.unknown && DB.coverage.has(s.clubId));
+    const row = (b, list) => ({
+        b, n: list.length,
+        any: list.length ? list.filter(s => s.trophyCount > 0).length / list.length : 0,
+        title: list.length ? list.filter(s => s.title).length / list.length : 0,
     });
+    return [row("multi", valid.filter(s => s.multi))]
+        .concat(d3.range(6).map(b => row(b, valid.filter(s => !s.multi && s.tenure.bucket === b))));
 }
+const statsClubs = () => DB.coverage.size;
 
 function clubStats() {
     return DB.clubs.map(c => {
@@ -382,26 +391,29 @@ function drawBars(stage, stats) {
     const m = { top: 46, right: 12, bottom: 58, left: narrow ? 34 : 44 };
     const svg = d3.select(stage).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", W).attr("height", H);
     const x = d3.scaleBand().domain(stats.map(d => d.b)).range([m.left, W - m.right]).padding(0.22);
+    const pid = addPatterns(svg.append("defs"));
+    const barFill = d => d.b === "multi" ? `url(#${pid}-stripe-3)` : TENURE_COLORS[d.b];
+    const barLabel = d => d.b === "multi" ? (narrow ? "2+" : "changed mid-season") : narrow ? ["1", "2", "3–4", "5–6", "7–9", "10+"][d.b] : TENURE_LABELS[d.b];
     const y = d3.scaleLinear().domain([0, 0.6]).range([H - m.bottom, m.top]);
     svg.append("text").attr("class", "chart-title").attr("x", m.left).attr("y", 16).text(narrow ? "Seasons with at least one trophy" : "Share of seasons in which the club won at least one trophy");
-    svg.append("text").attr("class", "chart-sub").attr("x", m.left).attr("y", 33).text(narrow ? "by the manager's total tenure" : "grouped by how long that season's manager stayed in total");
+    svg.append("text").attr("class", "chart-sub").attr("x", m.left).attr("y", 33).text(narrow ? `by tenure · ${statsClubs()} clubs` : `by how many full seasons the manager stayed · ${statsClubs()} clubs with complete data`);
     svg.append("g").attr("class", "axis").attr("transform", `translate(${m.left},0)`)
         .call(d3.axisLeft(y).ticks(4).tickFormat(d3.format(".0%")).tickSize(-(W - m.left - m.right)))
         .call(g => g.selectAll("line").attr("stroke", "#eef0f2")).call(g => g.select("path").remove());
     const g = svg.append("g");
     const bars = g.selectAll("g").data(stats).join("g");
     bars.append("rect").attr("x", d => x(d.b)).attr("width", x.bandwidth()).attr("rx", 3)
-        .attr("fill", d => TENURE_COLORS[d.b]).attr("y", y(0)).attr("height", 0)
+        .attr("fill", barFill).attr("y", y(0)).attr("height", 0)
         .transition().duration(DUR).delay((d, i) => i * 120)
         .attr("y", d => y(d.any)).attr("height", d => y(0) - y(d.any));
     bars.append("text").attr("class", "bar-label").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
         .attr("y", d => y(d.any) - 6).text(d => pct(d.any)).attr("opacity", 0)
         .transition().duration(DUR).delay((d, i) => i * 120 + 300).attr("opacity", 1);
     bars.append("text").attr("class", "annot").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
-        .attr("y", H - m.bottom + 18).text(d => narrow ? ["1", "2", "3–4", "5–6", "7–9", "10+"][d.b] : TENURE_LABELS[d.b]);
+        .attr("y", H - m.bottom + 18).text(barLabel);
     if (!narrow) bars.append("text").attr("class", "annot-muted").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
         .attr("y", H - m.bottom + 34).text(d => `${d3.format(",")(d.n)} seasons`);
-    svg.append("text").attr("class", "annot-muted").attr("x", (W) / 2).attr("text-anchor", "middle").attr("y", H - 6).text("tenure length of the manager");
+    svg.append("text").attr("class", "annot-muted").attr("x", (W) / 2).attr("text-anchor", "middle").attr("y", H - 6).text("seasons with more than one manager, then full seasons of the same manager");
 }
 
 function drawScatter(stage, stats, highlight) {
@@ -475,12 +487,14 @@ function drawDuel(stage, F, M) {
 // ------------------------------------------------------------------
 function legendHTML({ stripes = true, prizes = true, unknown = false } = {}) {
     const tenure = TENURE_COLORS.map((c, i) => `<span class="legend-item"><span class="swatch" style="background:${c}"></span>${TENURE_LABELS[i]}</span>`).join("");
-    const stripe = stripes ? `<span class="legend-item"><span class="swatch swatch-stripe"></span>more than one manager that season</span>` : "";
+    const stripe = stripes ? `<span class="legend-sep"></span>` + [2, 3, 4, 5].map(k => `<span class="legend-item">${stripeSwatch(k)}${k === 5 ? "5+" : k} managers in one season</span>`).join("") : "";
     const unk = unknown ? `<span class="legend-item"><span class="swatch" style="background:repeating-linear-gradient(45deg,#e9ecef 0 3px,#f8f9fa 3px 6px)"></span>no reliable data</span>` : "";
     const pr = prizes ? `<span class="legend-sep"></span>` + [["euro", "European trophy"], ["title", "League title"], ["cup", "National cup"]]
         .map(([k, l]) => `<span class="legend-item">${shieldSVG(PRIZE[k])}${l}</span>`).join("") : "";
     return `<div class="legend">${tenure}${stripe}${unk}${pr}</div>`;
 }
+// Klein legenda-vakje met precies k rode strepen, zelfde tekening als in de grafiek
+const stripeSwatch = k => { const h = 14 / k; let p = ""; for (let i = 0; i < k; i++) { const y = i * h; p += `<polygon points="0,${y + h * 0.55} 14,${y + h * 0.05} 14,${y + h * 0.45} 0,${y + h * 0.95}" fill="#FF0033"/>`; } return `<svg class="swatch" viewBox="0 0 14 14" width="14" height="14"><rect width="14" height="14" fill="${STRIPE_BG}"/>${p}</svg>`; };
 const shieldSVG = c => `<svg class="shield" viewBox="0 0 18 17"><path d="${SHIELD}" fill="${c}" stroke="#444" stroke-width=".6"/></svg>`;
 const trophyLine = t => [
     t.title ? `<span>${shieldSVG(PRIZE.title)} ${plural(t.title, "league title", "league titles")}</span>` : "",
@@ -518,7 +532,7 @@ function buildStory() {
     const topWinners = [...cstats].sort((a, b) => b.perSeason - a.perSeason).slice(0, 4);
     const mostStable = [...cstats].sort((a, b) => b.avg - a.avg)[0];
     const eng = DB.clubs.filter(c => c.land === "England").map(c => c.id);
-    const firstIdx = stats[0], lastIdx = stats[5];
+    const multiIdx = stats.find(d => d.b === "multi"), firstIdx = stats.find(d => d.b === 0), lastIdx = stats.find(d => d.b === 5);
 
     const F = { seasons: fSeasons.length, clubs: 1, longest: fSeasons.length, trophies: fT };
     const M = { seasons: mSeasons.length, clubs: mClubs.length, longest: mLongest, trophies: mT };
@@ -538,7 +552,7 @@ function buildStory() {
     set("txt-united", `
         <h2>Before and after</h2>
         <p>${busby.length ? `Before Ferguson, only Matt Busby stayed for a long time. The ${between.length} managers in between lasted ${plural(betweenMax, "season", "seasons")} at most. ` : ""}Since Ferguson left, United have had <strong>${afterCoaches.length} different managers of the season</strong> in ${after.length} seasons${afterNames.size > afterCoaches.length ? `, and ${afterNames.size} different men in the dugout counting interims` : ""}.</p>
-        <p>${afterStriped.length ? `<span class="swatch swatch-stripe"></span> <strong>${plural(afterStriped.length, "striped season", "striped seasons")}</strong>: more than one manager in charge during the season.` : ""} Trophies since 2013: ${total(afterT)}.</p>`);
+        <p>${afterStriped.length ? `${stripeSwatch(3)} <strong>${plural(afterStriped.length, "striped season", "striped seasons")}</strong>: more than one manager in charge during the season.` : ""} Trophies since 2013: ${total(afterT)}.</p>`);
     set("txt-mourinho", `
         <h2>Now meet the counter-argument</h2>
         <p><strong>José Mourinho</strong> won at almost every stop, and rarely stayed long. ${M.clubs} clubs in this dataset, never longer than ${plural(mLongest, "season", "seasons")} in one go.</p>
@@ -551,8 +565,8 @@ function buildStory() {
         <p class="note">*Seasons in which he was the manager of the season at one of the 35 clubs in this dataset.</p>`);
     set("txt-all-seasons", `
         <h2>So who proves the rule?</h2>
-        <p>Let's ask all ${d3.format(",")(d3.sum(stats, d => d.n))} seasons. When a manager stays only one season, the club wins something in <strong>${pct(firstIdx.any)}</strong> of cases. When he stays ten seasons or more, it's <strong>${pct(lastIdx.any)}</strong>.</p>
-        <p>League titles show the same pattern: ${pct(firstIdx.title)} against ${pct(lastIdx.title)}.</p>
+        <p>Let's ask ${d3.format(",")(d3.sum(stats, d => d.n))} seasons at the ${statsClubs()} clubs where we know every change. In a season with more than one manager, the club wins something in <strong>${pct(multiIdx.any)}</strong> of cases. When one manager stays ten full seasons or more, it's <strong>${pct(lastIdx.any)}</strong>.</p>
+        <p>League titles show the same pattern: ${pct(multiIdx.title)} in turbulent seasons against ${pct(lastIdx.title)} under a long-serving manager.</p>
         <p class="note">Seasons marked as “no reliable data” are left out.</p>`);
     set("txt-clubs", `
         <h2>But look at the clubs</h2>
@@ -620,7 +634,7 @@ function buildStory() {
             legend.innerHTML = "";
         },
         "all-seasons": () => {
-            caption.textContent = "All 35 clubs · 1955/56–2024/25";
+            caption.textContent = `${statsClubs()} clubs with complete data · 1955/56–2024/25`;
             drawBars(chartLayer, stats);
             legend.innerHTML = "";
         },
@@ -901,7 +915,7 @@ function countryInsights(country) {
     return `<div class="stat-grid">
         ${card('<span class="swatch" style="background:#003300"></span>', "Longest tenure", longest.coach, `${DB.clubById.get(longest.clubId).naam} · ${plural(longest.length, "season", "seasons")}`)}
         ${card('<span class="swatch" style="background:#339933"></span>', "Most stable club", stable.club.naam, `${fmt1(stable.avg)} seasons per manager`)}
-        ${turbulent ? card('<span class="swatch swatch-stripe"></span>', "Most mid-season changes", turbulent.club.naam, `${plural(turbulent.multi, "striped season", "striped seasons")}`) : card('<span class="swatch" style="background:#FF0033"></span>', "Least stable club", unstable.club.naam, `${fmt1(unstable.avg)} seasons per manager`)}
+        ${turbulent ? card(stripeSwatch(3), "Most mid-season changes", turbulent.club.naam, `${plural(turbulent.multi, "striped season", "striped seasons")}`) : card('<span class="swatch" style="background:#FF0033"></span>', "Least stable club", unstable.club.naam, `${fmt1(unstable.avg)} seasons per manager`)}
         ${card(shieldSVG(PRIZE.euro), "Most trophies", success.club.naam, `${success.trophies} trophies`)}
     </div>`;
 }

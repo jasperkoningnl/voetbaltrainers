@@ -124,7 +124,10 @@ a { color: var(--accent); }
 
 .chip { display: inline-flex; align-items: center; gap: .35rem; font-weight: 600; white-space: nowrap; }
 .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; }
-.swatch-stripe { background: repeating-linear-gradient(45deg, #FF0033 0 3px, #ffc2cf 3px 6px); }
+.swatch-stripe, .swatch-stripe-3 { background: repeating-linear-gradient(-30deg, #ffd6de 0 2px, #FF0033 2px 4px, #ffd6de 4px 5px); }
+.swatch-stripe-2 { background: repeating-linear-gradient(-30deg, #ffd6de 0 3px, #FF0033 3px 6px, #ffd6de 6px 7px); }
+.swatch-stripe-4 { background: repeating-linear-gradient(-30deg, #ffd6de 0 1.5px, #FF0033 1.5px 3px, #ffd6de 3px 3.5px); }
+.swatch-stripe-5 { background: repeating-linear-gradient(-30deg, #ffd6de 0 1px, #FF0033 1px 2.2px, #ffd6de 2.2px 2.8px); }
 .shield { display: inline-block; width: 13px; height: 13px; vertical-align: -1px; }
 
 /* ---------- Explorer ---------- */
