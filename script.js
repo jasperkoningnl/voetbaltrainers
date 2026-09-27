@@ -1,8 +1,17 @@
-// Script Versie: 25.3 - Correctie Icoon Infopaneel
+// Script Versie: 25.4 - Clublogo's lokaal
 // Changelog:
-// - Het SVG-icoon voor 'Longest Tenure' in het land-specifieke infopaneel is vervangen door een correct zandloper-icoon.
+// - Clublogo's komen uit images/logos/ (bron: Wikipedia) in plaats van de logo_url's in Firestore, die niet meer laden.
+//   Voor een club zonder lokaal logo blijft logo_url uit Firestore de terugval.
 
-console.log("Script versie: 25.3 geladen.");
+console.log("Script versie: 25.4 geladen.");
+
+const LOCAL_LOGOS = new Set(["ajax", "arsenal", "as-monaco", "as-saint-etienne", "athletic-bilbao", "atletico-madrid", "az",
+    "bayern-munchen", "benfica", "boavista", "borussia-dortmund", "borussia-monchengladbach", "chelsea", "fc-barcelona", "fc-porto",
+    "fc-twente", "feyenoord", "hamburger-sv", "internazionale", "juventus", "liverpool", "manchester-city", "manchester-united", "milan",
+    "napoli", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
+    "sporting-cp", "valencia-cf", "vfb-stuttgart"]);
+const logoSlug = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const localLogo = club => LOCAL_LOGOS.has(logoSlug(club.naam)) ? `images/logos/${logoSlug(club.naam)}.png` : club.logo_url;
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -263,6 +272,7 @@ async function fetchAllInitialData() {
 
         appState.allCoaches = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         appState.allClubs = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        appState.allClubs.forEach(club => { club.logo_url = localLogo(club); });
         appState.allSeasons = seizoenenSnapshot.docs.map(doc => doc.data());
     } catch (error) {
         console.error("Fout bij het laden van initiële data:", error);
