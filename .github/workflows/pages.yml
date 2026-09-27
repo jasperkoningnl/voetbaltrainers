@@ -1,0 +1,57 @@
+# Publiceert de site op GitHub Pages en houdt data/snapshot.json bij.
+# - Bij elke push naar main: site publiceren met de snapshot die in de repo staat (geen Firestore-reads).
+# - Dagelijks en via "Run workflow": eerst Firestore uitlezen (ruim 3.000 reads), snapshot committen
+#   als de data veranderd is, daarna publiceren.
+# Vereist: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+
+name: Site publiceren
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 08:23 UTC: na de dagelijkse Firestore-quotumreset (rond middernacht Pacific-tijd).
+    - cron: "23 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Snapshot uit Firestore halen
+        id: snapshot
+        if: github.event_name != 'push'
+        run: node .github/scripts/firestore-snapshot.mjs data/snapshot.json
+
+      - name: Snapshot committen
+        if: steps.snapshot.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/snapshot.json
+          git commit -m "Snapshot uit Firestore bijgewerkt"
+          git push
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: .
+
+      - name: Publiceren
+        id: deployment
+        uses: actions/deploy-pages@v5
