@@ -1,0 +1,23 @@
+#type season
+#src https://it.wikipedia.org/wiki/Allenatori_e_presidenti_dell%27Associazione_Sportiva_Roma
+#range 1955/56-2024/25
+1956/57 | György Sárosi ; Guido Masetti
+1957/58 | Alec Stock ; Gunnar Nordahl
+1958/59 | Gunnar Nordahl ; György Sárosi ; Gunnar Nordahl
+1962/63 | Luis Carniglia ; Alfredo Foni
+1963/64 | Alfredo Foni ; Luis Miró ; Naim Krieziu [i] ; Luis Miró
+1970/71 | Helenio Herrera ; Luciano Tessari
+1972/73 | Helenio Herrera ; Antonio Trebiciani
+1973/74 | Manlio Scopigno ; Nils Liedholm
+1978/79 | Gustavo Giagnoni ; Ferruccio Valcareggi
+1986/87 | Sven-Göran Eriksson ; Angelo Sormani
+1988/89 | Nils Liedholm ; Luciano Spinosi ; Nils Liedholm
+1996/97 | Carlos Bianchi ; Nils Liedholm e Ezio Sella
+2004/05 | Rudi Völler ; Ezio Sella [i] ; Luigi Delneri ; Bruno Conti [i]
+2009/10 | Luciano Spalletti ; Claudio Ranieri
+2010/11 | Claudio Ranieri ; Vincenzo Montella
+2012/13 | Zdeněk Zeman ; Aurelio Andreazzoli
+2015/16 | Rudi Garcia ; Luciano Spalletti
+2018/19 | Eusebio Di Francesco ; Claudio Ranieri
+2023/24 | José Mourinho ; Daniele De Rossi
+2024/25 | Daniele De Rossi ; Ivan Jurić ; Claudio Ranieri

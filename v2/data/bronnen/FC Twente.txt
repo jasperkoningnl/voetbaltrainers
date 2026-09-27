@@ -1,0 +1,13 @@
+#type season
+#src https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_FC_Twente_(mannen)
+#range 1965/66-2024/25
+1979/80 | Spitz Kohn ; Hennie Hollink
+1982/83 | Rob Groener ; Spitz Kohn
+1985/86 | Fritz Korbach ; Theo Vonk
+1995/96 | Issy ten Donkelaar ; Fred Rutten [i] ; Hans Meyer
+1999/00 | Hans Meyer ; Fred Rutten
+2005/06 | Rini Coolen ; Jan van Staa
+2011/12 | Co Adriaanse ; Steve McClaren
+2012/13 | Steve McClaren ; Alfred Schreuder
+2015/16 | Alfred Schreuder ; René Hake
+2017/18 | René Hake ; Marino Pusic [i] ; Gertjan Verbeek ; Marino Pusic [i]

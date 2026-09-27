@@ -1,0 +1,91 @@
+#src https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers
+Alejandro Scopelli | 1954-09-01 | 1956-04-12 | no
+Abel Picabéa | 1956-05-02 | 1957-04-28 | no
+Enrique Fernández | 1957-09-01 | 1959-07-13 | no
+Fernando Vaz | 1959-09-01 | 1960-06-03 | no
+Alfredo Gonzalez | 1960-06-06 | 1961-03-12 | no
+Otto Glória | 1961-04-04 | 1961-09-24 | no
+Juca | 1961-09-25 | 1963-06-30 | no
+Gentil Cardoso | 1963-09-01 | 1964-03-08 | no
+Anselmo Fernandez | 1964-03-15 | 1964-06-30 | no
+Jean Luciano | 1964-09-01 | 1964-12-15 | no
+Juca | 1964-12-20 | 1964-12-27 | yes
+Anselmo Fernandez | 1965-01-01 | 1965-02-15 | no
+Armando Ferreira | 1965-03-07 | 1965-06-30 | no
+Otto Glória | 1965-09-01 | 1966-06-30 | no
+Fernando Argila | 1966-09-01 | 1967-02-19 | no
+Armando Ferreira | 1967-02-26 | 1967-06-30 | no
+Fernando Caiado | 1967-07-01 | 1968-11-17 | no
+Mário Lino | 1968-11-24 | 1968-11-30 | yes
+Armando Ferreira | 1968-12-01 | 1969-05-15 | no
+Fernando Vaz | 1969-05-28 | 1972-02-06 | no
+Mário Lino | 1972-02-07 | 1972-06-30 | no
+Ronnie Allen | 1972-07-01 | 1973-04-15 | no
+Mário Lino | 1973-04-16 | 1974-06-06 | no
+Osvaldo Silva | 1974-06-07 | 1974-06-30 | no
+Alfredo di Stéfano | 1974-07-01 | 1974-09-09 | no
+Osvaldo Silva | 1974-09-14 | 1974-12-15 | no
+Fernando Riera | 1974-12-22 | 1975-06-30 | no
+Juca | 1975-07-01 | 1976-06-30 | no
+Jimmy Hagan | 1976-07-01 | 1977-06-30 | no
+Paulo Emílio | 1977-07-01 | 1977-12-28 | no
+José Rodrigues Dias | 1978-01-07 | 1978-06-30 | no
+Milorad Pavić | 1978-07-01 | 1979-06-30 | no
+José Rodrigues Dias | 1979-07-01 | 1979-11-18 | no
+Fernando Mendes | 1979-11-25 | 1980-12-07 | no
+Srećko Radišić | 1980-12-21 | 1981-06-30 | no
+Malcolm Allison | 1981-07-01 | 1982-08-18 | no
+António Oliveira | 1982-08-19 | 1983-04-11 | no
+Jozef Vengloš | 1983-04-12 | 1984-04-28 | no
+Marinho | 1984-04-29 | 1984-06-30 | no
+John Toshack | 1984-07-01 | 1985-05-19 | no
+Pedro Gomes | 1985-05-19 | 1985-06-30 | no
+Manuel José | 1985-07-01 | 1987-01-11 | no
+Marinho | 1987-01-12 | 1987-01-29 | yes
+Keith Burkinshaw | 1987-01-30 | 1988-01-31 | no
+António Morais | 1988-02-01 | 1988-06-30 | no
+Pedro Rocha | 1988-07-01 | 1989-02-18 | no
+Vítor Damas | 1989-02-19 | 1989-03-12 | yes
+Manuel José | 1989-03-13 | 1989-12-10 | no
+Vítor Damas | 1989-12-11 | 1989-12-24 | yes
+Raul Águas | 1989-12-25 | 1990-06-30 | no
+Marinho Peres | 1990-07-01 | 1992-03-08 | no
+António Dominguez | 1992-03-09 | 1992-06-30 | no
+Bobby Robson | 1992-07-01 | 1993-12-07 | no
+Carlos Queiroz | 1993-12-08 | 1996-02-25 | no
+Fernando Mendes | 1996-02-26 | 1996-03-31 | no
+Octávio Machado | 1996-04-01 | 1996-06-30 | no
+Robert Waseige | 1996-07-01 | 1996-12-01 | no
+Octávio Machado | 1996-12-02 | 1997-11-01 | no
+Francisco Vital | 1997-11-02 | 1997-12-06 | no
+Vicente Cantatore | 1997-12-07 | 1997-12-21 | no
+Carlos Manuel | 1998-01-01 | 1998-06-30 | no
+Mirko Jozić | 1998-07-01 | 1999-06-30 | no
+Giuseppe Materazzi | 1999-07-01 | 1999-09-25 | no
+Augusto Inácio | 1999-09-26 | 2000-12-03 | no
+Fernando Mendes | 2000-12-04 | 2001-01-21 | no
+Manuel Fernandes | 2001-01-22 | 2001-06-30 | no
+László Bölöni | 2001-07-01 | 2003-06-30 | no
+Fernando Santos | 2003-07-01 | 2004-06-30 | no
+José Peseiro | 2004-07-01 | 2005-10-18 | no
+Paulo Bento | 2005-10-19 | 2009-11-06 | no
+Leonel Pontes | 2009-11-07 | 2009-11-15 | yes
+Carlos Carvalhal | 2009-11-16 | 2010-05-09 | no
+Paulo Sérgio | 2010-05-14 | 2011-02-25 | no
+José Couceiro | 2011-02-26 | 2011-06-30 | no
+Domingos Paciência | 2011-07-01 | 2012-02-13 | no
+Ricardo Sá Pinto | 2012-02-14 | 2012-10-04 | no
+Oceano da Cruz | 2012-10-05 | 2012-10-29 | yes
+Franky Vercauteren | 2012-10-30 | 2013-01-07 | no
+Jesualdo Ferreira | 2013-01-08 | 2013-05-19 | no
+Leonardo Jardim | 2013-05-20 | 2014-05-20 | no
+Marco Silva | 2014-05-21 | 2015-06-04 | no
+Jorge Jesus | 2015-06-05 | 2018-06-05 | no
+José Peseiro | 2018-07-01 | 2018-11-01 | no
+Tiago Fernandes | 2018-11-02 | 2018-11-11 | yes
+Marcel Keizer | 2018-11-12 | 2019-09-05 | no
+Leonel Pontes | 2019-09-05 | 2019-09-26 | yes
+Silas | 2019-09-27 | 2020-03-04 | no
+Ruben Amorim | 2020-03-04 | 2024-11-10 | no
+João Pereira | 2024-11-11 | 2024-12-26 | no
+Rui Borges | 2024-12-26 | 2026-06-30 | no

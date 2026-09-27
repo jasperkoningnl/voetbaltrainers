@@ -1,0 +1,26 @@
+#type season
+#src https://es.wikipedia.org/wiki/Anexo:Entrenadores_del_Club_Atl%C3%A9tico_de_Madrid
+#range 1955/56-2024/25
+1959/60 | Ferdinand Daučík ; José Villalonga
+1963/64 | Rafael García "Tinte" ; Adrián Escudero ; Sabino Barinaga
+1967/68 | Otto Glória ; Miguel González
+1971/72 | Marcel Domingo ; Max Merkel
+1974/75 | Juan Carlos Lorenzo ; Luis Aragonés
+1978/79 | Héctor Núñez ; Luis Aragonés ; Ferenc Szusza
+1979/80 | Luis Aragonés ; Jesús Martínez Jayo ; Marcel Domingo
+1981/82 | Luis Cid "Carriega" ; José Luis García Traid
+1986/87 | Vicente Miera ; Jesús Martínez Jayo ; Luis Aragonés
+1987/88 | César Luis Menotti ; José Armando Ufarte ; Antonio Briones
+1988/89 | José María Maguregui ; Antonio Briones ; Ron Atkinson ; Colin Addison ; Antonio Briones
+1989/90 | Javier Clemente ; Antonio Briones ; Joaquín Peiró
+1990/91 | Iselín Santos Ovejero ; Tomislav Ivić ; Iselín Santos Ovejero
+1992/93 | Luis Aragonés ; Iselín Santos Ovejero ; José Omar Pastoriza ; Iselín Santos Ovejero ; José Omar Pastoriza ; "Cacho" Heredia
+1993/94 | Jair Pereira ; "Cacho" Heredia ; Emilio Cruz ; José Luis Romero ; Iselín Santos Ovejero ; Jorge D'Alessandro
+1994/95 | "Pacho" Maturana ; Jorge D'Alessandro ; Alfio Basile ; Carlos Sánchez Aguiar
+1998/99 | Arrigo Sacchi ; Carlos Sánchez Aguiar ; Radomir Antić
+1999/00 | Claudio Ranieri ; Radomir Antić ; Fernando Zambrano
+2000/01 | Fernando Zambrano ; Marcos Alonso ; Carlos García Cantarero
+2005/06 | Carlos Bianchi ; Pepe Murcia
+2008/09 | Javier Aguirre ; Abel Resino
+2009/10 | Abel Resino ; Santi Denia ; Quique Sánchez Flores
+2011/12 | Gregorio Manzano ; Diego Simeone

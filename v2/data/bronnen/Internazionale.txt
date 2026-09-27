@@ -1,0 +1,22 @@
+#type season
+#src https://it.wikipedia.org/wiki/Allenatori_del_Football_Club_Internazionale_Milano
+#range 1955/56-2024/25
+1955/56 | Aldo Campatelli ; Giuseppe Meazza
+1956/57 | Luigi Ferrero & Annibale Frossi (DT) ; Annibale Frossi ; Giuseppe Meazza
+1958/59 | Giuseppe Bigogno ; Frank Pedersen & Aldo Campatelli
+1959/60 | Aldo Campatelli ; Camillo Achilli & Giulio Cappelli
+1970/71 | Heriberto Herrera ; Giovanni Invernizzi
+1972/73 | Giovanni Invernizzi ; Enea Masiero
+1973/74 | Helenio Herrera ; Enea Masiero
+1985/86 | Ilario Castagner ; Mario Corso
+1991/92 | Corrado Orrico ; Luis Suárez
+1993/94 | Osvaldo Bagnoli ; Gianpiero Marini
+1995/96 | Ottavio Bianchi ; Luis Suárez [i] ; Giovanni Ardemagni & Roy Hodgson (DT)
+1996/97 | Giovanni Ardemagni & Roy Hodgson (DT) ; Luciano Castellini [i]
+1998/99 | Luigi Simoni ; Mircea Lucescu ; Luciano Castellini [i] ; Roy Hodgson
+2000/01 | Marcello Lippi ; Marco Tardelli
+2003/04 | Héctor Cúper ; Corrado Verdelli [i] ; Alberto Zaccheroni
+2010/11 | Rafael Benítez ; Leonardo
+2011/12 | Gian Piero Gasperini ; Claudio Ranieri ; Andrea Stramaccioni
+2014/15 | Walter Mazzarri ; Roberto Mancini
+2016/17 | Frank de Boer ; Stefano Vecchi [i] ; Stefano Pioli ; Stefano Vecchi [i]
