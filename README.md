@@ -31,11 +31,14 @@ The project leverages a modern web stack to separate data management from the pu
 
 `index.html` en `v2/` lezen hun data uit `data/snapshot.json`, niet rechtstreeks uit Firestore. Elke bezoeker die alle collecties uit Firestore leest kost duizenden document-reads; daarmee raakt het dagelijkse gratis quotum snel op ([Firestore quotas](https://firebase.google.com/docs/firestore/quotas)). Firestore wordt alleen nog gelezen als `data/snapshot.json` ontbreekt of onleesbaar is.
 
-Snapshot bijwerken na wijzigingen in het dashboard:
+De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflows/pages.yml`:
 
-1. Open `dashboard.html`, log in en klik links onderin op **Snapshot downloaden**. Dit leest `clubs`, `coaches` en `seizoenen` één keer uit Firestore en downloadt `snapshot.json`.
-2. Ga op GitHub naar de map `data/`, kies **Add file → Upload files**, sleep `snapshot.json` erin en commit. Het bestaande bestand wordt overschreven.
-3. GitHub Pages publiceert de nieuwe versie binnen een paar minuten.
+- **Dagelijks om 08:23 UTC** (na de quotumreset rond middernacht Pacific-tijd) leest `.github/scripts/firestore-snapshot.mjs` de collecties `clubs`, `coaches` en `seizoenen` via de Firestore REST API (ruim 3.000 reads). Is de data veranderd, dan commit de Action `data/snapshot.json` en publiceert de site.
+- **Direct bijwerken** na wijzigingen in het dashboard: GitHub → Actions → *Site publiceren* → **Run workflow**.
+- **Bij elke push naar `main`** publiceert de Action de site met de snapshot die al in de repo staat, zonder Firestore te lezen.
+- Mislukt het uitlezen (bijvoorbeeld quotum op), dan blijft de vorige snapshot staan en stuurt GitHub een melding van de mislukte run.
+
+Eenmalige instelling: Settings → Pages → Build and deployment → Source: **GitHub Actions**. In een openbare repo schakelt GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo; zet hem dan aan via Actions → *Site publiceren* → Enable workflow.
 
 ## 3. Project Structure
 
