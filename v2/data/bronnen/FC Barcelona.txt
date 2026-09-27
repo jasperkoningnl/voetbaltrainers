@@ -1,4 +1,5 @@
 #src https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers
+#date_precision geschat
 Sandro Puppo | 1954-07-15 | 1955-06-15 | no
 Franz Platko | 1955-06-15 | 1956-06-15 | no
 Domingo Balmanya | 1956-06-15 | 1958-04-15 | no

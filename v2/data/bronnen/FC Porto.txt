@@ -1,4 +1,5 @@
 #src https://en.wikipedia.org/wiki/List_of_FC_Porto_managers
+#date_precision gemengd
 Fernando Vaz | 1954-08-15 | 1955-05-15 | no
 Dorival Yustrich | 1955-08-15 | 1956-06-15 | no
 Flávio Costa | 1956-08-15 | 1957-05-15 | no

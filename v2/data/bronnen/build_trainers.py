@@ -1,5 +1,15 @@
-import json,glob,os,re,datetime as dt,unicodedata
-S=json.load(open('seizoenen.json'));C={c['_id']:c for c in json.load(open('coaches.json'))};K={c['_id']:c for c in json.load(open('clubs.json'))}
+import argparse,json,glob,os,re,datetime as dt,unicodedata,subprocess
+from pathlib import Path
+
+HERE=Path(__file__).resolve().parent
+DATA=HERE.parent
+parser=argparse.ArgumentParser(description='Bouw ruwe seizoenstrainers uit de bronbestanden.')
+parser.add_argument('--input-dir',type=Path,default=HERE/'input',help='Map met seizoenen.json, coaches.json en clubs.json')
+parser.add_argument('--skip-normalize',action='store_true',help='Schrijf alleen de ruwe uitvoer')
+args=parser.parse_args()
+def load(name):
+    with (args.input_dir/name).open(encoding='utf-8') as handle: return json.load(handle)
+S=load('seizoenen.json');C={c['_id']:c for c in load('coaches.json')};K={c['_id']:c for c in load('clubs.json')}
 byname={c['naam']:i for i,c in K.items()}
 M={'january':1,'february':2,'march':3,'april':4,'may':5,'june':6,'july':7,'august':8,'september':9,'october':10,'november':11,'december':12}
 def pd(s):
@@ -14,9 +24,9 @@ def same(a,b):
 def window(y):
     return dt.date(y,8,1), (dt.date(y+1,8,31) if y==2019 else dt.date(y+1,5,20))
 out=[];report=[];warn=[];twijfel=[]
-for f in sorted(glob.glob('src/*.txt')):
+for f in sorted(glob.glob(str(HERE/'*.txt'))):
     club=os.path.basename(f)[:-4]; cid=byname[club]
-    lines=open(f).read().splitlines()
+    lines=Path(f).read_text(encoding='utf-8').splitlines()
     meta={l[1:].split(' ',1)[0]:l[1:].split(' ',1)[1] for l in lines if l.startswith('#')}
     src=meta['src']; typ=meta.get('type','stint')
     body=[l for l in lines if l.strip() and not l.startswith('#')]
@@ -62,8 +72,10 @@ for f in sorted(glob.glob('src/*.txt')):
             warn.append(f"{club} {s['seizoen']}: db={main} longest={max(days,key=days.get)} {days}")
             twijfel.append(dict(docId=s['_id'],club=cid,clubNaam=club,land=K[cid]['land'],seizoen=s['seizoen'],soort='langst',dbCoach=main,dbCoachId=s['coachId'],kandidaten=[dict(t,dagen=days.get(t['naam'])) for t in tr],bron=src))
         if tr: out.append(dict(club=cid,seizoen=s['seizoen'],trainers=tr,bron=src))
-json.dump({'twijfel':twijfel},open('twijfelgevallen.json','w'),ensure_ascii=False,indent=1)
-json.dump({'seizoenen':out},open('trainers_seizoen.json','w'),ensure_ascii=False,indent=1)
+with (DATA/'twijfelgevallen.json').open('w',encoding='utf-8') as handle: json.dump({'twijfel':twijfel},handle,ensure_ascii=False,indent=1)
+with (DATA/'trainers_seizoen.json').open('w',encoding='utf-8') as handle: json.dump({'seizoenen':out},handle,ensure_ascii=False,indent=1)
 multi=[o for o in out if len(o['trainers'])>1]
 print(len(out),'seasons,',len(multi),'multi,',len({o['club'] for o in out}),'clubs')
 print('MISMATCH\n'+'\n'.join(report)); print('WARN (longest != db)\n'+'\n'.join(warn))
+if not args.skip_normalize:
+    subprocess.run(['node',str(HERE/'normaliseer_trainers.mjs')],check=True)

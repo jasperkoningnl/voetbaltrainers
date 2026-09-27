@@ -6,7 +6,7 @@
    "clubNaam": "AS Saint-Étienne",
    "land": "France",
    "seizoen": "2024/25",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Olivier Dall'Oglio",
    "dbCoachId": "jxDF0MM7TrjnvT3APH5F",
    "kandidaten": [
@@ -15,17 +15,23 @@
      "van": "2023-12-15",
      "tot": "2024-12-15",
      "interim": false,
-     "dagen": 136
+     "datum_precisie": "geschat"
+    },
+    {
+     "naam": "Laurent Huard",
+     "interim": true,
+     "datum_precisie": "maand"
     },
     {
      "naam": "Eirik Horneland",
      "van": "2024-12-15",
      "tot": "2026-01-15",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "geschat"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne"
+   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+   "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232"
   },
   {
    "docId": "8L9zS3TphfnT0Ea3uDup",
@@ -39,11 +45,13 @@
    "kandidaten": [
     {
      "naam": "Luis Cid \"Carriega\"",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "José Luis García Traid",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     }
    ],
    "bron": "https://es.wikipedia.org/wiki/Anexo:Entrenadores_del_Club_Atl%C3%A9tico_de_Madrid"
@@ -63,21 +71,21 @@
      "van": "1966-07-01",
      "tot": "1967-11-30",
      "interim": false,
-     "dagen": 121
+     "datum_precisie": "dag"
     },
     {
      "naam": "Fernando Cabrita",
      "van": "1967-12-01",
      "tot": "1968-04-07",
      "interim": false,
-     "dagen": 128
+     "datum_precisie": "dag"
     },
     {
      "naam": "Otto Glória",
      "van": "1968-04-08",
      "tot": "1970-02-08",
      "interim": false,
-     "dagen": 42
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_S.L._Benfica_managers"
@@ -97,7 +105,7 @@
      "van": "1961-08-01",
      "tot": "1965-06-30",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
@@ -117,14 +125,14 @@
      "van": "1970-07-01",
      "tot": "1971-12-21",
      "interim": false,
-     "dagen": 142
+     "datum_precisie": "dag"
     },
     {
      "naam": "Herbert Burdenski",
      "van": "1972-01-03",
      "tot": "1972-06-30",
      "interim": false,
-     "dagen": 138
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
@@ -144,21 +152,21 @@
      "van": "1972-07-01",
      "tot": "1972-10-31",
      "interim": false,
-     "dagen": 91
+     "datum_precisie": "dag"
     },
     {
      "naam": "Max Michallek",
      "van": "1972-11-01",
      "tot": "1973-03-01",
      "interim": false,
-     "dagen": 120
+     "datum_precisie": "dag"
     },
     {
      "naam": "Dieter Kurrat",
      "van": "1973-03-01",
      "tot": "1973-06-30",
      "interim": false,
-     "dagen": 80
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
@@ -178,14 +186,14 @@
      "van": "2015-09-21",
      "tot": "2016-12-21",
      "interim": false,
-     "dagen": 142
+     "datum_precisie": "dag"
     },
     {
      "naam": "Dieter Hecking",
      "van": "2017-01-04",
      "tot": "2019-05-18",
      "interim": false,
-     "dagen": 136
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://de.wikipedia.org/wiki/Borussia_M%C3%B6nchengladbach/Namen_und_Zahlen"
@@ -205,14 +213,14 @@
      "van": "2012-03-04",
      "tot": "2012-11-21",
      "interim": false,
-     "dagen": 112
+     "datum_precisie": "dag"
     },
     {
      "naam": "Rafael Benítez",
      "van": "2012-11-21",
      "tot": "2013-05-29",
      "interim": true,
-     "dagen": 180
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
@@ -232,14 +240,14 @@
      "van": "2013-06-03",
      "tot": "2015-12-17",
      "interim": false,
-     "dagen": 138
+     "datum_precisie": "dag"
     },
     {
      "naam": "Guus Hiddink",
      "van": "2015-12-20",
      "tot": "2016-07-03",
      "interim": true,
-     "dagen": 152
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
@@ -250,7 +258,7 @@
    "clubNaam": "FC Barcelona",
    "land": "Spain",
    "seizoen": "1969/70",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Josep Seguer",
    "dbCoachId": "9fBYOR1JYICgLMxRmagT",
    "kandidaten": [
@@ -259,21 +267,21 @@
      "van": "1967-06-15",
      "tot": "1969-10-15",
      "interim": false,
-     "dagen": 75
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Josep Seguer",
      "van": "1969-10-15",
      "tot": "1969-12-15",
      "interim": false,
-     "dagen": 61
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Vic Buckingham",
      "van": "1969-12-15",
      "tot": "1971-07-15",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -284,7 +292,7 @@
    "clubNaam": "FC Barcelona",
    "land": "Spain",
    "seizoen": "1980/81",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Ladislao Kubala",
    "dbCoachId": "rY2etx5VO754SLBKFqkD",
    "kandidaten": [
@@ -293,14 +301,14 @@
      "van": "1980-05-15",
      "tot": "1980-11-15",
      "interim": false,
-     "dagen": 106
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Helenio Herrera",
      "van": "1980-11-15",
      "tot": "1981-06-15",
      "interim": false,
-     "dagen": 186
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -320,21 +328,21 @@
      "van": "1959-08-15",
      "tot": "1959-11-02",
      "interim": false,
-     "dagen": 79
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Ferdinand Daučík",
      "van": "1959-11-15",
      "tot": "1960-04-24",
      "interim": false,
-     "dagen": 161
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Francisco Reboredo",
      "van": "1960-05-15",
      "tot": "1960-06-15",
      "interim": false,
-     "dagen": 5
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -345,7 +353,7 @@
    "clubNaam": "FC Porto",
    "land": "Portugal",
    "seizoen": "1960/61",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Francisco Reboredo",
    "dbCoachId": "ahgil6iwjlfJqIbtFSlO",
    "kandidaten": [
@@ -354,14 +362,14 @@
      "van": "1960-06-15",
      "tot": "1961-03-05",
      "interim": false,
-     "dagen": 216
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Francisco Reboredo",
      "van": "1961-03-12",
      "tot": "1961-07-09",
      "interim": false,
-     "dagen": 69
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -381,7 +389,7 @@
      "van": "1963-11-17",
      "tot": "1965-05-09",
      "interim": false,
-     "dagen": 281
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -392,7 +400,7 @@
    "clubNaam": "FC Porto",
    "land": "Portugal",
    "seizoen": "1965/66",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Virgílio Mendes",
    "dbCoachId": "FQnh50n93rPrRatA5Pn8",
    "kandidaten": [
@@ -401,14 +409,14 @@
      "van": "1965-08-15",
      "tot": "1966-04-03",
      "interim": false,
-     "dagen": 231
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Virgílio Mendes",
      "van": "1966-04-10",
      "tot": "1966-05-02",
      "interim": false,
-     "dagen": 22
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -419,7 +427,7 @@
    "clubNaam": "FC Porto",
    "land": "Portugal",
    "seizoen": "1970/71",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "António Teixeira",
    "dbCoachId": "DVoVqe1Xh4YPRrIetYvZ",
    "kandidaten": [
@@ -428,14 +436,14 @@
      "van": "1970-02-15",
      "tot": "1971-05-03",
      "interim": false,
-     "dagen": 275
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "António Teixeira",
      "van": "1971-05-03",
      "tot": "1971-10-31",
      "interim": false,
-     "dagen": 17
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -446,7 +454,7 @@
    "clubNaam": "FC Porto",
    "land": "Portugal",
    "seizoen": "1971/72",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "António Teixeira",
    "dbCoachId": "DVoVqe1Xh4YPRrIetYvZ",
    "kandidaten": [
@@ -455,28 +463,28 @@
      "van": "1971-05-03",
      "tot": "1971-10-31",
      "interim": false,
-     "dagen": 91
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Artur Baeta",
      "van": "1971-10-31",
      "tot": "1971-11-15",
      "interim": false,
-     "dagen": 15
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Paulo Amaral",
      "van": "1971-11-15",
      "tot": "1972-03-15",
      "interim": false,
-     "dagen": 121
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "António Feliciano",
      "van": "1972-03-15",
      "tot": "1972-06-15",
      "interim": false,
-     "dagen": 66
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -487,7 +495,7 @@
    "clubNaam": "FC Porto",
    "land": "Portugal",
    "seizoen": "1975/76",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Monteiro da Costa",
    "dbCoachId": "oKKJCpgTLNam4mprcC58",
    "kandidaten": [
@@ -496,14 +504,14 @@
      "van": "1975-08-15",
      "tot": "1976-01-15",
      "interim": false,
-     "dagen": 153
+     "datum_precisie": "gemengd"
     },
     {
      "naam": "Monteiro da Costa",
      "van": "1976-01-15",
      "tot": "1976-06-15",
      "interim": false,
-     "dagen": 126
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -523,7 +531,7 @@
      "van": "1976-07-15",
      "tot": "1980-07-12",
      "interim": false,
-     "dagen": 293
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -543,7 +551,7 @@
      "van": "1980-07-12",
      "tot": "1982-05-15",
      "interim": false,
-     "dagen": 287
+     "datum_precisie": "gemengd"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
@@ -560,11 +568,13 @@
    "kandidaten": [
     {
      "naam": "Hans Kraay",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "Ab Fafié",
-     "interim": true
+     "interim": true,
+     "datum_precisie": "seizoen"
     }
    ],
    "bron": "https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Feyenoord_(mannen)"
@@ -581,11 +591,13 @@
    "kandidaten": [
     {
      "naam": "Hans Dorjee",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "Wim Jansen",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     }
    ],
    "bron": "https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Feyenoord_(mannen)"
@@ -605,14 +617,14 @@
      "van": "1967-07-01",
      "tot": "1969-05-15",
      "interim": false,
-     "dagen": 287
+     "datum_precisie": "dag"
     },
     {
      "naam": "Georg Knöpfle",
      "van": "1969-05-16",
      "tot": "1970-06-30",
      "interim": false,
-     "dagen": 4
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://de.wikipedia.org/wiki/Hamburger_SV/Namen_und_Zahlen"
@@ -632,14 +644,14 @@
      "van": "2024-02-20",
      "tot": "2024-11-23",
      "interim": false,
-     "dagen": 114
+     "datum_precisie": "dag"
     },
     {
      "naam": "Merlin Polzin",
      "van": "2024-11-24",
      "tot": "2026-06-30",
      "interim": false,
-     "dagen": 177
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://de.wikipedia.org/wiki/Hamburger_SV/Namen_und_Zahlen"
@@ -659,14 +671,14 @@
      "van": "1969-06-04",
      "tot": "1970-12-29",
      "interim": false,
-     "dagen": 150
+     "datum_precisie": "dag"
     },
     {
      "naam": "Matt Busby",
      "van": "1970-12-29",
      "tot": "1971-06-08",
      "interim": true,
-     "dagen": 142
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
@@ -677,7 +689,7 @@
    "clubNaam": "Olympique Lyonnais",
    "land": "France",
    "seizoen": "1981/82",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Vlatko Kovačević",
    "dbCoachId": "Soq8U5s4mNODUombXt4u",
    "kandidaten": [
@@ -686,21 +698,21 @@
      "van": "1980-07-01",
      "tot": "1981-11-15",
      "interim": false,
-     "dagen": 106
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Vladimir Kovačević",
      "van": "1981-11-15",
      "tot": "1982-02-15",
      "interim": false,
-     "dagen": 92
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Robert Herbin",
      "van": "1982-02-15",
      "tot": "1984-06-30",
      "interim": false,
-     "dagen": 94
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
@@ -720,7 +732,7 @@
      "van": "1984-07-01",
      "tot": "1987-10-15",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
@@ -731,7 +743,7 @@
    "clubNaam": "Olympique Lyonnais",
    "land": "France",
    "seizoen": "1996/97",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Guy Stéphan",
    "dbCoachId": "SW9xgoJDsLu735r2Ag7t",
    "kandidaten": [
@@ -740,14 +752,14 @@
      "van": "1995-07-01",
      "tot": "1996-10-15",
      "interim": false,
-     "dagen": 75
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Bernard Lacombe",
      "van": "1996-10-15",
      "tot": "2000-06-30",
      "interim": false,
-     "dagen": 217
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
@@ -758,7 +770,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1961/62",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Otto Gloria",
    "dbCoachId": "PBNAgQnEX0SotVeWs8v8",
    "kandidaten": [
@@ -767,14 +779,14 @@
      "van": "1959-07-01",
      "tot": "1962-02-15",
      "interim": false,
-     "dagen": 198
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Otto Glória",
      "van": "1962-02-15",
      "tot": "1962-07-15",
      "interim": false,
-     "dagen": 94
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -785,7 +797,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1962/63",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Armand Penverne",
    "dbCoachId": "RMOw0Vi1MbEnPeKVDTEL",
    "kandidaten": [
@@ -794,14 +806,14 @@
      "van": "1962-07-15",
      "tot": "1962-12-15",
      "interim": false,
-     "dagen": 136
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Luis Miró",
      "van": "1962-12-15",
      "tot": "1963-07-15",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -821,7 +833,7 @@
      "van": "1964-07-01",
      "tot": "1966-06-30",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -832,7 +844,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1973/74",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Fernando Riera",
    "dbCoachId": "u4nd4wmQ2AHwo6IpFY4b",
    "kandidaten": [
@@ -841,28 +853,28 @@
      "van": "1973-03-15",
      "tot": "1973-08-15",
      "interim": false,
-     "dagen": 14
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Joseph Bonnel",
      "van": "1973-08-15",
      "tot": "1973-12-15",
      "interim": false,
-     "dagen": 122
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Fernando Riera",
      "van": "1973-12-15",
      "tot": "1974-02-15",
      "interim": false,
-     "dagen": 62
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Jules Zvunka",
      "van": "1974-02-15",
      "tot": "1976-06-30",
      "interim": false,
-     "dagen": 94
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -873,7 +885,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1976/77",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Jules Zvunka",
    "dbCoachId": "EAYq1vUtpN6Ll4JFWRuN",
    "kandidaten": [
@@ -882,14 +894,14 @@
      "van": "1976-07-01",
      "tot": "1977-02-15",
      "interim": false,
-     "dagen": 198
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Jules Zvunka",
      "van": "1977-02-15",
      "tot": "1977-07-15",
      "interim": false,
-     "dagen": 94
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -909,14 +921,14 @@
      "van": "1978-12-15",
      "tot": "1980-02-15",
      "interim": false,
-     "dagen": 198
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Jean Robin",
      "van": "1980-02-15",
      "tot": "1980-09-15",
      "interim": false,
-     "dagen": 95
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -936,21 +948,21 @@
      "van": "1980-02-15",
      "tot": "1980-09-15",
      "interim": false,
-     "dagen": 45
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Albert Batteux",
      "van": "1980-09-15",
      "tot": "1981-04-15",
      "interim": false,
-     "dagen": 212
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Roland Gransart",
      "van": "1981-04-15",
      "tot": "1984-10-01",
      "interim": false,
-     "dagen": 35
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -961,7 +973,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1994/95",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Gérard Gili",
    "dbCoachId": "84nZ6bwjV9zdVRPFU97J",
    "kandidaten": [
@@ -970,21 +982,30 @@
      "van": "1993-06-15",
      "tot": "1994-12-01",
      "interim": false,
-     "dagen": 122
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Gérard Gili",
      "van": "1994-12-01",
      "tot": "1994-12-10",
      "interim": true,
-     "dagen": 9
+     "datum_precisie": "geschat"
     },
     {
-     "naam": "Henri Stambouli & Luka Peruzović",
+     "naam": "Henri Stambouli",
+     "bron_omschrijving": "Henri Stambouli & Luka Peruzović",
      "van": "1995-01-15",
      "tot": "1995-06-15",
      "interim": false,
-     "dagen": 125
+     "datum_precisie": "geschat"
+    },
+    {
+     "naam": "Luka Peruzović",
+     "bron_omschrijving": "Henri Stambouli & Luka Peruzović",
+     "van": "1995-01-15",
+     "tot": "1995-06-15",
+     "interim": false,
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -995,7 +1016,7 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "1999/00",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Rolland Courbis",
    "dbCoachId": "fN33hQbcLJoYvBQXoOyH",
    "kandidaten": [
@@ -1004,14 +1025,14 @@
      "van": "1997-06-15",
      "tot": "1999-11-15",
      "interim": false,
-     "dagen": 106
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Bernard Casoni",
      "van": "1999-11-15",
      "tot": "2000-07-15",
      "interim": false,
-     "dagen": 187
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -1022,30 +1043,39 @@
    "clubNaam": "Olympique Marseille",
    "land": "France",
    "seizoen": "2001/02",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Tomislav Ivić",
    "dbCoachId": "B5Q2Qm9KHFV7pGPH2A6B",
    "kandidaten": [
     {
-     "naam": "Josip Skoblar & Marc Lévy",
+     "naam": "Josip Skoblar",
+     "bron_omschrijving": "Josip Skoblar & Marc Lévy",
      "van": "2001-08-01",
      "tot": "2001-08-10",
      "interim": true,
-     "dagen": 9
+     "datum_precisie": "geschat"
+    },
+    {
+     "naam": "Marc Lévy",
+     "bron_omschrijving": "Josip Skoblar & Marc Lévy",
+     "van": "2001-08-01",
+     "tot": "2001-08-10",
+     "interim": true,
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Tomislav Ivić",
      "van": "2001-08-15",
      "tot": "2001-12-15",
      "interim": false,
-     "dagen": 122
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Albert Emon",
      "van": "2001-12-15",
      "tot": "2002-06-15",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -1065,7 +1095,7 @@
      "van": "1972-08-15",
      "tot": "1975-08-15",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
@@ -1085,7 +1115,7 @@
      "van": "1972-08-15",
      "tot": "1975-08-15",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
@@ -1096,7 +1126,7 @@
    "clubNaam": "Paris Saint-Germain",
    "land": "France",
    "seizoen": "2005/06",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Laurent Fournier",
    "dbCoachId": "a8jfQTahbMOHikkm0mJQ",
    "kandidaten": [
@@ -1105,14 +1135,14 @@
      "van": "2005-02-15",
      "tot": "2005-12-15",
      "interim": false,
-     "dagen": 136
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Guy Lacombe",
      "van": "2006-01-01",
      "tot": "2007-01-15",
      "interim": false,
-     "dagen": 139
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
@@ -1123,7 +1153,7 @@
    "clubNaam": "Paris Saint-Germain",
    "land": "France",
    "seizoen": "2011/12",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Carlo Ancelotti",
    "dbCoachId": "FzdKJydEAy9OH33nkQ9N",
    "kandidaten": [
@@ -1132,14 +1162,14 @@
      "van": "2009-08-15",
      "tot": "2011-12-29",
      "interim": false,
-     "dagen": 150
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Carlo Ancelotti",
      "van": "2011-12-30",
      "tot": "2013-05-15",
      "interim": false,
-     "dagen": 142
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
@@ -1150,7 +1180,7 @@
    "clubNaam": "Paris Saint-Germain",
    "land": "France",
    "seizoen": "2020/21",
-   "soort": "langst",
+   "soort": "langst_schatting",
    "dbCoach": "Mauricio Pochettino",
    "dbCoachId": "K8HJoPB0WwNkF8ONOsEE",
    "kandidaten": [
@@ -1159,14 +1189,14 @@
      "van": "2018-08-15",
      "tot": "2020-12-24",
      "interim": false,
-     "dagen": 145
+     "datum_precisie": "geschat"
     },
     {
      "naam": "Mauricio Pochettino",
      "van": "2021-01-02",
      "tot": "2022-07-05",
      "interim": false,
-     "dagen": 138
+     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
@@ -1186,21 +1216,21 @@
      "van": "1960-04-13",
      "tot": "1974-01-15",
      "interim": false,
-     "dagen": 167
+     "datum_precisie": "dag"
     },
     {
      "naam": "Luis Molowny",
      "van": "1974-01-15",
      "tot": "1974-05-15",
      "interim": false,
-     "dagen": 120
+     "datum_precisie": "dag"
     },
     {
      "naam": "Miljan Miljanić",
      "van": "1974-05-15",
      "tot": "1977-09-07",
      "interim": false,
-     "dagen": 5
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
@@ -1220,14 +1250,14 @@
      "van": "2004-12-30",
      "tot": "2005-12-04",
      "interim": false,
-     "dagen": 125
+     "datum_precisie": "dag"
     },
     {
      "naam": "Juan Ramón López Caro",
      "van": "2005-12-04",
      "tot": "2006-06-01",
      "interim": false,
-     "dagen": 167
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
@@ -1247,14 +1277,14 @@
      "van": "2015-06-03",
      "tot": "2016-01-04",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "dag"
     },
     {
      "naam": "Zinedine Zidane",
      "van": "2016-01-04",
      "tot": "2018-05-31",
      "interim": false,
-     "dagen": 137
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
@@ -1271,19 +1301,23 @@
    "kandidaten": [
     {
      "naam": "Alfredo Foni",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "Luis Miró",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "Naim Krieziu",
-     "interim": true
+     "interim": true,
+     "datum_precisie": "seizoen"
     },
     {
      "naam": "Luis Miró",
-     "interim": false
+     "interim": false,
+     "datum_precisie": "seizoen"
     }
    ],
    "bron": "https://it.wikipedia.org/wiki/Allenatori_e_presidenti_dell%27Associazione_Sportiva_Roma"
@@ -1303,7 +1337,7 @@
      "van": "1965-09-01",
      "tot": "1966-06-30",
      "interim": false,
-     "dagen": 261
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1323,14 +1357,14 @@
      "van": "1969-05-28",
      "tot": "1972-02-06",
      "interim": false,
-     "dagen": 189
+     "datum_precisie": "dag"
     },
     {
      "naam": "Mário Lino",
      "van": "1972-02-07",
      "tot": "1972-06-30",
      "interim": false,
-     "dagen": 103
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1350,21 +1384,21 @@
      "van": "1974-07-01",
      "tot": "1974-09-09",
      "interim": false,
-     "dagen": 39
+     "datum_precisie": "dag"
     },
     {
      "naam": "Osvaldo Silva",
      "van": "1974-09-14",
      "tot": "1974-12-15",
      "interim": false,
-     "dagen": 92
+     "datum_precisie": "dag"
     },
     {
      "naam": "Fernando Riera",
      "van": "1974-12-22",
      "tot": "1975-06-30",
      "interim": false,
-     "dagen": 149
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1384,14 +1418,14 @@
      "van": "1979-11-25",
      "tot": "1980-12-07",
      "interim": false,
-     "dagen": 128
+     "datum_precisie": "dag"
     },
     {
      "naam": "Srećko Radišić",
      "van": "1980-12-21",
      "tot": "1981-06-30",
      "interim": false,
-     "dagen": 150
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1411,14 +1445,14 @@
      "van": "1996-07-01",
      "tot": "1996-12-01",
      "interim": false,
-     "dagen": 122
+     "datum_precisie": "dag"
     },
     {
      "naam": "Octávio Machado",
      "van": "1996-12-02",
      "tot": "1997-11-01",
      "interim": false,
-     "dagen": 169
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1438,21 +1472,21 @@
      "van": "1999-09-26",
      "tot": "2000-12-03",
      "interim": false,
-     "dagen": 124
+     "datum_precisie": "dag"
     },
     {
      "naam": "Fernando Mendes",
      "van": "2000-12-04",
      "tot": "2001-01-21",
      "interim": false,
-     "dagen": 48
+     "datum_precisie": "dag"
     },
     {
      "naam": "Manuel Fernandes",
      "van": "2001-01-22",
      "tot": "2001-06-30",
      "interim": false,
-     "dagen": 118
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1472,28 +1506,28 @@
      "van": "2018-11-12",
      "tot": "2019-09-05",
      "interim": false,
-     "dagen": 35
+     "datum_precisie": "dag"
     },
     {
      "naam": "Leonel Pontes",
      "van": "2019-09-05",
      "tot": "2019-09-26",
      "interim": true,
-     "dagen": 21
+     "datum_precisie": "dag"
     },
     {
      "naam": "Silas",
      "van": "2019-09-27",
      "tot": "2020-03-04",
      "interim": false,
-     "dagen": 159
+     "datum_precisie": "dag"
     },
     {
      "naam": "Ruben Amorim",
      "van": "2020-03-04",
      "tot": "2024-11-10",
      "interim": false,
-     "dagen": 180
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
@@ -1513,14 +1547,14 @@
      "van": "1956-07-01",
      "tot": "1958-12-30",
      "interim": false,
-     "dagen": 151
+     "datum_precisie": "dag"
     },
     {
      "naam": "Jacinto Quincoces",
      "van": "1958-12-30",
      "tot": "1959-09-15",
      "interim": false,
-     "dagen": 141
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1540,14 +1574,14 @@
      "van": "1958-12-30",
      "tot": "1959-09-15",
      "interim": false,
-     "dagen": 45
+     "datum_precisie": "dag"
     },
     {
      "naam": "Pedro Otto Bumbel",
      "van": "1959-09-15",
      "tot": "1960-06-30",
      "interim": false,
-     "dagen": 248
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1567,7 +1601,7 @@
      "van": "1960-07-17",
      "tot": "1962-06-30",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1587,14 +1621,14 @@
      "van": "1965-07-01",
      "tot": "1966-05-14",
      "interim": false,
-     "dagen": 286
+     "datum_precisie": "dag"
     },
     {
      "naam": "\"Mundo\"",
      "van": "1966-05-14",
      "tot": "1968-10-15",
      "interim": false,
-     "dagen": 6
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1614,14 +1648,14 @@
      "van": "1966-05-14",
      "tot": "1968-10-15",
      "interim": false,
-     "dagen": 75
+     "datum_precisie": "dag"
     },
     {
      "naam": "José Iglesias Fernández",
      "van": "1968-10-15",
      "tot": "1969-10-15",
      "interim": false,
-     "dagen": 217
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1641,14 +1675,14 @@
      "van": "1975-04-11",
      "tot": "1975-09-21",
      "interim": false,
-     "dagen": 51
+     "datum_precisie": "dag"
     },
     {
      "naam": "Manolo Mestre",
      "van": "1975-09-21",
      "tot": "1976-06-30",
      "interim": false,
-     "dagen": 242
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1668,7 +1702,7 @@
      "van": "1979-07-01",
      "tot": "1980-06-30",
      "interim": false,
-     "dagen": 293
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1688,7 +1722,7 @@
      "van": "1980-07-01",
      "tot": "1982-01-04",
      "interim": false,
-     "dagen": 292
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1708,14 +1742,14 @@
      "van": "1980-07-01",
      "tot": "1982-01-04",
      "interim": false,
-     "dagen": 156
+     "datum_precisie": "dag"
     },
     {
      "naam": "Manolo Mestre",
      "van": "1982-01-04",
      "tot": "1982-11-01",
      "interim": false,
-     "dagen": 136
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1735,35 +1769,35 @@
      "van": "1991-07-01",
      "tot": "1993-11-15",
      "interim": false,
-     "dagen": 163
+     "datum_precisie": "dag"
     },
     {
      "naam": "Paco Real",
      "van": "1993-11-15",
      "tot": "1993-12-15",
      "interim": true,
-     "dagen": 30
+     "datum_precisie": "dag"
     },
     {
      "naam": "Héctor Núñez",
      "van": "1993-12-15",
      "tot": "1994-03-10",
      "interim": false,
-     "dagen": 85
+     "datum_precisie": "dag"
     },
     {
      "naam": "José Manuel Rielo",
      "van": "1994-03-10",
      "tot": "1994-03-24",
      "interim": true,
-     "dagen": 14
+     "datum_precisie": "dag"
     },
     {
      "naam": "Guus Hiddink",
      "van": "1994-03-24",
      "tot": "1994-06-30",
      "interim": false,
-     "dagen": 163
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1783,28 +1817,28 @@
      "van": "2014-07-04",
      "tot": "2015-11-29",
      "interim": false,
-     "dagen": 120
+     "datum_precisie": "dag"
     },
     {
      "naam": "Salvador González \"Voro\"",
      "van": "2015-11-30",
      "tot": "2015-12-05",
      "interim": true,
-     "dagen": 5
+     "datum_precisie": "dag"
     },
     {
      "naam": "Gary Neville",
      "van": "2015-12-05",
      "tot": "2016-03-30",
      "interim": false,
-     "dagen": 116
+     "datum_precisie": "dag"
     },
     {
      "naam": "Pako Ayestarán",
      "van": "2016-03-30",
      "tot": "2016-09-20",
      "interim": false,
-     "dagen": 51
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
@@ -1824,14 +1858,14 @@
      "van": "2023-02-14",
      "tot": "2024-12-23",
      "interim": false,
-     "dagen": 144
+     "datum_precisie": "dag"
     },
     {
      "naam": "Carlos Corberán",
      "van": "2024-12-25",
      "tot": "2026-06-30",
      "interim": false,
-     "dagen": 146
+     "datum_precisie": "dag"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"

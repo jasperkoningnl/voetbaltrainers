@@ -1591,8 +1591,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                 seasonDocId: season ? season.id : null,
                                 clubNaam: clubById[item.club]?.naam || item.club,
                                 mainCoachNaam: mainCoach ? mainCoach.naam : '—',
-                                warning: !season ? 'Seizoen niet gevonden' : (season.trainers_controle ? 'Al handmatig gecontroleerd, wordt overgeslagen' : (!mainFound ? 'Hoofdtrainer staat niet in de lijst (zie Twijfelgevallen)' : null)),
-                                changed: !(season && season.trainers_controle) && JSON.stringify(existing) !== JSON.stringify(item.trainers || []),
+                                warning: !season ? 'Seizoen niet gevonden' : (season.trainers_controle?.status === 'gecontroleerd' ? 'Al handmatig gecontroleerd, wordt overgeslagen' : (!mainFound ? 'Hoofdtrainer staat niet in de lijst (zie Twijfelgevallen)' : null)),
+                                changed: !(season && season.trainers_controle?.status === 'gecontroleerd') && JSON.stringify(existing) !== JSON.stringify(item.trainers || []),
                             };
                         });
                         setRows(prepared);
@@ -1710,7 +1710,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
         function TwijfelCard({ c, season, coaches, onSaved }) {
             const initialRows = useMemo(() => {
-                const rows = c.kandidaten.map(k => ({ naam: k.naam, van: k.van || '', tot: k.tot || '', interim: !!k.interim, dagen: k.dagen, bron: true, aan: true }));
+                const rows = c.kandidaten.map(k => ({ ...k, naam: k.naam, van: k.van || '', tot: k.tot || '', interim: !!k.interim, dagen: k.dagen, bron: true, aan: true }));
                 if (!rows.some(r => sameName(r.naam, c.dbCoach))) rows.push({ naam: c.dbCoach, van: '', tot: '', interim: false, bron: false, aan: true });
                 return rows;
             }, [c]);
@@ -1734,7 +1734,14 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 try {
                     if (!rows[main] || !rows[main].aan) throw new Error('De hoofdtrainer moet aangevinkt zijn.');
                     const update = {
-                        trainers_seizoen: rows.filter(r => r.aan).map(r => ({ naam: r.naam, van: r.van || null, tot: r.tot || null, interim: r.interim })),
+                        trainers_seizoen: rows.filter(r => r.aan).map(r => ({
+                            naam: r.naam,
+                            van: r.van || null,
+                            tot: r.tot || null,
+                            interim: r.interim,
+                            ...(r.datum_precisie ? { datum_precisie: r.datum_precisie } : {}),
+                            ...(r.bron_omschrijving ? { bron_omschrijving: r.bron_omschrijving } : {}),
+                        })),
                         trainers_bron: c.bron,
                         trainers_controle: { status: 'gecontroleerd', door: (auth.currentUser && auth.currentUser.email) || '', op: serverTimestamp() },
                     };
@@ -1757,7 +1764,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-3">
                         <h3 className="text-lg font-bold">{c.clubNaam} · {c.seizoen}</h3>
                         <span className={`text-xs font-semibold px-2 py-1 rounded ${c.soort === 'ontbreekt' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800'}`}>
-                            {c.soort === 'ontbreekt' ? `Hoofdtrainer uit database (${c.dbCoach}) staat niet in de bron` : `Volgens de bron stond iemand anders langer dan ${c.dbCoach}`}
+                            {c.soort === 'ontbreekt'
+                                ? `Hoofdtrainer uit database (${c.dbCoach}) staat niet in de bron`
+                                : c.soort === 'langst_schatting'
+                                    ? `Volgens geschatte datums stond iemand anders mogelijk langer dan ${c.dbCoach}`
+                                    : `Volgens de bron stond iemand anders langer dan ${c.dbCoach}`}
                         </span>
                     </div>
                     <table className="w-full text-sm mb-3">
@@ -1769,8 +1780,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                 <tr key={i} className={`border-t ${r.aan ? '' : 'text-gray-400 line-through'}`}>
                                     <td className="py-2"><input type="checkbox" className="h-5 w-5" checked={r.aan} onChange={() => toggle(i)} /></td>
                                     <td>{r.naam} {!r.bron && <span className="text-xs text-gray-500">(alleen in database / zelf toegevoegd)</span>}</td>
-                                    <td className="text-gray-600">{r.van ? `${r.van} – ${r.tot}` : '—'}</td>
-                                    <td className="text-gray-600">{r.dagen != null ? r.dagen : '—'}</td>
+                                    <td className="text-gray-600">{r.van ? `${r.van} – ${r.tot}` : '—'}{r.datum_precisie && r.datum_precisie !== 'dag' ? ` (${r.datum_precisie})` : ''}</td>
+                                    <td className="text-gray-600">{r.dagen != null ? `${r.datum_precisie && r.datum_precisie !== 'dag' ? '~' : ''}${r.dagen}` : '—'}</td>
                                     <td><input type="checkbox" checked={r.interim} onChange={() => toggleInterim(i)} /></td>
                                     <td><input type="radio" name={`main-${c.docId}`} checked={main === i} onChange={() => setMain(i)} disabled={!r.aan} /></td>
                                 </tr>
