@@ -1,0 +1,22 @@
+#type season
+#src https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Ajax_(mannen)
+#range 1955/56-2024/25
+1964/65 | Vic Buckingham ; Rinus Michels
+1973/74 | George Knobel ; Bobby Haarms [i]
+1975/76 | Hans Kraay sr. ; Jan van Daal [i] ; Rinus Michels
+1979/80 | Cor Brom ; Leo Beenhakker
+1980/81 | Leo Beenhakker ; Aad de Mos [i]
+1984/85 | Aad de Mos ; Tonny Bruins Slot, Spitz Kohn en Cor van der Hart [i]
+1987/88 | Johan Cruijff ; Spitz Kohn, Barry Hulshoff en Bobby Haarms [i]
+1988/89 | Kurt Linder ; Spitz Kohn
+1991/92 | Leo Beenhakker ; Louis van Gaal
+1998/99 | Morten Olsen ; Jan Wouters
+1999/00 | Jan Wouters ; Hans Westerhof [i]
+2001/02 | Co Adriaanse ; Ronald Koeman
+2004/05 | Ronald Koeman ; Tonny Bruins Slot en Ruud Krol [i] ; Danny Blind
+2007/08 | Henk ten Cate ; Adrie Koster
+2008/09 | Marco van Basten ; John van 't Schip [i]
+2010/11 | Martin Jol ; Frank de Boer
+2017/18 | Marcel Keizer ; Michael Reiziger [i] ; Erik ten Hag
+2022/23 | Alfred Schreuder ; John Heitinga [i]
+2023/24 | Maurice Steijn ; Hedwiges Maduro [i] ; John van 't Schip [i]

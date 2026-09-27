@@ -1,0 +1,15 @@
+#type season
+#src https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_PSV_(mannen)
+#range 1955/56-2024/25
+1959/60 | Ljubiša Broćić ; Ad van Tuijl
+1966/67 | Bram Appel ; Milan Nikolić
+1967/68 | Milan Nikolić ; Wim Blokland
+1979/80 | Kees Rijvers ; Jan Reker
+1986/87 | Hans Kraay ; Guus Hiddink
+1994/95 | Aad de Mos ; Kees Rijvers [i] ; Dick Advocaat
+2007/08 | Ronald Koeman ; Jan Wouters [i] ; Sef Vergoossen
+2008/09 | Huub Stevens ; Dwight Lodeweges [i]
+2011/12 | Fred Rutten ; Phillip Cocu [i]
+2013/14 | Phillip Cocu ; Ernest Faber [i]
+2019/20 | Mark van Bommel ; Ernest Faber [i]
+2022/23 | Ruud van Nistelrooij ; Fred Rutten [i]

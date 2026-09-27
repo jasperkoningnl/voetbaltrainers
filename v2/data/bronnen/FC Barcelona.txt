@@ -1,0 +1,51 @@
+#src https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers
+#date_precision geschat
+Sandro Puppo | 1954-07-15 | 1955-06-15 | no
+Franz Platko | 1955-06-15 | 1956-06-15 | no
+Domingo Balmanya | 1956-06-15 | 1958-04-15 | no
+Helenio Herrera | 1958-04-15 | 1960-05-15 | no
+Enric Rabassa | 1960-05-15 | 1960-06-15 | no
+Ljubiša Broćić | 1960-06-15 | 1961-01-15 | no
+Enrique Orizaola | 1961-01-15 | 1961-06-15 | no
+Luis Miró | 1961-06-15 | 1961-11-15 | no
+Ladislao Kubala | 1961-11-15 | 1963-01-15 | no
+Josep Gonzalvo | 1963-01-15 | 1963-07-15 | no
+César Rodríguez | 1963-07-15 | 1964-10-15 | no
+Vicente Sasot | 1964-10-15 | 1965-06-15 | no
+Roque Olsen | 1965-06-15 | 1967-06-15 | no
+Salvador Artigas | 1967-06-15 | 1969-10-15 | no
+Josep Seguer | 1969-10-15 | 1969-12-15 | no
+Vic Buckingham | 1969-12-15 | 1971-07-15 | no
+Rinus Michels | 1971-07-15 | 1975-05-15 | no
+Hennes Weisweiler | 1975-05-15 | 1976-04-15 | no
+Laureano Ruiz | 1976-04-15 | 1976-05-15 | no
+Rinus Michels | 1976-05-15 | 1978-05-15 | no
+Lucien Muller | 1978-05-15 | 1979-04-15 | no
+Joaquim Rifé | 1979-04-15 | 1980-03-15 | no
+Helenio Herrera | 1980-03-15 | 1980-05-15 | no
+Ladislao Kubala | 1980-05-15 | 1980-11-15 | no
+Helenio Herrera | 1980-11-15 | 1981-06-15 | no
+Udo Lattek | 1981-06-15 | 1983-03-15 | no
+César Luis Menotti | 1983-03-15 | 1984-06-15 | no
+Terry Venables | 1984-06-15 | 1987-09-15 | no
+Luis Aragonés | 1987-09-15 | 1988-05-15 | no
+Johan Cruyff | 1988-05-15 | 1996-05-15 | no
+Carles Rexach | 1996-05-15 | 1996-06-15 | yes
+Bobby Robson | 1996-07-15 | 1997-06-15 | no
+Louis van Gaal | 1997-06-15 | 2000-05-15 | no
+Lorenzo Serra Ferrer | 2000-05-15 | 2001-04-15 | no
+Carles Rexach | 2001-04-15 | 2002-05-15 | no
+Louis van Gaal | 2002-05-15 | 2003-01-15 | no
+Antonio de la Cruz | 2003-01-15 | 2003-02-15 | yes
+Radomir Antić | 2003-02-15 | 2003-06-15 | no
+Frank Rijkaard | 2003-06-15 | 2008-06-15 | no
+Pep Guardiola | 2008-06-15 | 2012-06-15 | no
+Tito Vilanova | 2012-07-15 | 2013-07-15 | no
+Gerardo Martino | 2013-07-15 | 2014-05-15 | no
+Luis Enrique | 2014-05-15 | 2017-05-15 | no
+Ernesto Valverde | 2017-05-15 | 2020-01-15 | no
+Quique Setién | 2020-01-15 | 2020-08-15 | no
+Ronald Koeman | 2020-08-15 | 2021-10-15 | no
+Sergi Barjuán | 2021-10-15 | 2021-11-15 | yes
+Xavi | 2021-11-15 | 2024-05-15 | no
+Hansi Flick | 2024-05-29 | 2026-06-30 | no

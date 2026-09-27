@@ -1,0 +1,21 @@
+#src https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers
+Matt Busby | 1 October 1945 | 6 February 1958 | no
+Jimmy Murphy | 6 February 1958 | 1 August 1958 | yes
+Matt Busby | 1 August 1958 | 4 June 1969 | no
+Wilf McGuinness | 4 June 1969 | 29 December 1970 | no
+Matt Busby | 29 December 1970 | 8 June 1971 | yes
+Frank O'Farrell | 8 June 1971 | 19 December 1972 | no
+Tommy Docherty | 22 December 1972 | 4 July 1977 | no
+Dave Sexton | 14 July 1977 | 30 April 1981 | no
+Ron Atkinson | 9 June 1981 | 6 November 1986 | no
+Alex Ferguson | 6 November 1986 | 19 May 2013 | no
+David Moyes | 1 July 2013 | 22 April 2014 | no
+Ryan Giggs | 22 April 2014 | 11 May 2014 | yes
+Louis van Gaal | 16 July 2014 | 23 May 2016 | no
+José Mourinho | 27 May 2016 | 18 December 2018 | no
+Ole Gunnar Solskjær | 19 December 2018 | 21 November 2021 | no
+Michael Carrick | 21 November 2021 | 2 December 2021 | yes
+Ralf Rangnick | 3 December 2021 | 22 May 2022 | yes
+Erik ten Hag | 23 May 2022 | 28 October 2024 | no
+Ruud van Nistelrooy | 28 October 2024 | 10 November 2024 | yes
+Ruben Amorim | 11 November 2024 | 5 January 2026 | no

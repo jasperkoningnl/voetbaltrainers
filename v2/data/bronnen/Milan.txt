@@ -1,0 +1,19 @@
+#type season
+#src https://it.wikipedia.org/wiki/Allenatori_dell%27Associazione_Calcio_Milan
+#range 1955/56-2024/25
+1963/64 | Luis Carniglia & Giuseppe Viani (DT) ; Nils Liedholm & Giuseppe Viani (DT)
+1965/66 | Nils Liedholm ; Giovanni Cattozzo ; Nils Liedholm ; Giovanni Cattozzo
+1973/74 | Nereo Rocco ; Cesare Maldini & Nereo Rocco (DT) ; Cesare Maldini ; Giovanni Trapattoni
+1976/77 | Giuseppe Marchioro ; Nereo Rocco (DT)
+1980/81 | Massimo Giacomini ; Italo Galbiati
+1981/82 | Luigi Radice ; Italo Galbiati
+1983/84 | Ilario Castagner ; Italo Galbiati
+1986/87 | Nils Liedholm ; Fabio Capello
+1996/97 | Giorgio Morini & Óscar Tabárez (DT) ; Arrigo Sacchi
+2000/01 | Alberto Zaccheroni ; Mauro Tassotti & Cesare Maldini (DT)
+2001/02 | Antonio Di Gennaro & Fatih Terim (DT) ; Carlo Ancelotti
+2013/14 | Massimiliano Allegri ; Mauro Tassotti [i] ; Clarence Seedorf
+2015/16 | Siniša Mihajlović ; Cristian Brocchi
+2017/18 | Vincenzo Montella ; Gennaro Gattuso
+2019/20 | Marco Giampaolo ; Stefano Pioli
+2024/25 | Paulo Fonseca ; Sérgio Conceição

@@ -1,0 +1,61 @@
+{
+  "correcties": [
+    {
+      "actie": "voeg_toe",
+      "clubNaam": "AS Saint-Étienne",
+      "seizoen": "1995/96",
+      "voor": "Dominique Bathenay",
+      "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+      "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232",
+      "reden": "De bron noemt Maxime Bossis in februari 1996.",
+      "trainer": {
+        "naam": "Maxime Bossis",
+        "interim": true,
+        "datum_precisie": "maand"
+      }
+    },
+    {
+      "actie": "voeg_toe",
+      "clubNaam": "AS Saint-Étienne",
+      "seizoen": "2000/01",
+      "voor": "John Toshack",
+      "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+      "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232",
+      "reden": "De bron noemt Gérard Soler in oktober 2000.",
+      "trainer": {
+        "naam": "Gérard Soler",
+        "interim": true,
+        "datum_precisie": "maand"
+      }
+    },
+    {
+      "actie": "voeg_toe",
+      "clubNaam": "AS Saint-Étienne",
+      "seizoen": "2023/24",
+      "voor": "Olivier Dall'Oglio",
+      "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+      "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232",
+      "reden": "De bron noemt Laurent Huard in december 2023.",
+      "trainer": {
+        "naam": "Laurent Huard",
+        "interim": true,
+        "datum_precisie": "maand"
+      }
+    },
+    {
+      "actie": "voeg_toe",
+      "clubNaam": "AS Saint-Étienne",
+      "seizoen": "2024/25",
+      "voor": "Eirik Horneland",
+      "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+      "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232",
+      "reden": "De bron noemt Laurent Huard in december 2024.",
+      "trainer": {
+        "naam": "Laurent Huard",
+        "interim": true,
+        "datum_precisie": "maand"
+      }
+    }
+  ]
+}
+

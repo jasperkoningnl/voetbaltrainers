@@ -1,0 +1,27 @@
+#type season
+#src https://it.wikipedia.org/wiki/Allenatori_e_presidenti_della_Societ%C3%A0_Sportiva_Calcio_Napoli
+#range 1955/56-2024/25
+1955/56 | Eraldo Monzeglio ; Amedeo Amadei
+1959/60 | Annibale Frossi ; Amedeo Amadei
+1960/61 | Amedeo Amadei & Renato Cesarini (DT) ; Attila Sallustro
+1961/62 | Fioravante Baldi ; Bruno Pesaola
+1963/64 | Roberto Lerici ; Giovanni Molino
+1968/69 | Giuseppe Chiappella ; Egidio Di Costanzo ; Giuseppe Chiappella
+1975/76 | Luís Vinício ; Alberto Delfrati e Rosario Rivellino [i]
+1978/79 | Gianni Di Marzio ; Luís Vinício
+1979/80 | Luís Vinício ; Angelo Sormani
+1982/83 | Massimo Giacomini ; Gennaro Rambone & Bruno Pesaola (DT)
+1983/84 | Pietro Santin ; Rino Marchesi
+1992/93 | Claudio Ranieri ; Ottavio Bianchi
+1994/95 | Vincenzo Guerini ; Vujadin Boškov (DT) & Cané
+1996/97 | Luigi Simoni ; Vincenzo Montefusco
+1997/98 | Bortolo Mutti ; Carlo Mazzone ; Giovanni Galeone ; Vincenzo Montefusco
+1998/99 | Renzo Ulivieri ; Vincenzo Montefusco
+2000/01 | Zdeněk Zeman ; Emiliano Mondonico
+2002/03 | Franco Colomba ; Franco Scoglio ; Franco Colomba
+2003/04 | Andrea Agostinelli ; Luigi Simoni
+2004/05 | Gian Piero Ventura ; Edoardo Reja
+2008/09 | Edoardo Reja ; Roberto Donadoni
+2009/10 | Roberto Donadoni ; Walter Mazzarri
+2019/20 | Carlo Ancelotti ; Gennaro Gattuso
+2023/24 | Rudi Garcia ; Walter Mazzarri ; Francesco Calzona

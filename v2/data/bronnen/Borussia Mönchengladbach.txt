@@ -1,0 +1,31 @@
+#src https://de.wikipedia.org/wiki/Borussia_M%C3%B6nchengladbach/Namen_und_Zahlen
+Hennes Weisweiler | 1964-07-01 | 1975-06-30 | no
+Udo Lattek | 1975-07-01 | 1979-06-30 | no
+Jupp Heynckes | 1979-07-01 | 1987-06-30 | no
+Wolf Werner | 1987-07-01 | 1989-11-21 | no
+Gerd vom Bruch | 1989-11-22 | 1991-09-25 | no
+Bernd Krauss | 1991-09-26 | 1991-10-03 | yes
+Jürgen Gelsdorf | 1991-10-03 | 1992-11-06 | no
+Bernd Krauss | 1992-11-06 | 1996-12-07 | no
+Hannes Bongartz | 1996-12-19 | 1997-11-29 | no
+Norbert Meier | 1997-11-30 | 1998-03-31 | no
+Friedel Rausch | 1998-04-01 | 1998-11-09 | no
+Rainer Bonhof | 1998-11-12 | 1999-08-31 | no
+Hans Meyer | 1999-09-07 | 2003-03-01 | no
+Ewald Lienen | 2003-03-02 | 2003-09-21 | no
+Holger Fach | 2003-09-21 | 2004-10-27 | no
+Horst Köppel | 2004-10-28 | 2004-11-01 | yes
+Dick Advocaat | 2004-11-02 | 2005-04-18 | no
+Horst Köppel | 2005-04-18 | 2006-05-14 | no
+Jupp Heynckes | 2006-07-01 | 2007-01-31 | no
+Jos Luhukay | 2007-01-31 | 2008-10-05 | no
+Christian Ziege | 2008-10-05 | 2008-10-18 | yes
+Hans Meyer | 2008-10-18 | 2009-05-28 | no
+Michael Frontzeck | 2009-07-01 | 2011-02-13 | no
+Lucien Favre | 2011-02-14 | 2015-09-20 | no
+André Schubert | 2015-09-21 | 2016-12-21 | no
+Dieter Hecking | 2017-01-04 | 2019-05-18 | no
+Marco Rose | 2019-06-30 | 2021-06-30 | no
+Adi Hütter | 2021-07-01 | 2022-05-14 | no
+Daniel Farke | 2022-06-04 | 2023-06-02 | no
+Gerardo Seoane | 2023-06-06 | 2026-06-30 | no

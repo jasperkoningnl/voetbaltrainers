@@ -1,0 +1,39 @@
+#src https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers
+#date_precision geschat
+Pierre Phelipon | 1970-08-15 | 1972-05-15 | no
+Robert Vicot | 1972-08-15 | 1975-08-15 | no
+Just Fontaine | 1975-09-15 | 1976-06-15 | no
+Velibor Vasović | 1976-08-15 | 1977-05-15 | no
+Ilija Pantelić | 1977-05-15 | 1977-06-15 | no
+Jean-Michel Larqué | 1977-08-15 | 1978-08-15 | no
+Pierre Alonzo | 1978-08-15 | 1978-11-01 | no
+Velibor Vasović | 1978-11-05 | 1979-10-01 | no
+Camille Choquier | 1979-10-01 | 1979-10-31 | yes
+Georges Peyroche | 1979-11-01 | 1983-06-15 | no
+Lucien Leduc | 1983-07-15 | 1984-03-31 | no
+Georges Peyroche | 1984-04-01 | 1985-03-31 | no
+Christian Coste | 1985-04-01 | 1985-06-15 | no
+Gérard Houllier | 1985-07-15 | 1987-10-15 | no
+Erick Mombaerts | 1987-10-15 | 1987-12-31 | no
+Gérard Houllier | 1988-02-01 | 1988-06-15 | no
+Tomislav Ivić | 1988-07-15 | 1990-05-15 | no
+Henri Michel | 1990-07-15 | 1991-05-15 | no
+Artur Jorge | 1991-07-15 | 1994-05-15 | no
+Luis Fernandez | 1994-07-15 | 1996-05-15 | no
+Ricardo | 1996-08-15 | 1998-05-15 | no
+Alain Giresse | 1998-07-15 | 1998-10-15 | no
+Artur Jorge | 1998-10-15 | 1999-03-15 | no
+Philippe Bergeroo | 1999-03-15 | 2000-12-15 | no
+Luis Fernandez | 2000-12-15 | 2003-05-15 | no
+Vahid Halilhodžić | 2003-08-15 | 2005-02-15 | no
+Laurent Fournier | 2005-02-15 | 2005-12-15 | no
+Guy Lacombe | 2006-01-01 | 2007-01-15 | no
+Paul Le Guen | 2007-01-15 | 2009-05-15 | no
+Antoine Kombouaré | 2009-08-15 | 2011-12-29 | no
+Carlo Ancelotti | 2011-12-30 | 2013-05-15 | no
+Laurent Blanc | 2013-08-15 | 2016-05-15 | no
+Unai Emery | 2016-08-15 | 2018-05-15 | no
+Thomas Tuchel | 2018-08-15 | 2020-12-24 | no
+Mauricio Pochettino | 2021-01-02 | 2022-07-05 | no
+Christophe Galtier | 2022-07-05 | 2023-07-05 | no
+Luis Enrique | 2023-07-05 | 2026-06-30 | no

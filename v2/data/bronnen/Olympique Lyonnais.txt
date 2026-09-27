@@ -1,0 +1,35 @@
+#src https://fr.wikipedia.org/wiki/Olympique_lyonnais
+#date_precision geschat
+Julien Darui | 1954-07-01 | 1955-06-30 | no
+Lucien Troupel | 1955-07-01 | 1959-06-30 | no
+Gabriel Robert | 1959-07-01 | 1961-06-30 | no
+Manuel Fernandez | 1961-07-01 | 1962-06-30 | no
+Lucien Jasseron | 1962-07-01 | 1966-06-30 | no
+Louis Hon | 1966-07-01 | 1968-06-30 | no
+Aimé Mignot | 1968-07-01 | 1976-02-15 | no
+Aimé Jacquet | 1976-02-15 | 1980-06-30 | no
+Jean-Pierre Destrumelle | 1980-07-01 | 1981-11-15 | no
+Vladimir Kovačević | 1981-11-15 | 1982-02-15 | no
+Robert Herbin | 1982-02-15 | 1984-06-30 | no
+Robert Nouzaret | 1984-07-01 | 1987-10-15 | no
+Denis Papas | 1987-10-15 | 1988-03-15 | no
+Marcel Le Borgne | 1988-03-15 | 1988-06-30 | no
+Raymond Domenech | 1988-07-01 | 1993-06-30 | no
+Jean Tigana | 1993-07-01 | 1995-06-30 | no
+Guy Stéphan | 1995-07-01 | 1996-10-15 | no
+Bernard Lacombe | 1996-10-15 | 2000-06-30 | no
+Jacques Santini | 2000-07-01 | 2002-06-30 | no
+Paul Le Guen | 2002-07-01 | 2005-06-30 | no
+Gérard Houllier | 2005-07-01 | 2007-06-30 | no
+Alain Perrin | 2007-07-01 | 2008-06-30 | no
+Claude Puel | 2008-07-01 | 2011-06-30 | no
+Rémi Garde | 2011-07-01 | 2014-06-30 | no
+Hubert Fournier | 2014-07-01 | 2015-12-23 | no
+Bruno Genesio | 2015-12-24 | 2019-05-31 | no
+Sylvinho | 2019-06-01 | 2019-10-15 | no
+Rudi Garcia | 2019-10-15 | 2021-06-30 | no
+Peter Bosz | 2021-07-01 | 2022-10-15 | no
+Laurent Blanc | 2022-10-15 | 2023-09-15 | no
+Fabio Grosso | 2023-09-15 | 2023-11-15 | no
+Pierre Sage | 2023-11-15 | 2025-01-15 | no
+Paulo Fonseca | 2025-01-15 | 2026-06-30 | no
