@@ -17,3 +17,7 @@ Regel voor het gestreepte vlak: een trainer telt mee voor een seizoen als hij mi
 - `data/bronnen/build_trainers.py`: zet de bronlijsten om naar `data/trainers_seizoen.json` en vergelijkt elk seizoen met de hoofdtrainer in Firestore (verwacht lokale exports `seizoenen.json`, `coaches.json`, `clubs.json` en de map `src/`).
 - `data/controlelijst.md`: seizoenen waar bron en database uit elkaar lopen. De database is niet aangepast.
 - Nog geen data voor AS Monaco, Athletic Bilbao, Boavista en S.C. Braga (bronnen geven alleen jaartallen).
+
+## Twijfelgevallen
+
+`data/twijfelgevallen.json` bevat alle seizoenen waar bron en database uit elkaar lopen. In het dashboard onder **Twijfelgevallen** vink je per seizoen de trainers aan of uit, kies je de hoofdtrainer en sla je op. Dat schrijft `trainers_seizoen`, zo nodig een nieuwe `coachId`, en `trainers_controle` (status gecontroleerd). De import onder Seizoenstrainers slaat gecontroleerde seizoenen daarna over.

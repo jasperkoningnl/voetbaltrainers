@@ -13,7 +13,7 @@ def same(a,b):
     return a[-1]==b[-1] or a[-1] in b or b[-1] in a or ' '.join(a) in ' '.join(b) or ' '.join(b) in ' '.join(a)
 def window(y):
     return dt.date(y,8,1), (dt.date(y+1,8,31) if y==2019 else dt.date(y+1,5,20))
-out=[];report=[];warn=[]
+out=[];report=[];warn=[];twijfel=[]
 for f in sorted(glob.glob('src/*.txt')):
     club=os.path.basename(f)[:-4]; cid=byname[club]
     lines=open(f).read().splitlines()
@@ -32,7 +32,9 @@ for f in sorted(glob.glob('src/*.txt')):
             if s['seizoen']<lo or s['seizoen']>hi: continue
             if s['seizoen'] in multi:
                 tr=multi[s['seizoen']]
-                if 'Unavail' not in main and not any(same(main,t['naam']) for t in tr): report.append(f"{club} {s['seizoen']}: db={main} src={[t['naam'] for t in tr]}")
+                if 'Unavail' not in main and not any(same(main,t['naam']) for t in tr):
+                    report.append(f"{club} {s['seizoen']}: db={main} src={[t['naam'] for t in tr]}")
+                    twijfel.append(dict(docId=s['_id'],club=cid,clubNaam=club,land=K[cid]['land'],seizoen=s['seizoen'],soort='ontbreekt',dbCoach=main,dbCoachId=s['coachId'],kandidaten=tr,bron=src))
             else:
                 tr=[dict(naam=main,interim=False)] if 'Unavail' not in main else []
             if tr: out.append(dict(club=cid,seizoen=s['seizoen'],trainers=tr,bron=src))
@@ -53,9 +55,14 @@ for f in sorted(glob.glob('src/*.txt')):
                 tr.append(dict(naam=n,van=a.isoformat(),tot=b.isoformat(),interim=i)); days[n]=days.get(n,0)+ov
         main=C[s['coachId']]['naam']
         if 'Unavail' in main: pass
-        elif not any(same(main,t['naam']) for t in tr): report.append(f"{club} {s['seizoen']}: db={main} src={[t['naam'] for t in tr]}")
-        elif days and not same(main,max(days,key=days.get)): warn.append(f"{club} {s['seizoen']}: db={main} longest={max(days,key=days.get)} {days}")
+        elif not any(same(main,t['naam']) for t in tr):
+            report.append(f"{club} {s['seizoen']}: db={main} src={[t['naam'] for t in tr]}")
+            twijfel.append(dict(docId=s['_id'],club=cid,clubNaam=club,land=K[cid]['land'],seizoen=s['seizoen'],soort='ontbreekt',dbCoach=main,dbCoachId=s['coachId'],kandidaten=[dict(t,dagen=days.get(t['naam'])) for t in tr],bron=src))
+        elif days and not same(main,max(days,key=days.get)):
+            warn.append(f"{club} {s['seizoen']}: db={main} longest={max(days,key=days.get)} {days}")
+            twijfel.append(dict(docId=s['_id'],club=cid,clubNaam=club,land=K[cid]['land'],seizoen=s['seizoen'],soort='langst',dbCoach=main,dbCoachId=s['coachId'],kandidaten=[dict(t,dagen=days.get(t['naam'])) for t in tr],bron=src))
         if tr: out.append(dict(club=cid,seizoen=s['seizoen'],trainers=tr,bron=src))
+json.dump({'twijfel':twijfel},open('twijfelgevallen.json','w'),ensure_ascii=False,indent=1)
 json.dump({'seizoenen':out},open('trainers_seizoen.json','w'),ensure_ascii=False,indent=1)
 multi=[o for o in out if len(o['trainers'])>1]
 print(len(out),'seasons,',len(multi),'multi,',len({o['club'] for o in out}),'clubs')
