@@ -1,0 +1,5004 @@
+{
+ "seizoenen": [
+  {
+   "club": "Arsenal",
+   "seizoen": "1955/56",
+   "trainers": [
+    {
+     "naam": "Tom Whittaker",
+     "van": "1947-06-02",
+     "tot": "1956-10-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1956/57",
+   "trainers": [
+    {
+     "naam": "Tom Whittaker",
+     "van": "1947-06-02",
+     "tot": "1956-10-24",
+     "interim": false
+    },
+    {
+     "naam": "Jack Crayston",
+     "van": "1956-10-24",
+     "tot": "1958-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1957/58",
+   "trainers": [
+    {
+     "naam": "Jack Crayston",
+     "van": "1956-10-24",
+     "tot": "1958-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1958/59",
+   "trainers": [
+    {
+     "naam": "George Swindin",
+     "van": "1958-06-21",
+     "tot": "1962-05-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1959/60",
+   "trainers": [
+    {
+     "naam": "George Swindin",
+     "van": "1958-06-21",
+     "tot": "1962-05-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1960/61",
+   "trainers": [
+    {
+     "naam": "George Swindin",
+     "van": "1958-06-21",
+     "tot": "1962-05-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1961/62",
+   "trainers": [
+    {
+     "naam": "George Swindin",
+     "van": "1958-06-21",
+     "tot": "1962-05-01",
+     "interim": false
+    },
+    {
+     "naam": "Billy Wright",
+     "van": "1962-05-01",
+     "tot": "1966-06-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1962/63",
+   "trainers": [
+    {
+     "naam": "Billy Wright",
+     "van": "1962-05-01",
+     "tot": "1966-06-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1963/64",
+   "trainers": [
+    {
+     "naam": "Billy Wright",
+     "van": "1962-05-01",
+     "tot": "1966-06-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1964/65",
+   "trainers": [
+    {
+     "naam": "Billy Wright",
+     "van": "1962-05-01",
+     "tot": "1966-06-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1965/66",
+   "trainers": [
+    {
+     "naam": "Billy Wright",
+     "van": "1962-05-01",
+     "tot": "1966-06-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1966/67",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1967/68",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1968/69",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1969/70",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1970/71",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1971/72",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1972/73",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1973/74",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1974/75",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1975/76",
+   "trainers": [
+    {
+     "naam": "Bertie Mee",
+     "van": "1966-06-20",
+     "tot": "1976-05-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1976/77",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1977/78",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1978/79",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1979/80",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1980/81",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1981/82",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1982/83",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1983/84",
+   "trainers": [
+    {
+     "naam": "Terry Neill",
+     "van": "1976-07-09",
+     "tot": "1983-12-16",
+     "interim": false
+    },
+    {
+     "naam": "Don Howe",
+     "van": "1983-12-16",
+     "tot": "1986-03-22",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1984/85",
+   "trainers": [
+    {
+     "naam": "Don Howe",
+     "van": "1983-12-16",
+     "tot": "1986-03-22",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1985/86",
+   "trainers": [
+    {
+     "naam": "Don Howe",
+     "van": "1983-12-16",
+     "tot": "1986-03-22",
+     "interim": false
+    },
+    {
+     "naam": "Steve Burtenshaw",
+     "van": "1986-03-23",
+     "tot": "1986-05-14",
+     "interim": true
+    },
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1986/87",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1987/88",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1988/89",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1989/90",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1990/91",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1991/92",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1992/93",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1993/94",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1994/95",
+   "trainers": [
+    {
+     "naam": "George Graham",
+     "van": "1986-05-14",
+     "tot": "1995-02-21",
+     "interim": false
+    },
+    {
+     "naam": "Stewart Houston",
+     "van": "1995-02-21",
+     "tot": "1995-06-15",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1995/96",
+   "trainers": [
+    {
+     "naam": "Bruce Rioch",
+     "van": "1995-06-15",
+     "tot": "1996-08-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1996/97",
+   "trainers": [
+    {
+     "naam": "Bruce Rioch",
+     "van": "1995-06-15",
+     "tot": "1996-08-12",
+     "interim": false
+    },
+    {
+     "naam": "Stewart Houston",
+     "van": "1996-08-12",
+     "tot": "1996-09-13",
+     "interim": true
+    },
+    {
+     "naam": "Pat Rice",
+     "van": "1996-09-13",
+     "tot": "1996-09-30",
+     "interim": true
+    },
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1997/98",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1998/99",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "1999/00",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2000/01",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2001/02",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2002/03",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2003/04",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2004/05",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2005/06",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2006/07",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2007/08",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2008/09",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2009/10",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2010/11",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2011/12",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2012/13",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2013/14",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2014/15",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2015/16",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2016/17",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2017/18",
+   "trainers": [
+    {
+     "naam": "Arsène Wenger",
+     "van": "1996-10-01",
+     "tot": "2018-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2018/19",
+   "trainers": [
+    {
+     "naam": "Unai Emery",
+     "van": "2018-05-23",
+     "tot": "2019-11-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2019/20",
+   "trainers": [
+    {
+     "naam": "Unai Emery",
+     "van": "2018-05-23",
+     "tot": "2019-11-29",
+     "interim": false
+    },
+    {
+     "naam": "Freddie Ljungberg",
+     "van": "2019-11-29",
+     "tot": "2019-12-21",
+     "interim": true
+    },
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2020/21",
+   "trainers": [
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2021/22",
+   "trainers": [
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2022/23",
+   "trainers": [
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2023/24",
+   "trainers": [
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Arsenal",
+   "seizoen": "2024/25",
+   "trainers": [
+    {
+     "naam": "Mikel Arteta",
+     "van": "2019-12-22",
+     "tot": "2026-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Arsenal_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1955/56",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1956/57",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1957/58",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1958/59",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1959/60",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1960/61",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1961/62",
+   "trainers": [
+    {
+     "naam": "Ted Drake",
+     "van": "1952-06-01",
+     "tot": "1961-09-30",
+     "interim": false
+    },
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1962/63",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1963/64",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1964/65",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1965/66",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1966/67",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1967/68",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1961-10-01",
+     "tot": "1967-10-06",
+     "interim": false
+    },
+    {
+     "naam": "Ron Suart",
+     "van": "1967-10-06",
+     "tot": "1967-10-23",
+     "interim": true
+    },
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1968/69",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1969/70",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1970/71",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1971/72",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1972/73",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1973/74",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1974/75",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1967-10-23",
+     "tot": "1974-10-03",
+     "interim": false
+    },
+    {
+     "naam": "Ron Suart",
+     "van": "1974-10-03",
+     "tot": "1975-04-16",
+     "interim": true
+    },
+    {
+     "naam": "Eddie McCreadie",
+     "van": "1975-04-16",
+     "tot": "1977-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1975/76",
+   "trainers": [
+    {
+     "naam": "Eddie McCreadie",
+     "van": "1975-04-16",
+     "tot": "1977-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1976/77",
+   "trainers": [
+    {
+     "naam": "Eddie McCreadie",
+     "van": "1975-04-16",
+     "tot": "1977-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1977/78",
+   "trainers": [
+    {
+     "naam": "Ken Shellito",
+     "van": "1977-07-07",
+     "tot": "1978-12-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1978/79",
+   "trainers": [
+    {
+     "naam": "Ken Shellito",
+     "van": "1977-07-07",
+     "tot": "1978-12-13",
+     "interim": false
+    },
+    {
+     "naam": "Danny Blanchflower",
+     "van": "1978-12-14",
+     "tot": "1979-09-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1979/80",
+   "trainers": [
+    {
+     "naam": "Danny Blanchflower",
+     "van": "1978-12-14",
+     "tot": "1979-09-11",
+     "interim": false
+    },
+    {
+     "naam": "Geoff Hurst",
+     "van": "1979-09-13",
+     "tot": "1981-04-23",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1980/81",
+   "trainers": [
+    {
+     "naam": "Geoff Hurst",
+     "van": "1979-09-13",
+     "tot": "1981-04-23",
+     "interim": false
+    },
+    {
+     "naam": "Bobby Gould",
+     "van": "1981-04-23",
+     "tot": "1981-05-28",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1981/82",
+   "trainers": [
+    {
+     "naam": "John Neal",
+     "van": "1981-05-28",
+     "tot": "1985-06-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1982/83",
+   "trainers": [
+    {
+     "naam": "John Neal",
+     "van": "1981-05-28",
+     "tot": "1985-06-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1983/84",
+   "trainers": [
+    {
+     "naam": "John Neal",
+     "van": "1981-05-28",
+     "tot": "1985-06-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1984/85",
+   "trainers": [
+    {
+     "naam": "John Neal",
+     "van": "1981-05-28",
+     "tot": "1985-06-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1985/86",
+   "trainers": [
+    {
+     "naam": "John Hollins",
+     "van": "1985-06-11",
+     "tot": "1988-03-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1986/87",
+   "trainers": [
+    {
+     "naam": "John Hollins",
+     "van": "1985-06-11",
+     "tot": "1988-03-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1987/88",
+   "trainers": [
+    {
+     "naam": "John Hollins",
+     "van": "1985-06-11",
+     "tot": "1988-03-06",
+     "interim": false
+    },
+    {
+     "naam": "Bobby Campbell",
+     "van": "1988-03-06",
+     "tot": "1991-05-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1988/89",
+   "trainers": [
+    {
+     "naam": "Bobby Campbell",
+     "van": "1988-03-06",
+     "tot": "1991-05-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1989/90",
+   "trainers": [
+    {
+     "naam": "Bobby Campbell",
+     "van": "1988-03-06",
+     "tot": "1991-05-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1990/91",
+   "trainers": [
+    {
+     "naam": "Bobby Campbell",
+     "van": "1988-03-06",
+     "tot": "1991-05-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1991/92",
+   "trainers": [
+    {
+     "naam": "Ian Porterfield",
+     "van": "1991-06-11",
+     "tot": "1993-02-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1992/93",
+   "trainers": [
+    {
+     "naam": "Ian Porterfield",
+     "van": "1991-06-11",
+     "tot": "1993-02-15",
+     "interim": false
+    },
+    {
+     "naam": "David Webb",
+     "van": "1993-02-15",
+     "tot": "1993-05-11",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1993/94",
+   "trainers": [
+    {
+     "naam": "Glenn Hoddle",
+     "van": "1993-06-04",
+     "tot": "1996-05-10",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1994/95",
+   "trainers": [
+    {
+     "naam": "Glenn Hoddle",
+     "van": "1993-06-04",
+     "tot": "1996-05-10",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1995/96",
+   "trainers": [
+    {
+     "naam": "Glenn Hoddle",
+     "van": "1993-06-04",
+     "tot": "1996-05-10",
+     "interim": false
+    },
+    {
+     "naam": "Ruud Gullit",
+     "van": "1996-05-10",
+     "tot": "1998-02-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1996/97",
+   "trainers": [
+    {
+     "naam": "Ruud Gullit",
+     "van": "1996-05-10",
+     "tot": "1998-02-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1997/98",
+   "trainers": [
+    {
+     "naam": "Ruud Gullit",
+     "van": "1996-05-10",
+     "tot": "1998-02-12",
+     "interim": false
+    },
+    {
+     "naam": "Gianluca Vialli",
+     "van": "1998-02-12",
+     "tot": "2000-09-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1998/99",
+   "trainers": [
+    {
+     "naam": "Gianluca Vialli",
+     "van": "1998-02-12",
+     "tot": "2000-09-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "1999/00",
+   "trainers": [
+    {
+     "naam": "Gianluca Vialli",
+     "van": "1998-02-12",
+     "tot": "2000-09-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2000/01",
+   "trainers": [
+    {
+     "naam": "Gianluca Vialli",
+     "van": "1998-02-12",
+     "tot": "2000-09-12",
+     "interim": false
+    },
+    {
+     "naam": "Graham Rix",
+     "van": "2000-09-13",
+     "tot": "2000-09-17",
+     "interim": true
+    },
+    {
+     "naam": "Claudio Ranieri",
+     "van": "2000-09-18",
+     "tot": "2004-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2001/02",
+   "trainers": [
+    {
+     "naam": "Claudio Ranieri",
+     "van": "2000-09-18",
+     "tot": "2004-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2002/03",
+   "trainers": [
+    {
+     "naam": "Claudio Ranieri",
+     "van": "2000-09-18",
+     "tot": "2004-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2003/04",
+   "trainers": [
+    {
+     "naam": "Claudio Ranieri",
+     "van": "2000-09-18",
+     "tot": "2004-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2004/05",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2004-06-02",
+     "tot": "2007-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2005/06",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2004-06-02",
+     "tot": "2007-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2006/07",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2004-06-02",
+     "tot": "2007-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2007/08",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2004-06-02",
+     "tot": "2007-09-20",
+     "interim": false
+    },
+    {
+     "naam": "Avram Grant",
+     "van": "2007-09-20",
+     "tot": "2008-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2008/09",
+   "trainers": [
+    {
+     "naam": "Luiz Felipe Scolari",
+     "van": "2008-07-01",
+     "tot": "2009-02-09",
+     "interim": false
+    },
+    {
+     "naam": "Ray Wilkins",
+     "van": "2009-02-09",
+     "tot": "2009-02-16",
+     "interim": true
+    },
+    {
+     "naam": "Guus Hiddink",
+     "van": "2009-02-16",
+     "tot": "2009-05-31",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2009/10",
+   "trainers": [
+    {
+     "naam": "Carlo Ancelotti",
+     "van": "2009-07-01",
+     "tot": "2011-05-22",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2010/11",
+   "trainers": [
+    {
+     "naam": "Carlo Ancelotti",
+     "van": "2009-07-01",
+     "tot": "2011-05-22",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2011/12",
+   "trainers": [
+    {
+     "naam": "André Villas-Boas",
+     "van": "2011-06-22",
+     "tot": "2012-03-04",
+     "interim": false
+    },
+    {
+     "naam": "Roberto Di Matteo",
+     "van": "2012-03-04",
+     "tot": "2012-11-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2012/13",
+   "trainers": [
+    {
+     "naam": "Roberto Di Matteo",
+     "van": "2012-03-04",
+     "tot": "2012-11-21",
+     "interim": false
+    },
+    {
+     "naam": "Rafael Benítez",
+     "van": "2012-11-21",
+     "tot": "2013-05-29",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2013/14",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2013-06-03",
+     "tot": "2015-12-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2014/15",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2013-06-03",
+     "tot": "2015-12-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2015/16",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2013-06-03",
+     "tot": "2015-12-17",
+     "interim": false
+    },
+    {
+     "naam": "Guus Hiddink",
+     "van": "2015-12-20",
+     "tot": "2016-07-03",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2016/17",
+   "trainers": [
+    {
+     "naam": "Antonio Conte",
+     "van": "2016-07-03",
+     "tot": "2018-07-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2017/18",
+   "trainers": [
+    {
+     "naam": "Antonio Conte",
+     "van": "2016-07-03",
+     "tot": "2018-07-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2018/19",
+   "trainers": [
+    {
+     "naam": "Maurizio Sarri",
+     "van": "2018-07-14",
+     "tot": "2019-06-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2019/20",
+   "trainers": [
+    {
+     "naam": "Frank Lampard",
+     "van": "2019-07-04",
+     "tot": "2021-01-25",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2020/21",
+   "trainers": [
+    {
+     "naam": "Frank Lampard",
+     "van": "2019-07-04",
+     "tot": "2021-01-25",
+     "interim": false
+    },
+    {
+     "naam": "Thomas Tuchel",
+     "van": "2021-01-26",
+     "tot": "2022-09-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2021/22",
+   "trainers": [
+    {
+     "naam": "Thomas Tuchel",
+     "van": "2021-01-26",
+     "tot": "2022-09-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2022/23",
+   "trainers": [
+    {
+     "naam": "Thomas Tuchel",
+     "van": "2021-01-26",
+     "tot": "2022-09-07",
+     "interim": false
+    },
+    {
+     "naam": "Graham Potter",
+     "van": "2022-09-08",
+     "tot": "2023-04-02",
+     "interim": false
+    },
+    {
+     "naam": "Bruno Saltor",
+     "van": "2023-04-02",
+     "tot": "2023-04-06",
+     "interim": true
+    },
+    {
+     "naam": "Frank Lampard",
+     "van": "2023-04-06",
+     "tot": "2023-06-30",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2023/24",
+   "trainers": [
+    {
+     "naam": "Mauricio Pochettino",
+     "van": "2023-07-01",
+     "tot": "2024-05-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Chelsea",
+   "seizoen": "2024/25",
+   "trainers": [
+    {
+     "naam": "Enzo Maresca",
+     "van": "2024-07-01",
+     "tot": "2026-01-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1955/56",
+   "trainers": [
+    {
+     "naam": "Don Welsh",
+     "van": "1951-03-05",
+     "tot": "1956-05-04",
+     "interim": false
+    },
+    {
+     "naam": "Phil Taylor",
+     "van": "1956-05-14",
+     "tot": "1959-11-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1956/57",
+   "trainers": [
+    {
+     "naam": "Phil Taylor",
+     "van": "1956-05-14",
+     "tot": "1959-11-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1957/58",
+   "trainers": [
+    {
+     "naam": "Phil Taylor",
+     "van": "1956-05-14",
+     "tot": "1959-11-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1958/59",
+   "trainers": [
+    {
+     "naam": "Phil Taylor",
+     "van": "1956-05-14",
+     "tot": "1959-11-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1959/60",
+   "trainers": [
+    {
+     "naam": "Phil Taylor",
+     "van": "1956-05-14",
+     "tot": "1959-11-17",
+     "interim": false
+    },
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1960/61",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1961/62",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1962/63",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1963/64",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1964/65",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1965/66",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1966/67",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1967/68",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1968/69",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1969/70",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1970/71",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1971/72",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1972/73",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1973/74",
+   "trainers": [
+    {
+     "naam": "Bill Shankly",
+     "van": "1959-12-01",
+     "tot": "1974-07-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1974/75",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1975/76",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1976/77",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1977/78",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1978/79",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1979/80",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1980/81",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1981/82",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1982/83",
+   "trainers": [
+    {
+     "naam": "Bob Paisley",
+     "van": "1974-08-26",
+     "tot": "1983-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1983/84",
+   "trainers": [
+    {
+     "naam": "Joe Fagan",
+     "van": "1983-07-02",
+     "tot": "1985-05-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1984/85",
+   "trainers": [
+    {
+     "naam": "Joe Fagan",
+     "van": "1983-07-02",
+     "tot": "1985-05-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1985/86",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1986/87",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1987/88",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1988/89",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1989/90",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1990/91",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "1985-05-30",
+     "tot": "1991-02-21",
+     "interim": false
+    },
+    {
+     "naam": "Ronnie Moran",
+     "van": "1991-02-22",
+     "tot": "1991-04-15",
+     "interim": true
+    },
+    {
+     "naam": "Graeme Souness",
+     "van": "1991-04-16",
+     "tot": "1994-01-28",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1991/92",
+   "trainers": [
+    {
+     "naam": "Graeme Souness",
+     "van": "1991-04-16",
+     "tot": "1994-01-28",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1992/93",
+   "trainers": [
+    {
+     "naam": "Graeme Souness",
+     "van": "1991-04-16",
+     "tot": "1994-01-28",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1993/94",
+   "trainers": [
+    {
+     "naam": "Graeme Souness",
+     "van": "1991-04-16",
+     "tot": "1994-01-28",
+     "interim": false
+    },
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1994/95",
+   "trainers": [
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1995/96",
+   "trainers": [
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1996/97",
+   "trainers": [
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1997/98",
+   "trainers": [
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1998/99",
+   "trainers": [
+    {
+     "naam": "Roy Evans",
+     "van": "1994-01-31",
+     "tot": "1998-11-12",
+     "interim": false
+    },
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "1999/00",
+   "trainers": [
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2000/01",
+   "trainers": [
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2001/02",
+   "trainers": [
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2002/03",
+   "trainers": [
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2003/04",
+   "trainers": [
+    {
+     "naam": "Gérard Houllier",
+     "van": "1998-11-12",
+     "tot": "2004-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2004/05",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2005/06",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2006/07",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2007/08",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2008/09",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2009/10",
+   "trainers": [
+    {
+     "naam": "Rafael Benítez",
+     "van": "2004-06-16",
+     "tot": "2010-06-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2010/11",
+   "trainers": [
+    {
+     "naam": "Roy Hodgson",
+     "van": "2010-07-01",
+     "tot": "2011-01-08",
+     "interim": false
+    },
+    {
+     "naam": "Kenny Dalglish",
+     "van": "2011-01-08",
+     "tot": "2012-05-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2011/12",
+   "trainers": [
+    {
+     "naam": "Kenny Dalglish",
+     "van": "2011-01-08",
+     "tot": "2012-05-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2012/13",
+   "trainers": [
+    {
+     "naam": "Brendan Rodgers",
+     "van": "2012-06-01",
+     "tot": "2015-10-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2013/14",
+   "trainers": [
+    {
+     "naam": "Brendan Rodgers",
+     "van": "2012-06-01",
+     "tot": "2015-10-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2014/15",
+   "trainers": [
+    {
+     "naam": "Brendan Rodgers",
+     "van": "2012-06-01",
+     "tot": "2015-10-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2015/16",
+   "trainers": [
+    {
+     "naam": "Brendan Rodgers",
+     "van": "2012-06-01",
+     "tot": "2015-10-04",
+     "interim": false
+    },
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2016/17",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2017/18",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2018/19",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2019/20",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2020/21",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2021/22",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2022/23",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2023/24",
+   "trainers": [
+    {
+     "naam": "Jürgen Klopp",
+     "van": "2015-10-08",
+     "tot": "2024-05-31",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Liverpool",
+   "seizoen": "2024/25",
+   "trainers": [
+    {
+     "naam": "Arne Slot",
+     "van": "2024-06-01",
+     "tot": "2026-05-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Liverpool_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1955/56",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1956/57",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1957/58",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1958/59",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1959/60",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1960/61",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1961/62",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1962/63",
+   "trainers": [
+    {
+     "naam": "Les McDowall",
+     "van": "1950-06-01",
+     "tot": "1963-05-15",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1963/64",
+   "trainers": [
+    {
+     "naam": "George Poyser",
+     "van": "1963-07-12",
+     "tot": "1965-04-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1964/65",
+   "trainers": [
+    {
+     "naam": "George Poyser",
+     "van": "1963-07-12",
+     "tot": "1965-04-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1965/66",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1966/67",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1967/68",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1968/69",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1969/70",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1970/71",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1971/72",
+   "trainers": [
+    {
+     "naam": "Joe Mercer",
+     "van": "1965-07-13",
+     "tot": "1971-10-07",
+     "interim": false
+    },
+    {
+     "naam": "Malcolm Allison",
+     "van": "1971-10-07",
+     "tot": "1973-03-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1972/73",
+   "trainers": [
+    {
+     "naam": "Malcolm Allison",
+     "van": "1971-10-07",
+     "tot": "1973-03-30",
+     "interim": false
+    },
+    {
+     "naam": "Johnny Hart",
+     "van": "1973-03-30",
+     "tot": "1973-10-22",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1973/74",
+   "trainers": [
+    {
+     "naam": "Johnny Hart",
+     "van": "1973-03-30",
+     "tot": "1973-10-22",
+     "interim": false
+    },
+    {
+     "naam": "Tony Book",
+     "van": "1973-10-23",
+     "tot": "1973-11-22",
+     "interim": true
+    },
+    {
+     "naam": "Ron Saunders",
+     "van": "1973-11-22",
+     "tot": "1974-04-12",
+     "interim": false
+    },
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1974/75",
+   "trainers": [
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1975/76",
+   "trainers": [
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1976/77",
+   "trainers": [
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1977/78",
+   "trainers": [
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1978/79",
+   "trainers": [
+    {
+     "naam": "Tony Book",
+     "van": "1974-04-12",
+     "tot": "1979-07-01",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1979/80",
+   "trainers": [
+    {
+     "naam": "Malcolm Allison",
+     "van": "1979-07-16",
+     "tot": "1980-10-08",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1980/81",
+   "trainers": [
+    {
+     "naam": "Malcolm Allison",
+     "van": "1979-07-16",
+     "tot": "1980-10-08",
+     "interim": false
+    },
+    {
+     "naam": "Tony Book",
+     "van": "1980-10-09",
+     "tot": "1980-10-16",
+     "interim": true
+    },
+    {
+     "naam": "John Bond",
+     "van": "1980-10-17",
+     "tot": "1983-02-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1981/82",
+   "trainers": [
+    {
+     "naam": "John Bond",
+     "van": "1980-10-17",
+     "tot": "1983-02-03",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1982/83",
+   "trainers": [
+    {
+     "naam": "John Bond",
+     "van": "1980-10-17",
+     "tot": "1983-02-03",
+     "interim": false
+    },
+    {
+     "naam": "John Benson",
+     "van": "1983-02-03",
+     "tot": "1983-06-07",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1983/84",
+   "trainers": [
+    {
+     "naam": "Billy McNeill",
+     "van": "1983-06-30",
+     "tot": "1986-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1984/85",
+   "trainers": [
+    {
+     "naam": "Billy McNeill",
+     "van": "1983-06-30",
+     "tot": "1986-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1985/86",
+   "trainers": [
+    {
+     "naam": "Billy McNeill",
+     "van": "1983-06-30",
+     "tot": "1986-09-20",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1986/87",
+   "trainers": [
+    {
+     "naam": "Billy McNeill",
+     "van": "1983-06-30",
+     "tot": "1986-09-20",
+     "interim": false
+    },
+    {
+     "naam": "Jimmy Frizzell",
+     "van": "1986-09-21",
+     "tot": "1987-05-15",
+     "interim": false
+    },
+    {
+     "naam": "Mel Machin",
+     "van": "1987-05-16",
+     "tot": "1989-11-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1987/88",
+   "trainers": [
+    {
+     "naam": "Mel Machin",
+     "van": "1987-05-16",
+     "tot": "1989-11-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1988/89",
+   "trainers": [
+    {
+     "naam": "Mel Machin",
+     "van": "1987-05-16",
+     "tot": "1989-11-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1989/90",
+   "trainers": [
+    {
+     "naam": "Mel Machin",
+     "van": "1987-05-16",
+     "tot": "1989-11-29",
+     "interim": false
+    },
+    {
+     "naam": "Tony Book",
+     "van": "1989-11-29",
+     "tot": "1989-12-05",
+     "interim": true
+    },
+    {
+     "naam": "Howard Kendall",
+     "van": "1989-12-06",
+     "tot": "1990-11-05",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1990/91",
+   "trainers": [
+    {
+     "naam": "Howard Kendall",
+     "van": "1989-12-06",
+     "tot": "1990-11-05",
+     "interim": false
+    },
+    {
+     "naam": "Peter Reid",
+     "van": "1990-11-11",
+     "tot": "1993-08-26",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1991/92",
+   "trainers": [
+    {
+     "naam": "Peter Reid",
+     "van": "1990-11-11",
+     "tot": "1993-08-26",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1992/93",
+   "trainers": [
+    {
+     "naam": "Peter Reid",
+     "van": "1990-11-11",
+     "tot": "1993-08-26",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1993/94",
+   "trainers": [
+    {
+     "naam": "Peter Reid",
+     "van": "1990-11-11",
+     "tot": "1993-08-26",
+     "interim": false
+    },
+    {
+     "naam": "Brian Horton",
+     "van": "1993-08-28",
+     "tot": "1995-05-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1994/95",
+   "trainers": [
+    {
+     "naam": "Brian Horton",
+     "van": "1993-08-28",
+     "tot": "1995-05-16",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1995/96",
+   "trainers": [
+    {
+     "naam": "Alan Ball",
+     "van": "1995-06-30",
+     "tot": "1996-08-26",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1996/97",
+   "trainers": [
+    {
+     "naam": "Alan Ball",
+     "van": "1995-06-30",
+     "tot": "1996-08-26",
+     "interim": false
+    },
+    {
+     "naam": "Asa Hartford",
+     "van": "1996-08-26",
+     "tot": "1996-10-07",
+     "interim": true
+    },
+    {
+     "naam": "Steve Coppell",
+     "van": "1996-10-07",
+     "tot": "1996-11-08",
+     "interim": false
+    },
+    {
+     "naam": "Phil Neal",
+     "van": "1996-11-09",
+     "tot": "1996-12-28",
+     "interim": true
+    },
+    {
+     "naam": "Frank Clark",
+     "van": "1996-12-29",
+     "tot": "1998-02-17",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1997/98",
+   "trainers": [
+    {
+     "naam": "Frank Clark",
+     "van": "1996-12-29",
+     "tot": "1998-02-17",
+     "interim": false
+    },
+    {
+     "naam": "Joe Royle",
+     "van": "1998-02-18",
+     "tot": "2001-05-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1998/99",
+   "trainers": [
+    {
+     "naam": "Joe Royle",
+     "van": "1998-02-18",
+     "tot": "2001-05-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "1999/00",
+   "trainers": [
+    {
+     "naam": "Joe Royle",
+     "van": "1998-02-18",
+     "tot": "2001-05-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2000/01",
+   "trainers": [
+    {
+     "naam": "Joe Royle",
+     "van": "1998-02-18",
+     "tot": "2001-05-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2001/02",
+   "trainers": [
+    {
+     "naam": "Kevin Keegan",
+     "van": "2001-05-24",
+     "tot": "2005-03-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2002/03",
+   "trainers": [
+    {
+     "naam": "Kevin Keegan",
+     "van": "2001-05-24",
+     "tot": "2005-03-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2003/04",
+   "trainers": [
+    {
+     "naam": "Kevin Keegan",
+     "van": "2001-05-24",
+     "tot": "2005-03-11",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2004/05",
+   "trainers": [
+    {
+     "naam": "Kevin Keegan",
+     "van": "2001-05-24",
+     "tot": "2005-03-11",
+     "interim": false
+    },
+    {
+     "naam": "Stuart Pearce",
+     "van": "2005-03-11",
+     "tot": "2007-05-14",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2005/06",
+   "trainers": [
+    {
+     "naam": "Stuart Pearce",
+     "van": "2005-03-11",
+     "tot": "2007-05-14",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2006/07",
+   "trainers": [
+    {
+     "naam": "Stuart Pearce",
+     "van": "2005-03-11",
+     "tot": "2007-05-14",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2007/08",
+   "trainers": [
+    {
+     "naam": "Sven-Göran Eriksson",
+     "van": "2007-07-06",
+     "tot": "2008-06-02",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2008/09",
+   "trainers": [
+    {
+     "naam": "Mark Hughes",
+     "van": "2008-06-04",
+     "tot": "2009-12-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2009/10",
+   "trainers": [
+    {
+     "naam": "Mark Hughes",
+     "van": "2008-06-04",
+     "tot": "2009-12-19",
+     "interim": false
+    },
+    {
+     "naam": "Roberto Mancini",
+     "van": "2009-12-19",
+     "tot": "2013-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2010/11",
+   "trainers": [
+    {
+     "naam": "Roberto Mancini",
+     "van": "2009-12-19",
+     "tot": "2013-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2011/12",
+   "trainers": [
+    {
+     "naam": "Roberto Mancini",
+     "van": "2009-12-19",
+     "tot": "2013-05-13",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2012/13",
+   "trainers": [
+    {
+     "naam": "Roberto Mancini",
+     "van": "2009-12-19",
+     "tot": "2013-05-13",
+     "interim": false
+    },
+    {
+     "naam": "Brian Kidd",
+     "van": "2013-05-13",
+     "tot": "2013-06-14",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2013/14",
+   "trainers": [
+    {
+     "naam": "Manuel Pellegrini",
+     "van": "2013-06-14",
+     "tot": "2016-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2014/15",
+   "trainers": [
+    {
+     "naam": "Manuel Pellegrini",
+     "van": "2013-06-14",
+     "tot": "2016-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2015/16",
+   "trainers": [
+    {
+     "naam": "Manuel Pellegrini",
+     "van": "2013-06-14",
+     "tot": "2016-06-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2016/17",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2017/18",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2018/19",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2019/20",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2020/21",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2021/22",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2022/23",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2023/24",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester City",
+   "seizoen": "2024/25",
+   "trainers": [
+    {
+     "naam": "Pep Guardiola",
+     "van": "2016-07-01",
+     "tot": "2026-05-24",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_City_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1955/56",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1945-10-01",
+     "tot": "1958-02-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1956/57",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1945-10-01",
+     "tot": "1958-02-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1957/58",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1945-10-01",
+     "tot": "1958-02-06",
+     "interim": false
+    },
+    {
+     "naam": "Jimmy Murphy",
+     "van": "1958-02-06",
+     "tot": "1958-08-01",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1958/59",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1959/60",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1960/61",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1961/62",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1962/63",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1963/64",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1964/65",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1965/66",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1966/67",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1967/68",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1968/69",
+   "trainers": [
+    {
+     "naam": "Matt Busby",
+     "van": "1958-08-01",
+     "tot": "1969-06-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1969/70",
+   "trainers": [
+    {
+     "naam": "Wilf McGuinness",
+     "van": "1969-06-04",
+     "tot": "1970-12-29",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1970/71",
+   "trainers": [
+    {
+     "naam": "Wilf McGuinness",
+     "van": "1969-06-04",
+     "tot": "1970-12-29",
+     "interim": false
+    },
+    {
+     "naam": "Matt Busby",
+     "van": "1970-12-29",
+     "tot": "1971-06-08",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1971/72",
+   "trainers": [
+    {
+     "naam": "Frank O'Farrell",
+     "van": "1971-06-08",
+     "tot": "1972-12-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1972/73",
+   "trainers": [
+    {
+     "naam": "Frank O'Farrell",
+     "van": "1971-06-08",
+     "tot": "1972-12-19",
+     "interim": false
+    },
+    {
+     "naam": "Tommy Docherty",
+     "van": "1972-12-22",
+     "tot": "1977-07-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1973/74",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1972-12-22",
+     "tot": "1977-07-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1974/75",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1972-12-22",
+     "tot": "1977-07-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1975/76",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1972-12-22",
+     "tot": "1977-07-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1976/77",
+   "trainers": [
+    {
+     "naam": "Tommy Docherty",
+     "van": "1972-12-22",
+     "tot": "1977-07-04",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1977/78",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1977-07-14",
+     "tot": "1981-04-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1978/79",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1977-07-14",
+     "tot": "1981-04-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1979/80",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1977-07-14",
+     "tot": "1981-04-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1980/81",
+   "trainers": [
+    {
+     "naam": "Dave Sexton",
+     "van": "1977-07-14",
+     "tot": "1981-04-30",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1981/82",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1982/83",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1983/84",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1984/85",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1985/86",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1986/87",
+   "trainers": [
+    {
+     "naam": "Ron Atkinson",
+     "van": "1981-06-09",
+     "tot": "1986-11-06",
+     "interim": false
+    },
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1987/88",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1988/89",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1989/90",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1990/91",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1991/92",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1992/93",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1993/94",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1994/95",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1995/96",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1996/97",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1997/98",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1998/99",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "1999/00",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2000/01",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2001/02",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2002/03",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2003/04",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2004/05",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2005/06",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2006/07",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2007/08",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2008/09",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2009/10",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2010/11",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2011/12",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2012/13",
+   "trainers": [
+    {
+     "naam": "Alex Ferguson",
+     "van": "1986-11-06",
+     "tot": "2013-05-19",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2013/14",
+   "trainers": [
+    {
+     "naam": "David Moyes",
+     "van": "2013-07-01",
+     "tot": "2014-04-22",
+     "interim": false
+    },
+    {
+     "naam": "Ryan Giggs",
+     "van": "2014-04-22",
+     "tot": "2014-05-11",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2014/15",
+   "trainers": [
+    {
+     "naam": "Louis van Gaal",
+     "van": "2014-07-16",
+     "tot": "2016-05-23",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2015/16",
+   "trainers": [
+    {
+     "naam": "Louis van Gaal",
+     "van": "2014-07-16",
+     "tot": "2016-05-23",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2016/17",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2016-05-27",
+     "tot": "2018-12-18",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2017/18",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2016-05-27",
+     "tot": "2018-12-18",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2018/19",
+   "trainers": [
+    {
+     "naam": "José Mourinho",
+     "van": "2016-05-27",
+     "tot": "2018-12-18",
+     "interim": false
+    },
+    {
+     "naam": "Ole Gunnar Solskjær",
+     "van": "2018-12-19",
+     "tot": "2021-11-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2019/20",
+   "trainers": [
+    {
+     "naam": "Ole Gunnar Solskjær",
+     "van": "2018-12-19",
+     "tot": "2021-11-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2020/21",
+   "trainers": [
+    {
+     "naam": "Ole Gunnar Solskjær",
+     "van": "2018-12-19",
+     "tot": "2021-11-21",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2021/22",
+   "trainers": [
+    {
+     "naam": "Ole Gunnar Solskjær",
+     "van": "2018-12-19",
+     "tot": "2021-11-21",
+     "interim": false
+    },
+    {
+     "naam": "Michael Carrick",
+     "van": "2021-11-21",
+     "tot": "2021-12-02",
+     "interim": true
+    },
+    {
+     "naam": "Ralf Rangnick",
+     "van": "2021-12-03",
+     "tot": "2022-05-22",
+     "interim": true
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2022/23",
+   "trainers": [
+    {
+     "naam": "Erik ten Hag",
+     "van": "2022-05-23",
+     "tot": "2024-10-28",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2023/24",
+   "trainers": [
+    {
+     "naam": "Erik ten Hag",
+     "van": "2022-05-23",
+     "tot": "2024-10-28",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  },
+  {
+   "club": "Manchester United",
+   "seizoen": "2024/25",
+   "trainers": [
+    {
+     "naam": "Erik ten Hag",
+     "van": "2022-05-23",
+     "tot": "2024-10-28",
+     "interim": false
+    },
+    {
+     "naam": "Ruud van Nistelrooy",
+     "van": "2024-10-28",
+     "tot": "2024-11-10",
+     "interim": true
+    },
+    {
+     "naam": "Ruben Amorim",
+     "van": "2024-11-11",
+     "tot": "2026-01-05",
+     "interim": false
+    }
+   ],
+   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+  }
+ ]
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  Managerial Merry-Go-Round v2
+  Opnieuw opgebouwd: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner.
+  Leest dezelfde Firestore-database als v1. Seizoenen met meerdere trainers (veld trainers_seizoen)
+  krijgen een gestreept patroon.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Managerial Merry-Go-Round</title>
+    <meta name="description" content="Does keeping your manager win you trophies? 70 seasons, 35 European clubs, from Ferguson to Mourinho.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo+Black&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="#top" aria-label="The Managerial Merry-Go-Round">
+            <span class="logo-line"><span class="arrow-down">M</span>anagerial</span>
+            <span class="logo-line"><span class="arrow-up">M</span>erry-Go-Round</span>
+        </a>
+        <div class="nav-links">
+            <a href="#top" id="nav-story">Story</a>
+            <a href="#explore" id="nav-explore">Explore</a>
+            <a href="../articles.html">Articles</a>
+            <a href="../about.html">About</a>
+        </div>
+    </nav>
+</header>
+
+<div id="top"></div>
+
+<!-- ===================== INTRO ===================== -->
+<section id="story" aria-label="Story">
+    <div class="story-figure" id="story-figure">
+        <div class="figure-inner">
+            <div class="figure-caption" id="figure-caption"></div>
+            <div class="figure-stage" id="story-stage"></div>
+            <div class="figure-legend" id="story-legend"></div>
+        </div>
+    </div>
+
+    <div class="story-steps" id="story-steps">
+        <div class="step step-hero" data-step="hero">
+            <div class="step-card hero-card">
+                <p class="kicker">70 seasons · 35 clubs · 7 leagues</p>
+                <h1>Does keeping your manager win you trophies?</h1>
+                <p class="lede">Sir Alex Ferguson stayed at Manchester United for more than a quarter of a century. José Mourinho rarely unpacked his boxes. Both won almost everything. So who proves the rule?</p>
+                <p class="scroll-hint">Scroll to start <span aria-hidden="true">↓</span></p>
+                <a href="#explore" class="skip-link">Skip the story, go to the data</a>
+            </div>
+        </div>
+        <div class="step" data-step="ferguson-start"><div class="step-card" id="txt-ferguson-start"></div></div>
+        <div class="step" data-step="ferguson-full"><div class="step-card" id="txt-ferguson-full"></div></div>
+        <div class="step" data-step="united"><div class="step-card" id="txt-united"></div></div>
+        <div class="step" data-step="mourinho"><div class="step-card" id="txt-mourinho"></div></div>
+        <div class="step" data-step="duel"><div class="step-card" id="txt-duel"></div></div>
+        <div class="step" data-step="all-seasons"><div class="step-card" id="txt-all-seasons"></div></div>
+        <div class="step" data-step="clubs"><div class="step-card" id="txt-clubs"></div></div>
+        <div class="step" data-step="handover"><div class="step-card" id="txt-handover"></div></div>
+    </div>
+</section>
+
+<!-- ===================== EXPLORER ===================== -->
+<section id="explore" aria-label="Explore the data">
+    <div class="explore-intro">
+        <h2>Explore the data</h2>
+        <p>Every block is one season. Colour shows how long that manager stayed; stripes mean more than one manager was in charge that season. Hover a block for the details, click to lock it.</p>
+    </div>
+
+    <div class="canvas">
+        <div class="controls">
+            <div class="tabs" id="country-tabs" role="tablist"></div>
+            <div class="tabs tabs-modes" id="mode-tabs" role="tablist">
+                <button data-mode="compare" role="tab">Compare clubs</button>
+                <button data-mode="career" role="tab">Career mode</button>
+            </div>
+            <div class="toolbar">
+                <div class="field" id="field-search">
+                    <label for="coach-search">Highlight a manager</label>
+                    <input type="search" id="coach-search" list="coach-list" placeholder="e.g. Johan Cruyff" autocomplete="off">
+                </div>
+                <div class="field hidden" id="field-career">
+                    <label for="career-search">Follow a manager's career</label>
+                    <input type="search" id="career-search" list="coach-list" placeholder="e.g. José Mourinho" autocomplete="off">
+                </div>
+                <div class="field hidden" id="field-compare">
+                    <label>Clubs</label>
+                    <button class="btn" id="open-club-picker" type="button">+ Add or remove clubs</button>
+                </div>
+                <label class="toggle"><input type="checkbox" id="toggle-names" checked> Manager names</label>
+                <button class="btn btn-ghost" id="share-btn" type="button">Copy link</button>
+            </div>
+            <datalist id="coach-list"></datalist>
+        </div>
+
+        <div class="info-pane" id="info-pane" aria-live="polite"></div>
+        <div class="explorer-stage" id="explorer-stage"></div>
+        <div class="legend" id="explorer-legend"></div>
+        <p class="coverage-note" id="coverage-note"></p>
+    </div>
+</section>
+
+<div class="modal hidden" id="club-picker" role="dialog" aria-modal="true" aria-labelledby="club-picker-title">
+    <div class="modal-card">
+        <div class="modal-head">
+            <h3 id="club-picker-title">Choose clubs to compare</h3>
+            <button class="modal-close" id="close-club-picker" aria-label="Close">×</button>
+        </div>
+        <input type="search" id="club-filter" placeholder="Search a club…">
+        <div class="club-grid" id="club-grid"></div>
+    </div>
+</div>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. Data: league titles, national cups and major European trophies, one manager per season (the one in charge longest, never an interim). <a href="../data-methodology.html">Methodology</a> · <a href="../index.html">Previous version</a></p>
+</footer>
+
+<div class="loading" id="loading"><div class="spinner"></div><p>Loading 2,450 seasons…</p></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

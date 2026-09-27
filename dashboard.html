@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <!-- 
+  Dashboard Versie: 28.2 - Seizoenstrainers import
+  - Nieuwe sectie 'Seizoenstrainers': importeert per seizoen alle trainers (incl. interim) naar het veld trainers_seizoen, voor de v2-visualisatie.
+
   Dashboard Versie: 28.1 - Data Health Tool
   Changelog:
   - Nieuwe sectie 'Data Health' vervangt 'Data Management'.
@@ -1544,6 +1547,138 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
         }
 
         // --- HOOFD APPLICATIE ---
+        // --- SEIZOENSTRAINERS IMPORT (v2) ---
+        // Zet per seizoen het veld 'trainers_seizoen' (alle trainers die dat seizoen aan het roer stonden, incl. interim)
+        // en 'trainers_bron'. Bestaande velden (coachId, prijzen) worden NIET aangeraakt.
+        function SeasonCoachesImportView({ appData, onUpdate }) {
+            const [rows, setRows] = useState(null);
+            const [error, setError] = useState(null);
+            const [busy, setBusy] = useState(false);
+            const [done, setDone] = useState(null);
+            const [onlyMulti, setOnlyMulti] = useState(true);
+
+            const clubById = useMemo(() => Object.fromEntries(appData.clubs.map(c => [c.id, c])), [appData.clubs]);
+            const coachById = useMemo(() => Object.fromEntries(appData.coaches.map(c => [c.id, c])), [appData.coaches]);
+            const seasonIndex = useMemo(() => {
+                const m = new Map();
+                appData.seasons.forEach(s => m.set(`${s.club}|${s.seizoen}`, s));
+                return m;
+            }, [appData.seasons]);
+
+            const norm = (s) => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+
+            const handleFile = (e) => {
+                setError(null); setDone(null); setRows(null);
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const parsed = JSON.parse(ev.target.result);
+                        const list = Array.isArray(parsed) ? parsed : parsed.seizoenen;
+                        if (!Array.isArray(list)) throw new Error("Verwacht een array of { seizoenen: [...] }.");
+                        const prepared = list.map(item => {
+                            const season = seasonIndex.get(`${item.club}|${item.seizoen}`);
+                            const mainCoach = season ? coachById[season.coachId] : null;
+                            const names = (item.trainers || []).map(t => norm(t.naam));
+                            const mainFound = mainCoach ? names.some(n => n.includes(norm(mainCoach.naam).split(' ').pop()) ) : false;
+                            const existing = season && Array.isArray(season.trainers_seizoen) ? season.trainers_seizoen : null;
+                            return {
+                                ...item,
+                                seasonDocId: season ? season.id : null,
+                                clubNaam: clubById[item.club]?.naam || item.club,
+                                mainCoachNaam: mainCoach ? mainCoach.naam : '—',
+                                warning: !season ? 'Seizoen niet gevonden' : (!mainFound ? 'Hoofdtrainer staat niet in de lijst' : null),
+                                changed: JSON.stringify(existing) !== JSON.stringify(item.trainers || []),
+                            };
+                        });
+                        setRows(prepared);
+                    } catch (err) {
+                        setError(`Fout bij lezen van JSON: ${err.message}`);
+                    }
+                };
+                reader.readAsText(file);
+            };
+
+            const importable = rows ? rows.filter(r => r.seasonDocId && r.changed) : [];
+            const visible = rows ? rows.filter(r => !onlyMulti || (r.trainers || []).length > 1 || r.warning) : [];
+
+            const runImport = async () => {
+                setBusy(true); setError(null);
+                try {
+                    let count = 0;
+                    for (let i = 0; i < importable.length; i += 400) {
+                        const batch = writeBatch(db);
+                        importable.slice(i, i + 400).forEach(r => {
+                            batch.update(doc(db, 'seizoenen', r.seasonDocId), {
+                                trainers_seizoen: r.trainers || [],
+                                trainers_bron: r.bron || '',
+                            });
+                            count++;
+                        });
+                        await batch.commit();
+                    }
+                    setDone(count);
+                    onUpdate();
+                } catch (err) {
+                    console.error(err);
+                    setError(`Import mislukt: ${err.message}`);
+                }
+                setBusy(false);
+            };
+
+            const fmt = (t) => `${t.naam}${t.interim ? ' (interim)' : ''}${t.van ? ` · ${t.van}` : ''}${t.tot ? ` → ${t.tot}` : ''}`;
+
+            return (
+                <div>
+                    <h1 className="text-3xl font-bold mb-2">Seizoenstrainers importeren</h1>
+                    <p className="text-gray-600 mb-6 max-w-3xl">
+                        Voegt per seizoen de volledige lijst trainers toe (veld <code>trainers_seizoen</code>), inclusief interims, voor de gestreepte seizoenen in de v2-visualisatie.
+                        De hoofdtrainer van het seizoen (<code>coachId</code>) en de prijzen blijven ongewijzigd.
+                    </p>
+                    <div className="bg-white p-6 rounded-lg shadow mb-6">
+                        <input type="file" accept=".json" onChange={handleFile} className="block" />
+                        <p className="text-xs text-gray-500 mt-2">Formaat: <code>{'{ "seizoenen": [ { "club": "<clubId>", "seizoen": "1995/96", "trainers": [ { "naam": "...", "van": "1995-07-01", "tot": "1995-09-12", "interim": false } ], "bron": "https://..." } ] }'}</code></p>
+                    </div>
+                    {error && <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>}
+                    {done !== null && <div className="bg-green-100 text-green-800 p-4 rounded mb-4">{done} seizoenen bijgewerkt.</div>}
+                    {rows && (
+                        <div className="bg-white p-6 rounded-lg shadow">
+                            <div className="flex flex-wrap items-center gap-6 mb-4 text-sm">
+                                <span><b>{rows.length}</b> seizoenen in bestand</span>
+                                <span><b>{rows.filter(r => (r.trainers || []).length > 1).length}</b> met meerdere trainers</span>
+                                <span><b>{importable.length}</b> te wijzigen</span>
+                                <span className="text-amber-700"><b>{rows.filter(r => r.warning).length}</b> waarschuwingen</span>
+                                <label className="flex items-center gap-2"><input type="checkbox" checked={onlyMulti} onChange={e => setOnlyMulti(e.target.checked)} /> Toon alleen meerdere trainers / waarschuwingen</label>
+                                <button disabled={busy || importable.length === 0} onClick={runImport} className="ml-auto bg-indigo-600 disabled:bg-gray-300 text-white px-4 py-2 rounded">
+                                    {busy ? 'Bezig...' : `Importeer ${importable.length} seizoenen`}
+                                </button>
+                            </div>
+                            <div className="overflow-x-auto max-h-[60vh]">
+                                <table className="min-w-full text-sm">
+                                    <thead className="bg-gray-50 sticky top-0"><tr>
+                                        <th className="text-left p-2">Club</th><th className="text-left p-2">Seizoen</th><th className="text-left p-2">Hoofdtrainer (db)</th><th className="text-left p-2">Trainers dit seizoen</th><th className="text-left p-2">Bron</th><th className="text-left p-2">Status</th>
+                                    </tr></thead>
+                                    <tbody>
+                                        {visible.map((r, i) => (
+                                            <tr key={i} className={`border-t ${r.warning ? 'bg-amber-50' : ''}`}>
+                                                <td className="p-2">{r.clubNaam}</td>
+                                                <td className="p-2">{r.seizoen}</td>
+                                                <td className="p-2">{r.mainCoachNaam}</td>
+                                                <td className="p-2">{(r.trainers || []).map((t, j) => <div key={j}>{fmt(t)}</div>)}</td>
+                                                <td className="p-2">{r.bron ? <a className="text-indigo-600 underline" href={r.bron} target="_blank" rel="noreferrer">link</a> : '—'}</td>
+                                                <td className="p-2">{r.warning || (r.changed ? 'nieuw/gewijzigd' : 'ongewijzigd')}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
@@ -1625,6 +1760,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('clubs'); }} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('coaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('health'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'health' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Data Health</a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); setView('seasoncoaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasoncoaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenstrainers</a>
                         </nav>
                         <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
@@ -1638,6 +1774,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                     'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                     'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                     'health': <DataHealthView appData={appData} onUpdate={fetchAllData} />,
+                                    'seasoncoaches': <SeasonCoachesImportView appData={appData} onUpdate={fetchAllData} />,
                                 }[view]
                         }
                     </main>
