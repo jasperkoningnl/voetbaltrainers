@@ -1,12 +1,10 @@
 // Managerial Merry-Go-Round v2
-// Leest clubs, coaches en seizoenen uit Firestore (zelfde database als v1).
+// Leest clubs, coaches en seizoenen uit de statische snapshot ../data/snapshot.json
+// (export uit het dashboard). Alleen als die ontbreekt valt de app terug op Firestore.
 // Per seizoen staat één hoofdtrainer (coachId). Het optionele veld 'trainers_seizoen'
 // bevat alle trainers die dat seizoen aan het roer stonden (incl. interim); bij meer dan één
 // krijgt het seizoen een gestreept patroon. Ontbreekt het veld, dan valt de app terug op
 // data/trainers_seizoen.json.
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
@@ -58,24 +56,41 @@ function normalizeSeasonTrainers(list) {
 // ------------------------------------------------------------------
 const DB = { clubs: [], clubById: new Map(), coaches: new Map(), seasons: [], byClub: new Map(), seasonList: [], coverage: new Set() };
 
+// Snapshot eerst: dat kost geen Firestore-reads. Firestore alleen als de snapshot ontbreekt.
+async function fetchCollections() {
+    try {
+        const r = await fetch("../data/snapshot.json");
+        if (r.ok) {
+            const snap = await r.json();
+            if (Array.isArray(snap.clubs) && Array.isArray(snap.coaches) && Array.isArray(snap.seizoenen)) return snap;
+        }
+        console.warn(`Snapshot niet bruikbaar (HTTP ${r.status}), terugval op Firestore.`);
+    } catch (err) {
+        console.warn("Snapshot niet geladen, terugval op Firestore.", err);
+    }
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js");
+    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js");
+    const db = getFirestore(initializeApp(firebaseConfig));
+    const [clubs, coaches, seizoenen] = await Promise.all(["clubs", "coaches", "seizoenen"].map(async name =>
+        (await getDocs(collection(db, name))).docs.map(d => ({ id: d.id, ...d.data() }))));
+    // Zonder verbinding (bijv. quotum op) geeft de SDK lege resultaten in plaats van een fout.
+    if (!seizoenen.length) throw new Error("Geen seizoenen uit Firestore ontvangen.");
+    return { clubs, coaches, seizoenen };
+}
+
 async function loadData() {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const [clubSnap, coachSnap, seasonSnap, fallback] = await Promise.all([
-        getDocs(collection(db, "clubs")),
-        getDocs(collection(db, "coaches")),
-        getDocs(collection(db, "seizoenen")),
+    const [snap, fallback] = await Promise.all([
+        fetchCollections(),
         fetch("data/trainers_seizoen.json").then(r => r.ok ? r.json() : { seizoenen: [] }).catch(() => ({ seizoenen: [] })),
     ]);
 
     const fallbackMap = new Map((fallback.seizoenen || []).map(s => [`${s.club}|${s.seizoen}`, s.trainers]));
 
-    DB.clubs = clubSnap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => d3.ascending(a.naam, b.naam));
+    DB.clubs = snap.clubs.slice().sort((a, b) => d3.ascending(a.naam, b.naam));
     DB.clubs.forEach(c => DB.clubById.set(c.id, c));
-    coachSnap.docs.forEach(d => DB.coaches.set(d.id, { id: d.id, ...d.data() }));
+    snap.coaches.forEach(c => DB.coaches.set(c.id, c));
 
-    DB.seasons = seasonSnap.docs.map(d => {
-        const s = d.data();
+    DB.seasons = snap.seizoenen.map(s => {
         const coach = DB.coaches.get(s.coachId) || { naam: UNKNOWN };
         const club = DB.clubById.get(s.club);
         if (!club) return null;

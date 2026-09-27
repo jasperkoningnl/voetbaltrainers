@@ -27,6 +27,16 @@ The project leverages a modern web stack to separate data management from the pu
     * **Data Management (`dashboard.html`):** A sophisticated single-page application built with **React** and **Tailwind CSS**. It allows for full CRUD (Create, Read, Update, Delete) operations on all Firestore data.
     * **Serverless Functions (`index.js`):** Google Cloud Functions written in Node.js are used for advanced data processing tasks, such as enriching coach data with images from external APIs.
 
+## Data snapshot (publieke pagina's)
+
+`index.html` en `v2/` lezen hun data uit `data/snapshot.json`, niet rechtstreeks uit Firestore. Elke bezoeker die alle collecties uit Firestore leest kost duizenden document-reads; daarmee raakt het dagelijkse gratis quotum snel op ([Firestore quotas](https://firebase.google.com/docs/firestore/quotas)). Firestore wordt alleen nog gelezen als `data/snapshot.json` ontbreekt of onleesbaar is.
+
+Snapshot bijwerken na wijzigingen in het dashboard:
+
+1. Open `dashboard.html`, log in en klik links onderin op **Snapshot downloaden**. Dit leest `clubs`, `coaches` en `seizoenen` één keer uit Firestore en downloadt `snapshot.json`.
+2. Ga op GitHub naar de map `data/`, kies **Add file → Upload files**, sleep `snapshot.json` erin en commit. Het bestaande bestand wordt overschreven.
+3. GitHub Pages publiceert de nieuwe versie binnen een paar minuten.
+
 ## 3. Project Structure
 
 ```
