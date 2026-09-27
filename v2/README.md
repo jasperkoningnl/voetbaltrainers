@@ -3,7 +3,7 @@
 Nieuwe versie naast de bestaande (`/index.html` blijft ongewijzigd).
 
 - `index.html`, `style.css`, `app.js`: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner (landen, clubs vergelijken, carrièremodus).
-- Leest dezelfde Firestore-collecties: `clubs`, `coaches`, `seizoenen`.
+- Leest `clubs`, `coaches` en `seizoenen` uit `../data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
 - Seizoenen met meer dan één trainer (incl. interim) krijgen een gestreept patroon. Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.

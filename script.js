@@ -254,15 +254,37 @@ function shareView() {
 
 
 // --- 6. DATA FETCHING ---
+// Eerst de statische snapshot (data/snapshot.json, export uit het dashboard): kost geen Firestore-reads.
+// Alleen als die ontbreekt of onleesbaar is, lezen we Firestore.
+async function fetchSnapshot() {
+    try {
+        const response = await fetch("data/snapshot.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const snap = await response.json();
+        if (!Array.isArray(snap.clubs) || !Array.isArray(snap.coaches) || !Array.isArray(snap.seizoenen)) throw new Error("onverwacht formaat");
+        return snap;
+    } catch (error) {
+        console.warn("Snapshot niet geladen, terugval op Firestore:", error);
+        return null;
+    }
+}
+
 async function fetchAllInitialData() {
     if (appState.allClubs.length > 0) return;
-    if (!window.db || !window.firestore) {
-        console.error("Firestore is niet geïnitialiseerd.");
-        appState.isLoading = false;
-        return;
-    }
     appState.isLoading = true;
     try {
+        const snap = await fetchSnapshot();
+        if (snap) {
+            appState.allCoaches = snap.coaches;
+            appState.allClubs = snap.clubs;
+            appState.allClubs.forEach(club => { club.logo_url = localLogo(club); });
+            appState.allSeasons = snap.seizoenen.map(({ id, ...seizoen }) => seizoen);
+            return;
+        }
+        if (!window.db || !window.firestore) {
+            console.error("Firestore is niet geïnitialiseerd.");
+            return;
+        }
         const { collection, getDocs } = window.firestore;
         const [coachesSnapshot, clubsSnapshot, seizoenenSnapshot] = await Promise.all([
             getDocs(collection(window.db, "coaches")),
