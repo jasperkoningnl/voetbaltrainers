@@ -31,7 +31,32 @@
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
-   "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232"
+   "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Eirik Horneland",
+      "api_naam": "E. Horneland",
+      "van": "2025-01-01",
+      "tot": null,
+      "dagen": 139
+     },
+     {
+      "naam": "Eirik Horneland",
+      "api_naam": "E. Horneland",
+      "van": "2024-12-01",
+      "tot": null,
+      "dagen": 170
+     }
+    ],
+    "niet_opgezocht": [
+     "Olivier Dall'Oglio",
+     "Laurent Huard"
+    ],
+    "langst": null
+   }
   },
   {
    "docId": "8L9zS3TphfnT0Ea3uDup",
@@ -223,7 +248,22 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Rafael Benítez",
+      "api_naam": "Rafael Benítez",
+      "van": "2012-11-01",
+      "tot": "2013-05-01",
+      "dagen": 181
+     }
+    ],
+    "niet_opgezocht": [],
+    "langst": null
+   }
   },
   {
    "docId": "LxYAw7kBFoZjQzRxFKNX",
@@ -250,7 +290,24 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Guus Hiddink",
+      "api_naam": "G. Hiddink",
+      "van": "2015-12-01",
+      "tot": "2016-06-01",
+      "dagen": 171
+     }
+    ],
+    "niet_opgezocht": [
+     "José Mourinho"
+    ],
+    "langst": null
+   }
   },
   {
    "docId": "w04eKmPuI3QJyQ2ZNMXw",
@@ -1035,7 +1092,22 @@
      "datum_precisie": "geschat"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Bernard Casoni",
+      "api_naam": "B. Casoni",
+      "van": "1999-11-01",
+      "tot": "2000-06-01",
+      "dagen": 201
+     }
+    ],
+    "niet_opgezocht": [],
+    "langst": null
+   }
   },
   {
    "docId": "JPPbwsoBJBnK5N2KxbdN",
@@ -1260,7 +1332,29 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Vanderlei Luxemburgo",
+      "api_naam": "Vanderlei Luxemburgo",
+      "van": "2005-01-01",
+      "tot": "2005-12-01",
+      "dagen": 122
+     },
+     {
+      "naam": "Juan Ramón López Caro",
+      "api_naam": "López Caro",
+      "van": "2005-12-01",
+      "tot": "2006-05-01",
+      "dagen": 151
+     }
+    ],
+    "niet_opgezocht": [],
+    "langst": "Juan Ramón López Caro"
+   }
   },
   {
    "docId": "tcweWKU6XIzVcDPGG9PI",
@@ -1287,7 +1381,24 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Rafael Benítez",
+      "api_naam": "Rafael Benítez",
+      "van": "2015-06-01",
+      "tot": "2016-01-01",
+      "dagen": 153
+     }
+    ],
+    "niet_opgezocht": [
+     "Zinedine Zidane"
+    ],
+    "langst": null
+   }
   },
   {
    "docId": "Fe28UOFJOSiBfav4o3oD",
@@ -1489,7 +1600,22 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Augusto Inácio",
+      "api_naam": "Augusto Inácio",
+      "van": "1999-07-01",
+      "tot": "2001-12-01",
+      "dagen": 292
+     }
+    ],
+    "niet_opgezocht": [],
+    "langst": null
+   }
   },
   {
    "docId": "ycaV7fu5lpYhPwzeHiMh",
@@ -1530,7 +1656,32 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Marcel Keizer",
+      "api_naam": "M. Keizer",
+      "van": "2018-11-01",
+      "tot": "2019-09-01",
+      "dagen": 31
+     },
+     {
+      "naam": "Ruben Amorim",
+      "api_naam": "Ruben Amorim",
+      "van": "2020-03-01",
+      "tot": "2024-11-01",
+      "dagen": 183
+     }
+    ],
+    "niet_opgezocht": [
+     "Leonel Pontes",
+     "Silas"
+    ],
+    "langst": null
+   }
   },
   {
    "docId": "YST89km6OAJTmNhL7ayN",
@@ -1800,7 +1951,26 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Guus Hiddink",
+      "api_naam": "G. Hiddink",
+      "van": "1991-07-01",
+      "tot": "1993-11-01",
+      "dagen": 92
+     }
+    ],
+    "niet_opgezocht": [
+     "Paco Real",
+     "Héctor Núñez",
+     "José Manuel Rielo"
+    ],
+    "langst": null
+   }
   },
   {
    "docId": "IiwDGisY2JZuBPG15m59",
@@ -1868,7 +2038,29 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers",
+   "api_football": {
+    "bron": "API-Football /coachs (maandprecisie)",
+    "opgehaald": "2026-09-27",
+    "trainers": [
+     {
+      "naam": "Rubén Baraja",
+      "api_naam": "Rubén Baraja",
+      "van": "2023-02-01",
+      "tot": "2024-12-01",
+      "dagen": 122
+     },
+     {
+      "naam": "Carlos Corberán",
+      "api_naam": "Carlos Corberan",
+      "van": "2024-12-01",
+      "tot": null,
+      "dagen": 170
+     }
+    ],
+    "niet_opgezocht": [],
+    "langst": "Carlos Corberán"
+   }
   }
  ]
 }
