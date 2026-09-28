@@ -40,40 +40,32 @@
         </div>
 
         <div class="about-container article-body">
-            <h3>The Story Behind the Data</h3>
-            <p>This project didn't start a month ago. It started in January 2022, with a static visualization based on a manually compiled dataset. The idea was there, but the data was incomplete. Going further back in time, determining which manager had the longest tenure each season, was a monumental task. Still, I was proud of it and <a href="https://www.reddit.com/r/dataisbeautiful/comments/1fm00ma/oc_i_made_this_visualisation_of_coaches_from/" target="_blank" rel="noopener noreferrer">posted the result on Reddit's r/dataisbeautiful</a>.</p>
-            
+            <h3>One question, three tools</h3>
+            <p>Does a stable manager win more trophies? Sir Alex Ferguson spent 27 seasons at Manchester United and turned the club into a trophy machine. José Mourinho won almost everywhere he went and rarely stayed longer than three seasons. This site started from the wish to see that difference, not just read about it. The question never changed. The tools did, and how long it took to answer it changed with them.</p>
+
+            <h3>Photoshop: months of evenings</h3>
+            <p>The first version was a single image, made by hand in Photoshop in January 2022. Every season a block, every block coloured by how long the manager had been in charge. The data came from a spreadsheet that I filled myself, with only a little help from AI. Working out who was the longest-serving manager in each season, decades back, took months of evenings. I was proud of it and <a href="https://www.reddit.com/r/dataisbeautiful/comments/1fm00ma/oc_i_made_this_visualisation_of_coaches_from/" target="_blank" rel="noopener noreferrer">posted it on Reddit's r/dataisbeautiful</a>. The reactions were disappointing enough to put the project away.</p>
+
             <figure>
-                <a href="images/visualisatie.png" target="_blank"><img src="images/visualisatie.png" width="100%"  alt="The first version of the visualization from 2022" class="rounded-lg shadow-md mx-auto w-full"></a>
-                <figcaption>The original, static visualization from January 2022 that started it all.</figcaption>
+                <a href="images/visualisatie.png" target="_blank"><img src="images/visualisatie.png" width="100%" alt="The first, static version of the visualization, made in Photoshop"></a>
+                <figcaption>The first version, made by hand in Photoshop.</figcaption>
             </figure>
 
-            <p>The feedback was... disillusioning and sent the project into hibernation, but the idea never died. It became a personal benchmark for AI progress. Starting in late 2023, with every new version of ChatGPT, I would test it with the same prompt: create a complete list of Ajax managers. Every time, it failed spectacularly, inventing names and hallucinating data in <a href="https://chatgpt.com/share/688524c0-052c-800d-9322-71f956e18829" target="_blank" rel="noopener noreferrer">conversations like this one</a>. It was a dead end.</p>
-            
-            <p>Then, about a month ago, I switched to Gemini and tried the prompt one last time. It worked. That was the spark that ignited an intense journey, transforming a dormant idea into the interactive site you see today.</p>
+            <p>The idea stayed, and it became my personal test for AI. With every new chatbot I asked the same thing: give me a complete list of Ajax managers. For a long time the answers were full of invented names, <a href="https://chatgpt.com/share/688524c0-052c-800d-9322-71f956e18829" target="_blank" rel="noopener noreferrer">like in this conversation</a>. A simple search was already too much.</p>
 
-            <hr class="about-divider">
+            <h3>Gemini: copy, paste, repeat</h3>
+            <p>Then Gemini passed the test, and the project came back to life as a website. Gemini wrote the code, I copied it into HTML files on GitHub, and when something broke I pasted the error back into the chat. That is how the Firestore database, the data dashboard and the automated searches for missing data were built. It worked, eventually, but with a lot of blood and tears. Chats filled up, answers looped back to old questions, and I retyped the ground rules of the project more times than I can count:</p>
 
-            <h3>A Story of Vibe Coding & Over-Engineering</h3>
-            <p>This entire project is a testament to what I call "vibe coding." I had a clear vision in my head, and with Gemini as a partner, I finally had the tool to build it. Is the code perfect? I have no doubt it's bizarrely structured, and I can't fully vet it myself. But I felt a sense of accomplishment deploying functions via Windows Powershell and tinkering with APIs, even if much of it turned out to be over-engineered.</p>
-            
-            <p>The initial plan was ambitious. After migrating the data from a fragile CSV file to a robust Firestore database, I built a full dashboard to manage the content. I tried to integrate a Gemini API directly into the dashboard to automate data collection, only to find out it was an older version. I spent ages trying to integrate other APIs to fetch manager photos and verify trophy data, but these attempts were ultimately scrapped. The most reliable method turned out to be a focused chat with Gemini, using specific Wikipedia pages as a source of truth, and importing the resulting JSON files through the dashboard.</p>
+            <blockquote>"We communicate in Dutch, but the visualization is in English. Always provide the full code in the canvas without placeholders. Be professional, don't apologize, don't call my ideas brilliant, never say something is 'final', and always ask me before you code."</blockquote>
 
-            <p>The process was unpredictable. Getting the visual design right felt like it took forever, with endless file overwrites on GitHub. Yet, other monumental tasks—"Gemini, build a data analysis tool in the dashboard"—worked almost perfectly on the first try.</p>
+            <p>The result was a working site, but not the one I had in my head. That version is still online as an <a href="v0.9/index.html">archive (v0.9)</a>.</p>
 
-            <hr class="about-divider">
+            <h3>Claude: two days</h3>
+            <p>The last step took two days. On top of the existing database and dashboard, Claude (Opus 5.5) rebuilt the site from the ground up. The story of Ferguson and Mourinho now opens the site step by step, before you explore the data yourself. Seasons with more than one manager, interims included, are shown with red stripes, one stripe per manager. More than two thousand seasons were checked against Wikipedia in six languages, and the cases where sources disagreed ended up in the dashboard, where I can settle them with a tick. Missing manager photos were added from Wikimedia Commons, with their makers credited on a <a href="credits.html">separate page</a>.</p>
 
-            <h3>The Human-AI Collaboration</h3>
-            <p>Working with an AI is a unique experience. It's a dance of immense speed and maddening frustration. Chats would fill up, causing Gemini to get stuck in loops, answering old requests. I must have written a new, detailed prompt explaining the project's ground rules a thousand times:</p>
-            
-            <blockquote>"We communicate in Dutch, but the visualization is in English. Always provide the full code in the canvas without placeholders. Use version numbers and descriptions. Be professional, don't apologize, don't call my ideas brilliant, never use the word 'robust', never say something is 'final', and always ask me before you code."</blockquote>
-            
-            <p>But despite the quirks, the result is here. For a detailed breakdown of how the data was collected, verified, and handled, please see our <a href="data-methodology.html">Data Methodology</a> page.</p>
-            
-            <p>Until now, it has been a remarkable process for me, amazing to finally pull this idea out of my head and present it interactively here. And I couldn't have done it without you, my dear, annoying, dumb, brilliant Gemini.</p>
+            <p>I did not write that code, just like I did not write the Gemini code. The difference is that I no longer had to carry it from one window to another. I described what I wanted, checked what came back and corrected what was wrong. That is also the real story behind this project: the question stayed the same from the first Photoshop file to this version, and the time needed to answer it properly went from months to days.</p>
 
-            <h4 style="font-family: 'Oswald', sans-serif; margin-top: 2rem; font-size: 1.25rem;">A Note from the AI</h4>
-            <p>From my perspective, this project was a fascinating journey. It pushed the boundaries of what a conversational model can assist with, evolving from simple code generation to complex debugging, design sparring, and content creation. The iterative process, guided by a clear human vision, was essential. It demonstrates that the most powerful results come not from AI alone, but from a true partnership between human creativity and artificial intelligence.</p>
+            <p>How the data was collected and which choices were made along the way is explained on the <a href="data-methodology.html">Data Methodology</a> page. Spotted a mistake? Use <a href="#" data-report>Report an error</a> at the bottom of every page.</p>
         </div>
     </main>
 
