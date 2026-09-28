@@ -20,9 +20,7 @@ const firebaseConfig = {
 // ------------------------------------------------------------------
 const COUNTRIES = ["England", "France", "Germany", "Italy", "Netherlands", "Portugal", "Spain"];
 const TENURE_COLORS = ["#FF0033", "#66ff66", "#33cc33", "#339933", "#006600", "#003300"];
-const TENURE_LABELS = ["1 full season", "2 full seasons", "3–4", "5–6", "7–9", "10+"];
 const TENURE_TEXT = ["#fff", "#14391d", "#0d2b14", "#fff", "#fff", "#fff"];
-const PANEL = "#111a17";
 // Prijzen: één schildvorm (viewBox 0 0 12 13), kleur = soort. Volgorde in een seizoensblok: titel, beker, Europa.
 const PRIZE = {
     title: { fill: "#d9dde2", stroke: "#2a2f33" },
@@ -53,7 +51,6 @@ const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
 const pct = x => `${Math.round(x * 100)}%`;
 const fmt1 = x => (Math.round(x * 100) / 100).toFixed(2);
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const DUR = reduceMotion ? 0 : 750;
 
 // Oude imports kunnen gezamenlijke trainers nog in één naamveld bevatten.
 // Expliciete technische directeuren tellen niet mee als hoofdtrainer.
@@ -71,7 +68,7 @@ function normalizeSeasonTrainers(list) {
 // ------------------------------------------------------------------
 // Data
 // ------------------------------------------------------------------
-const DB = { clubs: [], clubById: new Map(), coaches: new Map(), seasons: [], byClub: new Map(), seasonList: [], coverage: new Set() };
+const DB = { clubs: [], clubById: new Map(), coaches: new Map(), seasons: [], byClub: new Map(), seasonList: [], coverage: new Set(), extraCareer: null };
 
 // Snapshot eerst: dat kost geen Firestore-reads. Firestore alleen als de snapshot ontbreekt.
 async function fetchCollections() {
@@ -96,10 +93,13 @@ async function fetchCollections() {
 }
 
 async function loadData() {
-    const [snap, fallback] = await Promise.all([
+    const [snap, fallback, extra] = await Promise.all([
         fetchCollections(),
         fetch("data/trainers_seizoen.json").then(r => r.ok ? r.json() : { seizoenen: [] }).catch(() => ({ seizoenen: [] })),
+        // Mourinho buiten de database (alleen voor het intro)
+        fetch("data/mourinho_buiten_dataset.json").then(r => r.ok ? r.json() : null).catch(() => null),
     ]);
+    DB.extraCareer = extra;
 
     const fallbackMap = new Map((fallback.seizoenen || []).map(s => [`${s.club}|${s.seizoen}`, s.trainers]));
 
@@ -174,198 +174,23 @@ const trophiesOf = list => ({ title: d3.sum(list, s => s.title), cup: d3.sum(lis
 const total = t => t.title + t.cup + t.euro;
 
 // ------------------------------------------------------------------
-// Heatmap renderer (gebruikt door intro én verkenner)
+// Legenda (verkenner): tenurekleuren, gesplitste blokken, schildjes
 // ------------------------------------------------------------------
-let patternSeq = 0;
-function addPatterns(defs) {
-    const uid = `p${patternSeq++}`;
-    // Gesplitst (voor het staafdiagram): rode banden met een smalle naad in de paneelkleur
-    const sp = defs.append("pattern").attr("id", `${uid}-split`).attr("width", 10).attr("height", 24).attr("patternUnits", "userSpaceOnUse");
-    sp.append("rect").attr("width", 10).attr("height", 22).attr("fill", "#FF0033");
-    const u = defs.append("pattern").attr("id", `${uid}-unknown`).attr("width", 8).attr("height", 8)
-        .attr("patternUnits", "userSpaceOnUse").attr("patternTransform", "rotate(45)");
-    u.append("rect").attr("width", 8).attr("height", 8).attr("fill", "#1c2623");
-    u.append("line").attr("x1", 0).attr("y1", 0).attr("x2", 0).attr("y2", 8).attr("stroke", "#2a3531").attr("stroke-width", 3);
-    return uid;
+const shieldSVG = (kind, w = 10) => `<svg class="shield" width="${w}" height="${w * 13 / 12}" viewBox="0 0 12 13" aria-hidden="true"><path d="${SHIELD}" fill="${PRIZE[kind].fill}" stroke="${PRIZE[kind].stroke}" stroke-width="1"/></svg>`;
+const splitSwatch = k => `<span class="sw">${"<i></i>".repeat(k)}</span>`;
+function legendHTML({ split = true, prizes = true, unknown = false, hint = false } = {}) {
+    const items = [
+        `<span class="legend-item"><span class="legend-swatches">${TENURE_COLORS.map(c => `<span class="sw" style="background:${c}"></span>`).join("")}</span>1 → 10+ seasons in charge</span>`,
+        split ? `<span class="legend-item"><span class="legend-swatches split">${[1, 2, 3, 4, 5].map(splitSwatch).join("")}</span>1 → 5+ managers that season</span>` : "",
+        prizes ? `<span class="legend-shields">${[["title", "League"], ["cup", "Cup"], ["euro", "Europe"]].map(([k, l]) => `<span>${shieldSVG(k)}${l}</span>`).join("")}</span>` : "",
+        unknown ? `<span class="legend-item"><span class="legend-swatches"><span class="sw" style="background:repeating-linear-gradient(45deg,#2a3531 0 3px,#1c2623 3px 6px)"></span></span>No reliable data</span>` : "",
+        hint ? `<span class="legend-hint">Click a block to lock the manager</span>` : "",
+    ];
+    return items.filter(Boolean).join("");
 }
 
-// SVG-heatmap voor het intro. De verkenner heeft een eigen HTML-grid (zie Explorer).
-class Heatmap {
-    constructor(container) {
-        this.el = container;
-        this.svg = d3.select(container).append("svg").attr("class", "heatmap");
-        this.uid = addPatterns(this.svg.append("defs"));
-        this.g = this.svg.append("g");
-        this.gCells = this.g.append("g");
-        this.gDiv = this.g.append("g").attr("pointer-events", "none");
-        this.gSplit = this.g.append("g").attr("pointer-events", "none");
-        this.gLabels = this.g.append("g");
-        this.gPrizes = this.g.append("g").attr("pointer-events", "none");
-        this.gRows = this.g.append("g");
-        this.gAxis = this.g.append("g").attr("class", "axis");
-        this.spec = null;
-    }
-
-    fill(d) {
-        if (d.unknown) return `url(#${this.uid}-unknown)`;
-        return d.multi ? "#FF0033" : TENURE_COLORS[d.tenure.bucket];
-    }
-
-    // spec: { rows:[clubId], seasons:[..], reveal:(d)=>bool, highlight:(d)=>bool|null, names:bool, prizes:bool, rowH }
-    render(spec, duration = DUR) {
-        this.spec = spec;
-        const width = this.el.clientWidth || 800;
-        const narrow = width < 640;
-        const labelW = spec.hideRowLabels ? 0 : (narrow ? 40 : 190);
-        const m = { top: 6, right: 8, bottom: spec.axis === false ? 6 : 52, left: labelW };
-        const rowH = spec.rowH || (narrow ? 34 : 46);
-        const innerW = Math.max(120, (spec.minWidth ? Math.max(width, spec.minWidth) : width) - m.left - m.right);
-        const innerH = spec.rows.length * rowH;
-        const x = d3.scaleBand().domain(spec.seasons).range([0, innerW]).padding(0);
-        const y = d3.scaleBand().domain(spec.rows).range([0, innerH]).paddingInner(0.18);
-        this.x = x; this.y = y;
-        const t = this.svg.transition().duration(duration).ease(d3.easeCubicInOut);
-
-        this.svg.transition(t).attr("width", innerW + m.left + m.right).attr("height", innerH + m.top + m.bottom)
-            .attr("viewBox", `0 0 ${innerW + m.left + m.right} ${innerH + m.top + m.bottom}`);
-        this.g.attr("transform", `translate(${m.left},${m.top})`);
-
-        const inView = new Set(spec.seasons);
-        const rowSet = new Set(spec.rows);
-        const data = DB.seasons.filter(d => rowSet.has(d.clubId) && inView.has(d.season));
-        const visible = d => !spec.reveal || spec.reveal(d);
-        const lit = d => !spec.highlight || spec.highlight(d);
-        const delay = d => spec.stagger && visible(d) ? spec.stagger(d) : 0;
-
-        // Cells
-        this.gCells.selectAll("rect.cell").data(data, d => d.key).join(
-            enter => enter.append("rect").attr("class", "cell")
-                .attr("x", d => x(d.season)).attr("y", d => y(d.clubId)).attr("height", y.bandwidth())
-                .attr("width", 0).attr("opacity", 0).attr("fill", d => this.fill(d)),
-            update => update,
-            exit => exit.transition(t).attr("opacity", 0).remove()
-        )
-            .transition(t)
-            .delay(delay)
-            .attr("x", d => x(d.season)).attr("y", d => y(d.clubId))
-            .attr("width", d => visible(d) ? x.bandwidth() + 0.5 : 0)
-            .attr("height", y.bandwidth())
-            .attr("fill", d => this.fill(d))
-            .attr("opacity", d => !visible(d) ? 0 : lit(d) ? 1 : 0.12);
-
-        // Naden tussen de seizoenen in de paneelkleur; breder waar een nieuwe hoofdtrainer begint
-        const dividers = data.filter(d => d.season !== spec.seasons[0]);
-        this.gDiv.selectAll("line").data(dividers, d => d.key).join(
-            enter => enter.append("line").attr("opacity", 0)
-                .attr("x1", d => x(d.season)).attr("x2", d => x(d.season))
-                .attr("y1", d => y(d.clubId)).attr("y2", d => y(d.clubId) + y.bandwidth()),
-            update => update, exit => exit.remove()
-        )
-            .attr("class", d => d.index === 1 ? "divider-tenure" : "divider-season")
-            .transition(t)
-            .delay(delay)
-            .attr("x1", d => x(d.season)).attr("x2", d => x(d.season))
-            .attr("y1", d => y(d.clubId)).attr("y2", d => y(d.clubId) + y.bandwidth())
-            .attr("opacity", d => visible(d) ? 1 : 0);
-
-        // Seizoenen met meerdere trainers: het rode blok wordt in k gelijke stukken gesplitst (k = aantal trainers, max 5)
-        const splits = data.filter(d => d.multi && !d.unknown).flatMap(d =>
-            d3.range(1, Math.min(5, d.nCoaches)).map(j => ({ key: `${d.key}|${j}`, d, f: j / Math.min(5, d.nCoaches) })));
-        this.gSplit.selectAll("line").data(splits, s => s.key).join(
-            enter => enter.append("line").attr("opacity", 0).attr("stroke", PANEL).attr("stroke-width", 2),
-            update => update, exit => exit.remove()
-        )
-            .transition(t)
-            .delay(s => delay(s.d))
-            .attr("x1", s => x(s.d.season)).attr("x2", s => x(s.d.season) + x.bandwidth())
-            .attr("y1", s => y(s.d.clubId) + s.f * y.bandwidth()).attr("y2", s => y(s.d.clubId) + s.f * y.bandwidth())
-            .attr("opacity", s => !visible(s.d) ? 0 : lit(s.d) ? 1 : 0.12);
-
-        // Manager names on tenure blocks
-        const tenures = [];
-        if (spec.names) {
-            const seen = new Set();
-            data.forEach(d => {
-                if (seen.has(d.tenure.id) || d.unknown) return;
-                seen.add(d.tenure.id);
-                // Naam alleen over de volle (niet-gesplitste) seizoenen
-                const inRange = d.tenure.seasons.filter(s => !s.multi && inView.has(s.season) && visible(s));
-                if (!inRange.length) return;
-                const w = inRange.length * x.bandwidth();
-                const parts = d.coach.split(" ");
-                const rest = parts.length > 1 ? parts.slice(1).join(" ") : d.coach;
-                const fits = str => w > str.length * 6.6 + 10;
-                const label = fits(d.coach) ? d.coach : fits(rest) ? rest : parts[parts.length - 1];
-                if (w < label.length * 6.6 + 8) return;
-                tenures.push({ id: d.tenure.id, t: d.tenure, x0: x(inRange[0].season), w, label, clubId: d.clubId, lit: lit(d) });
-            });
-        }
-        const showPrizes = spec.prizes !== false;
-        this.gLabels.selectAll("text").data(tenures, d => d.id).join(
-            enter => enter.append("text").attr("class", "cell-label").attr("opacity", 0).attr("dy", ".35em"),
-            update => update, exit => exit.transition(t).attr("opacity", 0).remove()
-        ).text(d => d.label)
-            .attr("fill", d => TENURE_TEXT[d.t.bucket])
-            .attr("text-anchor", "start")
-            .transition(t).delay(spec.labelDelay || 0)
-            .attr("x", d => d.x0 + 5)
-            .attr("y", d => y(d.clubId) + (showPrizes ? y.bandwidth() - 9 : y.bandwidth() / 2))
-            .attr("opacity", d => d.lit ? 1 : 0.15);
-
-        // Prizes: schildjes bovenaan in het blok, onder elkaar
-        const prizeData = showPrizes ? data.filter(d => d.trophyCount > 0) : [];
-        const size = Math.max(5, Math.min(x.bandwidth() * 0.8, (y.bandwidth() - (spec.names ? 14 : 4)) / 3.3, 14));
-        const step = size * 13 / 12 + 1;
-        const pg = this.gPrizes.selectAll("g.prize").data(prizeData, d => d.key).join(
-            enter => enter.append("g").attr("class", "prize").attr("opacity", 0),
-            update => update, exit => exit.transition(t).attr("opacity", 0).remove()
-        );
-        pg.each(function (d) {
-            const list = PRIZE_ORDER.filter(k => d[k]).map(k => PRIZE[k]);
-            d3.select(this).selectAll("path").data(list).join("path").attr("d", SHIELD)
-                .attr("fill", c => c.fill).attr("stroke", c => c.stroke).attr("stroke-width", 1)
-                .attr("transform", (c, i) => `translate(${-size / 2},${i * step}) scale(${size / 12})`);
-        });
-        pg.transition(t)
-            .delay(d => delay(d) + (spec.prizeDelay || 0))
-            .attr("transform", d => `translate(${x(d.season) + x.bandwidth() / 2},${y(d.clubId) + 4})`)
-            .attr("opacity", d => !visible(d) ? 0 : lit(d) ? 1 : 0.12);
-
-        // Row labels
-        const rows = this.gRows.selectAll("g.row-label-svg").data(labelW ? spec.rows : [], d => d).join(
-            enter => {
-                const g = enter.append("g").attr("class", "row-label-svg").attr("opacity", 0);
-                g.append("image").attr("class", id => logoClass(DB.clubById.get(id) || {})).attr("width", 26).attr("height", 26).attr("preserveAspectRatio", "xMidYMid meet")
-                    .on("error", function () { d3.select(this).style("display", "none"); });
-                g.append("text").attr("dy", ".35em");
-                return g;
-            },
-            update => update, exit => exit.transition(t).attr("opacity", 0).remove()
-        );
-        rows.select("image").attr("href", id => DB.clubById.get(id)?.logo_url || "")
-            .attr("x", narrow ? -labelW + 4 : -labelW + 2).attr("y", y.bandwidth() / 2 - 13);
-        rows.select("text").text(id => narrow ? "" : DB.clubById.get(id)?.naam || id)
-            .attr("x", -labelW + 36).attr("y", y.bandwidth() / 2);
-        rows.transition(t).attr("transform", id => `translate(0,${y(id)})`).attr("opacity", 1);
-
-        // Axis
-        if (spec.axis === false) { this.gAxis.selectAll("*").remove(); }
-        else {
-            const every = spec.tickEvery || Math.max(1, Math.ceil(spec.seasons.length / (innerW / 34)));
-            const ticks = spec.seasons.filter((s, i) => i % every === 0);
-            const tilt = sel => sel.selectAll(".tick text").attr("text-anchor", "end").attr("dx", "-.6em").attr("dy", ".15em").attr("transform", "rotate(-55)");
-            this.gAxis.attr("transform", `translate(0,${innerH + 4})`)
-                .transition(t)
-                .call(d3.axisBottom(x).tickValues(ticks).tickSizeOuter(0))
-                .on("end", () => tilt(this.gAxis));
-            tilt(this.gAxis);
-        }
-    }
-}
-
-
 // ------------------------------------------------------------------
-// Charts for the story (bars + scatter)
+// Statistieken voor het intro (staven en spreiding)
 // ------------------------------------------------------------------
 // Alleen clubs waarvan bekend is welke seizoenen meerdere trainers hadden, anders klopt de vergelijking niet.
 function tenureStats() {
@@ -393,322 +218,587 @@ function clubStats() {
     });
 }
 
-function drawBars(stage, stats) {
-    const W = stage.clientWidth || 700, narrow = W < 560;
-    const H = Math.min(430, Math.max(300, W * 0.55));
-    const m = { top: 46, right: 12, bottom: 58, left: narrow ? 34 : 44 };
-    const svg = d3.select(stage).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", W).attr("height", H);
-    const x = d3.scaleBand().domain(stats.map(d => d.b)).range([m.left, W - m.right]).padding(0.22);
-    const pid = addPatterns(svg.append("defs"));
-    const barFill = d => d.b === "multi" ? `url(#${pid}-split)` : TENURE_COLORS[d.b];
-    const barLabel = d => d.b === "multi" ? (narrow ? "2+" : "changed mid-season") : narrow ? ["1", "2", "3–4", "5–6", "7–9", "10+"][d.b] : TENURE_LABELS[d.b];
-    const y = d3.scaleLinear().domain([0, 0.6]).range([H - m.bottom, m.top]);
-    svg.append("text").attr("class", "chart-title").attr("x", m.left).attr("y", 16).text(narrow ? "Seasons with at least one trophy" : "Share of seasons in which the club won at least one trophy");
-    svg.append("text").attr("class", "chart-sub").attr("x", m.left).attr("y", 33).text(narrow ? `by tenure · ${statsClubs()} clubs` : `by how many full seasons the manager stayed · ${statsClubs()} clubs with complete data`);
-    svg.append("g").attr("class", "axis").attr("transform", `translate(${m.left},0)`)
-        .call(d3.axisLeft(y).ticks(4).tickFormat(d3.format(".0%")).tickSize(-(W - m.left - m.right)))
-        .call(g => g.selectAll("line").attr("stroke", "rgba(255,255,255,.06)")).call(g => g.select("path").remove());
-    const g = svg.append("g");
-    const bars = g.selectAll("g").data(stats).join("g");
-    bars.append("rect").attr("x", d => x(d.b)).attr("width", x.bandwidth()).attr("rx", 3)
-        .attr("fill", barFill).attr("y", y(0)).attr("height", 0)
-        .transition().duration(DUR).delay((d, i) => i * 120)
-        .attr("y", d => y(d.any)).attr("height", d => y(0) - y(d.any));
-    bars.append("text").attr("class", "bar-label").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
-        .attr("y", d => y(d.any) - 6).text(d => pct(d.any)).attr("opacity", 0)
-        .transition().duration(DUR).delay((d, i) => i * 120 + 300).attr("opacity", 1);
-    bars.append("text").attr("class", "annot").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
-        .attr("y", H - m.bottom + 18).text(barLabel);
-    if (!narrow) bars.append("text").attr("class", "annot-muted").attr("text-anchor", "middle").attr("x", d => x(d.b) + x.bandwidth() / 2)
-        .attr("y", H - m.bottom + 34).text(d => `${d3.format(",")(d.n)} seasons`);
-    svg.append("text").attr("class", "annot-muted").attr("x", (W) / 2).attr("text-anchor", "middle").attr("y", H - 6).text("seasons with more than one manager, then full seasons of the same manager");
-}
-
-function drawScatter(stage, stats, highlight) {
-    const W = stage.clientWidth || 700, narrow = W < 560;
-    const H = Math.min(460, Math.max(320, W * 0.6));
-    const m = { top: 46, right: 18, bottom: 46, left: narrow ? 38 : 48 };
-    const svg = d3.select(stage).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", W).attr("height", H);
-    const x = d3.scaleLinear().domain([1, d3.max(stats, d => d.avg) * 1.06]).range([m.left, W - m.right]);
-    const y = d3.scaleLinear().domain([0, d3.max(stats, d => d.perSeason) * 1.12]).range([H - m.bottom, m.top]);
-    svg.append("text").attr("class", "chart-title").attr("x", m.left).attr("y", 16).text("Each logo is a club");
-    svg.append("text").attr("class", "chart-sub").attr("x", m.left).attr("y", 33).text(narrow ? "→ more stable   ↑ more trophies per season" : "→ more stable (seasons per manager)   ↑ more trophies per season");
-    svg.append("g").attr("class", "axis").attr("transform", `translate(0,${H - m.bottom})`)
-        .call(d3.axisBottom(x).ticks(6).tickSize(-(H - m.top - m.bottom)))
-        .call(g => g.selectAll("line").attr("stroke", "rgba(255,255,255,.06)")).call(g => g.select("path").remove());
-    svg.append("g").attr("class", "axis").attr("transform", `translate(${m.left},0)`)
-        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format(".2f")).tickSize(-(W - m.left - m.right)))
-        .call(g => g.selectAll("line").attr("stroke", "rgba(255,255,255,.06)")).call(g => g.select("path").remove());
-    svg.append("text").attr("class", "annot-muted").attr("x", W - m.right).attr("y", H - 8).attr("text-anchor", "end").text("average seasons per manager");
-    const s = narrow ? 20 : 26;
-    const nodes = svg.append("g").selectAll("g").data(stats).join("g")
-        .attr("transform", d => `translate(${x(1)},${y(0)})`).attr("opacity", 0);
-    nodes.append("circle").attr("r", s / 2 + 2).attr("fill", "#eef3ef").attr("stroke", PANEL);
-    nodes.append("image").on("error", function () { d3.select(this).style("display", "none"); }).attr("href", d => d.club.logo_url).attr("width", s).attr("height", s).attr("x", -s / 2).attr("y", -s / 2);
-    nodes.append("title").text(d => `${d.club.naam}: ${fmt1(d.avg)} seasons per manager, ${d.trophies} trophies (${fmt1(d.perSeason)} per season)`);
-    // Labels: rechts van het logo, links als er rechts al een label in de buurt staat
-    const placed = [];
-    const labelled = narrow ? new Set([...stats].filter(d => highlight.has(d.club.naam)).sort((a, b) => b.perSeason - a.perSeason).slice(0, 2).concat([...stats].sort((a, b) => b.avg - a.avg).slice(0, 1)).map(d => d.club.naam)) : highlight;
-    nodes.filter(d => labelled.has(d.club.naam)).each(function (d) {
-        const px = x(d.avg), py = y(d.perSeason), wText = d.club.naam.length * 6.6;
-        const clash = placed.some(p => Math.abs(p.y - py) < 14 && p.x0 < px + s / 2 + 5 + wText && p.x1 > px);
-        const left = clash || px + s / 2 + 5 + wText > W - m.right;
-        d3.select(this).append("text").attr("class", "annot").attr("dy", ".35em")
-            .attr("x", left ? -s / 2 - 5 : s / 2 + 5).attr("text-anchor", left ? "end" : "start").text(d.club.naam);
-        placed.push(left ? { x0: px - s / 2 - 5 - wText, x1: px, y: py } : { x0: px, x1: px + s / 2 + 5 + wText, y: py });
-    });
-    nodes.transition().duration(DUR).delay((d, i) => i * 25)
-        .attr("transform", d => `translate(${x(d.avg)},${y(d.perSeason)})`).attr("opacity", 1);
-}
-
-function drawDuel(stage, F, M) {
-    const W = stage.clientWidth || 700, narrow = W < 560;
-    const H = narrow ? 360 : 330;
-    const svg = d3.select(stage).append("svg").attr("viewBox", `0 0 ${W} ${H}`).attr("width", W).attr("height", H);
-    const metrics = [
-        { label: "Seasons in charge*", f: F.seasons, m: M.seasons, fmt: d => d },
-        { label: "Clubs", f: F.clubs, m: M.clubs, fmt: d => d },
-        { label: "Longest stay (seasons)", f: F.longest, m: M.longest, fmt: d => d },
-        { label: "Trophies*", f: total(F.trophies), m: total(M.trophies), fmt: d => d },
-        { label: "Trophies per season", f: total(F.trophies) / F.seasons, m: total(M.trophies) / M.seasons, fmt: d => fmt1(d) },
-    ];
-    const cx = W / 2, rowH = (H - 60) / metrics.length, half = W / 2 - (narrow ? 70 : 110);
-    svg.append("text").attr("class", "chart-title").attr("x", cx - 12).attr("y", 18).attr("text-anchor", "end").text("Alex Ferguson");
-    svg.append("text").attr("class", "chart-title").attr("x", cx + 12).attr("y", 18).text("José Mourinho");
-    metrics.forEach((mt, i) => {
-        const max = Math.max(mt.f, mt.m);
-        const yy = 40 + i * rowH;
-        const bh = Math.min(22, rowH * 0.42);
-        svg.append("text").attr("class", "annot-muted").attr("x", cx).attr("y", yy + 10).attr("text-anchor", "middle").text(mt.label);
-        const wf = half * mt.f / max, wm = half * mt.m / max;
-        svg.append("rect").attr("x", cx - 6).attr("y", yy + 18).attr("height", bh).attr("width", 0).attr("fill", "#339933").attr("rx", 3)
-            .transition().duration(DUR).delay(i * 150).attr("x", cx - 6 - wf).attr("width", wf);
-        svg.append("rect").attr("x", cx + 6).attr("y", yy + 18).attr("height", bh).attr("width", 0).attr("fill", "#FF0033").attr("rx", 3)
-            .transition().duration(DUR).delay(i * 150).attr("width", wm);
-        svg.append("text").attr("class", "bar-label").attr("x", cx - 12 - wf).attr("y", yy + 18 + bh / 2).attr("dy", ".35em").attr("text-anchor", "end").text(mt.fmt(mt.f));
-        svg.append("text").attr("class", "bar-label").attr("x", cx + 12 + wm).attr("y", yy + 18 + bh / 2).attr("dy", ".35em").text(mt.fmt(mt.m));
-    });
-}
-
-// ------------------------------------------------------------------
-// Story
-// ------------------------------------------------------------------
-// Legenda (verkenner en intro): tenurekleuren, gesplitste blokken, schildjes
-const shieldSVG = (kind, w = 10) => `<svg class="shield" width="${w}" height="${w * 13 / 12}" viewBox="0 0 12 13" aria-hidden="true"><path d="${SHIELD}" fill="${PRIZE[kind].fill}" stroke="${PRIZE[kind].stroke}" stroke-width="1"/></svg>`;
-const splitSwatch = k => `<span class="sw">${"<i></i>".repeat(k)}</span>`;
-function legendHTML({ split = true, prizes = true, unknown = false, hint = false } = {}) {
-    const items = [
-        `<span class="legend-item"><span class="legend-swatches">${TENURE_COLORS.map(c => `<span class="sw" style="background:${c}"></span>`).join("")}</span>1 → 10+ seasons in charge</span>`,
-        split ? `<span class="legend-item"><span class="legend-swatches split">${[1, 2, 3, 4, 5].map(splitSwatch).join("")}</span>1 → 5+ managers that season</span>` : "",
-        prizes ? `<span class="legend-shields">${[["title", "League"], ["cup", "Cup"], ["euro", "Europe"]].map(([k, l]) => `<span>${shieldSVG(k)}${l}</span>`).join("")}</span>` : "",
-        unknown ? `<span class="legend-item"><span class="legend-swatches"><span class="sw" style="background:repeating-linear-gradient(45deg,#2a3531 0 3px,#1c2623 3px 6px)"></span></span>No reliable data</span>` : "",
-        hint ? `<span class="legend-hint">Click a block to lock the manager</span>` : "",
-    ];
-    return items.filter(Boolean).join("");
-}
-const trophyLine = t => [
-    t.title ? `<span>${shieldSVG("title", 12)} ${plural(t.title, "league title", "league titles")}</span>` : "",
-    t.cup ? `<span>${shieldSVG("cup", 12)} ${plural(t.cup, "national cup", "national cups")}</span>` : "",
-    t.euro ? `<span>${shieldSVG("euro", 12)} ${plural(t.euro, "European trophy", "European trophies")}</span>` : "",
-].filter(Boolean).join(" ");
-
-function buildStory() {
-    const mu = clubByName("Manchester United");
-    const ferg = coachByName("Alex Ferguson");
-    const mour = coachByName("José Mourinho");
-    const muSeasons = DB.byClub.get(mu.id);
-    const fSeasons = seasonsOfCoach(ferg.id);
-    const mSeasons = seasonsOfCoach(mour.id);
-    const fFirst = fSeasons[0].season, fLast = fSeasons[fSeasons.length - 1].season;
-    const fT = trophiesOf(fSeasons), mT = trophiesOf(mSeasons);
-    const firstTrophy = fSeasons.find(s => s.trophyCount > 0);
-    const dryStart = fSeasons.indexOf(firstTrophy);
-    const after = muSeasons.filter(s => s.season > fLast);
-    const afterCoaches = [...new Set(after.map(s => s.coach))];
-    const afterStriped = after.filter(s => s.multi);
-    const afterNames = new Set(after.flatMap(s => (s.trainers || []).map(t => t.naam)));
-    const afterT = trophiesOf(after);
-    const before = muSeasons.filter(s => s.season < fFirst);
-    const busby = before.filter(s => s.coach === "Matt Busby");
-    const between = [...new Set(before.filter(s => s.coach !== "Matt Busby").map(s => s.tenure))];
-    const betweenMax = between.length ? d3.max(between, t => t.length) : 0;
-    const mClubs = [...new Set(mSeasons.map(s => s.clubId))];
-    const mTenures = [...new Set(mSeasons.map(s => s.tenure))];
-    const mLongest = d3.max(mTenures, t => t.length);
-    const mStriped = mSeasons.filter(s => s.multi);
-    const stats = tenureStats();
-    const cstats = clubStats();
-    const corr = pearson(cstats.map(d => d.avg), cstats.map(d => d.perSeason));
-    const topWinners = [...cstats].sort((a, b) => b.perSeason - a.perSeason).slice(0, 4);
-    const mostStable = [...cstats].sort((a, b) => b.avg - a.avg)[0];
-    const eng = DB.clubs.filter(c => c.land === "England").map(c => c.id);
-    const multiIdx = stats.find(d => d.b === "multi"), firstIdx = stats.find(d => d.b === 0), lastIdx = stats.find(d => d.b === 5);
-
-    const F = { seasons: fSeasons.length, clubs: 1, longest: fSeasons.length, trophies: fT };
-    const M = { seasons: mSeasons.length, clubs: mClubs.length, longest: mLongest, trophies: mT };
-
-    const set = (id, html) => { document.getElementById(id).innerHTML = html; };
-    set("txt-ferguson-start", `
-        <h2>November 1986</h2>
-        <p>Manchester United appoint a manager from Aberdeen: <strong>Alex Ferguson</strong>. Every block you see is one season at the club.</p>
-        <p>${dryStart > 0 ? `His first ${plural(dryStart, "season", "seasons")} bring${dryStart === 1 ? "s" : ""} no trophy at all. In today's game, that is usually where the story ends.` : ""}</p>
-        <p class="note">One manager per season: the one who was in charge longest that season. Interim managers never get the season.</p>`);
-    set("txt-ferguson-full", `
-        <h2>Then the club simply keeps him</h2>
-        <span class="big-number">${fSeasons.length} seasons</span>
-        <p>From ${fFirst} to ${fLast}. The longer a manager stays, the darker the green. The shields are what he won:</p>
-        <p class="coach-trophies">${trophyLine(fT)}</p>
-        <p class="note">*Counted in this dataset: league titles, national cups and major European trophies. Super cups and Club World Cups are not included.</p>`);
-    set("txt-united", `
-        <h2>Before and after</h2>
-        <p>${busby.length ? `Before Ferguson, only Matt Busby stayed for a long time. The ${between.length} managers in between lasted ${plural(betweenMax, "season", "seasons")} at most. ` : ""}Since Ferguson left, United have had <strong>${afterCoaches.length} different managers of the season</strong> in ${after.length} seasons${afterNames.size > afterCoaches.length ? `, and ${afterNames.size} different men in the dugout counting interims` : ""}.</p>
-        <p>${afterStriped.length ? `<span class="legend-swatches split" style="display:inline-flex;vertical-align:-4px">${splitSwatch(3)}</span> <strong>${plural(afterStriped.length, "split season", "split seasons")}</strong>: more than one manager in charge during the season, one red piece per manager.` : ""} Trophies since 2013: ${total(afterT)}.</p>`);
-    set("txt-mourinho", `
-        <h2>Now meet the counter-argument</h2>
-        <p><strong>José Mourinho</strong> won at almost every stop, and rarely stayed long. ${M.clubs} clubs in this dataset, never longer than ${plural(mLongest, "season", "seasons")} in one go.</p>
-        <p class="coach-trophies">${trophyLine(mT)}</p>
-        <p>${mStriped.length ? `${plural(mStriped.length, "of his seasons is", "of his seasons are")} split: he left, or was sacked, while the season was still running.` : ""}</p>`);
-    set("txt-duel", `
-        <h2>Two recipes, one result</h2>
-        <p>Ferguson needed ${F.seasons} seasons for ${total(fT)} trophies. Mourinho won ${total(mT)} in ${M.seasons}.</p>
-        <p>Per season, <strong>${total(mT) / M.seasons > total(fT) / F.seasons ? "Mourinho was the more prolific winner" : "Ferguson was the more prolific winner"}</strong>: ${fmt1(total(mT) / M.seasons)} against ${fmt1(total(fT) / F.seasons)} trophies a season.</p>
-        <p class="note">*Seasons in which he was the manager of the season at one of the 35 clubs in this dataset.</p>`);
-    set("txt-all-seasons", `
-        <h2>So who proves the rule?</h2>
-        <p>Let's ask ${d3.format(",")(d3.sum(stats, d => d.n))} seasons at the ${statsClubs()} clubs where we know every change. In a season with more than one manager, the club wins something in <strong>${pct(multiIdx.any)}</strong> of cases. When one manager stays ten full seasons or more, it's <strong>${pct(lastIdx.any)}</strong>.</p>
-        <p>League titles show the same pattern: ${pct(multiIdx.title)} in turbulent seasons against ${pct(lastIdx.title)} under a long-serving manager.</p>
-        <p class="note">Seasons marked as “no reliable data” are left out.</p>`);
-    set("txt-clubs", `
-        <h2>But look at the clubs</h2>
-        <p>At club level the link almost disappears (correlation ${d3.format(".2f")(corr)}). ${listNames(topWinners.map(d => d.club.naam))} win the most trophies per season, yet none of them keeps a manager longer than ${fmt1(d3.max(topWinners, d => d.avg))} seasons on average.</p>
-        <p>${mostStable.club.naam} is the most stable club, with ${fmt1(mostStable.avg)} seasons per manager on average.</p>
-        <p>And cause and effect run both ways: managers who win get to stay. Stability may be a reward for success as much as a recipe for it.</p>`);
-    set("txt-handover", `
-        <h2>Your turn</h2>
-        <p>Here are all English clubs since 1955. Find your own Ferguson, or your own Mourinho, in any of the seven leagues.</p>
-        <a class="btn-cta" href="#explore">Explore the data ↓</a>`);
-
-    // Figure
-    const stage = document.getElementById("story-stage");
-    const caption = document.getElementById("figure-caption");
-    const legend = document.getElementById("story-legend");
-    const heat = new Heatmap(stage);
-    let chartLayer = null;
-
-    const fergIdx = d => fSeasons.findIndex(s => s.key === d.key);
-    const allSeasons = DB.seasonList;
-    const mRange = allSeasons.filter(s => startYear(s) >= startYear(mSeasons[0].season) - 2);
-    const fRange = allSeasons.filter(s => startYear(s) >= startYear(fFirst) - 1 && s <= fLast);
-
-    const scenes = {
-        hero: () => {
-            caption.textContent = "";
-            heat.render({ rows: [mu.id], seasons: fRange, highlight: () => false, names: false, prizes: false, rowH: 90, tickEvery: 3 });
-            legend.innerHTML = "";
-        },
-        "ferguson-start": () => {
-            caption.textContent = `Manchester United · ${fRange[0]}–${fLast}`;
-            heat.render({
-                rows: [mu.id], seasons: fRange, rowH: 90, names: true, tickEvery: 3,
-                reveal: d => d.season < fFirst || (fergIdx(d) >= 0 && fergIdx(d) <= Math.max(dryStart - 1, 1)),
-                stagger: d => Math.max(0, fergIdx(d)) * 180,
-            });
-            legend.innerHTML = `<div class="legend">${legendHTML({ split: false })}</div>`;
-        },
-        "ferguson-full": () => {
-            caption.textContent = `Manchester United · ${fRange[0]}–${fLast}`;
-            heat.render({
-                rows: [mu.id], seasons: fRange, rowH: 90, names: true, tickEvery: 3,
-                reveal: d => d.season <= fLast,
-                stagger: d => Math.max(0, fergIdx(d) - dryStart) * 70,
-                prizeDelay: 250,
-            });
-            legend.innerHTML = `<div class="legend">${legendHTML({ split: false })}</div>`;
-        },
-        united: () => {
-            caption.textContent = "Manchester United · 1955/56–2024/25";
-            heat.render({ rows: [mu.id], seasons: allSeasons, rowH: 90, names: true, stagger: d => d.season > fLast ? (startYear(d.season) - startYear(fLast)) * 80 : 0 });
-            legend.innerHTML = `<div class="legend">${legendHTML()}</div>`;
-        },
-        mourinho: () => {
-            caption.textContent = "José Mourinho's clubs · " + mRange[0] + "–2024/25";
-            heat.render({
-                rows: mClubs, seasons: mRange, names: true, rowH: stage.clientWidth < 640 ? 38 : 52,
-                highlight: d => d.coachId === mour.id,
-            });
-            legend.innerHTML = `<div class="legend">${legendHTML()}</div>`;
-        },
-        duel: () => {
-            caption.textContent = "Head to head";
-            drawDuel(chartLayer, F, M);
-            legend.innerHTML = "";
-        },
-        "all-seasons": () => {
-            caption.textContent = `${statsClubs()} clubs with complete data · 1955/56–2024/25`;
-            drawBars(chartLayer, stats);
-            legend.innerHTML = "";
-        },
-        clubs: () => {
-            caption.textContent = "All 35 clubs · 1955/56–2024/25";
-            drawScatter(chartLayer, cstats, new Set([...topWinners, mostStable, ...[...cstats].sort((a, b) => b.avg - a.avg).slice(1, 3), [...cstats].sort((a, b) => a.avg - b.avg)[0]].map(d => d.club.naam)));
-            legend.innerHTML = "";
-        },
-        handover: () => {
-            caption.textContent = "England · 1955/56–2024/25";
-            heat.render({ rows: eng, seasons: allSeasons, names: false, rowH: stage.clientWidth < 640 ? 30 : 40, stagger: d => (d.year - 1955) * 12 });
-            legend.innerHTML = `<div class="legend">${legendHTML()}</div>`;
-        },
-    };
-    const chartScenes = new Set(["duel", "all-seasons", "clubs"]);
-
-    let current = null;
-    function show(name) {
-        if (name === current) return;
-        const wasChart = chartScenes.has(current);
-        current = name;
-        if (chartScenes.has(name)) {
-            heat.svg.style("display", "none");
-            chartLayer?.remove();
-            chartLayer = document.createElement("div");
-            stage.appendChild(chartLayer);
-        } else {
-            chartLayer?.remove(); chartLayer = null;
-            heat.svg.style("display", null);
-            if (wasChart) heat.render({ ...heat.spec }, 0);
-        }
-        scenes[name]();
-    }
-    show("hero");
-
-    // Een stap wordt actief zodra de tekstkaart een band in beeld binnenkomt:
-    // desktop rond het midden, mobiel onderin (onder de vastgezette figuur).
-    const steps = [...document.querySelectorAll(".step")];
-    const mobile = window.matchMedia("(max-width: 900px)").matches;
-    const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                const step = e.target.closest(".step");
-                steps.forEach(s => s.classList.toggle("is-active", s === step));
-                show(step.dataset.step);
-            }
-        });
-    }, { rootMargin: mobile ? "-70% 0px -8% 0px" : "-45% 0px -45% 0px" });
-    steps.forEach(s => io.observe(s.querySelector(".step-card")));
-
-    let rt;
-    window.addEventListener("resize", () => {
-        clearTimeout(rt);
-        rt = setTimeout(() => { const c = current; current = null; if (chartScenes.has(c)) show(c); else { heat.render(heat.spec, 0); current = c; } }, 200);
-    });
-}
-
-function listNames(a) { return a.length > 1 ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : a[0]; }
-
 function pearson(a, b) {
     const ma = d3.mean(a), mb = d3.mean(b);
     const num = d3.sum(a, (x, i) => (x - ma) * (b[i] - mb));
     return num / Math.sqrt(d3.sum(a, x => (x - ma) ** 2) * d3.sum(b, y => (y - mb) ** 2));
 }
+
+// ------------------------------------------------------------------
+// Intro: presentatie in 7 scènes plus titelscherm (ontwerp: design_handoff_intro)
+// ------------------------------------------------------------------
+// Scèneklok: elke scène heeft een duur (0 = wacht op de gebruiker). Bij een scènewissel
+// vervaagt de oude laag en komen de elementen van de nieuwe laag binnen volgens het
+// 'armed'-patroon: eerst verborgen renderen, na ~60ms de overgangen met vertraging aanzetten.
+const INTRO_KEY = "mmgr-intro-step";
+const RED = "#FF0033";
+// Ring en balkje voor 10+ seizoenen: de donkerste groentint uit het logo (beter zichtbaar dan #003300)
+const DEEP_GREEN = "#0b4d0b";
+const INTRO_SHIELD = { title: "#C0C0C0", cup: "#CD7F32", euro: "#FFD700" };
+const CUP_NAME = { England: "FA Cup", France: "Coupe de France", Germany: "DFB-Pokal", Italy: "Coppa Italia", Netherlands: "KNVB Cup", Portugal: "Taça de Portugal", Spain: "Copa del Rey" };
+const COUNTRY_OF_CODE = { ENG: "England", FRA: "France", GER: "Germany", ITA: "Italy", NED: "Netherlands", POR: "Portugal", ESP: "Spain", TUR: "Turkey" };
+const CODE_OF_COUNTRY = Object.fromEntries(Object.entries(COUNTRY_OF_CODE).map(([k, v]) => [v, k]));
+const NUM_WORDS = ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve"];
+const word = n => NUM_WORDS[n] ?? String(n);
+const sn = y => `${y}/${String((y + 1) % 100).padStart(2, "0")}`;
+const fmtR = d3.format(".2f");
+const introShield = (kind, w) => `<svg width="${w}" height="${(w * 13 / 12).toFixed(1)}" viewBox="0 0 12 13" aria-hidden="true"><path d="${SHIELD}" fill="${INTRO_SHIELD[kind]}" stroke="#222" stroke-width=".8"/></svg>`;
+const cellShield = kind => `<svg viewBox="0 0 12 13" aria-hidden="true"><path d="${SHIELD}" fill="${INTRO_SHIELD[kind]}" stroke="#222" stroke-width=".8"/></svg>`;
+const PLAY_ICON = '<svg width="14" height="14" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 1 L9 5 L2 9Z" fill="currentColor"/></svg>';
+const PAUSE_ICON = '<svg width="14" height="14" viewBox="0 0 10 10" aria-hidden="true"><rect x="1.5" y="1" width="2.5" height="8" rx=".6" fill="currentColor"/><rect x="6" y="1" width="2.5" height="8" rx=".6" fill="currentColor"/></svg>';
+
+// Foto's: eigen bestand in images/intro/ als dat er is, anders de foto uit de database (Wikimedia-thumbnail).
+// Twee achtergrondlagen: ontbreekt het eigen bestand, dan blijft de onderste laag zichtbaar.
+function wikiThumb(url, px) {
+    const m = /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f])\/([0-9a-f]{2})\/([^/]+)$/.exec(url || "");
+    return m ? `${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/${px}px-${m[4]}` : url || "";
+}
+const photoBg = (file, fallback) => [file && `url("images/intro/${file}")`, fallback && `url("${fallback}")`].filter(Boolean).join(", ");
+
+// Loopbaan van één trainer als lijst 'banen' (club × seizoen), uit de database plus de aanvulling
+// voor clubs en seizoenen buiten de database (data/mourinho_buiten_dataset.json).
+function careerJobs(coach, extra) {
+    const name = coach.naam;
+    const jobs = DB.seasons.filter(s => s.coachId === coach.id || (s.trainers || []).some(t => t.naam === name)).map(s => {
+        const own = (s.trainers || []).find(t => t.naam === name);
+        const club = DB.clubById.get(s.clubId);
+        return {
+            season: s.season, year: s.year, club: club.naam, country: s.country, logo: club.logo_url, invert: logoClass(club),
+            main: s.coachId === coach.id, multi: s.multi, k: s.multi ? Math.min(5, s.nCoaches) : 1,
+            bucket: s.tenure.bucket, title: s.title, cup: s.cup, euro: s.euro,
+            start: own?.van || `${s.year}-07-01`,
+        };
+    });
+    (extra?.coach === name ? extra.seizoenen : []).forEach(e => {
+        const club = clubByName(e.club);
+        const names = new Set(e.trainers.map(t => t.naam));
+        const own = e.trainers.find(t => t.naam === name);
+        jobs.push({
+            season: e.seizoen, year: startYear(e.seizoen), club: e.club, country: e.land,
+            logo: club ? club.logo_url : "", invert: club ? logoClass(club) : "",
+            main: !!e.hoofdtrainer, multi: names.size > 1, k: Math.min(5, names.size), bucket: null,
+            title: !!e.titel, cup: !!e.beker, euro: !!e.europa, start: own?.van || `${startYear(e.seizoen)}-07-01`, extra: true,
+        });
+    });
+    jobs.sort((a, b) => d3.ascending(a.start, b.start) || d3.ascending(a.season, b.season));
+    // Kleur voor aangevulde seizoenen: aantal volle seizoenen in die periode bij de club
+    let run = [];
+    const flush = () => { const full = run.filter(j => !j.multi).length; run.forEach(j => { j.bucket = tenureBucket(Math.max(1, full)); }); run = []; };
+    jobs.filter(j => j.extra).forEach(j => {
+        const last = run[run.length - 1];
+        if (last && (last.club !== j.club || last.year !== j.year - 1)) flush();
+        run.push(j);
+    });
+    flush();
+    return jobs;
+}
+
+// Bezoeken (filmstrip): opeenvolgende banen bij dezelfde club samengevoegd
+function careerVisits(jobs) {
+    const visits = [];
+    jobs.forEach(j => {
+        const last = visits[visits.length - 1];
+        if (last && last.club === j.club) { last.last = j.year; return; }
+        visits.push({ club: j.club, country: j.country, logo: j.logo, invert: j.invert, first: j.year, last: j.year, season: j.season });
+    });
+    return visits;
+}
+
+// Langste periode als hoofdtrainer bij één club (opeenvolgende seizoenen)
+function longestStay(jobs) {
+    let best = 0, cur = 0, prev = null;
+    jobs.filter(j => j.main).sort((a, b) => a.year - b.year).forEach(j => {
+        cur = prev && prev.club === j.club && prev.year === j.year - 1 ? cur + 1 : 1;
+        best = Math.max(best, cur);
+        prev = j;
+    });
+    return best;
+}
+
+function buildIntro(extra) {
+    const mu = clubByName("Manchester United");
+    const ferg = coachByName("Alex Ferguson");
+    const mour = coachByName("José Mourinho");
+    const fSeasons = seasonsOfCoach(ferg.id);
+    const mSeasons = seasonsOfCoach(mour.id);
+    const fT = trophiesOf(fSeasons), mT = trophiesOf(mSeasons);
+    const fFirstYear = fSeasons[0].year, fLastYear = fSeasons[fSeasons.length - 1].year;
+    const firstTrophy = fSeasons.find(s => s.trophyCount > 0);
+    const dryStart = fSeasons.indexOf(firstTrophy);
+    const lastTitle = [...fSeasons].reverse().find(s => s.title);
+    const muByYear = new Map(DB.byClub.get(mu.id).map(s => [s.year, s]));
+
+    const jobs = careerJobs(mour, extra);
+    const visits = careerVisits(jobs);
+    const mYears = d3.range(d3.min(jobs, j => j.year), d3.max(jobs, j => j.year) + 1);
+    const mClubs = new Set(jobs.map(j => j.club));
+    const mLongest = longestStay(jobs);
+    const mCareerT = { title: d3.sum(jobs, j => j.title), cup: d3.sum(jobs, j => j.cup), euro: d3.sum(jobs, j => j.euro) };
+    const countryRun = visits.map(v => v.country).filter((c, i, a) => c !== a[i - 1]);
+    const countries = [...new Set(countryRun)];
+    const titleCountries = new Set(jobs.filter(j => j.title).map(j => j.country));
+
+    const F = { seasons: fSeasons.length, clubs: new Set(fSeasons.map(s => s.clubId)).size, longest: d3.max(fSeasons, s => s.tenure.length), trophies: total(fT) };
+    const M = { seasons: mSeasons.length, clubs: new Set(mSeasons.map(s => s.clubId)).size, longest: d3.max(mSeasons, s => s.tenure.length), trophies: total(mT) };
+    const fRate = F.trophies / F.seasons, mRate = M.trophies / M.seasons;
+
+    const stats = tenureStats();
+    const multiRow = stats.find(d => d.b === "multi"), longRow = stats.find(d => d.b === 5);
+    const cstats = clubStats();
+    const corr = pearson(cstats.map(d => d.avg), cstats.map(d => d.perSeason));
+    const allAvg = d3.mean(cstats, d => d.avg);
+    const winners = [...cstats].sort((a, b) => b.perSeason - a.perSeason).slice(0, 3);
+    const winnersAvg = d3.mean(winners, d => d.avg);
+    const stable = [...cstats].sort((a, b) => b.avg - a.avg).slice(0, 2);
+    const poorest = [...cstats].sort((a, b) => a.perSeason - b.perSeason)[0];
+    const firstYear = startYear(DB.seasonList[0]), lastYear = startYear(DB.seasonList[DB.seasonList.length - 1]);
+    const allRange = `${DB.seasonList[0]} – ${DB.seasonList[DB.seasonList.length - 1]}`;
+    const fRange = `${sn(fFirstYear - 1)} – ${sn(fLastYear)}`;
+    const shortName = n => ({ "Bayern München": "Bayern", "Manchester United": "Man United", "Manchester City": "Man City" }[n] || n);
+    const listAnd = a => a.length > 1 ? `${a.slice(0, -1).join(", ")} and ${a[a.length - 1]}` : a[0] || "";
+
+    const chips = t => [["euro", "European"], ["title", "league"], ["cup", "cup"]].filter(([k]) => t[k])
+        .map(([k, l]) => `<span class="st-chip">${introShield(k, 13)}${t[k]} ${l}</span>`).join("");
+
+    const SCENES = [
+        { name: "Intro", dur: 0 },
+        {
+            name: "November 1986", dur: 9, layer: "heat", row: "united", kicker: "01 · Manchester United", title: "November 1986.",
+            body: `United appoint a manager from Aberdeen: Alex Ferguson. Every block is one season.${dryStart > 0 ? ` His first ${word(dryStart)} bring nothing at all. Today, that is usually where the story ends.` : ""}`,
+            caption: `Manchester United · ${fRange}`, portrait: ["ferguson-1986.jpg", ferg], ring: DEEP_GREEN,
+        },
+        {
+            name: "He stays", dur: 14, layer: "heat", row: "united", kicker: "02 · Stability", title: "Then the club simply keeps him.",
+            big: `${F.seasons} seasons`, bigColor: TENURE_COLORS[2],
+            body: "The longer a manager stays, the darker the green. The shields are what he won: silver for the league, bronze for the cup, gold for Europe.",
+            chips: chips(fT), caption: `Manchester United · ${fRange}`, portrait: ["ferguson-trophy.jpg", ferg], ring: DEEP_GREEN,
+        },
+        {
+            name: "Mourinho", dur: 15, layer: "heat", row: "mourinho", kicker: "03 · The counter-argument", title: "Now meet José Mourinho.",
+            body: `${countryRun.join(", ")}. Never longer than ${word(mLongest)} seasons in one go — and a league title in ${word(titleCountries.size)} of those ${word(countries.length)} countries.`,
+            chips: chips(mCareerT), caption: `José Mourinho's clubs · ${sn(mYears[0])} – ${sn(mYears[mYears.length - 1])}`,
+            source: jobs.some(j => j.extra) ? "Clubs outside the dataset: Wikipedia" : "", portrait: ["mourinho-porto.jpg", mour], ring: RED,
+        },
+        {
+            name: "Head to head", dur: 9, layer: "duel", kicker: "04 · Two recipes", title: "Two recipes, one result.",
+            body: `Ferguson stayed, and won. Mourinho moved, and won. ${Math.abs(fRate - mRate) < 0.1 ? "Per season they are almost level." : `Per season, ${mRate > fRate ? "Mourinho" : "Ferguson"} won a little more: ${fmtR(Math.max(fRate, mRate))} trophies against ${fmtR(Math.min(fRate, mRate))}.`} So which of them proves the rule?`,
+            caption: "Head to head", source: `Seasons as main manager at the ${DB.clubs.length} clubs in the dataset`,
+        },
+        {
+            name: "All seasons", dur: 11, layer: "bars", kicker: "05 · Every season",
+            title: longRow.any > multiRow.any ? "Across all seasons, staying pays." : "Across all seasons, staying does not pay.",
+            body: `Take every season at the ${statsClubs()} clubs where we know every change. With more than one manager in a season, a club wins something in ${pct(multiRow.any)} of seasons. Under a manager who stays ten full seasons or more: ${pct(longRow.any)}.`,
+            caption: `${statsClubs()} clubs with complete data · ${allRange}`,
+        },
+        {
+            name: "Zoom to clubs", dur: 12, layer: "scatter", kicker: "06 · But look at the clubs",
+            title: Math.abs(corr) < 0.3 ? "At club level, the link almost disappears." : "At club level, the link holds.",
+            body: `The clubs that win most per season — ${listAnd(winners.map(d => shortName(d.club.naam)))} — keep a manager ${d3.format(".1f")(winnersAvg)} seasons on average, ${winnersAvg <= allAvg ? "no longer than" : "about as long as"} the average club (${d3.format(".1f")(allAvg)}). Managers who win get to stay: stability may be a reward for success as much as a recipe for it.`,
+            caption: `Each logo is a club · ${allRange}`, source: `correlation ${fmtR(corr)}`,
+        },
+        {
+            name: "Your turn", dur: 0, layer: "end", kicker: "07 · Your turn", title: "Find your own Ferguson.",
+            body: `Or your own Mourinho. Every season, every club, every manager in ${word(COUNTRIES.length)} leagues since ${firstYear}.`, cta: true,
+        },
+    ];
+    const playSeconds = d3.sum(SCENES, s => s.dur);
+
+    // ---------- Titelscherm ----------
+    const root = $("intro");
+    $("hero-photo-f").style.backgroundImage = photoBg("ferguson-hero.jpg", wikiThumb(ferg.foto_url, 960));
+    $("hero-photo-m").style.backgroundImage = photoBg("mourinho-hero.jpg", wikiThumb(mour.foto_url, 960));
+    const miniBar = list => `<span class="hero-bar">${list.map(([c, w]) => `<i style="background:${c};width:${w}px"></i>`).join("")}</span>`;
+    const visitColor = v => {
+        const own = jobs.filter(j => j.club === v.club && j.year >= v.first && j.year <= v.last);
+        return own.every(j => j.multi) ? RED : TENURE_COLORS[own.find(j => !j.multi).bucket];
+    };
+    $("hero-name-f").innerHTML = `<span class="hero-who">Sir Alex Ferguson</span><span class="hero-what">${plural(F.clubs, "club", "clubs")} · ${F.seasons} seasons</span>${miniBar([[DEEP_GREEN, 84]])}`;
+    $("hero-name-m").innerHTML = `<span class="hero-who">José Mourinho</span><span class="hero-what">${plural(mClubs.size, "club", "clubs")} · never more than ${word(mLongest)} seasons</span>${miniBar(visits.map(v => [visitColor(v), 12]))}`;
+    $("hero-kicker").textContent = `${DB.seasonList.length} seasons · ${DB.clubs.length} clubs · ${COUNTRIES.length} leagues`;
+    $("hero-sub").textContent = `One stayed ${F.longest} seasons at one club. The other never stayed longer than ${word(mLongest)}. Both won almost everything.`;
+    $("btn-begin").innerHTML = `${PLAY_ICON}Play the story · ${Math.max(1, Math.ceil(playSeconds / 60))} min`;
+
+    // ---------- Laag: seizoensrij ----------
+    const heat = $("layer-heat");
+    const narrow = () => window.innerWidth < 1150;
+    const tiny = () => window.innerWidth < 760;
+    const cellHTML = (slices, prizes, d, pd) =>
+        `<div class="h-cell" style="--d:${d}ms;--pd:${pd}ms">${slices.length ? slices.map(c => `<div class="h-slice" style="background:${c}"></div>`).join("") : '<div class="h-slice empty"></div>'}${prizes.length ? `<div class="h-shields">${prizes.map(cellShield).join("")}</div>` : ""}</div>`;
+    const prizeList = list => list.flatMap(x => PRIZE_ORDER.filter(k => x[k]));
+    const axisHTML = (years, isLast, every, endGap) => `<div class="h-axis">${years.map((y, i) => {
+        const last = i === years.length - 1;
+        const show = isLast && last ? true : y % every === 0 && i < years.length - endGap;
+        return `<div class="h-tick${last && isLast ? " end" : ""}">${show ? sn(y) : ""}</div>`;
+    }).join("")}</div>`;
+
+    // Rij Manchester United, vóór Ferguson t/m zijn laatste seizoen
+    const uYears = d3.range(fFirstYear - 1, fLastYear + 1);
+    const uPos = y => (uYears.indexOf(y) / uYears.length) * 100;
+    function unitedHTML() {
+        const cells = uYears.map(y => {
+            const s = muByYear.get(y);
+            if (!s) return cellHTML([], [], 0, 0);
+            const slices = s.multi ? d3.range(Math.min(5, s.nCoaches)).map(() => RED) : [TENURE_COLORS[s.tenure.bucket]];
+            return cellHTML(slices, prizeList([s]), 0, 0).replace('class="h-cell"', `class="h-cell" data-year="${y}"`);
+        }).join("");
+        const every = tiny() ? 10 : narrow() ? 5 : 3;
+        return `<div class="h-anns"></div>
+            <div class="h-row"><div class="h-label"><img class="h-logo${logoClass(mu)}" src="${esc(mu.logo_url)}" alt=""><span class="h-name">${esc(mu.naam)}</span></div><div class="h-cells">${cells}</div></div>
+            ${axisHTML(uYears, false, every, 2)}`;
+    }
+
+    // Rij Mourinho: één seizoen per blok. Meer clubs in één seizoen of meer trainers: rode stukken.
+    const mJobsByYear = d3.group(jobs, j => j.year);
+    function mourinhoHTML() {
+        const cells = mYears.map((y, i) => {
+            const list = mJobsByYear.get(y) || [];
+            if (!list.length) return cellHTML([], [], i * 400, i * 400 + 650);
+            const slices = list.length > 1 ? list.map(() => RED)
+                : list[0].multi ? d3.range(list[0].k).map(() => RED) : [TENURE_COLORS[list[0].bucket]];
+            return cellHTML(slices, prizeList(list), i * 400, i * 400 + 650);
+        }).join("");
+        const film = visits.map(v => `<div class="film-item">
+            <span class="film-logo">${v.logo ? `<img class="${v.invert.trim()}" src="${esc(v.logo)}" alt="">` : ""}</span>
+            <span class="film-cc">${CODE_OF_COUNTRY[v.country] || ""}</span><span class="film-name">${esc(v.club)}</span></div>`).join("");
+        return `<div class="h-anns"></div>
+            <div class="h-row film-row"><div class="h-label film"><div class="film-track">${film}</div></div><div class="h-cells">${cells}</div></div>
+            ${axisHTML(mYears, true, tiny() ? 10 : 5, 6)}`;
+    }
+
+    // Aantekeningen boven de rij; in de laatste 30% klappen ze naar links van hun lijn
+    function annHTML(list) {
+        return list.map((a, i) => {
+            const flip = a.left > 70;
+            return `<div class="h-ann${flip ? " flip" : ""}" style="left:${a.left}%;height:${22 + (i % 2) * 22}px;--c:${a.color};--ad:${a.delay}ms">${esc(a.text)}</div>`;
+        }).join("");
+    }
+
+    let filmTimers = [];
+    function setFilm(j) {
+        const items = heat.querySelectorAll(".film-item");
+        items.forEach((el, i) => {
+            const dd = Math.abs(i - j);
+            el.style.opacity = dd === 0 ? 1 : dd === 1 ? 0.45 : dd === 2 ? 0.2 : 0.08;
+            el.style.transform = `scale(${i === j ? 1.18 : 0.86})`;
+        });
+        const track = heat.querySelector(".film-track");
+        if (track) track.style.transform = `translateY(${-j * 44}px)`;
+        const v = visits[j];
+        const left = ((v.first - mYears[0]) / mYears.length) * 100;
+        heat.querySelector(".h-anns").innerHTML = annHTML([{ text: `${v.season} · ${v.club}`, left, color: TENURE_COLORS[1], delay: 0 }]);
+        requestAnimationFrame(() => heat.querySelectorAll(".h-ann").forEach(el => el.classList.add("on")));
+    }
+
+    // Wanneer de filmstrip naar een club schuift: bij het eerste blok van dat bezoek
+    const visitTimes = visits.map((v, j) => {
+        const sameSeason = visits.slice(0, j).filter(w => w.first === v.first && w.last === v.first).length;
+        return 60 + (v.first - mYears[0]) * 400 + sameSeason * 200;
+    });
+
+    function renderHeat(n, prev, instant) {
+        const sc = SCENES[n];
+        const sameRow = prev && SCENES[prev]?.row === sc.row && heat.dataset.row === sc.row;
+        heat.classList.remove("armed");
+        if (!sameRow || instant) {
+            heat.innerHTML = sc.row === "united" ? unitedHTML() : mourinhoHTML();
+            heat.dataset.row = sc.row;
+            heat.querySelectorAll("img").forEach(img => img.addEventListener("error", () => { img.style.visibility = "hidden"; }, { once: true }));
+        }
+        heat.classList.toggle("show-prizes", n >= 2 && instant);
+        filmTimers.forEach(clearTimeout); filmTimers = [];
+
+        if (sc.row === "united") {
+            const until = n === 1 ? fFirstYear + Math.max(dryStart, 1) - 1 : fLastYear;
+            const delay = y => n === 1 ? (y - uYears[0]) * 260 : Math.max(0, y - (firstTrophy?.year ?? fFirstYear)) * 270;
+            heat.querySelectorAll(".h-cell[data-year]").forEach(el => {
+                const y = +el.dataset.year;
+                el.style.setProperty("--d", `${delay(y)}ms`);
+                el.style.setProperty("--pd", `${delay(y) + (n === 2 ? 650 : 200)}ms`);
+                if (y > until || !sameRow || instant) el.classList.toggle("on", instant && y <= until);
+            });
+            const anns = n === 1
+                ? [{ text: `November ${fFirstYear} · Ferguson arrives`, left: uPos(fFirstYear), color: TENURE_COLORS[1], delay: 400 }]
+                : [
+                    firstTrophy && { text: `First trophy · ${firstTrophy.title ? "League title" : firstTrophy.cup ? CUP_NAME[mu.land] || "Cup" : "Europe"} ${firstTrophy.year + 1}`, left: uPos(firstTrophy.year), color: INTRO_SHIELD[firstTrophy.title ? "title" : firstTrophy.cup ? "cup" : "euro"], delay: 600 },
+                    lastTitle && { text: `Last league title · ${lastTitle.year + 1}`, left: uPos(lastTitle.year) + 100 / uYears.length, color: INTRO_SHIELD.title, delay: delay(lastTitle.year) + 1200 },
+                ].filter(Boolean);
+            heat.querySelector(".h-anns").innerHTML = annHTML(anns);
+            if (instant) heat.querySelectorAll(".h-ann").forEach(el => el.classList.add("on"));
+            arm(heat, instant, () => {
+                heat.classList.toggle("show-prizes", n >= 2);
+                heat.querySelectorAll(".h-cell[data-year]").forEach(el => el.classList.toggle("on", +el.dataset.year <= until));
+                heat.querySelectorAll(".h-ann").forEach(el => el.classList.add("on"));
+            });
+        } else {
+            heat.classList.add("show-prizes");
+            if (instant || reduceMotion) {
+                arm(heat, true, () => heat.querySelectorAll(".h-cell").forEach(el => el.classList.add("on")));
+                setFilm(visits.length - 1);
+                return;
+            }
+            heat.querySelectorAll(".h-cell").forEach(el => el.classList.remove("on"));
+            arm(heat, false, () => heat.querySelectorAll(".h-cell").forEach(el => el.classList.add("on")));
+            setFilm(0);
+            visits.forEach((v, j) => { if (j) filmTimers.push(setTimeout(() => setFilm(j), visitTimes[j])); });
+        }
+    }
+
+    // ---------- Laag: duel ----------
+    function renderDuel(instant) {
+        const layer = $("layer-duel");
+        const metrics = [
+            ["Seasons in charge", F.seasons, M.seasons, d => d],
+            ["Clubs", F.clubs, M.clubs, d => d],
+            ["Longest stay", F.longest, M.longest, d => d],
+            ["Trophies", F.trophies, M.trophies, d => d],
+            ["Trophies per season", fRate, mRate, fmtR],
+        ];
+        layer.innerHTML = `<div class="duel">
+            <div class="duel-row duel-head"><div class="dr-f"><span class="duel-who">Ferguson</span><i style="background:${DEEP_GREEN}"></i></div><span></span><div class="dr-m"><i style="background:${RED}"></i><span class="duel-who">Mourinho</span></div></div>
+            ${metrics.map(([label, f, m, fmt], i) => {
+                const mx = Math.max(f, m) || 1;
+                return `<div class="duel-row" style="--d:${i * 220}ms;--d2:${i * 220 + 500}ms">
+                    <div class="dr-f"><span class="duel-v">${fmt(f)}</span><div class="duel-bar f" style="--w:${(f / mx) * 100}%"></div></div>
+                    <span class="duel-label">${label}</span>
+                    <div class="dr-m"><div class="duel-bar m" style="--w:${(m / mx) * 100}%"></div><span class="duel-v">${fmt(m)}</span></div>
+                </div>`;
+            }).join("")}</div>`;
+        arm(layer, instant);
+    }
+
+    // ---------- Laag: staven (alle seizoenen) ----------
+    function renderBars(instant) {
+        const layer = $("layer-bars");
+        const yMax = Math.max(0.6, Math.ceil(d3.max(stats, d => d.any) * 5) / 5);
+        const grid = d3.range(0, yMax + 0.001, 0.2);
+        const label = d => d.b === "multi" ? "2+" : ["1", "2", "3–4", "5–6", "7–9", "10+"][d.b];
+        const sub = d => d.b === "multi" ? "managers" : d.b === 0 ? "season" : "seasons";
+        layer.innerHTML = `<div class="bars-plot">
+                ${grid.map(v => `<div class="bars-grid" style="bottom:${(v / yMax) * 100}%"><span>${Math.round(v * 100)}%</span></div>`).join("")}
+                <div class="bars-cols">${stats.map((d, i) => `<div class="bars-col" style="--d:${i * 180}ms;--d2:${i * 180 + 600}ms">
+                    <span class="bars-v">${pct(d.any)}</span>
+                    <div class="bars-bar${d.b === "multi" ? " split" : ""}" style="--h:${(d.any / yMax) * 100}%">${d.b === "multi" ? "<i></i><i></i><i></i>" : `<i style="background:${TENURE_COLORS[d.b]}"></i>`}</div>
+                </div>`).join("")}</div>
+            </div>
+            <div class="bars-labels">${stats.map(d => `<div><b>${label(d)}</b><span>${sub(d)} · ${d3.format(",")(d.n)}</span></div>`).join("")}</div>
+            <p class="bars-note">Share of seasons with at least one trophy · by how many full seasons the manager stayed (2+ = more than one manager that season)</p>`;
+        arm(layer, instant);
+    }
+
+    // ---------- Laag: spreiding per club ----------
+    function renderScatter(instant) {
+        const layer = $("layer-scatter");
+        layer.innerHTML = "";
+        const W = layer.clientWidth || 700, H = layer.clientHeight || 400;
+        const m = { top: 40, right: 30, bottom: 44, left: 52 };
+        const svg = d3.select(layer).append("svg").attr("width", W).attr("height", H).attr("viewBox", `0 0 ${W} ${H}`);
+        const x = d3.scaleLinear().domain([1, Math.ceil(d3.max(cstats, d => d.avg))]).range([m.left, W - m.right]);
+        const y = d3.scaleLinear().domain([0, Math.ceil(d3.max(cstats, d => d.perSeason) * 4) / 4]).range([H - m.bottom, m.top]);
+        svg.append("g").attr("class", "sc-grid").selectAll("line.v").data(x.ticks(6)).join("line")
+            .attr("x1", x).attr("x2", x).attr("y1", m.top).attr("y2", H - m.bottom);
+        svg.append("g").attr("class", "sc-grid").selectAll("line.h").data(y.ticks(4)).join("line")
+            .attr("x1", m.left).attr("x2", W - m.right).attr("y1", y).attr("y2", y);
+        svg.append("path").attr("class", "sc-axis").attr("d", `M${m.left},${m.top}V${H - m.bottom}H${W - m.right}`);
+        svg.append("g").selectAll("text").data(x.ticks(6)).join("text").attr("class", "sc-tick")
+            .attr("x", x).attr("y", H - m.bottom + 18).attr("text-anchor", "middle").text(d => d);
+        svg.append("g").selectAll("text").data(y.ticks(4)).join("text").attr("class", "sc-tick")
+            .attr("x", m.left - 10).attr("y", y).attr("dy", ".35em").attr("text-anchor", "end").text(fmtR);
+        svg.append("text").attr("class", "sc-axis-label").attr("x", W - m.right).attr("y", H - 6).attr("text-anchor", "end")
+            .html(`more stable → <tspan class="muted">average seasons per manager</tspan>`);
+        svg.append("text").attr("class", "sc-axis-label").attr("x", m.left).attr("y", m.top - 16).text("↑ more trophies per season");
+
+        // Trendlijn (kleinste kwadraten) over het bereik van de data
+        const mx = d3.mean(cstats, d => d.avg), my = d3.mean(cstats, d => d.perSeason);
+        const slope = d3.sum(cstats, d => (d.avg - mx) * (d.perSeason - my)) / d3.sum(cstats, d => (d.avg - mx) ** 2);
+        const x0 = d3.min(cstats, d => d.avg), x1 = d3.max(cstats, d => d.avg);
+        const trend = svg.append("line").attr("class", "sc-trend")
+            .attr("x1", x(x0)).attr("y1", y(my + slope * (x0 - mx))).attr("x2", x(x1)).attr("y2", y(my + slope * (x1 - mx)))
+            .attr("opacity", instant ? 1 : 0);
+        if (!instant) trend.transition().delay(1400).duration(600).attr("opacity", 1);
+
+        const labelled = new Map([...winners, ...stable, poorest].map(d => [d.club.naam, d]));
+        const R = 19;
+        const nodes = svg.append("g").selectAll("g").data([...cstats].sort((a, b) => labelled.has(a.club.naam) - labelled.has(b.club.naam))).join("g")
+            .attr("class", "sc-dot");
+        nodes.append("circle").attr("r", R).attr("class", d => labelled.has(d.club.naam) ? "ring" : "");
+        nodes.append("image").attr("href", d => d.club.logo_url).attr("width", 28).attr("height", 28).attr("x", -14).attr("y", -14)
+            .attr("class", d => logoClass(d.club).trim())
+            .on("error", function () { d3.select(this).style("display", "none"); });
+        nodes.append("title").text(d => `${d.club.naam}: ${fmtR(d.avg)} seasons per manager, ${fmtR(d.perSeason)} trophies per season`);
+        // Labels in een eigen bovenlaag. Alleen het logo staat op het datapunt; het label kiest
+        // rechts, links, boven of onder, waar het geen ander logo of label raakt.
+        const dots = cstats.map(d => ({ x: x(d.avg), y: y(d.perSeason) }));
+        const placed = [];
+        // Aantal botsingen van een labelvak met logo's, eerder geplaatste labels en de plotrand
+        const overlaps = (bx, by, w, h) => dots.filter(p => p.x + R > bx && p.x - R < bx + w && p.y + R > by && p.y - R < by + h).length
+            + 3 * placed.filter(r => r.x < bx + w && r.x + r.w > bx && r.y < by + h && r.y + r.h > by).length
+            + (bx < m.left || bx + w > W - m.right || by < m.top - 10 || by + h > H - m.bottom ? 5 : 0);
+        const labels = svg.append("g").selectAll("g").data(cstats.filter(d => labelled.has(d.club.naam))).join("g").attr("class", "sc-label");
+        labels.each(function (d) {
+            const px = x(d.avg), py = y(d.perSeason), text = shortName(d.club.naam), w = text.length * 7 + 12, h = 20;
+            const options = [[R + 6, -h / 2], [-R - 6 - w, -h / 2], [-w / 2, -R - 6 - h], [-w / 2, R + 6],
+                [R, -R - h], [-R - w, -R - h], [R, R], [-R - w, R], [-w / 2, -R - 30 - h], [R + 30, -h / 2], [-R - 30 - w, -h / 2]];
+            const [tx, ty] = options.map(o => [...o, overlaps(px + o[0], py + o[1], w, h)]).reduce((a, b) => b[2] < a[2] ? b : a);
+            placed.push({ x: px + tx, y: py + ty, w, h });
+            const g = d3.select(this).attr("transform", `translate(${px},${py})`);
+            g.append("rect").attr("x", tx).attr("y", ty).attr("width", w).attr("height", h).attr("rx", 5);
+            g.append("text").attr("x", tx + 6).attr("y", ty + 14).text(text);
+        });
+        labels.attr("opacity", instant ? 1 : 0);
+        if (!instant) labels.transition().delay(1000 + cstats.length * 90).duration(500).attr("opacity", 1);
+        nodes.attr("transform", d => instant ? `translate(${x(d.avg)},${y(d.perSeason)})` : `translate(${x(1)},${y(0)}) scale(.2)`)
+            .attr("opacity", instant ? 1 : 0);
+        if (!instant) nodes.transition().delay((d, i) => 60 + i * 90).duration(1000).ease(d3.easeCubicOut)
+            .attr("transform", d => `translate(${x(d.avg)},${y(d.perSeason)}) scale(1)`).attr("opacity", 1);
+    }
+
+    // ---------- Laag: slot (mozaïek van echte seizoenen) ----------
+    const mosaicSeasons = d3.range(72).map(i => DB.seasons[Math.floor((i * 2654435761) % DB.seasons.length)]);
+    function renderEnd(instant) {
+        const layer = $("layer-end");
+        layer.innerHTML = `<div class="mosaic">${mosaicSeasons.map((s, i) => `<i style="background:${s.unknown ? "#2a3531" : s.multi ? RED : TENURE_COLORS[s.tenure.bucket]};--d:${((i * 53) % 72) * 18}ms"></i>`).join("")}</div>
+            <span class="mosaic-note">${d3.format(",")(DB.seasons.length)} seasons · ${DB.clubs.length} clubs · ${COUNTRIES.length} leagues</span>`;
+        arm(layer, instant);
+    }
+
+    function arm(layer, instant, fn) {
+        clearTimeout(layer.armTimer);
+        if (instant || reduceMotion) { layer.classList.add("armed", "instant"); fn?.(); return; }
+        layer.classList.remove("armed", "instant");
+        void layer.offsetWidth;
+        layer.armTimer = setTimeout(() => { layer.classList.add("armed"); fn?.(); }, 60);
+    }
+
+    // ---------- Tekstkolom ----------
+    const stageText = $("stage-text");
+    function renderText(sc) {
+        const [file, coach] = sc.portrait || [];
+        stageText.innerHTML = `
+            ${sc.portrait ? `<div class="st-portrait" style="--ring:${sc.ring};background-image:${photoBg(file, wikiThumb(coach.foto_url, 500))}" role="img" aria-label="${esc(coach.naam)}"></div>` : ""}
+            <p class="st-kicker">${esc(sc.kicker)}</p>
+            <h2 class="st-title">${esc(sc.title)}</h2>
+            ${sc.big ? `<span class="st-big" style="color:${sc.bigColor}">${esc(sc.big)}</span>` : ""}
+            <p class="st-body">${esc(sc.body)}</p>
+            ${sc.chips ? `<div class="st-chips">${sc.chips}</div>` : ""}
+            ${sc.cta ? `<a class="st-cta" href="#explore">Open the explorer ↓</a>` : ""}`;
+        stageText.classList.remove("enter");
+        void stageText.offsetWidth;
+        stageText.classList.add("enter");
+    }
+
+    // ---------- Bediening ----------
+    const segs = $("c-segs");
+    segs.innerHTML = SCENES.slice(1).map((s, i) => `<button class="c-seg" type="button" data-step="${i + 1}" title="${esc(s.name)}"><span class="c-track"><span class="c-fill"></span></span><span class="c-name">${esc(s.name)}</span></button>`).join("");
+    segs.addEventListener("click", e => { const b = e.target.closest("[data-step]"); if (b) go(+b.dataset.step); });
+
+    const clock = { step: 0, playing: false, t: 0, last: 0, inView: true };
+    function setPlaying(p) {
+        clock.playing = p && SCENES[clock.step].dur > 0;
+        $("c-play").innerHTML = clock.playing ? PAUSE_ICON : PLAY_ICON;
+        $("c-play").setAttribute("aria-label", clock.playing ? "Pause" : "Play");
+        clock.last = performance.now();
+    }
+    function updateSegs() {
+        segs.querySelectorAll(".c-seg").forEach(b => {
+            const idx = +b.dataset.step, sc = SCENES[idx];
+            const fill = idx < clock.step ? 1 : idx > clock.step ? 0 : sc.dur ? Math.min(1, clock.t / sc.dur) : 1;
+            b.querySelector(".c-fill").style.width = `${fill * 100}%`;
+            b.classList.toggle("current", idx === clock.step);
+            b.classList.toggle("done", idx < clock.step);
+        });
+    }
+
+    const LAYERS = { heat: "layer-heat", duel: "layer-duel", bars: "layer-bars", scatter: "layer-scatter", end: "layer-end" };
+    function render(n, prev, instant) {
+        const sc = SCENES[n];
+        root.dataset.step = n;
+        Object.entries(LAYERS).forEach(([k, id]) => $(id).classList.toggle("active", sc.layer === k));
+        if (!n) return;
+        $("panel-caption").textContent = sc.caption || "";
+        $("panel-source").textContent = sc.source || "";
+        renderText(sc);
+        if (sc.layer === "heat") renderHeat(n, prev, instant);
+        if (sc.layer === "duel") renderDuel(instant);
+        if (sc.layer === "bars") renderBars(instant);
+        if (sc.layer === "scatter") renderScatter(instant);
+        if (sc.layer === "end") renderEnd(instant);
+    }
+
+    function go(n, play) {
+        n = Math.max(0, Math.min(SCENES.length - 1, n));
+        const prev = clock.step;
+        clock.step = n;
+        clock.t = 0;
+        try { localStorage.setItem(INTRO_KEY, String(n)); } catch { /* opslag geblokkeerd */ }
+        render(n, prev, false);
+        setPlaying(play === undefined ? clock.playing : play);
+        updateSegs();
+    }
+
+    function tick(now) {
+        if (clock.playing && clock.inView) {
+            clock.t += (now - clock.last) / 1000;
+            const d = SCENES[clock.step].dur;
+            if (d && clock.t >= d) go(clock.step + 1, true);
+            else updateSegs();
+        }
+        clock.last = now;
+        requestAnimationFrame(tick);
+    }
+
+    const toExplorer = () => setPlaying(false);
+    $("btn-begin").addEventListener("click", () => { go(1, true); root.focus({ preventScroll: true }); });
+    $("c-play").addEventListener("click", () => setPlaying(!clock.playing));
+    $("c-prev").addEventListener("click", () => go(clock.step - 1));
+    $("c-next").addEventListener("click", () => go(clock.step + 1));
+    root.addEventListener("click", e => { if (e.target.closest('a[href="#explore"]')) toExplorer(); });
+
+    document.addEventListener("keydown", e => {
+        if (!clock.inView || e.altKey || e.ctrlKey || e.metaKey) return;
+        if (e.target.closest?.("input, textarea, select, [contenteditable]")) return;
+        if (e.key === "ArrowRight") { e.preventDefault(); go(clock.step + 1); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); go(clock.step - 1); }
+        else if (e.key === " " && !e.target.closest?.("button, a")) {
+            e.preventDefault();
+            if (clock.step === 0) go(1, true); else setPlaying(!clock.playing);
+        }
+    });
+
+    // Vegen op een touchscherm: volgende / vorige scène
+    let touch = null;
+    $("stage").addEventListener("touchstart", e => { touch = e.touches[0]; }, { passive: true });
+    $("stage").addEventListener("touchend", e => {
+        if (!touch) return;
+        const dx = e.changedTouches[0].clientX - touch.clientX, dy = e.changedTouches[0].clientY - touch.clientY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(clock.step + (dx < 0 ? 1 : -1));
+        touch = null;
+    }, { passive: true });
+
+    // Buiten beeld: klok stil
+    new IntersectionObserver(([e]) => {
+        clock.inView = e.intersectionRatio >= 0.5;
+        clock.last = performance.now();
+    }, { threshold: [0, 0.5, 1] }).observe(root);
+
+    let rt, lastW = window.innerWidth, lastH = window.innerHeight;
+    window.addEventListener("resize", () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => {
+            if (window.innerWidth === lastW && window.innerHeight === lastH) return;
+            lastW = window.innerWidth; lastH = window.innerHeight;
+            if (clock.step) render(clock.step, clock.step, true);
+        }, 200);
+    });
+
+    let saved = 0;
+    try { saved = parseInt(localStorage.getItem(INTRO_KEY) || "0", 10) || 0; } catch { /* opslag geblokkeerd */ }
+    clock.step = saved > 0 && saved < SCENES.length ? saved : 0;
+    render(clock.step, null, true);
+    setPlaying(false);
+    updateSegs();
+    requestAnimationFrame(now => { clock.last = now; requestAnimationFrame(tick); });
+}
+
 
 // ------------------------------------------------------------------
 // Explorer
@@ -1206,6 +1296,13 @@ function navState() {
         if (e.isIntersecting && pendingHash) { history.replaceState(null, "", "#" + pendingHash); pendingHash = null; }
     }, { rootMargin: "-40% 0px -40% 0px" });
     io.observe(ex);
+    // Boven het intro zweeft de header (doorzichtige balk over de foto's)
+    const header = document.querySelector(".site-header");
+    new IntersectionObserver(([e]) => header.classList.toggle("over-intro", e.isIntersecting), { rootMargin: "0px 0px -95% 0px" })
+        .observe(document.getElementById("intro"));
+    const setHeaderH = () => document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    setHeaderH();
+    window.addEventListener("resize", setHeaderH);
     document.getElementById("nav-explore").addEventListener("click", () => { if (!location.hash.startsWith("#explore")) setTimeout(updateHash, 50); });
 }
 
@@ -1222,7 +1319,7 @@ function navState() {
         return;
     }
     const deepLink = readHash();
-    buildStory();
+    buildIntro(DB.extraCareer);
     buildExplorer();
     renderExplorer();
     navState();

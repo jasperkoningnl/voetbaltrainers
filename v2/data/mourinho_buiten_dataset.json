@@ -1,0 +1,77 @@
+{
+  "toelichting": "Seizoenen van José Mourinho die niet in de database staan: clubs buiten de 35 (União de Leiria, Tottenham Hotspur, Fenerbahçe) en seizoen 2025/26 (database loopt tot 2024/25). Alleen gebruikt voor de Mourinho-rij en de filmstrip in het intro; alle statistieken rekenen met de database. 'trainers' zijn alle trainers van de club dat seizoen (zelfde regel als trainers_seizoen). 'hoofdtrainer' = Mourinho stond dat seizoen het langst aan het roer. Prijzen: geen (Mourinho won bij deze clubs geen landstitel, nationale beker of Europese prijs).",
+  "coach": "José Mourinho",
+  "seizoenen": [
+    {
+      "club": "União de Leiria", "land": "Portugal", "seizoen": "2001/02", "hoofdtrainer": true,
+      "trainers": [
+        { "naam": "José Mourinho", "van": "2001-07-01", "tot": "2002-01-23", "interim": false },
+        { "naam": "Mário Reis", "van": "2002-01-21", "tot": "2002-02-24", "interim": false },
+        { "naam": "Vítor Pontes", "van": "2002-02-25", "tot": "2002-06-30", "interim": false }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/Jos%C3%A9_Mourinho#Managerial_statistics",
+        "https://en.wikipedia.org/wiki/2001%E2%80%9302_Primeira_Liga#Managerial_changes"
+      ]
+    },
+    {
+      "club": "Tottenham Hotspur", "land": "England", "seizoen": "2019/20", "hoofdtrainer": true,
+      "trainers": [
+        { "naam": "Mauricio Pochettino", "van": null, "tot": "2019-11-19", "interim": false },
+        { "naam": "José Mourinho", "van": "2019-11-20", "tot": "2021-04-19", "interim": false }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/2019%E2%80%9320_Tottenham_Hotspur_F.C._season",
+        "https://en.wikipedia.org/wiki/Jos%C3%A9_Mourinho#Managerial_statistics"
+      ]
+    },
+    {
+      "club": "Tottenham Hotspur", "land": "England", "seizoen": "2020/21", "hoofdtrainer": true,
+      "trainers": [
+        { "naam": "José Mourinho", "van": "2019-11-20", "tot": "2021-04-19", "interim": false },
+        { "naam": "Ryan Mason", "van": "2021-04-19", "tot": "2021-06-30", "interim": true }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/2020%E2%80%9321_Tottenham_Hotspur_F.C._season"
+      ]
+    },
+    {
+      "club": "Fenerbahçe", "land": "Turkey", "seizoen": "2024/25", "hoofdtrainer": true,
+      "trainers": [
+        { "naam": "José Mourinho", "van": "2024-06-02", "tot": "2025-08-29", "interim": false }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/2024%E2%80%9325_Fenerbah%C3%A7e_S.K._season"
+      ]
+    },
+    {
+      "club": "Fenerbahçe", "land": "Turkey", "seizoen": "2025/26", "hoofdtrainer": false,
+      "trainers": [
+        { "naam": "José Mourinho", "van": "2024-06-02", "tot": "2025-08-29", "interim": false },
+        { "naam": "Zeki Murat Göle", "van": "2025-08-29", "tot": "2025-09-09", "interim": true },
+        { "naam": "Domenico Tedesco", "van": "2025-09-09", "tot": "2026-04-27", "interim": false },
+        { "naam": "Zeki Murat Göle", "van": "2026-04-27", "tot": "2026-06-30", "interim": true }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/2025%E2%80%9326_Fenerbah%C3%A7e_S.K._season"
+      ]
+    },
+    {
+      "club": "Benfica", "land": "Portugal", "seizoen": "2025/26", "hoofdtrainer": true,
+      "trainers": [
+        { "naam": "Bruno Lage", "van": null, "tot": "2025-09-16", "interim": false },
+        { "naam": "José Mourinho", "van": "2025-09-18", "tot": "2026-06-09", "interim": false }
+      ],
+      "titel": false, "beker": false, "europa": false,
+      "bronnen": [
+        "https://en.wikipedia.org/wiki/2025%E2%80%9326_S.L._Benfica_season",
+        "https://en.wikipedia.org/wiki/Jos%C3%A9_Mourinho#Managerial_statistics"
+      ]
+    }
+  ]
+}
