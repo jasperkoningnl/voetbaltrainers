@@ -1683,7 +1683,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
         }
 
         // --- TWIJFELGEVALLEN: controle per seizoen (v2) ---
-        // Leest v2/data/twijfelgevallen.json. Per seizoen vink je aan welke trainers er echt stonden
+        // Leest data/twijfelgevallen.json. Per seizoen vink je aan welke trainers er echt stonden
         // en kies je de hoofdtrainer (langst aan het roer). Opslaan schrijft trainers_seizoen,
         // eventueel een nieuwe coachId, en markeert het seizoen als gecontroleerd.
         const LANG_BY_COUNTRY = { England: 'en', France: 'fr', Germany: 'de', Italy: 'it', Netherlands: 'nl', Portugal: 'pt', Spain: 'es' };
@@ -1828,7 +1828,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             const seasonById = useMemo(() => Object.fromEntries(appData.seasons.map(s => [s.id, s])), [appData.seasons]);
 
             useEffect(() => {
-                fetch('v2/data/twijfelgevallen.json').then(r => { if (!r.ok) throw new Error('bestand niet gevonden'); return r.json(); })
+                fetch('data/twijfelgevallen.json').then(r => { if (!r.ok) throw new Error('bestand niet gevonden'); return r.json(); })
                     .then(j => setCases(j.twijfel || [])).catch(e => setError(e.message));
             }, []);
 

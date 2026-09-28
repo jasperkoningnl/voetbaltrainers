@@ -7,7 +7,7 @@ Stand: 27 september 2026. Prijzen en limieten gecontroleerd op de genoemde pagin
 **Wat er in Firestore staat.** Drie collecties: `clubs` (35), `coaches` (ruim 700) en `seizoenen` (2.450). Samen ongeveer 1 MB. Een seizoen heeft platte velden (`club`, `seizoen`, `coachId`, `land`, `landstitel`, `nationale_beker`, `europese_prijs`) en geneste velden (`trainers_seizoen`, `trainers_controle`).
 
 **Wie wat doet.**
-- De publieke pagina's (`index.html`, `v2/`) lezen sinds de snapshot-Action alleen `data/snapshot.json`. Ze zijn dus al los van Firestore.
+- De publieke pagina's (`index.html`, `explore.html`, `v0.9/`) lezen sinds de snapshot-Action alleen `data/snapshot.json`. Ze zijn dus al los van Firestore.
 - De Action leest Firestore één keer per dag (ruim 3.000 reads).
 - Alleen het dashboard (`dashboard.html`) gebruikt Firestore nog echt: Google-login (Firebase Auth), lezen, schrijven en de Cloud Function `enrichCoachData`.
 
@@ -57,7 +57,7 @@ Project aanmaken in regio EU (Frankfurt). Tabellen aanmaken via de SQL-editor:
 - `coaches(id text primary key, naam text, nationaliteit text, nat_code text, foto_url text)`
 - `seizoenen(id text primary key, club text references clubs, seizoen text, land text, coach_id text references coaches, landstitel text, nationale_beker text, europese_prijs text, trainers_seizoen jsonb, trainers_bron text, trainers_controle jsonb, overige jsonb)`
 
-De bestaande Firestore-ID's blijven de sleutels. Zo blijven links en de koppeling met `v2/data/*.json` werken. Onbekende extra velden gaan naar `overige`, zodat er niets verloren gaat.
+De bestaande Firestore-ID's blijven de sleutels. Zo blijven links en de koppeling met `data/*.json` werken. Onbekende extra velden gaan naar `overige`, zodat er niets verloren gaat.
 
 **Stap 2. Beveiliging.**
 Rechten per rij (RLS) aanzetten op alle tabellen. Lezen mag voor iedereen (de data is al openbaar via de snapshot). Schrijven mag alleen voor jouw Google-account: het e-mailadres staat in de policy. Daarna Google-login instellen, met de OAuth-client uit de Google Cloud Console.
@@ -78,7 +78,7 @@ Dit is het grootste deel.
 Testen per scherm: Clubs, Coaches, Seizoenen, Importer, Data Health, Seizoenstrainers, Twijfelgevallen.
 
 **Stap 6. Overgang.**
-Een week lang met Supabase werken, terwijl Firestore alleen-lezen blijft als reserve. Daarna de Firestore-terugval uit `script.js`, `v2/app.js` en `index.html` halen, en de Firebase-config en `functions/` opruimen.
+Een week lang met Supabase werken, terwijl Firestore alleen-lezen blijft als reserve. Daarna de Firestore-terugval uit `app.js` en `v0.9/` halen, en de Firebase-config en `functions/` opruimen.
 
 **Stap 7. Afsluiten.**
 Een laatste export van Firestore bewaren in de repo. Het Firebase-project kan daarna blijven bestaan (gratis) of worden verwijderd.

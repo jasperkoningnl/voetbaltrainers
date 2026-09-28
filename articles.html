@@ -1,123 +1,69 @@
 <!DOCTYPE html>
-<!--
-  HTML Versie: 7.0
-  Changelog:
-  - Nieuw typografisch logo geïmplementeerd in de header.
-  - Oude SVG-pijlen verwijderd.
--->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles - The Managerial Merry-Go-Round</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
+    <title>Articles · The Managerial Merry-Go-Round</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
-
-    <!-- Gedeelde Stijlen -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wdth,wght@62..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        .card-image-container {
-            height: 200px;
-        }
-        .card-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .read-more-link {
-            color: var(--accent-color);
-        }
-    </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="text-page">
 
-    <header class="site-header">
-        <nav class="site-nav">
-            <div class="logo">
-                <a href="index.html">
-                    <div class="logo-text">
-                        <div>
-                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
-                        </div>
-                        <div>
-                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">Visualization</a>
-                <a href="articles.html" class="active">Articles</a>
-                <a href="about.html">About</a>
-            </div>
-        </nav>
-    </header>
-
-    <div class="credo-block">
-        <p>Dive deeper into the data with our collection of articles, exploring the narratives and patterns behind managerial careers.</p>
-    </div>
-
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
-        <!-- Articles Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <!-- Article 1: The Architect vs. The Journeyman -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
-                <a href="articles/architectjourneyman.html" class="block">
-                    <div class="card-image-container">
-                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/header.png" alt="Image of Ferguson and Mourinho" class="card-image">
-                    </div>
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The Architect vs. The Journeyman</h2>
-                        <p class="text-gray-700 mb-4">A deep dive into the two dominant philosophies of modern coaching: building a long-term dynasty versus achieving short-term, high-impact success.</p>
-                        <span class="font-semibold read-more-link hover:underline">Read More &rarr;</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Article 2: The Global Tactician -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
-                <a href="articles/globaltactician.html" class="block">
-                    <div class="card-image-container">
-                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/global.png" alt="Image of a world map with coach routes" class="card-image">
-                    </div>
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The Global Tactician</h2>
-                        <p class="text-gray-700 mb-4">Which nations export the most successful coaching philosophies, and which leagues are the biggest importers of foreign talent? The data reveals all.</p>
-                        <span class="font-semibold read-more-link hover:underline">Read More &rarr;</span>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Article 3: The GOAT Debate -->
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
-                <a href="articles/thegoat.html" class="block">
-                    <div class="card-image-container">
-                        <img src="https://jasperkoningnl.github.io/voetbaltrainers/images/mountgoat.png" alt="Image of Mount Rushmore with football managers" class="card-image">
-                    </div>
-                    <div class="p-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-2">The GOAT Debate</h2>
-                        <p class="text-gray-700 mb-4">Using data to analyze the claims of football's greatest managers. Is it about trophy volume, efficiency, or revolutionary impact?</p>
-                        <span class="font-semibold read-more-link hover:underline">Read More &rarr;</span>
-                    </div>
-                </a>
-            </div>
-
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="index.html" aria-label="The Managerial Merry-Go-Round">
+            <svg class="logo-mark" width="46" height="42" viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6 L8 34 L22 34 Z" fill="#FF0033"/><path d="M50 6 L22 34 L36 34 Z" fill="#66ff66"/><path d="M50 6 L36 34 L50 34 Z" fill="#33cc33"/><path d="M50 6 L50 34 L64 34 Z" fill="#339933"/><path d="M50 6 L64 34 L78 34 Z" fill="#006600"/><path d="M50 6 L78 34 L92 34 Z" fill="#0b4d0b"/><path d="M6 34 Q13 42 20 34 Q27 42 34 34 Q41 42 48 34 Q55 42 62 34 Q69 42 76 34 Q83 42 90 34" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><rect x="48" y="0" width="4" height="8" rx="2" fill="currentColor"/><line x1="16" y1="40" x2="16" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="11" y="56" width="10" height="10" rx="2.5" fill="#FF0033"/><line x1="38" y1="40" x2="38" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="33" y="50" width="10" height="10" rx="2.5" fill="#0b4d0b"/><line x1="62" y1="40" x2="62" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="57" y="60" width="10" height="10" rx="2.5" fill="#33cc33"/><line x1="84" y1="40" x2="84" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="79" y="52" width="10" height="10" rx="2.5" fill="#339933"/><rect x="4" y="80" width="92" height="7" rx="3.5" fill="currentColor"/></svg>
+            <span class="logo-text"><span class="logo-top">Managerial</span><span class="logo-bottom">Merry-Go-Round</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Story</a>
+            <a href="explore.html">Explore</a>
+            <a href="articles.html" class="active" aria-current="page">Articles</a>
+            <a href="about.html">About</a>
         </div>
-    </main>
+    </nav>
+</header>
 
-    <footer class="page-footer">
-        <p>Created by <a href="https://github.com/jasperkoningnl" target="_blank">Jasper Koning</a> & <a href="https://gemini.google.com" target="_blank">Gemini</a>.</p>
-        <p><a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank">View project on GitHub</a></p>
-    </footer>
+<div class="page-head wide">
+    <h1>Articles</h1>
+    <p>Dive deeper into the data: the narratives and patterns behind managerial careers.</p>
+</div>
+
+<main class="text-main">
+    <div class="article-grid">
+        <a class="article-card" href="articles/architectjourneyman.html">
+            <span class="article-card-img"><img src="images/header.png" alt="Ferguson and Mourinho" loading="lazy"></span>
+            <span class="article-card-body">
+                <span class="article-card-title">The Architect vs. The Journeyman</span>
+                <span class="article-card-text">A deep dive into the two dominant philosophies of modern coaching: building a long-term dynasty versus achieving short-term, high-impact success.</span>
+                <span class="article-card-more">Read more →</span>
+            </span>
+        </a>
+        <a class="article-card" href="articles/globaltactician.html">
+            <span class="article-card-img"><img src="images/global.png" alt="A world map with coach routes" loading="lazy"></span>
+            <span class="article-card-body">
+                <span class="article-card-title">The Global Tactician</span>
+                <span class="article-card-text">Which nations export the most successful coaching philosophies, and which leagues are the biggest importers of foreign talent? The data reveals all.</span>
+                <span class="article-card-more">Read more →</span>
+            </span>
+        </a>
+        <a class="article-card" href="articles/thegoat.html">
+            <span class="article-card-img"><img src="images/mountgoat.png" alt="Mount Rushmore with football managers" loading="lazy"></span>
+            <span class="article-card-body">
+                <span class="article-card-title">The GOAT Debate</span>
+                <span class="article-card-text">Using data to analyze the claims of football's greatest managers. Is it about trophy volume, efficiency, or revolutionary impact?</span>
+                <span class="article-card-more">Read more →</span>
+            </span>
+        </a>
+    </div>
+</main>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. <a href="data-methodology.html">Methodology</a> · <a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank" rel="noopener">GitHub</a> · <a href="v0.9/index.html">Previous version (v0.9)</a></p>
+</footer>
 
 </body>
 </html>

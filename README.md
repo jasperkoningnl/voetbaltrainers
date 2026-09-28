@@ -18,9 +18,11 @@ The project consists of three main components:
 The project leverages a modern web stack to separate data management from the public-facing visualization:
 
 * **Frontend:**
-    * **Visualization (`index.html`):** Built with vanilla JavaScript and the **D3.js** library for powerful, data-driven SVG rendering.
-    * **Styling (`style.css`):** A custom stylesheet for the main visualization. Article pages use **Tailwind CSS** for a distinct, magazine-like feel.
-    * **Logic (`script.js`):** Handles all the D3 rendering, user interactions, and data fetching from Firestore for the visualization.
+    * **Intro (`index.html`):** schermvullende presentatie Ferguson vs Mourinho (7 scènes).
+    * **Verkenner (`explore.html`):** weergaven League, Compare clubs en Career. Link naar een weergave: `explore.html#country=Spain`, `#clubs=id,id` of `#career=Naam`.
+    * **Tekstpagina's:** `articles.html`, `articles/*.html`, `about.html`, `data-methodology.html`, in dezelfde stijl.
+    * **Logica en stijl:** `app.js` (vanilla JavaScript + **D3.js**, één script voor intro en verkenner) en `style.css` (alle pagina's).
+    * **Archief (`v0.9/`):** de eerste versie van de visualisatie, ongewijzigd behalve de paden. Oude links naar `v2/` sturen door naar de hoofdversie.
 
 * **Backend & Data:**
     * **Database:** **Google Firestore** serves as the single source of truth, housing collections for `clubs`, `coaches`, and `seasons`. This allows for real-time data updates without redeploying the application.
@@ -29,7 +31,7 @@ The project leverages a modern web stack to separate data management from the pu
 
 ## Data snapshot (publieke pagina's)
 
-`index.html` en `v2/` lezen hun data uit `data/snapshot.json`, niet rechtstreeks uit Firestore. Elke bezoeker die alle collecties uit Firestore leest kost duizenden document-reads; daarmee raakt het dagelijkse gratis quotum snel op ([Firestore quotas](https://firebase.google.com/docs/firestore/quotas)). Firestore wordt alleen nog gelezen als `data/snapshot.json` ontbreekt of onleesbaar is.
+`index.html`, `explore.html` en het archief `v0.9/` lezen hun data uit `data/snapshot.json`, niet rechtstreeks uit Firestore. Elke bezoeker die alle collecties uit Firestore leest kost duizenden document-reads; daarmee raakt het dagelijkse gratis quotum snel op ([Firestore quotas](https://firebase.google.com/docs/firestore/quotas)). Firestore wordt alleen nog gelezen als `data/snapshot.json` ontbreekt of onleesbaar is.
 
 De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflows/pages.yml`:
 
@@ -40,19 +42,53 @@ De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflow
 
 Eenmalige instelling: Settings → Pages → Build and deployment → Source: **GitHub Actions**. In een openbare repo schakelt GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo; zet hem dan aan via Actions → *Site publiceren* → Enable workflow.
 
+## Site (hoofdversie)
+
+- Ontwerp: Claude Design. Verkenner optie 7a, header 12b, intro `design_handoff_intro`. Donker thema; logo: `logo-carousel.svg`; favicon: `favicon.svg` (donkere lijnen, licht in een donkere browser). Mobiel is nog niet apart ontworpen (tekst boven de figuur, vegen voor volgende/vorige).
+- Intro: speelt zelf af (pijltjes ←/→ wisselen scène, spatie start of pauzeert). De huidige scène staat in `localStorage` (`mmgr-intro-step`). Alle cijfers en teksten met cijfers komen uit de data.
+- Foto's intro: zet eigen bestanden in `images/intro/`: `ferguson-hero.jpg`, `mourinho-hero.jpg` (titelscherm), `ferguson-1986.jpg`, `ferguson-trophy.jpg`, `mourinho-porto.jpg` (portretten). Ontbreekt een bestand, dan toont de app de foto uit de database (Wikimedia).
+- `data/mourinho_buiten_dataset.json`: Mourinho's seizoenen buiten de database (União de Leiria, Tottenham, Fenerbahçe, Benfica 2025/26), met bronnen. Alleen voor de Mourinho-rij en de filmstrip in het intro; de statistieken (duel, staven, spreiding) rekenen alleen met de database.
+- Leest `clubs`, `coaches` en `seizoenen` uit `data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
+- Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
+  `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
+- Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
+- Importeren in Firestore: dashboard → **Seizoenstrainers** → kies `data/trainers_seizoen.json` → controleer de preview → importeer. Alleen `trainers_seizoen` en `trainers_bron` worden geschreven.
+
+In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
+
+Regel voor een gesplitst seizoen: een trainer telt mee voor een seizoen als hij minstens 3 dagen tussen 1 augustus en 20 mei aan het roer stond. Wissels in de zomerstop tellen dus niet.
+
+### Bronnen extra trainers
+
+- `data/bronnen/*.txt`: per club de bronlijst (Wikipedia, per club de taal met de meest precieze lijst) met bron-URL bovenaan. Twee formaten: trainersperiodes met datums, of per seizoen de volgorde van trainers (`#type season`).
+- `data/bronnen/build_trainers.py`: bouwt de ruwe bronlijsten met lokale exports van `seizoenen`, `coaches` en `clubs`.
+- `data/bronnen/normaliseer_trainers.mjs`: splitst gezamenlijke trainers, verwijdert expliciete technische directeuren en past controleerbare correcties toe.
+- `data/BRONNEN.md`: werkwijze voor bronrevisies en aanvullende controle met API-Football, Transfermarkt en football-data.org.
+- `data/controlelijst.md`: seizoenen waar bron en database uit elkaar lopen. De database is niet aangepast.
+- Nog geen data voor AS Monaco, Athletic Bilbao, Boavista en S.C. Braga (bronnen geven alleen jaartallen).
+
+### Twijfelgevallen
+
+`data/twijfelgevallen.json` bevat alle seizoenen waar bron en database uit elkaar lopen. In het dashboard onder **Twijfelgevallen** vink je per seizoen de trainers aan of uit, kies je de hoofdtrainer en sla je op. Dat schrijft `trainers_seizoen`, zo nodig een nieuwe `coachId`, en `trainers_controle` (status gecontroleerd). De import onder Seizoenstrainers slaat gecontroleerde seizoenen daarna over.
+
 ## 3. Project Structure
 
 ```
 .
-├── articles/
-│   ├── architectjourneyman.html
-│   ├── globaltactician.html
-│   └── thegoat.html
-├── about.html
-├── dashboard.html
-├── index.html
-├── index.js             # Cloud Functions
-├── script.js
+├── articles/               # artikelen
+├── data/
+│   ├── snapshot.json       # export van Firestore (zie hierboven)
+│   ├── trainers_seizoen.json, twijfelgevallen.json, mourinho_buiten_dataset.json
+│   └── bronnen/            # bronlijsten en scripts voor de trainers per seizoen
+├── functions/              # Cloud Functions
+├── images/                 # logo's (images/logos), foto's intro (images/intro)
+├── v0.9/                   # archief: eerste versie
+├── v2/index.html           # doorverwijzing voor oude links
+├── index.html              # intro
+├── explore.html            # verkenner
+├── articles.html, about.html, data-methodology.html
+├── dashboard.html          # beheer (React)
+├── app.js
 ├── style.css
 └── README.md
 ```

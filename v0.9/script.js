@@ -11,7 +11,7 @@ const LOCAL_LOGOS = new Set(["ajax", "arsenal", "as-monaco", "as-saint-etienne",
     "napoli", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
     "sporting-cp", "valencia-cf", "vfb-stuttgart"]);
 const logoSlug = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-const localLogo = club => LOCAL_LOGOS.has(logoSlug(club.naam)) ? `images/logos/${logoSlug(club.naam)}.png` : club.logo_url;
+const localLogo = club => LOCAL_LOGOS.has(logoSlug(club.naam)) ? `../images/logos/${logoSlug(club.naam)}.png` : club.logo_url;
 
 // --- 1. STATE MANAGEMENT ---
 const appState = {
@@ -258,7 +258,7 @@ function shareView() {
 // Alleen als die ontbreekt of onleesbaar is, lezen we Firestore.
 async function fetchSnapshot() {
     try {
-        const response = await fetch("data/snapshot.json");
+        const response = await fetch("../data/snapshot.json");
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const snap = await response.json();
         if (!Array.isArray(snap.clubs) || !Array.isArray(snap.coaches) || !Array.isArray(snap.seizoenen)) throw new Error("onverwacht formaat");

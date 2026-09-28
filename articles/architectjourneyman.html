@@ -1,121 +1,35 @@
 <!DOCTYPE html>
-<!--
-  HTML Versie: 6.0
-  Changelog:
-  - Markdown opmaak (*...*) vervangen door <em>.
-  - Nieuw ontwerp voor het 'Explore the Data' blok geïmplementeerd.
--->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Architect and The Journeyman</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wdth,wght@62..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-
-    <style>
-        .hero-section {
-            position: relative;
-            height: 60vh;
-            min-height: 400px;
-            background-image: url('../images/header.png');
-            background-size: cover;
-            background-position: center 15%;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-w: 800px;
-            padding: 2rem;
-        }
-        .hero-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
-            line-height: 1.1;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-        }
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-style: italic;
-            margin-top: 1rem;
-            opacity: 0.9;
-        }
-        blockquote {
-            border-left: 5px solid #cbd5e0;
-            padding-left: 2rem;
-            margin: 2.5rem 0;
-            font-size: 1.25rem;
-            font-style: italic;
-            color: #2d3748;
-        }
-        figure { margin: 2.5rem 0; }
-        figcaption {
-            font-size: 0.9rem;
-            color: #718096;
-            text-align: center;
-            margin-top: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
-        .source-list {
-            font-size: 0.8rem;
-            color: #a0aec0;
-            list-style-type: decimal;
-            padding-left: 1.5rem;
-        }
-        .source-list a {
-            color: #718096;
-            text-decoration: underline;
-        }
-    </style>
 </head>
-<body class="bg-white">
+<body class="text-page">
 
-    <header class="site-header">
-        <nav class="site-nav">
-            <div class="logo">
-                <a href="../index.html">
-                     <div class="logo-text">
-                        <div>
-                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
-                        </div>
-                        <div>
-                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="../index.html">Visualization</a>
-                <a href="../articles.html" class="active">Articles</a>
-                <a href="../about.html">About</a>
-            </div>
-        </nav>
-    </header>
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="../index.html" aria-label="The Managerial Merry-Go-Round">
+            <svg class="logo-mark" width="46" height="42" viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6 L8 34 L22 34 Z" fill="#FF0033"/><path d="M50 6 L22 34 L36 34 Z" fill="#66ff66"/><path d="M50 6 L36 34 L50 34 Z" fill="#33cc33"/><path d="M50 6 L50 34 L64 34 Z" fill="#339933"/><path d="M50 6 L64 34 L78 34 Z" fill="#006600"/><path d="M50 6 L78 34 L92 34 Z" fill="#0b4d0b"/><path d="M6 34 Q13 42 20 34 Q27 42 34 34 Q41 42 48 34 Q55 42 62 34 Q69 42 76 34 Q83 42 90 34" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><rect x="48" y="0" width="4" height="8" rx="2" fill="currentColor"/><line x1="16" y1="40" x2="16" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="11" y="56" width="10" height="10" rx="2.5" fill="#FF0033"/><line x1="38" y1="40" x2="38" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="33" y="50" width="10" height="10" rx="2.5" fill="#0b4d0b"/><line x1="62" y1="40" x2="62" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="57" y="60" width="10" height="10" rx="2.5" fill="#33cc33"/><line x1="84" y1="40" x2="84" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="79" y="52" width="10" height="10" rx="2.5" fill="#339933"/><rect x="4" y="80" width="92" height="7" rx="3.5" fill="currentColor"/></svg>
+            <span class="logo-text"><span class="logo-top">Managerial</span><span class="logo-bottom">Merry-Go-Round</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="../index.html">Story</a>
+            <a href="../explore.html">Explore</a>
+            <a href="../articles.html" class="active" aria-current="page">Articles</a>
+            <a href="../about.html">About</a>
+        </div>
+    </nav>
+</header>
 
-    <main>
+<main class="text-main">
         <article>
-            <header class="hero-section">
+            <header class="hero-section" style="background-image:url(../images/header.png)">
                 <div class="hero-content">
                     <h1 class="hero-title">The Architect and The Journeyman</h1>
                     <p class="hero-subtitle">Deconstructing Football's Two Paths to Glory</p>
@@ -132,7 +46,7 @@
                 <p>When you think of a dynasty, you think of <strong>Sir Alex Ferguson</strong>. His 26-year reign at Manchester United is the definitive blueprint for long-term success. It's a tenure that seems almost impossible today. After a difficult start, a famous fan banner on a cold December day in 1989 read, <strong>"3 years of excuses and we're still crap. Ta-ra Fergie."</strong> The board’s decision to stick by their man would become the single most important in the club's modern history.</p>
                 
                 <figure>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html" target="_blank" rel="noopener noreferrer">
                         <img src="../images/ferguson.png" alt="Data visualization showing Sir Alex Ferguson's long tenure at Manchester United" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>A snapshot from our data visualization showing Ferguson's unprecedented 26-year reign at Manchester United, dotted with trophies.</figcaption>
@@ -149,7 +63,7 @@
                 <p><strong>José Mourinho</strong> is the prototype. His career is a grand tour of Europe's footballing capitals, defined by an "us against the world" mentality. Nothing illustrates this better than a story from his time at Chelsea in 2005. After being banned from the touchline for a Champions League quarter-final, he reportedly arrived at Stamford Bridge early, hid in the dressing room, and was then wheeled out of the stadium hidden in a laundry basket to avoid being seen. It's a tale that perfectly captures his siege mentality. It worked. Our data tracks his path: an improbable Champions League with FC Porto, domestic dominance with Chelsea, a historic treble with Internazionale, and a La Liga title with Real Madrid. His stays are often short and combustible. After winning the treble with Inter in 2010, president Massimo Moratti confessed to feeling "a bit abandoned" by his immediate departure.</p>
 
                 <figure>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html" target="_blank" rel="noopener noreferrer">
                         <img src="../images/mourinho.png" alt="Data visualization showing the career path of a 'journeyman' coach" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>The 'Career Mode' in our visualization tracks the path of a journeyman like Mourinho across different clubs and countries.</figcaption>
@@ -167,11 +81,11 @@
                 
                 <div class="explore-box">
                     <h3>Explore the Data Yourself</h3>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html" target="_blank" rel="noopener noreferrer">
                         <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="explore-image">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
+                    <a href="../explore.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
                 </div>
 
                 <div class="mt-12 pt-8 border-t border-gray-300">
@@ -192,5 +106,10 @@
             </div>
         </article>
     </main>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. <a href="../data-methodology.html">Methodology</a> · <a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank" rel="noopener">GitHub</a> · <a href="../v0.9/index.html">Previous version (v0.9)</a></p>
+</footer>
+
 </body>
 </html>

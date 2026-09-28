@@ -12,17 +12,17 @@ Wikipedia-links horen waar mogelijk als vaste `oldid`-revisie te worden opgeslag
 
 ## Normalisatie
 
-Een volledige herbouw gebruikt lokale Firestore-exports in `v2/data/bronnen/input/` en voert daarna automatisch de normalisatie uit:
+Een volledige herbouw gebruikt lokale Firestore-exports in `data/bronnen/input/` en voert daarna automatisch de normalisatie uit:
 
 ```powershell
-py v2/data/bronnen/build_trainers.py
+py data/bronnen/build_trainers.py
 ```
 
 Alleen de bestaande JSON opnieuw normaliseren en testen:
 
 ```powershell
-node v2/data/bronnen/normaliseer_trainers.mjs
-node --test v2/data/bronnen/normaliseer_trainers.test.mjs v2/data/bronnen/data_integriteit.test.mjs
+node data/bronnen/normaliseer_trainers.mjs
+node --test data/bronnen/normaliseer_trainers.test.mjs data/bronnen/data_integriteit.test.mjs
 ```
 
 De normalisatie:
@@ -41,7 +41,7 @@ Gebruik een omgevingsvariabele; zet de sleutel nooit in een bestand of opdrachtr
 
 ```powershell
 $env:API_FOOTBALL_KEY = Read-Host -MaskInput "API-Football key"
-node v2/data/bronnen/controle_api_football.mjs --limit 90
+node data/bronnen/controle_api_football.mjs --limit 90
 ```
 
 De cache en het rapport komen onder `.cache/api-football/` en worden niet gecommit. Een API-resultaat is bewijs voor handmatige controle, geen automatische toestemming om Firestore te wijzigen.

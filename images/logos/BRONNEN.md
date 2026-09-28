@@ -3,7 +3,7 @@
 Gedownload van de infobox op de Engelstalige Wikipedia (27 september 2026), verkleind naar maximaal 128×128 px PNG.
 De meeste clublogo's staan daar als niet-vrij beeldmateriaal ("fair use"); de rechten liggen bij de clubs.
 
-Gebruikt door `script.js` (v1) en `v2/app.js`. Bestandsnaam = clubnaam zoals in Firestore, zonder accenten, kleine letters, streepjes.
+Gebruikt door `app.js` en het archief `v0.9/script.js`. Bestandsnaam = clubnaam zoals in Firestore, zonder accenten, kleine letters, streepjes.
 
 | Club | Bestand | Bron |
 |---|---|---|
@@ -42,3 +42,6 @@ Gebruikt door `script.js` (v1) en `v2/app.js`. Bestandsnaam = clubnaam zoals in 
 | Sporting CP | sporting-cp.png | [File:Sporting_Clube_de_Portugal_logo_(2026).svg](https://en.wikipedia.org/wiki/File:Sporting_Clube_de_Portugal_logo_%282026%29.svg) |
 | Valencia CF | valencia-cf.png | [File:Valenciacf.svg](https://en.wikipedia.org/wiki/File:Valenciacf.svg) |
 | VfB Stuttgart | vfb-stuttgart.png | [File:VfB_Stuttgart_1893_Logo.svg](https://en.wikipedia.org/wiki/File:VfB_Stuttgart_1893_Logo.svg) |
+| Fenerbahçe | fenerbahce.png | [File:Fenerbahçe.svg](https://en.wikipedia.org/wiki/File:Fenerbah%C3%A7e.svg) (28 september 2026, alleen voor de loopbaan van Mourinho in het intro) |
+| Tottenham Hotspur | tottenham-hotspur.png | [File:Tottenham_Hotspur.svg](https://en.wikipedia.org/wiki/File:Tottenham_Hotspur.svg) (28 september 2026, idem) |
+| União de Leiria | uniao-de-leiria.png | [File:U.D._Leiria_logo.svg](https://en.wikipedia.org/wiki/File:U.D._Leiria_logo.svg) (28 september 2026, idem) |
