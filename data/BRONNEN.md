@@ -52,7 +52,18 @@ Transfermarkt heeft geen publiek ondersteunde API. De site blijft daarom alleen 
 
 ## football-data.org
 
-football-data.org v4 is bruikbaar voor clubs, wedstrijden en actuele opstellingen. Wedstrijdobjecten kunnen een coach bevatten, maar de API biedt geen compleet historisch overzicht van trainersperiodes. Daardoor is deze bron alleen geschikt voor gerichte controle van een concrete wedstrijd of recente situatie, niet voor het opbouwen van de historische dataset.
+football-data.org v4 is bruikbaar voor clubs, wedstrijden, eindstanden en actuele opstellingen. Wedstrijdobjecten kunnen een coach bevatten, maar de API biedt geen compleet historisch overzicht van trainersperiodes. Daardoor is deze bron niet geschikt voor het opbouwen van de historische trainersdataset.
+
+De eindstanden zijn wel bruikbaar om `landstitel` per seizoen te controleren. Het script vergelijkt de nummer 1 van de zeven nationale competities met de titelmarkering in `data/*.json`, bewaart responses lokaal en wijzigt de dataset nooit automatisch:
+
+```powershell
+$env:FOOTBALL_DATA_ORG_KEY = Read-Host -MaskInput "football-data.org key"
+node data/bronnen/controle_football_data_org.mjs --seasons 2024
+```
+
+Eén seizoen kost maximaal zeven requests en blijft daarmee onder de gratis limiet van tien requests per minuut. Bij meerdere komma-gescheiden seizoenen wacht het script standaard tussen requests. Als de API toch een tijdelijke limietmelding geeft, respecteert het script de opgegeven wachttijd en probeert het verzoek eenmaal opnieuw. De cache en het rapport komen onder `.cache/football-data-org/` en worden niet gecommit.
+
+Bekende bronbeperking: football-data.org noemt Ajax als nummer 1 van de eindstand van de afgebroken Eredivisie 2019/20. Dat seizoen had officieel geen kampioen; het controlescript behandelt dit expliciet als uitzondering.
 
 
 ### API-bewijs in twijfelgevallen
