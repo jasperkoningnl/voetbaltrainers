@@ -703,8 +703,8 @@ button { font: inherit; color: inherit; }
 .data-focus-box ol, .data-focus-box ul { list-style: none; padding: 0; }
 .data-focus-box li { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: .4rem; }
 .data-focus-box .ratio { color: var(--muted); font-size: .92rem; white-space: nowrap; }
-.data-focus-box .grid { display: grid; gap: 1rem 2rem; }
-@media (min-width: 768px) { .data-focus-box .md\:grid-cols-2 { grid-template-columns: 1fr 1fr; } }
+.data-focus-box .grid { display: grid; gap: 1rem 2rem; width: auto; min-width: 0; }
+@media (min-width: 768px) { .data-focus-box .md\:grid-cols-2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 .data-focus-box .text-sm { font-size: .9rem; color: var(--muted); }
 .explore-box { text-align: center; }
 .explore-box h3 { margin-top: 0; }
