@@ -1,5 +1,6 @@
-// Managerial Merry-Go-Round v2
-// Leest clubs, coaches en seizoenen uit de statische snapshot ../data/snapshot.json
+// The Managerial Merry-Go-Round (hoofdversie; de eerste versie staat als archief in v0.9/)
+// Eén script voor twee pagina's: index.html (intro) en explore.html (verkenner).
+// Leest clubs, coaches en seizoenen uit de statische snapshot data/snapshot.json
 // (export uit het dashboard). Alleen als die ontbreekt valt de app terug op Firestore.
 // Per seizoen staat één hoofdtrainer (coachId). Het optionele veld 'trainers_seizoen'
 // bevat alle trainers die dat seizoen aan het roer stonden (incl. interim); bij meer dan één
@@ -35,13 +36,13 @@ const UNKNOWN = "[Data Unavailable]";
 const LOCAL_LOGOS = new Set(["ajax", "arsenal", "as-monaco", "as-saint-etienne", "athletic-bilbao", "atletico-madrid", "az",
     "bayern-munchen", "benfica", "boavista", "borussia-dortmund", "borussia-monchengladbach", "chelsea", "fc-barcelona", "fc-porto",
     "fc-twente", "feyenoord", "hamburger-sv", "internazionale", "juventus", "liverpool", "manchester-city", "manchester-united", "milan",
-    "napoli", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
+    "napoli", "fenerbahce", "tottenham-hotspur", "uniao-de-leiria", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
     "sporting-cp", "valencia-cf", "vfb-stuttgart"]);
 const slug = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 // Volledig zwarte logo's worden op de donkere achtergrond wit weergegeven
-const INVERT_LOGOS = new Set(["juventus"]);
+const INVERT_LOGOS = new Set(["juventus", "tottenham-hotspur"]);
 const logoClass = club => INVERT_LOGOS.has(slug(club.naam)) ? " logo-invert" : "";
-const logoOf = club => LOCAL_LOGOS.has(slug(club.naam)) ? `../images/logos/${slug(club.naam)}.png` : club.logo_url || "";
+const logoOf = club => LOCAL_LOGOS.has(slug(club.naam)) ? `images/logos/${slug(club.naam)}.png` : club.logo_url || "";
 
 const tenureBucket = n => n <= 1 ? 0 : n === 2 ? 1 : n <= 4 ? 2 : n <= 6 ? 3 : n <= 9 ? 4 : 5;
 const startYear = s => parseInt(s.slice(0, 4), 10);
@@ -73,7 +74,7 @@ const DB = { clubs: [], clubById: new Map(), coaches: new Map(), seasons: [], by
 // Snapshot eerst: dat kost geen Firestore-reads. Firestore alleen als de snapshot ontbreekt.
 async function fetchCollections() {
     try {
-        const r = await fetch("../data/snapshot.json");
+        const r = await fetch("data/snapshot.json");
         if (r.ok) {
             const snap = await r.json();
             if (Array.isArray(snap.clubs) && Array.isArray(snap.coaches) && Array.isArray(snap.seizoenen)) return snap;
@@ -275,7 +276,8 @@ function careerJobs(coach, extra) {
         const own = e.trainers.find(t => t.naam === name);
         jobs.push({
             season: e.seizoen, year: startYear(e.seizoen), club: e.club, country: e.land,
-            logo: club ? club.logo_url : "", invert: club ? logoClass(club) : "",
+            // Clubs buiten de database: logo uit images/logos als dat er is
+            logo: club ? club.logo_url : logoOf({ naam: e.club }), invert: logoClass(club || { naam: e.club }),
             main: !!e.hoofdtrainer, multi: names.size > 1, k: Math.min(5, names.size), bucket: null,
             title: !!e.titel, cup: !!e.beker, euro: !!e.europa, start: own?.van || `${startYear(e.seizoen)}-07-01`, extra: true,
         });
@@ -674,13 +676,15 @@ function buildIntro(extra) {
     function renderText(sc) {
         const [file, coach] = sc.portrait || [];
         stageText.innerHTML = `
-            ${sc.portrait ? `<div class="st-portrait" style="--ring:${sc.ring};background-image:${photoBg(file, wikiThumb(coach.foto_url, 500))}" role="img" aria-label="${esc(coach.naam)}"></div>` : ""}
+            ${sc.portrait ? `<div class="st-portrait" style="--ring:${sc.ring}" role="img" aria-label="${esc(coach.naam)}"></div>` : ""}
             <p class="st-kicker">${esc(sc.kicker)}</p>
             <h2 class="st-title">${esc(sc.title)}</h2>
             ${sc.big ? `<span class="st-big" style="color:${sc.bigColor}">${esc(sc.big)}</span>` : ""}
             <p class="st-body">${esc(sc.body)}</p>
             ${sc.chips ? `<div class="st-chips">${sc.chips}</div>` : ""}
-            ${sc.cta ? `<a class="st-cta" href="#explore">Open the explorer ↓</a>` : ""}`;
+            ${sc.cta ? `<a class="st-cta" href="explore.html">Open the explorer →</a>` : ""}`;
+        const portrait = stageText.querySelector(".st-portrait");
+        if (portrait) portrait.style.backgroundImage = photoBg(file, wikiThumb(coach.foto_url, 500));
         stageText.classList.remove("enter");
         void stageText.offsetWidth;
         stageText.classList.add("enter");
@@ -746,12 +750,10 @@ function buildIntro(extra) {
         requestAnimationFrame(tick);
     }
 
-    const toExplorer = () => setPlaying(false);
     $("btn-begin").addEventListener("click", () => { go(1, true); root.focus({ preventScroll: true }); });
     $("c-play").addEventListener("click", () => setPlaying(!clock.playing));
     $("c-prev").addEventListener("click", () => go(clock.step - 1));
     $("c-next").addEventListener("click", () => go(clock.step + 1));
-    root.addEventListener("click", e => { if (e.target.closest('a[href="#explore"]')) toExplorer(); });
 
     document.addEventListener("keydown", e => {
         if (!clock.inView || e.altKey || e.ctrlKey || e.metaKey) return;
@@ -1264,46 +1266,31 @@ function insightsHTML(clubIds) {
     </div>`;
 }
 
-// URL state: #explore/country=Spain | #explore/clubs=id,id | #explore/career=Name
+// URL state (explore.html): #country=Spain | #clubs=id,id | #career=Name.
+// Oudere links met "explore/" ervoor werken ook.
 function hashFor() {
-    if (state.view === "league") return `explore/country=${encodeURIComponent(state.country)}`;
-    if (state.view === "compare") return `explore/clubs=${state.clubs.map(encodeURIComponent).join(",")}`;
-    return `explore/career=${state.career ? encodeURIComponent(state.career) : ""}`;
+    if (state.view === "league") return `country=${encodeURIComponent(state.country)}`;
+    if (state.view === "compare") return `clubs=${state.clubs.map(encodeURIComponent).join(",")}`;
+    return `career=${state.career ? encodeURIComponent(state.career) : ""}`;
 }
 function updateHash() {
-    const h = hashFor();
-    if (location.hash.startsWith("#explore")) history.replaceState(null, "", "#" + h);
-    else pendingHash = h;
+    history.replaceState(null, "", "#" + hashFor());
 }
-let pendingHash = null;
 function readHash() {
-    const h = decodeURIComponent(location.hash.slice(1));
-    if (!h.startsWith("explore")) return false;
-    const [, q = ""] = h.split("/");
-    const [k, v = ""] = q.split("=");
+    const h = decodeURIComponent(location.hash.slice(1)).replace(/^explore\/?/, "");
+    const [k, v = ""] = h.split("=");
     if (k === "country" && COUNTRIES.includes(v)) Object.assign(state, { view: "league", country: v });
     if (k === "clubs") Object.assign(state, { view: "compare", clubs: v.split(",").filter(id => DB.clubById.has(id)) });
     if (k === "career") Object.assign(state, { view: "career", career: coachByName(v) ? v : coachByName(DEFAULT_COACH) ? DEFAULT_COACH : null });
     ui.locked = null;
-    return true;
 }
 
-function navState() {
-    const ex = document.getElementById("explore");
-    const io = new IntersectionObserver(([e]) => {
-        document.getElementById("nav-explore").classList.toggle("active", e.isIntersecting);
-        document.getElementById("nav-story").classList.toggle("active", !e.isIntersecting);
-        if (e.isIntersecting && pendingHash) { history.replaceState(null, "", "#" + pendingHash); pendingHash = null; }
-    }, { rootMargin: "-40% 0px -40% 0px" });
-    io.observe(ex);
-    // Boven het intro zweeft de header (doorzichtige balk over de foto's)
+// Hoogte van de header: het intro schuift eronder (de header zweeft over de foto's)
+function headerHeight() {
     const header = document.querySelector(".site-header");
-    new IntersectionObserver(([e]) => header.classList.toggle("over-intro", e.isIntersecting), { rootMargin: "0px 0px -95% 0px" })
-        .observe(document.getElementById("intro"));
-    const setHeaderH = () => document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
-    setHeaderH();
-    window.addEventListener("resize", setHeaderH);
-    document.getElementById("nav-explore").addEventListener("click", () => { if (!location.hash.startsWith("#explore")) setTimeout(updateHash, 50); });
+    const set = () => document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
+    set();
+    window.addEventListener("resize", set);
 }
 
 // ------------------------------------------------------------------
@@ -1318,17 +1305,13 @@ function navState() {
         loading.innerHTML = `<p>Could not load the data. Please try again later.</p>`;
         return;
     }
-    const deepLink = readHash();
-    buildIntro(DB.extraCareer);
-    buildExplorer();
-    renderExplorer();
-    navState();
-    window.addEventListener("hashchange", () => { if (readHash()) renderExplorer(); });
-    loading.classList.add("done");
-    if (deepLink) {
-        document.documentElement.style.scrollBehavior = "auto";
-        document.getElementById("explore").scrollIntoView();
-        document.documentElement.style.scrollBehavior = "";
-        updateHash();
+    headerHeight();
+    if ($("intro")) buildIntro(DB.extraCareer);
+    if ($("explore")) {
+        readHash();
+        buildExplorer();
+        renderExplorer();
+        window.addEventListener("hashchange", () => { readHash(); renderExplorer(); });
     }
+    loading.classList.add("done");
 })();

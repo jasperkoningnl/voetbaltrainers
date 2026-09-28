@@ -1,5 +1,5 @@
 // Leest de collecties clubs, coaches en seizoenen via de Firestore REST API en schrijft
-// data/snapshot.json voor de publieke pagina's (index.html en v2/).
+// data/snapshot.json voor de publieke pagina's (index.html, explore.html en het archief v0.9/).
 // Gebruik: node .github/scripts/firestore-snapshot.mjs [uitvoerbestand]
 // Kost één document-read per document (nu ruim 3.000). Schrijft alleen als de data veranderd is
 // en meldt dat via GITHUB_OUTPUT (changed=true/false).

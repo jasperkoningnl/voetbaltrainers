@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.dirname(HERE);
-const CACHE_DIR = path.resolve(HERE, '../../../../.cache/api-football/coaches');
+const CACHE_DIR = path.resolve(HERE, '../../../.cache/api-football/coaches');
 const API_URL = 'https://v3.football.api-sports.io/coachs';
 
 function argValue(name, fallback) {

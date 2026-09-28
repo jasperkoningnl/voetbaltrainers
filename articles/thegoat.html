@@ -1,161 +1,35 @@
 <!DOCTYPE html>
-<!--
-  HTML Versie: 6.0
-  Changelog:
-  - Markdown opmaak (**...**) vervangen door <strong>.
-  - Nieuw ontwerp voor het 'Explore the Data' blok geïmplementeerd.
--->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The GOAT Debate: An Analytical Approach to Football's Greatest Managers</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wdth,wght@62..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-
-    <style>
-        .hero-section {
-            position: relative;
-            height: 60vh;
-            min-height: 400px;
-            background-image: url('../images/mountgoat.png');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-w: 800px;
-            padding: 2rem;
-        }
-        .hero-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-        }
-        figure { margin: 2.5rem 0; }
-        figcaption {
-            font-size: 0.9rem;
-            color: #718096;
-            text-align: center;
-            margin-top: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
-        .data-focus-box {
-            background-color: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1.5rem 2rem;
-            margin: 2.5rem 0;
-            font-family: 'Inter', sans-serif;
-        }
-        .data-focus-box h4 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.25rem;
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-        .data-focus-box ol {
-            list-style-type: none;
-            padding: 0;
-        }
-        .data-focus-box li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            justify-content: space-between;
-        }
-        .data-focus-box li .ratio {
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        .mount-rushmore {
-            background-color: #2d3748;
-            color: #f7fafc;
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-            border-radius: 0.5rem;
-        }
-        .mount-rushmore h3 {
-            color: white;
-            text-align: center;
-            border-bottom: 2px solid #4a5568;
-        }
-        .mount-rushmore-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 2rem;
-        }
-        @media (min-width: 768px) {
-            .mount-rushmore-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .rushmore-item h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .rushmore-item .title {
-            font-style: italic;
-            color: #a0aec0;
-            margin-bottom: 1rem;
-        }
-        .rushmore-item p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #e2e8f0;
-        }
-    </style>
 </head>
-<body class="bg-white">
+<body class="text-page">
 
-    <header class="site-header">
-        <nav class="site-nav">
-            <div class="logo">
-                <a href="../index.html">
-                    <div class="logo-text">
-                        <div>
-                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
-                        </div>
-                        <div>
-                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="../index.html">Visualization</a>
-                <a href="../articles.html" class="active">Articles</a>
-                <a href="../about.html">About</a>
-            </div>
-        </nav>
-    </header>
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="../index.html" aria-label="The Managerial Merry-Go-Round">
+            <svg class="logo-mark" width="46" height="42" viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6 L8 34 L22 34 Z" fill="#FF0033"/><path d="M50 6 L22 34 L36 34 Z" fill="#66ff66"/><path d="M50 6 L36 34 L50 34 Z" fill="#33cc33"/><path d="M50 6 L50 34 L64 34 Z" fill="#339933"/><path d="M50 6 L64 34 L78 34 Z" fill="#006600"/><path d="M50 6 L78 34 L92 34 Z" fill="#0b4d0b"/><path d="M6 34 Q13 42 20 34 Q27 42 34 34 Q41 42 48 34 Q55 42 62 34 Q69 42 76 34 Q83 42 90 34" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><rect x="48" y="0" width="4" height="8" rx="2" fill="currentColor"/><line x1="16" y1="40" x2="16" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="11" y="56" width="10" height="10" rx="2.5" fill="#FF0033"/><line x1="38" y1="40" x2="38" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="33" y="50" width="10" height="10" rx="2.5" fill="#0b4d0b"/><line x1="62" y1="40" x2="62" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="57" y="60" width="10" height="10" rx="2.5" fill="#33cc33"/><line x1="84" y1="40" x2="84" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="79" y="52" width="10" height="10" rx="2.5" fill="#339933"/><rect x="4" y="80" width="92" height="7" rx="3.5" fill="currentColor"/></svg>
+            <span class="logo-text"><span class="logo-top">Managerial</span><span class="logo-bottom">Merry-Go-Round</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="../index.html">Story</a>
+            <a href="../explore.html">Explore</a>
+            <a href="../articles.html" class="active" aria-current="page">Articles</a>
+            <a href="../about.html">About</a>
+        </div>
+    </nav>
+</header>
 
-    <main>
+<main class="text-main">
         <article>
-            <header class="hero-section">
+            <header class="hero-section" style="background-image:url(../images/mountgoat.png)">
                 <div class="hero-content">
                     <h1 class="hero-title">The GOAT Debate</h1>
                     <p class="hero-subtitle">An Analytical Approach to Football's Greatest Managers</p>
@@ -171,7 +45,7 @@
                 <p>This is the realm of relentless, sustained dominance, where winning year after year was the standard. When we look at the pure volume of trophies won, one name stands as the benchmark for longevity: <strong>Sir Alex Ferguson</strong>. His haul of 25 major trophies with Manchester United is a monument to adaptation, building multiple legendary teams over 26 years. His prizes-per-season ratio of 0.93 is incredibly impressive over such a long period.</p>
                 
                 <figure>
-                    <a href="../index.html#career=Sir%20Alex%20Ferguson" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#career=Alex%20Ferguson" target="_blank" rel="noopener noreferrer">
                         <img src="../images/ferguson.png" alt="Data visualization showing the career of Sir Alex Ferguson" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>The visualization in 'Career Mode' highlights the sheer length and consistent success of Ferguson's dynasty at Manchester United.</figcaption>
@@ -201,7 +75,7 @@
                 <p>No one embodies this more than <strong>Pep Guardiola</strong>. The data positions him as arguably the most complete manager of the 21st century. He matches Ferguson's staggering 25 trophies but has done so in a far shorter timeframe, resulting in a phenomenal prizes-per-season ratio of 1.56. He is not just a winner; he is a tactical revolutionary, a "Globetrotter" with league titles in Spain, Germany, and England, and a "Perfectionist" who has achieved the historic treble twice. He combines volume, efficiency, and game-changing impact in a way no other manager has.</p>
                 
                 <figure>
-                    <a href="../index.html#career=Pep%20Guardiola" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#career=Pep%20Guardiola" target="_blank" rel="noopener noreferrer">
                         <img src="../images/guardiola.png" alt="Data visualization comparing the careers of Pep Guardiola" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>Guardiola's career path shows a different model: intense, trophy-laden periods at multiple superclubs.</figcaption>
@@ -210,7 +84,7 @@
                 <p>His great rival, <strong>José Mourinho</strong>, is the ultimate pragmatic conqueror. With 20 trophies and an excellent efficiency rating of 1.18, he has proven he can win in any environment, from his underdog Champions League victory with Porto to his treble with Inter. Then there is <strong>Carlo Ancelotti</strong>, the specialist's specialist. While his volume and efficiency are lower in our data, his record five Champions League titles and his unique achievement of winning the league in all five major European countries make him a master of global success and European glory. This group, which also includes multi-league winners like <strong>Louis van Gaal</strong> (Netherlands, Spain, Germany) and <strong>Giovanni Trapattoni</strong> (Italy, Germany, Portugal), represents a different kind of greatness: the ability to export a winning formula.</p>
                 
                 <figure>
-                    <a href="../index.html#career=Carlo%20Ancelotti" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#career=Carlo%20Ancelotti" target="_blank" rel="noopener noreferrer">
                         <img src="../images/ancelotti.png" alt="Data visualization showing the career of Carlo Ancelotti" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>Ancelotti's career visualized: a grand tour of Europe's elite, collecting trophies in every major league.</figcaption>
@@ -222,7 +96,7 @@
                 <p>And then there is <strong>Johan Cruyff</strong>. Though his trophy count is more modest than the serial winners, his influence is arguably greater than any other. He didn't just manage Barcelona; he installed a footballing philosophy, a DNA that directly led to the success of his disciples, including Guardiola and Rijkaard. His legacy is not measured in silverware, but in the very way modern football is played and understood. The German duo of <strong>Udo Lattek</strong> and <strong>Ottmar Hitzfeld</strong> can also be seen in this light; they didn't just win, they established a culture of dominance at Bayern Munich and Borussia Dortmund that defined German football for generations.</p>
 
                 <figure>
-                    <a href="../index.html#career=Johan%20Cruyff" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#career=Johan%20Cruyff" target="_blank" rel="noopener noreferrer">
                         <img src="../images/cruyff.png" alt="Data visualization showing the career of Johan Cruyff" class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>Cruyff's career shows fewer clubs than other globetrotters, but his time at Barcelona created a lasting legacy.</figcaption>
@@ -261,16 +135,20 @@
 
                 <div class="explore-box">
                     <h3>Explore the Data Yourself</h3>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html" target="_blank" rel="noopener noreferrer">
                         <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="explore-image">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's entire career path. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
+                    <a href="../explore.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
                 </div>
 
             </div>
         </article>
     </main>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. <a href="../data-methodology.html">Methodology</a> · <a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank" rel="noopener">GitHub</a> · <a href="../v0.9/index.html">Previous version (v0.9)</a></p>
+</footer>
 
 </body>
 </html>

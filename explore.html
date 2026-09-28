@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+  The Managerial Merry-Go-Round: verkenner (weergaven League, Compare clubs en Career).
+  Link naar een weergave: explore.html#country=Spain, #clubs=id,id of #career=Naam.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore · The Managerial Merry-Go-Round</title>
+    <meta name="description" content="Does keeping your manager win you trophies? 70 seasons, 35 European clubs, from Ferguson to Mourinho.">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wdth,wght@62..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body class="page-explore">
+
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="index.html" aria-label="The Managerial Merry-Go-Round">
+            <svg class="logo-mark" width="46" height="42" viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6 L8 34 L22 34 Z" fill="#FF0033"/><path d="M50 6 L22 34 L36 34 Z" fill="#66ff66"/><path d="M50 6 L36 34 L50 34 Z" fill="#33cc33"/><path d="M50 6 L50 34 L64 34 Z" fill="#339933"/><path d="M50 6 L64 34 L78 34 Z" fill="#006600"/><path d="M50 6 L78 34 L92 34 Z" fill="#0b4d0b"/><path d="M6 34 Q13 42 20 34 Q27 42 34 34 Q41 42 48 34 Q55 42 62 34 Q69 42 76 34 Q83 42 90 34" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><rect x="48" y="0" width="4" height="8" rx="2" fill="currentColor"/><line x1="16" y1="40" x2="16" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="11" y="56" width="10" height="10" rx="2.5" fill="#FF0033"/><line x1="38" y1="40" x2="38" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="33" y="50" width="10" height="10" rx="2.5" fill="#0b4d0b"/><line x1="62" y1="40" x2="62" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="57" y="60" width="10" height="10" rx="2.5" fill="#33cc33"/><line x1="84" y1="40" x2="84" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="79" y="52" width="10" height="10" rx="2.5" fill="#339933"/><rect x="4" y="80" width="92" height="7" rx="3.5" fill="currentColor"/></svg>
+            <span class="logo-text"><span class="logo-top">Managerial</span><span class="logo-bottom">Merry-Go-Round</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Story</a>
+            <a href="explore.html" class="active" aria-current="page">Explore</a>
+            <a href="articles.html">Articles</a>
+            <a href="about.html">About</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+<section id="explore" aria-label="Explore the data">
+    <div class="explore-title">
+        <h2>Who stayed, who went, who won.</h2>
+        <span class="tagline">35 clubs · 7 leagues · every season since 1955</span>
+    </div>
+
+    <div class="control-row">
+        <div class="pop-wrap">
+            <button class="ctl ctl-view" id="btn-view" type="button" aria-haspopup="true" aria-expanded="false">
+                <span class="ctl-kind">View</span><span class="ctl-value" id="view-name">League</span><span class="ctl-caret" aria-hidden="true">▼</span>
+            </button>
+            <div class="popover pop-view hidden" id="pop-view" role="menu"></div>
+        </div>
+        <div class="pop-wrap">
+            <button class="ctl ctl-context" id="btn-context" type="button" aria-haspopup="true" aria-expanded="false">
+                <span class="ctl-kind" id="context-kind">Country</span><span class="ctl-value" id="context-value">England</span><span class="ctl-caret" aria-hidden="true">▼</span>
+            </button>
+            <div class="popover pop-context hidden" id="pop-context"></div>
+        </div>
+        <div class="highlight" id="highlight">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8a978f" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            <input type="search" id="coach-search" list="coach-list" placeholder="Highlight a manager" autocomplete="off" aria-label="Highlight a manager">
+            <button class="hl-count hidden" id="hl-count" type="button" title="Clear the highlight"></button>
+        </div>
+        <datalist id="coach-list"></datalist>
+        <span class="spacer"></span>
+        <button class="icon-btn" id="share-btn" type="button" title="Copy link" aria-label="Copy link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9b6ae" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+            <span class="share-toast hidden" id="share-toast">Link copied</span>
+        </button>
+    </div>
+
+    <div class="viz-panel">
+        <div class="info-pane" id="info-pane" aria-live="polite"></div>
+        <div class="explorer-stage" id="explorer-stage"></div>
+        <div class="legend explorer-legend" id="explorer-legend"></div>
+        <p class="coverage-note" id="coverage-note"></p>
+    </div>
+</section>
+</main>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. Data: league titles, national cups and major European trophies, one manager per season (the one in charge longest, never an interim). <a href="data-methodology.html">Methodology</a> · <a href="v0.9/index.html">Previous version (v0.9)</a></p>
+</footer>
+
+<div class="loading" id="loading"><div class="spinner"></div><p>Loading 2,450 seasons…</p></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

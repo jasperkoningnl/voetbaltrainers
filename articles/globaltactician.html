@@ -1,122 +1,35 @@
 <!DOCTYPE html>
-<!--
-  HTML Versie: 6.0
-  Changelog:
-  - Markdown opmaak (*...* en **...**) vervangen door <em> en <strong>.
-  - Nieuw ontwerp voor het 'Explore the Data' blok geïmplementeerd.
--->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Global Tactician: How Coaching Philosophies Conquered Europe</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Archivo:wdth,wght@62..125,400..900&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-
-    <style>
-        .hero-section {
-            position: relative;
-            height: 60vh;
-            min-height: 400px;
-            background-image: url('../images/global.png');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            z-index: 1;
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-w: 800px;
-            padding: 2rem;
-        }
-        .hero-title {
-            font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-        }
-        .hero-subtitle {
-            font-size: 1.25rem;
-            font-style: italic;
-            margin-top: 1rem;
-            opacity: 0.9;
-        }
-        .data-focus-box {
-            background-color: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.5rem;
-            padding: 1.5rem 2rem;
-            margin: 2.5rem 0;
-            font-family: 'Inter', sans-serif;
-        }
-        .data-focus-box h4 {
-            font-family: 'Oswald', sans-serif;
-            font-size: 1.25rem;
-            margin-top: 0;
-            margin-bottom: 1rem;
-        }
-        .data-focus-box ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .data-focus-box li { margin-bottom: 0.5rem; }
-        figure { margin: 2.5rem 0; }
-        figcaption {
-            font-size: 0.9rem;
-            color: #718096;
-            text-align: center;
-            margin-top: 0.75rem;
-            margin-bottom: 2.5rem;
-        }
-    </style>
 </head>
-<body class="bg-white">
+<body class="text-page">
 
-    <header class="site-header">
-        <nav class="site-nav">
-            <div class="logo">
-                <a href="../index.html">
-                    <div class="logo-text">
-                        <div>
-                            <span class="arrow-down arrow-down-shifted">M</span><span>anagerial</span>
-                        </div>
-                        <div>
-                            <span class="arrow-up">M</span><span>erry-Go-Round</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="nav-links">
-                <a href="../index.html">Visualization</a>
-                <a href="../articles.html" class="active">Articles</a>
-                <a href="../about.html">About</a>
-            </div>
-        </nav>
-    </header>
+<header class="site-header">
+    <nav class="site-nav">
+        <a class="logo" href="../index.html" aria-label="The Managerial Merry-Go-Round">
+            <svg class="logo-mark" width="46" height="42" viewBox="0 0 100 92" aria-hidden="true"><path d="M50 6 L8 34 L22 34 Z" fill="#FF0033"/><path d="M50 6 L22 34 L36 34 Z" fill="#66ff66"/><path d="M50 6 L36 34 L50 34 Z" fill="#33cc33"/><path d="M50 6 L50 34 L64 34 Z" fill="#339933"/><path d="M50 6 L64 34 L78 34 Z" fill="#006600"/><path d="M50 6 L78 34 L92 34 Z" fill="#0b4d0b"/><path d="M6 34 Q13 42 20 34 Q27 42 34 34 Q41 42 48 34 Q55 42 62 34 Q69 42 76 34 Q83 42 90 34" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/><rect x="48" y="0" width="4" height="8" rx="2" fill="currentColor"/><line x1="16" y1="40" x2="16" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="11" y="56" width="10" height="10" rx="2.5" fill="#FF0033"/><line x1="38" y1="40" x2="38" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="33" y="50" width="10" height="10" rx="2.5" fill="#0b4d0b"/><line x1="62" y1="40" x2="62" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="57" y="60" width="10" height="10" rx="2.5" fill="#33cc33"/><line x1="84" y1="40" x2="84" y2="80" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><rect x="79" y="52" width="10" height="10" rx="2.5" fill="#339933"/><rect x="4" y="80" width="92" height="7" rx="3.5" fill="currentColor"/></svg>
+            <span class="logo-text"><span class="logo-top">Managerial</span><span class="logo-bottom">Merry-Go-Round</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="../index.html">Story</a>
+            <a href="../explore.html">Explore</a>
+            <a href="../articles.html" class="active" aria-current="page">Articles</a>
+            <a href="../about.html">About</a>
+        </div>
+    </nav>
+</header>
 
-    <main>
+<main class="text-main">
         <article>
-            <header class="hero-section">
+            <header class="hero-section" style="background-image:url(../images/global.png)">
                 <div class="hero-content">
                     <h1 class="hero-title">The Global Tactician</h1>
                     <p class="hero-subtitle">How Coaching Philosophies from Europe's Powerhouses Conquered the Continent</p>
@@ -132,7 +45,7 @@
                 <p>For decades, Dutch football has been a byword for innovation. From "Total Football" to the modern possession-based game, its influence is undeniable. The data shows this isn't just a philosophy; it's a highly successful export product. The story begins with two titans: <strong>Rinus Michels</strong> and his most gifted student, <strong>Johan Cruyff</strong>. Michels laid the groundwork at Barcelona in the 70s, but it was Cruyff who, upon his return as manager in 1988, built the "Dream Team" and cemented an ideological bond between Ajax and Barcelona that persists to this day.</p>
                 
                 <figure>
-                    <a href="../index.html#country=Spain" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#country=Spain" target="_blank" rel="noopener noreferrer">
                         <img src="../images/dutchinspain.png" alt="Visualization of Dutch coaches in Spain, highlighting Johan Cruyff's tenure at Barcelona." class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>The Dutch influence in Spain is clearly visible in the data, with Johan Cruyff's period at Barcelona as the most iconic example.</figcaption>
@@ -171,7 +84,7 @@
                 <p>This wave was spearheaded by two managers forged in the same crucible: <strong>Jürgen Klopp</strong> and <strong>Thomas Tuchel</strong>. Both honed their craft at Mainz 05 before making their names at Borussia Dortmund. Klopp arrived at Liverpool in 2015 and famously described his philosophy as "heavy metal football." He promised to turn "doubters into believers," and he delivered, winning both the Champions League (2019) and Liverpool's first league title in 30 years (2020). Tuchel followed a similar path, taking his intense, tactically flexible approach to PSG and then winning a Champions League with Chelsea in 2021 just months after taking over.</p>
                 
                 <figure>
-                    <a href="../index.html#country=England" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#country=England" target="_blank" rel="noopener noreferrer">
                         <img src="../images/germaninengland.png" alt="Visualization of German coaches in England, highlighting Jürgen Klopp's tenure at Liverpool." class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>Jürgen Klopp's successful tenure at Liverpool is a prime example of the high-impact German coaching wave in England.</figcaption>
@@ -187,7 +100,7 @@
                 <p>For decades, Spain exported world-class players, but not necessarily coaches. That changed dramatically with one man: <strong>Pep Guardiola</strong>. His revolutionary success at Barcelona created a global demand for Spanish coaches. Guardiola himself became a top export, dominating the Bundesliga with Bayern Munich and then creating an era of unprecedented success at Manchester City. He paved the way for others like <strong>Luis Enrique</strong> (PSG) and European specialist <strong>Unai Emery</strong> (PSG, Arsenal). Before them, <strong>Rafael Benítez</strong> had already shown that Spanish tactical intelligence was a valuable commodity, famously winning the Champions League with Liverpool in 2005.</p>
                 
                 <figure>
-                    <a href="../index.html#country=England" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html#country=England" target="_blank" rel="noopener noreferrer">
                         <img src="../images/spanishinengland.png" alt="Visualization of Spanish coaches in England, highlighting Pep Guardiola's tenure at Manchester City." class="rounded-lg shadow-lg mx-auto">
                     </a>
                     <figcaption>Pep Guardiola's dominance with Manchester City marks the high point of the Spanish coaching influence in the Premier League.</figcaption>
@@ -206,15 +119,19 @@
                 
                 <div class="explore-box">
                     <h3>Explore the Data Yourself</h3>
-                    <a href="../index.html" target="_blank" rel="noopener noreferrer">
+                    <a href="../explore.html" target="_blank" rel="noopener noreferrer">
                         <img src="../images/mmga.png" alt="A preview of the interactive data visualization" class="explore-image">
                     </a>
                     <p>Our interactive tool allows you to explore club histories, filter by nationality, or track a manager's career. Dive in and discover the patterns for yourself.</p>
-                    <a href="../index.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
+                    <a href="../explore.html" target="_blank" class="explore-button">Launch the Interactive Visualization</a>
                 </div>
             </div>
         </article>
     </main>
+
+<footer class="page-footer">
+    <p>Created by <a href="https://www.instagram.com/kingjaynl/" target="_blank" rel="noopener">Jasper Koning</a>. <a href="../data-methodology.html">Methodology</a> · <a href="https://github.com/jasperkoningnl/voetbaltrainers" target="_blank" rel="noopener">GitHub</a> · <a href="../v0.9/index.html">Previous version (v0.9)</a></p>
+</footer>
 
 </body>
 </html>
