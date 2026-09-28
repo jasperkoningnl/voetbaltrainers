@@ -10,6 +10,8 @@ Nieuwe versie naast de bestaande (`/index.html` blijft ongewijzigd).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
 - Importeren in Firestore: dashboard → **Seizoenstrainers** → kies `data/trainers_seizoen.json` → controleer de preview → importeer. Alleen `trainers_seizoen` en `trainers_bron` worden geschreven.
 
+In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
+
 Regel voor een gesplitst seizoen: een trainer telt mee voor een seizoen als hij minstens 3 dagen tussen 1 augustus en 20 mei aan het roer stond. Wissels in de zomerstop tellen dus niet.
 
 ## Bronnen extra trainers
