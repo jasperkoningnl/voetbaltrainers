@@ -35,10 +35,15 @@ const PREDECESSORS = {
     "FC Twente": { until: "1965/66", name: "Sportclub Enschede", note: "Until 1964/65 this row shows Sportclub Enschede, which merged with Enschedese Boys into FC Twente in 1965." },
     "AZ": { until: "1967/68", name: "Alkmaar '54", note: "Until 1966/67 this row shows Alkmaar '54, which merged with FC Zaanstreek into AZ'67 in 1967 (AZ since 1986)." },
 };
+// Seizoenen van de voorganger: de toenmalige naam, uitleg in de tooltip
+const clubNameHTML = (club, pre) => pre
+    ? `<span class="club" title="${esc(pre.note)}">${esc(pre.name)}<span class="row-star">*</span></span>`
+    : `<span class="club">${esc(club)}</span>`;
 const predecessorOf = (clubName, season) => {
     const p = PREDECESSORS[clubName];
     return p && season < p.until ? p : null;
 };
+const FLAG_SVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a9b6ae" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>`;
 const reportAttrs = (club, season, coach) =>
     `data-report data-report-club="${esc(club)}" data-report-season="${esc(season)}" data-report-coach="${esc(coach || "")}"`;
 const SHIELD = "M6 .5 11.5 2v4.2c0 3.3-2.4 5.4-5.5 6.3C2.9 11.6.5 9.5.5 6.2V2Z";
@@ -191,13 +196,14 @@ const total = t => t.title + t.cup + t.euro;
 // ------------------------------------------------------------------
 const shieldSVG = (kind, w = 10) => `<svg class="shield" width="${w}" height="${w * 13 / 12}" viewBox="0 0 12 13" aria-hidden="true"><path d="${SHIELD}" fill="${PRIZE[kind].fill}" stroke="${PRIZE[kind].stroke}" stroke-width="1"/></svg>`;
 const splitSwatch = k => `<span class="sw">${"<i></i>".repeat(k)}</span>`;
-function legendHTML({ split = true, prizes = true, unknown = false, hint = false } = {}) {
+function legendHTML({ split = true, prizes = true, unknown = false, hint = false, merger = false } = {}) {
     const items = [
         `<span class="legend-item"><span class="legend-swatches">${TENURE_COLORS.map(c => `<span class="sw" style="background:${c}"></span>`).join("")}</span>1 → 10+ seasons in charge</span>`,
         split ? `<span class="legend-item"><span class="legend-swatches split">${[1, 2, 3, 4, 5].map(splitSwatch).join("")}</span>1 → 5+ managers that season</span>` : "",
         prizes ? `<span class="legend-shields">${[["title", "League"], ["cup", "Cup"], ["euro", "Europe"]].map(([k, l]) => `<span>${shieldSVG(k)}${l}</span>`).join("")}</span>` : "",
         unknown ? `<span class="legend-item"><span class="legend-swatches"><span class="sw" style="background:repeating-linear-gradient(45deg,#2a3531 0 3px,#1c2623 3px 6px)"></span></span>No reliable data</span>` : "",
-        hint ? `<span class="legend-hint">Click a block to lock the manager (and to report an error)</span>` : "",
+        merger ? `<span class="legend-item"><span class="legend-star">*</span>Predecessor club before merger</span>` : "",
+        hint ? `<span class="legend-hint">Click a block to lock the manager</span>` : "",
     ];
     return items.filter(Boolean).join("");
 }
@@ -983,7 +989,6 @@ function renderGrid() {
     if (!rows.length) {
         stage.innerHTML = `<div class="grid">${addBtn}</div><p class="empty-state">${career ? "Pick a manager to follow from club to club." : "Add clubs to compare them side by side."}</p>`;
         renderLegend();
-        $("merger-note").textContent = "";
         return;
     }
 
@@ -1033,14 +1038,12 @@ function renderGrid() {
     stage.querySelectorAll("img.row-logo").forEach(img => img.addEventListener("error", () => { img.style.visibility = "hidden"; }, { once: true }));
     applyHighlight();
     applySelection();
+    ui.hasMerger = rows.some(id => PREDECESSORS[DB.clubById.get(id)?.naam]);
     renderLegend();
-    const mergers = rows.map(id => DB.clubById.get(id)?.naam).filter(n => PREDECESSORS[n]);
-    $("merger-note").textContent = mergers.length
-        ? `* ${mergers.map(n => `${n}: seasons before ${PREDECESSORS[n].until} are those of predecessor ${PREDECESSORS[n].name}`).join(". ")}. See Methodology.` : "";
 }
 
 function renderLegend() {
-    $("explorer-legend").innerHTML = legendHTML({ unknown: ui.hasUnknown, hint: true });
+    $("explorer-legend").innerHTML = legendHTML({ unknown: ui.hasUnknown, merger: ui.hasMerger, hint: true });
 }
 
 // Markeren: seizoenen van andere trainers vervagen tot .13
@@ -1204,12 +1207,12 @@ function infoCardHTML({ photo, name, nameHTML, nameTitle = "", nat, sub, extra =
     return `<div class="info-card">
         ${photo}
         <div class="info-main">
-            <div class="info-head"><span class="info-name" title="${esc(nameTitle)}">${nameHTML ?? esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}${report ? `<a class="info-report" href="#" ${report} title="Report an error in this data">Report an error</a>` : ""}</div>
+            <div class="info-head"><span class="info-name" title="${esc(nameTitle)}">${nameHTML ?? esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}</div>
             <div class="info-sub">${sub}</div>
             ${extra}
         </div>
         ${chips}
-        ${badge}
+        ${report ? `<div class="info-end">${badge}<button class="icon-btn info-report" type="button" ${report} title="Report an error in this season" aria-label="Report an error in this season">${FLAG_SVG}</button></div>` : badge}
     </div>`;
 }
 
@@ -1227,13 +1230,11 @@ function spellHTML(sp, d) {
     const ordered = d?.multi ? [d, ...multi.filter(s => s !== d)] : multi;
     const plain = ordered.map(s => `${s.season}: ${lineupText(s)}`).join(" · ");
     const pre = predecessorOf(club, (d || sp.seasons[0]).season);
-    const preHTML = pre ? `<span class="predecessor">* ${esc(pre.name)}</span>` : "";
-    const extra = ordered.length || pre
-        ? `<div class="info-extra" title="${esc([pre?.note, plain].filter(Boolean).join(" · "))}">${[preHTML, ...ordered.map(s => `${s.season}: ${lineupHTML(s)}`)].filter(Boolean).join(" · ")}</div>` : "";
+    const extra = ordered.length ? `<div class="info-extra" title="${esc(plain)}">${ordered.map(s => `${s.season}: ${lineupHTML(s)}`).join(" · ")}</div>` : "";
     return infoCardHTML({
         photo: photoHTML(coach.foto_url, t.coach),
         name: t.coach, nat: coach.nationaliteit,
-        sub: `<span class="club">${esc(club)}${pre ? "*" : ""}</span> <span class="span">· ${span}</span>`,
+        sub: `${clubNameHTML(club, pre)} <span class="span">· ${span}</span>`,
         extra,
         report: reportAttrs(club, d ? d.season : span, t.coach),
         chips: chipsHTML(sp.trophies),
@@ -1250,7 +1251,7 @@ function splitSeasonHTML(s) {
     return infoCardHTML({
         photo: `<div class="info-photo split-mark" aria-hidden="true">${"<i></i>".repeat(k)}</div>`,
         nameHTML: lineupHTML(s), nameTitle: lineupText(s),
-        sub: `<span class="club">${esc(s.club)}${predecessorOf(s.club, s.season) ? "*" : ""}</span> <span class="span">· ${s.season} · ${plural(s.nCoaches, "manager", "managers")}</span>`,
+        sub: `${clubNameHTML(s.club, predecessorOf(s.club, s.season))} <span class="span">· ${s.season} · ${plural(s.nCoaches, "manager", "managers")}</span>`,
         report: reportAttrs(s.club, s.season, s.trainers.map(tr => tr.naam).join(", ")),
         chips: chipsHTML(trophiesOf([s])),
         badge: badgeHTML("split season", 0),
