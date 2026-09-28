@@ -30,7 +30,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
         import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
 
         const firebaseConfig = {
@@ -56,7 +56,7 @@
             signInWithPopup,
             signOut,
             onAuthStateChanged,
-            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp
+            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField
         };
     </script>
 </head>
@@ -66,7 +66,7 @@
 
     <script type="text/babel">
         const { useState, useEffect, useCallback, useMemo, useRef } = React;
-        const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp } = window.firebaseServices;
+        const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } = window.firebaseServices;
 
         // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -1876,6 +1876,276 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
+        // --- FOTO'S: aanvulrun en controle bestaande foto's (data/fotos_aanvulling.json) ---
+        const commonsZoek = (naam) => `https://commons.wikimedia.org/w/index.php?search=${encodeURIComponent(naam)}&title=Special:MediaSearch&type=image`;
+        const wikidataZoek = (naam) => `https://www.wikidata.org/w/index.php?search=${encodeURIComponent(naam)}`;
+        const googleFoto = (naam) => `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(naam + ' football manager')}`;
+        const FOTO_VELDEN = ['foto_maker', 'foto_licentie', 'foto_licentie_url', 'foto_bron'];
+
+        function FotoThumb({ url, naam }) {
+            const [err, setErr] = useState(false);
+            if (!url || err) return <div className="w-24 h-28 rounded bg-gray-200 flex items-center justify-center text-xs text-gray-500 text-center p-1">{url ? 'laadt niet' : 'geen foto'}</div>;
+            return <img src={url} alt={naam} onError={() => setErr(true)} className="w-24 h-28 object-cover object-top rounded bg-gray-200" />;
+        }
+
+        function FotosView({ appData, onUpdate }) {
+            const [data, setData] = useState(null);
+            const [error, setError] = useState(null);
+            const [tab, setTab] = useState('toegevoegd');
+            const [busy, setBusy] = useState(false);
+            const [local, setLocal] = useState({}); // coachId -> velden die in deze sessie zijn opgeslagen
+            const [nieuweUrl, setNieuweUrl] = useState({});
+            const [toonAfgehandeld, setToonAfgehandeld] = useState(false);
+
+            useEffect(() => {
+                fetch('data/fotos_aanvulling.json').then(r => { if (!r.ok) throw new Error('bestand niet gevonden'); return r.json(); })
+                    .then(setData).catch(e => setError(e.message));
+            }, []);
+
+            const coachById = useMemo(() => Object.fromEntries(appData.coaches.map(c => [c.id, c])), [appData.coaches]);
+            const coachOf = (id) => ({ ...(coachById[id] || {}), ...(local[id] || {}) });
+
+            const schrijf = async (id, velden, lokaal) => {
+                await updateDoc(doc(db, 'coaches', id), velden);
+                setLocal(l => ({ ...l, [id]: { ...(l[id] || {}), ...lokaal } }));
+            };
+
+            const voegToe = async (f) => {
+                const velden = {
+                    foto_url: f.foto_url, foto_maker: f.maker, foto_licentie: f.licentie, foto_licentie_url: f.licentie_url || '', foto_bron: f.bronpagina,
+                    foto_toegevoegd: { door: 'fotoaanvulrun', op: serverTimestamp(), vorige_url: coachOf(f.coachId).foto_url || '' },
+                };
+                await schrijf(f.coachId, velden, { ...velden, foto_toegevoegd: { door: 'fotoaanvulrun' } });
+            };
+            const alleToevoegen = async () => {
+                const open = data.toevoegen.filter(f => !coachOf(f.coachId).foto_url);
+                if (!open.length) return;
+                setBusy(true);
+                try { for (const f of open) await voegToe(f); }
+                catch (e) { alert('Opslaan mislukt: ' + e.message); }
+                setBusy(false);
+            };
+            const keurGoed = (id) => schrijf(id, { foto_controle: { status: 'goedgekeurd', op: serverTimestamp() } }, { foto_controle: { status: 'goedgekeurd' } })
+                .catch(e => alert('Opslaan mislukt: ' + e.message));
+            const haalWeg = (id, reden) => {
+                const c = coachOf(id);
+                const velden = { foto_url: '', foto_controle: { status: 'weggehaald', reden: reden || '', vorige_url: c.foto_url || '', op: serverTimestamp() } };
+                FOTO_VELDEN.forEach(k => { velden[k] = deleteField(); });
+                const lokaal = { foto_url: '', foto_controle: { status: 'weggehaald' } };
+                FOTO_VELDEN.forEach(k => { lokaal[k] = undefined; });
+                return schrijf(id, velden, lokaal).catch(e => alert('Opslaan mislukt: ' + e.message));
+            };
+            const zetUrl = (id) => {
+                const url = (nieuweUrl[id] || '').trim();
+                if (!/^https:\/\//.test(url)) { alert('Plak een volledige https-link naar de foto.'); return; }
+                const velden = { foto_url: url, foto_controle: { status: 'vervangen', vorige_url: coachOf(id).foto_url || '', op: serverTimestamp() } };
+                FOTO_VELDEN.forEach(k => { velden[k] = deleteField(); });
+                if (/commons\.wikimedia\.org|upload\.wikimedia\.org/.test(url)) velden.foto_bron = url;
+                const lokaal = { foto_url: url, foto_controle: { status: 'vervangen' } };
+                return schrijf(id, velden, lokaal).then(() => setNieuweUrl(n => ({ ...n, [id]: '' }))).catch(e => alert('Opslaan mislukt: ' + e.message));
+            };
+
+            if (error) return <div className="bg-amber-100 text-amber-800 p-3 rounded">Kon data/fotos_aanvulling.json niet laden ({error}).</div>;
+            if (!data) return <p>Laden...</p>;
+
+            const statusNieuw = (f) => {
+                const c = coachOf(f.coachId);
+                if (c.foto_controle?.status === 'goedgekeurd' && c.foto_url === f.foto_url) return 'goedgekeurd';
+                if (c.foto_url === f.foto_url) return 'toegevoegd';
+                if (c.foto_url) return 'andere foto';
+                if (c.foto_controle?.status === 'weggehaald') return 'afgekeurd';
+                return 'nog niet toegevoegd';
+            };
+            const nogToevoegen = data.toevoegen.filter(f => statusNieuw(f) === 'nog niet toegevoegd').length;
+            const afgehandeld = (x) => { const c = coachOf(x.coachId); return !!c.foto_controle || (c.foto_url || '') !== (x.huidige_url || ''); };
+            const controle = data.controleren.filter(x => toonAfgehandeld || !afgehandeld(x));
+            const openControle = data.controleren.filter(x => !afgehandeld(x)).length;
+            const soortKleur = { 'verkeerde persoon': 'bg-red-100 text-red-800', 'geen portret': 'bg-orange-100 text-orange-800', 'bestand weg': 'bg-gray-200 text-gray-700', 'niet vrij': 'bg-amber-100 text-amber-800', 'controleren': 'bg-blue-100 text-blue-800' };
+            const badge = { 'goedgekeurd': 'bg-green-100 text-green-800', 'toegevoegd': 'bg-blue-100 text-blue-800', 'nog niet toegevoegd': 'bg-amber-100 text-amber-800', 'andere foto': 'bg-gray-200 text-gray-700', 'afgekeurd': 'bg-red-100 text-red-800' };
+            const Tab = ({ id, children }) => <button onClick={() => setTab(id)} className={`px-3 py-1.5 rounded-md text-sm ${tab === id ? 'bg-gray-800 text-white' : 'bg-white border hover:bg-gray-50'}`}>{children}</button>;
+            const Links = ({ naam, bron, wd }) => (
+                <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs mt-2">
+                    {bron && <a href={bron} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Bronbestand</a>}
+                    {wd && <a href={`https://www.wikidata.org/wiki/${wd}`} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Wikidata</a>}
+                    <a href={commonsZoek(naam)} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Zoek op Commons</a>
+                    <a href={wikidataZoek(naam)} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Zoek op Wikidata</a>
+                    <a href={googleFoto(naam)} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Google Afbeeldingen</a>
+                </div>
+            );
+
+            return (
+                <div>
+                    <h1 className="text-3xl font-bold mb-2">Foto's</h1>
+                    <p className="text-gray-600 mb-4 max-w-3xl">
+                        Fotoaanvulrun van {data.gegenereerd}. Nieuwe foto's komen van Wikimedia Commons met maker en licentie; die staan op de pagina Photo credits (credits.html), niet onder de foto's zelf.
+                        Bestaande foto's die niet kloppen of niet vrij zijn staan onder Te controleren. Wijzigingen zijn na de volgende snapshot op de site te zien.
+                    </p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                        <Tab id="toegevoegd">Nieuw ({data.toevoegen.length})</Tab>
+                        <Tab id="controleren">Te controleren ({openControle} open)</Tab>
+                        <Tab id="niet">Niet toegevoegd ({data.niet_toegevoegd.length})</Tab>
+                    </div>
+
+                    {tab === 'toegevoegd' && (
+                        <div>
+                            {nogToevoegen > 0 && (
+                                <div className="bg-amber-50 border border-amber-200 rounded p-4 mb-4 flex flex-wrap items-center gap-4">
+                                    <span><b>{nogToevoegen}</b> foto's staan nog niet in de database.</span>
+                                    <button disabled={busy} onClick={alleToevoegen} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded">{busy ? 'Bezig...' : `Zet ${nogToevoegen} foto's in de database`}</button>
+                                </div>
+                            )}
+                            <div className="grid gap-3 md:grid-cols-2">
+                                {data.toevoegen.map(f => {
+                                    const st = statusNieuw(f);
+                                    return (
+                                        <div key={f.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
+                                            <FotoThumb url={f.foto_url} naam={f.naam} />
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-start justify-between gap-2"><b>{f.naam}</b><span className={`text-xs px-2 py-0.5 rounded ${badge[st]}`}>{st}</span></div>
+                                                <div className="text-xs text-gray-600 mt-1 break-words">{f.maker} · {f.licentie_url ? <a href={f.licentie_url} target="_blank" rel="noopener" className="text-blue-600">{f.licentie}</a> : f.licentie}</div>
+                                                {f.let_op && <div className="text-xs text-amber-700 mt-1">{f.let_op}</div>}
+                                                <Links naam={f.naam} bron={f.bronpagina} wd={f.wikidata} />
+                                                <div className="flex flex-wrap gap-2 mt-3">
+                                                    {st === 'nog niet toegevoegd' || st === 'afgekeurd' ? <button onClick={() => voegToe(f).catch(e => alert(e.message))} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">Toevoegen</button> : null}
+                                                    {st === 'toegevoegd' && <button onClick={() => keurGoed(f.coachId)} className="text-sm px-3 py-1 rounded bg-green-600 text-white">Klopt</button>}
+                                                    {(st === 'toegevoegd' || st === 'goedgekeurd') && <button onClick={() => haalWeg(f.coachId, 'afgekeurd na aanvulrun')} className="text-sm px-3 py-1 rounded bg-red-600 text-white">Weghalen</button>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {tab === 'controleren' && (
+                        <div>
+                            <label className="text-sm flex items-center gap-2 mb-4"><input type="checkbox" checked={toonAfgehandeld} onChange={e => setToonAfgehandeld(e.target.checked)} /> Toon ook afgehandelde</label>
+                            <div className="grid gap-3 md:grid-cols-2">
+                                {controle.map(x => {
+                                    const c = coachOf(x.coachId);
+                                    return (
+                                        <div key={x.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
+                                            <FotoThumb url={c.foto_url} naam={x.naam} />
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex items-start justify-between gap-2"><b>{x.naam}</b><span className={`text-xs px-2 py-0.5 rounded whitespace-nowrap ${soortKleur[x.soort] || ''}`}>{x.soort}</span></div>
+                                                <div className="text-sm text-gray-700 mt-1">{x.reden}</div>
+                                                {c.foto_controle && <div className="text-xs text-green-700 mt-1">Afgehandeld: {c.foto_controle.status}</div>}
+                                                <Links naam={x.naam} />
+                                                <div className="flex gap-2 mt-3">
+                                                    <input value={nieuweUrl[x.coachId] || ''} onChange={e => setNieuweUrl(n => ({ ...n, [x.coachId]: e.target.value }))} placeholder="Link naar vervangende foto" className="flex-1 min-w-0 border rounded px-2 py-1 text-sm" />
+                                                    <button onClick={() => zetUrl(x.coachId)} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">Vervang</button>
+                                                </div>
+                                                <div className="flex flex-wrap gap-2 mt-2">
+                                                    {c.foto_url && <button onClick={() => haalWeg(x.coachId, x.reden)} className="text-sm px-3 py-1 rounded bg-red-600 text-white">Foto weghalen</button>}
+                                                    {!c.foto_controle && <button onClick={() => keurGoed(x.coachId)} className="text-sm px-3 py-1 rounded bg-gray-200">Klopt wel</button>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                                {controle.length === 0 && <p className="text-gray-500">Niets meer te controleren.</p>}
+                            </div>
+                        </div>
+                    )}
+
+                    {tab === 'niet' && (
+                        <div className="grid gap-3 md:grid-cols-2">
+                            {data.niet_toegevoegd.map(f => {
+                                const c = coachOf(f.coachId);
+                                return (
+                                    <div key={f.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
+                                        <FotoThumb url={f.foto_url} naam={f.naam} />
+                                        <div className="flex-1 min-w-0">
+                                            <b>{f.naam}</b>
+                                            <div className="text-sm text-gray-700 mt-1">{f.reden}</div>
+                                            <div className="text-xs text-gray-500 mt-1 break-words">{f.maker || 'maker onbekend'} · {f.licentie || 'geen licentie'}</div>
+                                            <Links naam={f.naam} bron={f.bronpagina} wd={f.wikidata} />
+                                            <div className="mt-3">
+                                                {c.foto_url === f.foto_url ? <span className="text-xs text-blue-700">Toch toegevoegd</span>
+                                                    : !c.foto_url && <button onClick={() => voegToe(f).catch(e => alert(e.message))} className="text-sm px-3 py-1 rounded bg-gray-200">Toch toevoegen</button>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // --- MELDINGEN van bezoekers (formulier report.js op de site, collectie 'meldingen') ---
+        function MeldingenView({ appData }) {
+            const [items, setItems] = useState(null);
+            const [error, setError] = useState(null);
+            const [filter, setFilter] = useState('open');
+            const [notitie, setNotitie] = useState({});
+
+            const laad = useCallback(async () => {
+                try {
+                    const snap = await getDocs(collection(db, 'meldingen'));
+                    const lijst = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    const t = (x) => x.aangemaakt?.toMillis ? x.aangemaakt.toMillis() : Date.parse(x.aangemaakt || 0) || 0;
+                    lijst.sort((a, b) => t(b) - t(a));
+                    setItems(lijst); setError(null);
+                } catch (e) { setError(e.message); }
+            }, []);
+            useEffect(() => { laad(); }, [laad]);
+
+            const zet = async (m, status) => {
+                const upd = { status, afgehandeld_op: serverTimestamp(), notitie: notitie[m.id] ?? m.notitie ?? '' };
+                await updateDoc(doc(db, 'meldingen', m.id), upd);
+                setItems(xs => xs.map(x => x.id === m.id ? { ...x, status, notitie: upd.notitie } : x));
+            };
+
+            const datum = (x) => { const d = x.aangemaakt?.toDate ? x.aangemaakt.toDate() : new Date(x.aangemaakt); return isNaN(d) ? '' : d.toLocaleString('nl-NL'); };
+            const open = (items || []).filter(m => !m.status || m.status === 'nieuw');
+            const zicht = (items || []).filter(m => filter === 'alle' || (filter === 'open' ? (!m.status || m.status === 'nieuw') : m.status === filter));
+            const clubByName = Object.fromEntries(appData.clubs.map(c => [c.naam.toLowerCase(), c]));
+
+            return (
+                <div>
+                    <h1 className="text-3xl font-bold mb-2">Meldingen</h1>
+                    <p className="text-gray-600 mb-4 max-w-3xl">Fouten die bezoekers melden via "Report an error" op de site. Controleer de melding tegen de bron, pas zo nodig het seizoen aan (Seizoenen of Twijfelgevallen) en zet de melding op opgelost of afgewezen.</p>
+                    {error && <div className="bg-amber-100 text-amber-800 p-3 rounded mb-4">Kon meldingen niet laden ({error}). Staat de Firestore-regel voor 'meldingen' goed? Zie docs/MELDINGEN.md.</div>}
+                    {items && (
+                        <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
+                            <span><b>{open.length}</b> open van {items.length}</span>
+                            <select value={filter} onChange={e => setFilter(e.target.value)} className="border rounded px-2 py-1">
+                                <option value="open">Open</option><option value="opgelost">Opgelost</option><option value="afgewezen">Afgewezen</option><option value="alle">Alle</option>
+                            </select>
+                            <button onClick={laad} className="px-3 py-1 rounded bg-gray-200">Vernieuwen</button>
+                        </div>
+                    )}
+                    <div className="grid gap-3">
+                        {zicht.map(m => (
+                            <div key={m.id} className="bg-white rounded-lg shadow p-4">
+                                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                    <div><b>{[m.club, m.seizoen].filter(Boolean).join(' · ') || 'Algemeen'}</b>{m.coach && <span className="text-gray-600"> · {m.coach}</span>} <span className="text-xs text-gray-500 ml-2">{m.soort}</span></div>
+                                    <span className="text-xs text-gray-500">{datum(m)} · {m.status || 'nieuw'}</span>
+                                </div>
+                                <p className="mt-2 whitespace-pre-wrap">{m.bericht}</p>
+                                <div className="text-sm mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                                    {m.bron && <a href={m.bron} target="_blank" rel="noopener" className="text-blue-600 break-all">{m.bron}</a>}
+                                    {m.contact && <a href={`mailto:${m.contact}`} className="text-blue-600">{m.contact}</a>}
+                                    {m.pagina && <span className="text-gray-500">pagina: {m.pagina}</span>}
+                                    {m.club && !clubByName[m.club.toLowerCase()] && <span className="text-amber-700">club niet gevonden in database</span>}
+                                </div>
+                                <div className="flex flex-wrap gap-2 mt-3 items-center">
+                                    <input value={notitie[m.id] ?? m.notitie ?? ''} onChange={e => setNotitie(n => ({ ...n, [m.id]: e.target.value }))} placeholder="Notitie (optioneel)" className="flex-1 min-w-[12rem] border rounded px-2 py-1 text-sm" />
+                                    <button onClick={() => zet(m, 'opgelost')} className="text-sm px-3 py-1 rounded bg-green-600 text-white">Opgelost</button>
+                                    <button onClick={() => zet(m, 'afgewezen')} className="text-sm px-3 py-1 rounded bg-gray-300">Afgewezen</button>
+                                    {m.status && m.status !== 'nieuw' && <button onClick={() => zet(m, 'nieuw')} className="text-sm px-3 py-1 rounded bg-white border">Heropenen</button>}
+                                </div>
+                            </div>
+                        ))}
+                        {items && zicht.length === 0 && <p className="text-gray-500">Geen meldingen in deze selectie.</p>}
+                    </div>
+                </div>
+            );
+        }
+
         function App() {
             const [user, setUser] = useState(null);
             const [authLoading, setAuthLoading] = useState(true);
@@ -1959,6 +2229,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('health'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'health' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Data Health</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('seasoncoaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasoncoaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenstrainers</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('twijfel'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'twijfel' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Twijfelgevallen</a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); setView('fotos'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'fotos' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Foto's</a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); setView('meldingen'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'meldingen' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Meldingen</a>
                         </nav>
                         <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
@@ -1974,6 +2246,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                     'health': <DataHealthView appData={appData} onUpdate={fetchAllData} />,
                                     'seasoncoaches': <SeasonCoachesImportView appData={appData} onUpdate={fetchAllData} />,
                                     'twijfel': <TwijfelView appData={appData} onUpdate={fetchAllData} />,
+                                    'fotos': <FotosView appData={appData} onUpdate={fetchAllData} />,
+                                    'meldingen': <MeldingenView appData={appData} />,
                                 }[view]
                         }
                     </main>

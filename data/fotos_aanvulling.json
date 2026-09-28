@@ -1,0 +1,1134 @@
+{
+ "gegenereerd": "2026-09-28",
+ "uitleg": "Fotoaanvulrun. 'toevoegen': vrije portretten van Wikimedia Commons voor trainers zonder foto; het dashboard (Foto's) zet ze in de database en toont ze ter controle. 'niet_toegevoegd': gevonden maar afgekeurd, met reden. 'controleren': bestaande foto's die niet kloppen of niet vrij zijn.",
+ "toevoegen": [
+  {
+   "coachId": "4wObwaqdPy0uxpvuNzkV",
+   "naam": "János Bédl",
+   "bestand": "János Bédl 1962.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:J%C3%A1nos_B%C3%A9dl_1962.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/J%C3%A1nos_B%C3%A9dl_1962.jpg/500px-J%C3%A1nos_B%C3%A9dl_1962.jpg",
+   "maker": "Joop van Bilsen for Anefo",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "wikidata": "Q1714795"
+  },
+  {
+   "coachId": "CmqCbbOqDuU6me7yKnfR",
+   "naam": "Rui Borges",
+   "bestand": "RuiBorges1.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:RuiBorges1.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/RuiBorges1.png",
+   "maker": "Agência Lusa",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q121147850",
+   "let_op": "Naam en geboortejaar kloppen (Wikidata), maar controleer of het de trainer is."
+  },
+  {
+   "coachId": "JPcX9MZDIa4miIV1ki4F",
+   "naam": "Paulo Fonseca",
+   "bestand": "Paulo Fonseca2018.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Paulo_Fonseca2018.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Paulo_Fonseca2018.jpg/500px-Paulo_Fonseca2018.jpg",
+   "maker": "Олег Батрак",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "wikidata": "Q10346582"
+  },
+  {
+   "coachId": "JaQmZpyZLGosZp5k7Vv4",
+   "naam": "Marco Silva",
+   "bestand": "Marco Silva 20042025 (2) (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Marco_Silva_20042025_(2)_(cropped).jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Marco_Silva_20042025_%282%29_%28cropped%29.jpg",
+   "maker": "Timmy96",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "wikidata": "Q6757714"
+  },
+  {
+   "coachId": "KIzNGDKpgali3fKJEVlX",
+   "naam": "Vítor Bruno",
+   "bestand": "Vitor Bruno - Supertaça 2024.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Vitor_Bruno_-_Superta%C3%A7a_2024.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Vitor_Bruno_-_Superta%C3%A7a_2024.jpg/500px-Vitor_Bruno_-_Superta%C3%A7a_2024.jpg",
+   "maker": "Agencia LUSA",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q126406885"
+  },
+  {
+   "coachId": "M8VF1KGPwnWKDHwt0fXB",
+   "naam": "Paulo Amaral",
+   "bestand": "Juventus FC 1963-64 - Paulo Amaral (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Juventus_FC_1963-64_-_Paulo_Amaral_(cropped).jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Juventus_FC_1963-64_-_Paulo_Amaral_%28cropped%29.jpg",
+   "maker": "Original: Unknown author / Derivative work: Danyele",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q1370535"
+  },
+  {
+   "coachId": "PDWaykUt29NwPsDnNvJ8",
+   "naam": "Javier Aguirre",
+   "bestand": "Javier Aguirre in Moscow.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Javier_Aguirre_in_Moscow.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Javier_Aguirre_in_Moscow.jpg/500px-Javier_Aguirre_in_Moscow.jpg",
+   "maker": "Елена Рыбакова",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "wikidata": "Q194311"
+  },
+  {
+   "coachId": "RYTvZqEZTmVchUe1S915",
+   "naam": "Óscar Valdez",
+   "bestand": "Oscar Valdez 1979.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Oscar_Valdez_1979.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/35/Oscar_Valdez_1979.jpg",
+   "maker": "Kimberley del Mar Del Plata official photo",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q4025485"
+  },
+  {
+   "coachId": "X94wxeR26T3eV9m5HVaG",
+   "naam": "Ricardo Gomes",
+   "bestand": "Raymundo Ricardo Gomes.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Raymundo_Ricardo_Gomes.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Raymundo_Ricardo_Gomes.jpg/500px-Raymundo_Ricardo_Gomes.jpg",
+   "maker": "TaraO",
+   "licentie": "CC BY 2.5",
+   "licentie_url": "https://creativecommons.org/licenses/by/2.5",
+   "wikidata": "Q440999"
+  },
+  {
+   "coachId": "XlT9swszCSKKHOkFELpN",
+   "naam": "Fritz Langner",
+   "bestand": "Fritz Langner.PNG",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Fritz_Langner.PNG",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Fritz_Langner.PNG",
+   "maker": "Cigarettenfabrik Müller & Co. aus Dresden",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q1467272"
+  },
+  {
+   "coachId": "Y2cnvJHKU44knIcc4RWM",
+   "naam": "Gaizka Garitano",
+   "bestand": "Gaizka Garitano 2017.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Gaizka_Garitano_2017.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Gaizka_Garitano_2017.png/500px-Gaizka_Garitano_2017.png",
+   "maker": "berriatb",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q742677"
+  },
+  {
+   "coachId": "boI2f6MvNqOP4lLIfkK3",
+   "naam": "Petit",
+   "bestand": "Petit 2023.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Petit_2023.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Petit_2023.png/500px-Petit_2023.png",
+   "maker": "Agencia LUSA",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q294881"
+  },
+  {
+   "coachId": "dQih1QVucFRJxU0cjNjt",
+   "naam": "Míchel",
+   "bestand": "Michel09.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Michel09.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Michel09.jpg",
+   "maker": "HulkMadridista",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "wikidata": "Q558689"
+  },
+  {
+   "coachId": "fNW6bSGFv4EysC4HXjAh",
+   "naam": "Vasco Seabra",
+   "bestand": "Vasco seabra 2023.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Vasco_seabra_2023.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Vasco_seabra_2023.png/500px-Vasco_seabra_2023.png",
+   "maker": "Agencia LUSA",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q29866591"
+  },
+  {
+   "coachId": "h1xwETc3P1ZoMgHPv8tK",
+   "naam": "Hubert Fournier",
+   "bestand": "H Fournier 11578.JPG",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:H_Fournier_11578.JPG",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/H_Fournier_11578.JPG/500px-H_Fournier_11578.JPG",
+   "maker": "G.Garitan",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "wikidata": "Q128782"
+  },
+  {
+   "coachId": "kPQM3yxKbXtuUDbo1KDI",
+   "naam": "Daniel Thioune",
+   "bestand": "Daniel Thioune.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Daniel_Thioune.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Daniel_Thioune.jpg/500px-Daniel_Thioune.jpg",
+   "maker": "Fuguito",
+   "licentie": "CC BY 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/4.0",
+   "wikidata": "Q123126"
+  },
+  {
+   "coachId": "l0PYO0feZtcEWDJavNq7",
+   "naam": "László Bölöni",
+   "bestand": "Laszlo Boloni (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Laszlo_Boloni_(cropped).jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Laszlo_Boloni_%28cropped%29.jpg",
+   "maker": "Volare oh oh oh",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "wikidata": "Q353222"
+  },
+  {
+   "coachId": "tNiRJsQreJsWUvrUs3rp",
+   "naam": "Flávio Costa",
+   "bestand": "Flávio Rodrigues da Costa, técnico de futebol (sem data).tiff",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Fl%C3%A1vio_Rodrigues_da_Costa,_t%C3%A9cnico_de_futebol_(sem_data).tiff",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Fl%C3%A1vio_Rodrigues_da_Costa%2C_t%C3%A9cnico_de_futebol_%28sem_data%29.tiff/lossy-page1-500px-Fl%C3%A1vio_Rodrigues_da_Costa%2C_t%C3%A9cnico_de_futebol_%28sem_data%29.tiff.jpg",
+   "maker": "Unknown",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q945169"
+  },
+  {
+   "coachId": "tVZmOlvjtKRQjuiA1JQK",
+   "naam": "Amedeo Amadei",
+   "bestand": "AS Roma 1940s Amedeo Amadei.webp",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:AS_Roma_1940s_Amedeo_Amadei.webp",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/AS_Roma_1940s_Amedeo_Amadei.webp/500px-AS_Roma_1940s_Amedeo_Amadei.webp",
+   "maker": "AS Roma Historical Archive",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q460577"
+  },
+  {
+   "coachId": "xUCHgfvLnwISSu6XklQ3",
+   "naam": "Jorge Simão",
+   "bestand": "Jorge simao 2024 (cropped).png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Jorge_simao_2024_(cropped).png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Jorge_simao_2024_%28cropped%29.png/500px-Jorge_simao_2024_%28cropped%29.png",
+   "maker": "Agencia LUSA",
+   "licentie": "CC BY 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+   "wikidata": "Q20641494"
+  }
+ ],
+ "niet_toegevoegd": [
+  {
+   "coachId": "9fBYOR1JYICgLMxRmagT",
+   "naam": "Josep Seguer",
+   "bestand": "Barcelona equipo vs valencia 1952.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Barcelona_equipo_vs_valencia_1952.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Barcelona_equipo_vs_valencia_1952.jpg/500px-Barcelona_equipo_vs_valencia_1952.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q1423311",
+   "reden": "Elftalfoto (FC Barcelona 1952); hij is er niet uit te knippen zonder bewerking."
+  },
+  {
+   "coachId": "23yNfA4qfenMgmqFqbMK",
+   "naam": "Paolo Todeschini",
+   "bestand": "Paolo Todeschini.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Paolo_Todeschini.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/5/53/Paolo_Todeschini.jpg",
+   "maker": "Unknown",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q3894528",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "5fg7ieBwC8GZ4VSwWiAE",
+   "naam": "Aldo Campatelli",
+   "bestand": "Aldo Campatelli 1956.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Aldo_Campatelli_1956.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/0/00/Aldo_Campatelli_1956.jpg",
+   "maker": "Unknown",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q765507",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "CH2lUlenjTaeXyLKr4kQ",
+   "naam": "Corrado Orrico",
+   "bestand": "Corrado Orrico Internazionale Milano.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Corrado_Orrico_Internazionale_Milano.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/thumb/e/e9/Corrado_Orrico_Internazionale_Milano.jpg/500px-Corrado_Orrico_Internazionale_Milano.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q3694289",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "D68bfx9aFXamQLoSEZab",
+   "naam": "Vítor Oliveira",
+   "bestand": "Vítor Oliveira-Rei das Subidas.jpg",
+   "bronpagina": "https://pt.wikipedia.org/wiki/Ficheiro:V%C3%ADtor_Oliveira-Rei_das_Subidas.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/pt/b/bd/V%C3%ADtor_Oliveira-Rei_das_Subidas.jpg",
+   "maker": "Observador",
+   "licentie": "Conteúdo restrito",
+   "licentie_url": "",
+   "wikidata": "Q7944806",
+   "reden": "Niet vrij: Portugese Wikipedia gebruikt de foto als beschermd materiaal."
+  },
+  {
+   "coachId": "EOTC0dbFblGYU0pEW3Ee",
+   "naam": "Luigi Maifredi",
+   "bestand": "Luigi Maifredi.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Luigi_Maifredi.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/7/76/Luigi_Maifredi.jpg",
+   "maker": "ANSA",
+   "licentie": "Public domain",
+   "licentie_url": "https://it.wikipedia.org/wiki/File:Luigi_Maifredi.jpg",
+   "wikidata": "Q967765",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "GH69BfdctGlzPA6aMuMI",
+   "naam": "Renzo Ulivieri",
+   "bestand": "Renzo Ulivieri - Ternana 1978-1979.jpeg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Renzo_Ulivieri_-_Ternana_1978-1979.jpeg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/thumb/d/db/Renzo_Ulivieri_-_Ternana_1978-1979.jpeg/500px-Renzo_Ulivieri_-_Ternana_1978-1979.jpeg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "https://it.wikipedia.org/wiki/File:Renzo_Ulivieri_-_Ternana_1978-1979.jpeg",
+   "wikidata": "Q3933080",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "Imkggq23RqYG7lZWBosu",
+   "naam": "Theo Vonk",
+   "bestand": "AZ 67 tegen Feijenoord 1-0 Jansen (rechts ) in duel met Vonk, Bestanddeelnr 928-5299.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:AZ_67_tegen_Feijenoord_1-0_Jansen_(rechts_)_in_duel_met_Vonk,_Bestanddeelnr_928-5299.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/AZ_67_tegen_Feijenoord_1-0_Jansen_%28rechts_%29_in_duel_met_Vonk%2C_Bestanddeelnr_928-5299.jpg/500px-AZ_67_tegen_Feijenoord_1-0_Jansen_%28rechts_%29_in_duel_met_Vonk%2C_Bestanddeelnr_928-5299.jpg",
+   "maker": "Bert Verhoeff for Anefo",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "wikidata": "Q2280571",
+   "reden": "Wedstrijdfoto met twee spelers; Vonk staat er niet als hoofdpersoon op."
+  },
+  {
+   "coachId": "KlzlWnxDaxyaQrswdmUD",
+   "naam": "Giuseppe Marchioro",
+   "bestand": "Pippo Marchioro.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Pippo_Marchioro.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/f/f7/Pippo_Marchioro.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q3770903",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "NrkHiX0x9606z7rDMHgO",
+   "naam": "Giovanni Invernizzi",
+   "bestand": "Giovanni Invernizzi.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Giovanni_Invernizzi.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/2/21/Giovanni_Invernizzi.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q3107231",
+   "reden": "Verkeerde persoon: de foto hoort bij een speler geboren in 1963, de trainer is een andere Giovanni Invernizzi."
+  },
+  {
+   "coachId": "O7N2XhEQslMXvtASpCpr",
+   "naam": "Roberto Lerici",
+   "bestand": "Roberto Lerici.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Roberto_Lerici.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/a/a2/Roberto_Lerici.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q3938896",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "PObqvNipLsPa36qzKMrW",
+   "naam": "Ferdinand Daučík",
+   "bestand": "Atletico Bilbao 1956.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Atletico_Bilbao_1956.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Atletico_Bilbao_1956.png/500px-Atletico_Bilbao_1956.png",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q463807",
+   "reden": "Elftalfoto (Athletic 1956)."
+  },
+  {
+   "coachId": "PlN6DY8F2NpsxToI83WI",
+   "naam": "Pasieguito",
+   "bestand": "Contracte Pasieguito.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Contracte_Pasieguito.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Contracte_Pasieguito.jpg/500px-Contracte_Pasieguito.jpg",
+   "maker": "Levante UD",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q289652",
+   "reden": "Foto van een contract, geen portret."
+  },
+  {
+   "coachId": "Swpnb3W0ju6qW64BpZEe",
+   "naam": "Oswald Pfau",
+   "bestand": "Bundesarchiv Bild 183-38701-0032, Westdeutsche Olympia-Auswahl im Fußball.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_183-38701-0032,_Westdeutsche_Olympia-Auswahl_im_Fu%C3%9Fball.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Bundesarchiv_Bild_183-38701-0032%2C_Westdeutsche_Olympia-Auswahl_im_Fu%C3%9Fball.jpg/500px-Bundesarchiv_Bild_183-38701-0032%2C_Westdeutsche_Olympia-Auswahl_im_Fu%C3%9Fball.jpg",
+   "maker": "Beyer",
+   "licentie": "CC BY-SA 3.0 de",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en",
+   "wikidata": "Q2036439",
+   "reden": "Groepsfoto (West-Duitse Olympische selectie)."
+  },
+  {
+   "coachId": "hzyjusXcmeyb8hXOoX7m",
+   "naam": "Franco Scoglio",
+   "bestand": "Franco Scoglio.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Franco_Scoglio.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/thumb/3/36/Franco_Scoglio.jpg/500px-Franco_Scoglio.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q980528",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "klMOX48fG2iqz5IJ8TKn",
+   "naam": "José Villalonga",
+   "bestand": "Atletico madrid festeja copa 1960.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Atletico_madrid_festeja_copa_1960.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Atletico_madrid_festeja_copa_1960.jpg/500px-Atletico_madrid_festeja_copa_1960.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q646777",
+   "reden": "Groepsfoto (Atlético viert de beker in 1960)."
+  },
+  {
+   "coachId": "q8RrFrZTHVVHOo5o4gLy",
+   "naam": "Helmut Senekowitsch",
+   "bestand": "Österrike 1958.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:%C3%96sterrike_1958.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/%C3%96sterrike_1958.jpg/500px-%C3%96sterrike_1958.jpg",
+   "maker": "Eskil Malmberg",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q700148",
+   "reden": "Elftalfoto (Oostenrijk 1958)."
+  },
+  {
+   "coachId": "qP6KvsiFo1PVupecUXgh",
+   "naam": "Carlos Alberto Silva",
+   "bestand": "CarlosAlbertoSilva.jpg",
+   "bronpagina": "https://pt.wikipedia.org/wiki/Ficheiro:CarlosAlbertoSilva.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/pt/1/1c/CarlosAlbertoSilva.jpg",
+   "maker": "Agência RBS",
+   "licentie": "Conteúdo restrito",
+   "licentie_url": "",
+   "wikidata": "Q2561848",
+   "reden": "Niet vrij: Portugese Wikipedia gebruikt de foto als beschermd materiaal."
+  },
+  {
+   "coachId": "rVC8iOFisEJcBhVGItJa",
+   "naam": "Luis Molowny",
+   "bestand": "Spain national football team at 1950 FIFA World Cup qualifications.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Spain_national_football_team_at_1950_FIFA_World_Cup_qualifications.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Spain_national_football_team_at_1950_FIFA_World_Cup_qualifications.jpg/500px-Spain_national_football_team_at_1950_FIFA_World_Cup_qualifications.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "wikidata": "Q522348",
+   "reden": "Elftalfoto (Spanje 1950)."
+  },
+  {
+   "coachId": "sApOMvjN9amMxofV10DC",
+   "naam": "Otto Barić",
+   "bestand": "OttoBaric.jpg",
+   "bronpagina": "https://hr.wikipedia.org/wiki/Datoteka:OttoBaric.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/hr/6/68/OttoBaric.jpg",
+   "maker": "HNS",
+   "licentie": "",
+   "licentie_url": "",
+   "wikidata": "Q699412",
+   "reden": "Geen licentie vermeld (Kroatische Wikipedia)."
+  },
+  {
+   "coachId": "zcscNG35KIHROS7O8J1r",
+   "naam": "Oronzo Pugliese",
+   "bestand": "Oronzo Pugliese.jpg",
+   "bronpagina": "https://it.wikipedia.org/wiki/File:Oronzo_Pugliese.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/it/c/c4/Oronzo_Pugliese.jpg",
+   "maker": "sconosciuto",
+   "licentie": "Public domain",
+   "licentie_url": "https://it.wikipedia.org/wiki/File:Oronzo_Pugliese.jpg",
+   "wikidata": "Q2409891",
+   "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  }
+ ],
+ "controleren": [
+  {
+   "coachId": "04jIWCSD9STVyMnYsaYJ",
+   "naam": "António Fernandes",
+   "soort": "verkeerde persoon",
+   "reden": "Waarschijnlijk verkeerde persoon: Commons rekent de foto tot \"hackers\".",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Antonio-Fernandes-Hacker.jpg/250px-Antonio-Fernandes-Hacker.jpg"
+  },
+  {
+   "coachId": "sQeEKM9ZdQZNe7x7C622",
+   "naam": "Ivan Marković",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: een Tsjechoslowaakse politicus (1888-1944).",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Ivan_Markovi%C4%8D.jpg/200px-Ivan_Markovi%C4%8D.jpg"
+  },
+  {
+   "coachId": "AhkeulOFb2R4bPeWtYiv",
+   "naam": "Jean Robin",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: gravure van een botanicus uit 1608.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Jean_Robin_-_%27Le_jardin_du_roy_tr%C3%A8s_chrestien_Henry_IV%27_%281608%29.jpg/250px-Jean_Robin_-_%27Le_jardin_du_roy_tr%C3%A8s_chrestien_Henry_IV%27_%281608%29.jpg"
+  },
+  {
+   "coachId": "6UvhKH2h5l7vcIl3Wez3",
+   "naam": "Joop Brand",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde afbeelding: een bloemmotief (bestand bestaat ook niet meer).",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/EMB244_Stylizowany_chaber_JOOP%21_20x17_mm._Eksponat_Muzeum_Miniaturowej_Sztuki_Profesjonalnej_Henryk_Jan_Dominiak_w_Tychach.png"
+  },
+  {
+   "coachId": "vGZENHOVFXTcJf14DNUp",
+   "naam": "José Carlos",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de Peruaanse schrijver José Carlos Mariátegui.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Jos%C3%A9_Carlos_Mari%C3%A1tegui_in_1929.jpg/250px-Jos%C3%A9_Carlos_Mari%C3%A1tegui_in_1929.jpg"
+  },
+  {
+   "coachId": "d8gkVFxVTcxIH7E8q6es",
+   "naam": "José Pereira",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: een tennisser.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Jos%C3%A9_Pereira_%28tenista%29.jpg/250px-Jos%C3%A9_Pereira_%28tenista%29.jpg"
+  },
+  {
+   "coachId": "b99M266LiYH7A0vA1tDI",
+   "naam": "Juan Antonio Ipiña",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de zanger Tontxu.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Tontxu_cropped.jpg/250px-Tontxu_cropped.jpg"
+  },
+  {
+   "coachId": "dDoBXqNEbrA28MLeyUHe",
+   "naam": "Louis Maurer",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: foto van vóór 1900.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Louis_Maurer_before1900.jpg/250px-Louis_Maurer_before1900.jpg"
+  },
+  {
+   "coachId": "gcbHbTssMPHNO8mqdoPD",
+   "naam": "Luis Suárez",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de Uruguayaanse spits, niet de Spaanse trainer Luis Suárez Miramontes.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Luis_Su%C3%A1rez_2018.jpg/250px-Luis_Su%C3%A1rez_2018.jpg"
+  },
+  {
+   "coachId": "TOfKqmn3VcWknshkwn3f",
+   "naam": "Manuel Fernandes",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de speler Manuel Fernandes (geboren 1986), niet de trainer (geboren 1951).",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Manuel_Fernandes_2012-13.jpg/250px-Manuel_Fernandes_2012-13.jpg"
+  },
+  {
+   "coachId": "Frgdqh4FInqPNcao6qbY",
+   "naam": "Martin Wilke",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de politicus Martin Wilke.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Martin_Wilke_OB_Frankfurt_%28Oder%29_Ausschnitt.jpg/250px-Martin_Wilke_OB_Frankfurt_%28Oder%29_Ausschnitt.jpg"
+  },
+  {
+   "coachId": "B4D0ipRp1FLlpEiwg6pB",
+   "naam": "Milan Nikolić",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: een accordeonist.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Milan_Nikolic.jpg/220px-Milan_Nikolic.jpg"
+  },
+  {
+   "coachId": "5HSXp10mPmYG3LHU2F55",
+   "naam": "Milorad Pavić",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de schrijver Milorad Pavić.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Milorad_Pavic.jpg/250px-Milorad_Pavic.jpg"
+  },
+  {
+   "coachId": "LlJZ5tsrKl0rnB8enkbA",
+   "naam": "Mário Imbelloni",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de foto is van Antonio Imbelloni.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/N_historia-1863060.jpg/250px-N_historia-1863060.jpg"
+  },
+  {
+   "coachId": "NzMOLTBUIEtniIEvaVPE",
+   "naam": "Mário Lino",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de politicus Mário Lino.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Mario_Lino_na_Exponor.JPG/250px-Mario_Lino_na_Exponor.JPG"
+  },
+  {
+   "coachId": "czChlCw2ASvcDaVixD3Y",
+   "naam": "Mário Reis",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de Braziliaanse zanger Mário Reis.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/M%C3%A1rio_Reis_em_%E2%80%9CAl%C3%B4%2C_al%C3%B4%2C_Carnaval%E2%80%9D%2C_1936.tiff/lossy-page1-200px-M%C3%A1rio_Reis_em_%E2%80%9CAl%C3%B4%2C_al%C3%B4%2C_Carnaval%E2%80%9D%2C_1936.tiff.jpg"
+  },
+  {
+   "coachId": "Czeqr0tCYozHnNlzWO3P",
+   "naam": "Paulo Emílio",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de Braziliaanse filmcriticus Paulo Emílio Salles Gomes.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Paulo_Em%C3%ADlio_de_Salles_Gomes_%281958%29.tif/lossy-page1-200px-Paulo_Em%C3%ADlio_de_Salles_Gomes_%281958%29.tif.jpg"
+  },
+  {
+   "coachId": "E6WikcwsYfI58z34THLL",
+   "naam": "Paulo Sérgio",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: de Braziliaanse speler Paulo Sérgio, niet de Portugese trainer.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Paulo_sergio_silvestre_nascimento.jpg/250px-Paulo_sergio_silvestre_nascimento.jpg"
+  },
+  {
+   "coachId": "Soq8U5s4mNODUombXt4u",
+   "naam": "Vlatko Kovačević",
+   "soort": "verkeerde persoon",
+   "reden": "Verkeerde persoon: foto van een schaaktoernooi.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/KovacevicBellin1973.jpg/250px-KovacevicBellin1973.jpg"
+  },
+  {
+   "coachId": "OLQ0MZCGPaa50yAmLVK3",
+   "naam": "Amancio Amaro",
+   "soort": "geen portret",
+   "reden": "Elftalfoto.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Real_Madrid_tegen_Partizan_2-1_te_Brussel%2C_elftal_Real_Madrid%2C_Bestanddeelnr_919-1283_%28Amancio%29.jpg/250px-Real_Madrid_tegen_Partizan_2-1_te_Brussel%2C_elftal_Real_Madrid%2C_Bestanddeelnr_919-1283_%28Amancio%29.jpg"
+  },
+  {
+   "coachId": "2PGot294iQdb2OXi5xa7",
+   "naam": "Bob Paisley",
+   "soort": "geen portret",
+   "reden": "Gedenkplaat, geen foto van de persoon.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Paisley_plaque%2C_Paisley_Gateway%2C_Anfield.jpg"
+  },
+  {
+   "coachId": "B1gqf8oH1aw2I1Jee0sr",
+   "naam": "Ernst Happel",
+   "soort": "geen portret",
+   "reden": "Gedenkplaat, geen foto van de persoon.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Ernst-Happel-01_%28cropped%29.jpg"
+  },
+  {
+   "coachId": "sx2Az62SFGVilfP67pBQ",
+   "naam": "Gaby Robert",
+   "soort": "geen portret",
+   "reden": "Elftalfoto.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Equipe_France_Olympique_1948.jpg/250px-Equipe_France_Olympique_1948.jpg"
+  },
+  {
+   "coachId": "Qhf3l9K82fEw5zq1OC8b",
+   "naam": "Ian Porterfield",
+   "soort": "geen portret",
+   "reden": "Groepsfoto.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Playersmanagers1973cup.jpg"
+  },
+  {
+   "coachId": "VjNxEn54I6MyOKULKEil",
+   "naam": "Joe Mercer",
+   "soort": "geen portret",
+   "reden": "Standbeeld, geen foto van de persoon.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/8/89/Joe_Mercer_Memorial_outside_Manchester_City_Football_Club_Stadium%2C_Manchester_-_geograph.org.uk_-_2353113_%28cropped2%29.jpg"
+  },
+  {
+   "coachId": "biPpqgbPf6lHhUsJY8CE",
+   "naam": "Karl Humenberger",
+   "soort": "geen portret",
+   "reden": "Elftalfoto.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/9/91/Ajax_elftal_%2819-05-1957%29.jpg"
+  },
+  {
+   "coachId": "i0XSmyep1pEH9WYCbMmC",
+   "naam": "Mario Corso",
+   "soort": "geen portret",
+   "reden": "Postzegel.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ajman_1968-08-25_stamp_-_Mario_Corso.jpg/200px-Ajman_1968-08-25_stamp_-_Mario_Corso.jpg"
+  },
+  {
+   "coachId": "liUgmdKoH9ICbXreAHa0",
+   "naam": "Txetxu Rojo",
+   "soort": "geen portret",
+   "reden": "Elftalfoto.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Elftalfoto_Athletic_de_Bilbao_%28archief%29%2C_Bestanddeelnr_929-1073_%28rojo_I%29.jpg/250px-Elftalfoto_Athletic_de_Bilbao_%28archief%29%2C_Bestanddeelnr_929-1073_%28rojo_I%29.jpg"
+  },
+  {
+   "coachId": "8sjVNkSRhFLrQTcSNpMH",
+   "naam": "Augusto Inácio",
+   "soort": "controleren",
+   "reden": "Geen naam in de beschrijving op Commons; controleer of hij het is.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Augusto_In%C3%A1cio.jpg/250px-Augusto_In%C3%A1cio.jpg"
+  },
+  {
+   "coachId": "WCysHxPhsdmvcMN7sgKU",
+   "naam": "Dave Sexton",
+   "soort": "controleren",
+   "reden": "Commons zegt \"onbekende man\"; controleer of hij het is.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Dave_Sexton.jpg/220px-Dave_Sexton.jpg"
+  },
+  {
+   "coachId": "NJhPyhrpUBZYZU1fGuJ5",
+   "naam": "Kevin Keegan",
+   "soort": "controleren",
+   "reden": "Op Commons loopt een verwijderverzoek (juli 2026).",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/Kevin_keegan_panini_card_%28cropped%29.jpg"
+  },
+  {
+   "coachId": "mx5VxWjGYlqRvDIFktJZ",
+   "naam": "Alfred Schreuder",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (images0.persgroep.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages0.persgroep.net%2Frcs%2FsLJEthF-OsncWBw6_74HnAxPL6E%2Fdiocontent%2F226824187%2F_fitwidth%2F694%2F%3FappId%3D21791a8992982cd8da851550a453bd7f%26quality%3D0.8&f=1&nofb=1&ipt=0581091cc8125949869b8392ecb673a3b2110b5c38772e60026b23b6a1be946d"
+  },
+  {
+   "coachId": "Ebo4tUDSQFAd6T0jIQLq",
+   "naam": "Bernd Krauss",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (rp-online.de). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Frp-online.de%2Fimgs%2F32%2F1%2F5%2F3%2F4%2F8%2F1%2F8%2F5%2F5%2Ftok_0068ccdbecfb7f7930789351f8d02b2a%2Fw1900_h1266_x2454_y1636_imago1006886718h-ee0767918fdfb13c.jpg&f=1&nofb=1&ipt=4a124aba5f552240fb21f4850b3bab589a656400065b00cbbb168337172d5c88"
+  },
+  {
+   "coachId": "iRDB5xOyJ0xCirUvH0NT",
+   "naam": "Bill Shankly",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (assets.lfcimages.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fassets.lfcimages.com%2Fuploads%2F4647__4255__bs27_970X582.jpg&f=1&nofb=1&ipt=bdbe13368539fa07f4f55e96ae249f5ef985d18d6b1bb79c96680fe948c420e4"
+  },
+  {
+   "coachId": "oRJ4SqbMXDC1LoUmeqQR",
+   "naam": "Brian Priske",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.soccernews.nl). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.soccernews.nl%2Fwp-content%2Fuploads%2F2025%2F02%2Fbrian-priske-feyenoord-08-02-2025.jpg&f=1&nofb=1&ipt=b09df5304898ec49ebb31a04be32e04ef05126a07e2bfee0ff37a2459e66916e"
+  },
+  {
+   "coachId": "4hC8KAVSDnv4TZEWWrc4",
+   "naam": "Carlos Manuel",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (img.a.transfermarkt.technology). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://img.a.transfermarkt.technology/portrait/big/117242-1638882488.png?lm=1"
+  },
+  {
+   "coachId": "q7LtVI35fHT3FdIwpMLJ",
+   "naam": "Don Welsh",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (images.liverpoolecho.co.uk). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://images.liverpoolecho.co.uk/incoming/article23806468.ece/ALTERNATES/s615/0_GettyImages-3347648.jpg"
+  },
+  {
+   "coachId": "CjH9RUrfJ2Cu7QFAJQ7E",
+   "naam": "Francesco Calzona",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (icdn.football-italia.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ficdn.football-italia.net%2Fwp-content%2Fuploads%2F2024%2F04%2FFrancesco-Calzona-Napoli-hmm.jpg&f=1&nofb=1&ipt=edba3bdcda81af283ed90e50b322baa19c13c09792c781656086c4d658b0c96d"
+  },
+  {
+   "coachId": "vfP8AV2HWHpZe3rE3wwJ",
+   "naam": "Francesco Farioli",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (cdn1.67hailhail.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.67hailhail.com%2Fuploads%2F18%2F2023%2F06%2FGettyImages-1246601739-2048x1365.jpg&f=1&nofb=1&ipt=c3f10add9b2870240409b3926972cafcb420beab4f802d5df2e8567265ce1231"
+  },
+  {
+   "coachId": "LDmgIrVmtDFLKa5nocLB",
+   "naam": "Frank O'Farrell",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/0/0e/Frank_O%27Farrell_Man_Utd.jpg"
+  },
+  {
+   "coachId": "ebLqcyLRcVfWObpCeZ1W",
+   "naam": "Gentil Cardoso",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (imagens.brasil.elpais.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://imagens.brasil.elpais.com/resizer/AULoASq_yGWqcRRRfbR1igBoIcE=/768x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/J3UZV6JOT5G7RNRC4FK4LCIYKM.jpg"
+  },
+  {
+   "coachId": "8TDtPFh5Nv1jxflHdDDp",
+   "naam": "George Barey",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (images.ed.nl). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://images.ed.nl/psv-trainer-george-barey-rond-1970~a5ba31f5/384x288/"
+  },
+  {
+   "coachId": "lZtfYF66CVPBgLCQRfqE",
+   "naam": "Hans Tauchert",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.hsv1887.de). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.hsv1887.de%2Fhsv%2Fbiografien%2Ffotos%2Ftauchert-hans.jpg&f=1&nofb=1&ipt=ffd25a8e8a688a795c71335ec5edef34521eb1a50ea2a775f7ec357e07b94a81"
+  },
+  {
+   "coachId": "WeHJ0DCF3nVaSkFwJPkv",
+   "naam": "Herbert Burdenski",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (s.weltsport.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fs.weltsport.net%2Fgfx%2Fperson%2Fl%2F43114.jpg&f=1&nofb=1&ipt=eb2412882b90d43d4ab898a3cd6217b033a91f9fae849b0754405cefcffb7aa6"
+  },
+  {
+   "coachId": "jM8dDOmUO1yCi3rfFgSa",
+   "naam": "Holger Fach",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (tse3.mm.bing.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%2Fid%2FOIP.j06-AVLZRv5b2UEZCctS7wHaKt%3Fr%3D0%26pid%3DApi&f=1&ipt=f9373083c579605aade6c4884bb16ed04541f877aff096d458963fc44011336d"
+  },
+  {
+   "coachId": "Ujh0A8taY6aHOql0z0Mz",
+   "naam": "Horst Franz",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (s.hs-data.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs.hs-data.com%2Fgfx%2Fperson%2Fl%2F45112.jpg&f=1&nofb=1&ipt=5f9d6a68c6542bf6e220375d7758df087b339f0703965fdbdef8f3b1140b767a"
+  },
+  {
+   "coachId": "qrr0wCpMNeQWGr5lTuff",
+   "naam": "Howard Kendall",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/1/1e/Howard_Kendall_1990_or_1991_Saint_and_Greavsie_%28non-free_for_Wikipedia%29.jpg"
+  },
+  {
+   "coachId": "sZo5Z7l8FvzbtxIS0vhn",
+   "naam": "Jean Luciano",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.footballdatabase.eu). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.footballdatabase.eu%2Fimages%2Fphotos%2Fplayers%2Fa_38%2F38242.jpg&f=1&nofb=1&ipt=ac744c28a4c73f436b779e68f6a6f45c18e9bd4402ad2c64e1f76870190e41a1"
+  },
+  {
+   "coachId": "3J7s9HAZ7c90aKSLNVnA",
+   "naam": "John Bond",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/7/70/John_Bond.jpg"
+  },
+  {
+   "coachId": "FUOA8amWQ1VlW2Je7sHT",
+   "naam": "John Hollins",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/f/f3/John_Hollins.jpg"
+  },
+  {
+   "coachId": "uGohXDXesLGSPRcDBMBD",
+   "naam": "José Maria Vieira",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (cdn-img.zerozero.pt). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://cdn-img.zerozero.pt/img/jogadores/96/403396_pri__20181228082347_jose_maria_vieira.jpg"
+  },
+  {
+   "coachId": "p12yudaRLOlmErHUeHXE",
+   "naam": "Juan Antonio Pizzi",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (cdn.milenio.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://cdn.milenio.com/uploads/media/2019/01/21/juan-antonio-pizzi-deja-direccion.jpg"
+  },
+  {
+   "coachId": "X7WfX5QTtHsFvVBOsync",
+   "naam": "Laurent Banide",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (ichef.bbci.co.uk). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fichef.bbci.co.uk%2Flive-experience%2Fcps%2F624%2Fcpsprodpb%2F10E49%2Fproduction%2F_107339196_gettyimages-110683304.jpg&f=1&nofb=1&ipt=dd4164885e414c862cef6232bee0920d9a973c0f00834d40692833ed498b26de"
+  },
+  {
+   "coachId": "sjgbgWYCwXqGBUgGtbNW",
+   "naam": "Louis Dupal",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (s2.static-footeo.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs2.static-footeo.com%2Fuploads%2Frclens5962%2Fexecutives%2Flouis-dupal__oey2a5.jpg&f=1&nofb=1&ipt=9a6596b8e9808047608e06232da72ad53e28a9efa69a540df936e879ef097cb0"
+  },
+  {
+   "coachId": "a9u4mNrlGwshsAey3ke8",
+   "naam": "Louis Pirroni",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.footballdatabase.eu). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.footballdatabase.eu%2Fimages%2Fphotos%2Fplayers%2Fa_65%2F65534.jpg&f=1&nofb=1&ipt=0fc71e02969bf388e72bfd3187d3829bd73b3e5830c5742a1ec5e99d9e27a57c"
+  },
+  {
+   "coachId": "ZaHNbZjANdcwcUfZnbtz",
+   "naam": "Louis van Gaal",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (i1.sndcdn.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://i1.sndcdn.com/artworks-BIxL95Zq4e2w0RXS-OT7Utg-t500x500.jpg"
+  },
+  {
+   "coachId": "91GCyVNiSpA39zxYI3UA",
+   "naam": "Lucien Troupel",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.footballdatabase.eu). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.footballdatabase.eu%2Fimages%2Fphotos%2Fplayers%2Fa_41%2F41269.jpg&f=1&nofb=1&ipt=aacfe42ba072e857228948e27035a40f2d723fa0e76a3b87fade20163a617467"
+  },
+  {
+   "coachId": "3VUBHsNNhbdA6FdpxcDI",
+   "naam": "Malcolm Allison",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/e/e4/Malcolm_Allison.jpg"
+  },
+  {
+   "coachId": "T0q4opt7aLFOMPnHq3N9",
+   "naam": "Mané",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (museo.levanteud.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://museo.levanteud.com/wp-content/uploads/2019/04/HOY-197-e1565698038718.jpg"
+  },
+  {
+   "coachId": "6f9UqCbVaebv9wk7ni9H",
+   "naam": "Michel Jansen",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (images.voetbalprimeur.nl). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://images.voetbalprimeur.nl/uploads/2013/01/michel-jansen.jpg"
+  },
+  {
+   "coachId": "nFnMORNbBVwSPj7EooX0",
+   "naam": "Milovan Ćirić",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.bdfutbol.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://www.bdfutbol.com/i/l/7457.jpg"
+  },
+  {
+   "coachId": "NHPHMmGxGTtsqVQF7G3S",
+   "naam": "Mário Wilson",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (cdn.jornaldenegocios.pt). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://cdn.jornaldenegocios.pt/images/2016-10/img_1280x720uu2016-10-03-21-00-00-295159.jpg"
+  },
+  {
+   "coachId": "ptGl9UOoQbYTlgPzaJuH",
+   "naam": "Pedro Rocha",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (tse1.mm.bing.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.T15z3_pWCmzLXGpszEoMngHaEK%3Fr%3D0%26pid%3DApi&f=1&ipt=d9f7b5278f08596feca7cc6bb09c06c03d2d55c1dcceb55fe639e893aff53f8e&ipo=images"
+  },
+  {
+   "coachId": "tsshpNpHQewQfh7cTukR",
+   "naam": "Phil Taylor",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.lfchistory.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.lfchistory.net%2Fimages%2Fprofiles%2Fmanager_taylor_phil.jpg&f=1&nofb=1&ipt=953647643a6b873d7008c5ed940ec3a070c0286eea6ac5f57b8b7001543a34c3"
+  },
+  {
+   "coachId": "SzTuR5Hjx6YaYYH6wjnM",
+   "naam": "Pierre Mankowski",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (sport24.lefigaro.fr). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fsport24.lefigaro.fr%2Fvar%2Fplain_site%2Fstorage%2Fimages%2Ffootball%2Ffiches-entraineurs%2Ffrance%2Fpierre-mankowski%2F15633155-2-fre-FR%2FPierre-Mankowski_large.jpg&f=1&nofb=1&ipt=36cb26c0d703de56b09f63a4d2d78f2ee89c1f47b4d34fafe19a9c425d1bc8f4"
+  },
+  {
+   "coachId": "2f2YDTLlsckHgzpqhOVb",
+   "naam": "Pierre Phelipon",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (alchetron.com). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Falchetron.com%2Fcdn%2Fpierre-phelipon-265b88c0-35e2-4610-b0d7-33ae3d5da4a-resize-750.jpeg&f=1&nofb=1&ipt=4f1daa54c0e6d8ea31c0a1fcb5f59d7c8e85ae953991ae80fd925cdd0dc9369a"
+  },
+  {
+   "coachId": "mlj0bzWF7Br4gEm5gF8y",
+   "naam": "Roger Quenolle",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (www.footballdatabase.eu). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.footballdatabase.eu%2Fimages%2Fphotos%2Fplayers%2Fa_24%2F24091.jpg&f=1&nofb=1&ipt=0a26c29bb3a2da596cdf28abf9b3b73e1f4057bd87e57d0dee26cd25bc237c09"
+  },
+  {
+   "coachId": "z16RvLDcTLE1X81HQFWM",
+   "naam": "Ron Saunders",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Engelse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/en/0/09/Ron_Saunders.jpeg"
+  },
+  {
+   "coachId": "l6ov21BxzXBmX5sfbfpt",
+   "naam": "Vincenzo Montefusco",
+   "soort": "niet vrij",
+   "reden": "Staat alleen op de Italiaanse Wikipedia, niet op Commons. Meestal is dat beschermd materiaal dat Wikipedia alleen zelf mag gebruiken.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/it/6/6f/Vincenzo_Montefusco.jpg"
+  },
+  {
+   "coachId": "SbtuSF7Afc2qVaY8LYfa",
+   "naam": "Vítor Paneira",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (img.a.transfermarkt.technology). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://img.a.transfermarkt.technology/portrait/big/10264-1439901016.jpg?lm=1"
+  },
+  {
+   "coachId": "HxrWCN06pxPbHaNR9bTr",
+   "naam": "Özcan Arkoç",
+   "soort": "niet vrij",
+   "reden": "Foto van een externe site (tse1.mm.bing.net). Rechten onbekend, waarschijnlijk niet vrij te gebruiken.",
+   "huidige_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.g4Wqs22shQ384-XL2Jtc1QHaEF%3Fpid%3DApi&f=1&ipt=c709b7aaa47f2e327d510b09bcc2352656a7e4013c06d4ef18197fbd2fff1a8d&ipo=images"
+  },
+  {
+   "coachId": "irHHl4MD20IUNCRhuYNz",
+   "naam": "Alfredo Di Stéfano",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Di_Stefano_argentina_%28colores%29.png/250px-Di_Stefano_argentina_%28colores%29.png"
+  },
+  {
+   "coachId": "f6XalqFyW57ZXUGWVfUc",
+   "naam": "Bobby Campbell",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Bobby_Campbell_%28footballer%29.jpg/220px-Bobby_Campbell_%28footballer%29.jpg"
+  },
+  {
+   "coachId": "5tdxzPgYAgXEmNpToOYB",
+   "naam": "Brian Horton",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Brian_Horton.jpg/220px-Brian_Horton.jpg"
+  },
+  {
+   "coachId": "hcD2UwXAwKCDdvLbQhnm",
+   "naam": "Erwin Sánchez",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Erwin_S%C3%A1nchez_Freking.jpg/250px-Erwin_S%C3%A1nchez_Freking.jpg"
+  },
+  {
+   "coachId": "6l5kBBvssgbFMwdm0tXH",
+   "naam": "Eusebio Di Francesco",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Eusebio_Di_Francesco_2018.jpg/250px-Eusebio_Di_Francesco_2018.jpg"
+  },
+  {
+   "coachId": "N8pY2dGVWa2Yv3EG9SkU",
+   "naam": "Frank Clark",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Frank_Clark_%28footballer%29.jpg/220px-Frank_Clark_%28footballer%29.jpg"
+  },
+  {
+   "coachId": "XGQpRSyMCXG0ApjpfuEL",
+   "naam": "Franz Fuchs",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/6/6b/Franz_Fuchs_1963.jpg"
+  },
+  {
+   "coachId": "ngk3Kg14Ama9xP2KOA33",
+   "naam": "George Poyser",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/George_Poyser.jpg/220px-George_Poyser.jpg"
+  },
+  {
+   "coachId": "QRM3BYdFPa82dKasayOn",
+   "naam": "George Swindin",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/George_Swindin.jpg/220px-George_Swindin.jpg"
+  },
+  {
+   "coachId": "D2gfnIWToHUgfnX8Ymrn",
+   "naam": "Gonzalo García",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Gonzalo_Garc%C3%ADa_Garc%C3%ADa_2019.jpg/800px-Gonzalo_Garc%C3%ADa_Garc%C3%ADa_2019.jpg"
+  },
+  {
+   "coachId": "6SCINFwQ4PCkwkQNdV2Q",
+   "naam": "Gunder Bengtsson",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Gunder_Bengtsson_1966.jpg/220px-Gunder_Bengtsson_1966.jpg"
+  },
+  {
+   "coachId": "PlhhYWnRw8TMlpKQIW8C",
+   "naam": "Hans Meyer",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Hans_Meyer_2010.jpg/800px-Hans_Meyer_2010.jpg"
+  },
+  {
+   "coachId": "bLsQebLDlgpDtjnPwlul",
+   "naam": "Hennie Hollink",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Hennie_Hollink.jpg"
+  },
+  {
+   "coachId": "ZJ6blkJcfLMzbsLkSAng",
+   "naam": "Jimmy Frizzell",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Jimmy_Frizzell.jpg/220px-Jimmy_Frizzell.jpg"
+  },
+  {
+   "coachId": "ze8e3yGC1cTheUwyV9vS",
+   "naam": "Joe Royle",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Joe_Royle_1990.jpg/220px-Joe_Royle_1990.jpg"
+  },
+  {
+   "coachId": "2Dhhe4L9O6shknwRSsTp",
+   "naam": "Ken Shellito",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Ken_Shellito.jpg/220px-Ken_Shellito.jpg"
+  },
+  {
+   "coachId": "KNZsXLtGYp4G37AUrOpL",
+   "naam": "Les McDowall",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Les_McDowall.jpg/220px-Les_McDowall.jpg"
+  },
+  {
+   "coachId": "XGejPrDZh3G69Pmrpi9V",
+   "naam": "Mel Machin",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Mel_Machin.jpg/220px-Mel_Machin.jpg"
+  },
+  {
+   "coachId": "8w50WM0QY3YwxTNWiE4n",
+   "naam": "Rob Groener",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Rob_Groener_1990.jpg/220px-Rob_Groener_1990.jpg"
+  },
+  {
+   "coachId": "HXTTyZr0utLWMPl9stjm",
+   "naam": "Ron Suart",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Ron_Suart.jpg/220px-Ron_Suart.jpg"
+  },
+  {
+   "coachId": "7sIEmOs8cbMrN2yJc8bj",
+   "naam": "Terry Neill",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Terry_Neill.jpg/220px-Terry_Neill.jpg"
+  },
+  {
+   "coachId": "bAhiVJxBYTCCMcev54ZQ",
+   "naam": "Tony Book",
+   "soort": "bestand weg",
+   "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
+   "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tony_Book.jpg/220px-Tony_Book.jpg"
+  }
+ ]
+}
