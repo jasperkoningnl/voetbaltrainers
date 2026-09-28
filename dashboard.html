@@ -3,7 +3,7 @@
   Dashboard Versie: 28.3 - Twijfelgevallen
   - Nieuwe sectie 'Twijfelgevallen': per twijfelseizoen trainers aan/uitvinken, hoofdtrainer kiezen, links naar bronnen. Import slaat gecontroleerde seizoenen over.
 
-  Dashboard Versie: 28.2 - Seizoenstrainers import
+  Dashboard Versie: 28.3 - Complete Transfermarkt-import
   - Nieuwe sectie 'Seizoenstrainers': importeert per seizoen alle trainers (incl. interim) naar het veld trainers_seizoen, voor de v2-visualisatie.
 
   Dashboard Versie: 28.1 - Data Health Tool
@@ -1322,6 +1322,13 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 setClubLogos({});
             };
 
+            const loadParsedData = (parsedData, name) => {
+                if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
+                setFileName(name);
+                setProcessedData(parsedData.map((row, index) => ({ ...row, _id: index, foto_url: row.foto_url || '' })));
+                setStep(2);
+            };
+
             const handleFileChange = (e) => {
                 const file = e.target.files[0];
                 if (!file) return;
@@ -1330,15 +1337,29 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 reader.onload = (event) => {
                     try {
                         const parsedData = JSON.parse(event.target.result);
-                        if (!Array.isArray(parsedData)) throw new Error("JSON is geen array.");
-                        const dataWithIds = parsedData.map((row, index) => ({ ...row, _id: index, foto_url: '' }));
-                        setProcessedData(dataWithIds);
-                        setStep(2);
+                        loadParsedData(parsedData, file.name);
                     } catch (err) {
                         setError(`Fout bij lezen van JSON: ${err.message}`);
                     }
                 };
                 reader.readAsText(file);
+            };
+
+            const handleLoadTransfermarktImport = async () => {
+                setIsLoading(true);
+                setError('');
+                setStatus('Gecontroleerde Transfermarkt-import laden...');
+                try {
+                    const response = await fetch('data/import_transfermarkt_compleet.json', { cache: 'no-store' });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    loadParsedData(await response.json(), 'import_transfermarkt_compleet.json');
+                    setStatus('101 gecontroleerde clubseizoenen geladen.');
+                } catch (err) {
+                    setError(`Import kon niet worden geladen: ${err.message}`);
+                    setStatus('');
+                } finally {
+                    setIsLoading(false);
+                }
             };
 
             const handleEnrichCoaches = async () => {
@@ -1463,10 +1484,13 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
                     {step === 1 && (
                         <div className="bg-white p-8 rounded-lg shadow text-center">
-                            <h2 className="text-xl font-semibold mb-4">Stap 1: Upload JSON-bestand</h2>
-                            <p className="text-gray-600 mb-6">Selecteer het JSON-bestand dat je met Gemini hebt gegenereerd.</p>
+                            <h2 className="text-xl font-semibold mb-4">Stap 1: Kies import</h2>
+                            <p className="text-gray-600 mb-6">Laad de gecontroleerde Transfermarkt-data direct, of kies zelf een JSON-bestand.</p>
+                            <button onClick={handleLoadTransfermarktImport} disabled={isLoading} className="inline-flex items-center px-6 py-3 mr-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-700 hover:bg-green-800 disabled:bg-gray-400">
+                                Gecontroleerde import laden
+                            </button>
                             <input type="file" id="json-upload" className="hidden" accept=".json" onChange={handleFileChange} />
-                            <label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">
+                            <label htmlFor="json-upload" className="cursor-pointer inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md shadow-sm text-gray-800 bg-white hover:bg-gray-50">
                                 <UploadIcon /> <span className="ml-2">Kies bestand</span>
                             </label>
                         </div>
