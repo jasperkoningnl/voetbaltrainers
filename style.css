@@ -442,6 +442,10 @@ button { font: inherit; color: inherit; }
 .info-sub .span { color: var(--muted); }
 .info-extra { font-size: .76rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .info-extra .interim { font-size: .66rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, .15); border-radius: 4px; padding: 0 .25rem; margin-left: .15rem; }
+.info-extra .predecessor { color: var(--secondary); }
+.info-report { margin-left: auto; flex: none; font-size: .74rem; font-weight: 600; color: var(--muted); text-decoration: none; white-space: nowrap; }
+.info-report:hover { color: var(--accent); text-decoration: underline; }
+.row-star { color: var(--secondary); font-weight: 700; margin-left: 1px; }
 .chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .chip {
     display: inline-flex; align-items: center; gap: .4rem; white-space: nowrap;

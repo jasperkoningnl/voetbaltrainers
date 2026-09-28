@@ -29,6 +29,18 @@ const PRIZE = {
     euro: { fill: "#FFD700", stroke: "#3a2a00" },
 };
 const PRIZE_ORDER = ["title", "cup", "euro"];
+// Fusieclubs: de vroegste seizoenen in de data zijn van een voorganger (zie Data Methodology)
+const PREDECESSORS = {
+    "Paris Saint-Germain": { until: "1970/71", name: "Stade Saint-Germain", note: "Until 1969/70 this row shows Stade Saint-Germain, which merged with Paris FC into Paris Saint-Germain in 1970." },
+    "FC Twente": { until: "1965/66", name: "Sportclub Enschede", note: "Until 1964/65 this row shows Sportclub Enschede, which merged with Enschedese Boys into FC Twente in 1965." },
+    "AZ": { until: "1967/68", name: "Alkmaar '54", note: "Until 1966/67 this row shows Alkmaar '54, which merged with FC Zaanstreek into AZ'67 in 1967 (AZ since 1986)." },
+};
+const predecessorOf = (clubName, season) => {
+    const p = PREDECESSORS[clubName];
+    return p && season < p.until ? p : null;
+};
+const reportAttrs = (club, season, coach) =>
+    `data-report data-report-club="${esc(club)}" data-report-season="${esc(season)}" data-report-coach="${esc(coach || "")}"`;
 const SHIELD = "M6 .5 11.5 2v4.2c0 3.3-2.4 5.4-5.5 6.3C2.9 11.6.5 9.5.5 6.2V2Z";
 const UNKNOWN = "[Data Unavailable]";
 // Clublogo's staan in de repo (images/logos, bron: Wikipedia). De logo_url's in Firestore werken niet meer
@@ -185,7 +197,7 @@ function legendHTML({ split = true, prizes = true, unknown = false, hint = false
         split ? `<span class="legend-item"><span class="legend-swatches split">${[1, 2, 3, 4, 5].map(splitSwatch).join("")}</span>1 → 5+ managers that season</span>` : "",
         prizes ? `<span class="legend-shields">${[["title", "League"], ["cup", "Cup"], ["euro", "Europe"]].map(([k, l]) => `<span>${shieldSVG(k)}${l}</span>`).join("")}</span>` : "",
         unknown ? `<span class="legend-item"><span class="legend-swatches"><span class="sw" style="background:repeating-linear-gradient(45deg,#2a3531 0 3px,#1c2623 3px 6px)"></span></span>No reliable data</span>` : "",
-        hint ? `<span class="legend-hint">Click a block to lock the manager</span>` : "",
+        hint ? `<span class="legend-hint">Click a block to lock the manager (and to report an error)</span>` : "",
     ];
     return items.filter(Boolean).join("");
 }
@@ -971,6 +983,7 @@ function renderGrid() {
     if (!rows.length) {
         stage.innerHTML = `<div class="grid">${addBtn}</div><p class="empty-state">${career ? "Pick a manager to follow from club to club." : "Add clubs to compare them side by side."}</p>`;
         renderLegend();
+        $("merger-note").textContent = "";
         return;
     }
 
@@ -1004,7 +1017,7 @@ function renderGrid() {
             <div class="row-label" style="width:${labelW}px">
                 <img class="row-logo${logoClass(club)}" src="${esc(club.logo_url)}" alt="">
                 ${career ? `<span class="row-cc">${COUNTRY_CODE[club.land] || ""}</span>` : ""}
-                ${narrow ? "" : `<span class="row-name" title="${esc(club.naam)}">${esc(club.naam)}</span>`}
+                ${narrow ? "" : `<span class="row-name" title="${esc(PREDECESSORS[club.naam] ? `${club.naam}. * ${PREDECESSORS[club.naam].note}` : club.naam)}">${esc(club.naam)}${PREDECESSORS[club.naam] ? '<sup class="row-star">*</sup>' : ""}</span>`}
                 ${compare ? `<button class="row-remove" type="button" data-remove="${esc(clubId)}" title="Remove ${esc(club.naam)}" aria-label="Remove ${esc(club.naam)}">×</button>` : ""}
             </div>
             <div class="row-cells">${segHTML}</div>
@@ -1021,6 +1034,9 @@ function renderGrid() {
     applyHighlight();
     applySelection();
     renderLegend();
+    const mergers = rows.map(id => DB.clubById.get(id)?.naam).filter(n => PREDECESSORS[n]);
+    $("merger-note").textContent = mergers.length
+        ? `* ${mergers.map(n => `${n}: seasons before ${PREDECESSORS[n].until} are those of predecessor ${PREDECESSORS[n].name}`).join(". ")}. See Methodology.` : "";
 }
 
 function renderLegend() {
@@ -1184,11 +1200,11 @@ function chipsHTML(tr) {
 const badgeHTML = (text, bucket) =>
     `<span class="tenure-badge" style="background:${TENURE_COLORS[bucket]};color:${TENURE_TEXT[bucket]}">${esc(text)}</span>`;
 
-function infoCardHTML({ photo, name, nameHTML, nameTitle = "", nat, sub, extra = "", chips, badge }) {
+function infoCardHTML({ photo, name, nameHTML, nameTitle = "", nat, sub, extra = "", chips, badge, report = "" }) {
     return `<div class="info-card">
         ${photo}
         <div class="info-main">
-            <div class="info-head"><span class="info-name" title="${esc(nameTitle)}">${nameHTML ?? esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}</div>
+            <div class="info-head"><span class="info-name" title="${esc(nameTitle)}">${nameHTML ?? esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}${report ? `<a class="info-report" href="#" ${report} title="Report an error in this data">Report an error</a>` : ""}</div>
             <div class="info-sub">${sub}</div>
             ${extra}
         </div>
@@ -1210,12 +1226,16 @@ function spellHTML(sp, d) {
     const multi = sp.seasons.filter(s => s.multi && s.trainers?.length);
     const ordered = d?.multi ? [d, ...multi.filter(s => s !== d)] : multi;
     const plain = ordered.map(s => `${s.season}: ${lineupText(s)}`).join(" · ");
-    const extra = ordered.length ? `<div class="info-extra" title="${esc(plain)}">${ordered.map(s => `${s.season}: ${lineupHTML(s)}`).join(" · ")}</div>` : "";
+    const pre = predecessorOf(club, (d || sp.seasons[0]).season);
+    const preHTML = pre ? `<span class="predecessor">* ${esc(pre.name)}</span>` : "";
+    const extra = ordered.length || pre
+        ? `<div class="info-extra" title="${esc([pre?.note, plain].filter(Boolean).join(" · "))}">${[preHTML, ...ordered.map(s => `${s.season}: ${lineupHTML(s)}`)].filter(Boolean).join(" · ")}</div>` : "";
     return infoCardHTML({
         photo: photoHTML(coach.foto_url, t.coach),
         name: t.coach, nat: coach.nationaliteit,
-        sub: `<span class="club">${esc(club)}</span> <span class="span">· ${span}</span>`,
+        sub: `<span class="club">${esc(club)}${pre ? "*" : ""}</span> <span class="span">· ${span}</span>`,
         extra,
+        report: reportAttrs(club, d ? d.season : span, t.coach),
         chips: chipsHTML(sp.trophies),
         badge: badgeHTML(plural(sp.seasons.length, "season", "seasons"), t.bucket),
     });
@@ -1230,7 +1250,8 @@ function splitSeasonHTML(s) {
     return infoCardHTML({
         photo: `<div class="info-photo split-mark" aria-hidden="true">${"<i></i>".repeat(k)}</div>`,
         nameHTML: lineupHTML(s), nameTitle: lineupText(s),
-        sub: `<span class="club">${esc(s.club)}</span> <span class="span">· ${s.season} · ${plural(s.nCoaches, "manager", "managers")}</span>`,
+        sub: `<span class="club">${esc(s.club)}${predecessorOf(s.club, s.season) ? "*" : ""}</span> <span class="span">· ${s.season} · ${plural(s.nCoaches, "manager", "managers")}</span>`,
+        report: reportAttrs(s.club, s.season, s.trainers.map(tr => tr.naam).join(", ")),
         chips: chipsHTML(trophiesOf([s])),
         badge: badgeHTML("split season", 0),
     });
