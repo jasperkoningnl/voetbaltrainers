@@ -441,7 +441,7 @@ button { font: inherit; color: inherit; }
 .info-sub .club { font-weight: 600; }
 .info-sub .span { color: var(--muted); }
 .info-extra { font-size: .76rem; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.info-extra .interim { font-size: .66rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, .15); border-radius: 4px; padding: 0 .25rem; margin-left: .15rem; }
+.info-name .interim, .info-extra .interim { display: inline-block; vertical-align: .12em; font-size: .66rem; font-weight: 600; line-height: 1.25; border: 1px solid rgba(255, 255, 255, .15); border-radius: 4px; padding: 0 .25rem; margin-left: .3rem; }
 .info-end { display: flex; align-items: center; gap: 8px; }
 .info-report { width: 30px; height: 30px; border-radius: 9px; }
 .legend-star { font-weight: 800; color: var(--secondary); margin-right: .1rem; }

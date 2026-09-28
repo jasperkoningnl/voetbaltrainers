@@ -79,13 +79,12 @@ for (const name of COLLECTIONS) {
     console.log(`${name}: ${collections[name].length} documenten`);
 }
 
-// Tijdelijke, versiebeheerbare aanvulling voor nieuwe seizoenen. Zodra een clubseizoen
-// in Firestore staat, blijft het Firestore-document leidend en worden alleen ontbrekende
-// trainersvelden uit het importbestand aangevuld.
-const seasonImportPath = "data/import_2025-26.json";
+// Gecontroleerde Transfermarkt-aanvulling voor het actuele seizoen en eerder gemarkeerde
+// twijfelgevallen. Deze brondata blijft leidend totdat dezelfde rijen in Firestore staan.
+const seasonImportPath = "data/import_transfermarkt_compleet.json";
 if (fs.existsSync(seasonImportPath)) {
     const rows = JSON.parse(fs.readFileSync(seasonImportPath, "utf8"));
-    mergeSeasonImport(collections, rows);
+    mergeSeasonImport(collections, rows, { overwriteExisting: true });
     console.log(`seizoensaanvulling: ${rows.length} rijen verwerkt`);
 }
 

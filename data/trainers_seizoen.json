@@ -1179,25 +1179,27 @@
    "trainers": [
     {
      "naam": "Olivier Dall'Oglio",
-     "van": "2023-12-15",
-     "tot": "2024-12-15",
+     "van": "2023-12-12",
+     "tot": "2024-12-16",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Laurent Huard",
+     "van": "2024-12-14",
+     "tot": "2024-12-31",
      "interim": true,
-     "datum_precisie": "maand"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Eirik Horneland",
-     "van": "2024-12-15",
-     "tot": "2026-01-15",
+     "van": "2025-01-01",
+     "tot": "2026-01-31",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne",
+   "bron": "https://www.transfermarkt.com/as-saint-etienne/mitarbeiterhistorie/verein/618",
    "bron_revision": "https://fr.wikipedia.org/w/index.php?title=Liste_des_entra%C3%AEneurs_de_l%27AS_Saint-%C3%89tienne&oldid=239604232"
   },
   {
@@ -4432,17 +4434,21 @@
    "seizoen": "1981/82",
    "trainers": [
     {
-     "naam": "Luis Cid \"Carriega\"",
+     "naam": "Carriega",
+     "van": "1981-07-01",
+     "tot": "1981-11-17",
      "interim": false,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     },
     {
      "naam": "José Luis García Traid",
+     "van": "1981-11-17",
+     "tot": "1982-06-30",
      "interim": false,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://es.wikipedia.org/wiki/Anexo:Entrenadores_del_Club_Atl%C3%A9tico_de_Madrid"
+   "bron": "https://www.transfermarkt.com/atletico-de-madrid/mitarbeiterhistorie/verein/13"
   },
   {
    "club": "D4rnFDRfoMUIPzG15beH",
@@ -6433,7 +6439,7 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_S.L._Benfica_managers"
+   "bron": "https://www.transfermarkt.com/sl-benfica/mitarbeiterhistorie/verein/294"
   },
   {
    "club": "tQRa659rLgY01THwRUc3",
@@ -7477,13 +7483,13 @@
    "trainers": [
     {
      "naam": "Hermann Eppenhoff",
-     "van": "1961-08-01",
+     "van": "1961-07-01",
      "tot": "1965-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
+   "bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
   },
   {
    "club": "GBeHWRC1g4erJ6HWkrcd",
@@ -7646,40 +7652,40 @@
     {
      "naam": "Herbert Burdenski",
      "van": "1972-01-03",
-     "tot": "1972-06-30",
+     "tot": "1973-02-28",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
+   "bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
   },
   {
    "club": "GBeHWRC1g4erJ6HWkrcd",
    "seizoen": "1972/73",
    "trainers": [
     {
+     "naam": "Herbert Burdenski",
+     "van": "1972-01-03",
+     "tot": "1973-02-28",
+     "interim": false,
+     "datum_precisie": "dag"
+    },
+    {
      "naam": "Detlev Brüggemann",
-     "van": "1972-07-01",
-     "tot": "1972-10-31",
+     "van": "1973-03-01",
+     "tot": "1973-04-30",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Max Michallek",
-     "van": "1972-11-01",
-     "tot": "1973-03-01",
-     "interim": false,
-     "datum_precisie": "dag"
-    },
-    {
-     "naam": "Dieter Kurrat",
-     "van": "1973-03-01",
+     "van": "1973-04-30",
      "tot": "1973-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/Borussia_Dortmund"
+   "bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
   },
   {
    "club": "GBeHWRC1g4erJ6HWkrcd",
@@ -9402,20 +9408,20 @@
    "trainers": [
     {
      "naam": "André Schubert",
-     "van": "2015-09-21",
+     "van": "2015-11-13",
      "tot": "2016-12-21",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Dieter Hecking",
-     "van": "2017-01-04",
-     "tot": "2019-05-18",
+     "van": "2016-12-21",
+     "tot": "2019-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://de.wikipedia.org/wiki/Borussia_M%C3%B6nchengladbach/Namen_und_Zahlen"
+   "bron": "https://www.transfermarkt.com/borussia-monchengladbach/mitarbeiterhistorie/verein/18"
   },
   {
    "club": "H0TBojKu5xQ2kWQQPDWi",
@@ -10459,20 +10465,20 @@
    "trainers": [
     {
      "naam": "Roberto Di Matteo",
-     "van": "2012-03-04",
+     "van": "2012-07-01",
      "tot": "2012-11-21",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Rafael Benítez",
-     "van": "2012-11-21",
-     "tot": "2013-05-29",
-     "interim": true,
+     "van": "2012-11-22",
+     "tot": "2013-06-30",
+     "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+   "bron": "https://www.transfermarkt.com/chelsea-fc/mitarbeiterhistorie/verein/631"
   },
   {
    "club": "Chelsea",
@@ -10508,20 +10514,20 @@
    "trainers": [
     {
      "naam": "José Mourinho",
-     "van": "2013-06-03",
+     "van": "2013-07-01",
      "tot": "2015-12-17",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Guus Hiddink",
-     "van": "2015-12-20",
-     "tot": "2016-07-03",
+     "van": "2015-12-21",
+     "tot": "2016-06-30",
      "interim": true,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Chelsea_F.C._managers"
+   "bron": "https://www.transfermarkt.com/chelsea-fc/mitarbeiterhistorie/verein/631"
   },
   {
    "club": "Chelsea",
@@ -10921,27 +10927,27 @@
    "trainers": [
     {
      "naam": "Salvador Artigas",
-     "van": "1967-06-15",
+     "van": "1967-07-01",
      "tot": "1969-10-15",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Josep Seguer",
      "van": "1969-10-15",
-     "tot": "1969-12-15",
-     "interim": false,
-     "datum_precisie": "geschat"
+     "tot": "1969-12-28",
+     "interim": true,
+     "datum_precisie": "dag"
     },
     {
      "naam": "Vic Buckingham",
-     "van": "1969-12-15",
-     "tot": "1971-07-15",
+     "van": "1970-01-01",
+     "tot": "1971-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
+   "bron": "https://www.transfermarkt.com/fc-barcelona/mitarbeiterhistorie/verein/131"
   },
   {
    "club": "85OvLAjM0LAOdsm0DZPK",
@@ -11137,21 +11143,21 @@
    "seizoen": "1980/81",
    "trainers": [
     {
-     "naam": "Ladislao Kubala",
-     "van": "1980-05-15",
-     "tot": "1980-11-15",
+     "naam": "László Kubala",
+     "van": "1980-07-01",
+     "tot": "1980-11-05",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Helenio Herrera",
-     "van": "1980-11-15",
-     "tot": "1981-06-15",
+     "van": "1980-11-06",
+     "tot": "1981-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
+   "bron": "https://www.transfermarkt.com/fc-barcelona/mitarbeiterhistorie/verein/131"
   },
   {
    "club": "85OvLAjM0LAOdsm0DZPK",
@@ -11957,27 +11963,20 @@
    "trainers": [
     {
      "naam": "Ettore Puricelli",
-     "van": "1959-08-15",
-     "tot": "1959-11-02",
+     "van": "1959-07-01",
+     "tot": "1959-11-01",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     },
     {
-     "naam": "Ferdinand Daučík",
-     "van": "1959-11-15",
-     "tot": "1960-04-24",
+     "naam": "Ferdinand Daucik",
+     "van": "1959-11-01",
+     "tot": "1960-04-30",
      "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "Francisco Reboredo",
-     "van": "1960-05-15",
-     "tot": "1960-06-15",
-     "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -11985,20 +11984,13 @@
    "trainers": [
     {
      "naam": "Otto Vieira",
-     "van": "1960-06-15",
-     "tot": "1961-03-05",
+     "van": "1960-06-04",
+     "tot": "1961-03-10",
      "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "Francisco Reboredo",
-     "van": "1961-03-12",
-     "tot": "1961-07-09",
-     "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12062,13 +12054,13 @@
    "trainers": [
     {
      "naam": "Otto Glória",
-     "van": "1963-11-17",
-     "tot": "1965-05-09",
+     "van": "1963-11-13",
+     "tot": "1965-06-30",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12076,20 +12068,13 @@
    "trainers": [
     {
      "naam": "Flávio Costa",
-     "van": "1965-08-15",
-     "tot": "1966-04-03",
+     "van": "1965-08-02",
+     "tot": "1966-04-05",
      "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "Virgílio Mendes",
-     "van": "1966-04-10",
-     "tot": "1966-05-02",
-     "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12177,52 +12162,24 @@
      "van": "1970-02-15",
      "tot": "1971-05-03",
      "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "António Teixeira",
-     "van": "1971-05-03",
-     "tot": "1971-10-31",
-     "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
    "seizoen": "1971/72",
    "trainers": [
     {
-     "naam": "António Teixeira",
-     "van": "1971-05-03",
-     "tot": "1971-10-31",
-     "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "Artur Baeta",
-     "van": "1971-10-31",
-     "tot": "1971-11-15",
-     "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
      "naam": "Paulo Amaral",
      "van": "1971-11-15",
-     "tot": "1972-03-15",
+     "tot": "1972-03-06",
      "interim": false,
-     "datum_precisie": "gemengd"
-    },
-    {
-     "naam": "António Feliciano",
-     "van": "1972-03-15",
-     "tot": "1972-06-15",
-     "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12278,21 +12235,21 @@
    "seizoen": "1975/76",
    "trainers": [
     {
-     "naam": "Branko Stanković",
-     "van": "1975-08-15",
-     "tot": "1976-01-15",
+     "naam": "Branko Stankovic",
+     "van": "1975-07-01",
+     "tot": "1976-01-26",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Monteiro da Costa",
-     "van": "1976-01-15",
-     "tot": "1976-06-15",
+     "van": "1976-01-27",
+     "tot": "1976-06-30",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12342,13 +12299,13 @@
    "trainers": [
     {
      "naam": "José Maria Pedroto",
-     "van": "1976-07-15",
-     "tot": "1980-07-12",
+     "van": "1976-07-01",
+     "tot": "1980-06-30",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -12370,13 +12327,13 @@
    "trainers": [
     {
      "naam": "Hermann Stessl",
-     "van": "1980-07-12",
-     "tot": "1982-05-15",
+     "van": "1980-07-01",
+     "tot": "1982-06-30",
      "interim": false,
-     "datum_precisie": "gemengd"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_FC_Porto_managers"
+   "bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
   },
   {
    "club": "BojctiuCmCJkPxn8YcAU",
@@ -14229,16 +14186,13 @@
    "trainers": [
     {
      "naam": "Hans Kraay",
+     "van": "1982-07-01",
+     "tot": "1983-06-30",
      "interim": false,
-     "datum_precisie": "seizoen"
-    },
-    {
-     "naam": "Ab Fafié",
-     "interim": true,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Feyenoord_(mannen)"
+   "bron": "https://www.transfermarkt.com/feyenoord-rotterdam/mitarbeiterhistorie/verein/234"
   },
   {
    "club": "Feyenoord",
@@ -14357,16 +14311,20 @@
    "trainers": [
     {
      "naam": "Hans Dorjee",
+     "van": "1991-07-01",
+     "tot": "1992-03-18",
      "interim": false,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Wim Jansen",
-     "interim": false,
-     "datum_precisie": "seizoen"
+     "van": "1992-03-19",
+     "tot": "1992-06-30",
+     "interim": true,
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://nl.wikipedia.org/wiki/Lijst_van_trainers_van_Feyenoord_(mannen)"
+   "bron": "https://www.transfermarkt.com/feyenoord-rotterdam/mitarbeiterhistorie/verein/234"
   },
   {
    "club": "Feyenoord",
@@ -15024,21 +14982,14 @@
    "seizoen": "1968/69",
    "trainers": [
     {
-     "naam": "Kurt Koch",
-     "van": "1967-07-01",
-     "tot": "1969-05-15",
-     "interim": false,
-     "datum_precisie": "dag"
-    },
-    {
      "naam": "Georg Knöpfle",
-     "van": "1969-05-16",
+     "van": "1968-07-01",
      "tot": "1970-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://de.wikipedia.org/wiki/Hamburger_SV/Namen_und_Zahlen"
+   "bron": "https://www.transfermarkt.com/hamburger-sv/mitarbeiterhistorie/verein/41"
   },
   {
    "club": "9jrnppeJRuho3d36Iz04",
@@ -16034,19 +15985,26 @@
     {
      "naam": "Steffen Baumgart",
      "van": "2024-02-20",
-     "tot": "2024-11-23",
+     "tot": "2024-11-24",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Merlin Polzin",
-     "van": "2024-11-24",
-     "tot": "2026-06-30",
+     "van": "2024-11-25",
+     "tot": "2024-12-22",
+     "interim": true,
+     "datum_precisie": "dag"
+    },
+    {
+     "naam": "Merlin Polzin",
+     "van": "2024-12-23",
+     "tot": null,
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://de.wikipedia.org/wiki/Hamburger_SV/Namen_und_Zahlen"
+   "bron": "https://www.transfermarkt.com/hamburger-sv/mitarbeiterhistorie/verein/41"
   },
   {
    "club": "8UrbfQn5FBUwogRqFyPa",
@@ -20335,20 +20293,20 @@
    "trainers": [
     {
      "naam": "Wilf McGuinness",
-     "van": "1969-06-04",
+     "van": "1969-08-09",
      "tot": "1970-12-29",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Matt Busby",
+     "naam": "Sir Matt Busby",
      "van": "1970-12-29",
      "tot": "1971-06-08",
-     "interim": true,
+     "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Manchester_United_F.C._managers"
+   "bron": "https://www.transfermarkt.com/manchester-united/mitarbeiterhistorie/verein/985"
   },
   {
    "club": "Manchester United",
@@ -23472,26 +23430,19 @@
     {
      "naam": "Jean-Pierre Destrumelle",
      "van": "1980-07-01",
-     "tot": "1981-11-15",
+     "tot": "1981-11-22",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
-     "naam": "Vladimir Kovačević",
-     "van": "1981-11-15",
-     "tot": "1982-02-15",
+     "naam": "Vladimir Kovacevic",
+     "van": "1981-11-22",
+     "tot": "1983-02-22",
      "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Robert Herbin",
-     "van": "1982-02-15",
-     "tot": "1984-06-30",
-     "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
+   "bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
   },
   {
    "club": "YCalvrmVY7QcAzrvlt7m",
@@ -23526,14 +23477,14 @@
    "seizoen": "1984/85",
    "trainers": [
     {
-     "naam": "Robert Nouzaret",
-     "van": "1984-07-01",
-     "tot": "1987-10-15",
+     "naam": "Robert Herbin",
+     "van": "1983-02-22",
+     "tot": "1985-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
+   "bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
   },
   {
    "club": "YCalvrmVY7QcAzrvlt7m",
@@ -23710,19 +23661,19 @@
     {
      "naam": "Guy Stéphan",
      "van": "1995-07-01",
-     "tot": "1996-10-15",
+     "tot": "1996-11-01",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Bernard Lacombe",
-     "van": "1996-10-15",
+     "van": "1996-12-02",
      "tot": "2000-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Olympique_lyonnais"
+   "bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
   },
   {
    "club": "YCalvrmVY7QcAzrvlt7m",
@@ -24263,40 +24214,33 @@
     {
      "naam": "Lucien Troupel",
      "van": "1959-07-01",
-     "tot": "1962-02-15",
+     "tot": "1962-01-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Otto Glória",
-     "van": "1962-02-15",
-     "tot": "1962-07-15",
+     "van": "1962-02-01",
+     "tot": "1962-05-31",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
    "seizoen": "1962/63",
    "trainers": [
     {
-     "naam": "Armand Penverne",
-     "van": "1962-07-15",
-     "tot": "1962-12-15",
+     "naam": "Lluís Miró",
+     "van": "1962-12-01",
+     "tot": "1963-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Luis Miró",
-     "van": "1962-12-15",
-     "tot": "1963-07-15",
-     "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24335,10 +24279,10 @@
      "van": "1964-07-01",
      "tot": "1966-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24472,34 +24416,27 @@
    "trainers": [
     {
      "naam": "Mario Zatelli",
-     "van": "1973-03-15",
-     "tot": "1973-08-15",
+     "van": "1973-03-01",
+     "tot": "1973-08-11",
      "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Joseph Bonnel",
-     "van": "1973-08-15",
-     "tot": "1973-12-15",
-     "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Fernando Riera",
-     "van": "1973-12-15",
-     "tot": "1974-02-15",
+     "van": "1973-12-02",
+     "tot": "1974-02-16",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Jules Zvunka",
-     "van": "1974-02-15",
+     "van": "1974-02-16",
      "tot": "1976-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24536,19 +24473,19 @@
     {
      "naam": "José Arribas",
      "van": "1976-07-01",
-     "tot": "1977-02-15",
+     "tot": "1977-02-01",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Jules Zvunka",
-     "van": "1977-02-15",
-     "tot": "1977-07-15",
+     "van": "1977-02-01",
+     "tot": "1977-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24591,20 +24528,20 @@
    "trainers": [
     {
      "naam": "Jules Zvunka",
-     "van": "1978-12-15",
-     "tot": "1980-02-15",
+     "van": "1978-12-13",
+     "tot": "1980-02-04",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Jean Robin",
-     "van": "1980-02-15",
-     "tot": "1980-09-15",
+     "van": "1980-02-04",
+     "tot": "1980-09-01",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24612,27 +24549,27 @@
    "trainers": [
     {
      "naam": "Jean Robin",
-     "van": "1980-02-15",
-     "tot": "1980-09-15",
+     "van": "1980-02-04",
+     "tot": "1980-09-01",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Albert Batteux",
-     "van": "1980-09-15",
-     "tot": "1981-04-15",
+     "van": "1980-07-01",
+     "tot": "1981-03-01",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Roland Gransart",
-     "van": "1981-04-15",
-     "tot": "1984-10-01",
+     "van": "1981-04-14",
+     "tot": "1984-10-04",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24878,36 +24815,34 @@
    "trainers": [
     {
      "naam": "Marc Bourrier",
-     "van": "1993-06-15",
-     "tot": "1994-12-01",
+     "van": "1993-07-01",
+     "tot": "1994-12-15",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Gérard Gili",
-     "van": "1994-12-01",
-     "tot": "1994-12-10",
+     "van": "1994-11-22",
+     "tot": "1994-12-15",
      "interim": true,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Henri Stambouli",
-     "bron_omschrijving": "Henri Stambouli & Luka Peruzović",
-     "van": "1995-01-15",
-     "tot": "1995-06-15",
+     "van": "1994-12-16",
+     "tot": "1995-09-15",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
-     "naam": "Luka Peruzović",
-     "bron_omschrijving": "Henri Stambouli & Luka Peruzović",
-     "van": "1995-01-15",
-     "tot": "1995-06-15",
+     "naam": "Luka Peruzovic",
+     "van": "1994-12-16",
+     "tot": "1995-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -24978,20 +24913,20 @@
    "trainers": [
     {
      "naam": "Rolland Courbis",
-     "van": "1997-06-15",
-     "tot": "1999-11-15",
+     "van": "1997-07-01",
+     "tot": "1999-11-24",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Bernard Casoni",
-     "van": "1999-11-15",
-     "tot": "2000-07-15",
+     "van": "1999-11-25",
+     "tot": "2000-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -25042,37 +24977,35 @@
    "seizoen": "2001/02",
    "trainers": [
     {
-     "naam": "Josip Skoblar",
-     "bron_omschrijving": "Josip Skoblar & Marc Lévy",
-     "van": "2001-08-01",
-     "tot": "2001-08-10",
+     "naam": "José Anigo",
+     "van": "2001-07-25",
+     "tot": "2001-08-24",
      "interim": true,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Marc Lévy",
-     "bron_omschrijving": "Josip Skoblar & Marc Lévy",
-     "van": "2001-08-01",
-     "tot": "2001-08-10",
-     "interim": true,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Tomislav Ivić",
-     "van": "2001-08-15",
-     "tot": "2001-12-15",
-     "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Albert Emon",
-     "van": "2001-12-15",
-     "tot": "2002-06-15",
+     "van": "2001-08-25",
+     "tot": "2001-08-30",
+     "interim": true,
+     "datum_precisie": "dag"
+    },
+    {
+     "naam": "Tomislav Ivic",
+     "van": "2001-08-31",
+     "tot": "2001-11-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
+    },
+    {
+     "naam": "Albert Emon",
+     "van": "2001-12-10",
+     "tot": "2002-06-30",
+     "interim": false,
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
+   "bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
   },
   {
    "club": "XRATf73G3L6okg5K8WcX",
@@ -26445,13 +26378,20 @@
    "trainers": [
     {
      "naam": "Robert Vicot",
-     "van": "1972-08-15",
-     "tot": "1975-08-15",
+     "van": "1972-07-01",
+     "tot": "1975-09-09",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
+    },
+    {
+     "naam": "Just Fontaine",
+     "van": "1973-07-01",
+     "tot": "1976-06-30",
+     "interim": false,
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
+   "bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
   },
   {
    "club": "wJOZsa6hs3Uvm7DvuMSM",
@@ -26459,13 +26399,20 @@
    "trainers": [
     {
      "naam": "Robert Vicot",
-     "van": "1972-08-15",
-     "tot": "1975-08-15",
+     "van": "1972-07-01",
+     "tot": "1975-09-09",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
+    },
+    {
+     "naam": "Just Fontaine",
+     "van": "1973-07-01",
+     "tot": "1976-06-30",
+     "interim": false,
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
+   "bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
   },
   {
    "club": "wJOZsa6hs3Uvm7DvuMSM",
@@ -26991,20 +26938,20 @@
    "trainers": [
     {
      "naam": "Laurent Fournier",
-     "van": "2005-02-15",
-     "tot": "2005-12-15",
+     "van": "2005-02-09",
+     "tot": "2005-12-27",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Guy Lacombe",
-     "van": "2006-01-01",
+     "van": "2005-12-27",
      "tot": "2007-01-15",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
+   "bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
   },
   {
    "club": "wJOZsa6hs3Uvm7DvuMSM",
@@ -27089,20 +27036,20 @@
    "trainers": [
     {
      "naam": "Antoine Kombouaré",
-     "van": "2009-08-15",
+     "van": "2009-07-01",
      "tot": "2011-12-29",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Carlo Ancelotti",
-     "van": "2011-12-30",
-     "tot": "2013-05-15",
+     "van": "2012-01-01",
+     "tot": "2013-06-30",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
+   "bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
   },
   {
    "club": "wJOZsa6hs3Uvm7DvuMSM",
@@ -27222,20 +27169,20 @@
    "trainers": [
     {
      "naam": "Thomas Tuchel",
-     "van": "2018-08-15",
-     "tot": "2020-12-24",
+     "van": "2018-07-01",
+     "tot": "2020-12-29",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     },
     {
      "naam": "Mauricio Pochettino",
      "van": "2021-01-02",
      "tot": "2022-07-05",
      "interim": false,
-     "datum_precisie": "geschat"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Paris_Saint-Germain_FC_managers"
+   "bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
   },
   {
    "club": "wJOZsa6hs3Uvm7DvuMSM",
@@ -27572,27 +27519,20 @@
    "trainers": [
     {
      "naam": "Miguel Muñoz",
-     "van": "1960-04-13",
-     "tot": "1974-01-15",
+     "van": "1960-04-17",
+     "tot": "1974-01-13",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Luis Molowny",
      "van": "1974-01-15",
-     "tot": "1974-05-15",
-     "interim": false,
-     "datum_precisie": "dag"
-    },
-    {
-     "naam": "Miljan Miljanić",
-     "van": "1974-05-15",
-     "tot": "1977-09-07",
+     "tot": "1974-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
+   "bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
   },
   {
    "club": "2NbZIFgUstEPkBjmCz1F",
@@ -28125,7 +28065,7 @@
    "trainers": [
     {
      "naam": "Vanderlei Luxemburgo",
-     "van": "2004-12-30",
+     "van": "2005-01-01",
      "tot": "2005-12-04",
      "interim": false,
      "datum_precisie": "dag"
@@ -28133,12 +28073,12 @@
     {
      "naam": "Juan Ramón López Caro",
      "van": "2005-12-04",
-     "tot": "2006-06-01",
+     "tot": "2006-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
+   "bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
   },
   {
    "club": "2NbZIFgUstEPkBjmCz1F",
@@ -28279,20 +28219,20 @@
    "trainers": [
     {
      "naam": "Rafael Benítez",
-     "van": "2015-06-03",
+     "van": "2015-07-01",
      "tot": "2016-01-04",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Zinedine Zidane",
+     "naam": "Zinédine Zidane",
      "van": "2016-01-04",
-     "tot": "2018-05-31",
+     "tot": "2018-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Real_Madrid_CF_managers"
+   "bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
   },
   {
    "club": "2NbZIFgUstEPkBjmCz1F",
@@ -28561,26 +28501,27 @@
    "trainers": [
     {
      "naam": "Alfredo Foni",
+     "van": "1962-10-30",
+     "tot": "1963-11-04",
      "interim": false,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     },
     {
-     "naam": "Luis Miró",
-     "interim": false,
-     "datum_precisie": "seizoen"
-    },
-    {
-     "naam": "Naim Krieziu",
+     "naam": "Naim Kryeziu",
+     "van": "1963-11-16",
+     "tot": "1963-11-18",
      "interim": true,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     },
     {
-     "naam": "Luis Miró",
+     "naam": "Lluís Miró",
+     "van": "1963-11-18",
+     "tot": "1964-06-30",
      "interim": false,
-     "datum_precisie": "seizoen"
+     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://it.wikipedia.org/wiki/Allenatori_e_presidenti_dell%27Associazione_Sportiva_Roma"
+   "bron": "https://www.transfermarkt.com/as-rom/mitarbeiterhistorie/verein/12"
   },
   {
    "club": "LrYnxLTn06kBDJkfMq8l",
@@ -29611,13 +29552,13 @@
    "trainers": [
     {
      "naam": "Otto Glória",
-     "van": "1965-09-01",
+     "van": "1965-07-01",
      "tot": "1966-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -29716,7 +29657,7 @@
    "trainers": [
     {
      "naam": "Fernando Vaz",
-     "van": "1969-05-28",
+     "van": "1969-06-08",
      "tot": "1972-02-06",
      "interim": false,
      "datum_precisie": "dag"
@@ -29729,7 +29670,7 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -29778,21 +29719,14 @@
      "datum_precisie": "dag"
     },
     {
-     "naam": "Osvaldo Silva",
-     "van": "1974-09-14",
-     "tot": "1974-12-15",
-     "interim": false,
-     "datum_precisie": "dag"
-    },
-    {
      "naam": "Fernando Riera",
-     "van": "1974-12-22",
+     "van": "1974-12-17",
      "tot": "1975-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -29888,16 +29822,9 @@
      "tot": "1980-12-07",
      "interim": false,
      "datum_precisie": "dag"
-    },
-    {
-     "naam": "Srećko Radišić",
-     "van": "1980-12-21",
-     "tot": "1981-06-30",
-     "interim": false,
-     "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -30221,12 +30148,12 @@
     {
      "naam": "Octávio Machado",
      "van": "1996-12-02",
-     "tot": "1997-11-01",
+     "tot": "1997-11-02",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -30313,7 +30240,7 @@
      "naam": "Fernando Mendes",
      "van": "2000-12-04",
      "tot": "2001-01-21",
-     "interim": false,
+     "interim": true,
      "datum_precisie": "dag"
     },
     {
@@ -30324,7 +30251,7 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -30662,14 +30589,14 @@
     {
      "naam": "Marcel Keizer",
      "van": "2018-11-12",
-     "tot": "2019-09-05",
+     "tot": "2019-09-03",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Leonel Pontes",
-     "van": "2019-09-05",
-     "tot": "2019-09-26",
+     "van": "2019-09-04",
+     "tot": "2019-09-27",
      "interim": true,
      "datum_precisie": "dag"
     },
@@ -30682,13 +30609,13 @@
     },
     {
      "naam": "Ruben Amorim",
-     "van": "2020-03-04",
+     "van": "2020-03-05",
      "tot": "2024-11-10",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Sporting_CP_managers"
+   "bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
   },
   {
    "club": "8BTXh26lWn0hNfcLQhIz",
@@ -30821,21 +30748,21 @@
    "seizoen": "1958/59",
    "trainers": [
     {
-     "naam": "Luis Miró",
+     "naam": "Lluís Miró",
      "van": "1956-07-01",
-     "tot": "1958-12-30",
+     "tot": "1959-01-01",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Jacinto Quincoces",
-     "van": "1958-12-30",
-     "tot": "1959-09-15",
+     "van": "1959-01-01",
+     "tot": "1959-09-13",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -30843,20 +30770,20 @@
    "trainers": [
     {
      "naam": "Jacinto Quincoces",
-     "van": "1958-12-30",
-     "tot": "1959-09-15",
+     "van": "1959-01-01",
+     "tot": "1959-09-13",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Pedro Otto Bumbel",
-     "van": "1959-09-15",
+     "naam": "Otto Bumbel",
+     "van": "1959-09-14",
      "tot": "1960-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -30878,13 +30805,13 @@
    "trainers": [
     {
      "naam": "Domingo Balmanya",
-     "van": "1960-07-17",
+     "van": "1960-07-01",
      "tot": "1962-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -30942,19 +30869,12 @@
     {
      "naam": "Sabino Barinaga",
      "van": "1965-07-01",
-     "tot": "1966-05-14",
-     "interim": false,
-     "datum_precisie": "dag"
-    },
-    {
-     "naam": "\"Mundo\"",
-     "van": "1966-05-14",
-     "tot": "1968-10-15",
+     "tot": "1966-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -30989,21 +30909,21 @@
    "seizoen": "1968/69",
    "trainers": [
     {
-     "naam": "\"Mundo\"",
-     "van": "1966-05-14",
-     "tot": "1968-10-15",
+     "naam": "Mundo",
+     "van": "1968-09-15",
+     "tot": "1968-10-13",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "José Iglesias Fernández",
+     "naam": "Joseíto",
      "van": "1968-10-15",
-     "tot": "1969-10-15",
+     "tot": "1969-10-13",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -31108,21 +31028,21 @@
    "seizoen": "1975/76",
    "trainers": [
     {
-     "naam": "Dragoljub Milošević",
-     "van": "1975-04-11",
-     "tot": "1975-09-21",
+     "naam": "Dragoljub Milosevic",
+     "van": "1975-04-08",
+     "tot": "1975-09-22",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Manolo Mestre",
-     "van": "1975-09-21",
+     "naam": "Manuel Mestre",
+     "van": "1975-09-22",
      "tot": "1976-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -31185,49 +31105,49 @@
    "seizoen": "1979/80",
    "trainers": [
     {
-     "naam": "Alfredo Di Stéfano",
+     "naam": "Alfredo di Stéfano",
      "van": "1979-07-01",
      "tot": "1980-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
    "seizoen": "1980/81",
    "trainers": [
     {
-     "naam": "Bernardino Pérez \"Pasieguito\"",
+     "naam": "Pasieguito",
      "van": "1980-07-01",
-     "tot": "1982-01-04",
+     "tot": "1982-01-03",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
    "seizoen": "1981/82",
    "trainers": [
     {
-     "naam": "Bernardino Pérez \"Pasieguito\"",
+     "naam": "Pasieguito",
      "van": "1980-07-01",
-     "tot": "1982-01-04",
+     "tot": "1982-01-03",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Manolo Mestre",
-     "van": "1982-01-04",
+     "naam": "Manuel Mestre",
+     "van": "1982-01-05",
      "tot": "1982-11-01",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -31425,40 +31345,40 @@
     {
      "naam": "Guus Hiddink",
      "van": "1991-07-01",
-     "tot": "1993-11-15",
+     "tot": "1993-11-18",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Paco Real",
-     "van": "1993-11-15",
-     "tot": "1993-12-15",
-     "interim": true,
+     "van": "1993-11-20",
+     "tot": "1993-12-20",
+     "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Héctor Núñez",
-     "van": "1993-12-15",
-     "tot": "1994-03-10",
+     "van": "1993-12-21",
+     "tot": "1994-03-07",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "José Manuel Rielo",
-     "van": "1994-03-10",
-     "tot": "1994-03-24",
-     "interim": true,
+     "van": "1994-03-07",
+     "tot": "1994-03-21",
+     "interim": false,
      "datum_precisie": "dag"
     },
     {
      "naam": "Guus Hiddink",
-     "van": "1994-03-24",
+     "van": "1994-03-26",
      "tot": "1994-06-30",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -31823,21 +31743,21 @@
    "trainers": [
     {
      "naam": "Nuno Espírito Santo",
-     "van": "2014-07-04",
+     "van": "2014-07-01",
      "tot": "2015-11-29",
      "interim": false,
      "datum_precisie": "dag"
     },
     {
-     "naam": "Salvador González \"Voro\"",
-     "van": "2015-11-30",
-     "tot": "2015-12-05",
+     "naam": "Voro",
+     "van": "2015-11-29",
+     "tot": "2015-12-06",
      "interim": true,
      "datum_precisie": "dag"
     },
     {
      "naam": "Gary Neville",
-     "van": "2015-12-05",
+     "van": "2015-12-08",
      "tot": "2016-03-30",
      "interim": false,
      "datum_precisie": "dag"
@@ -31850,7 +31770,7 @@
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "2A2fJ25KgL5bPWb8zwom",
@@ -32041,12 +31961,12 @@
     {
      "naam": "Carlos Corberán",
      "van": "2024-12-25",
-     "tot": "2026-06-30",
+     "tot": "2026-09-13",
      "interim": false,
      "datum_precisie": "dag"
     }
    ],
-   "bron": "https://en.wikipedia.org/wiki/List_of_Valencia_CF_managers"
+   "bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
   },
   {
    "club": "lOdz3Tpl8aGYR3QgDCDJ",

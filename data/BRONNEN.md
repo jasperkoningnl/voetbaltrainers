@@ -60,7 +60,7 @@ Gericht testen kan met bijvoorbeeld `--clubs Ajax`, `--limit 1` en `--refresh`. 
 
 De import gebruikt dezelfde seizoensregel als de site: een trainer telt mee bij minstens drie kalenderdagen tussen 1 augustus en 20 mei. Zomerbenoemingen en zeer korte interims buiten dat venster tellen daardoor niet mee. De originele datums blijven ongewijzigd in het rapport staan.
 
-Voor 2025/26 bouwt `node data/bronnen/maak_seizoensimport.mjs 2025/26` uit het gecontroleerde rapport het dashboardbestand `data/import_2025-26.json`. De prijswinnaars en hun controlelinks staan apart in `data/bronnen/prijzen_2025-26.json`. Met `node data/bronnen/merge_seizoensimport.mjs` worden die rijen ook in de publieke snapshot en de lokale terugvaldata gezet. De dagelijkse Firestore-export past dezelfde aanvulling toe zolang de nieuwe clubseizoenen nog niet in Firestore staan.
+Voor 2025/26 bouwt `node data/bronnen/maak_seizoensimport.mjs 2025/26` uit het gecontroleerde rapport het dashboardbestand `data/import_2025-26.json`. De prijswinnaars en hun controlelinks staan apart in `data/bronnen/prijzen_2025-26.json`. `node data/bronnen/maak_twijfelimport.mjs` combineert dit met de 66 opgeloste historische twijfelgevallen tot `data/import_transfermarkt_compleet.json`. Met `node data/bronnen/merge_seizoensimport.mjs` worden die 101 rijen ook in de publieke snapshot en de lokale terugvaldata gezet. De dagelijkse Firestore-export past dezelfde aanvulling toe zolang deze gegevens nog niet in Firestore staan.
 
 ## football-data.org
 

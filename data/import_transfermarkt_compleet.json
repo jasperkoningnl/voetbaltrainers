@@ -1,0 +1,2941 @@
+[
+  {
+    "club": "Ajax",
+    "clubId": "Ajax",
+    "seizoen": "2025/26",
+    "coach": "John Heitinga",
+    "coach_transfermarkt_id": "51774",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "John Heitinga",
+        "van": "2025-07-01",
+        "tot": "2025-11-06",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Fred Grim",
+        "van": "2025-11-06",
+        "tot": "2026-03-08",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Óscar García",
+        "van": "2026-03-08",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/ajax-amsterdam/mitarbeiterhistorie/verein/610"
+  },
+  {
+    "club": "Arsenal",
+    "clubId": "Arsenal",
+    "seizoen": "2025/26",
+    "coach": "Mikel Arteta",
+    "coach_transfermarkt_id": "47620",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "England",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Mikel Arteta",
+        "van": "2019-12-22",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/arsenal-fc/mitarbeiterhistorie/verein/11"
+  },
+  {
+    "club": "AS Monaco",
+    "clubId": "2toLzeIWzL3pB2Do9KdZ",
+    "seizoen": "2025/26",
+    "coach": "Sébastien Pocognoli",
+    "coach_transfermarkt_id": "94759",
+    "nationaliteit": "Belgian",
+    "nat_code": "be",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Adi Hütter",
+        "van": "2023-07-04",
+        "tot": "2025-10-10",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Sébastien Pocognoli",
+        "van": "2025-10-11",
+        "tot": "2026-06-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/as-monaco/mitarbeiterhistorie/verein/162"
+  },
+  {
+    "club": "AS Saint-Étienne",
+    "clubId": "6Tba4VM0rwhqtr10N8ka",
+    "seizoen": "2024/25",
+    "coach": "Eirik Horneland",
+    "coach_transfermarkt_id": "23209",
+    "nationaliteit": "Norwegian",
+    "nat_code": "no",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Olivier Dall'Oglio",
+        "van": "2023-12-12",
+        "tot": "2024-12-16",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Laurent Huard",
+        "van": "2024-12-14",
+        "tot": "2024-12-31",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Eirik Horneland",
+        "van": "2025-01-01",
+        "tot": "2026-01-31",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/as-saint-etienne/mitarbeiterhistorie/verein/618"
+  },
+  {
+    "club": "AS Saint-Étienne",
+    "clubId": "6Tba4VM0rwhqtr10N8ka",
+    "seizoen": "2025/26",
+    "coach": "Eirik Horneland",
+    "coach_transfermarkt_id": "23209",
+    "nationaliteit": "Norwegian",
+    "nat_code": "no",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Eirik Horneland",
+        "van": "2025-01-01",
+        "tot": "2026-01-31",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Philippe Montanier",
+        "van": "2026-02-01",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/as-saint-etienne/mitarbeiterhistorie/verein/618"
+  },
+  {
+    "club": "Athletic Bilbao",
+    "clubId": "A8mQzWeh6B4LNbHFdhIt",
+    "seizoen": "2025/26",
+    "coach": "Ernesto Valverde",
+    "coach_transfermarkt_id": "1559",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Ernesto Valverde",
+        "van": "2022-07-01",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/athletic-bilbao/mitarbeiterhistorie/verein/621"
+  },
+  {
+    "club": "Atlético Madrid",
+    "clubId": "D4rnFDRfoMUIPzG15beH",
+    "seizoen": "1981/82",
+    "coach": "José Luis García Traid",
+    "coach_transfermarkt_id": "33572",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Carriega",
+        "van": "1981-07-01",
+        "tot": "1981-11-17",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "José Luis García Traid",
+        "van": "1981-11-17",
+        "tot": "1982-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/atletico-de-madrid/mitarbeiterhistorie/verein/13"
+  },
+  {
+    "club": "Atlético Madrid",
+    "clubId": "D4rnFDRfoMUIPzG15beH",
+    "seizoen": "2025/26",
+    "coach": "Diego Simeone",
+    "coach_transfermarkt_id": "2868",
+    "nationaliteit": "Argentine",
+    "nat_code": "ar",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Diego Simeone",
+        "van": "2011-12-23",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/atletico-de-madrid/mitarbeiterhistorie/verein/13"
+  },
+  {
+    "club": "AZ",
+    "clubId": "AZ",
+    "seizoen": "2025/26",
+    "coach": "Maarten Martens",
+    "coach_transfermarkt_id": "49088",
+    "nationaliteit": "Belgian",
+    "nat_code": "be",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Maarten Martens",
+        "van": "2024-01-17",
+        "tot": "2026-01-18",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Lee-Roy Echteld",
+        "van": "2026-01-18",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/az-alkmaar/mitarbeiterhistorie/verein/1090"
+  },
+  {
+    "club": "Bayern München",
+    "clubId": "AilVcfD75AOdPahnJ2Vb",
+    "seizoen": "2025/26",
+    "coach": "Vincent Kompany",
+    "coach_transfermarkt_id": "69681",
+    "nationaliteit": "Belgian",
+    "nat_code": "be",
+    "land": "Germany",
+    "landstitel": "Y",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Vincent Kompany",
+        "van": "2024-07-01",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-bayern-munchen/mitarbeiterhistorie/verein/27"
+  },
+  {
+    "club": "Benfica",
+    "clubId": "tQRa659rLgY01THwRUc3",
+    "seizoen": "1967/68",
+    "coach": "Fernando Cabrita",
+    "coach_transfermarkt_id": "22993",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Fernando Riera",
+        "van": "1966-07-01",
+        "tot": "1967-11-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Fernando Cabrita",
+        "van": "1967-12-01",
+        "tot": "1968-04-07",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Otto Glória",
+        "van": "1968-04-08",
+        "tot": "1970-02-08",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sl-benfica/mitarbeiterhistorie/verein/294"
+  },
+  {
+    "club": "Benfica",
+    "clubId": "tQRa659rLgY01THwRUc3",
+    "seizoen": "2025/26",
+    "coach": "José Mourinho",
+    "coach_transfermarkt_id": "781",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Bruno Lage",
+        "van": "2024-09-05",
+        "tot": "2025-09-17",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "José Mourinho",
+        "van": "2025-09-18",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sl-benfica/mitarbeiterhistorie/verein/294"
+  },
+  {
+    "club": "Boavista",
+    "clubId": "vikme8KcxoGUSldIiZ7f",
+    "seizoen": "2025/26",
+    "coach": "Jorge Couto",
+    "coach_transfermarkt_id": "70073",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Jorge Couto",
+        "van": "2025-07-01",
+        "tot": "2026-02-02",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Pedras",
+        "van": "2026-02-03",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/boavista-porto-fc/mitarbeiterhistorie/verein/2503"
+  },
+  {
+    "club": "Borussia Dortmund",
+    "clubId": "GBeHWRC1g4erJ6HWkrcd",
+    "seizoen": "1961/62",
+    "coach": "Hermann Eppenhoff",
+    "coach_transfermarkt_id": "953",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Hermann Eppenhoff",
+        "van": "1961-07-01",
+        "tot": "1965-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
+  },
+  {
+    "club": "Borussia Dortmund",
+    "clubId": "GBeHWRC1g4erJ6HWkrcd",
+    "seizoen": "1971/72",
+    "coach": "Horst Witzler",
+    "coach_transfermarkt_id": "981",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Horst Witzler",
+        "van": "1970-07-01",
+        "tot": "1971-12-21",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Herbert Burdenski",
+        "van": "1972-01-03",
+        "tot": "1973-02-28",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
+  },
+  {
+    "club": "Borussia Dortmund",
+    "clubId": "GBeHWRC1g4erJ6HWkrcd",
+    "seizoen": "1972/73",
+    "coach": "Herbert Burdenski",
+    "coach_transfermarkt_id": "850",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Herbert Burdenski",
+        "van": "1972-01-03",
+        "tot": "1973-02-28",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Detlev Brüggemann",
+        "van": "1973-03-01",
+        "tot": "1973-04-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Max Michallek",
+        "van": "1973-04-30",
+        "tot": "1973-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
+  },
+  {
+    "club": "Borussia Dortmund",
+    "clubId": "GBeHWRC1g4erJ6HWkrcd",
+    "seizoen": "2025/26",
+    "coach": "Niko Kovač",
+    "coach_transfermarkt_id": "10463",
+    "nationaliteit": "Croatian",
+    "nat_code": "hr",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Niko Kovac",
+        "van": "2025-02-02",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-dortmund/mitarbeiterhistorie/verein/16"
+  },
+  {
+    "club": "Borussia Mönchengladbach",
+    "clubId": "H0TBojKu5xQ2kWQQPDWi",
+    "seizoen": "2016/17",
+    "coach": "Dieter Hecking",
+    "coach_transfermarkt_id": "306",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "André Schubert",
+        "van": "2015-11-13",
+        "tot": "2016-12-21",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Dieter Hecking",
+        "van": "2016-12-21",
+        "tot": "2019-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-monchengladbach/mitarbeiterhistorie/verein/18"
+  },
+  {
+    "club": "Borussia Mönchengladbach",
+    "clubId": "H0TBojKu5xQ2kWQQPDWi",
+    "seizoen": "2025/26",
+    "coach": "Eugen Polanski",
+    "coach_transfermarkt_id": "66014",
+    "nationaliteit": "Polish",
+    "nat_code": "pl",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Gerardo Seoane",
+        "van": "2023-06-06",
+        "tot": "2025-09-15",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Eugen Polanski",
+        "van": "2025-09-15",
+        "tot": "2025-11-17",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Eugen Polanski",
+        "van": "2025-11-18",
+        "tot": "2026-09-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/borussia-monchengladbach/mitarbeiterhistorie/verein/18"
+  },
+  {
+    "club": "Chelsea",
+    "clubId": "Chelsea",
+    "seizoen": "2012/13",
+    "coach": "Rafael Benítez",
+    "coach_transfermarkt_id": "1522",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "Y",
+    "trainers_seizoen": [
+      {
+        "naam": "Roberto Di Matteo",
+        "van": "2012-07-01",
+        "tot": "2012-11-21",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Rafael Benítez",
+        "van": "2012-11-22",
+        "tot": "2013-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/chelsea-fc/mitarbeiterhistorie/verein/631"
+  },
+  {
+    "club": "Chelsea",
+    "clubId": "Chelsea",
+    "seizoen": "2015/16",
+    "coach": "José Mourinho",
+    "coach_transfermarkt_id": "781",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "José Mourinho",
+        "van": "2013-07-01",
+        "tot": "2015-12-17",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Guus Hiddink",
+        "van": "2015-12-21",
+        "tot": "2016-06-30",
+        "interim": true,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/chelsea-fc/mitarbeiterhistorie/verein/631"
+  },
+  {
+    "club": "Chelsea",
+    "clubId": "Chelsea",
+    "seizoen": "2025/26",
+    "coach": "Enzo Maresca",
+    "coach_transfermarkt_id": "53749",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Enzo Maresca",
+        "van": "2024-07-01",
+        "tot": "2026-01-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Calum McFarlane",
+        "van": "2026-01-01",
+        "tot": "2026-01-07",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Liam Rosenior",
+        "van": "2026-01-08",
+        "tot": "2026-04-22",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Calum McFarlane",
+        "van": "2026-04-22",
+        "tot": "2026-06-30",
+        "interim": true,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/chelsea-fc/mitarbeiterhistorie/verein/631"
+  },
+  {
+    "club": "FC Barcelona",
+    "clubId": "85OvLAjM0LAOdsm0DZPK",
+    "seizoen": "1969/70",
+    "coach": "Vic Buckingham",
+    "coach_transfermarkt_id": "17255",
+    "nationaliteit": "English",
+    "nat_code": "gb-eng",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Salvador Artigas",
+        "van": "1967-07-01",
+        "tot": "1969-10-15",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Josep Seguer",
+        "van": "1969-10-15",
+        "tot": "1969-12-28",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Vic Buckingham",
+        "van": "1970-01-01",
+        "tot": "1971-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-barcelona/mitarbeiterhistorie/verein/131"
+  },
+  {
+    "club": "FC Barcelona",
+    "clubId": "85OvLAjM0LAOdsm0DZPK",
+    "seizoen": "1980/81",
+    "coach": "Helenio Herrera",
+    "coach_transfermarkt_id": "25506",
+    "nationaliteit": "Argentine",
+    "nat_code": "ar",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "László Kubala",
+        "van": "1980-07-01",
+        "tot": "1980-11-05",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Helenio Herrera",
+        "van": "1980-11-06",
+        "tot": "1981-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-barcelona/mitarbeiterhistorie/verein/131"
+  },
+  {
+    "club": "FC Barcelona",
+    "clubId": "85OvLAjM0LAOdsm0DZPK",
+    "seizoen": "2025/26",
+    "coach": "Hansi Flick",
+    "coach_transfermarkt_id": "67",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Spain",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Hansi Flick",
+        "van": "2024-07-01",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-barcelona/mitarbeiterhistorie/verein/131"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1959/60",
+    "coach": "Ferdinand Daučík",
+    "coach_transfermarkt_id": "31088",
+    "nationaliteit": "Slovak",
+    "nat_code": "sk",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Ettore Puricelli",
+        "van": "1959-07-01",
+        "tot": "1959-11-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Ferdinand Daucik",
+        "van": "1959-11-01",
+        "tot": "1960-04-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1960/61",
+    "coach": "Otto Vieira",
+    "coach_transfermarkt_id": "76486",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Otto Vieira",
+        "van": "1960-06-04",
+        "tot": "1961-03-10",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1964/65",
+    "coach": "Otto Gloria",
+    "coach_transfermarkt_id": "32773",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Otto Glória",
+        "van": "1963-11-13",
+        "tot": "1965-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1965/66",
+    "coach": "Flávio Costa",
+    "coach_transfermarkt_id": "26446",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Flávio Costa",
+        "van": "1965-08-02",
+        "tot": "1966-04-05",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1970/71",
+    "coach": "Tommy Docherty",
+    "coach_transfermarkt_id": "23570",
+    "nationaliteit": "Scottish",
+    "nat_code": "gb-sct",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Tommy Docherty",
+        "van": "1970-02-15",
+        "tot": "1971-05-03",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1971/72",
+    "coach": "Paulo Amaral",
+    "coach_transfermarkt_id": "52001",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Paulo Amaral",
+        "van": "1971-11-15",
+        "tot": "1972-03-06",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1975/76",
+    "coach": "Branko Stankovic",
+    "coach_transfermarkt_id": "22946",
+    "nationaliteit": "Serbian",
+    "nat_code": "rs",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Branko Stankovic",
+        "van": "1975-07-01",
+        "tot": "1976-01-26",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Monteiro da Costa",
+        "van": "1976-01-27",
+        "tot": "1976-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1979/80",
+    "coach": "José Maria Pedroto",
+    "coach_transfermarkt_id": "26600",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "José Maria Pedroto",
+        "van": "1976-07-01",
+        "tot": "1980-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "1981/82",
+    "coach": "Hermann Stessl",
+    "coach_transfermarkt_id": "3007",
+    "nationaliteit": "Austrian",
+    "nat_code": "at",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Hermann Stessl",
+        "van": "1980-07-01",
+        "tot": "1982-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Porto",
+    "clubId": "BojctiuCmCJkPxn8YcAU",
+    "seizoen": "2025/26",
+    "coach": "Francesco Farioli",
+    "coach_transfermarkt_id": "73923",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "Portugal",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Francesco Farioli",
+        "van": "2025-07-06",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-porto/mitarbeiterhistorie/verein/720"
+  },
+  {
+    "club": "FC Twente",
+    "clubId": "FC Twente",
+    "seizoen": "2025/26",
+    "coach": "John van den Brom",
+    "coach_transfermarkt_id": "1886",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Joseph Oosting",
+        "van": "2023-07-01",
+        "tot": "2025-09-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Ivar van Dinteren",
+        "van": "2025-09-05",
+        "tot": "2025-09-14",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "John van den Brom",
+        "van": "2025-09-15",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-twente-enschede/mitarbeiterhistorie/verein/317"
+  },
+  {
+    "club": "Feyenoord",
+    "clubId": "Feyenoord",
+    "seizoen": "1982/83",
+    "coach": "Hans Kraay",
+    "coach_transfermarkt_id": "14411",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Hans Kraay",
+        "van": "1982-07-01",
+        "tot": "1983-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/feyenoord-rotterdam/mitarbeiterhistorie/verein/234"
+  },
+  {
+    "club": "Feyenoord",
+    "clubId": "Feyenoord",
+    "seizoen": "1991/92",
+    "coach": "Hans Dorjee",
+    "coach_transfermarkt_id": "19587",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Hans Dorjee",
+        "van": "1991-07-01",
+        "tot": "1992-03-18",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Wim Jansen",
+        "van": "1992-03-19",
+        "tot": "1992-06-30",
+        "interim": true,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/feyenoord-rotterdam/mitarbeiterhistorie/verein/234"
+  },
+  {
+    "club": "Feyenoord",
+    "clubId": "Feyenoord",
+    "seizoen": "2025/26",
+    "coach": "Robin van Persie",
+    "coach_transfermarkt_id": "77452",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Robin van Persie",
+        "van": "2025-02-24",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/feyenoord-rotterdam/mitarbeiterhistorie/verein/234"
+  },
+  {
+    "club": "Hamburger SV",
+    "clubId": "9jrnppeJRuho3d36Iz04",
+    "seizoen": "1968/69",
+    "coach": "Georg Knöpfle",
+    "coach_transfermarkt_id": "864",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Georg Knöpfle",
+        "van": "1968-07-01",
+        "tot": "1970-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/hamburger-sv/mitarbeiterhistorie/verein/41"
+  },
+  {
+    "club": "Hamburger SV",
+    "clubId": "9jrnppeJRuho3d36Iz04",
+    "seizoen": "2024/25",
+    "coach": "Merlin Polzin",
+    "coach_transfermarkt_id": "37595",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Steffen Baumgart",
+        "van": "2024-02-20",
+        "tot": "2024-11-24",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Merlin Polzin",
+        "van": "2024-11-25",
+        "tot": "2024-12-22",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Merlin Polzin",
+        "van": "2024-12-23",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/hamburger-sv/mitarbeiterhistorie/verein/41"
+  },
+  {
+    "club": "Hamburger SV",
+    "clubId": "9jrnppeJRuho3d36Iz04",
+    "seizoen": "2025/26",
+    "coach": "Merlin Polzin",
+    "coach_transfermarkt_id": "37595",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Merlin Polzin",
+        "van": "2024-12-23",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/hamburger-sv/mitarbeiterhistorie/verein/41"
+  },
+  {
+    "club": "Internazionale",
+    "clubId": "8UrbfQn5FBUwogRqFyPa",
+    "seizoen": "2025/26",
+    "coach": "Cristian Chivu",
+    "coach_transfermarkt_id": "56780",
+    "nationaliteit": "Romanian",
+    "nat_code": "ro",
+    "land": "Italy",
+    "landstitel": "Y",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Cristian Chivu",
+        "van": "2025-06-09",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/inter-mailand/mitarbeiterhistorie/verein/46"
+  },
+  {
+    "club": "Juventus",
+    "clubId": "jPSBrygrH0eoizTmEJBo",
+    "seizoen": "2025/26",
+    "coach": "Luciano Spalletti",
+    "coach_transfermarkt_id": "517",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "Italy",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Igor Tudor",
+        "van": "2025-03-23",
+        "tot": "2025-10-27",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Massimo Brambilla",
+        "van": "2025-10-27",
+        "tot": "2025-10-30",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Luciano Spalletti",
+        "van": "2025-10-30",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/juventus-turin/mitarbeiterhistorie/verein/506"
+  },
+  {
+    "club": "Liverpool",
+    "clubId": "Liverpool",
+    "seizoen": "2025/26",
+    "coach": "Arne Slot",
+    "coach_transfermarkt_id": "34822",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Arne Slot",
+        "van": "2024-07-01",
+        "tot": "2026-05-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-liverpool/mitarbeiterhistorie/verein/31"
+  },
+  {
+    "club": "Manchester City",
+    "clubId": "Manchester City",
+    "seizoen": "2025/26",
+    "coach": "Pep Guardiola",
+    "coach_transfermarkt_id": "5672",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Pep Guardiola",
+        "van": "2016-07-01",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/manchester-city/mitarbeiterhistorie/verein/281"
+  },
+  {
+    "club": "Manchester United",
+    "clubId": "Manchester United",
+    "seizoen": "1970/71",
+    "coach": "Wilf McGuinness",
+    "coach_transfermarkt_id": "16209",
+    "nationaliteit": "English",
+    "nat_code": "gb-eng",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Wilf McGuinness",
+        "van": "1969-08-09",
+        "tot": "1970-12-29",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Sir Matt Busby",
+        "van": "1970-12-29",
+        "tot": "1971-06-08",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/manchester-united/mitarbeiterhistorie/verein/985"
+  },
+  {
+    "club": "Manchester United",
+    "clubId": "Manchester United",
+    "seizoen": "2025/26",
+    "coach": "Ruben Amorim",
+    "coach_transfermarkt_id": "65202",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "England",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Ruben Amorim",
+        "van": "2024-11-11",
+        "tot": "2026-01-05",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Darren Fletcher",
+        "van": "2026-01-05",
+        "tot": "2026-01-13",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Michael Carrick",
+        "van": "2026-01-13",
+        "tot": "2026-05-22",
+        "interim": true,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/manchester-united/mitarbeiterhistorie/verein/985"
+  },
+  {
+    "club": "Milan",
+    "clubId": "dsig0RYKh6cb81cOV5wS",
+    "seizoen": "2025/26",
+    "coach": "Massimiliano Allegri",
+    "coach_transfermarkt_id": "7671",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "Italy",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Massimiliano Allegri",
+        "van": "2025-07-01",
+        "tot": "2026-05-25",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/ac-mailand/mitarbeiterhistorie/verein/5"
+  },
+  {
+    "club": "Napoli",
+    "clubId": "3hDn1wDq3lbkH3lZ6BFy",
+    "seizoen": "2025/26",
+    "coach": "Antonio Conte",
+    "coach_transfermarkt_id": "3517",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "Italy",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Antonio Conte",
+        "van": "2024-07-01",
+        "tot": "2026-06-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/ssc-neapel/mitarbeiterhistorie/verein/6195"
+  },
+  {
+    "club": "Olympique Lyonnais",
+    "clubId": "YCalvrmVY7QcAzrvlt7m",
+    "seizoen": "1981/82",
+    "coach": "Vladimir Kovacevic",
+    "coach_transfermarkt_id": "65188",
+    "nationaliteit": "Serbian",
+    "nat_code": "rs",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Jean-Pierre Destrumelle",
+        "van": "1980-07-01",
+        "tot": "1981-11-22",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Vladimir Kovacevic",
+        "van": "1981-11-22",
+        "tot": "1983-02-22",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
+  },
+  {
+    "club": "Olympique Lyonnais",
+    "clubId": "YCalvrmVY7QcAzrvlt7m",
+    "seizoen": "1984/85",
+    "coach": "Robert Herbin",
+    "coach_transfermarkt_id": "22298",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Robert Herbin",
+        "van": "1983-02-22",
+        "tot": "1985-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
+  },
+  {
+    "club": "Olympique Lyonnais",
+    "clubId": "YCalvrmVY7QcAzrvlt7m",
+    "seizoen": "1996/97",
+    "coach": "Bernard Lacombe",
+    "coach_transfermarkt_id": "3978",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Guy Stéphan",
+        "van": "1995-07-01",
+        "tot": "1996-11-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Bernard Lacombe",
+        "van": "1996-12-02",
+        "tot": "2000-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
+  },
+  {
+    "club": "Olympique Lyonnais",
+    "clubId": "YCalvrmVY7QcAzrvlt7m",
+    "seizoen": "2025/26",
+    "coach": "Paulo Fonseca",
+    "coach_transfermarkt_id": "19944",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Paulo Fonseca",
+        "van": "2025-01-31",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-lyon/mitarbeiterhistorie/verein/1041"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1961/62",
+    "coach": "Lucien Troupel",
+    "coach_transfermarkt_id": "75553",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Lucien Troupel",
+        "van": "1959-07-01",
+        "tot": "1962-01-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Otto Glória",
+        "van": "1962-02-01",
+        "tot": "1962-05-31",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1962/63",
+    "coach": "Luis Miró",
+    "coach_transfermarkt_id": "33305",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Lluís Miró",
+        "van": "1962-12-01",
+        "tot": "1963-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1965/66",
+    "coach": "Mario Zatelli",
+    "coach_transfermarkt_id": "23862",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Mario Zatelli",
+        "van": "1964-07-01",
+        "tot": "1966-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1973/74",
+    "coach": "Jules Zvunka",
+    "coach_transfermarkt_id": "51090",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Mario Zatelli",
+        "van": "1973-03-01",
+        "tot": "1973-08-11",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Fernando Riera",
+        "van": "1973-12-02",
+        "tot": "1974-02-16",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Jules Zvunka",
+        "van": "1974-02-16",
+        "tot": "1976-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1976/77",
+    "coach": "José Arribas",
+    "coach_transfermarkt_id": "32248",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "José Arribas",
+        "van": "1976-07-01",
+        "tot": "1977-02-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Jules Zvunka",
+        "van": "1977-02-01",
+        "tot": "1977-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1979/80",
+    "coach": "Jules Zvunka",
+    "coach_transfermarkt_id": "51090",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Jules Zvunka",
+        "van": "1978-12-13",
+        "tot": "1980-02-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Jean Robin",
+        "van": "1980-02-04",
+        "tot": "1980-09-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1980/81",
+    "coach": "Albert Batteux",
+    "coach_transfermarkt_id": "17059",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Jean Robin",
+        "van": "1980-02-04",
+        "tot": "1980-09-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Albert Batteux",
+        "van": "1980-07-01",
+        "tot": "1981-03-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Roland Gransart",
+        "van": "1981-04-14",
+        "tot": "1984-10-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1994/95",
+    "coach": "Henri Stambouli",
+    "coach_transfermarkt_id": "6530",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Marc Bourrier",
+        "van": "1993-07-01",
+        "tot": "1994-12-15",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Gérard Gili",
+        "van": "1994-11-22",
+        "tot": "1994-12-15",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Henri Stambouli",
+        "van": "1994-12-16",
+        "tot": "1995-09-15",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Luka Peruzovic",
+        "van": "1994-12-16",
+        "tot": "1995-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "1999/00",
+    "coach": "Bernard Casoni",
+    "coach_transfermarkt_id": "3577",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Rolland Courbis",
+        "van": "1997-07-01",
+        "tot": "1999-11-24",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Bernard Casoni",
+        "van": "1999-11-25",
+        "tot": "2000-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "2001/02",
+    "coach": "Albert Emon",
+    "coach_transfermarkt_id": "1847",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "José Anigo",
+        "van": "2001-07-25",
+        "tot": "2001-08-24",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Albert Emon",
+        "van": "2001-08-25",
+        "tot": "2001-08-30",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Tomislav Ivic",
+        "van": "2001-08-31",
+        "tot": "2001-11-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Albert Emon",
+        "van": "2001-12-10",
+        "tot": "2002-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Olympique Marseille",
+    "clubId": "XRATf73G3L6okg5K8WcX",
+    "seizoen": "2025/26",
+    "coach": "Roberto De Zerbi",
+    "coach_transfermarkt_id": "32157",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Roberto De Zerbi",
+        "van": "2024-07-01",
+        "tot": "2026-02-11",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Jacques Abardonado",
+        "van": "2026-02-11",
+        "tot": "2026-02-17",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Habib Beye",
+        "van": "2026-02-18",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/olympique-marseille/mitarbeiterhistorie/verein/244"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "1973/74",
+    "coach": "Robert Vicot",
+    "coach_transfermarkt_id": "51085",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Robert Vicot",
+        "van": "1972-07-01",
+        "tot": "1975-09-09",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Just Fontaine",
+        "van": "1973-07-01",
+        "tot": "1976-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "1974/75",
+    "coach": "Robert Vicot",
+    "coach_transfermarkt_id": "51085",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Robert Vicot",
+        "van": "1972-07-01",
+        "tot": "1975-09-09",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Just Fontaine",
+        "van": "1973-07-01",
+        "tot": "1976-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "2005/06",
+    "coach": "Laurent Fournier",
+    "coach_transfermarkt_id": "2058",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Laurent Fournier",
+        "van": "2005-02-09",
+        "tot": "2005-12-27",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Guy Lacombe",
+        "van": "2005-12-27",
+        "tot": "2007-01-15",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "2011/12",
+    "coach": "Antoine Kombouaré",
+    "coach_transfermarkt_id": "1224",
+    "nationaliteit": "French",
+    "nat_code": "fr",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Antoine Kombouaré",
+        "van": "2009-07-01",
+        "tot": "2011-12-29",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Carlo Ancelotti",
+        "van": "2012-01-01",
+        "tot": "2013-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "2020/21",
+    "coach": "Thomas Tuchel",
+    "coach_transfermarkt_id": "7471",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "France",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Thomas Tuchel",
+        "van": "2018-07-01",
+        "tot": "2020-12-29",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Mauricio Pochettino",
+        "van": "2021-01-02",
+        "tot": "2022-07-05",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "Paris Saint-Germain",
+    "clubId": "wJOZsa6hs3Uvm7DvuMSM",
+    "seizoen": "2025/26",
+    "coach": "Luis Enrique",
+    "coach_transfermarkt_id": "6499",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "France",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "Y",
+    "trainers_seizoen": [
+      {
+        "naam": "Luis Enrique",
+        "van": "2023-07-05",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/paris-saint-germain/mitarbeiterhistorie/verein/583"
+  },
+  {
+    "club": "PSV",
+    "clubId": "PSV",
+    "seizoen": "2025/26",
+    "coach": "Peter Bosz",
+    "coach_transfermarkt_id": "1269",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Netherlands",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Peter Bosz",
+        "van": "2023-07-01",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/psv-eindhoven/mitarbeiterhistorie/verein/383"
+  },
+  {
+    "club": "Real Madrid",
+    "clubId": "2NbZIFgUstEPkBjmCz1F",
+    "seizoen": "1973/74",
+    "coach": "Miguel Muñoz",
+    "coach_transfermarkt_id": "10643",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Miguel Muñoz",
+        "van": "1960-04-17",
+        "tot": "1974-01-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Luis Molowny",
+        "van": "1974-01-15",
+        "tot": "1974-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
+  },
+  {
+    "club": "Real Madrid",
+    "clubId": "2NbZIFgUstEPkBjmCz1F",
+    "seizoen": "2005/06",
+    "coach": "Juan Ramón López Caro",
+    "coach_transfermarkt_id": "2765",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Vanderlei Luxemburgo",
+        "van": "2005-01-01",
+        "tot": "2005-12-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Juan Ramón López Caro",
+        "van": "2005-12-04",
+        "tot": "2006-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
+  },
+  {
+    "club": "Real Madrid",
+    "clubId": "2NbZIFgUstEPkBjmCz1F",
+    "seizoen": "2015/16",
+    "coach": "Rafael Benítez",
+    "coach_transfermarkt_id": "1522",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "Y",
+    "trainers_seizoen": [
+      {
+        "naam": "Rafael Benítez",
+        "van": "2015-07-01",
+        "tot": "2016-01-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Zinédine Zidane",
+        "van": "2016-01-04",
+        "tot": "2018-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
+  },
+  {
+    "club": "Real Madrid",
+    "clubId": "2NbZIFgUstEPkBjmCz1F",
+    "seizoen": "2025/26",
+    "coach": "Xabi Alonso",
+    "coach_transfermarkt_id": "63052",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Xabi Alonso",
+        "van": "2025-06-01",
+        "tot": "2026-01-12",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Álvaro Arbeloa",
+        "van": "2026-01-13",
+        "tot": "2026-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/real-madrid/mitarbeiterhistorie/verein/418"
+  },
+  {
+    "club": "Roma",
+    "clubId": "LrYnxLTn06kBDJkfMq8l",
+    "seizoen": "1963/64",
+    "coach": "Luis Miró",
+    "coach_transfermarkt_id": "33305",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Italy",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Alfredo Foni",
+        "van": "1962-10-30",
+        "tot": "1963-11-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Naim Kryeziu",
+        "van": "1963-11-16",
+        "tot": "1963-11-18",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Lluís Miró",
+        "van": "1963-11-18",
+        "tot": "1964-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/as-rom/mitarbeiterhistorie/verein/12"
+  },
+  {
+    "club": "Roma",
+    "clubId": "LrYnxLTn06kBDJkfMq8l",
+    "seizoen": "2025/26",
+    "coach": "Gian Piero Gasperini",
+    "coach_transfermarkt_id": "3436",
+    "nationaliteit": "Italian",
+    "nat_code": "it",
+    "land": "Italy",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Gian Piero Gasperini",
+        "van": "2025-06-06",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/as-rom/mitarbeiterhistorie/verein/12"
+  },
+  {
+    "club": "S.C. Braga",
+    "clubId": "zyteU3xvkRblLXxwrH80",
+    "seizoen": "2025/26",
+    "coach": "Carlos Vicens",
+    "coach_transfermarkt_id": "83288",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Carlos Vicens",
+        "van": "2025-07-01",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sc-braga/mitarbeiterhistorie/verein/1075"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "1965/66",
+    "coach": "Otto Gloria",
+    "coach_transfermarkt_id": "32773",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Portugal",
+    "landstitel": "Y",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Otto Glória",
+        "van": "1965-07-01",
+        "tot": "1966-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "1971/72",
+    "coach": "Fernando Vaz",
+    "coach_transfermarkt_id": "32542",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Fernando Vaz",
+        "van": "1969-06-08",
+        "tot": "1972-02-06",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Mário Lino",
+        "van": "1972-02-07",
+        "tot": "1972-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "1974/75",
+    "coach": "Fernando Riera",
+    "coach_transfermarkt_id": "25448",
+    "nationaliteit": "Chilean",
+    "nat_code": "cl",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Alfredo di Stéfano",
+        "van": "1974-07-01",
+        "tot": "1974-09-09",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Fernando Riera",
+        "van": "1974-12-17",
+        "tot": "1975-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "1980/81",
+    "coach": "Fernando Mendes",
+    "coach_transfermarkt_id": "17351",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Fernando Mendes",
+        "van": "1979-11-25",
+        "tot": "1980-12-07",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "1996/97",
+    "coach": "Octávio Machado",
+    "coach_transfermarkt_id": "14151",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Robert Waseige",
+        "van": "1996-07-01",
+        "tot": "1996-12-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Octávio Machado",
+        "van": "1996-12-02",
+        "tot": "1997-11-02",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "2000/01",
+    "coach": "Augusto Inácio",
+    "coach_transfermarkt_id": "1042",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Augusto Inácio",
+        "van": "1999-09-26",
+        "tot": "2000-12-03",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Fernando Mendes",
+        "van": "2000-12-04",
+        "tot": "2001-01-21",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Manuel Fernandes",
+        "van": "2001-01-22",
+        "tot": "2001-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "2019/20",
+    "coach": "Silas",
+    "coach_transfermarkt_id": "53761",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "Y",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Marcel Keizer",
+        "van": "2018-11-12",
+        "tot": "2019-09-03",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Leonel Pontes",
+        "van": "2019-09-04",
+        "tot": "2019-09-27",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Silas",
+        "van": "2019-09-27",
+        "tot": "2020-03-04",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Ruben Amorim",
+        "van": "2020-03-05",
+        "tot": "2024-11-10",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Sporting CP",
+    "clubId": "8BTXh26lWn0hNfcLQhIz",
+    "seizoen": "2025/26",
+    "coach": "Rui Borges",
+    "coach_transfermarkt_id": "56775",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Portugal",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Rui Borges",
+        "van": "2024-12-26",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/sporting-lissabon/mitarbeiterhistorie/verein/336"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1958/59",
+    "coach": "Luis Miró",
+    "coach_transfermarkt_id": "33305",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Lluís Miró",
+        "van": "1956-07-01",
+        "tot": "1959-01-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Jacinto Quincoces",
+        "van": "1959-01-01",
+        "tot": "1959-09-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1959/60",
+    "coach": "Otto Bumbel",
+    "coach_transfermarkt_id": "33290",
+    "nationaliteit": "Brazilian",
+    "nat_code": "br",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Jacinto Quincoces",
+        "van": "1959-01-01",
+        "tot": "1959-09-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Otto Bumbel",
+        "van": "1959-09-14",
+        "tot": "1960-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1961/62",
+    "coach": "Domènec Balmanya",
+    "coach_transfermarkt_id": "33222",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "Y",
+    "trainers_seizoen": [
+      {
+        "naam": "Domingo Balmanya",
+        "van": "1960-07-01",
+        "tot": "1962-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1965/66",
+    "coach": "Sabino Barinaga",
+    "coach_transfermarkt_id": "33282",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Sabino Barinaga",
+        "van": "1965-07-01",
+        "tot": "1966-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1968/69",
+    "coach": "Joseíto",
+    "coach_transfermarkt_id": "49168",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Mundo",
+        "van": "1968-09-15",
+        "tot": "1968-10-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Joseíto",
+        "van": "1968-10-15",
+        "tot": "1969-10-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1975/76",
+    "coach": "Manolo Mestre",
+    "coach_transfermarkt_id": "33576",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Dragoljub Milosevic",
+        "van": "1975-04-08",
+        "tot": "1975-09-22",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Manuel Mestre",
+        "van": "1975-09-22",
+        "tot": "1976-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1979/80",
+    "coach": "Alfredo Di Stéfano",
+    "coach_transfermarkt_id": "18170",
+    "nationaliteit": "Argentine",
+    "nat_code": "ar",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "Y",
+    "trainers_seizoen": [
+      {
+        "naam": "Alfredo di Stéfano",
+        "van": "1979-07-01",
+        "tot": "1980-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1980/81",
+    "coach": "Pasieguito",
+    "coach_transfermarkt_id": "33292",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Pasieguito",
+        "van": "1980-07-01",
+        "tot": "1982-01-03",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1981/82",
+    "coach": "Pasieguito",
+    "coach_transfermarkt_id": "33292",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Pasieguito",
+        "van": "1980-07-01",
+        "tot": "1982-01-03",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Manuel Mestre",
+        "van": "1982-01-05",
+        "tot": "1982-11-01",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "1993/94",
+    "coach": "Guus Hiddink",
+    "coach_transfermarkt_id": "506",
+    "nationaliteit": "Dutch",
+    "nat_code": "nl",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Guus Hiddink",
+        "van": "1991-07-01",
+        "tot": "1993-11-18",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Paco Real",
+        "van": "1993-11-20",
+        "tot": "1993-12-20",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Héctor Núñez",
+        "van": "1993-12-21",
+        "tot": "1994-03-07",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "José Manuel Rielo",
+        "van": "1994-03-07",
+        "tot": "1994-03-21",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Guus Hiddink",
+        "van": "1994-03-26",
+        "tot": "1994-06-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "2015/16",
+    "coach": "Nuno Espírito Santo",
+    "coach_transfermarkt_id": "16520",
+    "nationaliteit": "Portuguese",
+    "nat_code": "pt",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Nuno Espírito Santo",
+        "van": "2014-07-01",
+        "tot": "2015-11-29",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Voro",
+        "van": "2015-11-29",
+        "tot": "2015-12-06",
+        "interim": true,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Gary Neville",
+        "van": "2015-12-08",
+        "tot": "2016-03-30",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Pako Ayestarán",
+        "van": "2016-03-30",
+        "tot": "2016-09-20",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "2024/25",
+    "coach": "Carlos Corberán",
+    "coach_transfermarkt_id": "16410",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Rubén Baraja",
+        "van": "2023-02-14",
+        "tot": "2024-12-23",
+        "interim": false,
+        "datum_precisie": "dag"
+      },
+      {
+        "naam": "Carlos Corberán",
+        "van": "2024-12-25",
+        "tot": "2026-09-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "Valencia CF",
+    "clubId": "2A2fJ25KgL5bPWb8zwom",
+    "seizoen": "2025/26",
+    "coach": "Carlos Corberán",
+    "coach_transfermarkt_id": "16410",
+    "nationaliteit": "Spanish",
+    "nat_code": "es",
+    "land": "Spain",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Carlos Corberán",
+        "van": "2024-12-25",
+        "tot": "2026-09-13",
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/fc-valencia/mitarbeiterhistorie/verein/1049"
+  },
+  {
+    "club": "VfB Stuttgart",
+    "clubId": "lOdz3Tpl8aGYR3QgDCDJ",
+    "seizoen": "2025/26",
+    "coach": "Sebastian Hoeneß",
+    "coach_transfermarkt_id": "20940",
+    "nationaliteit": "German",
+    "nat_code": "de",
+    "land": "Germany",
+    "landstitel": "N",
+    "nationale_beker": "N",
+    "europese_prijs": "N",
+    "trainers_seizoen": [
+      {
+        "naam": "Sebastian Hoeneß",
+        "van": "2023-04-03",
+        "tot": null,
+        "interim": false,
+        "datum_precisie": "dag"
+      }
+    ],
+    "trainers_bron": "https://www.transfermarkt.com/vfb-stuttgart/mitarbeiterhistorie/verein/79"
+  }
+]

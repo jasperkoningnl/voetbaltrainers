@@ -6,7 +6,7 @@ function canonical(value) {
   return String(value || '').normalize('NFKD').replace(/\p{Diacritic}/gu, '').replace(/[^\p{Letter}\p{Number}]+/gu, ' ').trim().toLocaleLowerCase('nl');
 }
 
-export function mergeSeasonImport(collections, rows) {
+export function mergeSeasonImport(collections, rows, { overwriteExisting = false } = {}) {
   const clubs = new Map(collections.clubs.map(club => [club.id, club]));
   const coaches = new Map(collections.coaches.map(coach => [canonical(coach.naam), coach]));
   const seasons = new Map(collections.seizoenen.map(season => [`${season.club}|${season.seizoen}`, season]));
@@ -28,6 +28,18 @@ export function mergeSeasonImport(collections, rows) {
     const key = `${row.clubId}|${row.seizoen}`;
     const existing = seasons.get(key);
     if (existing) {
+      if (existing.id.startsWith('tm-') || overwriteExisting) {
+        Object.assign(existing, {
+          coachId: coach.id,
+          europese_prijs: row.europese_prijs,
+          land: row.land,
+          landstitel: row.landstitel,
+          nationale_beker: row.nationale_beker,
+          trainers_bron: row.trainers_bron,
+          trainers_seizoen: row.trainers_seizoen,
+        });
+        continue;
+      }
       if (!Array.isArray(existing.trainers_seizoen)) existing.trainers_seizoen = row.trainers_seizoen;
       if (!existing.trainers_bron) existing.trainers_bron = row.trainers_bron;
       continue;
@@ -48,6 +60,9 @@ export function mergeSeasonImport(collections, rows) {
     seasons.set(key, season);
   }
 
+  const referencedCoaches = new Set(collections.seizoenen.map(season => season.coachId));
+  collections.coaches = collections.coaches.filter(coach => !coach.id.startsWith('tm-') || referencedCoaches.has(coach.id));
+
   const byId = (a, b) => a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
   collections.coaches.sort(byId);
   collections.seizoenen.sort(byId);
@@ -58,7 +73,10 @@ export function mergeTrainerFallback(document, rows) {
   const seasons = new Map(document.seizoenen.map(row => [`${row.club}|${row.seizoen}`, row]));
   for (const row of rows) {
     const key = `${row.clubId}|${row.seizoen}`;
-    if (seasons.has(key)) continue;
+    if (seasons.has(key)) {
+      Object.assign(seasons.get(key), { trainers: row.trainers_seizoen, bron: row.trainers_bron });
+      continue;
+    }
     const season = {
       club: row.clubId,
       seizoen: row.seizoen,
@@ -82,10 +100,10 @@ function format(snapshot) {
 const invoked = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 if (invoked) {
   const snapshotPath = process.argv[2] || 'data/snapshot.json';
-  const importPath = process.argv[3] || 'data/import_2025-26.json';
+  const importPath = process.argv[3] || 'data/import_transfermarkt_compleet.json';
   const snapshot = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
   const rows = JSON.parse(fs.readFileSync(importPath, 'utf8'));
-  mergeSeasonImport(snapshot, rows);
+  mergeSeasonImport(snapshot, rows, { overwriteExisting: true });
   snapshot.generated = new Date().toISOString();
   fs.writeFileSync(snapshotPath, format(snapshot), 'utf8');
   const fallbackPath = 'data/trainers_seizoen.json';

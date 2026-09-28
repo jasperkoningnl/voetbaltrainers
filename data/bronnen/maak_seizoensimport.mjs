@@ -11,6 +11,7 @@ const reportPath = path.join(ROOT, '.cache', 'transfermarkt', `rapport-${seasonL
 const outputPath = process.argv[3] || path.join(DATA_DIR, `import_${seasonLabel}.json`);
 
 const NEW_COACHES = {
+  'John Heitinga': ['Dutch', 'nl'],
   'Fred Grim': ['Dutch', 'nl'],
   'Sébastien Pocognoli': ['Belgian', 'be'],
   'Eirik Horneland': ['Norwegian', 'no'],
@@ -48,8 +49,10 @@ const clubs = new Map(snapshot.clubs.map(club => [club.id, club]));
 const rows = report.resultaten.map(result => {
   const comparison = result.seizoenen.find(item => item.seizoen === SEASON);
   if (!comparison?.kandidaten?.length) throw new Error(`Geen trainers voor ${result.club}`);
+  const eligible = comparison.kandidaten.filter(candidate => !candidate.interim);
+  if (!eligible.length) throw new Error(`Geen niet-interim hoofdtrainer voor ${result.club}`);
   const grouped = new Map();
-  for (const candidate of comparison.kandidaten) {
+  for (const candidate of eligible) {
     const key = canonical(candidate.naam);
     const current = grouped.get(key) || { candidate, days: 0 };
     current.days += overlapDays(candidate, SEASON);
