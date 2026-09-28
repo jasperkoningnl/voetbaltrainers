@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
   Managerial Merry-Go-Round v2
-  Opnieuw opgebouwd: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner.
+  Opnieuw opgebouwd: intro als presentatie (Ferguson vs Mourinho) gevolgd door de verkenner.
   Leest dezelfde data als v1. Seizoenen met meerdere trainers (veld trainers_seizoen)
   worden in de verkenner in gelijke rode stukken gesplitst.
 -->
@@ -21,6 +21,7 @@
 </head>
 <body>
 
+<div id="top"></div>
 <header class="site-header">
     <nav class="site-nav">
         <a class="logo" href="#top" aria-label="The Managerial Merry-Go-Round">
@@ -36,36 +37,48 @@
     </nav>
 </header>
 
-<div id="top"></div>
-
 <!-- ===================== INTRO ===================== -->
-<section id="story" aria-label="Story">
-    <div class="story-figure" id="story-figure">
-        <div class="figure-inner">
-            <div class="figure-caption" id="figure-caption"></div>
-            <div class="figure-stage" id="story-stage"></div>
-            <div class="figure-legend" id="story-legend"></div>
+<!-- Presentatie in 7 scènes plus titelscherm; opgebouwd in app.js (buildIntro) -->
+<section id="intro" class="intro" aria-label="Story" data-step="0" tabindex="-1">
+    <div class="intro-glow" aria-hidden="true"></div>
+
+    <div class="hero" id="hero">
+        <div class="hero-photos" aria-hidden="true">
+            <div class="hero-photo" id="hero-photo-f"></div>
+            <div class="hero-photo" id="hero-photo-m"></div>
+        </div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-name" id="hero-name-f"></div>
+        <div class="hero-name right" id="hero-name-m"></div>
+        <div class="hero-main">
+            <p class="hero-kicker" id="hero-kicker"></p>
+            <h1>Does keeping your manager win you trophies?</h1>
+            <p class="hero-sub" id="hero-sub"></p>
+            <div class="hero-actions">
+                <button class="btn-play" id="btn-begin" type="button">Play the story</button>
+                <a class="hero-skip" href="#explore">Skip to the explorer</a>
+            </div>
         </div>
     </div>
 
-    <div class="story-steps" id="story-steps">
-        <div class="step step-hero" data-step="hero">
-            <div class="step-card hero-card">
-                <p class="kicker">70 seasons · 35 clubs · 7 leagues</p>
-                <h1>Does keeping your manager win you trophies?</h1>
-                <p class="lede">Sir Alex Ferguson stayed at Manchester United for more than a quarter of a century. José Mourinho rarely unpacked his boxes. Both won almost everything. So who proves the rule?</p>
-                <p class="scroll-hint">Scroll to start <span aria-hidden="true">↓</span></p>
-                <a href="#explore" class="skip-link">Skip the story, go to the data</a>
-            </div>
+    <div class="stage" id="stage">
+        <div class="stage-text" id="stage-text" aria-live="polite"></div>
+        <div class="stage-panel">
+            <div class="panel-cap"><span id="panel-caption"></span><span id="panel-source"></span></div>
+            <div class="layer layer-heat" id="layer-heat"></div>
+            <div class="layer layer-duel" id="layer-duel"></div>
+            <div class="layer layer-bars" id="layer-bars"></div>
+            <div class="layer layer-scatter" id="layer-scatter"></div>
+            <div class="layer layer-end" id="layer-end"></div>
         </div>
-        <div class="step" data-step="ferguson-start"><div class="step-card" id="txt-ferguson-start"></div></div>
-        <div class="step" data-step="ferguson-full"><div class="step-card" id="txt-ferguson-full"></div></div>
-        <div class="step" data-step="united"><div class="step-card" id="txt-united"></div></div>
-        <div class="step" data-step="mourinho"><div class="step-card" id="txt-mourinho"></div></div>
-        <div class="step" data-step="duel"><div class="step-card" id="txt-duel"></div></div>
-        <div class="step" data-step="all-seasons"><div class="step-card" id="txt-all-seasons"></div></div>
-        <div class="step" data-step="clubs"><div class="step-card" id="txt-clubs"></div></div>
-        <div class="step" data-step="handover"><div class="step-card" id="txt-handover"></div></div>
+    </div>
+
+    <div class="controls" id="controls">
+        <button class="c-play" id="c-play" type="button" title="Play / pause (space)" aria-label="Play"></button>
+        <button class="c-prev" id="c-prev" type="button" title="Previous (←)" aria-label="Previous scene">←</button>
+        <div class="c-segs" id="c-segs"></div>
+        <button class="c-next" id="c-next" type="button" title="Next (→)">Next →</button>
+        <a class="c-skip" href="#explore">Skip intro</a>
     </div>
 </section>
 

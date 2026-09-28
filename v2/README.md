@@ -2,8 +2,11 @@
 
 Nieuwe versie naast de bestaande (`/index.html` blijft ongewijzigd).
 
-- `index.html`, `style.css`, `app.js`: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner (weergaven League, Compare clubs en Career).
-- Ontwerp verkenner en header: Claude Design, optie 7a (verkenner) en 12b (header). Donker thema; logo en favicon: `logo-carousel.svg`. Mobiel en intro zijn nog niet apart ontworpen.
+- `index.html`, `style.css`, `app.js`: intro als schermvullende presentatie (Ferguson vs Mourinho, titelscherm plus 7 scènes) gevolgd door de verkenner (weergaven League, Compare clubs en Career).
+- Ontwerp: Claude Design. Verkenner optie 7a, header 12b, intro `design_handoff_intro`. Donker thema; logo en favicon: `logo-carousel.svg`. Mobiel is nog niet apart ontworpen (tekst boven de figuur, vegen voor volgende/vorige).
+- Intro: speelt zelf af (pijltjes ←/→ wisselen scène, spatie start of pauzeert). De huidige scène staat in `localStorage` (`mmgr-intro-step`). Alle cijfers en teksten met cijfers komen uit de data.
+- Foto's intro: zet eigen bestanden in `images/intro/`: `ferguson-hero.jpg`, `mourinho-hero.jpg` (titelscherm), `ferguson-1986.jpg`, `ferguson-trophy.jpg`, `mourinho-porto.jpg` (portretten). Ontbreekt een bestand, dan toont de app de foto uit de database (Wikimedia).
+- `data/mourinho_buiten_dataset.json`: Mourinho's seizoenen buiten de database (União de Leiria, Tottenham, Fenerbahçe, Benfica 2025/26), met bronnen. Alleen voor de Mourinho-rij en de filmstrip in het intro; de statistieken (duel, staven, spreiding) rekenen alleen met de database.
 - Leest `clubs`, `coaches` en `seizoenen` uit `../data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
 - Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
