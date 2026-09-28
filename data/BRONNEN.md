@@ -48,7 +48,17 @@ De cache en het rapport komen onder `.cache/api-football/` en worden niet gecomm
 
 ## Transfermarkt
 
-Transfermarkt heeft geen publiek ondersteunde API. De site blijft daarom alleen een handmatige tweede bron via de links in het dashboard. Automatisch scrapen is bewust niet ingebouwd: het is kwetsbaar, slecht reproduceerbaar en kan botsen met gebruiksvoorwaarden.
+Transfermarkt heeft geen publiek ondersteunde API. De links in het dashboard blijven daarom de handmatig controleerbare bron. Automatisch ophalen is kwetsbaar en kan botsen met gebruiksvoorwaarden; gebruik de back-upimport hieronder alleen bewust en bewaar de opgehaalde cache als momentopname.
+
+Voor een eenmalige, controleerbare back-upimport is wel een apart script beschikbaar. Het leest uitsluitend de clubhistorie voor `Manager` (rol 1) en `Caretaker Manager` (rol 10), cachet de bronpagina's en schrijft een vergelijkingsrapport. Het wijzigt de dataset niet:
+
+```powershell
+node data/bronnen/importeer_transfermarkt.mjs --seasons 2025/26
+```
+
+Gericht testen kan met bijvoorbeeld `--clubs Ajax`, `--limit 1` en `--refresh`. De 31 gecontroleerde club-ID's staan in `data/bronnen/transfermarkt_clubs.json`. HTML en rapporten komen onder `.cache/transfermarkt/` en worden niet gecommit. Alleen regels met een exacte trainersrol worden verwerkt; sportief en technisch directeuren vallen buiten beide gebruikte rolcodes.
+
+Een benoeming in juni wordt aan het seizoen vanaf juli toegerekend. Dat voorkomt dat trainers die na afloop van de nationale competitie al voor het volgende seizoen zijn benoemd ten onrechte ook in het vorige seizoen verschijnen. De originele benoemingsdatum blijft ongewijzigd in het rapport staan.
 
 ## football-data.org
 
