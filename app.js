@@ -720,12 +720,21 @@ function buildIntro(extra) {
         if (!n) return;
         $("panel-caption").textContent = sc.caption || "";
         $("panel-source").textContent = sc.source || "";
+        $("c-next").textContent = n === SCENES.length - 1 ? "Explore →" : "Next →";
+        $("c-next").title = n === SCENES.length - 1 ? "Open the explorer (→)" : "Next (→)";
         renderText(sc);
         if (sc.layer === "heat") renderHeat(n, prev, instant);
         if (sc.layer === "duel") renderDuel(instant);
         if (sc.layer === "bars") renderBars(instant);
         if (sc.layer === "scatter") renderScatter(instant);
         if (sc.layer === "end") renderEnd(instant);
+    }
+
+    // Volgende: na de laatste scène door naar de verkenner
+    const last = SCENES.length - 1;
+    function next() {
+        if (clock.step === last) location.href = "explore.html";
+        else go(clock.step + 1);
     }
 
     function go(n, play) {
@@ -753,12 +762,12 @@ function buildIntro(extra) {
     $("btn-begin").addEventListener("click", () => { go(1, true); root.focus({ preventScroll: true }); });
     $("c-play").addEventListener("click", () => setPlaying(!clock.playing));
     $("c-prev").addEventListener("click", () => go(clock.step - 1));
-    $("c-next").addEventListener("click", () => go(clock.step + 1));
+    $("c-next").addEventListener("click", next);
 
     document.addEventListener("keydown", e => {
         if (!clock.inView || e.altKey || e.ctrlKey || e.metaKey) return;
         if (e.target.closest?.("input, textarea, select, [contenteditable]")) return;
-        if (e.key === "ArrowRight") { e.preventDefault(); go(clock.step + 1); }
+        if (e.key === "ArrowRight") { e.preventDefault(); next(); }
         else if (e.key === "ArrowLeft") { e.preventDefault(); go(clock.step - 1); }
         else if (e.key === " " && !e.target.closest?.("button, a")) {
             e.preventDefault();
@@ -772,7 +781,7 @@ function buildIntro(extra) {
     $("stage").addEventListener("touchend", e => {
         if (!touch) return;
         const dx = e.changedTouches[0].clientX - touch.clientX, dy = e.changedTouches[0].clientY - touch.clientY;
-        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) go(clock.step + (dx < 0 ? 1 : -1));
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) { if (dx < 0) next(); else go(clock.step - 1); }
         touch = null;
     }, { passive: true });
 
