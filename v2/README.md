@@ -2,14 +2,15 @@
 
 Nieuwe versie naast de bestaande (`/index.html` blijft ongewijzigd).
 
-- `index.html`, `style.css`, `app.js`: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner (landen, clubs vergelijken, carrièremodus).
+- `index.html`, `style.css`, `app.js`: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner (weergaven League, Compare clubs en Career).
+- Ontwerp verkenner en header: Claude Design, optie 7a (verkenner) en 12b (header). Donker thema; logo en favicon: `logo-carousel.svg`. Mobiel en intro zijn nog niet apart ontworpen.
 - Leest `clubs`, `coaches` en `seizoenen` uit `../data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
-- Seizoenen met meer dan één trainer (incl. interim) krijgen een gestreept patroon. Bron: veld `trainers_seizoen` op elk seizoen-document:
+- Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
 - Importeren in Firestore: dashboard → **Seizoenstrainers** → kies `data/trainers_seizoen.json` → controleer de preview → importeer. Alleen `trainers_seizoen` en `trainers_bron` worden geschreven.
 
-Regel voor het gestreepte vlak: een trainer telt mee voor een seizoen als hij minstens 3 dagen tussen 1 augustus en 20 mei aan het roer stond. Wissels in de zomerstop tellen dus niet.
+Regel voor een gesplitst seizoen: een trainer telt mee voor een seizoen als hij minstens 3 dagen tussen 1 augustus en 20 mei aan het roer stond. Wissels in de zomerstop tellen dus niet.
 
 ## Bronnen extra trainers
 
