@@ -819,8 +819,14 @@ function buildIntro(extra) {
         }, 200);
     });
 
+    // Via het logo (index.html?start): altijd bij het begin, anders verder waar je was
     let saved = 0;
-    try { saved = parseInt(localStorage.getItem(INTRO_KEY) || "0", 10) || 0; } catch { /* opslag geblokkeerd */ }
+    if (new URLSearchParams(location.search).has("start")) {
+        try { localStorage.setItem(INTRO_KEY, "0"); } catch { /* opslag geblokkeerd */ }
+        history.replaceState(null, "", location.pathname);
+    } else {
+        try { saved = parseInt(localStorage.getItem(INTRO_KEY) || "0", 10) || 0; } catch { /* opslag geblokkeerd */ }
+    }
     clock.step = saved > 0 && saved < SCENES.length ? saved : 0;
     render(clock.step, null, true);
     setPlaying(false);
