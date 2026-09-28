@@ -3,7 +3,7 @@
 Nieuwe versie naast de bestaande (`/index.html` blijft ongewijzigd).
 
 - `index.html`, `style.css`, `app.js`: scrollende intro (Ferguson vs Mourinho) die eindigt in de verkenner (weergaven League, Compare clubs en Career).
-- Ontwerp verkenner en header: Claude Design, optie 7a (verkenner) en 12b (header). Donker thema; logo en favicon: `logo-carousel.svg`. Mobiel en intro zijn nog niet apart ontworpen.
+- Ontwerp verkenner en header: Claude Design, optie 7a (verkenner) en 12b (header). Donker thema; logo: `logo-carousel.svg`; favicon: `favicon.svg` (donkere lijnen, licht in een donkere browser). Mobiel en intro zijn nog niet apart ontworpen.
 - Leest `clubs`, `coaches` en `seizoenen` uit `../data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
 - Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
