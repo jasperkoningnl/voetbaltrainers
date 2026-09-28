@@ -310,10 +310,7 @@ button { font: inherit; color: inherit; }
 #explore {
     position: relative;
     max-width: 1600px; margin: 0 auto;
-    padding: 16px 24px 32px;
-    scroll-margin-top: var(--header-h);
-    /* Minstens schermhoog: bij weinig rijen (Career) blijft de verkenner bovenaan staan */
-    min-height: calc(100vh - var(--header-h));
+    padding: 16px 24px 8px;
 }
 /* Zachte gloed achter de titel; loopt boven de sectie door, zodat er geen harde rand ontstaat */
 #explore::before {
