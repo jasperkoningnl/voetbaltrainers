@@ -40,6 +40,9 @@ const LOCAL_LOGOS = new Set(["ajax", "arsenal", "as-monaco", "as-saint-etienne",
     "napoli", "olympique-lyonnais", "olympique-marseille", "paris-saint-germain", "psv", "real-madrid", "roma", "s-c-braga",
     "sporting-cp", "valencia-cf", "vfb-stuttgart"]);
 const slug = s => String(s).normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+// Volledig zwarte logo's worden op de donkere achtergrond wit weergegeven
+const INVERT_LOGOS = new Set(["juventus"]);
+const logoClass = club => INVERT_LOGOS.has(slug(club.naam)) ? " logo-invert" : "";
 const logoOf = club => LOCAL_LOGOS.has(slug(club.naam)) ? `../images/logos/${slug(club.naam)}.png` : club.logo_url || "";
 
 const tenureBucket = n => n <= 1 ? 0 : n === 2 ? 1 : n <= 4 ? 2 : n <= 6 ? 3 : n <= 9 ? 4 : 5;
@@ -332,7 +335,7 @@ class Heatmap {
         const rows = this.gRows.selectAll("g.row-label-svg").data(labelW ? spec.rows : [], d => d).join(
             enter => {
                 const g = enter.append("g").attr("class", "row-label-svg").attr("opacity", 0);
-                g.append("image").attr("width", 26).attr("height", 26).attr("preserveAspectRatio", "xMidYMid meet")
+                g.append("image").attr("class", id => logoClass(DB.clubById.get(id) || {})).attr("width", 26).attr("height", 26).attr("preserveAspectRatio", "xMidYMid meet")
                     .on("error", function () { d3.select(this).style("display", "none"); });
                 g.append("text").attr("dy", ".35em");
                 return g;
@@ -732,8 +735,27 @@ const norm = s => String(s).normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCas
 const initials = name => String(name).split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join("").toUpperCase();
 const composedHas = (e, selector) => e.composedPath().some(el => el instanceof Element && el.matches(selector));
 
+// Weergave-eenheid in de verkenner: een tenure zonder gebroken seizoenen aan het begin of eind.
+// Kwam een trainer halverwege een seizoen binnen (of vertrok hij halverwege), dan staat dat
+// gesplitste seizoen los. De kleur blijft die van de tenure: die telt alleen volle seizoenen.
+// De statistieken in het intro rekenen met de tenures zelf en veranderen hierdoor niet.
+function buildSpells() {
+    new Set(DB.seasons.map(s => s.tenure)).forEach(t => {
+        const list = t.seasons;
+        let a = 0, b = list.length - 1;
+        while (a <= b && list[a].multi) a++;
+        while (b >= a && list[b].multi) b--;
+        list.forEach((x, i) => { if (i < a || i > b) x.spell = { id: x.key, split: true, tenure: t, seasons: [x] }; });
+        if (a > b) return;
+        const core = list.slice(a, b + 1);
+        const spell = { id: `${t.id}|core`, split: false, tenure: t, seasons: core, first: core[0].season, last: core[core.length - 1].season, trophies: trophiesOf(core) };
+        core.forEach(x => { x.spell = spell; });
+    });
+}
+
 function buildExplorer() {
     DB.seasonByKey = new Map(DB.seasons.map(s => [s.key, s]));
+    buildSpells();
     // Trainers voor de carrièrelijst: meeste seizoenen bovenaan
     const counts = d3.rollup(DB.seasons.filter(s => !s.unknown), v => v.length, s => s.coach);
     ui.coachNames = [...counts.keys()].sort((a, b) => d3.descending(counts.get(a), counts.get(b)) || d3.ascending(a, b));
@@ -765,7 +787,7 @@ function buildExplorer() {
         if (rm) { state.clubs = state.clubs.filter(id => id !== rm.dataset.remove); ui.locked = null; renderExplorer(); return; }
         if (e.target.closest("#add-club-btn")) { toggleMenu("add"); return; }
         const cell = e.target.closest(".seg.live .cell[data-key]");
-        const t = cell ? DB.seasonByKey.get(cell.dataset.key).tenure : null;
+        const t = cell ? DB.seasonByKey.get(cell.dataset.key).spell : null;
         ui.locked = t && ui.locked !== t ? t : null;
         // Op een touchscherm is er geen hover: toon dan meteen de vastgezette trainer
         if (!window.matchMedia("(hover: hover)").matches) ui.hovered = null;
@@ -863,14 +885,14 @@ function renderGrid() {
     const rowHTML = clubId => {
         const club = DB.clubById.get(clubId);
         const bySeason = new Map((DB.byClub.get(clubId) || []).map(s => [s.season, s]));
-        // Aaneengesloten seizoenen van dezelfde tenure vormen één segment
+        // Aaneengesloten seizoenen van dezelfde periode vormen één segment; een gebroken seizoen aan de rand staat los
         const segs = [];
         let cur = null;
         columns.forEach(season => {
             let d = bySeason.get(season) || null;
             if (d && coach && d.coachId !== coach.id) d = null;
             if (d?.unknown) ui.hasUnknown = true;
-            const tid = d ? d.tenure.id : null;
+            const tid = d ? d.spell.id : null;
             if (!cur || cur.tid !== tid) { cur = { tid, cells: [] }; segs.push(cur); }
             cur.cells.push(d);
         });
@@ -879,7 +901,7 @@ function renderGrid() {
             : `<div class="seg">${s.cells.map(() => cellHTML(null, cellW)).join("")}</div>`).join("");
         return `<div class="grid-row">
             <div class="row-label" style="width:${labelW}px">
-                <img class="row-logo" src="${esc(club.logo_url)}" alt="">
+                <img class="row-logo${logoClass(club)}" src="${esc(club.logo_url)}" alt="">
                 ${career ? `<span class="row-cc">${COUNTRY_CODE[club.land] || ""}</span>` : ""}
                 ${narrow ? "" : `<span class="row-name" title="${esc(club.naam)}">${esc(club.naam)}</span>`}
                 ${compare ? `<button class="row-remove" type="button" data-remove="${esc(clubId)}" title="Remove ${esc(club.naam)}" aria-label="Remove ${esc(club.naam)}">×</button>` : ""}
@@ -967,7 +989,7 @@ function renderMenus() {
             const q = norm(input.value.trim());
             const clubs = DB.clubs.filter(c => !state.clubs.includes(c.id) && (!q || norm(c.naam).includes(q)));
             pa.querySelector(".pop-list").innerHTML = clubs.length
-                ? clubs.map(c => `<button class="pop-item club-item" type="button" data-club="${esc(c.id)}"><img src="${esc(c.logo_url)}" alt=""><span>${esc(c.naam)}</span><span class="note">${COUNTRY_CODE[c.land] || ""}</span></button>`).join("")
+                ? clubs.map(c => `<button class="pop-item club-item" type="button" data-club="${esc(c.id)}"><img class="${logoClass(c).trim()}" src="${esc(c.logo_url)}" alt=""><span>${esc(c.naam)}</span><span class="note">${COUNTRY_CODE[c.land] || ""}</span></button>`).join("")
                 : `<div class="pop-empty">No clubs found</div>`;
             pa.querySelectorAll("[data-club]").forEach(b => b.addEventListener("click", () => {
                 state.clubs = [...state.clubs, b.dataset.club];
@@ -1032,8 +1054,8 @@ async function copyLink() {
 function showInfo() {
     const pane = $("info-pane");
     const d = ui.hovered;
-    const t = d ? d.tenure : ui.locked;
-    if (t) pane.innerHTML = tenureHTML(t, d);
+    const sp = d ? d.spell : ui.locked;
+    if (sp) pane.innerHTML = sp.split && !sp.seasons[0].unknown ? splitSeasonHTML(sp.seasons[0]) : spellHTML(sp, d);
     else if (state.view === "career") pane.innerHTML = state.career ? careerHTML(state.career) : `<p class="info-default">Follow one manager from club to club.</p>`;
     else {
         const ids = state.view === "league" ? DB.clubs.filter(c => c.land === state.country).map(c => c.id) : state.clubs;
@@ -1061,11 +1083,11 @@ function chipsHTML(tr) {
 const badgeHTML = (text, bucket) =>
     `<span class="tenure-badge" style="background:${TENURE_COLORS[bucket]};color:${TENURE_TEXT[bucket]}">${esc(text)}</span>`;
 
-function infoCardHTML({ photo, name, nat, sub, extra = "", chips, badge }) {
+function infoCardHTML({ photo, name, nameHTML, nameTitle = "", nat, sub, extra = "", chips, badge }) {
     return `<div class="info-card">
         ${photo}
         <div class="info-main">
-            <div class="info-head"><span class="info-name">${esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}</div>
+            <div class="info-head"><span class="info-name" title="${esc(nameTitle)}">${nameHTML ?? esc(name)}</span>${nat ? `<span class="info-nat">${esc(nat)}</span>` : ""}</div>
             <div class="info-sub">${sub}</div>
             ${extra}
         </div>
@@ -1074,26 +1096,42 @@ function infoCardHTML({ photo, name, nat, sub, extra = "", chips, badge }) {
     </div>`;
 }
 
-function tenureHTML(t, d) {
+function spellHTML(sp, d) {
+    const t = sp.tenure;
     const club = DB.clubById.get(t.clubId)?.naam || "";
-    const span = t.first === t.last ? t.first : `${t.first} – ${t.last}`;
-    if (t.seasons[0].unknown) {
+    const first = sp.seasons[0].season, last = sp.seasons[sp.seasons.length - 1].season;
+    const span = first === last ? first : `${first} – ${last}`;
+    if (sp.seasons[0].unknown) {
         return `<p class="info-default"><strong>No reliable data</strong> · ${esc(club)} · ${span}. No single manager could be determined from the available sources.</p>`;
     }
     const coach = DB.coaches.get(t.coachId) || {};
-    // Seizoenen met meer trainers: wie er stonden (het seizoen onder de muis eerst)
-    const multi = t.multiSeasons.filter(s => s.trainers?.length);
+    // Gesplitste seizoenen midden in de periode: wie er stonden (het seizoen onder de muis eerst)
+    const multi = sp.seasons.filter(s => s.multi && s.trainers?.length);
     const ordered = d?.multi ? [d, ...multi.filter(s => s !== d)] : multi;
-    const line = s => `${s.season}: ${s.trainers.map(tr => `${esc(tr.naam)}${tr.interim ? '<span class="interim">interim</span>' : ""}`).join(" → ")}`;
-    const plain = ordered.map(s => `${s.season}: ${s.trainers.map(tr => tr.naam + (tr.interim ? " (interim)" : "")).join(" → ")}`).join(" · ");
-    const extra = ordered.length ? `<div class="info-extra" title="${esc(plain)}">${ordered.map(line).join(" · ")}</div>` : "";
+    const plain = ordered.map(s => `${s.season}: ${lineupText(s)}`).join(" · ");
+    const extra = ordered.length ? `<div class="info-extra" title="${esc(plain)}">${ordered.map(s => `${s.season}: ${lineupHTML(s)}`).join(" · ")}</div>` : "";
     return infoCardHTML({
         photo: photoHTML(coach.foto_url, t.coach),
         name: t.coach, nat: coach.nationaliteit,
         sub: `<span class="club">${esc(club)}</span> <span class="span">· ${span}</span>`,
         extra,
-        chips: chipsHTML(t.trophies),
-        badge: badgeHTML(plural(t.length, "season", "seasons"), t.bucket),
+        chips: chipsHTML(sp.trophies),
+        badge: badgeHTML(plural(sp.seasons.length, "season", "seasons"), t.bucket),
+    });
+}
+
+const lineupText = s => s.trainers.map(tr => tr.naam + (tr.interim ? " (interim)" : "")).join(" → ");
+const lineupHTML = s => s.trainers.map(tr => `${esc(tr.naam)}${tr.interim ? '<span class="interim">interim</span>' : ""}`).join(" → ");
+
+// Los gebroken seizoen: alle trainers van dat seizoen op een rij
+function splitSeasonHTML(s) {
+    const k = Math.min(5, s.nCoaches);
+    return infoCardHTML({
+        photo: `<div class="info-photo split-mark" aria-hidden="true">${"<i></i>".repeat(k)}</div>`,
+        nameHTML: lineupHTML(s), nameTitle: lineupText(s),
+        sub: `<span class="club">${esc(s.club)}</span> <span class="span">· ${s.season} · ${plural(s.nCoaches, "manager", "managers")}</span>`,
+        chips: chipsHTML(trophiesOf([s])),
+        badge: badgeHTML("split season", 0),
     });
 }
 
@@ -1103,14 +1141,14 @@ function careerHTML(name) {
     const list = seasonsOfCoach(c.id);
     const clubs = new Set(list.map(s => s.clubId));
     const countries = new Set(list.map(s => s.country));
-    const longest = [...new Set(list.map(s => s.tenure))].reduce((a, b) => b.length > a.length ? b : a);
+    const longest = [...new Set(list.map(s => s.spell))].reduce((a, b) => b.seasons.length > a.seasons.length ? b : a);
     return infoCardHTML({
         photo: photoHTML(c.foto_url, c.naam),
         name: c.naam, nat: c.nationaliteit,
         sub: `<span class="club">${plural(clubs.size, "club", "clubs")} · ${plural(countries.size, "country", "countries")}</span> <span class="span">· ${list[0].season} – ${list[list.length - 1].season}</span>`,
         extra: `<div class="info-extra">${plural(list.length, "season", "seasons")} as manager of the season in this dataset</div>`,
         chips: chipsHTML(trophiesOf(list)),
-        badge: badgeHTML(`longest: ${longest.length}`, longest.bucket),
+        badge: badgeHTML(`longest: ${longest.seasons.length}`, longest.split ? 0 : longest.tenure.bucket),
     });
 }
 
@@ -1119,8 +1157,7 @@ function insightsHTML(clubIds) {
     const ids = new Set(clubIds);
     const seasons = DB.seasons.filter(s => ids.has(s.clubId) && !s.unknown);
     if (!seasons.length) return "";
-    const tenures = [...new Set(seasons.map(s => s.tenure))];
-    const longest = tenures.reduce((a, b) => b.length > a.length ? b : a);
+    const longest = [...new Set(seasons.map(s => s.spell))].reduce((a, b) => b.seasons.length > a.seasons.length ? b : a);
     const cs = clubStats().filter(d => ids.has(d.club.id));
     const stable = cs.reduce((a, b) => b.avg > a.avg ? b : a);
     const unstable = cs.reduce((a, b) => b.avg < a.avg ? b : a);
@@ -1130,7 +1167,7 @@ function insightsHTML(clubIds) {
     const swatch = c => `<span class="swatch" style="background:${c}"></span>`;
     const card = (icon, label, value, sub) => `<div class="stat-card"><div class="stat-icon">${icon}</div><div><div class="stat-label">${label}</div><div class="stat-value">${esc(value)}</div><div class="stat-sub">${sub}</div></div></div>`;
     return `<div class="stat-grid">
-        ${card(swatch("#003300"), "Longest tenure", longest.coach, `${esc(DB.clubById.get(longest.clubId).naam)} · ${plural(longest.length, "season", "seasons")}`)}
+        ${card(swatch("#003300"), "Longest tenure", longest.tenure.coach, `${esc(DB.clubById.get(longest.tenure.clubId).naam)} · ${plural(longest.seasons.length, "season", "seasons")}`)}
         ${card(swatch("#339933"), "Most stable club", stable.club.naam, `${fmt1(stable.avg)} seasons per manager`)}
         ${turbulent ? card(`<span class="legend-swatches split">${splitSwatch(3)}</span>`, "Most mid-season changes", turbulent.club.naam, plural(turbulent.multi, "split season", "split seasons")) : card(swatch("#FF0033"), "Least stable club", unstable.club.naam, `${fmt1(unstable.avg)} seasons per manager`)}
         ${card(shieldSVG("euro", 14), "Most trophies", success.club.naam, `${success.trophies} trophies`)}
