@@ -83,16 +83,17 @@ function seasonBounds(season) {
   const startYear = Number(match[1]);
   const expectedEnd = String((startYear + 1) % 100).padStart(2, '0');
   if (match[2] !== expectedEnd) throw new Error(`Ongeldig aansluitend seizoen: ${season}`);
-  return { start: `${startYear}-07-01`, end: `${startYear + 1}-06-30` };
+  return { start: `${startYear}-08-01`, end: `${startYear + 1}-05-20` };
 }
 
 export function overlapsSeason(record, season) {
   const { start, end } = seasonBounds(season);
-  const startMonth = record.van.slice(5, 7);
-  const effectiveStart = startMonth === '06'
-    ? `${record.van.slice(0, 4)}-07-01`
-    : record.van;
-  return effectiveStart <= end && (!record.tot || record.tot >= start);
+  const overlapStart = record.van > start ? record.van : start;
+  const overlapEnd = record.tot && record.tot < end ? record.tot : end;
+  if (overlapStart > overlapEnd) return false;
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+  const days = Math.floor((Date.parse(overlapEnd) - Date.parse(overlapStart)) / millisecondsPerDay) + 1;
+  return days >= 3;
 }
 
 function canonicalName(value) {

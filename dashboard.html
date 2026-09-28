@@ -1365,9 +1365,10 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 setError('');
                 setStatus('Data importeren naar database...');
                 try {
-                    const [clubsSnapshot, coachesSnapshot] = await Promise.all([
+                    const [clubsSnapshot, coachesSnapshot, seasonsSnapshot] = await Promise.all([
                         getDocs(collection(db, "clubs")),
-                        getDocs(collection(db, "coaches"))
+                        getDocs(collection(db, "coaches")),
+                        getDocs(collection(db, "seizoenen"))
                     ]);
                     const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id]));
                     const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id]));
@@ -1401,12 +1402,13 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                         batch.set(newCoachRef, data);
                         coachIdMap.set(name, newCoachRef.id);
                     }
+                    const existingSeasonsMap = new Map(seasonsSnapshot.docs.map(d => [`${d.data().club}|${d.data().seizoen}`, d.ref]));
                     processedData.forEach(season => {
                         const coachId = coachIdMap.get(season.coach);
                         const clubId = clubIdMap.get(season.club);
                         if (coachId && clubId) {
-                            const newSeasonRef = doc(collection(db, 'seizoenen'));
-                            batch.set(newSeasonRef, {
+                            const seasonRef = existingSeasonsMap.get(`${clubId}|${season.seizoen}`) || doc(collection(db, 'seizoenen'));
+                            const seasonData = {
                                 seizoen: season.seizoen,
                                 coachId: coachId,
                                 club: clubId,
@@ -1414,7 +1416,10 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                 landstitel: season.landstitel,
                                 nationale_beker: season.nationale_beker,
                                 europese_prijs: season.europese_prijs,
-                            });
+                            };
+                            if (Array.isArray(season.trainers_seizoen)) seasonData.trainers_seizoen = season.trainers_seizoen;
+                            if (season.trainers_bron) seasonData.trainers_bron = season.trainers_bron;
+                            batch.set(seasonRef, seasonData, { merge: true });
                         }
                     });
                     await batch.commit();

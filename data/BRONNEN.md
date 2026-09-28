@@ -56,9 +56,11 @@ Voor een eenmalige, controleerbare back-upimport is wel een apart script beschik
 node data/bronnen/importeer_transfermarkt.mjs --seasons 2025/26
 ```
 
-Gericht testen kan met bijvoorbeeld `--clubs Ajax`, `--limit 1` en `--refresh`. De 31 gecontroleerde club-ID's staan in `data/bronnen/transfermarkt_clubs.json`. HTML en rapporten komen onder `.cache/transfermarkt/` en worden niet gecommit. Alleen regels met een exacte trainersrol worden verwerkt; sportief en technisch directeuren vallen buiten beide gebruikte rolcodes.
+Gericht testen kan met bijvoorbeeld `--clubs Ajax`, `--limit 1` en `--refresh`. De 35 gecontroleerde club-ID's staan in `data/bronnen/transfermarkt_clubs.json`. HTML en rapporten komen onder `.cache/transfermarkt/` en worden niet gecommit. Alleen regels met een exacte trainersrol worden verwerkt; sportief en technisch directeuren vallen buiten beide gebruikte rolcodes.
 
-Een benoeming in juni wordt aan het seizoen vanaf juli toegerekend. Dat voorkomt dat trainers die na afloop van de nationale competitie al voor het volgende seizoen zijn benoemd ten onrechte ook in het vorige seizoen verschijnen. De originele benoemingsdatum blijft ongewijzigd in het rapport staan.
+De import gebruikt dezelfde seizoensregel als de site: een trainer telt mee bij minstens drie kalenderdagen tussen 1 augustus en 20 mei. Zomerbenoemingen en zeer korte interims buiten dat venster tellen daardoor niet mee. De originele datums blijven ongewijzigd in het rapport staan.
+
+Voor 2025/26 bouwt `node data/bronnen/maak_seizoensimport.mjs 2025/26` uit het gecontroleerde rapport het dashboardbestand `data/import_2025-26.json`. De prijswinnaars en hun controlelinks staan apart in `data/bronnen/prijzen_2025-26.json`. Met `node data/bronnen/merge_seizoensimport.mjs` worden die rijen ook in de publieke snapshot en de lokale terugvaldata gezet. De dagelijkse Firestore-export past dezelfde aanvulling toe zolang de nieuwe clubseizoenen nog niet in Firestore staan.
 
 ## football-data.org
 

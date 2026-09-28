@@ -28,8 +28,12 @@ test('een geldige rol zonder benoemingen levert een lege lijst op', () => {
   assert.deepEqual(parseStaffHistory('<table><tbody></tbody></table>', role, source), []);
 });
 
-test('een benoeming in juni telt vanaf het volgende seizoen', () => {
+test('dezelfde seizoensregel als de site: minstens drie dagen tussen 1 augustus en 20 mei', () => {
   const record = { van: '2025-06-09', tot: null };
   assert.equal(overlapsSeason(record, '2024/25'), false);
   assert.equal(overlapsSeason(record, '2025/26'), true);
+  assert.equal(overlapsSeason({ van: '2025-05-19', tot: '2025-05-20' }, '2024/25'), false);
+  assert.equal(overlapsSeason({ van: '2025-05-18', tot: '2025-05-20' }, '2024/25'), true);
+  assert.equal(overlapsSeason({ van: '2024-07-01', tot: '2024-08-02' }, '2024/25'), false);
+  assert.equal(overlapsSeason({ van: '2024-07-01', tot: '2024-08-03' }, '2024/25'), true);
 });
