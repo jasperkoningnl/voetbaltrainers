@@ -1,0 +1,25 @@
+{
+  "seizoen": "2025/26",
+  "landstitel": ["Arsenal", "AilVcfD75AOdPahnJ2Vb", "8UrbfQn5FBUwogRqFyPa", "PSV", "wJOZsa6hs3Uvm7DvuMSM", "BojctiuCmCJkPxn8YcAU", "85OvLAjM0LAOdsm0DZPK"],
+  "nationale_beker": ["Manchester City", "AilVcfD75AOdPahnJ2Vb", "8UrbfQn5FBUwogRqFyPa", "AZ"],
+  "europese_prijs": ["wJOZsa6hs3Uvm7DvuMSM"],
+  "bronnen": [
+    { "prijs": "Premier League", "winnaar": "Arsenal", "url": "https://www.premierleague.com/en/news/4662306/arsenal-win-2025-26-premier-league-title-ending-22-year-wait-to-be-crowned-champions-again" },
+    { "prijs": "FA Cup", "winnaar": "Manchester City", "url": "https://www.thefa.com/news/2026/may/16/emirates-fa-cup-final-chelsea-v-manchester-city-report-20261605" },
+    { "prijs": "Ligue 1", "winnaar": "Paris Saint-Germain", "url": "https://ligue1.com/en/articles/l1_article_5109-" },
+    { "prijs": "Coupe de France", "winnaar": "RC Lens", "url": "https://ligue1.com/en/articles/l1_article_5158-", "opmerking": "Winnaar valt buiten de dataset." },
+    { "prijs": "Bundesliga", "winnaar": "Bayern München", "url": "https://www.bundesliga.com/en/bundesliga/news/bayern-munich-season-in-numbers-record-champions-36970" },
+    { "prijs": "DFB-Pokal", "winnaar": "Bayern München", "url": "https://www.dfb.de/news/vfb-entthront-fc-bayern-gewinnt-zum-21-mal-den-dfb-pokal" },
+    { "prijs": "Serie A", "winnaar": "Internazionale", "url": "https://www.legaseriea.it/serie-a/news/la-marcia-nerazzurra-verso-il-21-titolo" },
+    { "prijs": "Coppa Italia", "winnaar": "Internazionale", "url": "https://www.legaseriea.it/coppa-italia/news/lazio-inter-risultato-gol-diretta-finale-coppa-italia-frecciarossa-13-05-2026-roma-stadio-olimpico" },
+    { "prijs": "Eredivisie", "winnaar": "PSV", "url": "https://eredivisie.nl/nieuws/psv-snelste-kampioen-ooit-in-de-vriendenloterij-eredivisie/" },
+    { "prijs": "KNVB Beker", "winnaar": "AZ", "url": "https://www.knvb.nl/nieuws/betaald-voetbal/johan-cruijff-schaal/72064/jeugdig-az-laat-tiental-psv-kansloos-en-pakt-de" },
+    { "prijs": "Liga Portugal", "winnaar": "FC Porto", "url": "https://www.ligaportugal.pt/news/27715/fc-porto-vence-e-sagra-se-campeao-nacional" },
+    { "prijs": "Taça de Portugal", "winnaar": "SCU Torreense", "url": "https://www.ligaportugal.pt/noticias/28284/fc-porto-conquista-supertaca-candido-de-oliveira", "opmerking": "Winnaar valt buiten de dataset." },
+    { "prijs": "La Liga", "winnaar": "FC Barcelona", "url": "https://www.laliga.com/videos/fc-barcelona-campeon-de-laliga-ea-sports-2025-26" },
+    { "prijs": "Copa del Rey", "winnaar": "Real Sociedad", "url": "https://rfef.es/en/noticias/An-almost-unique-final", "opmerking": "Winnaar valt buiten de dataset." },
+    { "prijs": "Champions League", "winnaar": "Paris Saint-Germain", "url": "https://www.uefa.com/uefachampionsleague/news/02a5-20c02e59f219-15e92acdc717-1000--paris-retain-champions-league-holders-edge-arsenal-on-penalties/" },
+    { "prijs": "Europa League", "winnaar": "Aston Villa", "url": "https://www.uefa.com/uefaeuropaleague/news/02a5-20ac3759bba4-7f91e47690b9-1000/", "opmerking": "Winnaar valt buiten de dataset." },
+    { "prijs": "Conference League", "winnaar": "Crystal Palace", "url": "https://www.uefa.com/uefaconferenceleague/news/02a5-20ba50a7a602-983af582dc90-1000/", "opmerking": "Winnaar valt buiten de dataset." }
+  ]
+}

@@ -72,3 +72,16 @@ test('gecorrigeerde landskampioenen van 2024/25 zijn vastgelegd', () => {
   assert.equal(snapshotTitle('Napoli'), 'Y');
 });
 
+test('2025/26 bevat alle 35 clubs en de gecontroleerde prijzen', () => {
+  const clubNames = new Map(snapshot.clubs.map(club => [club.id, club.naam]));
+  const rows = snapshot.seizoenen.filter(row => row.seizoen === '2025/26');
+  assert.equal(rows.length, 35);
+  assert.equal(new Set(rows.map(row => row.club)).size, 35);
+  assert.ok(rows.every(row => Array.isArray(row.trainers_seizoen) && row.trainers_seizoen.length > 0));
+
+  const winners = field => rows.filter(row => row[field] === 'Y').map(row => clubNames.get(row.club)).sort();
+  assert.deepEqual(winners('landstitel'), ['Arsenal', 'Bayern München', 'FC Barcelona', 'FC Porto', 'Internazionale', 'PSV', 'Paris Saint-Germain'].sort());
+  assert.deepEqual(winners('nationale_beker'), ['AZ', 'Bayern München', 'Internazionale', 'Manchester City'].sort());
+  assert.deepEqual(winners('europese_prijs'), ['Paris Saint-Germain']);
+});
+

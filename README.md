@@ -38,6 +38,7 @@ De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflow
 - **Dagelijks om 08:23 UTC** (na de quotumreset rond middernacht Pacific-tijd) leest `.github/scripts/firestore-snapshot.mjs` de collecties `clubs`, `coaches` en `seizoenen` via de Firestore REST API (ruim 3.000 reads). Is de data veranderd, dan commit de Action `data/snapshot.json` en publiceert de site.
 - **Direct bijwerken** na wijzigingen in het dashboard: GitHub → Actions → *Site publiceren* → **Run workflow**.
 - **Bij elke push naar `main`** publiceert de Action de site met de snapshot die al in de repo staat, zonder Firestore te lezen.
+- `data/import_2025-26.json` vult het nieuwe seizoen aan zolang dat nog niet volledig in Firestore staat. De dagelijkse snapshot voegt alleen ontbrekende clubseizoenen toe; bestaande Firestore-documenten blijven leidend.
 - Mislukt het uitlezen (bijvoorbeeld quotum op), dan blijft de vorige snapshot staan en stuurt GitHub een melding van de mislukte run.
 
 Eenmalige instelling: Settings → Pages → Build and deployment → Source: **GitHub Actions**. In een openbare repo schakelt GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo; zet hem dan aan via Actions → *Site publiceren* → Enable workflow.
@@ -52,7 +53,8 @@ Eenmalige instelling: Settings → Pages → Build and deployment → Source: **
 - Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
-- Importeren in Firestore: dashboard → **Seizoenstrainers** → kies `data/trainers_seizoen.json` → controleer de preview → importeer. Alleen `trainers_seizoen` en `trainers_bron` worden geschreven.
+- Importeren in Firestore: dashboard → **Importer** → kies `data/import_2025-26.json` → importeer. Dit schrijft de 35 clubseizoenen, maakt ontbrekende hoofdtrainers aan en neemt de volledige trainerslijst en bron mee. Opnieuw importeren werkt hetzelfde document bij en maakt geen dubbel clubseizoen.
+- Voor historische seizoenstrainers blijft dashboard → **Seizoenstrainers** → `data/trainers_seizoen.json` beschikbaar. Die route schrijft alleen `trainers_seizoen` en `trainers_bron`.
 
 In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
 
@@ -65,7 +67,7 @@ Regel voor een gesplitst seizoen: een trainer telt mee voor een seizoen als hij 
 - `data/bronnen/normaliseer_trainers.mjs`: splitst gezamenlijke trainers, verwijdert expliciete technische directeuren en past controleerbare correcties toe.
 - `data/BRONNEN.md`: werkwijze voor bronrevisies en aanvullende controle met API-Football, Transfermarkt en football-data.org.
 - `data/controlelijst.md`: seizoenen waar bron en database uit elkaar lopen. De database is niet aangepast.
-- Nog geen data voor AS Monaco, Athletic Bilbao, Boavista en S.C. Braga (bronnen geven alleen jaartallen).
+- Transfermarkt vult voor 2025/26 ook AS Monaco, Athletic Bilbao, Boavista en S.C. Braga met exacte datums aan. Historische jaargangen van die vier clubs zijn nog niet volledig overgezet naar `trainers_seizoen.json`.
 
 ### Twijfelgevallen
 

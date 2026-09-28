@@ -48,7 +48,19 @@ De cache en het rapport komen onder `.cache/api-football/` en worden niet gecomm
 
 ## Transfermarkt
 
-Transfermarkt heeft geen publiek ondersteunde API. De site blijft daarom alleen een handmatige tweede bron via de links in het dashboard. Automatisch scrapen is bewust niet ingebouwd: het is kwetsbaar, slecht reproduceerbaar en kan botsen met gebruiksvoorwaarden.
+Transfermarkt heeft geen publiek ondersteunde API. De links in het dashboard blijven daarom de handmatig controleerbare bron. Automatisch ophalen is kwetsbaar en kan botsen met gebruiksvoorwaarden; gebruik de back-upimport hieronder alleen bewust en bewaar de opgehaalde cache als momentopname.
+
+Voor een eenmalige, controleerbare back-upimport is wel een apart script beschikbaar. Het leest uitsluitend de clubhistorie voor `Manager` (rol 1) en `Caretaker Manager` (rol 10), cachet de bronpagina's en schrijft een vergelijkingsrapport. Het wijzigt de dataset niet:
+
+```powershell
+node data/bronnen/importeer_transfermarkt.mjs --seasons 2025/26
+```
+
+Gericht testen kan met bijvoorbeeld `--clubs Ajax`, `--limit 1` en `--refresh`. De 35 gecontroleerde club-ID's staan in `data/bronnen/transfermarkt_clubs.json`. HTML en rapporten komen onder `.cache/transfermarkt/` en worden niet gecommit. Alleen regels met een exacte trainersrol worden verwerkt; sportief en technisch directeuren vallen buiten beide gebruikte rolcodes.
+
+De import gebruikt dezelfde seizoensregel als de site: een trainer telt mee bij minstens drie kalenderdagen tussen 1 augustus en 20 mei. Zomerbenoemingen en zeer korte interims buiten dat venster tellen daardoor niet mee. De originele datums blijven ongewijzigd in het rapport staan.
+
+Voor 2025/26 bouwt `node data/bronnen/maak_seizoensimport.mjs 2025/26` uit het gecontroleerde rapport het dashboardbestand `data/import_2025-26.json`. De prijswinnaars en hun controlelinks staan apart in `data/bronnen/prijzen_2025-26.json`. Met `node data/bronnen/merge_seizoensimport.mjs` worden die rijen ook in de publieke snapshot en de lokale terugvaldata gezet. De dagelijkse Firestore-export past dezelfde aanvulling toe zolang de nieuwe clubseizoenen nog niet in Firestore staan.
 
 ## football-data.org
 

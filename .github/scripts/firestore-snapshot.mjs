@@ -5,6 +5,7 @@
 // en meldt dat via GITHUB_OUTPUT (changed=true/false).
 
 import fs from "node:fs";
+import { mergeSeasonImport } from "../../data/bronnen/merge_seizoensimport.mjs";
 
 const PROJECT = process.env.FIRESTORE_PROJECT || "voetbaltrainers";
 // Web-API-sleutel van het project; staat ook openbaar in index.html.
@@ -76,6 +77,16 @@ const collections = {};
 for (const name of COLLECTIONS) {
     collections[name] = await readCollection(name);
     console.log(`${name}: ${collections[name].length} documenten`);
+}
+
+// Tijdelijke, versiebeheerbare aanvulling voor nieuwe seizoenen. Zodra een clubseizoen
+// in Firestore staat, blijft het Firestore-document leidend en worden alleen ontbrekende
+// trainersvelden uit het importbestand aangevuld.
+const seasonImportPath = "data/import_2025-26.json";
+if (fs.existsSync(seasonImportPath)) {
+    const rows = JSON.parse(fs.readFileSync(seasonImportPath, "utf8"));
+    mergeSeasonImport(collections, rows);
+    console.log(`seizoensaanvulling: ${rows.length} rijen verwerkt`);
 }
 
 let previous = null;
