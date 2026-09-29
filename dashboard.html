@@ -2211,7 +2211,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                                 ))}
                                             </div>
                                         )}
-                                        <Links naam={c.naam} wd={t && t.wikidata} />
+                                        <Links naam={c.naam} wd={(t && t.wikidata) || (data.wikidata || {})[c.id]} />
                                         {urlInvoer(c.id, 'handmatig', 'Opslaan')}
                                     </div>
                                 ))}

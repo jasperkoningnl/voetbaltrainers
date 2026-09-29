@@ -78,6 +78,8 @@ Alles wat aandacht nodig heeft staat in het dashboard onder **Data Health**, in 
 - **Meldingen**: fouten die bezoekers melden (zie `docs/MELDINGEN.md`).
 - **Datakwaliteit**: dubbele coaches, nationaliteiten, export per land en wees-seizoenen.
 
+Fotozoekrun 29 september 2026 (voor alle trainers zonder foto): kandidaten uit Wikidata (foto van de persoon, gekoppeld aan dezelfde club), de infobox op Wikipedia in meerdere talen en een zoekopdracht op naam in Wikimedia Commons. Alleen vrije bestanden op Commons. *Zeker* betekent: de identiteit klopt (Wikidata-koppeling met de club of een bestandsbeschrijving die de trainer noemt), de licentie staat op de Commons-bestandspagina en de foto is bekeken. Die staan onder *Nieuw* en gaan met één knop de database in; schrijven naar Firestore vraagt een inlog. Alles wat daar niet aan voldoet staat met reden onder *Ontbreekt* (twijfel) of *Niet toegevoegd* (verkeerde persoon, geen portret).
+
 ### Twijfelgevallen
 
 De 66 eerdere twijfelgevallen zijn op 28 september 2026 gecontroleerd met de volledige Transfermarkt-trainerhistorie en opgenomen in `data/import_transfermarkt_compleet.json`. `data/twijfelgevallen.json` is daardoor leeg. Nieuwe uitzonderingen kunnen via dezelfde dashboardroute opnieuw worden beoordeeld.
