@@ -75,7 +75,7 @@ Dit is het grootste deel.
 - `serverTimestamp` wordt `now()` in de database.
 - `enrichCoachData` vervalt: het dashboard kan de Wikipedia-API rechtstreeks vragen, omdat die aanroepen vanuit de browser toestaat met `origin=*`.
 
-Testen per scherm: Clubs, Coaches, Seizoenen, Importer, Data Health, Seizoenstrainers, Twijfelgevallen.
+Testen per scherm: Clubs, Coaches, Seizoenen, Importer (beide importsoorten), Data Health (alle tabbladen).
 
 **Stap 6. Overgang.**
 Een week lang met Supabase werken, terwijl Firestore alleen-lezen blijft als reserve. Daarna de Firestore-terugval uit `app.js` en `v0.9/` halen, en de Firebase-config en `functions/` opruimen.
