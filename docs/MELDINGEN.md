@@ -2,7 +2,7 @@
 
 Bezoekers melden fouten via **Report an error** in de footer van elke pagina (report.js). Vanuit de verkenner kan dat ook per seizoen: `window.reportError({ club, season, coach })` opent hetzelfde formulier, vooringevuld.
 
-Een melding komt in de Firestore-collectie `meldingen` en staat in het dashboard onder **Meldingen**. Daar zet je hem op opgelost of afgewezen, met een notitie.
+Een melding komt in de Firestore-collectie `meldingen` en staat in het dashboard onder **Data Health** → **Meldingen**. Daar zet je hem op opgelost of afgewezen, met een notitie.
 
 ## Eenmalig: Firestore-regel
 

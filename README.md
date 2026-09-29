@@ -54,7 +54,7 @@ Eenmalige instelling: Settings → Pages → Build and deployment → Source: **
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
 - Importeren in Firestore: dashboard → **Importer** → **Gecontroleerde import laden** → importeer. Dit schrijft 101 gecontroleerde clubseizoenen, maakt ontbrekende hoofdtrainers (zoals Cristian Chivu) als bewerkbaar coachprofiel aan en neemt de volledige trainerslijst en bron mee. Opnieuw importeren werkt hetzelfde document bij en maakt geen dubbel clubseizoen.
-- Voor historische seizoenstrainers blijft dashboard → **Seizoenstrainers** → `data/trainers_seizoen.json` beschikbaar. Die route schrijft alleen `trainers_seizoen` en `trainers_bron`.
+- Voor historische seizoenstrainers blijft dashboard → **Importer** → **Seizoenstrainers (trainers_seizoen)** → `data/trainers_seizoen.json` beschikbaar. Die route schrijft alleen `trainers_seizoen` en `trainers_bron`.
 
 In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
 
@@ -68,6 +68,15 @@ Regel voor een gesplitst seizoen: een trainer telt mee voor een seizoen als hij 
 - `data/BRONNEN.md`: werkwijze voor bronrevisies en aanvullende controle met API-Football, Transfermarkt en football-data.org.
 - `data/controlelijst.md`: seizoenen waar bron en database uit elkaar lopen. De database is niet aangepast.
 - Transfermarkt vult voor 2025/26 ook AS Monaco, Athletic Bilbao, Boavista en S.C. Braga met exacte datums aan. Historische jaargangen van die vier clubs zijn nog niet volledig overgezet naar `trainers_seizoen.json`.
+
+### Dashboard: Data Health
+
+Alles wat aandacht nodig heeft staat in het dashboard onder **Data Health**, in tabbladen:
+
+- **Foto's en logo's**: trainers zonder foto (*Ontbreekt*, met gevonden kandidaat-foto's en zoeklinks), zekere nieuwe foto's (*Nieuw*, met één knop naar de database), bestaande foto's die niet kloppen (*Te controleren*), afgekeurde vondsten (*Niet toegevoegd*) en een controle van de clublogo's. Bron: `data/fotos_aanvulling.json`.
+- **Twijfelgevallen**: seizoenen waar bron en database uit elkaar lopen (`data/twijfelgevallen.json`).
+- **Meldingen**: fouten die bezoekers melden (zie `docs/MELDINGEN.md`).
+- **Datakwaliteit**: dubbele coaches, nationaliteiten, export per land en wees-seizoenen.
 
 ### Twijfelgevallen
 

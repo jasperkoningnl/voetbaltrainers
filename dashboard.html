@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <!-- 
+  Dashboard Versie: 29.0 - Data Health centraal
+  - Menu opgeschoond: Foto's, Twijfelgevallen en Meldingen staan nu als tabbladen onder 'Data Health'.
+  - 'Seizoenstrainers' is geen los menu-item meer, maar een tweede importsoort onder 'Importer'.
+  - Foto's: nieuw tabblad 'Ontbreekt' met alle trainers zonder foto, gevonden kandidaat-foto's (twijfelgevallen)
+    en zoeklinks; nieuw tabblad 'Clublogo's' dat per club het lokale logo en de logo_url in Firestore controleert.
+
   Dashboard Versie: 28.3 - Twijfelgevallen
   - Nieuwe sectie 'Twijfelgevallen': per twijfelseizoen trainers aan/uitvinken, hoofdtrainer kiezen, links naar bronnen. Import slaat gecontroleerde seizoenen over.
 
@@ -938,7 +944,29 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
+        // --- DATA HEALTH: alles wat aandacht nodig heeft, per tabblad ---
+        const DH_TABS = [['fotos', "Foto's en logo's"], ['twijfel', 'Twijfelgevallen'], ['meldingen', 'Meldingen'], ['tools', 'Datakwaliteit']];
         function DataHealthView({ appData, onUpdate }) {
+            const [tab, setTab] = useState(() => { try { return localStorage.getItem('dh-tab') || 'fotos'; } catch { return 'fotos'; } });
+            const kies = (id) => { setTab(id); try { localStorage.setItem('dh-tab', id); } catch { } };
+            const gebruikt = useMemo(() => new Set(appData.seasons.map(s => s.coachId)), [appData.seasons]);
+            const zonderFoto = appData.coaches.filter(c => !c.foto_url && gebruikt.has(c.id)).length;
+            return (
+                <div>
+                    <h1 className="text-3xl font-bold mb-1">Data Health</h1>
+                    <p className="text-gray-600 mb-4">{zonderFoto} hoofdtrainers zonder foto · {appData.clubs.length} clubs</p>
+                    <div className="flex flex-wrap gap-2 mb-6 border-b pb-3">
+                        {DH_TABS.map(([id, label]) => <button key={id} onClick={() => kies(id)} className={`px-4 py-2 rounded-md text-sm font-medium ${tab === id ? 'bg-gray-800 text-white' : 'bg-white border hover:bg-gray-50'}`}>{label}</button>)}
+                    </div>
+                    {tab === 'fotos' && <FotosView appData={appData} onUpdate={onUpdate} />}
+                    {tab === 'twijfel' && <TwijfelView appData={appData} onUpdate={onUpdate} />}
+                    {tab === 'meldingen' && <MeldingenView appData={appData} />}
+                    {tab === 'tools' && <DataToolsView appData={appData} onUpdate={onUpdate} />}
+                </div>
+            );
+        }
+
+        function DataToolsView({ appData, onUpdate }) {
             const { coaches, seasons, clubs } = appData;
 
             // --- Duplicate Coaches Logic ---
@@ -1190,7 +1218,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             return (
                 <div className="bg-white p-6 rounded-lg shadow space-y-8">
-                    <h2 className="text-xl font-bold">Data Health</h2>
+                    <h2 className="text-xl font-bold">Datakwaliteit</h2>
                     <p className="text-gray-600">Tools om de datakwaliteit te controleren en te verbeteren.</p>
 
                     {/* Duplicate Coaches Tool */}
@@ -1303,7 +1331,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
-        function ImporterView({ onUpdateAll }) {
+        function ImporterView({ appData, onUpdateAll }) {
+            const [soort, setSoort] = useState('seizoenen');
             const [step, setStep] = useState(1);
             const [status, setStatus] = useState('');
             const [isLoading, setIsLoading] = useState(false);
@@ -1473,12 +1502,29 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 return Array.from(coaches.values());
             }, [processedData]);
 
+            const SoortKnop = ({ id, children }) => <button onClick={() => setSoort(id)} className={`px-3 py-1.5 rounded-md text-sm ${soort === id ? 'bg-gray-800 text-white' : 'bg-white border hover:bg-gray-50'}`}>{children}</button>;
+            const kiesSoort = (
+                <div className="flex flex-wrap gap-2 mb-6">
+                    <SoortKnop id="seizoenen">Clubseizoenen</SoortKnop>
+                    <SoortKnop id="trainers">Seizoenstrainers (trainers_seizoen)</SoortKnop>
+                </div>
+            );
+
+            if (soort === 'trainers') return (
+                <div>
+                    <h1 className="text-2xl font-bold mb-4">Data Importer</h1>
+                    {kiesSoort}
+                    <SeasonCoachesImportView appData={appData} onUpdate={onUpdateAll} />
+                </div>
+            );
+
             return (
                 <div>
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex justify-between items-center mb-4">
                         <h1 className="text-2xl font-bold">Data Importer</h1>
                         {step > 1 && <button onClick={resetWizard} className="text-sm text-indigo-600 hover:underline">Opnieuw beginnen</button>}
                     </div>
+                    {kiesSoort}
                     {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
                     {status && <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="status">{isLoading ? <span className="animate-pulse">{status}</span> : status}</div>}
 
@@ -1578,8 +1624,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
-        // --- HOOFD APPLICATIE ---
-        // --- SEIZOENSTRAINERS IMPORT (v2) ---
+        // --- SEIZOENSTRAINERS IMPORT (tweede importsoort onder Importer) ---
         // Zet per seizoen het veld 'trainers_seizoen' (alle trainers die dat seizoen aan het roer stonden, incl. interim)
         // en 'trainers_bron'. Bestaande velden (coachId, prijzen) worden NIET aangeraakt.
         function SeasonCoachesImportView({ appData, onUpdate }) {
@@ -1605,31 +1650,38 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 if (!file) return;
                 const reader = new FileReader();
                 reader.onload = (ev) => {
-                    try {
-                        const parsed = JSON.parse(ev.target.result);
-                        const list = Array.isArray(parsed) ? parsed : parsed.seizoenen;
-                        if (!Array.isArray(list)) throw new Error("Verwacht een array of { seizoenen: [...] }.");
-                        const prepared = list.map(item => {
-                            const season = seasonIndex.get(`${item.club}|${item.seizoen}`);
-                            const mainCoach = season ? coachById[season.coachId] : null;
-                            const names = (item.trainers || []).map(t => norm(t.naam));
-                            const mainFound = mainCoach ? names.some(n => n.includes(norm(mainCoach.naam).split(' ').pop()) ) : false;
-                            const existing = season && Array.isArray(season.trainers_seizoen) ? season.trainers_seizoen : null;
-                            return {
-                                ...item,
-                                seasonDocId: season ? season.id : null,
-                                clubNaam: clubById[item.club]?.naam || item.club,
-                                mainCoachNaam: mainCoach ? mainCoach.naam : '—',
-                                warning: !season ? 'Seizoen niet gevonden' : (season.trainers_controle?.status === 'gecontroleerd' ? 'Al handmatig gecontroleerd, wordt overgeslagen' : (!mainFound ? 'Hoofdtrainer staat niet in de lijst (zie Twijfelgevallen)' : null)),
-                                changed: !(season && season.trainers_controle?.status === 'gecontroleerd') && JSON.stringify(existing) !== JSON.stringify(item.trainers || []),
-                            };
-                        });
-                        setRows(prepared);
-                    } catch (err) {
-                        setError(`Fout bij lezen van JSON: ${err.message}`);
-                    }
+                    try { prepare(JSON.parse(ev.target.result)); }
+                    catch (err) { setError(`Fout bij lezen van JSON: ${err.message}`); }
                 };
                 reader.readAsText(file);
+            };
+            const laadRepo = async () => {
+                setError(null); setDone(null); setRows(null);
+                try {
+                    const r = await fetch('data/trainers_seizoen.json', { cache: 'no-store' });
+                    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                    prepare(await r.json());
+                } catch (err) { setError(`Kon data/trainers_seizoen.json niet laden: ${err.message}`); }
+            };
+            const prepare = (parsed) => {
+                const list = Array.isArray(parsed) ? parsed : parsed.seizoenen;
+                if (!Array.isArray(list)) throw new Error("Verwacht een array of { seizoenen: [...] }.");
+                const prepared = list.map(item => {
+                    const season = seasonIndex.get(`${item.club}|${item.seizoen}`);
+                    const mainCoach = season ? coachById[season.coachId] : null;
+                    const names = (item.trainers || []).map(t => norm(t.naam));
+                    const mainFound = mainCoach ? names.some(n => n.includes(norm(mainCoach.naam).split(' ').pop()) ) : false;
+                    const existing = season && Array.isArray(season.trainers_seizoen) ? season.trainers_seizoen : null;
+                    return {
+                        ...item,
+                        seasonDocId: season ? season.id : null,
+                        clubNaam: clubById[item.club]?.naam || item.club,
+                        mainCoachNaam: mainCoach ? mainCoach.naam : '—',
+                        warning: !season ? 'Seizoen niet gevonden' : (season.trainers_controle?.status === 'gecontroleerd' ? 'Al handmatig gecontroleerd, wordt overgeslagen' : (!mainFound ? 'Hoofdtrainer staat niet in de lijst (zie Twijfelgevallen)' : null)),
+                        changed: !(season && season.trainers_controle?.status === 'gecontroleerd') && JSON.stringify(existing) !== JSON.stringify(item.trainers || []),
+                    };
+                });
+                setRows(prepared);
             };
 
             const importable = rows ? rows.filter(r => r.seasonDocId && r.changed) : [];
@@ -1663,13 +1715,17 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             return (
                 <div>
-                    <h1 className="text-3xl font-bold mb-2">Seizoenstrainers importeren</h1>
+                    <h2 className="text-xl font-semibold mb-2">Seizoenstrainers importeren</h2>
                     <p className="text-gray-600 mb-6 max-w-3xl">
                         Voegt per seizoen de volledige lijst trainers toe (veld <code>trainers_seizoen</code>), inclusief interims, voor de gestreepte seizoenen in de v2-visualisatie.
                         De hoofdtrainer van het seizoen (<code>coachId</code>) en de prijzen blijven ongewijzigd.
                     </p>
                     <div className="bg-white p-6 rounded-lg shadow mb-6">
-                        <input type="file" accept=".json" onChange={handleFile} className="block" />
+                        <div className="flex flex-wrap items-center gap-4">
+                            <button onClick={laadRepo} className="px-4 py-2 rounded-md text-white bg-green-700 hover:bg-green-800">Laad data/trainers_seizoen.json</button>
+                            <span className="text-sm text-gray-500">of kies zelf een bestand:</span>
+                            <input type="file" accept=".json" onChange={handleFile} />
+                        </div>
                         <p className="text-xs text-gray-500 mt-2">Formaat: <code>{'{ "seizoenen": [ { "club": "<clubId>", "seizoen": "1995/96", "trainers": [ { "naam": "...", "van": "1995-07-01", "tot": "1995-09-12", "interim": false } ], "bron": "https://..." } ] }'}</code></p>
                     </div>
                     {error && <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>}
@@ -1876,7 +1932,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             return (
                 <div>
-                    <h1 className="text-3xl font-bold mb-2">Twijfelgevallen</h1>
+                    <h2 className="text-2xl font-bold mb-2">Twijfelgevallen (trainers per seizoen)</h2>
                     <p className="text-gray-600 mb-4 max-w-3xl">
                         Seizoenen waar de bron en de database uit elkaar lopen. Vink aan welke trainers dat seizoen echt aan het roer stonden, kies de hoofdtrainer (langst aan het roer, nooit een interim) en sla op.
                         Het seizoen verdwijnt dan uit de lijst met open gevallen. *Dagen: tussen 1 augustus en 20 mei, berekend uit de bron; een indicatie.
@@ -1917,37 +1973,121 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return <img src={url} alt={naam} onError={() => setErr(true)} className="w-24 h-28 object-cover object-top rounded bg-gray-200" />;
         }
 
+        const logoSlug = s => String(s).normalize("NFKD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+        // Laadt een afbeelding in de browser en meldt of dat lukt ('laden' | 'ok' | 'fout' | 'leeg').
+        function useImgStatus(url) {
+            const [st, setSt] = useState(url ? 'laden' : 'leeg');
+            useEffect(() => {
+                if (!url) { setSt('leeg'); return; }
+                setSt('laden');
+                let actief = true;
+                const img = new Image();
+                img.onload = () => actief && setSt('ok');
+                img.onerror = () => actief && setSt('fout');
+                img.src = url;
+                return () => { actief = false; };
+            }, [url]);
+            return st;
+        }
+
+        // --- CLUBLOGO'S: lokaal bestand (images/logos, gebruikt door de site) en logo_url in Firestore ---
+        function LogoRij({ club, onSaved }) {
+            const lokaal = `images/logos/${logoSlug(club.naam)}.png`;
+            const stLokaal = useImgStatus(lokaal);
+            const stDb = useImgStatus(club.logo_url);
+            const [busy, setBusy] = useState(false);
+            const zetLokaal = async () => {
+                setBusy(true);
+                try { await updateDoc(doc(db, 'clubs', club.id), { logo_url: lokaal }); onSaved(club.id, lokaal); }
+                catch (e) { alert('Opslaan mislukt: ' + e.message); }
+                setBusy(false);
+            };
+            const kleur = { ok: 'text-green-700', fout: 'text-red-700', leeg: 'text-red-700', laden: 'text-gray-500' };
+            const tekst = { ok: 'laadt', fout: 'laadt niet', leeg: 'ontbreekt', laden: 'laden...' };
+            return (
+                <tr className="border-t">
+                    <td className="p-2 font-medium">{club.naam}<div className="text-xs text-gray-500">{club.land}</div></td>
+                    <td className="p-2"><div className="flex items-center gap-2">{stLokaal === 'ok' && <img src={lokaal} alt="" className="h-8 w-8 object-contain" />}<span className={`text-xs ${kleur[stLokaal]}`}>{tekst[stLokaal]}</span></div></td>
+                    <td className="p-2"><div className="flex items-center gap-2">{stDb === 'ok' && <img src={club.logo_url} alt="" className="h-8 w-8 object-contain" />}<span className={`text-xs ${kleur[stDb]}`}>{tekst[stDb]}</span></div>
+                        {club.logo_url && <div className="text-xs text-gray-400 break-all max-w-md">{club.logo_url}</div>}</td>
+                    <td className="p-2">{stLokaal === 'ok' && (stDb === 'fout' || stDb === 'leeg') && <button disabled={busy} onClick={zetLokaal} className="text-xs px-2 py-1 rounded bg-blue-600 text-white disabled:opacity-50">Gebruik lokaal logo</button>}</td>
+                </tr>
+            );
+        }
+
+        function LogoControle({ clubs }) {
+            const [lokaal, setLokaal] = useState({});
+            const lijst = clubs.map(c => ({ ...c, ...(lokaal[c.id] ? { logo_url: lokaal[c.id] } : {}) })).sort((a, b) => a.naam.localeCompare(b.naam));
+            return (
+                <div className="bg-white rounded-lg shadow p-4">
+                    <p className="text-sm text-gray-600 mb-3 max-w-3xl">
+                        De site gebruikt voor alle clubs het logo uit <code>images/logos</code> (bron: Wikipedia, zie images/logos/BRONNEN.md). De <code>logo_url</code> in Firestore is alleen een terugval en wordt hier in het dashboard getoond.
+                        Laadt die niet, dan zet <b>Gebruik lokaal logo</b> hem op het bestand uit de repo. Ontbreekt een lokaal logo, voeg dan een PNG toe aan images/logos en aan <code>LOCAL_LOGOS</code> in app.js.
+                    </p>
+                    <table className="min-w-full text-sm">
+                        <thead className="bg-gray-50"><tr><th className="text-left p-2">Club</th><th className="text-left p-2">Lokaal logo (site)</th><th className="text-left p-2">logo_url in Firestore</th><th className="p-2"></th></tr></thead>
+                        <tbody>{lijst.map(c => <LogoRij key={c.id} club={c} onSaved={(id, url) => setLokaal(l => ({ ...l, [id]: url }))} />)}</tbody>
+                    </table>
+                </div>
+            );
+        }
+
         function FotosView({ appData, onUpdate }) {
             const [data, setData] = useState(null);
             const [error, setError] = useState(null);
-            const [tab, setTab] = useState('toegevoegd');
+            const [tab, setTab] = useState('ontbreekt');
             const [busy, setBusy] = useState(false);
             const [local, setLocal] = useState({}); // coachId -> velden die in deze sessie zijn opgeslagen
             const [nieuweUrl, setNieuweUrl] = useState({});
             const [toonAfgehandeld, setToonAfgehandeld] = useState(false);
+            const [alleenHoofd, setAlleenHoofd] = useState(true);
+            const [zoek, setZoek] = useState('');
 
             useEffect(() => {
-                fetch('data/fotos_aanvulling.json').then(r => { if (!r.ok) throw new Error('bestand niet gevonden'); return r.json(); })
+                fetch('data/fotos_aanvulling.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error('bestand niet gevonden'); return r.json(); })
                     .then(setData).catch(e => setError(e.message));
             }, []);
 
             const coachById = useMemo(() => Object.fromEntries(appData.coaches.map(c => [c.id, c])), [appData.coaches]);
             const coachOf = (id) => ({ ...(coachById[id] || {}), ...(local[id] || {}) });
+            // Clubs en jaren per trainer, voor de lijst met ontbrekende foto's
+            const loopbaan = useMemo(() => {
+                const clubNaam = Object.fromEntries(appData.clubs.map(c => [c.id, c.naam]));
+                const m = {};
+                appData.seasons.forEach(s => {
+                    const e = m[s.coachId] || (m[s.coachId] = { clubs: new Set(), van: s.seizoen, tot: s.seizoen });
+                    e.clubs.add(clubNaam[s.club] || s.club);
+                    if (s.seizoen < e.van) e.van = s.seizoen;
+                    if (s.seizoen > e.tot) e.tot = s.seizoen;
+                });
+                return m;
+            }, [appData.seasons, appData.clubs]);
+
+            // Afgekeurd alleen als juist deze foto eerder is weggehaald; een andere, eerder weggehaalde foto blokkeert een nieuwe vondst niet
+            function statusNieuw(f) {
+                const c = coachOf(f.coachId);
+                if (c.foto_controle?.status === 'goedgekeurd' && c.foto_url === f.foto_url) return 'goedgekeurd';
+                if (c.foto_url === f.foto_url) return 'toegevoegd';
+                if (c.foto_url) return 'andere foto';
+                if (c.foto_controle?.status === 'weggehaald' && c.foto_controle.vorige_url === f.foto_url) return 'afgekeurd';
+                return 'nog niet toegevoegd';
+            }
 
             const schrijf = async (id, velden, lokaal) => {
                 await updateDoc(doc(db, 'coaches', id), velden);
                 setLocal(l => ({ ...l, [id]: { ...(l[id] || {}), ...lokaal } }));
             };
 
-            const voegToe = async (f) => {
+            const voegToe = async (f, door = 'fotoaanvulrun') => {
                 const velden = {
                     foto_url: f.foto_url, foto_maker: f.maker, foto_licentie: f.licentie, foto_licentie_url: f.licentie_url || '', foto_bron: f.bronpagina,
-                    foto_toegevoegd: { door: 'fotoaanvulrun', op: serverTimestamp(), vorige_url: coachOf(f.coachId).foto_url || '' },
+                    foto_toegevoegd: { door, op: serverTimestamp(), vorige_url: coachOf(f.coachId).foto_url || '' },
                 };
-                await schrijf(f.coachId, velden, { ...velden, foto_toegevoegd: { door: 'fotoaanvulrun' } });
+                await schrijf(f.coachId, velden, { ...velden, foto_toegevoegd: { door } });
             };
             const alleToevoegen = async () => {
-                const open = data.toevoegen.filter(f => !coachOf(f.coachId).foto_url);
+                const open = data.toevoegen.filter(f => statusNieuw(f) === 'nog niet toegevoegd');
                 if (!open.length) return;
                 setBusy(true);
                 try { for (const f of open) await voegToe(f); }
@@ -1960,35 +2100,45 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 const c = coachOf(id);
                 const velden = { foto_url: '', foto_controle: { status: 'weggehaald', reden: reden || '', vorige_url: c.foto_url || '', op: serverTimestamp() } };
                 FOTO_VELDEN.forEach(k => { velden[k] = deleteField(); });
-                const lokaal = { foto_url: '', foto_controle: { status: 'weggehaald' } };
+                const lokaal = { foto_url: '', foto_controle: { status: 'weggehaald', vorige_url: c.foto_url || '' } };
                 FOTO_VELDEN.forEach(k => { lokaal[k] = undefined; });
                 return schrijf(id, velden, lokaal).catch(e => alert('Opslaan mislukt: ' + e.message));
             };
-            const zetUrl = (id) => {
+            const zetUrl = (id, status = 'vervangen') => {
                 const url = (nieuweUrl[id] || '').trim();
                 if (!/^https:\/\//.test(url)) { alert('Plak een volledige https-link naar de foto.'); return; }
-                const velden = { foto_url: url, foto_controle: { status: 'vervangen', vorige_url: coachOf(id).foto_url || '', op: serverTimestamp() } };
+                const velden = { foto_url: url, foto_controle: { status, vorige_url: coachOf(id).foto_url || '', op: serverTimestamp() } };
                 FOTO_VELDEN.forEach(k => { velden[k] = deleteField(); });
                 if (/commons\.wikimedia\.org|upload\.wikimedia\.org/.test(url)) velden.foto_bron = url;
-                const lokaal = { foto_url: url, foto_controle: { status: 'vervangen' } };
+                const lokaal = { foto_url: url, foto_controle: { status } };
                 return schrijf(id, velden, lokaal).then(() => setNieuweUrl(n => ({ ...n, [id]: '' }))).catch(e => alert('Opslaan mislukt: ' + e.message));
             };
 
             if (error) return <div className="bg-amber-100 text-amber-800 p-3 rounded">Kon data/fotos_aanvulling.json niet laden ({error}).</div>;
             if (!data) return <p>Laden...</p>;
 
-            const statusNieuw = (f) => {
-                const c = coachOf(f.coachId);
-                if (c.foto_controle?.status === 'goedgekeurd' && c.foto_url === f.foto_url) return 'goedgekeurd';
-                if (c.foto_url === f.foto_url) return 'toegevoegd';
-                if (c.foto_url) return 'andere foto';
-                if (c.foto_controle?.status === 'weggehaald') return 'afgekeurd';
-                return 'nog niet toegevoegd';
-            };
             const nogToevoegen = data.toevoegen.filter(f => statusNieuw(f) === 'nog niet toegevoegd').length;
             const afgehandeld = (x) => { const c = coachOf(x.coachId); return !!c.foto_controle || (c.foto_url || '') !== (x.huidige_url || ''); };
             const controle = data.controleren.filter(x => toonAfgehandeld || !afgehandeld(x));
             const openControle = data.controleren.filter(x => !afgehandeld(x)).length;
+
+            // Ontbrekende foto's: live uit de database, met de gevonden kandidaten (twijfelgevallen) erbij
+            const twijfelBij = Object.fromEntries((data.twijfel || []).map(t => [t.coachId, t]));
+            const zekerBij = Object.fromEntries(data.toevoegen.filter(f => statusNieuw(f) === 'nog niet toegevoegd').map(f => [f.coachId, f]));
+            const zoekN = normName(zoek);
+            const ontbreekt = appData.coaches.map(c => coachOf(c.id))
+                .filter(c => !c.foto_url && c.naam && c.naam !== '[Data Unavailable]')
+                .filter(c => !alleenHoofd || loopbaan[c.id])
+                .filter(c => !zoekN || normName(c.naam).includes(zoekN))
+                .map(c => {
+                    const z = zekerBij[c.id];
+                    const kandidaten = [...(z ? [{ ...z, herkomst: 'Zekere vondst (ook onder Nieuw)', opmerking: z.zekerheid }] : []), ...((twijfelBij[c.id] || {}).kandidaten || [])];
+                    return { c, t: twijfelBij[c.id], kandidaten, lb: loopbaan[c.id], klaar: !!z };
+                })
+                .sort((a, b) => (!!b.klaar - !!a.klaar) || (!!b.t - !!a.t) || ((b.lb?.tot || '').localeCompare(a.lb?.tot || '')) || a.c.naam.localeCompare(b.c.naam));
+            const aantalOntbreekt = appData.coaches.filter(c => !coachOf(c.id).foto_url && loopbaan[c.id]).length;
+            const aantalTwijfel = (data.twijfel || []).filter(t => !coachOf(t.coachId).foto_url).length;
+
             const soortKleur = { 'verkeerde persoon': 'bg-red-100 text-red-800', 'geen portret': 'bg-orange-100 text-orange-800', 'bestand weg': 'bg-gray-200 text-gray-700', 'niet vrij': 'bg-amber-100 text-amber-800', 'controleren': 'bg-blue-100 text-blue-800' };
             const badge = { 'goedgekeurd': 'bg-green-100 text-green-800', 'toegevoegd': 'bg-blue-100 text-blue-800', 'nog niet toegevoegd': 'bg-amber-100 text-amber-800', 'andere foto': 'bg-gray-200 text-gray-700', 'afgekeurd': 'bg-red-100 text-red-800' };
             const Tab = ({ id, children }) => <button onClick={() => setTab(id)} className={`px-3 py-1.5 rounded-md text-sm ${tab === id ? 'bg-gray-800 text-white' : 'bg-white border hover:bg-gray-50'}`}>{children}</button>;
@@ -2001,49 +2151,97 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     <a href={googleFoto(naam)} target="_blank" rel="noopener" className="text-blue-600 hover:underline">Google Afbeeldingen</a>
                 </div>
             );
+            const urlInvoer = (id, status, label) => (
+                <div className="flex gap-2 mt-3">
+                    <input value={nieuweUrl[id] || ''} onChange={e => setNieuweUrl(n => ({ ...n, [id]: e.target.value }))} placeholder="Link naar foto (bij voorkeur upload.wikimedia.org)" className="flex-1 min-w-0 border rounded px-2 py-1 text-sm" />
+                    <button onClick={() => zetUrl(id, status)} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">{label}</button>
+                </div>
+            );
 
             return (
                 <div>
-                    <h1 className="text-3xl font-bold mb-2">Foto's</h1>
+                    <h2 className="text-2xl font-bold mb-2">Foto's en logo's</h2>
                     <p className="text-gray-600 mb-4 max-w-3xl">
-                        Fotoaanvulrun van {data.gegenereerd}. Nieuwe foto's komen van Wikimedia Commons met maker en licentie; die staan op de pagina Photo credits (credits.html), niet onder de foto's zelf.
-                        Bestaande foto's die niet kloppen of niet vrij zijn staan onder Te controleren. Wijzigingen zijn na de volgende snapshot op de site te zien.
+                        Foto's komen van Wikimedia Commons met maker en licentie; die staan op de pagina Photo credits (credits.html). Laatste zoekrun: {data.gegenereerd}.
+                        Zekere vondsten staan onder <b>Nieuw</b> en gaan met één knop de database in. Twijfelgevallen staan onder <b>Ontbreekt</b>, met de gevonden foto's om uit te kiezen. Wijzigingen zijn na de volgende snapshot op de site te zien.
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
-                        <Tab id="toegevoegd">Nieuw ({data.toevoegen.length})</Tab>
+                        <Tab id="ontbreekt">Ontbreekt ({aantalOntbreekt}{aantalTwijfel ? `, ${aantalTwijfel} met kandidaat` : ''})</Tab>
+                        <Tab id="toegevoegd">Nieuw ({data.toevoegen.length}{nogToevoegen ? `, ${nogToevoegen} nog niet in database` : ''})</Tab>
                         <Tab id="controleren">Te controleren ({openControle} open)</Tab>
                         <Tab id="niet">Niet toegevoegd ({data.niet_toegevoegd.length})</Tab>
+                        <Tab id="logos">Clublogo's ({appData.clubs.length})</Tab>
                     </div>
 
-                    {tab === 'toegevoegd' && (
+                    {nogToevoegen > 0 && tab !== 'logos' && (
+                        <div className="bg-amber-50 border border-amber-200 rounded p-4 mb-4 flex flex-wrap items-center gap-4">
+                            <span><b>{nogToevoegen}</b> gecontroleerde foto's staan nog niet in de database.</span>
+                            <button disabled={busy} onClick={alleToevoegen} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded">{busy ? 'Bezig...' : `Zet ${nogToevoegen} foto's in de database`}</button>
+                            <button onClick={() => setTab('toegevoegd')} className="text-sm text-blue-700 underline">Bekijk ze eerst</button>
+                        </div>
+                    )}
+
+                    {tab === 'ontbreekt' && (
                         <div>
-                            {nogToevoegen > 0 && (
-                                <div className="bg-amber-50 border border-amber-200 rounded p-4 mb-4 flex flex-wrap items-center gap-4">
-                                    <span><b>{nogToevoegen}</b> foto's staan nog niet in de database.</span>
-                                    <button disabled={busy} onClick={alleToevoegen} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded">{busy ? 'Bezig...' : `Zet ${nogToevoegen} foto's in de database`}</button>
-                                </div>
-                            )}
-                            <div className="grid gap-3 md:grid-cols-2">
-                                {data.toevoegen.map(f => {
-                                    const st = statusNieuw(f);
-                                    return (
-                                        <div key={f.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
-                                            <FotoThumb url={f.foto_url} naam={f.naam} />
-                                            <div className="flex-1 min-w-0">
-                                                <div className="flex items-start justify-between gap-2"><b>{f.naam}</b><span className={`text-xs px-2 py-0.5 rounded ${badge[st]}`}>{st}</span></div>
-                                                <div className="text-xs text-gray-600 mt-1 break-words">{f.maker} · {f.licentie_url ? <a href={f.licentie_url} target="_blank" rel="noopener" className="text-blue-600">{f.licentie}</a> : f.licentie}</div>
-                                                {f.let_op && <div className="text-xs text-amber-700 mt-1">{f.let_op}</div>}
-                                                <Links naam={f.naam} bron={f.bronpagina} wd={f.wikidata} />
-                                                <div className="flex flex-wrap gap-2 mt-3">
-                                                    {st === 'nog niet toegevoegd' || st === 'afgekeurd' ? <button onClick={() => voegToe(f).catch(e => alert(e.message))} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">Toevoegen</button> : null}
-                                                    {st === 'toegevoegd' && <button onClick={() => keurGoed(f.coachId)} className="text-sm px-3 py-1 rounded bg-green-600 text-white">Klopt</button>}
-                                                    {(st === 'toegevoegd' || st === 'goedgekeurd') && <button onClick={() => haalWeg(f.coachId, 'afgekeurd na aanvulrun')} className="text-sm px-3 py-1 rounded bg-red-600 text-white">Weghalen</button>}
-                                                </div>
+                            <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
+                                <label className="flex items-center gap-2"><input type="checkbox" checked={alleenHoofd} onChange={e => setAlleenHoofd(e.target.checked)} /> Alleen hoofdtrainers (met seizoenen)</label>
+                                <input value={zoek} onChange={e => setZoek(e.target.value)} placeholder="Zoek trainer" className="border rounded px-2 py-1" />
+                                <span className="text-gray-500">{ontbreekt.length} getoond</span>
+                            </div>
+                            <div className="grid gap-3">
+                                {ontbreekt.map(({ c, t, kandidaten, lb, klaar }) => (
+                                    <div key={c.id} className={`bg-white rounded-lg shadow p-4 border-l-4 ${klaar ? 'border-blue-400' : t ? 'border-amber-400' : 'border-gray-200'}`}>
+                                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                                            <div><b>{c.naam}</b> <span className="text-sm text-gray-600">{lb ? `${[...lb.clubs].join(', ')} · ${lb.van === lb.tot ? lb.van : `${lb.van} – ${lb.tot}`}` : 'geen seizoen als hoofdtrainer'}</span></div>
+                                            <span className="text-xs text-gray-500">{klaar ? 'zekere foto gevonden' : t ? `${t.kandidaten.length} kandidaat${t.kandidaten.length === 1 ? '' : 'en'} (twijfel)` : 'nog niets gevonden'}{c.foto_controle?.status === 'weggehaald' ? ' · eerdere foto weggehaald' : ''}</span>
+                                        </div>
+                                        {t && t.reden && <div className="text-sm text-amber-800 mt-1">{t.reden}</div>}
+                                        {kandidaten.length > 0 && (
+                                            <div className="flex flex-wrap gap-4 mt-3">
+                                                {kandidaten.map(k => (
+                                                    <div key={k.foto_url} className="w-48">
+                                                        <a href={k.bronpagina} target="_blank" rel="noopener"><FotoThumb url={k.foto_url} naam={c.naam} /></a>
+                                                        <div className="text-xs text-gray-600 mt-1 break-words">{k.herkomst}</div>
+                                                        <div className="text-xs text-gray-500 break-words">{k.maker || 'maker onbekend'} · {k.licentie_url ? <a href={k.licentie_url} target="_blank" rel="noopener" className="text-blue-600">{k.licentie}</a> : (k.licentie || 'licentie onbekend')}</div>
+                                                        {k.opmerking && <div className="text-xs text-amber-700 break-words">{k.opmerking}</div>}
+                                                        {k.vrij !== false
+                                                            ? <button onClick={() => voegToe({ ...k, coachId: c.id }, 'dashboard (twijfelgeval)').catch(e => alert(e.message))} className="mt-1 text-xs px-2 py-1 rounded bg-blue-600 text-white">Gebruik deze foto</button>
+                                                            : <div className="text-xs text-red-700 mt-1">Niet vrij te gebruiken</div>}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                        <Links naam={c.naam} wd={t && t.wikidata} />
+                                        {urlInvoer(c.id, 'handmatig', 'Opslaan')}
+                                    </div>
+                                ))}
+                                {ontbreekt.length === 0 && <p className="text-gray-500">Geen trainers zonder foto in deze selectie.</p>}
+                            </div>
+                        </div>
+                    )}
+
+                    {tab === 'toegevoegd' && (
+                        <div className="grid gap-3 md:grid-cols-2">
+                            {[...data.toevoegen].sort((a, b) => (statusNieuw(b) === 'nog niet toegevoegd') - (statusNieuw(a) === 'nog niet toegevoegd')).map(f => {
+                                const st = statusNieuw(f);
+                                return (
+                                    <div key={f.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
+                                        <FotoThumb url={f.foto_url} naam={f.naam} />
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-start justify-between gap-2"><b>{f.naam}</b><span className={`text-xs px-2 py-0.5 rounded ${badge[st]}`}>{st}</span></div>
+                                            <div className="text-xs text-gray-600 mt-1 break-words">{f.maker} · {f.licentie_url ? <a href={f.licentie_url} target="_blank" rel="noopener" className="text-blue-600">{f.licentie}</a> : f.licentie}</div>
+                                            {f.zekerheid && <div className="text-xs text-green-800 mt-1">{f.zekerheid}</div>}
+                                            {f.let_op && <div className="text-xs text-amber-700 mt-1">{f.let_op}</div>}
+                                            <Links naam={f.naam} bron={f.bronpagina} wd={f.wikidata} />
+                                            <div className="flex flex-wrap gap-2 mt-3">
+                                                {st === 'nog niet toegevoegd' || st === 'afgekeurd' ? <button onClick={() => voegToe(f).catch(e => alert(e.message))} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">Toevoegen</button> : null}
+                                                {st === 'toegevoegd' && <button onClick={() => keurGoed(f.coachId)} className="text-sm px-3 py-1 rounded bg-green-600 text-white">Klopt</button>}
+                                                {(st === 'toegevoegd' || st === 'goedgekeurd') && <button onClick={() => haalWeg(f.coachId, 'afgekeurd na aanvulrun')} className="text-sm px-3 py-1 rounded bg-red-600 text-white">Weghalen</button>}
                                             </div>
                                         </div>
-                                    );
-                                })}
-                            </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     )}
 
@@ -2061,10 +2259,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                                 <div className="text-sm text-gray-700 mt-1">{x.reden}</div>
                                                 {c.foto_controle && <div className="text-xs text-green-700 mt-1">Afgehandeld: {c.foto_controle.status}</div>}
                                                 <Links naam={x.naam} />
-                                                <div className="flex gap-2 mt-3">
-                                                    <input value={nieuweUrl[x.coachId] || ''} onChange={e => setNieuweUrl(n => ({ ...n, [x.coachId]: e.target.value }))} placeholder="Link naar vervangende foto" className="flex-1 min-w-0 border rounded px-2 py-1 text-sm" />
-                                                    <button onClick={() => zetUrl(x.coachId)} className="text-sm px-3 py-1 rounded bg-blue-600 text-white">Vervang</button>
-                                                </div>
+                                                {urlInvoer(x.coachId, 'vervangen', 'Vervang')}
                                                 <div className="flex flex-wrap gap-2 mt-2">
                                                     {c.foto_url && <button onClick={() => haalWeg(x.coachId, x.reden)} className="text-sm px-3 py-1 rounded bg-red-600 text-white">Foto weghalen</button>}
                                                     {!c.foto_controle && <button onClick={() => keurGoed(x.coachId)} className="text-sm px-3 py-1 rounded bg-gray-200">Klopt wel</button>}
@@ -2083,7 +2278,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             {data.niet_toegevoegd.map(f => {
                                 const c = coachOf(f.coachId);
                                 return (
-                                    <div key={f.coachId} className="bg-white rounded-lg shadow p-4 flex gap-4">
+                                    <div key={f.coachId + f.foto_url} className="bg-white rounded-lg shadow p-4 flex gap-4">
                                         <FotoThumb url={f.foto_url} naam={f.naam} />
                                         <div className="flex-1 min-w-0">
                                             <b>{f.naam}</b>
@@ -2100,6 +2295,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             })}
                         </div>
                     )}
+
+                    {tab === 'logos' && <LogoControle clubs={appData.clubs} />}
                 </div>
             );
         }
@@ -2135,8 +2332,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             return (
                 <div>
-                    <h1 className="text-3xl font-bold mb-2">Meldingen</h1>
-                    <p className="text-gray-600 mb-4 max-w-3xl">Fouten die bezoekers melden via "Report an error" op de site. Controleer de melding tegen de bron, pas zo nodig het seizoen aan (Seizoenen of Twijfelgevallen) en zet de melding op opgelost of afgewezen.</p>
+                    <h2 className="text-2xl font-bold mb-2">Meldingen</h2>
+                    <p className="text-gray-600 mb-4 max-w-3xl">Fouten die bezoekers melden via "Report an error" op de site. Controleer de melding tegen de bron, pas zo nodig het seizoen aan (Seizoenen, of het tabblad Twijfelgevallen) en zet de melding op opgelost of afgewezen.</p>
                     {error && <div className="bg-amber-100 text-amber-800 p-3 rounded mb-4">Kon meldingen niet laden ({error}). Staat de Firestore-regel voor 'meldingen' goed? Zie docs/MELDINGEN.md.</div>}
                     {items && (
                         <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
@@ -2248,7 +2445,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v28.1</span></div>
+                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v29.0</span></div>
                         <nav className="flex-grow p-2">
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('analysis'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('importer'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
@@ -2256,10 +2453,6 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('clubs'); }} className={`flex items-center gap-3 px-3 py-2 rounded-md ${view === 'clubs' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><DatabaseIcon /> Clubs</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('coaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('health'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'health' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Data Health</a>
-                            <a href="#" onClick={(e) => { e.preventDefault(); setView('seasoncoaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'seasoncoaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ListIcon /> Seizoenstrainers</a>
-                            <a href="#" onClick={(e) => { e.preventDefault(); setView('twijfel'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'twijfel' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Twijfelgevallen</a>
-                            <a href="#" onClick={(e) => { e.preventDefault(); setView('fotos'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'fotos' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Foto's</a>
-                            <a href="#" onClick={(e) => { e.preventDefault(); setView('meldingen'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'meldingen' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Meldingen</a>
                         </nav>
                         <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
                     </aside>
@@ -2268,15 +2461,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             dataError ? <div className="text-center text-red-500">{dataError}</div> :
                                 {
                                     'analysis': <AnalysisView seasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} />,
-                                    'importer': <ImporterView onUpdateAll={fetchAllData} />,
+                                    'importer': <ImporterView appData={appData} onUpdateAll={fetchAllData} />,
                                     'clubs': <ClubsView initialClubs={appData.clubs} onUpdate={fetchAllData} />,
                                     'coaches': <CoachesView initialCoaches={appData.coaches} onUpdate={fetchAllData} />,
                                     'seasons': <SeasonsView initialSeasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} onUpdate={fetchAllData} filters={filters} setFilters={setFilters} />,
                                     'health': <DataHealthView appData={appData} onUpdate={fetchAllData} />,
-                                    'seasoncoaches': <SeasonCoachesImportView appData={appData} onUpdate={fetchAllData} />,
-                                    'twijfel': <TwijfelView appData={appData} onUpdate={fetchAllData} />,
-                                    'fotos': <FotosView appData={appData} onUpdate={fetchAllData} />,
-                                    'meldingen': <MeldingenView appData={appData} />,
                                 }[view]
                         }
                     </main>

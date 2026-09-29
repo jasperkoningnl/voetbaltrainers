@@ -1,6 +1,6 @@
 {
- "gegenereerd": "2026-09-28",
- "uitleg": "Fotoaanvulrun. 'toevoegen': vrije portretten van Wikimedia Commons voor trainers zonder foto; het dashboard (Foto's) zet ze in de database en toont ze ter controle. 'niet_toegevoegd': gevonden maar afgekeurd, met reden. 'controleren': bestaande foto's die niet kloppen of niet vrij zijn.",
+ "gegenereerd": "2026-09-29",
+ "uitleg": "Fotoaanvulruns. 'toevoegen': zekere vrije portretten van Wikimedia Commons voor trainers zonder foto (identiteit gecontroleerd via Wikidata/club en bestandsbeschrijving, licentie via de Commons-bestandspagina, foto zelf bekeken); het dashboard (Data Health → Foto's en logo's) zet ze in de database. 'twijfel': gevonden kandidaten die niet zeker zijn, per trainer met reden; te kiezen onder 'Ontbreekt'. 'niet_toegevoegd': gevonden maar afgekeurd, met reden. 'controleren': bestaande foto's die niet kloppen of niet vrij zijn.",
  "toevoegen": [
   {
    "coachId": "4wObwaqdPy0uxpvuNzkV",
@@ -222,6 +222,334 @@
    "licentie": "CC BY 3.0",
    "licentie_url": "https://creativecommons.org/licenses/by/3.0",
    "wikidata": "Q20641494"
+  },
+  {
+   "coachId": "2wsuxvVLiTk3PzCVrTS2",
+   "naam": "Eugen Polanski",
+   "bestand": "Eugen Polanski.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Eugen_Polanski.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Eugen_Polanski.jpg",
+   "maker": "Borusse86",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Borussia Mönchengladbach",
+   "run": "2026-09-29",
+   "wikidata": "Q5117"
+  },
+  {
+   "coachId": "6l5kBBvssgbFMwdm0tXH",
+   "naam": "Eusebio Di Francesco",
+   "bestand": "Eusebio Di Francesco (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Eusebio_Di_Francesco_%28cropped%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Eusebio_Di_Francesco_%28cropped%29.jpg",
+   "maker": "Roberto Vicario",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Roma",
+   "run": "2026-09-29",
+   "wikidata": "Q396154"
+  },
+  {
+   "coachId": "Eoiy6tzwYnHzPpU9qW7P",
+   "naam": "Robin van Persie",
+   "bestand": "Loco-Fener (10).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Loco-Fener_%2810%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Loco-Fener_%2810%29.jpg",
+   "maker": "Елена Рыбакова",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Feyenoord",
+   "run": "2026-09-29",
+   "wikidata": "Q2339"
+  },
+  {
+   "coachId": "EtvA2PQouaJC1ilWC2DP",
+   "naam": "Xabi Alonso",
+   "bestand": "Los Caminos del fútbol. Xabi Alonso (39666778464) (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Los_Caminos_del_f%C3%BAtbol._Xabi_Alonso_%2839666778464%29_%28cropped%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Los_Caminos_del_f%C3%BAtbol._Xabi_Alonso_%2839666778464%29_%28cropped%29.jpg",
+   "maker": "DONOSTIA KULTURA",
+   "licentie": "CC BY-SA 2.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Real Madrid",
+   "run": "2026-09-29",
+   "wikidata": "Q208104"
+  },
+  {
+   "coachId": "NOffNmGIuHaEj7dq43qd",
+   "naam": "Carlos Vicens",
+   "bestand": "2023-10-04 Fußball, Männer, UEFA Champions League, RB Leipzig - Manchester City FC 1DX 2620.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:2023-10-04_Fu%C3%9Fball%2C_M%C3%A4nner%2C_UEFA_Champions_League%2C_RB_Leipzig_-_Manchester_City_FC_1DX_2620.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/2023-10-04_Fu%C3%9Fball%2C_M%C3%A4nner%2C_UEFA_Champions_League%2C_RB_Leipzig_-_Manchester_City_FC_1DX_2620.jpg/500px-2023-10-04_Fu%C3%9Fball%2C_M%C3%A4nner%2C_UEFA_Champions_League%2C_RB_Leipzig_-_Manchester_City_FC_1DX_2620.jpg",
+   "maker": "Steffen Prößdorf",
+   "licentie": "CC BY-SA 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "zekerheid": "Wikidata-foto (als assistent van Manchester City); persoon is trainer van S.C. Braga",
+   "run": "2026-09-29",
+   "wikidata": "Q111889218"
+  },
+  {
+   "coachId": "Pl6WMnmsHGfX1GqYeglW",
+   "naam": "Bernard Casoni",
+   "bestand": "Bernard Casoni.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Bernard_Casoni.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Bernard_Casoni.jpg",
+   "maker": "Yeca",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Olympique Marseille",
+   "run": "2026-09-29",
+   "wikidata": "Q748541"
+  },
+  {
+   "coachId": "RF4MOmTbvR6XUHfbSU6L",
+   "naam": "Gian Piero Gasperini",
+   "bestand": "Gian Piero Gasperini, 2024.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Gian_Piero_Gasperini%2C_2024.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Gian_Piero_Gasperini%2C_2024.jpg",
+   "maker": "Quirinale.it",
+   "licentie": "Attribution",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Roma",
+   "run": "2026-09-29",
+   "wikidata": "Q367846"
+  },
+  {
+   "coachId": "RtXxJDXEkl8KAAS8pcNQ",
+   "naam": "Leonardo",
+   "bestand": "Leonardo Nascimento de Araújo 2013-01-01 (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Leonardo_Nascimento_de_Ara%C3%BAjo_2013-01-01_%28cropped%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Leonardo_Nascimento_de_Ara%C3%BAjo_2013-01-01_%28cropped%29.jpg/500px-Leonardo_Nascimento_de_Ara%C3%BAjo_2013-01-01_%28cropped%29.jpg",
+   "maker": "Doha Stadium Plus Qatar Photograph: Mohan ( www.dohastadiumplusqatar.com )",
+   "licentie": "CC BY 2.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/2.0",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Milan en Internazionale",
+   "run": "2026-09-29",
+   "wikidata": "Q46741"
+  },
+  {
+   "coachId": "UO2vDSRcQr6cSHy6Y57U",
+   "naam": "Thomas Schneider",
+   "bestand": "Thomas schneider.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Thomas_schneider.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Thomas_schneider.jpg/500px-Thomas_schneider.jpg",
+   "maker": "jeollo von http://www.vfb-exklusiv.de",
+   "licentie": "GFDL",
+   "licentie_url": "http://www.gnu.org/copyleft/fdl.html",
+   "zekerheid": "Wikidata-foto; beschrijving: VfB-trainer Thomas Schneider",
+   "run": "2026-09-29",
+   "wikidata": "Q2427151"
+  },
+  {
+   "coachId": "D2gfnIWToHUgfnX8Ymrn",
+   "naam": "Gonzalo García",
+   "bestand": "GonzaloGarciaGarcia1.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:GonzaloGarciaGarcia1.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/a/a2/GonzaloGarciaGarcia1.jpg",
+   "maker": "Anna Hulsebosch",
+   "licentie": "GFDL",
+   "licentie_url": "http://www.gnu.org/copyleft/fdl.html",
+   "zekerheid": "Wikidata-foto; persoon is trainer van FC Twente",
+   "run": "2026-09-29",
+   "wikidata": "Q259002"
+  },
+  {
+   "coachId": "6UvhKH2h5l7vcIl3Wez3",
+   "naam": "Joop Brand",
+   "bestand": "Joop Brand.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Joop_Brand.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Joop_Brand.jpg/500px-Joop_Brand.jpg",
+   "maker": "Bert Verhoeff for Anefo",
+   "licentie": "CC BY-SA 3.0 nl",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+   "zekerheid": "Wikidata-foto (Anefo, 1978); Wikidata: Nederlands voetballer en trainer, geboren 1936",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "B4D0ipRp1FLlpEiwg6pB",
+   "naam": "Milan Nikolić",
+   "bestand": "PSV tegen Volendam 1-1. M. Nicolie traint PSV, Bestanddeelnr 920-5939.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:PSV_tegen_Volendam_1-1._M._Nicolie_traint_PSV%2C_Bestanddeelnr_920-5939.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/PSV_tegen_Volendam_1-1._M._Nicolie_traint_PSV%2C_Bestanddeelnr_920-5939.jpg/500px-PSV_tegen_Volendam_1-1._M._Nicolie_traint_PSV%2C_Bestanddeelnr_920-5939.jpg",
+   "maker": "Jack de Nijs for Anefo",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "zekerheid": "Anefo 1967, beschrijving: M. Nicolić traint PSV",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "XGQpRSyMCXG0ApjpfuEL",
+   "naam": "Franz Fuchs",
+   "bestand": "Franz Fuchs (1963).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Franz_Fuchs_%281963%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Franz_Fuchs_%281963%29.jpg/500px-Franz_Fuchs_%281963%29.jpg",
+   "maker": "Eric Koch for Anefo",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "zekerheid": "Anefo 1963, beschrijving: trainer Franz Fuchs; Wikidata-foto",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "dDoBXqNEbrA28MLeyUHe",
+   "naam": "Louis Maurer",
+   "bestand": "Louis Maurer (1963).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Louis_Maurer_%281963%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Louis_Maurer_%281963%29.jpg/500px-Louis_Maurer_%281963%29.jpg",
+   "maker": "Comet Photo AG (Zürich)",
+   "licentie": "CC BY-SA 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "zekerheid": "Wikidata-foto van de Zwitserse voetballer/trainer (1904-1988); ETH-archief",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "i0XSmyep1pEH9WYCbMmC",
+   "naam": "Mario Corso",
+   "bestand": "1968–69 Inter Milan - Mario Corso.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:1968%E2%80%9369_Inter_Milan_-_Mario_Corso.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/1968%E2%80%9369_Inter_Milan_-_Mario_Corso.jpg/500px-1968%E2%80%9369_Inter_Milan_-_Mario_Corso.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto (Inter 1968/69); oud-speler en trainer van Internazionale",
+   "run": "2026-09-29",
+   "wikidata": "Q388959"
+  },
+  {
+   "coachId": "irHHl4MD20IUNCRhuYNz",
+   "naam": "Alfredo Di Stéfano",
+   "bestand": "Di stefano argentina (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Di_stefano_argentina_%28cropped%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Di_stefano_argentina_%28cropped%29.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto; persoon is trainer van Real Madrid en Valencia",
+   "run": "2026-09-29",
+   "wikidata": "Q164546"
+  },
+  {
+   "coachId": "rSKZa8ZrZvwHjVmCp86Q",
+   "naam": "Juan Ramón López Caro",
+   "bestand": "Juan Ramón López Caro.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Juan_Ram%C3%B3n_L%C3%B3pez_Caro.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Juan_Ram%C3%B3n_L%C3%B3pez_Caro.jpg",
+   "maker": "Tasnim News Agency",
+   "licentie": "CC BY 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/4.0",
+   "zekerheid": "Wikidata-foto van de Spaanse trainer (geboren 1963)",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "rUjsA7ti9yagu5YN8ye2",
+   "naam": "Hans Dorjee",
+   "bestand": "Hans Dorjee (1982).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Hans_Dorjee_%281982%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Hans_Dorjee_%281982%29.jpg/500px-Hans_Dorjee_%281982%29.jpg",
+   "maker": "Hans van Dijk for Anefo",
+   "licentie": "CC BY-SA 3.0 nl",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+   "zekerheid": "Wikidata-foto (Anefo 1982, als trainer van Excelsior)",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "wZL45q0UVJBNafbtF9Sh",
+   "naam": "Eirik Horneland",
+   "bestand": "Horneland asse sr 2425.png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Horneland_asse_sr_2425.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Horneland_asse_sr_2425.png/500px-Horneland_asse_sr_2425.png",
+   "maker": "Paté kroute",
+   "licentie": "CC0",
+   "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+   "zekerheid": "Wikidata-foto; persoon is trainer van AS Saint-Étienne",
+   "run": "2026-09-29",
+   "wikidata": "Q17629332"
+  },
+  {
+   "coachId": "xlm6Gyh1TNvXrn1hQBp7",
+   "naam": "John Heitinga",
+   "bestand": "GAE - Ajax - 52788475730 (John Heitinga).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:GAE_-_Ajax_-_52788475730_%28John_Heitinga%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/GAE_-_Ajax_-_52788475730_%28John_Heitinga%29.jpg/500px-GAE_-_Ajax_-_52788475730_%28John_Heitinga%29.jpg",
+   "maker": "Carlo Bruil Fotografie",
+   "licentie": "CC BY 2.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/2.0",
+   "zekerheid": "Commons-foto 2023 bij Ajax; persoon is trainer van Ajax",
+   "run": "2026-09-29",
+   "wikidata": "Q946457"
+  },
+  {
+   "coachId": "5HSXp10mPmYG3LHU2F55",
+   "naam": "Milorad Pavić",
+   "bestand": "Michel Pavić (1975).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Michel_Pavi%C4%87_%281975%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Michel_Pavi%C4%87_%281975%29.jpg/500px-Michel_Pavi%C4%87_%281975%29.jpg",
+   "maker": "Bert Verhoeff for Anefo",
+   "licentie": "CC BY-SA 3.0 nl",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+   "zekerheid": "Anefo 1975, beschrijving: Benfica-trainer Pavić (klopt met Benfica 1974/75)",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "Frgdqh4FInqPNcao6qbY",
+   "naam": "Martin Wilke",
+   "bestand": "MartinWilke1986tyF39.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:MartinWilke1986tyF39.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/61/MartinWilke1986tyF39.jpg",
+   "maker": "DrTorstenHenning",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto van de Duitse trainer (geboren 1926); beschrijving: 'ehemaliger Fußballtrainer'",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "b99M266LiYH7A0vA1tDI",
+   "naam": "Juan Antonio Ipiña",
+   "bestand": "Juan Antonio Ipiña, Estadio, 1947-01-25 (193).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Juan_Antonio_Ipi%C3%B1a%2C_Estadio%2C_1947-01-25_%28193%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Juan_Antonio_Ipi%C3%B1a%2C_Estadio%2C_1947-01-25_%28193%29.jpg",
+   "maker": "Unknown author",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "zekerheid": "Wikidata-foto van de Spaanse voetballer (1912-1974)",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "PlhhYWnRw8TMlpKQIW8C",
+   "naam": "Hans Meyer",
+   "bestand": "Hans Meyer (2).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Hans_Meyer_%282%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Hans_Meyer_%282%29.jpg",
+   "maker": "Sebastian Ritter",
+   "licentie": "GFDL",
+   "licentie_url": "http://www.gnu.org/copyleft/fdl.html",
+   "zekerheid": "Commons-categorie Hans Meyer; 2007 als trainer van 1. FC Nürnberg",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "HiLx7onWKXQJlE7E7nz8",
+   "naam": "Sébastien Pocognoli",
+   "bestand": "Pocognoli, Sébastien H96 13-14 (2).JPG",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Pocognoli%2C_S%C3%A9bastien_H96_13-14_%282%29.JPG",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Pocognoli%2C_S%C3%A9bastien_H96_13-14_%282%29.JPG/500px-Pocognoli%2C_S%C3%A9bastien_H96_13-14_%282%29.JPG",
+   "maker": "Northside",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "zekerheid": "Commons-foto bij Hannover 96 (2013); persoon is trainer van AS Monaco",
+   "run": "2026-09-29",
+   "wikidata": "Q468114"
+  },
+  {
+   "coachId": "s5zmhiws3UDkmmdZ7ihX",
+   "naam": "Merlin Polzin",
+   "bestand": "2025-03-05 Loic Fave Merlin Polzin HSV pic1 (Merlin Polzin).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:2025-03-05_Loic_Fave_Merlin_Polzin_HSV_pic1_%28Merlin_Polzin%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/2025-03-05_Loic_Fave_Merlin_Polzin_HSV_pic1_%28Merlin_Polzin%29.jpg/500px-2025-03-05_Loic_Fave_Merlin_Polzin_HSV_pic1_%28Merlin_Polzin%29.jpg",
+   "maker": "Lanthan2003",
+   "licentie": "CC BY-SA 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "zekerheid": "Uitsnede van de Wikidata-foto; persoon is trainer van Hamburger SV",
+   "run": "2026-09-29",
+   "wikidata": "Q124514448"
   }
  ],
  "niet_toegevoegd": [
@@ -476,6 +804,174 @@
    "licentie_url": "https://it.wikipedia.org/wiki/File:Oronzo_Pugliese.jpg",
    "wikidata": "Q2409891",
    "reden": "Staat alleen op de Italiaanse Wikipedia als publiek domein naar Italiaans recht (20 jaar na opname). Buiten Italië niet zeker vrij, daarom niet automatisch toegevoegd."
+  },
+  {
+   "coachId": "E6WikcwsYfI58z34THLL",
+   "naam": "Paulo Sérgio",
+   "bestand": "Paulo sergio silvestre nascimento.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Paulo_sergio_silvestre_nascimento.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Paulo_sergio_silvestre_nascimento.jpg/500px-Paulo_sergio_silvestre_nascimento.jpg",
+   "maker": "Palácio do Planalto Attribution",
+   "licentie": "Attribution",
+   "licentie_url": "",
+   "reden": "Verkeerde persoon: de Braziliaanse speler Paulo Sérgio, niet de Portugese trainer.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "WQ5lXrdBUibALxPGKqKa",
+   "naam": "Silas",
+   "bestand": "Paulo Silas.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Paulo_Silas.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Paulo_Silas.jpg/500px-Paulo_Silas.jpg",
+   "maker": "Doha Stadium Plus Qatar",
+   "licentie": "CC BY 2.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/2.0",
+   "reden": "Verkeerde persoon: de Braziliaan Paulo Silas, niet de Portugese trainer Jorge Silas.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "f6XalqFyW57ZXUGWVfUc",
+   "naam": "Bobby Campbell",
+   "bestand": "Bobby Campbell (1947).png",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Bobby_Campbell_%281947%29.png",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/4/46/Bobby_Campbell_%281947%29.png",
+   "maker": "Harry Sagers / Anefo",
+   "licentie": "CC BY-SA 3.0 nl",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+   "reden": "Verkeerde persoon: een andere Bobby Campbell (geboren 1922), niet de Chelsea-trainer (geboren 1937).",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "YEsFKqyBl3M9Eyd04vYG",
+   "naam": "João Alves",
+   "bestand": "João Saldanha (1973).tif",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Jo%C3%A3o_Saldanha_%281973%29.tif",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Jo%C3%A3o_Saldanha_%281973%29.tif/500px-Jo%C3%A3o_Saldanha_%281973%29.tif",
+   "maker": "Unknown Unknown",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "reden": "Verkeerde persoon: João Saldanha.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "f8S0JX4ZlDakP1rmin9T",
+   "naam": "Neca",
+   "bestand": "Necati Ateş.JPG",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Necati_Ate%C5%9F.JPG",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Necati_Ate%C5%9F.JPG/500px-Necati_Ate%C5%9F.JPG",
+   "maker": "Ultraslansi",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "reden": "Verkeerde persoon: Necati Ateş.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "ngk3Kg14Ama9xP2KOA33",
+   "naam": "George Poyser",
+   "bestand": "George Poyser 1974 (cropped).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:George_Poyser_1974_%28cropped%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/George_Poyser_1974_%28cropped%29.jpg/500px-George_Poyser_1974_%28cropped%29.jpg",
+   "maker": "Australian Information Service",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "reden": "Verkeerde persoon: de Australische politicus George Poyser.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "D2gfnIWToHUgfnX8Ymrn",
+   "naam": "Gonzalo García",
+   "bestand": "Gonzalo García 2022.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Gonzalo_Garc%C3%ADa_2022.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Gonzalo_Garc%C3%ADa_2022.jpg/500px-Gonzalo_Garc%C3%ADa_2022.jpg",
+   "maker": "Stefano Delfrate",
+   "licentie": "CC BY-SA 2.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/2.0",
+   "reden": "Verkeerde persoon: een rugbyspeler.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "bYha5d4vpsuZ4WjZVg2f",
+   "naam": "Mundo",
+   "bestand": "Falla Infantil Tio Pep 2019 (12).jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Falla_Infantil_Tio_Pep_2019_%2812%29.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Falla_Infantil_Tio_Pep_2019_%2812%29.jpg/500px-Falla_Infantil_Tio_Pep_2019_%2812%29.jpg",
+   "maker": "Francesc Fort",
+   "licentie": "CC BY-SA 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "reden": "Geen foto: een beeld van een Valenciaanse falla.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "iRDB5xOyJ0xCirUvH0NT",
+   "naam": "Bill Shankly",
+   "bestand": "Bill Shankly statue, Anfield 2018.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Bill_Shankly_statue%2C_Anfield_2018.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bill_Shankly_statue%2C_Anfield_2018.jpg/500px-Bill_Shankly_statue%2C_Anfield_2018.jpg",
+   "maker": "Rodhullandemu",
+   "licentie": "CC BY-SA 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+   "reden": "Standbeeld, geen foto van de persoon.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "VjNxEn54I6MyOKULKEil",
+   "naam": "Joe Mercer",
+   "bestand": "1939 1940 everton team photo.JPG",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:1939_1940_everton_team_photo.JPG",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/1939_1940_everton_team_photo.JPG/500px-1939_1940_everton_team_photo.JPG",
+   "maker": "Dr. David France",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "reden": "Elftalfoto; hij is er niet uit te knippen zonder bewerking.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "sx2Az62SFGVilfP67pBQ",
+   "naam": "Gaby Robert",
+   "bestand": "Equipe France Olympique 1948.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Equipe_France_Olympique_1948.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Equipe_France_Olympique_1948.jpg/500px-Equipe_France_Olympique_1948.jpg",
+   "maker": "UDAFAN",
+   "licentie": "Public domain",
+   "licentie_url": "",
+   "reden": "Elftalfoto.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "7sIEmOs8cbMrN2yJc8bj",
+   "naam": "Terry Neill",
+   "bestand": "Arsenal FC 18-1964.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Arsenal_FC_18-1964.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Arsenal_FC_18-1964.jpg/500px-Arsenal_FC_18-1964.jpg",
+   "maker": "Eskil Malmberg",
+   "licentie": "Public domain",
+   "licentie_url": "https://creativecommons.org/licenses/by/4.0",
+   "reden": "Elftalfoto (Arsenal 1964).",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "Qhf3l9K82fEw5zq1OC8b",
+   "naam": "Ian Porterfield",
+   "bestand": "Ianporterfieldgoal.jpg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Ianporterfieldgoal.jpg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Ianporterfieldgoal.jpg/500px-Ianporterfieldgoal.jpg",
+   "maker": "This photograph is the property of the Sunderland Echo.",
+   "licentie": "CC BY-SA 3.0",
+   "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0",
+   "reden": "Wedstrijdfoto van ver; hij is niet herkenbaar.",
+   "run": "2026-09-29"
+  },
+  {
+   "coachId": "nl8WacLpU7DdmofG335q",
+   "naam": "Pál Csernai",
+   "bestand": "Freiburg im Breisgau- Freiburger FC gegen Bayern München ( u.a. mit Horst Heese und Pal Csernai) - LABW - Staatsarchiv Freiburg W 140 Nr. 00058.jpeg",
+   "bronpagina": "https://commons.wikimedia.org/wiki/File:Freiburg_im_Breisgau-_Freiburger_FC_gegen_Bayern_M%C3%BCnchen_%28_u.a._mit_Horst_Heese_und_Pal_Csernai%29_-_LABW_-_Staatsarchiv_Freiburg_W_140_Nr._00058.jpeg",
+   "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Freiburg_im_Breisgau-_Freiburger_FC_gegen_Bayern_M%C3%BCnchen_%28_u.a._mit_Horst_Heese_und_Pal_Csernai%29_-_LABW_-_Staatsarchiv_Freiburg_W_140_Nr._00058.jpeg/500px-Freiburg_im_Breisgau-_Freiburger_FC_gegen_Bayern_M%C3%BCnchen_%28_u.a._mit_Horst_Heese_und_Pal_Csernai%29_-_LABW_-_Staatsarchiv_Freiburg_W_140_Nr._00058.jpeg",
+   "maker": "Landesarchiv Baden-Württemberg, Staatsarchiv Freiburg W 140 Nr. 00058 / Fotograf: Marlis Decker",
+   "licentie": "CC BY 4.0",
+   "licentie_url": "https://creativecommons.org/licenses/by/4.0",
+   "reden": "Groepsfoto; hij is niet herkenbaar in beeld.",
+   "run": "2026-09-29"
   }
  ],
  "controleren": [
@@ -1129,6 +1625,177 @@
    "soort": "bestand weg",
    "reden": "Het bestand bestaat niet (meer) op Wikimedia Commons; de foto laadt waarschijnlijk niet.",
    "huidige_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Tony_Book.jpg/220px-Tony_Book.jpg"
+  }
+ ],
+ "twijfel": [
+  {
+   "coachId": "3VUBHsNNhbdA6FdpxcDI",
+   "naam": "Malcolm Allison",
+   "reden": "Juiste persoon, maar de uploader noemt een foto uit 1962 'eigen werk'; licentie niet zeker.",
+   "kandidaten": [
+    {
+     "bestand": "Malcolm Allison at Bath City in 1962.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Malcolm_Allison_at_Bath_City_in_1962.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Malcolm_Allison_at_Bath_City_in_1962.jpg/500px-Malcolm_Allison_at_Bath_City_in_1962.jpg",
+     "maker": "Joseph1891",
+     "licentie": "CC BY-SA 4.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": "Bath City, 1962"
+    }
+   ]
+  },
+  {
+   "coachId": "HxrWCN06pxPbHaNR9bTr",
+   "naam": "Özcan Arkoç",
+   "reden": "Juiste persoon (keeper Fenerbahçe), maar de uploader noemt een oude foto 'eigen werk'; licentie niet zeker.",
+   "kandidaten": [
+    {
+     "bestand": "OzcanArkoc.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:OzcanArkoc.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/OzcanArkoc.jpg/500px-OzcanArkoc.jpg",
+     "maker": "HalitBaris",
+     "licentie": "CC BY-SA 4.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": "ca. 1960, hele figuur"
+    }
+   ],
+   "wikidata": "Q64835"
+  },
+  {
+   "coachId": "nzhOJrgrCd0eFM8CeHRe",
+   "naam": "Branko Stankovic",
+   "reden": "Waarschijnlijk juiste persoon, maar de uploader noemt een oude foto 'eigen werk'; licentie niet zeker.",
+   "kandidaten": [
+    {
+     "bestand": "Stankovic-branko.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Stankovic-branko.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Stankovic-branko.jpg",
+     "maker": "Gagibgd",
+     "licentie": "CC BY-SA 4.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": ""
+    }
+   ]
+  },
+  {
+   "coachId": "FUOA8amWQ1VlW2Je7sHT",
+   "naam": "John Hollins",
+   "reden": "Juiste persoon en vrije licentie, maar hij staat klein en ten voeten uit op het veld.",
+   "kandidaten": [
+    {
+     "bestand": "John Hollins (cropped).jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:John_Hollins_%28cropped%29.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/John_Hollins_%28cropped%29.jpg",
+     "maker": "@cfcunofficial (Chelsea Debs) London from London, UK",
+     "licentie": "CC BY-SA 2.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/2.0",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": "Stamford Bridge, 2017"
+    }
+   ],
+   "wikidata": "Q1337437"
+  },
+  {
+   "coachId": "Imkggq23RqYG7lZWBosu",
+   "naam": "Theo Vonk",
+   "reden": "Alleen wedstrijdfoto's als speler; geen portret.",
+   "kandidaten": [
+    {
+     "bestand": "Het beslissende doelpunt van AZ 67-speler Theo Vonk, Bestanddeelnr 925-6453.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Het_beslissende_doelpunt_van_AZ_67-speler_Theo_Vonk%2C_Bestanddeelnr_925-6453.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Het_beslissende_doelpunt_van_AZ_67-speler_Theo_Vonk%2C_Bestanddeelnr_925-6453.jpg/500px-Het_beslissende_doelpunt_van_AZ_67-speler_Theo_Vonk%2C_Bestanddeelnr_925-6453.jpg",
+     "maker": "Anefo",
+     "licentie": "CC0",
+     "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+     "herkomst": "Wikimedia Commons",
+     "opmerking": "wedstrijdfoto 1972"
+    },
+    {
+     "bestand": "AZ 67 tegen Feijenoord 1-0 Jansen (rechts ) in duel met Vonk, Bestanddeelnr 928-5299.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:AZ_67_tegen_Feijenoord_1-0_Jansen_%28rechts_%29_in_duel_met_Vonk%2C_Bestanddeelnr_928-5299.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/AZ_67_tegen_Feijenoord_1-0_Jansen_%28rechts_%29_in_duel_met_Vonk%2C_Bestanddeelnr_928-5299.jpg/500px-AZ_67_tegen_Feijenoord_1-0_Jansen_%28rechts_%29_in_duel_met_Vonk%2C_Bestanddeelnr_928-5299.jpg",
+     "maker": "Bert Verhoeff for Anefo",
+     "licentie": "CC0",
+     "licentie_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": "wedstrijdfoto 1976"
+    }
+   ],
+   "wikidata": "Q2280571"
+  },
+  {
+   "coachId": "d7fdI0JKEP28c00PoT2D",
+   "naam": "Vladimir Kovacevic",
+   "reden": "Foto van Vladica Kovačević (Partizan, Nantes); niet zeker of dat de trainer van Lyon in 1981 is.",
+   "kandidaten": [
+    {
+     "bestand": "Vladica Kovačević (1966).jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Vladica_Kova%C4%8Devi%C4%87_%281966%29.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Vladica_Kova%C4%8Devi%C4%87_%281966%29.jpg/500px-Vladica_Kova%C4%8Devi%C4%87_%281966%29.jpg",
+     "maker": "Ron Kroon / Anefo",
+     "licentie": "CC BY-SA 3.0 nl",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/3.0/nl/deed.en",
+     "herkomst": "Wikimedia Commons (Wikidata-foto)",
+     "opmerking": "Anefo 1966"
+    }
+   ]
+  },
+  {
+   "coachId": "9Gln7JBHKnX5ecT6obkI",
+   "naam": "Carlos Corberán",
+   "reden": "Juiste persoon (Huddersfield, 2022), maar een kleine, donkere schermafbeelding van een video.",
+   "kandidaten": [
+    {
+     "bestand": "Carlos Corberán 2022.png",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Carlos_Corber%C3%A1n_2022.png",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/3/33/Carlos_Corber%C3%A1n_2022.png",
+     "maker": "AFC Bournemouth",
+     "licentie": "CC BY 3.0",
+     "licentie_url": "https://creativecommons.org/licenses/by/3.0",
+     "herkomst": "Wikimedia Commons",
+     "opmerking": "schermafbeelding YouTube"
+    }
+   ],
+   "wikidata": "Q27983031"
+  },
+  {
+   "coachId": "WCysHxPhsdmvcMN7sgKU",
+   "naam": "Dave Sexton",
+   "reden": "Volgens de uploader Sexton als trainer van Manchester United, maar Commons zet hem bij 'onbekende mannen' en het is zelf geüpload.",
+   "kandidaten": [
+    {
+     "bestand": "Dave Sexton.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Dave_Sexton.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Dave_Sexton.jpg",
+     "maker": "Unua.genius",
+     "licentie": "CC BY-SA 4.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+     "herkomst": "Wikimedia Commons",
+     "opmerking": ""
+    }
+   ],
+   "wikidata": "Q735094"
+  },
+  {
+   "coachId": "NzMOLTBUIEtniIEvaVPE",
+   "naam": "Mário Lino",
+   "reden": "Beschrijving 'Mário Lino (footballer)', maar zelf geüpload en niet duidelijk wie op de foto de trainer is.",
+   "kandidaten": [
+    {
+     "bestand": "Lino, Mário img13037.jpg",
+     "bronpagina": "https://commons.wikimedia.org/wiki/File:Lino%2C_M%C3%A1rio_img13037.jpg",
+     "foto_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Lino%2C_M%C3%A1rio_img13037.jpg/500px-Lino%2C_M%C3%A1rio_img13037.jpg",
+     "maker": "Fernando Gonçalves 25",
+     "licentie": "CC BY-SA 4.0",
+     "licentie_url": "https://creativecommons.org/licenses/by-sa/4.0",
+     "herkomst": "Wikimedia Commons",
+     "opmerking": "bank, 1974"
+    }
+   ],
+   "wikidata": "Q6949720"
   }
  ]
 }
