@@ -269,7 +269,7 @@ const PAUSE_ICON = '<svg width="14" height="14" viewBox="0 0 10 10" aria-hidden=
 // Foto's: eigen bestand in images/intro/ als dat er is, anders de foto uit de database (Wikimedia-thumbnail).
 // Twee achtergrondlagen: ontbreekt het eigen bestand, dan blijft de onderste laag zichtbaar.
 function wikiThumb(url, px) {
-    const m = /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f])\/([0-9a-f]{2})\/([^/]+)$/.exec(url || "");
+    const m = /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f])\/([0-9a-f]{2})\/([^/?#]+)(?:[?#].*)?$/.exec(url || "");
     return m ? `${m[1]}/thumb/${m[2]}/${m[3]}/${m[4]}/${px}px-${m[4]}` : url || "";
 }
 const photoBg = (file, fallback) => [file && `url("images/intro/${file}")`, fallback && `url("${fallback}")`].filter(Boolean).join(", ");
@@ -1188,16 +1188,20 @@ function showInfo() {
         pane.innerHTML = ids.length ? insightsHTML(ids) : `<p class="info-default">Add clubs to compare them side by side.</p>`;
     }
     // Geen of kapotte foto: initialen
-    pane.querySelectorAll("img.info-photo").forEach(img => img.addEventListener("error", () => {
+    pane.querySelectorAll("img.info-photo").forEach(img => img.addEventListener("error", function onErr() {
+        // Thumbnail mislukt (bijv. origineel kleiner dan 250px): eerst het originele bestand
+        if (img.dataset.full && !img.dataset.triedFull) { img.dataset.triedFull = "1"; img.src = img.dataset.full; return; }
+        img.removeEventListener("error", onErr);
         const div = document.createElement("div");
         div.className = "info-photo initials";
         div.textContent = img.dataset.initials;
         img.replaceWith(div);
-    }, { once: true }));
+    }));
 }
 
+// Infoblok: een kleine Wikimedia-thumbnail in plaats van het originele bestand (soms meerdere MB)
 const photoHTML = (url, name) => url
-    ? `<img class="info-photo" src="${esc(url)}" alt="" data-initials="${esc(initials(name))}">`
+    ? `<img class="info-photo" src="${esc(wikiThumb(url, 250))}" data-full="${esc(url)}" alt="" data-initials="${esc(initials(name))}">`
     : `<div class="info-photo initials">${esc(initials(name))}</div>`;
 
 function chipsHTML(tr) {
