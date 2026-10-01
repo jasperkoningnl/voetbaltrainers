@@ -15,7 +15,8 @@ PAGES = {
     "articles/stability.html": ("Does Stability Win Trophies?", "Long reigns and trophies go together: 53% of seasons in a 10+ season reign end with a trophy, against 17% in seasons with more than one manager. But which causes which?", "images/stability.jpg"),
     "articles/architectjourneyman.html": ("The Architect and The Journeyman", "Ferguson won 25 trophies in 27 seasons, Mourinho 20 in 18. Two ways to win, and why the trophy count favours the one you would not expect.", "images/architect.jpg"),
     "articles/globaltactician.html": ("The Global Tactician", "Which countries export their managers, and which leagues let them in? From English coaches at Ajax to the Spanish and Portuguese wave.", "images/global.jpg"),
-    "articles/firsttrophy.html": ("The First Trophy", "Most managers who win something do it in their first season. Is that a law of football, or do they simply not get a second one?", "images/articles/hero-firsttrophy.png"),
+    "articles/firsttrophy.html": ("The First Trophy", "Most managers who win something do it in their first season. Is that a law of football, or do they simply not get a second one?", "images/articles/hero-firsttrophy-celebration.jpg"),
+    "articles/eightyears.html": ("Eight Years Without a Trophy", "Wenger, Heynckes, Shankly, Simeone and Arteta: what long trophy droughts reveal about the value of a manager.", "images/articles/hero-eightyears.jpg"),
     "articles/thegoat.html": ("The GOAT Debate", "Ferguson, Guardiola, Ancelotti or Cruyff? What 70 seasons of data add to the argument about the greatest manager of all time.", "images/goat.jpg"),
 }
 START, END = "<!-- meta:start -->", "<!-- meta:end -->"
