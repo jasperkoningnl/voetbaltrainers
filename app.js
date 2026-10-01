@@ -188,6 +188,20 @@ async function loadData() {
 const coachByName = name => [...DB.coaches.values()].find(c => c.naam === name);
 const clubByName = name => DB.clubs.find(c => c.naam === name);
 const seasonsOfCoach = id => DB.seasons.filter(s => s.coachId === id).sort((a, b) => d3.ascending(a.season, b.season));
+// Career: ook seizoenen waarin de trainer niet de trainer van het seizoen was, maar wel in de opstelling staat
+// (kort aan het roer in een gebroken seizoen, bijv. Frank de Boer bij Inter in 2016/17)
+const nameKey = n => String(n || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z]/g, "");
+// Schrijfwijzen in de bronlijsten die afwijken van de naam in de database
+const NAME_ALIASES = Object.fromEntries([
+    ["Johan Cruijff", "Johan Cruyff"], ['"Cacho" Heredia', "Ramón Heredia"], ['Bernardino Pérez "Pasieguito"', "Pasieguito"],
+    ["Domingo Balmanya", "Domènec Balmanya"], ["Gabriel Robert", "Gaby Robert"], ["Gian Piero Ventura", "Giampiero Ventura"],
+    ["Jozef Vengloš", "Josef Vengloš"], ["Lluís Miró", "Luis Miró"], ["Lorenzo Serra Ferrer", "Llorenç Serra Ferrer"],
+    ["László Kubala", "Ladislao Kubala"], ["Manuel Mestre", "Manolo Mestre"], ["Quique Flores", "Quique Sánchez Flores"],
+    ["Sir Matt Busby", "Matt Busby"], ["Vicente Sasot", "Vicenç Sasot"], ["Óscar Rubén Valdez", "Óscar Valdez"],
+].map(([a, b]) => [nameKey(a), nameKey(b)]));
+const lineupKey = n => NAME_ALIASES[nameKey(n)] || nameKey(n);
+const inLineup = (s, coach) => Array.isArray(s.trainers) && s.trainers.some(t => lineupKey(t.naam) === nameKey(coach.naam));
+const careerSeasons = coach => DB.seasons.filter(s => s.coachId === coach.id || inLineup(s, coach)).sort((a, b) => d3.ascending(a.season, b.season));
 const trophiesOf = list => ({ title: d3.sum(list, s => s.title), cup: d3.sum(list, s => s.cup), euro: d3.sum(list, s => s.euro) });
 const total = t => t.title + t.cup + t.euro;
 
@@ -944,7 +958,7 @@ function explorerRows() {
     if (state.view === "league") return DB.clubs.filter(c => c.land === state.country).map(c => c.id);
     if (state.view === "compare") return state.clubs;
     const c = state.career && coachByName(state.career);
-    return c ? [...new Set(seasonsOfCoach(c.id).map(s => s.clubId))] : [];
+    return c ? [...new Set(careerSeasons(c).map(s => s.clubId))] : [];
 }
 
 function renderExplorer() {
@@ -1001,7 +1015,7 @@ function renderGrid() {
     // Kolommen: alle seizoenen; in Career alleen de periode van de trainer
     let columns = DB.seasonList;
     if (coach) {
-        const list = seasonsOfCoach(coach.id);
+        const list = careerSeasons(coach);
         columns = DB.seasonList.filter(s => s >= list[0].season && s <= list[list.length - 1].season);
     }
     const n = columns.length;
@@ -1015,7 +1029,7 @@ function renderGrid() {
         let cur = null;
         columns.forEach(season => {
             let d = bySeason.get(season) || null;
-            if (d && coach && d.coachId !== coach.id) d = null;
+            if (d && coach && d.coachId !== coach.id && !inLineup(d, coach)) d = null;
             if (d?.unknown) ui.hasUnknown = true;
             const tid = d ? d.spell.id : null;
             if (!cur || cur.tid !== tid) { cur = { tid, cells: [] }; segs.push(cur); }
@@ -1272,14 +1286,24 @@ function careerHTML(name) {
     const c = coachByName(name);
     if (!c) return "";
     const list = seasonsOfCoach(c.id);
-    const clubs = new Set(list.map(s => s.clubId));
-    const countries = new Set(list.map(s => s.country));
+    const all = careerSeasons(c);
+    if (!list.length && !all.length) return "";
+    const extraSplit = all.length - list.length;
+    const clubs = new Set(all.map(s => s.clubId));
+    const countries = new Set(all.map(s => s.country));
+    if (!list.length) return infoCardHTML({
+        photo: photoHTML(c.foto_url, c.naam),
+        name: c.naam, nat: c.nationaliteit,
+        sub: `<span class="club">${plural(clubs.size, "club", "clubs")}</span> <span class="span">· ${all[0].season} – ${all[all.length - 1].season}</span>`,
+        extra: `<div class="info-extra">Never manager of the season; ${plural(all.length, "season", "seasons")} as one of several managers</div>`,
+        chips: "", badge: "",
+    });
     const longest = [...new Set(list.map(s => s.spell))].reduce((a, b) => b.seasons.length > a.seasons.length ? b : a);
     return infoCardHTML({
         photo: photoHTML(c.foto_url, c.naam),
         name: c.naam, nat: c.nationaliteit,
-        sub: `<span class="club">${plural(clubs.size, "club", "clubs")} · ${plural(countries.size, "country", "countries")}</span> <span class="span">· ${list[0].season} – ${list[list.length - 1].season}</span>`,
-        extra: `<div class="info-extra">${plural(list.length, "season", "seasons")} as manager of the season in this dataset</div>`,
+        sub: `<span class="club">${plural(clubs.size, "club", "clubs")} · ${plural(countries.size, "country", "countries")}</span> <span class="span">· ${all[0].season} – ${all[all.length - 1].season}</span>`,
+        extra: `<div class="info-extra">${plural(list.length, "season", "seasons")} as manager of the season${extraSplit ? `, plus ${plural(extraSplit, "split season", "split seasons")} as one of several managers` : " in this dataset"}</div>`,
         chips: chipsHTML(trophiesOf(list)),
         badge: badgeHTML(`longest: ${longest.seasons.length}`, longest.split ? 0 : longest.tenure.bucket),
     });
