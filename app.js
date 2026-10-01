@@ -700,7 +700,7 @@ function buildIntro(extra) {
             ${sc.big ? `<span class="st-big" style="color:${sc.bigColor}">${esc(sc.big)}</span>` : ""}
             <p class="st-body">${esc(sc.body)}</p>
             ${sc.chips ? `<div class="st-chips">${sc.chips}</div>` : ""}
-            ${sc.cta ? `<a class="st-cta" href="explore.html">Open the explorer →</a>` : ""}`;
+            ${sc.cta ? `<div class="st-ctas"><a class="st-cta" href="explore.html">Open the explorer →</a><a class="st-more" href="articles/architectjourneyman.html">Read the full story</a></div>` : ""}`;
         const portrait = stageText.querySelector(".st-portrait");
         if (portrait) portrait.style.backgroundImage = photoBg(file, wikiThumb(coach.foto_url, 500));
         stageText.classList.remove("enter");

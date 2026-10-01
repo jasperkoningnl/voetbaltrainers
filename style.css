@@ -151,6 +151,9 @@ button { font: inherit; color: inherit; }
     background: var(--accent); color: var(--bg); box-shadow: 0 14px 40px rgba(102, 255, 102, .3);
 }
 .st-cta:hover { background: #8cff8c; color: var(--bg); }
+.st-ctas { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.2rem; }
+.st-more { color: var(--secondary); font-weight: 600; font-size: .95rem; text-decoration: underline; text-underline-offset: 3px; }
+.st-more:hover { color: var(--text); }
 
 .stage-panel {
     position: relative; min-height: 0; min-width: 0; overflow: hidden;
