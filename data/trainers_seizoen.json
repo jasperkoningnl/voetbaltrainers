@@ -10756,13 +10756,6 @@
      "tot": "1960-05-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Enric Rabassa",
-     "van": "1960-05-15",
-     "tot": "1960-06-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -11015,13 +11008,6 @@
      "tot": "1975-05-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Hennes Weisweiler",
-     "van": "1975-05-15",
-     "tot": "1976-04-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -11041,13 +11027,6 @@
      "naam": "Laureano Ruiz",
      "van": "1976-04-15",
      "tot": "1976-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Rinus Michels",
-     "van": "1976-05-15",
-     "tot": "1978-05-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11076,13 +11055,6 @@
      "naam": "Rinus Michels",
      "van": "1976-05-15",
      "tot": "1978-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Lucien Muller",
-     "van": "1978-05-15",
-     "tot": "1979-04-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11125,13 +11097,6 @@
      "naam": "Helenio Herrera",
      "van": "1980-03-15",
      "tot": "1980-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Ladislao Kubala",
-     "van": "1980-05-15",
-     "tot": "1980-11-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11265,13 +11230,6 @@
      "naam": "Luis Aragonés",
      "van": "1987-09-15",
      "tot": "1988-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Johan Cruyff",
-     "van": "1988-05-15",
-     "tot": "1996-05-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11449,13 +11407,6 @@
      "tot": "2000-05-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Lorenzo Serra Ferrer",
-     "van": "2000-05-15",
-     "tot": "2001-04-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -11489,13 +11440,6 @@
      "naam": "Carles Rexach",
      "van": "2001-04-15",
      "tot": "2002-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Louis van Gaal",
-     "van": "2002-05-15",
-     "tot": "2003-01-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11680,13 +11624,6 @@
      "tot": "2014-05-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Luis Enrique",
-     "van": "2014-05-15",
-     "tot": "2017-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -11727,13 +11664,6 @@
      "naam": "Luis Enrique",
      "van": "2014-05-15",
      "tot": "2017-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Ernesto Valverde",
-     "van": "2017-05-15",
-     "tot": "2020-01-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -11785,13 +11715,6 @@
      "tot": "2020-08-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Ronald Koeman",
-     "van": "2020-08-15",
-     "tot": "2021-10-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://en.wikipedia.org/wiki/List_of_FC_Barcelona_managers"
@@ -11800,13 +11723,6 @@
    "club": "85OvLAjM0LAOdsm0DZPK",
    "seizoen": "2020/21",
    "trainers": [
-    {
-     "naam": "Quique Setién",
-     "van": "2020-01-15",
-     "tot": "2020-08-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
     {
      "naam": "Ronald Koeman",
      "van": "2020-08-15",
@@ -24651,13 +24567,6 @@
      "tot": "1986-04-15",
      "interim": false,
      "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Gérard Banide",
-     "van": "1986-05-15",
-     "tot": "1988-07-15",
-     "interim": false,
-     "datum_precisie": "geschat"
     }
    ],
    "bron": "https://fr.wikipedia.org/wiki/Liste_des_entra%C3%AEneurs_et_pr%C3%A9sidents_de_l%27Olympique_de_Marseille"
@@ -25302,13 +25211,6 @@
      "naam": "Rudi Garcia",
      "van": "2016-10-15",
      "tot": "2019-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "André Villas-Boas",
-     "van": "2019-05-15",
-     "tot": "2021-02-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -26419,13 +26321,6 @@
    "seizoen": "1975/76",
    "trainers": [
     {
-     "naam": "Robert Vicot",
-     "van": "1972-08-15",
-     "tot": "1975-08-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
      "naam": "Just Fontaine",
      "van": "1975-09-15",
      "tot": "1976-06-15",
@@ -26443,13 +26338,6 @@
      "naam": "Velibor Vasović",
      "van": "1976-08-15",
      "tot": "1977-05-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
-    {
-     "naam": "Ilija Pantelić",
-     "van": "1977-05-15",
-     "tot": "1977-06-15",
      "interim": false,
      "datum_precisie": "geschat"
     }
@@ -26474,13 +26362,6 @@
    "club": "wJOZsa6hs3Uvm7DvuMSM",
    "seizoen": "1978/79",
    "trainers": [
-    {
-     "naam": "Jean-Michel Larqué",
-     "van": "1977-08-15",
-     "tot": "1978-08-15",
-     "interim": false,
-     "datum_precisie": "geschat"
-    },
     {
      "naam": "Pierre Alonzo",
      "van": "1978-08-15",

@@ -61,7 +61,11 @@ for f in sorted(glob.glob(str(HERE/'*.txt'))):
         tr=[];days={}
         for n,a,b,i in stints:
             ov=(min(b,w1)-max(a,w0)).days
-            if ov>=3:
+            # Geschatte datums (alleen de maand bekend, op de 15e gezet): een korte overlap die alleen door
+            # zo'n geschatte datum ontstaat (bijv. een benoeming in mei voor het volgende seizoen) telt niet.
+            # Interims blijven staan: hun korte periodes zijn echt.
+            est=meta.get('date_precision')=='geschat' and not i and ((w0<a<=w1 and a.day==15) or (w0<=b<w1 and b.day==15))
+            if ov>=(30 if est else 3):
                 tr.append(dict(naam=n,van=a.isoformat(),tot=b.isoformat(),interim=i)); days[n]=days.get(n,0)+ov
         main=C[s['coachId']]['naam']
         if 'Unavail' in main: pass
