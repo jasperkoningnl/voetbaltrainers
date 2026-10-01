@@ -1,4 +1,4 @@
-"""Zet zoek- en deeltags (description, canonical, Open Graph, Twitter) in de <head> van elke publieke pagina,
+"""Zet zoek- en deeltags (description, canonical, Open Graph, Twitter) en het GoatCounter-script in de <head> van elke publieke pagina,
 en schrijft sitemap.xml. Opnieuw draaien is veilig: het blok tussen de markeringen wordt vervangen.
 Gebruik: python3 tools/meta_tags.py (vanuit de root van de repo)."""
 import re, html, datetime, pathlib
@@ -38,6 +38,7 @@ for path, (title, desc, img) in PAGES.items():
     <meta property="og:url" content="{url}">
     <meta property="og:image" content="{BASE + img}">
     <meta name="twitter:card" content="summary_large_image">
+    <script data-goatcounter="https://kingjay.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     {END}"""
     s = s.replace("</head>", block + "\n</head>", 1)
     f.write_text(s, encoding="utf-8")
