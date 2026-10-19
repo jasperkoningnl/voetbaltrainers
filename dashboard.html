@@ -1382,8 +1382,9 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                 try {
                     const response = await fetch('data/import_transfermarkt_compleet.json', { cache: 'no-store' });
                     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    loadParsedData(await response.json(), 'import_transfermarkt_compleet.json');
-                    setStatus('101 gecontroleerde clubseizoenen geladen.');
+                    const rows = await response.json();
+                    loadParsedData(rows, 'import_transfermarkt_compleet.json');
+                    setStatus(`${rows.length} gecontroleerde clubseizoenen geladen.`);
                 } catch (err) {
                     setError(`Import kon niet worden geladen: ${err.message}`);
                     setStatus('');
@@ -1423,7 +1424,14 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     ]);
                     const existingClubsMap = new Map(clubsSnapshot.docs.map(d => [d.data().naam, d.id]));
                     const existingCoachesMap = new Map(coachesSnapshot.docs.map(d => [d.data().naam, d.id]));
-                    const batch = writeBatch(db);
+                    let batch = writeBatch(db);
+                    let batchSize = 0;
+                    const flushBatch = async () => {
+                        if (!batchSize) return;
+                        await batch.commit();
+                        batch = writeBatch(db);
+                        batchSize = 0;
+                    };
                     const newClubNames = [...new Set(processedData.map(s => s.club))].filter(name => !existingClubsMap.has(name));
                     const newCoachData = new Map();
                     processedData.forEach(s => {
@@ -1437,7 +1445,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                         }
                     });
                     const clubIdMap = new Map(existingClubsMap);
-                    newClubNames.forEach(name => {
+                    for (const name of newClubNames) {
                         const newClubRef = doc(collection(db, "clubs"));
                         const clubData = processedData.find(s => s.club === name);
                         batch.set(newClubRef, {
@@ -1446,15 +1454,20 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             logo_url: clubLogos[name] || ''
                         });
                         clubIdMap.set(name, newClubRef.id);
-                    });
+                        batchSize += 1;
+                        if (batchSize >= 400) await flushBatch();
+                    }
                     const coachIdMap = new Map(existingCoachesMap);
                     for (const [name, data] of newCoachData.entries()) {
                         const newCoachRef = doc(collection(db, 'coaches'));
                         batch.set(newCoachRef, data);
                         coachIdMap.set(name, newCoachRef.id);
+                        batchSize += 1;
+                        if (batchSize >= 400) await flushBatch();
                     }
+                    await flushBatch();
                     const existingSeasonsMap = new Map(seasonsSnapshot.docs.map(d => [`${d.data().club}|${d.data().seizoen}`, d.ref]));
-                    processedData.forEach(season => {
+                    for (const season of processedData) {
                         const coachId = coachIdMap.get(season.coach);
                         const clubId = clubIdMap.get(season.club);
                         if (coachId && clubId) {
@@ -1471,9 +1484,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             if (Array.isArray(season.trainers_seizoen)) seasonData.trainers_seizoen = season.trainers_seizoen;
                             if (season.trainers_bron) seasonData.trainers_bron = season.trainers_bron;
                             batch.set(seasonRef, seasonData, { merge: true });
+                            batchSize += 1;
+                            if (batchSize >= 400) await flushBatch();
                         }
-                    });
-                    await batch.commit();
+                    }
+                    await flushBatch();
                     alert('Import succesvol! Alle data wordt herladen.');
                     onUpdateAll();
                     resetWizard();

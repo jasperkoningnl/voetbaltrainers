@@ -1,0 +1,470 @@
+# Transfermarkt-correcties
+
+Vergelijking met de bronmomentopname van 28 september 2026 en de dataset van 2 oktober 2026. Geen nieuwe livecontrole van 2026/27.
+
+De selectie volgt de langste niet-interimperiode tussen 1 augustus en 20 mei, voor 2019/20 tot 31 augustus. Minimaal 90% van het venster moet gedekt zijn. Bestaande expliciete interimstatussen en eerder onderbouwde aanvullingen blijven behouden. Dit controleert namen, interimstatus en de hoofdtrainerkeuze; het bewijst niet dat iedere dag of korte waarneming volledig is geregistreerd.
+
+Aanvullende rolcontrole: [Chelsea bevestigt Benítez als interim in 2012/13](https://www.chelseafc.com/en/news/article/no-happy-returns---chelsea-s-ex-managers-at-the-bridge); [DFB vermeldt Stevens als trainer in 2014/15](https://datencenter.dfb.de/competitions/bundesliga/seasons/2014-2015/teams/vfb-stuttgart); [VfB noemt hem hoofdtrainer in 2013/14](https://www.vfb.de/de/vfb/aktuell/news-archiv/2014/299072-danke-huub-stevens-/); [Polzin werd op 22 december 2024 definitief benoemd](https://www.bundesliga.com/de/2bundesliga/news/hamburger-sv-trainer-merlin-polzin-bleibt-cheftrainer-30204). Zijn tijdelijke en vaste periode blijven apart.
+
+Gecontroleerd: 2450 clubseizoenen. Doorgevoerd: 338 historische correctierijen, waarvan 310 trainerlijstcorrecties en 74 wijzigingen van hoofdtrainer.
+
+Voor 107 clubseizoenen bevat de bron geen periodes. Die blijven ongewijzigd. De ontbrekende dekking betreft onder andere jaren vóór de oprichting of de voorganger van een club.
+
+## Hoofdtrainer gewijzigd
+
+- Ajax 1962/63: Jack Rowley → Joseph Gruber
+- Ajax 1974/75: Hans Croon → Hans Kraay Sr.
+- Ajax 1988/89: Spitz Kohn → Kurt Linder
+- Ajax 2007/08: Adrie Koster → Henk ten Cate
+- AS Monaco 1975/76: Armand Forcherio → Alberto Muro
+- AS Monaco 1976/77: Lucien Leduc → Armand Forcherio
+- AS Monaco 2021/22: Philippe Clement → Niko Kovač
+- Athletic Bilbao 1960/61: Juan Antonio Ipiña → Martim Francisco
+- Athletic Bilbao 2020/21: Marcelino García Toral → Gaizka Garitano
+- Atlético Madrid 1956/57: Ferdinand Daučík → Antonio Barrios
+- Atlético Madrid 1963/64: Sabino Barinaga → Rafael García Repullo
+- Atlético Madrid 1978/79: Luis Aragonés → Ferenc Szusza
+- AZ 1975/76: Hans Kraay Sr. → Joop Brand
+- Bayern München 1978/79: Gyula Lóránt → Pál Csernai
+- Boavista 1990/91: João Alves → Raul Águas
+- Boavista 1994/95: Zoran Filipović → Manuel José
+- Boavista 1995/96: Zoran Filipović → Manuel José
+- Boavista 1997/98: Mário Reis → Jaime Pacheco
+- Boavista 2003/04: Jaime Pacheco → Erwin Sánchez
+- Boavista 2008/09: Miguel Leal → Rui Bento
+- Boavista 2013/14: Mário Silva → Petit
+- Boavista 2018/19: Lito Vidigal → Jorge Simão
+- Boavista 2019/20: Lito Vidigal → Daniel Ramos
+- Boavista 2020/21: Vasco Seabra → Jesualdo Ferreira
+- Borussia Dortmund 2020/21: Edin Terzić → Lucien Favre
+- Borussia Mönchengladbach 1955/56: Heinz Ditgens → Klaus Dondorf
+- Chelsea 1974/75: Ron Suart → Dave Sexton
+- Chelsea 2012/13: Rafael Benítez → Roberto Di Matteo
+- FC Twente 1972/73: Kees Rijvers → Spitz Kohn
+- FC Twente 1995/96: Issy ten Donkelaar → Hans Meyer
+- Feyenoord 1955/56: Adriaan Koonings → Richard Kohn
+- Feyenoord 1958/59: Jaap van der Leck → Piet de Wolf
+- Feyenoord 1959/60: György Orth → George Sobotka
+- Feyenoord 1960/61: György Orth → George Sobotka
+- Feyenoord 1962/63: Norbert Höfling → Franz Fuchs
+- Feyenoord 1963/64: Willy Kment → Norbert Höfling
+- Feyenoord 1981/82: Hans Kraay Sr. → Václav Ježek
+- Feyenoord 1984/85: Thijs Libregts → Ab Fafié
+- Feyenoord 1988/89: Thijs Libregts → Rob Jacobs
+- Feyenoord 1989/90: Pim Verbeek → Gunder Bengtsson
+- Feyenoord 1997/98: Arie Haan → Leo Beenhakker
+- Internazionale 1955/56: Giuseppe Meazza → Aldo Campatelli
+- Internazionale 1956/57: Annibale Frossi → Luigi Ferrero
+- Juventus 1969/70: Luis Carniglia → Ercole Rabitti
+- Manchester United 2018/19: Ole Gunnar Solskjær → José Mourinho
+- Manchester United 2021/22: Ralf Rangnick → Ole Gunnar Solskjær
+- Milan 1963/64: Nils Liedholm → Luis Carniglia
+- Milan 1973/74: Cesare Maldini → Nereo Rocco
+- Napoli 1955/56: Amedeo Amadei → Eraldo Monzeglio
+- Napoli 1959/60: Annibale Frossi → Amedeo Amadei
+- Napoli 1961/62: Bruno Pesaola → Fioravante Baldi
+- Napoli 1979/80: Angelo Sormani → Luís Vinício
+- Napoli 1992/93: Claudio Ranieri → Ottavio Bianchi
+- Napoli 2002/03: Franco Scoglio → Franco Colomba
+- Napoli 2023/24: Francesco Calzona → Rudi Garcia
+- Olympique Lyonnais 1982/83: Robert Herbin → Vladimir Kovacevic
+- Paris Saint-Germain 1987/88: Gérard Houllier → Erick Mombaerts
+- PSV 1955/56: Ljubiša Broćić → Huub de Leeuw
+- PSV 1958/59: George Hardwick → Cees van Dijcke
+- PSV 1966/67: Bram Appel → Milan Nikolić
+- PSV 1982/83: Jan Reker → Thijs Libregts
+- Roma 1956/57: Guido Masetti → György Sárosi
+- Roma 1962/63: Luis Carniglia → Alfredo Foni
+- Roma 1978/79: Gustavo Giagnoni → Ferruccio Valcareggi
+- Roma 2023/24: Daniele De Rossi → José Mourinho
+- S.C. Braga 1978/79: Hilário Conceição → Fernando Caiado
+- S.C. Braga 1988/89: Raul Águas → Vítor Manuel
+- S.C. Braga 1989/90: Carlos Garcia → Vítor Manuel
+- S.C. Braga 1998/99: Vítor Oliveira → Carlos Manuel
+- S.C. Braga 2006/07: Jorge Costa → Carlos Carvalhal
+- S.C. Braga 2007/08: Jorge Jesus → Manuel Machado
+- S.C. Braga 2016/17: Jorge Simão → José Peseiro
+- Sporting CP 2019/20: Silas → Ruben Amorim
+- Valencia CF 2016/17: Voro → Cesare Prandelli
+
+## Trainerlijst gewijzigd of toegevoegd
+
+- Ajax 1960/61: Vic Buckingham → Vic Buckingham, Keith Spurgeon
+- Ajax 1962/63: Jack Rowley → Joseph Gruber
+- Ajax 1974/75: Hans Croon → Hans Kraay Sr.
+- Ajax 1988/89: Kurt Linder, Spitz Kohn → Kurt Linder, Spitz Kohn (interim)
+- Ajax 2007/08: Henk ten Cate, Adrie Koster → Henk ten Cate, Adrie Koster (interim)
+- AS Monaco 1955/56: (ontbrak) → Louis Dupal
+- AS Monaco 1956/57: (ontbrak) → Anton Marek
+- AS Monaco 1957/58: (ontbrak) → Anton Marek, Louis Pirroni
+- AS Monaco 1958/59: (ontbrak) → Lucien Leduc
+- AS Monaco 1959/60: (ontbrak) → Lucien Leduc
+- AS Monaco 1960/61: (ontbrak) → Lucien Leduc
+- AS Monaco 1961/62: (ontbrak) → Lucien Leduc
+- AS Monaco 1962/63: (ontbrak) → Lucien Leduc
+- AS Monaco 1963/64: (ontbrak) → Roger Courtois
+- AS Monaco 1964/65: (ontbrak) → Roger Courtois, Louis Pirroni
+- AS Monaco 1965/66: (ontbrak) → Louis Pirroni
+- AS Monaco 1966/67: (ontbrak) → Pierre Sinibaldi
+- AS Monaco 1967/68: (ontbrak) → Pierre Sinibaldi
+- AS Monaco 1968/69: (ontbrak) → Pierre Sinibaldi, Louis Pirroni
+- AS Monaco 1970/71: (ontbrak) → Jean Luciano
+- AS Monaco 1971/72: (ontbrak) → Jean Luciano
+- AS Monaco 1972/73: (ontbrak) → Rubén Bravo
+- AS Monaco 1973/74: (ontbrak) → Rubén Bravo
+- AS Monaco 1974/75: (ontbrak) → Alberto Muro
+- AS Monaco 1975/76: (ontbrak) → Alberto Muro, Armand Forchério
+- AS Monaco 1976/77: (ontbrak) → Armand Forchério, Lucien Leduc
+- AS Monaco 1977/78: (ontbrak) → Lucien Leduc
+- AS Monaco 1978/79: (ontbrak) → Lucien Leduc
+- AS Monaco 1979/80: (ontbrak) → Gérard Banide
+- AS Monaco 1980/81: (ontbrak) → Gérard Banide
+- AS Monaco 1981/82: (ontbrak) → Gérard Banide
+- AS Monaco 1982/83: (ontbrak) → Gérard Banide
+- AS Monaco 1983/84: (ontbrak) → Lucien Muller
+- AS Monaco 1984/85: (ontbrak) → Lucien Muller
+- AS Monaco 1985/86: (ontbrak) → Lucien Muller
+- AS Monaco 1986/87: (ontbrak) → Ștefan Kovács
+- AS Monaco 1987/88: (ontbrak) → Arsène Wenger
+- AS Monaco 1988/89: (ontbrak) → Arsène Wenger
+- AS Monaco 1989/90: (ontbrak) → Arsène Wenger
+- AS Monaco 1990/91: (ontbrak) → Arsène Wenger
+- AS Monaco 1991/92: (ontbrak) → Arsène Wenger
+- AS Monaco 1992/93: (ontbrak) → Arsène Wenger
+- AS Monaco 1993/94: (ontbrak) → Arsène Wenger
+- AS Monaco 1994/95: (ontbrak) → Arsène Wenger, Jean-Luc Ettori, Gérard Banide
+- AS Monaco 1995/96: (ontbrak) → Jean Tigana
+- AS Monaco 1996/97: (ontbrak) → Jean Tigana
+- AS Monaco 1997/98: (ontbrak) → Jean Tigana
+- AS Monaco 1998/99: (ontbrak) → Jean Tigana, Claude Puel
+- AS Monaco 1999/00: (ontbrak) → Claude Puel
+- AS Monaco 2000/01: (ontbrak) → Claude Puel
+- AS Monaco 2001/02: (ontbrak) → Didier Deschamps
+- AS Monaco 2002/03: (ontbrak) → Didier Deschamps
+- AS Monaco 2003/04: (ontbrak) → Didier Deschamps
+- AS Monaco 2004/05: (ontbrak) → Didier Deschamps
+- AS Monaco 2005/06: (ontbrak) → Didier Deschamps, Jean Petit (interim), Francesco Guidolin
+- AS Monaco 2006/07: (ontbrak) → László Bölöni, Laurent Banide
+- AS Monaco 2007/08: (ontbrak) → Ricardo Gomes
+- AS Monaco 2008/09: (ontbrak) → Ricardo Gomes
+- AS Monaco 2009/10: (ontbrak) → Guy Lacombe
+- AS Monaco 2010/11: (ontbrak) → Guy Lacombe, Laurent Banide
+- AS Monaco 2011/12: (ontbrak) → Laurent Banide, Marco Simone
+- AS Monaco 2012/13: (ontbrak) → Claudio Ranieri
+- AS Monaco 2013/14: (ontbrak) → Claudio Ranieri
+- AS Monaco 2014/15: (ontbrak) → Leonardo Jardim
+- AS Monaco 2015/16: (ontbrak) → Leonardo Jardim
+- AS Monaco 2016/17: (ontbrak) → Leonardo Jardim
+- AS Monaco 2017/18: (ontbrak) → Leonardo Jardim
+- AS Monaco 2018/19: (ontbrak) → Leonardo Jardim, Thierry Henry, Franck Passi (interim), Leonardo Jardim
+- AS Monaco 2019/20: (ontbrak) → Leonardo Jardim, Robert Moreno, Niko Kovac
+- AS Monaco 2020/21: (ontbrak) → Niko Kovac
+- AS Monaco 2021/22: (ontbrak) → Niko Kovac, Philippe Clement
+- AS Monaco 2022/23: (ontbrak) → Philippe Clement
+- AS Monaco 2023/24: (ontbrak) → Adi Hütter
+- AS Monaco 2024/25: (ontbrak) → Adi Hütter
+- AS Saint-Étienne 2021/22: Claude Puel, Pascal Dupraz → Claude Puel, Julien Sablé (interim), Pascal Dupraz
+- Athletic Bilbao 1955/56: (ontbrak) → Ferdinand Daucik
+- Athletic Bilbao 1956/57: (ontbrak) → Ferdinand Daucik
+- Athletic Bilbao 1957/58: (ontbrak) → Baltasar Albéniz
+- Athletic Bilbao 1958/59: (ontbrak) → Martim Francisco
+- Athletic Bilbao 1959/60: (ontbrak) → Martim Francisco
+- Athletic Bilbao 1960/61: (ontbrak) → Martim Francisco, Juan Antonio Ipiña
+- Athletic Bilbao 1961/62: (ontbrak) → Juan Antonio Ipiña
+- Athletic Bilbao 1962/63: (ontbrak) → Ángel Zubieta
+- Athletic Bilbao 1963/64: (ontbrak) → Juan Ochoantezana
+- Athletic Bilbao 1964/65: (ontbrak) → Antonio Barrios
+- Athletic Bilbao 1965/66: (ontbrak) → Agustín Gaínza
+- Athletic Bilbao 1966/67: (ontbrak) → Agustín Gaínza
+- Athletic Bilbao 1967/68: (ontbrak) → Agustín Gaínza
+- Athletic Bilbao 1968/69: (ontbrak) → Agustín Gaínza, Rafael Iriondo
+- Athletic Bilbao 1969/70: (ontbrak) → Ronnie Allen
+- Athletic Bilbao 1970/71: (ontbrak) → Ronnie Allen
+- Athletic Bilbao 1971/72: (ontbrak) → Ronnie Allen, Salvador Artigas
+- Athletic Bilbao 1972/73: (ontbrak) → Milorad Pavić
+- Athletic Bilbao 1973/74: (ontbrak) → Milorad Pavić
+- Athletic Bilbao 1974/75: (ontbrak) → Rafael Iriondo
+- Athletic Bilbao 1975/76: (ontbrak) → Rafael Iriondo
+- Athletic Bilbao 1976/77: (ontbrak) → Koldo Aguirre
+- Athletic Bilbao 1977/78: (ontbrak) → Koldo Aguirre
+- Athletic Bilbao 1978/79: (ontbrak) → Koldo Aguirre
+- Athletic Bilbao 1979/80: (ontbrak) → Helmut Senekowitsch
+- Athletic Bilbao 1980/81: (ontbrak) → Helmut Senekowitsch, Iñaki Sáez
+- Athletic Bilbao 1981/82: (ontbrak) → Javier Clemente
+- Athletic Bilbao 1982/83: (ontbrak) → Javier Clemente
+- Athletic Bilbao 1983/84: (ontbrak) → Javier Clemente
+- Athletic Bilbao 1984/85: (ontbrak) → Javier Clemente
+- Athletic Bilbao 1985/86: (ontbrak) → Javier Clemente, Iñaki Sáez
+- Athletic Bilbao 1986/87: (ontbrak) → José Ángel Iribar
+- Athletic Bilbao 1987/88: (ontbrak) → Howard Kendall
+- Athletic Bilbao 1988/89: (ontbrak) → Howard Kendall
+- Athletic Bilbao 1989/90: (ontbrak) → Howard Kendall, Txetxu Rojo
+- Athletic Bilbao 1990/91: (ontbrak) → Javier Clemente, Iñaki Sáez
+- Athletic Bilbao 1991/92: (ontbrak) → Iñaki Sáez, Txutxi Aranguren
+- Athletic Bilbao 1992/93: (ontbrak) → Jupp Heynckes
+- Athletic Bilbao 1993/94: (ontbrak) → Jupp Heynckes
+- Athletic Bilbao 1994/95: (ontbrak) → Javier Irureta, José Mari Amorrortu
+- Athletic Bilbao 1995/96: (ontbrak) → Dragoslav Stepanovic, José Mari Amorrortu
+- Athletic Bilbao 1996/97: (ontbrak) → Luis Fernandez
+- Athletic Bilbao 1997/98: (ontbrak) → Luis Fernandez
+- Athletic Bilbao 1998/99: (ontbrak) → Luis Fernandez
+- Athletic Bilbao 1999/00: (ontbrak) → Luis Fernandez
+- Athletic Bilbao 2000/01: (ontbrak) → Txetxu Rojo
+- Athletic Bilbao 2001/02: (ontbrak) → Jupp Heynckes
+- Athletic Bilbao 2002/03: (ontbrak) → Jupp Heynckes
+- Athletic Bilbao 2003/04: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2004/05: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2005/06: (ontbrak) → José Luis Mendilibar, Javier Clemente
+- Athletic Bilbao 2006/07: (ontbrak) → Félix Sarriugarte, Mané
+- Athletic Bilbao 2007/08: (ontbrak) → Joaquín Caparrós
+- Athletic Bilbao 2008/09: (ontbrak) → Joaquín Caparrós
+- Athletic Bilbao 2009/10: (ontbrak) → Joaquín Caparrós
+- Athletic Bilbao 2010/11: (ontbrak) → Joaquín Caparrós
+- Athletic Bilbao 2011/12: (ontbrak) → Marcelo Bielsa
+- Athletic Bilbao 2012/13: (ontbrak) → Marcelo Bielsa
+- Athletic Bilbao 2013/14: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2014/15: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2015/16: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2016/17: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2017/18: (ontbrak) → José Ángel Ziganda
+- Athletic Bilbao 2018/19: (ontbrak) → Eduardo Berizzo, Gaizka Garitano
+- Athletic Bilbao 2019/20: (ontbrak) → Gaizka Garitano
+- Athletic Bilbao 2020/21: (ontbrak) → Gaizka Garitano, Marcelino García Toral
+- Athletic Bilbao 2021/22: (ontbrak) → Marcelino García Toral
+- Athletic Bilbao 2022/23: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2023/24: (ontbrak) → Ernesto Valverde
+- Athletic Bilbao 2024/25: (ontbrak) → Ernesto Valverde
+- Atlético Madrid 1956/57: Ferdinand Daučík → Antonio Barrios
+- Atlético Madrid 1963/64: Rafael García "Tinte", Adrián Escudero, Sabino Barinaga → Rafael García Repullo, Adrián Escudero (interim), Sabino Barinaga
+- Atlético Madrid 1978/79: Héctor Núñez, Luis Aragonés, Ferenc Szusza → Héctor Núñez, Luis Aragonés (interim), Ferenc Szusza
+- Atlético Madrid 1987/88: César Luis Menotti, José Armando Ufarte, Antonio Briones → César Luis Menotti, José Ufarte (interim), Antonio Briones
+- Atlético Madrid 1988/89: José María Maguregui, Antonio Briones, Ron Atkinson, Colin Addison, Antonio Briones → José María Maguregui, Antonio Briones (interim), Ron Atkinson, Colin Addison (interim)
+- Atlético Madrid 1992/93: Luis Aragonés, Iselín Santos Ovejero, José Omar Pastoriza, Iselín Santos Ovejero, José Omar Pastoriza, "Cacho" Heredia → Luis Aragonés, Iselin Ovejero (interim), José Pastoriza, Iselin Ovejero (interim), Cacho Heredia
+- Atlético Madrid 1998/99: Arrigo Sacchi, Carlos Sánchez Aguiar, Radomir Antić → Arrigo Sacchi, Carlos Sánchez Aguiar (interim), Radomir Antić
+- AZ 1967/68: Leslie Talbot → Leslie Talbot, Wim Blokland
+- AZ 1975/76: Hans Kraay Sr. → Joop Brand
+- AZ 1994/95: Piet Schrijvers, Jan Fransz → Piet Schrijvers, Jan Fransz (interim), Theo Vonk
+- Bayern München 1957/58: Willibald Hahn → Willibald Hahn, Herbert Moll
+- Boavista 1974/75: (ontbrak) → José Maria Pedroto
+- Boavista 1975/76: (ontbrak) → José Maria Pedroto
+- Boavista 1976/77: (ontbrak) → Mário Wilson
+- Boavista 1979/80: (ontbrak) → Mário Lino
+- Boavista 1985/86: (ontbrak) → João Alves
+- Boavista 1989/90: (ontbrak) → Raúl Águas, Manuel Barbosa
+- Boavista 1990/91: (ontbrak) → João Alves, Artur, Raúl Águas
+- Boavista 1991/92: (ontbrak) → Manuel José
+- Boavista 1992/93: (ontbrak) → Manuel José
+- Boavista 1993/94: (ontbrak) → Manuel José
+- Boavista 1994/95: (ontbrak) → Manuel José
+- Boavista 1995/96: (ontbrak) → Manuel José
+- Boavista 1996/97: (ontbrak) → Zoran Filipovic, João Alves, Rui Casaca (interim), Mário Reis
+- Boavista 1997/98: (ontbrak) → Mário Reis, Jaime Pacheco
+- Boavista 1998/99: (ontbrak) → Jaime Pacheco
+- Boavista 1999/00: (ontbrak) → Jaime Pacheco
+- Boavista 2000/01: (ontbrak) → Jaime Pacheco
+- Boavista 2001/02: (ontbrak) → Jaime Pacheco
+- Boavista 2002/03: (ontbrak) → Jaime Pacheco
+- Boavista 2003/04: (ontbrak) → Erwin Sánchez, Jaime Pacheco
+- Boavista 2004/05: (ontbrak) → Jaime Pacheco, Pedro Barny
+- Boavista 2005/06: (ontbrak) → Carlos Brito
+- Boavista 2006/07: (ontbrak) → Pedro Barny (interim), Zeljko Petrovic, Jaime Pacheco
+- Boavista 2007/08: (ontbrak) → Jaime Pacheco
+- Boavista 2008/09: (ontbrak) → Rui Bento
+- Boavista 2013/14: (ontbrak) → Petit
+- Boavista 2014/15: (ontbrak) → Petit
+- Boavista 2015/16: (ontbrak) → Petit, Erwin Sánchez
+- Boavista 2016/17: (ontbrak) → Erwin Sánchez, Miguel Leal
+- Boavista 2017/18: (ontbrak) → Miguel Leal, Jorge Simão
+- Boavista 2018/19: (ontbrak) → Jorge Simão, Lito Vidigal
+- Boavista 2019/20: (ontbrak) → Lito Vidigal, Daniel Ramos, Vasco Seabra
+- Boavista 2020/21: (ontbrak) → Vasco Seabra, Daniel Rosendo (interim), Jesualdo Ferreira
+- Boavista 2021/22: (ontbrak) → João Pedro Sousa, Petit
+- Boavista 2022/23: (ontbrak) → Petit
+- Boavista 2023/24: (ontbrak) → Petit, Jorge Couto (interim), Ricardo Paiva, Jorge Simão
+- Boavista 2024/25: (ontbrak) → Cristiano Bacci, Lito Vidigal, Jorge Couto (interim), Stuart Baxter
+- Borussia Dortmund 1969/70: Hermann Lindemann → Hermann Lindemann, Helmut Bracht
+- Borussia Dortmund 1984/85: Timo Konietzka, Erich Ribbeck → Timo Konietzka, Reinhard Saftig (interim), Erich Ribbeck
+- Borussia Mönchengladbach 1955/56: (ontbrak) → Klaus Dondorf
+- Borussia Mönchengladbach 1956/57: (ontbrak) → Klaus Dondorf
+- Borussia Mönchengladbach 1957/58: (ontbrak) → Fritz Pliska
+- Borussia Mönchengladbach 1958/59: (ontbrak) → Fritz Pliska
+- Borussia Mönchengladbach 1959/60: (ontbrak) → Fritz Pliska
+- Borussia Mönchengladbach 1960/61: (ontbrak) → Bernd Oles
+- Borussia Mönchengladbach 1961/62: (ontbrak) → Bernd Oles
+- Borussia Mönchengladbach 1962/63: (ontbrak) → Fritz Langner
+- Borussia Mönchengladbach 1963/64: (ontbrak) → Fritz Langner, Hennes Weisweiler
+- Borussia Mönchengladbach 2015/16: Lucien Favre, André Schubert → Lucien Favre, André Schubert (interim), André Schubert
+- Chelsea 2011/12: André Villas-Boas, Roberto Di Matteo → André Villas-Boas, Roberto Di Matteo (interim)
+- Chelsea 2012/13: Roberto Di Matteo, Rafael Benítez → Roberto Di Matteo, Rafael Benítez (interim)
+- FC Barcelona 1959/60: Helenio Herrera → Helenio Herrera, Enric Rabassa (interim)
+- FC Barcelona 1975/76: Hennes Weisweiler, Laureano Ruiz → Hennes Weisweiler, Laureano Ruiz (interim)
+- FC Barcelona 1982/83: Udo Lattek, César Luis Menotti → Udo Lattek, José Luis Romero (interim), César Luis Menotti
+- FC Barcelona 1990/91: Johan Cruyff → Johan Cruijff, Carles Rexach (interim), Johan Cruijff
+- FC Barcelona 2012/13: Tito Vilanova → Tito Vilanova, Jordi Roura (interim), Tito Vilanova
+- FC Barcelona 2019/20: Ernesto Valverde, Quique Setién → Ernesto Valverde, Quique Setién, Ronald Koeman
+- FC Barcelona 2020/21: Ronald Koeman → Quique Setién, Ronald Koeman
+- FC Porto 2013/14: Paulo Fonseca, Luís Castro, Julen Lopetegui → Paulo Fonseca, Luís Castro (interim), Julen Lopetegui
+- FC Twente 1972/73: Kees Rijvers → Spitz Kohn
+- FC Twente 2005/06: Rini Coolen, Jan van Staa → Rini Coolen, Jan van Staa (interim)
+- FC Twente 2012/13: Steve McClaren, Alfred Schreuder → Steve McClaren, Alfred Schreuder (interim), Michel Jansen
+- FC Twente 2019/20: Gonzalo García → Gonzalo García, Ron Jans
+- Feyenoord 1955/56: Adriaan Koonings → Richard Kohn
+- Feyenoord 1958/59: Jaap van der Leck → Piet de Wolf
+- Feyenoord 1959/60: György Orth → George Sobotka
+- Feyenoord 1960/61: György Orth → George Sobotka
+- Feyenoord 1962/63: Norbert Höfling → Franz Fuchs
+- Feyenoord 1963/64: Willy Kment → Norbert Höfling
+- Feyenoord 1966/67: Willy Kment → Willy Kment, Ben Peeters
+- Feyenoord 1981/82: Hans Kraay Sr. → Vaclav Jezek
+- Feyenoord 1988/89: Thijs Libregts → Rob Jacobs
+- Feyenoord 1990/91: Gunder Bengtsson, Wim Jansen → Gunder Bengtsson, Wim Jansen (interim)
+- Feyenoord 1995/96: Willem van Hanegem, Geert Meijer, Arie Haan → Willem van Hanegem, Geert Meijer (interim), Arie Haan
+- Feyenoord 1999/00: Leo Beenhakker, Henk van Stee → Leo Beenhakker, Henk van Stee (interim)
+- Feyenoord 2008/09: Gertjan Verbeek, Leon Vlemmings → Gertjan Verbeek, Leon Vlemmings (interim)
+- Feyenoord 2024/25: Brian Priske, Pascal Bosschaart, Robin van Persie → Brian Priske, Pascal Bosschaart (interim), Robin van Persie
+- Internazionale 2016/17: Frank de Boer, Stefano Vecchi, Stefano Pioli, Stefano Vecchi → Roberto Mancini, Frank de Boer, Stefano Vecchi (interim), Stefano Pioli, Stefano Vecchi (interim)
+- Juventus 2012/13: Antonio Conte → Antonio Conte, Massimo Carrera (interim), Angelo Alessio (interim)
+- Juventus 2019/20: Maurizio Sarri → Maurizio Sarri, Andrea Pirlo
+- Juventus 2020/21: Andrea Pirlo → Maurizio Sarri, Andrea Pirlo
+- Manchester City 1993/94: Peter Reid, Brian Horton → Peter Reid, Tony Book (interim), Brian Horton
+- Manchester United 2018/19: José Mourinho, Ole Gunnar Solskjær → José Mourinho, Ole Gunnar Solskjær (interim), Ole Gunnar Solskjær
+- Milan 1975/76: Giovanni Trapattoni → Gustavo Giagnoni, Giovanni Trapattoni
+- Milan 1976/77: Giuseppe Marchioro → Giuseppe Marchioro, Nereo Rocco
+- Milan 1986/87: Nils Liedholm, Fabio Capello → Nils Liedholm, Fabio Capello (interim)
+- Milan 2015/16: Siniša Mihajlović, Cristian Brocchi → Sinisa Mihajlovic, Cristian Brocchi (interim)
+- Olympique Lyonnais 1982/83: Robert Herbin → Vladimir Kovacevic, Robert Herbin
+- Olympique Lyonnais 2023/24: Laurent Blanc, Fabio Grosso, Pierre Sage → Laurent Blanc, Jean-François Vulliez (interim), Fabio Grosso, Pierre Sage
+- Olympique Lyonnais 2024/25: Pierre Sage, Paulo Fonseca → Pierre Sage, Jorge Maciel (interim), Paulo Fonseca
+- Olympique Marseille 1984/85: Roland Gransart, Žarko Olarević, Pierre Cahuzac → Roland Gransart, Zarko Olarevic (interim), Pierre Cahuzac
+- Olympique Marseille 2015/16: Marcelo Bielsa, Franck Passi, Míchel, Franck Passi → Marcelo Bielsa, Franck Passi (interim), Míchel, Franck Passi (interim)
+- Olympique Marseille 2016/17: Franck Passi, Rudi Garcia → Franck Passi (interim), Rudi Garcia
+- Paris Saint-Germain 1970/71: (ontbrak) → Pierre Phélipon
+- Paris Saint-Germain 1976/77: Velibor Vasović → Velibor Vasovic, Pierre Alonzo (interim)
+- Paris Saint-Germain 1978/79: Pierre Alonzo, Velibor Vasović → Jean-Michel Larqué, Pierre Alonzo (interim), Velibor Vasovic
+- Paris Saint-Germain 1979/80: Velibor Vasović, Camille Choquier, Georges Peyroche → Velibor Vasovic, Pierre Alonzo (interim), Georges Peyroche, Camille Choquier (interim)
+- PSV 1955/56: Ljubiša Broćić → Huub de Leeuw
+- PSV 1958/59: George Hardwick → Cees van Dijcke
+- PSV 1967/68: Milan Nikolić, Wim Blokland → Milan Nikolic, Toon Brusselers (interim), Wim Blokland, Kurt Linder
+- PSV 1979/80: Kees Rijvers, Jan Reker → Kees Rijvers, Jan Reker (interim)
+- PSV 1982/83: Jan Reker → Thijs Libregts
+- PSV 2019/20: Mark van Bommel, Ernest Faber → Mark van Bommel, Ernest Faber (interim), Roger Schmidt
+- Real Madrid 1990/91: John Toshack, Alfredo Di Stéfano, Radomir Antić → John Toshack, Alfredo di Stéfano, Ramón Grosso (interim), Radomir Antić
+- Real Madrid 1993/94: Benito Floro, Vicente del Bosque → Benito Floro, Vicente del Bosque (interim)
+- Real Madrid 1995/96: Jorge Valdano, Vicente del Bosque, Arsenio Iglesias → Jorge Valdano, Arsenio Iglesias (interim), Vicente del Bosque (interim)
+- Real Madrid 2018/19: Julen Lopetegui, Santiago Solari, Zinedine Zidane → Julen Lopetegui, Santiago Solari (interim), Santiago Solari, Zinédine Zidane
+- Roma 2012/13: Zdeněk Zeman, Aurelio Andreazzoli → Zdenek Zeman, Aurelio Andreazzoli (interim)
+- S.C. Braga 1966/67: (ontbrak) → Fernando Caiado
+- S.C. Braga 1978/79: (ontbrak) → Fernando Caiado
+- S.C. Braga 1983/84: (ontbrak) → Quinito
+- S.C. Braga 1984/85: (ontbrak) → Quinito
+- S.C. Braga 1988/89: (ontbrak) → Vítor Manuel
+- S.C. Braga 1989/90: (ontbrak) → Vítor Manuel
+- S.C. Braga 1990/91: (ontbrak) → Raúl Águas, Carlos Garcia
+- S.C. Braga 1991/92: (ontbrak) → Carlos Garcia, José Manuel, Vítor Manuel
+- S.C. Braga 1992/93: (ontbrak) → Vítor Manuel, António Oliveira
+- S.C. Braga 1993/94: (ontbrak) → António Oliveira, João Fonseca (interim), Professor Neca
+- S.C. Braga 1994/95: (ontbrak) → Manuel Cajuda
+- S.C. Braga 1995/96: (ontbrak) → Manuel Cajuda
+- S.C. Braga 1996/97: (ontbrak) → Manuel Cajuda
+- S.C. Braga 1997/98: (ontbrak) → Fernando Castro Santos, Alberto Argibay
+- S.C. Braga 1998/99: (ontbrak) → Vítor Oliveira, Carlos Manuel, Manuel Cajuda
+- S.C. Braga 1999/00: (ontbrak) → Manuel Cajuda
+- S.C. Braga 2000/01: (ontbrak) → Manuel Cajuda
+- S.C. Braga 2001/02: (ontbrak) → Manuel Cajuda
+- S.C. Braga 2002/03: (ontbrak) → Fernando Castro Santos, Jesualdo Ferreira
+- S.C. Braga 2003/04: (ontbrak) → Jesualdo Ferreira
+- S.C. Braga 2004/05: (ontbrak) → Jesualdo Ferreira
+- S.C. Braga 2005/06: (ontbrak) → Jesualdo Ferreira
+- S.C. Braga 2006/07: (ontbrak) → Carlos Carvalhal, Rogério Gonçalves, Jorge Costa
+- S.C. Braga 2007/08: (ontbrak) → Jorge Costa, António Caldas (interim), Manuel Machado, António Caldas (interim)
+- S.C. Braga 2008/09: (ontbrak) → Jorge Jesus
+- S.C. Braga 2009/10: (ontbrak) → Domingos Paciência
+- S.C. Braga 2010/11: (ontbrak) → Domingos Paciência
+- S.C. Braga 2011/12: (ontbrak) → Leonardo Jardim
+- S.C. Braga 2012/13: (ontbrak) → José Peseiro
+- S.C. Braga 2013/14: (ontbrak) → Jesualdo Ferreira, Jorge Paixão
+- S.C. Braga 2014/15: (ontbrak) → Sérgio Conceição
+- S.C. Braga 2015/16: (ontbrak) → Paulo Fonseca
+- S.C. Braga 2016/17: (ontbrak) → José Peseiro, Abel Ferreira (interim), Jorge Simão, Abel Ferreira
+- S.C. Braga 2017/18: (ontbrak) → Abel Ferreira
+- S.C. Braga 2018/19: (ontbrak) → Abel Ferreira
+- S.C. Braga 2019/20: (ontbrak) → Ricardo Sá Pinto, Ruben Amorim, Custódio, Artur Jorge (interim), Carlos Carvalhal
+- S.C. Braga 2020/21: (ontbrak) → Carlos Carvalhal
+- S.C. Braga 2021/22: (ontbrak) → Carlos Carvalhal
+- S.C. Braga 2022/23: (ontbrak) → Artur Jorge
+- S.C. Braga 2023/24: (ontbrak) → Artur Jorge, Rui Duarte (interim)
+- S.C. Braga 2024/25: (ontbrak) → Daniel Sousa, Carlos Carvalhal
+- Sporting CP 1997/98: Octávio Machado, Francisco Vital, Vicente Cantatore, Carlos Manuel → Octávio Machado, Francisco Vital (interim), Vicente Cantatore, Carlos Manuel
+- Sporting CP 2010/11: Paulo Sérgio, José Couceiro → Paulo Sérgio, Cabral (interim), José Couceiro
+- Valencia CF 2013/14: Miroslav Dukic, Juan Antonio Pizzi → Miroslav Djukic, Nico Estévez (interim), Juan Antonio Pizzi
+- VfB Stuttgart 1996/97: Rolf Fringer, Joachim Löw → Rolf Fringer, Joachim Löw (interim), Joachim Löw
+- VfB Stuttgart 2015/16: Alexander Zorniger, Jürgen Kramny → Alexander Zorniger, Jürgen Kramny (interim), Jürgen Kramny
+
+## Niet overschreven
+
+Deze Transfermarkt-reeksen waren onvolledig of bevatten overlappende niet-interimperiodes. De completere bestaande bron bleef daarom staan.
+
+- Ajax 1975/76: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Rinus Michels
+- Atlético Madrid 1989/90: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Javier Clemente
+- Atlético Madrid 1990/91: overlappende Transfermarkt-periodes; behouden: Tomislav Ivić
+- Atlético Madrid 1994/95: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Jorge D'Alessandro
+- Atlético Madrid 2009/10: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Quique Sánchez Flores
+- AZ 1968/69: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Wim Blokland
+- AZ 1986/87: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Hans Eijkenbroek
+- AZ 1988/89: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Hans Eijkenbroek
+- AZ 2014/15: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: John van den Brom
+- Boavista 1977/78: slechts 197 dagen gedekt; behouden: Jimmy Hagan
+- Boavista 1981/82: slechts 220 dagen gedekt; behouden: Mário Lino
+- Boavista 1984/85: slechts 63 dagen gedekt; behouden: António Morais
+- Boavista 1986/87: slechts 158 dagen gedekt; behouden: José Torres
+- Boavista 1988/89: slechts 149 dagen gedekt; behouden: Raul Águas
+- Boavista 2012/13: slechts 225 dagen gedekt; behouden: Sérgio Lira
+- FC Twente 1985/86: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Fritz Korbach
+- Feyenoord 1972/73: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Ernst Happel
+- Feyenoord 1980/81: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Václav Ježek
+- Internazionale 1995/96: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Roy Hodgson
+- Internazionale 1996/97: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Roy Hodgson
+- Internazionale 1998/99: slechts 262 dagen gedekt; behouden: Mircea Lucescu
+- Juventus 1956/57: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Sandro Puppo
+- Juventus 1958/59: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Teobaldo Depetrini
+- Juventus 1963/64: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Paulo Amaral
+- Juventus 2006/07: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Didier Deschamps
+- Juventus 2008/09: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Claudio Ranieri
+- Juventus 2023/24: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Massimiliano Allegri
+- Milan 1980/81: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Massimo Giacomini
+- Milan 1996/97: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Arrigo Sacchi
+- Milan 2001/02: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Carlo Ancelotti
+- Napoli 1960/61: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Amedeo Amadei
+- Napoli 1968/69: overlappende Transfermarkt-periodes; behouden: Giuseppe Chiappella
+- Napoli 1975/76: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Luís Vinício
+- Napoli 1982/83: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Bruno Pesaola
+- Napoli 1994/95: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Vujadin Boškov
+- Napoli 1998/99: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Renzo Ulivieri
+- Napoli 2004/05: slechts 254 dagen gedekt; behouden: Giampiero Ventura
+- Olympique Lyonnais 1987/88: overlappende Transfermarkt-periodes; behouden: Denis Papas
+- Olympique Marseille 1970/71: slechts 263 dagen gedekt; behouden: Mario Zatelli
+- Paris Saint-Germain 1975/76: overlappende Transfermarkt-periodes; behouden: Just Fontaine
+- PSV 1959/60: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Ljubiša Broćić
+- PSV 2022/23: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Ruud van Nistelrooy
+- Real Madrid 1984/85: overlappende Transfermarkt-periodes; behouden: Amancio Amaro
+- Roma 1958/59: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Gunnar Nordahl
+- Roma 1965/66: overlappende Transfermarkt-periodes; behouden: Oronzo Pugliese
+- Roma 1970/71: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Helenio Herrera
+- Roma 1972/73: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Helenio Herrera
+- Roma 1985/86: overlappende Transfermarkt-periodes; behouden: Sven-Göran Eriksson
+- Roma 1986/87: overlappende Transfermarkt-periodes; behouden: Sven-Göran Eriksson
+- Roma 1987/88: overlappende Transfermarkt-periodes; behouden: Nils Liedholm
+- Roma 1988/89: overlappende Transfermarkt-periodes; behouden: Nils Liedholm
+- Roma 2004/05: bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen; behouden: Luigi Delneri
+- S.C. Braga 1979/80: slechts 133 dagen gedekt; behouden: Hilário Conceição
+- S.C. Braga 1982/83: slechts 213 dagen gedekt; behouden: Juca
+- S.C. Braga 1986/87: slechts 179 dagen gedekt; behouden: Humberto Coelho
+- S.C. Braga 1987/88: slechts 54 dagen gedekt; behouden: Manuel José
+- Sporting CP 1982/83: overlappende Transfermarkt-periodes; behouden: António Oliveira
+- Sporting CP 1983/84: overlappende Transfermarkt-periodes; behouden: Josef Vengloš
+- Valencia CF 1969/70: overlappende Transfermarkt-periodes; behouden: Enrique Buqué
+- VfB Stuttgart 2008/09: overlappende Transfermarkt-periodes; behouden: Markus Babbel
+
+## Nog voor te leggen
+
+Geen.

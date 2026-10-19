@@ -7,7 +7,7 @@ const source = 'https://www.transfermarkt.com/ajax-amsterdam/mitarbeiterhistorie
 const fixture = `
 <table><tbody>
 <tr class="odd">
-<td><table class=inline-table><tr><td rowspan=2><a href="/fred-grim/profil/trainer/17475"><img /></a></td><td class=hauptlink><a title="Fred Grim" id="17475" href="/fred-grim/profil/trainer/17475">Fred Grim</a></td></tr><tr><td>17/08/1965</td></tr></table></td><td class="zentriert"><img title="Netherlands" /></td><td class="zentriert">06/11/2025</td><td class="zentriert">08/03/2026</td><td class="rechts">04 months 02 days</td><td class="zentriert">21</td></tr>
+<td><table class=inline-table><tr><td rowspan=2><a href="/fred-grim/profil/trainer/17475"><img /></a></td><td class=hauptlink><a title="Fred Grim" id="17475" href="/fred-grim/profil/trainer/17475">Fred Grim</a></td></tr><tr><td>17/08/1965</td></tr></table></td><td class="zentriert"><img title="Netherlands" /></td><td class="zentriert">06/11/2025</td><td class="zentriert">08/03/2026</td><td class="rechts">04 months 02 days</td><td class="zentriert"><a href="/trainer/leistungsdatenDetail?id=17475&amp;verein_id=610">21</a></td></tr>
 </tbody></table>`;
 
 test('leest een interim-trainer met exacte datums', () => {
@@ -21,6 +21,7 @@ test('leest een interim-trainer met exacte datums', () => {
     profiel: 'https://www.transfermarkt.com/fred-grim/profil/trainer/17475',
     bron: source,
     datum_precisie: 'dag',
+    wedstrijden: 21,
   }]);
 });
 
@@ -36,4 +37,10 @@ test('dezelfde seizoensregel als de site: minstens drie dagen tussen 1 augustus 
   assert.equal(overlapsSeason({ van: '2025-05-18', tot: '2025-05-20' }, '2024/25'), true);
   assert.equal(overlapsSeason({ van: '2024-07-01', tot: '2024-08-02' }, '2024/25'), false);
   assert.equal(overlapsSeason({ van: '2024-07-01', tot: '2024-08-03' }, '2024/25'), true);
+});
+
+test('het verlengde coronaseizoen bevat ook benoemingen in de zomer van 2020', () => {
+  assert.equal(overlapsSeason({ van: '2020-07-01', tot: '2020-08-03' }, '2019/20'), true);
+  assert.equal(overlapsSeason({ van: '2020-08-30', tot: null }, '2019/20'), false);
+  assert.equal(overlapsSeason({ van: '2020-08-29', tot: null }, '2019/20'), true);
 });
