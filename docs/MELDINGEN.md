@@ -1,22 +1,7 @@
 # Meldingen van bezoekers
 
-Bezoekers melden fouten via **Report an error** in de footer van elke pagina (report.js). Vanuit de verkenner kan dat ook per seizoen: `window.reportError({ club, season, coach })` opent hetzelfde formulier, vooringevuld.
+Het formulier **Report an error** stelt een openbare GitHub Issue samen. De bezoeker rondt de verzending zelf af op GitHub en heeft daarvoor een GitHub-account nodig. Het formulier vraagt geen e-mailadres en waarschuwt om geen privégegevens te delen.
 
-Een melding komt in de Firestore-collectie `meldingen` en staat in het dashboard onder **Data Health** → **Meldingen**. Daar zet je hem op opgelost of afgewezen, met een notitie.
+Issues krijgen de titelprefix `[Data report]` en een klein contextblok met club, seizoen, trainer en soort. Het dashboard toont ze onder **Data Health → Meldingen**. Status wijzigen schrijft direct naar GitHub; eventuele notities worden openbare comments. Dit valt buiten het lokale gegevensconcept.
 
-## Eenmalig: Firestore-regel
-
-Het formulier schrijft zonder inlog. Voeg in de Firebase-console (Firestore → Regels) dit blok toe binnen `match /databases/{database}/documents { ... }`, naast de bestaande regels:
-
-```
-match /meldingen/{id} {
-  allow create: if request.auth == null
-    && request.resource.data.keys().hasOnly(['soort','club','seizoen','coach','bericht','bron','contact','pagina','status','aangemaakt'])
-    && request.resource.data.bericht is string
-    && request.resource.data.bericht.size() > 0 && request.resource.data.bericht.size() <= 2000
-    && request.resource.data.status == 'nieuw';
-  allow read, update, delete: if request.auth != null;
-}
-```
-
-Zonder deze regel geeft het formulier een foutmelding met een verwijzing naar GitHub Issues als tweede optie.
+Bestaande Firestore-meldingen zijn niet openbaar gemaakt of verwijderd. Ze blijven in het oude project beschikbaar voor een afzonderlijke privé-export. De actieve website gebruikt Firebase niet meer.

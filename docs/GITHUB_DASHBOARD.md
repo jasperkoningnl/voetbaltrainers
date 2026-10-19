@@ -1,67 +1,42 @@
-# Dashboard met GitHub als gegevensbron
+# Dashboard zonder Firebase
 
-Clubs, trainers en seizoenen staan uitsluitend in `data/snapshot.json` op `main` van `jasperkoningnl/voetbaltrainers`. Het dashboard leest de nieuwste GitHub-versie, ook wanneer de website nog op een eerdere publicatie staat.
+Clubs, trainers en seizoenen staan in `data/snapshot.json` op GitHub. Het dashboard leest de nieuwste versie, verzamelt bewerkingen in een concept en publiceert die met één expliciete commit. De website blijft op GitHub Pages. Firebase wordt niet meer gebruikt, ook niet voor inloggen, bezoekersmeldingen of het v0.9-archief.
 
-## Gebruiken
+## Eenmalige koppeling met de bestaande OAuth-app
 
-1. Open `https://managerhistory.com/dashboard.html`.
-2. Bewerk gegevens zoals voorheen. Opslaan en importeren voegt wijzigingen toe aan het concept in het geopende tabblad.
-3. Kies **Wijzigingen bekijken en publiceren**. Bekijk welke records zijn toegevoegd, gewijzigd of verwijderd en geef een omschrijving.
-4. Kies **Inloggen met GitHub** als je nog niet verbonden bent.
-5. Kies **Publiceren naar GitHub**. Er wordt één commit gemaakt met alle wijzigingen. De bevestiging bevat de commitlink en een link naar de publicatiestatus. Een bevestigde commit is nog geen bevestigde publicatie: wacht totdat de GitHub Action geslaagd is.
+1. Open de [bestaande GitHub OAuth-app](https://github.com/settings/applications/3946768) en stel de Authorization callback URL in op:
 
-Een GitHub-account zonder schrijfrechten op deze repository kan niet publiceren. Verwijderen is onderdeel van het concept en wordt pas definitief in GitHub na publiceren; oude versies blijven in de wijzigingsgeschiedenis.
+   `https://managerhistory-auth-jasper-konings-projects.vercel.app/api/github/callback`
 
-Concepten en GitHub-toegang worden niet in browseropslag bewaard. Download je concept voordat je het tabblad sluit of herlaadt. De browser waarschuwt bij niet-gepubliceerde wijzigingen. De download bevat de volledige openbare dataset, geen toegangstokens en geen bezoekersmeldingen.
+2. Open [Vercel → managerhistory-auth → Environment Variables](https://vercel.com/jasper-konings-projects/managerhistory-auth/settings/environment-variables). Voeg voor Production toe:
 
-## Eenmalig GitHub-inloggen activeren
+   - `GITHUB_CLIENT_ID`: de Client ID uit dezelfde OAuth-app.
+   - `GITHUB_CLIENT_SECRET`: de eerder gegenereerde Client secret.
 
-De code gebruikt Firebase Authentication als OAuth-tussenstap. Google is vervangen door de knop **Inloggen met GitHub**. Firestore is voor deze gegevens niet nodig; Firebase Authentication blijft wel nodig.
+   Vul deze rechtstreeks in Vercel in; stuur de secret niet naar een chat en zet hem niet in broncode.
 
-Controle op 19 oktober 2026: in de Firebase-console was alleen Google ingeschakeld. GitHub-inloggen is dus pas bruikbaar na onderstaande inrichting. De OAuth-configuratie wordt niet door een GitHub-codewijziging geactiveerd.
+3. Maak daarna een nieuwe Production-deployment van managerhistory-auth, zodat de variabelen actief worden. De dienst is ingericht met `AUTH_ORIGIN` en `ALLOWED_ORIGINS`; die hoeven niet gewijzigd te worden.
 
-1. Registreer in [GitHub Developer settings een OAuth App](https://github.com/settings/applications/new):
-   - Application name: `Manager History dashboard`.
-   - Homepage URL: `https://managerhistory.com`.
-   - Authorization callback URL: `https://voetbaltrainers.firebaseapp.com/__/auth/handler`.
-2. Open [Firebase Authentication → Sign-in method](https://console.firebase.google.com/project/voetbaltrainers/authentication/providers), voeg **GitHub** toe en schakel die provider in.
-3. Vul de Client ID en Client secret van de OAuth-app uitsluitend daar in en sla op. Zet de secret nooit in broncode, een chat, een screenshot of een repositorybestand.
-4. Controleer bij Firebase Authentication → Settings → Authorized domains dat `managerhistory.com` is toegestaan. Voeg voor lokaal inlogtesten alleen een benodigde lokale testhost toe; voor lokaal gegevens bekijken is dat niet nodig.
-5. Open het nieuwe dashboard, log in met GitHub en controleer in het toestemmingsvenster de gevraagde rechten.
+4. Controleer [de gereedheidscontrole](https://managerhistory-auth-jasper-konings-projects.vercel.app/api/health): `ready` moet `true` zijn. Dit bewijst dat de instellingen aanwezig zijn, nog niet dat de inlog werkt. Log vervolgens echt in via het dashboard en controleer een opslag en geslaagde publicatie.
 
-De OAuth-app vraagt `public_repo` aan, geen `repo`: dus geen toegang tot privérepositories. GitHub OAuth beperkt deze scope niet tot één repository; het kan ook toegang tot andere openbare repositories geven waar het account rechten heeft. De dashboardcode gebruikt uitsluitend `jasperkoningnl/voetbaltrainers`. Voor fijnmaziger machtigingen is een aparte GitHub App met een serverkoppeling nodig.
+## Inloggen en publiceren
 
-Bij de eerste migratie koppelt de knop GitHub aan de reeds ingelogde Firebase-gebruiker, zodat diens bestaande UID en meldingsrechten behouden blijven. Sluit die eerste bestaande beheersessie niet voordat je hebt gekoppeld. Bij `account-exists-with-different-credential` moet de bestaande accountkoppeling worden hersteld; verlaag geen Firestore-beveiligingsregels om dit te omzeilen.
+**Inloggen met GitHub** opent een apart GitHub-venster. De kleine Vercel-dienst wisselt de inlogcode met de serversecret uit. Een ondertekende HttpOnly-cookie, een tijdelijke state en PKCE controleren de aanvraag. Het resultaat gaat alleen naar de toegestane dashboard-origin en wordt gecontroleerd op origin, venster en aanvraag-ID. Er staat geen toegangstoken in een redirect-URL.
 
-Officiële uitleg: [Firebase GitHub-inloggen](https://firebase.google.com/docs/auth/web/github-auth) en [GitHub OAuth scopes](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps).
+De GitHub-toegang blijft alleen in het geheugen van het geopende tabblad. Na sluiten of verversen log je opnieuw in. Alleen een account met repositoryschrijfrechten kan publiceren. OAuth vraagt `public_repo`, dus geen privérepositories. Deze GitHub OAuth-scope kan ook toegang geven tot andere openbare repositories van het account; de code gebruikt uitsluitend jasperkoningnl/voetbaltrainers.
 
-## Gelijktijdige wijzigingen en fouten
+Opslaan en importeren maken eerst een concept. **Wijzigingen bekijken en publiceren** toont de gewijzigde records en schrijft één GitHub-commit. Een bevestigde commit is nog geen geslaagde publicatie: volg de getoonde publicatielink. Een tussentijdse wijziging aan de dataset blokkeert de opslag, zonder het concept weg te gooien. Download je concept voordat je het tabblad sluit of bij een conflict de nieuwste versie laadt. De browser waarschuwt bij niet-gepubliceerde wijzigingen.
 
-Het dashboard onthoudt de GitHub-bestandsversie waarop je concept is gebaseerd. Is de dataset intussen gewijzigd, dan weigert GitHub de opslag. Je concept blijft in het tabblad beschikbaar. Download het, open de nieuwste versie en verwerk de gewenste verschillen opnieuw; laat desgewenst het gedownloade concept vergelijken met de nieuwste versie. Het dashboard voert geen automatische conflictoplossing uit.
+## Bezoekersmeldingen en foto’s
 
-Bij een mislukte of onduidelijke netwerkrespons blijft het concept behouden. Controleer de commitgeschiedenis voordat je opnieuw publiceert. Een niet-bevestigde opslag wordt niet als geslaagd getoond.
+Het formulier toont dat meldingen openbaar op GitHub komen en een GitHub-account vereisen. **Continue on GitHub** opent een vooraf ingevulde issue; de bezoeker verzendt die zelf. Het formulier vraagt geen e-mailadres en meldt geen ontvangst voordat de bezoeker daadwerkelijk heeft verzonden. Het dashboard leest deze issues en kan ze sluiten, afwijzen of heropenen. Notities zijn openbare GitHub-comments en worden direct opgeslagen, buiten het gegevensconcept.
 
-Vóór publiceren worden unieke IDs, unieke clubseizoenen, geldige seizoenen, bestaande club- en trainerverwijzingen en prijswaarden gecontroleerd. Ook de publicatieworkflow controleert de dataset. Dat zijn structuurcontroles, geen onafhankelijke historische feitencontrole.
+Kandidaatfoto’s worden rechtstreeks bij Wikipedia opgezocht. De bestaande handmatige fotocontroles en gegevens blijven behouden; een kandidaat is geen automatische identiteits- of licentiecontrole.
 
-## Wat nog Firebase gebruikt
+## Oude Firebase-gegevens
 
-- Bezoekersmeldingen in de bestaande collectie `meldingen`, inclusief eventueel privécontact en afhandelnotities. Deze worden nooit aan de openbare GitHub-dataset toegevoegd. Afhandelen in het meldingen-tabblad schrijft nog direct naar Firestore.
-- Firebase Authentication als tussenstap voor GitHub-inloggen.
-- De bestaande functie om kandidaatfoto's op te zoeken.
+De bestaande externe Firestore-database is niet verwijderd. Historische bezoekersmeldingen kunnen privécontactgegevens bevatten; ze worden niet automatisch naar openbare GitHub Issues gekopieerd. Bewaar die zo nodig via de oorspronkelijke console voordat je het oude Firebase-project later zelf verwijdert. Firebase-bronconfiguratie, SDK-imports, functies en het exportscript zijn uit deze repository verwijderd. Git bewaart de oude versies.
 
-Laat het Firebase-project en de huidige meldingsregels daarom bestaan. Het meldformulier op de publieke site verandert in deze stap niet. Zet meldingen pas in een volgende migratie over naar GitHub Issues, met een expliciete keuze over openbare tekst, accountvereiste en privécontact.
+## Controle
 
-## Publicatie en terugdraaien
-
-De dagelijkse Firestore-export is uit `.github/workflows/pages.yml` verwijderd. Ook handmatig **Run workflow** publiceert de gegevens uit GitHub, zonder oude imports opnieuw toe te passen. De gewone verkenner valt niet terug op verouderde Firestore-data. Het historische `v0.9/`-archief is in deze stap niet omgebouwd.
-
-`data/import_transfermarkt_compleet.json`, de historische controlebestanden en de importknoppen blijven beschikbaar als hulpmiddel. Een import komt eerst in je concept; hij wordt niet elke dag opnieuw opgelegd aan de dataset.
-
-Voor terugdraaien: herstel de betreffende eerdere versie van `data/snapshot.json` via een GitHub-commit en laat de publicatieworkflow draaien. De bestaande Firestore-collecties zijn in deze migratie niet verwijderd of gewijzigd. Het oude exportscript weigert nu om `data/snapshot.json` te overschrijven; gebruik voor een bewuste back-up altijd een apart uitvoerbestand.
-
-## Validatie vóór ingebruikname
-
-- `node --test data/bronnen/*.test.mjs`.
-- `node .github/scripts/validate-snapshot.mjs`.
-- Browser: laden, bewerken, conceptoverzicht en verwerpen.
-- Na OAuth-inrichting: GitHub-inlog, koppeling aan bestaande Firebase-gebruiker, echte opslag en geslaagde publicatie, plus toegang tot bestaande bezoekersmeldingen. Deze laatste stappen moeten met het bevoegde account worden getest en zijn niet bewezen door unit-tests.
+`node --test data/bronnen/*.test.mjs` controleert de gegevenslaag, herimport, conflicten, OAuth-state, PKCE, callback en openbare meldingsopbouw. `node .github/scripts/validate-snapshot.mjs` controleert de publiceerbare datasetstructuur. Echte OAuth-inlog en opslag vereisen de ingevulde Client ID, secret en juiste callback; aanwezigheid van code of een groene healthcheck bewijst dat niet.

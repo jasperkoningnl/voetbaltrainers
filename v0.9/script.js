@@ -254,8 +254,7 @@ function shareView() {
 
 
 // --- 6. DATA FETCHING ---
-// Eerst de statische snapshot (data/snapshot.json, export uit het dashboard): kost geen Firestore-reads.
-// Alleen als die ontbreekt of onleesbaar is, lezen we Firestore.
+// Het archief leest uitsluitend de GitHub-snapshot.
 async function fetchSnapshot() {
     try {
         const response = await fetch("../data/snapshot.json");
@@ -264,7 +263,7 @@ async function fetchSnapshot() {
         if (!Array.isArray(snap.clubs) || !Array.isArray(snap.coaches) || !Array.isArray(snap.seizoenen)) throw new Error("onverwacht formaat");
         return snap;
     } catch (error) {
-        console.warn("Snapshot niet geladen, terugval op Firestore:", error);
+        console.error("Gegevens konden niet worden geladen:", error);
         return null;
     }
 }
@@ -281,21 +280,7 @@ async function fetchAllInitialData() {
             appState.allSeasons = snap.seizoenen.map(({ id, ...seizoen }) => seizoen);
             return;
         }
-        if (!window.db || !window.firestore) {
-            console.error("Firestore is niet geïnitialiseerd.");
-            return;
-        }
-        const { collection, getDocs } = window.firestore;
-        const [coachesSnapshot, clubsSnapshot, seizoenenSnapshot] = await Promise.all([
-            getDocs(collection(window.db, "coaches")),
-            getDocs(collection(window.db, "clubs")),
-            getDocs(collection(window.db, "seizoenen"))
-        ]);
-
-        appState.allCoaches = coachesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        appState.allClubs = clubsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        appState.allClubs.forEach(club => { club.logo_url = localLogo(club); });
-        appState.allSeasons = seizoenenSnapshot.docs.map(doc => doc.data());
+        throw new Error("De gegevens zijn niet beschikbaar. Probeer de pagina opnieuw te laden.");
     } catch (error) {
         console.error("Fout bij het laden van initiële data:", error);
     } finally {
