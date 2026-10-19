@@ -36,6 +36,7 @@ export function parseStaffHistory(html, roleConfig, sourceUrl) {
     const profile = row.match(/<td class=hauptlink>\s*<a[^>]*href="([^"]*\/profil\/trainer\/(\d+))"[^>]*>([\s\S]*?)<\/a>/u);
     const dates = [...row.matchAll(/<td[^>]*class="[^"]*zentriert[^"]*"[^>]*>\s*(\d{2}\/\d{2}\/\d{4}|-)\s*<\/td>/gu)]
       .map(match => match[1]);
+    const matches = row.match(/leistungsdatenDetail[^>]*>\s*(\d+)\s*<\/a>/u);
     if (!profile || !dates[0]) return null;
     return {
       transfermarkt_id: profile[2],
@@ -47,6 +48,7 @@ export function parseStaffHistory(html, roleConfig, sourceUrl) {
       profiel: new URL(profile[1].replace(/&amp;/gu, '&'), 'https://www.transfermarkt.com').href,
       bron: sourceUrl,
       datum_precisie: 'dag',
+      wedstrijden: matches ? Number(matches[1]) : null,
     };
   }).filter(Boolean);
   return records;
@@ -83,7 +85,7 @@ function seasonBounds(season) {
   const startYear = Number(match[1]);
   const expectedEnd = String((startYear + 1) % 100).padStart(2, '0');
   if (match[2] !== expectedEnd) throw new Error(`Ongeldig aansluitend seizoen: ${season}`);
-  return { start: `${startYear}-08-01`, end: `${startYear + 1}-05-20` };
+  return { start: `${startYear}-08-01`, end: season === '2019/20' ? '2020-08-31' : `${startYear + 1}-05-20` };
 }
 
 export function overlapsSeason(record, season) {
@@ -189,6 +191,7 @@ function compareSeason(existingRows, club, season, records) {
       interim: record.interim,
       datum_precisie: record.datum_precisie,
       transfermarkt_id: record.transfermarkt_id,
+      wedstrijden: record.wedstrijden,
       bron: record.bron,
     })),
   };
@@ -207,7 +210,8 @@ async function main() {
   for (const club of clubs) {
     const roleResults = [];
     for (const roleConfig of ROLE_CONFIG) roleResults.push(await loadRolePage(club, roleConfig, options, requestState));
-    const records = uniqueRecords(roleResults.flatMap(result => result.records));
+    const records = uniqueRecords(roleResults.flatMap(result => result.records))
+      .filter(record => record.wedstrijden !== 0);
     results.push({
       club: club.naam,
       transfermarkt_club_id: club.transfermarkt_id,

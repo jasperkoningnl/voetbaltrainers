@@ -1,0 +1,4210 @@
+{
+  "gegenereerd_op": "2026-10-19T17:55:44.945Z",
+  "bron": "Transfermarkt club staff history; records met expliciet 0 wedstrijden genegeerd",
+  "nulmeting_commit": "68079f10751d3031159dafd441b6dd0c81e28f7d",
+  "bron_momentopname": "2026-09-28",
+  "importregels": 437,
+  "bestaande_interimstatus_behouden": [
+    {
+      "club": "Ajax",
+      "seizoen": "2023/24",
+      "naam": "John van 't Schip"
+    },
+    {
+      "club": "AS Saint-Étienne",
+      "seizoen": "2017/18",
+      "naam": "Julien Sablé"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1970/71",
+      "naam": "Piet Ouderland"
+    },
+    {
+      "club": "Bayern München",
+      "seizoen": "1993/94",
+      "naam": "Franz Beckenbauer"
+    },
+    {
+      "club": "Borussia Dortmund",
+      "seizoen": "1980/81",
+      "naam": "Rolf Bock"
+    },
+    {
+      "club": "Borussia Dortmund",
+      "seizoen": "2020/21",
+      "naam": "Edin Terzic"
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1991/92",
+      "naam": "Bernd Krauss"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1974/75",
+      "naam": "Ron Suart"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1992/93",
+      "naam": "David Webb"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "2008/09",
+      "naam": "Guus Hiddink"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1998/99",
+      "naam": "Luciano Castellini"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1994/95",
+      "naam": "Kees Rijvers"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "2004/05",
+      "naam": "Bruno Conti"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1964/65",
+      "naam": "Juca"
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "1996/97",
+      "naam": "José Manuel Rielo"
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "2016/17",
+      "naam": "Voro"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "1971/72",
+      "naam": "Karl Bögelein"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "1974/75",
+      "naam": "Fritz Millinger"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "1975/76",
+      "naam": "Karl Bögelein"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "2018/19",
+      "naam": "Nico Willig"
+    }
+  ],
+  "bestaande_bronperiodes_behouden": [
+    {
+      "club": "Ajax",
+      "seizoen": "1984/85",
+      "naam": "Cor van der Hart",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1987/88",
+      "naam": "Bobby Haarms",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "2004/05",
+      "naam": "Ruud Krol",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Arsenal",
+      "seizoen": "1961/62",
+      "naam": "Billy Wright",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Arsenal",
+      "seizoen": "1996/97",
+      "naam": "Bruce Rioch",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "AS Saint-Étienne",
+      "seizoen": "1983/84",
+      "naam": "Robert Philippe",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "AS Saint-Étienne",
+      "seizoen": "1997/98",
+      "naam": "Robert Herbin",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "AS Saint-Étienne",
+      "seizoen": "2000/01",
+      "naam": "Jean-Guy Wallemme",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1996/97",
+      "naam": "Martin Haar",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "2013/14",
+      "naam": "Martin Haar",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Benfica",
+      "seizoen": "1969/70",
+      "naam": "José Augusto",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1961/62",
+      "naam": "Tommy Docherty",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1980/81",
+      "naam": "Bobby Gould",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1995/96",
+      "naam": "Ruud Gullit",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1997/98",
+      "naam": "Ruud Gullit",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "2008/09",
+      "naam": "Ray Wilkins",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1959/60",
+      "naam": "Ferdinand Daucik",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1968/69",
+      "naam": "António Morais",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1969/70",
+      "naam": "Vieirinha",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1969/70",
+      "naam": "Tommy Docherty",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1974/75",
+      "naam": "Monteiro da Costa",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1975/76",
+      "naam": "Monteiro da Costa",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "1988/89",
+      "naam": "Alfredo Murça",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "2004/05",
+      "naam": "Luigi Delneri",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "2006/07",
+      "naam": "Rui Barros",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "2013/14",
+      "naam": "Julen Lopetegui",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Hamburger SV",
+      "seizoen": "1955/56",
+      "naam": "Günter Mahlmann",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1958/59",
+      "naam": "Aldo Campatelli",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1959/60",
+      "naam": "Giulio Cappelli",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Liverpool",
+      "seizoen": "1990/91",
+      "naam": "Kenny Dalglish",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Manchester United",
+      "seizoen": "2013/14",
+      "naam": "Ryan Giggs",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "1987/88",
+      "naam": "Denis Papas",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "1987/88",
+      "naam": "Marcel Le Borgne",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "1988/89",
+      "naam": "Michel Hidalgo",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "1994/95",
+      "naam": "Luka Peruzovic",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "2000/01",
+      "naam": "Christophe Galtier",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "2004/05",
+      "naam": "Albert Emon",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1979/80",
+      "naam": "Camille Choquier",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1984/85",
+      "naam": "Amancio Amaro",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1995/96",
+      "naam": "Vicente del Bosque",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1996/97",
+      "naam": "Ezio Sella",
+      "reden": "gezamenlijke trainers uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1955/56",
+      "naam": "Abel Picabéa",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1960/61",
+      "naam": "Alfredo Gonzalez",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1964/65",
+      "naam": "Jean Luciano",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1964/65",
+      "naam": "Anselmo Fernandez",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1964/65",
+      "naam": "Armando Ferreira",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1966/67",
+      "naam": "Armando Ferreira",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1968/69",
+      "naam": "Mário Lino",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1968/69",
+      "naam": "Armando Ferreira",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1971/72",
+      "naam": "Mário Lino",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1977/78",
+      "naam": "José Rodrigues Dias",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1982/83",
+      "naam": "António Oliveira",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1982/83",
+      "naam": "Jozef Vengloš",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1983/84",
+      "naam": "Jozef Vengloš",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1983/84",
+      "naam": "Marinho",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1986/87",
+      "naam": "Marinho",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1988/89",
+      "naam": "Vítor Damas",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "2009/10",
+      "naam": "Paulo Sérgio",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "1969/70",
+      "naam": "Enrique Buqué/Salvador Artigas",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "1959/60",
+      "naam": "Kurt Baluses",
+      "reden": "exact gedateerde periode uit bestaande bron"
+    }
+  ],
+  "gecontroleerde_seizoenen": 2450,
+  "zonder_transfermarkt_data": 107,
+  "correctierijen": 338,
+  "trainerlijsten_gewijzigd": 310,
+  "trainerlijstcorrecties": [
+    {
+      "club": "Ajax",
+      "seizoen": "1960/61",
+      "van": [
+        "Vic Buckingham"
+      ],
+      "naar": [
+        "Vic Buckingham",
+        "Keith Spurgeon"
+      ]
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1962/63",
+      "van": [
+        "Jack Rowley"
+      ],
+      "naar": [
+        "Joseph Gruber"
+      ]
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1974/75",
+      "van": [
+        "Hans Croon"
+      ],
+      "naar": [
+        "Hans Kraay Sr."
+      ]
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1988/89",
+      "van": [
+        "Kurt Linder",
+        "Spitz Kohn"
+      ],
+      "naar": [
+        "Kurt Linder",
+        "Spitz Kohn (interim)"
+      ]
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "2007/08",
+      "van": [
+        "Henk ten Cate",
+        "Adrie Koster"
+      ],
+      "naar": [
+        "Henk ten Cate",
+        "Adrie Koster (interim)"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1955/56",
+      "van": [],
+      "naar": [
+        "Louis Dupal"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1956/57",
+      "van": [],
+      "naar": [
+        "Anton Marek"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1957/58",
+      "van": [],
+      "naar": [
+        "Anton Marek",
+        "Louis Pirroni"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1958/59",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1959/60",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1960/61",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1961/62",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1962/63",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1963/64",
+      "van": [],
+      "naar": [
+        "Roger Courtois"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1964/65",
+      "van": [],
+      "naar": [
+        "Roger Courtois",
+        "Louis Pirroni"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1965/66",
+      "van": [],
+      "naar": [
+        "Louis Pirroni"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1966/67",
+      "van": [],
+      "naar": [
+        "Pierre Sinibaldi"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1967/68",
+      "van": [],
+      "naar": [
+        "Pierre Sinibaldi"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1968/69",
+      "van": [],
+      "naar": [
+        "Pierre Sinibaldi",
+        "Louis Pirroni"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1970/71",
+      "van": [],
+      "naar": [
+        "Jean Luciano"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1971/72",
+      "van": [],
+      "naar": [
+        "Jean Luciano"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1972/73",
+      "van": [],
+      "naar": [
+        "Rubén Bravo"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1973/74",
+      "van": [],
+      "naar": [
+        "Rubén Bravo"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1974/75",
+      "van": [],
+      "naar": [
+        "Alberto Muro"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1975/76",
+      "van": [],
+      "naar": [
+        "Alberto Muro",
+        "Armand Forchério"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1976/77",
+      "van": [],
+      "naar": [
+        "Armand Forchério",
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1977/78",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1978/79",
+      "van": [],
+      "naar": [
+        "Lucien Leduc"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1979/80",
+      "van": [],
+      "naar": [
+        "Gérard Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1980/81",
+      "van": [],
+      "naar": [
+        "Gérard Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1981/82",
+      "van": [],
+      "naar": [
+        "Gérard Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1982/83",
+      "van": [],
+      "naar": [
+        "Gérard Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1983/84",
+      "van": [],
+      "naar": [
+        "Lucien Muller"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1984/85",
+      "van": [],
+      "naar": [
+        "Lucien Muller"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1985/86",
+      "van": [],
+      "naar": [
+        "Lucien Muller"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1986/87",
+      "van": [],
+      "naar": [
+        "Ștefan Kovács"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1987/88",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1988/89",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1989/90",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1990/91",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1991/92",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1992/93",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1993/94",
+      "van": [],
+      "naar": [
+        "Arsène Wenger"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1994/95",
+      "van": [],
+      "naar": [
+        "Arsène Wenger",
+        "Jean-Luc Ettori",
+        "Gérard Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1995/96",
+      "van": [],
+      "naar": [
+        "Jean Tigana"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1996/97",
+      "van": [],
+      "naar": [
+        "Jean Tigana"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1997/98",
+      "van": [],
+      "naar": [
+        "Jean Tigana"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1998/99",
+      "van": [],
+      "naar": [
+        "Jean Tigana",
+        "Claude Puel"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1999/00",
+      "van": [],
+      "naar": [
+        "Claude Puel"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2000/01",
+      "van": [],
+      "naar": [
+        "Claude Puel"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2001/02",
+      "van": [],
+      "naar": [
+        "Didier Deschamps"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2002/03",
+      "van": [],
+      "naar": [
+        "Didier Deschamps"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2003/04",
+      "van": [],
+      "naar": [
+        "Didier Deschamps"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2004/05",
+      "van": [],
+      "naar": [
+        "Didier Deschamps"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2005/06",
+      "van": [],
+      "naar": [
+        "Didier Deschamps",
+        "Jean Petit (interim)",
+        "Francesco Guidolin"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2006/07",
+      "van": [],
+      "naar": [
+        "László Bölöni",
+        "Laurent Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2007/08",
+      "van": [],
+      "naar": [
+        "Ricardo Gomes"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2008/09",
+      "van": [],
+      "naar": [
+        "Ricardo Gomes"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2009/10",
+      "van": [],
+      "naar": [
+        "Guy Lacombe"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2010/11",
+      "van": [],
+      "naar": [
+        "Guy Lacombe",
+        "Laurent Banide"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2011/12",
+      "van": [],
+      "naar": [
+        "Laurent Banide",
+        "Marco Simone"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2012/13",
+      "van": [],
+      "naar": [
+        "Claudio Ranieri"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2013/14",
+      "van": [],
+      "naar": [
+        "Claudio Ranieri"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2014/15",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2015/16",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2016/17",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2017/18",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2018/19",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim",
+        "Thierry Henry",
+        "Franck Passi (interim)",
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2019/20",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim",
+        "Robert Moreno",
+        "Niko Kovac"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2020/21",
+      "van": [],
+      "naar": [
+        "Niko Kovac"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2021/22",
+      "van": [],
+      "naar": [
+        "Niko Kovac",
+        "Philippe Clement"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2022/23",
+      "van": [],
+      "naar": [
+        "Philippe Clement"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2023/24",
+      "van": [],
+      "naar": [
+        "Adi Hütter"
+      ]
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2024/25",
+      "van": [],
+      "naar": [
+        "Adi Hütter"
+      ]
+    },
+    {
+      "club": "AS Saint-Étienne",
+      "seizoen": "2021/22",
+      "van": [
+        "Claude Puel",
+        "Pascal Dupraz"
+      ],
+      "naar": [
+        "Claude Puel",
+        "Julien Sablé (interim)",
+        "Pascal Dupraz"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1955/56",
+      "van": [],
+      "naar": [
+        "Ferdinand Daucik"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1956/57",
+      "van": [],
+      "naar": [
+        "Ferdinand Daucik"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1957/58",
+      "van": [],
+      "naar": [
+        "Baltasar Albéniz"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1958/59",
+      "van": [],
+      "naar": [
+        "Martim Francisco"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1959/60",
+      "van": [],
+      "naar": [
+        "Martim Francisco"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1960/61",
+      "van": [],
+      "naar": [
+        "Martim Francisco",
+        "Juan Antonio Ipiña"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1961/62",
+      "van": [],
+      "naar": [
+        "Juan Antonio Ipiña"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1962/63",
+      "van": [],
+      "naar": [
+        "Ángel Zubieta"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1963/64",
+      "van": [],
+      "naar": [
+        "Juan Ochoantezana"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1964/65",
+      "van": [],
+      "naar": [
+        "Antonio Barrios"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1965/66",
+      "van": [],
+      "naar": [
+        "Agustín Gaínza"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1966/67",
+      "van": [],
+      "naar": [
+        "Agustín Gaínza"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1967/68",
+      "van": [],
+      "naar": [
+        "Agustín Gaínza"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1968/69",
+      "van": [],
+      "naar": [
+        "Agustín Gaínza",
+        "Rafael Iriondo"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1969/70",
+      "van": [],
+      "naar": [
+        "Ronnie Allen"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1970/71",
+      "van": [],
+      "naar": [
+        "Ronnie Allen"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1971/72",
+      "van": [],
+      "naar": [
+        "Ronnie Allen",
+        "Salvador Artigas"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1972/73",
+      "van": [],
+      "naar": [
+        "Milorad Pavić"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1973/74",
+      "van": [],
+      "naar": [
+        "Milorad Pavić"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1974/75",
+      "van": [],
+      "naar": [
+        "Rafael Iriondo"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1975/76",
+      "van": [],
+      "naar": [
+        "Rafael Iriondo"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1976/77",
+      "van": [],
+      "naar": [
+        "Koldo Aguirre"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1977/78",
+      "van": [],
+      "naar": [
+        "Koldo Aguirre"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1978/79",
+      "van": [],
+      "naar": [
+        "Koldo Aguirre"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1979/80",
+      "van": [],
+      "naar": [
+        "Helmut Senekowitsch"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1980/81",
+      "van": [],
+      "naar": [
+        "Helmut Senekowitsch",
+        "Iñaki Sáez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1981/82",
+      "van": [],
+      "naar": [
+        "Javier Clemente"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1982/83",
+      "van": [],
+      "naar": [
+        "Javier Clemente"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1983/84",
+      "van": [],
+      "naar": [
+        "Javier Clemente"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1984/85",
+      "van": [],
+      "naar": [
+        "Javier Clemente"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1985/86",
+      "van": [],
+      "naar": [
+        "Javier Clemente",
+        "Iñaki Sáez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1986/87",
+      "van": [],
+      "naar": [
+        "José Ángel Iribar"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1987/88",
+      "van": [],
+      "naar": [
+        "Howard Kendall"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1988/89",
+      "van": [],
+      "naar": [
+        "Howard Kendall"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1989/90",
+      "van": [],
+      "naar": [
+        "Howard Kendall",
+        "Txetxu Rojo"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1990/91",
+      "van": [],
+      "naar": [
+        "Javier Clemente",
+        "Iñaki Sáez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1991/92",
+      "van": [],
+      "naar": [
+        "Iñaki Sáez",
+        "Txutxi Aranguren"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1992/93",
+      "van": [],
+      "naar": [
+        "Jupp Heynckes"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1993/94",
+      "van": [],
+      "naar": [
+        "Jupp Heynckes"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1994/95",
+      "van": [],
+      "naar": [
+        "Javier Irureta",
+        "José Mari Amorrortu"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1995/96",
+      "van": [],
+      "naar": [
+        "Dragoslav Stepanovic",
+        "José Mari Amorrortu"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1996/97",
+      "van": [],
+      "naar": [
+        "Luis Fernandez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1997/98",
+      "van": [],
+      "naar": [
+        "Luis Fernandez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1998/99",
+      "van": [],
+      "naar": [
+        "Luis Fernandez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1999/00",
+      "van": [],
+      "naar": [
+        "Luis Fernandez"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2000/01",
+      "van": [],
+      "naar": [
+        "Txetxu Rojo"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2001/02",
+      "van": [],
+      "naar": [
+        "Jupp Heynckes"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2002/03",
+      "van": [],
+      "naar": [
+        "Jupp Heynckes"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2003/04",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2004/05",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2005/06",
+      "van": [],
+      "naar": [
+        "José Luis Mendilibar",
+        "Javier Clemente"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2006/07",
+      "van": [],
+      "naar": [
+        "Félix Sarriugarte",
+        "Mané"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2007/08",
+      "van": [],
+      "naar": [
+        "Joaquín Caparrós"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2008/09",
+      "van": [],
+      "naar": [
+        "Joaquín Caparrós"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2009/10",
+      "van": [],
+      "naar": [
+        "Joaquín Caparrós"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2010/11",
+      "van": [],
+      "naar": [
+        "Joaquín Caparrós"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2011/12",
+      "van": [],
+      "naar": [
+        "Marcelo Bielsa"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2012/13",
+      "van": [],
+      "naar": [
+        "Marcelo Bielsa"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2013/14",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2014/15",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2015/16",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2016/17",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2017/18",
+      "van": [],
+      "naar": [
+        "José Ángel Ziganda"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2018/19",
+      "van": [],
+      "naar": [
+        "Eduardo Berizzo",
+        "Gaizka Garitano"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2019/20",
+      "van": [],
+      "naar": [
+        "Gaizka Garitano"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2020/21",
+      "van": [],
+      "naar": [
+        "Gaizka Garitano",
+        "Marcelino García Toral"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2021/22",
+      "van": [],
+      "naar": [
+        "Marcelino García Toral"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2022/23",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2023/24",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2024/25",
+      "van": [],
+      "naar": [
+        "Ernesto Valverde"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1956/57",
+      "van": [
+        "Ferdinand Daučík"
+      ],
+      "naar": [
+        "Antonio Barrios"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1963/64",
+      "van": [
+        "Rafael García \"Tinte\"",
+        "Adrián Escudero",
+        "Sabino Barinaga"
+      ],
+      "naar": [
+        "Rafael García Repullo",
+        "Adrián Escudero (interim)",
+        "Sabino Barinaga"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1978/79",
+      "van": [
+        "Héctor Núñez",
+        "Luis Aragonés",
+        "Ferenc Szusza"
+      ],
+      "naar": [
+        "Héctor Núñez",
+        "Luis Aragonés (interim)",
+        "Ferenc Szusza"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1987/88",
+      "van": [
+        "César Luis Menotti",
+        "José Armando Ufarte",
+        "Antonio Briones"
+      ],
+      "naar": [
+        "César Luis Menotti",
+        "José Ufarte (interim)",
+        "Antonio Briones"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1988/89",
+      "van": [
+        "José María Maguregui",
+        "Antonio Briones",
+        "Ron Atkinson",
+        "Colin Addison",
+        "Antonio Briones"
+      ],
+      "naar": [
+        "José María Maguregui",
+        "Antonio Briones (interim)",
+        "Ron Atkinson",
+        "Colin Addison (interim)"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1992/93",
+      "van": [
+        "Luis Aragonés",
+        "Iselín Santos Ovejero",
+        "José Omar Pastoriza",
+        "Iselín Santos Ovejero",
+        "José Omar Pastoriza",
+        "\"Cacho\" Heredia"
+      ],
+      "naar": [
+        "Luis Aragonés",
+        "Iselin Ovejero (interim)",
+        "José Pastoriza",
+        "Iselin Ovejero (interim)",
+        "Cacho Heredia"
+      ]
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1998/99",
+      "van": [
+        "Arrigo Sacchi",
+        "Carlos Sánchez Aguiar",
+        "Radomir Antić"
+      ],
+      "naar": [
+        "Arrigo Sacchi",
+        "Carlos Sánchez Aguiar (interim)",
+        "Radomir Antić"
+      ]
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1967/68",
+      "van": [
+        "Leslie Talbot"
+      ],
+      "naar": [
+        "Leslie Talbot",
+        "Wim Blokland"
+      ]
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1975/76",
+      "van": [
+        "Hans Kraay Sr."
+      ],
+      "naar": [
+        "Joop Brand"
+      ]
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1994/95",
+      "van": [
+        "Piet Schrijvers",
+        "Jan Fransz"
+      ],
+      "naar": [
+        "Piet Schrijvers",
+        "Jan Fransz (interim)",
+        "Theo Vonk"
+      ]
+    },
+    {
+      "club": "Bayern München",
+      "seizoen": "1957/58",
+      "van": [
+        "Willibald Hahn"
+      ],
+      "naar": [
+        "Willibald Hahn",
+        "Herbert Moll"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1974/75",
+      "van": [],
+      "naar": [
+        "José Maria Pedroto"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1975/76",
+      "van": [],
+      "naar": [
+        "José Maria Pedroto"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1976/77",
+      "van": [],
+      "naar": [
+        "Mário Wilson"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1979/80",
+      "van": [],
+      "naar": [
+        "Mário Lino"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1985/86",
+      "van": [],
+      "naar": [
+        "João Alves"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1989/90",
+      "van": [],
+      "naar": [
+        "Raúl Águas",
+        "Manuel Barbosa"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1990/91",
+      "van": [],
+      "naar": [
+        "João Alves",
+        "Artur",
+        "Raúl Águas"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1991/92",
+      "van": [],
+      "naar": [
+        "Manuel José"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1992/93",
+      "van": [],
+      "naar": [
+        "Manuel José"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1993/94",
+      "van": [],
+      "naar": [
+        "Manuel José"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1994/95",
+      "van": [],
+      "naar": [
+        "Manuel José"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1995/96",
+      "van": [],
+      "naar": [
+        "Manuel José"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1996/97",
+      "van": [],
+      "naar": [
+        "Zoran Filipovic",
+        "João Alves",
+        "Rui Casaca (interim)",
+        "Mário Reis"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1997/98",
+      "van": [],
+      "naar": [
+        "Mário Reis",
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1998/99",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1999/00",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2000/01",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2001/02",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2002/03",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2003/04",
+      "van": [],
+      "naar": [
+        "Erwin Sánchez",
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2004/05",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco",
+        "Pedro Barny"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2005/06",
+      "van": [],
+      "naar": [
+        "Carlos Brito"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2006/07",
+      "van": [],
+      "naar": [
+        "Pedro Barny (interim)",
+        "Zeljko Petrovic",
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2007/08",
+      "van": [],
+      "naar": [
+        "Jaime Pacheco"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2008/09",
+      "van": [],
+      "naar": [
+        "Rui Bento"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2013/14",
+      "van": [],
+      "naar": [
+        "Petit"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2014/15",
+      "van": [],
+      "naar": [
+        "Petit"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2015/16",
+      "van": [],
+      "naar": [
+        "Petit",
+        "Erwin Sánchez"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2016/17",
+      "van": [],
+      "naar": [
+        "Erwin Sánchez",
+        "Miguel Leal"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2017/18",
+      "van": [],
+      "naar": [
+        "Miguel Leal",
+        "Jorge Simão"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2018/19",
+      "van": [],
+      "naar": [
+        "Jorge Simão",
+        "Lito Vidigal"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2019/20",
+      "van": [],
+      "naar": [
+        "Lito Vidigal",
+        "Daniel Ramos",
+        "Vasco Seabra"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2020/21",
+      "van": [],
+      "naar": [
+        "Vasco Seabra",
+        "Daniel Rosendo (interim)",
+        "Jesualdo Ferreira"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2021/22",
+      "van": [],
+      "naar": [
+        "João Pedro Sousa",
+        "Petit"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2022/23",
+      "van": [],
+      "naar": [
+        "Petit"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2023/24",
+      "van": [],
+      "naar": [
+        "Petit",
+        "Jorge Couto (interim)",
+        "Ricardo Paiva",
+        "Jorge Simão"
+      ]
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2024/25",
+      "van": [],
+      "naar": [
+        "Cristiano Bacci",
+        "Lito Vidigal",
+        "Jorge Couto (interim)",
+        "Stuart Baxter"
+      ]
+    },
+    {
+      "club": "Borussia Dortmund",
+      "seizoen": "1969/70",
+      "van": [
+        "Hermann Lindemann"
+      ],
+      "naar": [
+        "Hermann Lindemann",
+        "Helmut Bracht"
+      ]
+    },
+    {
+      "club": "Borussia Dortmund",
+      "seizoen": "1984/85",
+      "van": [
+        "Timo Konietzka",
+        "Erich Ribbeck"
+      ],
+      "naar": [
+        "Timo Konietzka",
+        "Reinhard Saftig (interim)",
+        "Erich Ribbeck"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1955/56",
+      "van": [],
+      "naar": [
+        "Klaus Dondorf"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1956/57",
+      "van": [],
+      "naar": [
+        "Klaus Dondorf"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1957/58",
+      "van": [],
+      "naar": [
+        "Fritz Pliska"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1958/59",
+      "van": [],
+      "naar": [
+        "Fritz Pliska"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1959/60",
+      "van": [],
+      "naar": [
+        "Fritz Pliska"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1960/61",
+      "van": [],
+      "naar": [
+        "Bernd Oles"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1961/62",
+      "van": [],
+      "naar": [
+        "Bernd Oles"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1962/63",
+      "van": [],
+      "naar": [
+        "Fritz Langner"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1963/64",
+      "van": [],
+      "naar": [
+        "Fritz Langner",
+        "Hennes Weisweiler"
+      ]
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "2015/16",
+      "van": [
+        "Lucien Favre",
+        "André Schubert"
+      ],
+      "naar": [
+        "Lucien Favre",
+        "André Schubert (interim)",
+        "André Schubert"
+      ]
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "2011/12",
+      "van": [
+        "André Villas-Boas",
+        "Roberto Di Matteo"
+      ],
+      "naar": [
+        "André Villas-Boas",
+        "Roberto Di Matteo (interim)"
+      ]
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "2012/13",
+      "van": [
+        "Roberto Di Matteo",
+        "Rafael Benítez"
+      ],
+      "naar": [
+        "Roberto Di Matteo",
+        "Rafael Benítez (interim)"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "1959/60",
+      "van": [
+        "Helenio Herrera"
+      ],
+      "naar": [
+        "Helenio Herrera",
+        "Enric Rabassa (interim)"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "1975/76",
+      "van": [
+        "Hennes Weisweiler",
+        "Laureano Ruiz"
+      ],
+      "naar": [
+        "Hennes Weisweiler",
+        "Laureano Ruiz (interim)"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "1982/83",
+      "van": [
+        "Udo Lattek",
+        "César Luis Menotti"
+      ],
+      "naar": [
+        "Udo Lattek",
+        "José Luis Romero (interim)",
+        "César Luis Menotti"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "1990/91",
+      "van": [
+        "Johan Cruyff"
+      ],
+      "naar": [
+        "Johan Cruijff",
+        "Carles Rexach (interim)",
+        "Johan Cruijff"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "2012/13",
+      "van": [
+        "Tito Vilanova"
+      ],
+      "naar": [
+        "Tito Vilanova",
+        "Jordi Roura (interim)",
+        "Tito Vilanova"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "2019/20",
+      "van": [
+        "Ernesto Valverde",
+        "Quique Setién"
+      ],
+      "naar": [
+        "Ernesto Valverde",
+        "Quique Setién",
+        "Ronald Koeman"
+      ]
+    },
+    {
+      "club": "FC Barcelona",
+      "seizoen": "2020/21",
+      "van": [
+        "Ronald Koeman"
+      ],
+      "naar": [
+        "Quique Setién",
+        "Ronald Koeman"
+      ]
+    },
+    {
+      "club": "FC Porto",
+      "seizoen": "2013/14",
+      "van": [
+        "Paulo Fonseca",
+        "Luís Castro",
+        "Julen Lopetegui"
+      ],
+      "naar": [
+        "Paulo Fonseca",
+        "Luís Castro (interim)",
+        "Julen Lopetegui"
+      ]
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "1972/73",
+      "van": [
+        "Kees Rijvers"
+      ],
+      "naar": [
+        "Spitz Kohn"
+      ]
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "2005/06",
+      "van": [
+        "Rini Coolen",
+        "Jan van Staa"
+      ],
+      "naar": [
+        "Rini Coolen",
+        "Jan van Staa (interim)"
+      ]
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "2012/13",
+      "van": [
+        "Steve McClaren",
+        "Alfred Schreuder"
+      ],
+      "naar": [
+        "Steve McClaren",
+        "Alfred Schreuder (interim)",
+        "Michel Jansen"
+      ]
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "2019/20",
+      "van": [
+        "Gonzalo García"
+      ],
+      "naar": [
+        "Gonzalo García",
+        "Ron Jans"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1955/56",
+      "van": [
+        "Adriaan Koonings"
+      ],
+      "naar": [
+        "Richard Kohn"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1958/59",
+      "van": [
+        "Jaap van der Leck"
+      ],
+      "naar": [
+        "Piet de Wolf"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1959/60",
+      "van": [
+        "György Orth"
+      ],
+      "naar": [
+        "George Sobotka"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1960/61",
+      "van": [
+        "György Orth"
+      ],
+      "naar": [
+        "George Sobotka"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1962/63",
+      "van": [
+        "Norbert Höfling"
+      ],
+      "naar": [
+        "Franz Fuchs"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1963/64",
+      "van": [
+        "Willy Kment"
+      ],
+      "naar": [
+        "Norbert Höfling"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1966/67",
+      "van": [
+        "Willy Kment"
+      ],
+      "naar": [
+        "Willy Kment",
+        "Ben Peeters"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1981/82",
+      "van": [
+        "Hans Kraay Sr."
+      ],
+      "naar": [
+        "Vaclav Jezek"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1988/89",
+      "van": [
+        "Thijs Libregts"
+      ],
+      "naar": [
+        "Rob Jacobs"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1990/91",
+      "van": [
+        "Gunder Bengtsson",
+        "Wim Jansen"
+      ],
+      "naar": [
+        "Gunder Bengtsson",
+        "Wim Jansen (interim)"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1995/96",
+      "van": [
+        "Willem van Hanegem",
+        "Geert Meijer",
+        "Arie Haan"
+      ],
+      "naar": [
+        "Willem van Hanegem",
+        "Geert Meijer (interim)",
+        "Arie Haan"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1999/00",
+      "van": [
+        "Leo Beenhakker",
+        "Henk van Stee"
+      ],
+      "naar": [
+        "Leo Beenhakker",
+        "Henk van Stee (interim)"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "2008/09",
+      "van": [
+        "Gertjan Verbeek",
+        "Leon Vlemmings"
+      ],
+      "naar": [
+        "Gertjan Verbeek",
+        "Leon Vlemmings (interim)"
+      ]
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "2024/25",
+      "van": [
+        "Brian Priske",
+        "Pascal Bosschaart",
+        "Robin van Persie"
+      ],
+      "naar": [
+        "Brian Priske",
+        "Pascal Bosschaart (interim)",
+        "Robin van Persie"
+      ]
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "2016/17",
+      "van": [
+        "Frank de Boer",
+        "Stefano Vecchi",
+        "Stefano Pioli",
+        "Stefano Vecchi"
+      ],
+      "naar": [
+        "Roberto Mancini",
+        "Frank de Boer",
+        "Stefano Vecchi (interim)",
+        "Stefano Pioli",
+        "Stefano Vecchi (interim)"
+      ]
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2012/13",
+      "van": [
+        "Antonio Conte"
+      ],
+      "naar": [
+        "Antonio Conte",
+        "Massimo Carrera (interim)",
+        "Angelo Alessio (interim)"
+      ]
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2019/20",
+      "van": [
+        "Maurizio Sarri"
+      ],
+      "naar": [
+        "Maurizio Sarri",
+        "Andrea Pirlo"
+      ]
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2020/21",
+      "van": [
+        "Andrea Pirlo"
+      ],
+      "naar": [
+        "Maurizio Sarri",
+        "Andrea Pirlo"
+      ]
+    },
+    {
+      "club": "Manchester City",
+      "seizoen": "1993/94",
+      "van": [
+        "Peter Reid",
+        "Brian Horton"
+      ],
+      "naar": [
+        "Peter Reid",
+        "Tony Book (interim)",
+        "Brian Horton"
+      ]
+    },
+    {
+      "club": "Manchester United",
+      "seizoen": "2018/19",
+      "van": [
+        "José Mourinho",
+        "Ole Gunnar Solskjær"
+      ],
+      "naar": [
+        "José Mourinho",
+        "Ole Gunnar Solskjær (interim)",
+        "Ole Gunnar Solskjær"
+      ]
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1975/76",
+      "van": [
+        "Giovanni Trapattoni"
+      ],
+      "naar": [
+        "Gustavo Giagnoni",
+        "Giovanni Trapattoni"
+      ]
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1976/77",
+      "van": [
+        "Giuseppe Marchioro"
+      ],
+      "naar": [
+        "Giuseppe Marchioro",
+        "Nereo Rocco"
+      ]
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1986/87",
+      "van": [
+        "Nils Liedholm",
+        "Fabio Capello"
+      ],
+      "naar": [
+        "Nils Liedholm",
+        "Fabio Capello (interim)"
+      ]
+    },
+    {
+      "club": "Milan",
+      "seizoen": "2015/16",
+      "van": [
+        "Siniša Mihajlović",
+        "Cristian Brocchi"
+      ],
+      "naar": [
+        "Sinisa Mihajlovic",
+        "Cristian Brocchi (interim)"
+      ]
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "1982/83",
+      "van": [
+        "Robert Herbin"
+      ],
+      "naar": [
+        "Vladimir Kovacevic",
+        "Robert Herbin"
+      ]
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "2023/24",
+      "van": [
+        "Laurent Blanc",
+        "Fabio Grosso",
+        "Pierre Sage"
+      ],
+      "naar": [
+        "Laurent Blanc",
+        "Jean-François Vulliez (interim)",
+        "Fabio Grosso",
+        "Pierre Sage"
+      ]
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "2024/25",
+      "van": [
+        "Pierre Sage",
+        "Paulo Fonseca"
+      ],
+      "naar": [
+        "Pierre Sage",
+        "Jorge Maciel (interim)",
+        "Paulo Fonseca"
+      ]
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "1984/85",
+      "van": [
+        "Roland Gransart",
+        "Žarko Olarević",
+        "Pierre Cahuzac"
+      ],
+      "naar": [
+        "Roland Gransart",
+        "Zarko Olarevic (interim)",
+        "Pierre Cahuzac"
+      ]
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "2015/16",
+      "van": [
+        "Marcelo Bielsa",
+        "Franck Passi",
+        "Míchel",
+        "Franck Passi"
+      ],
+      "naar": [
+        "Marcelo Bielsa",
+        "Franck Passi (interim)",
+        "Míchel",
+        "Franck Passi (interim)"
+      ]
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "2016/17",
+      "van": [
+        "Franck Passi",
+        "Rudi Garcia"
+      ],
+      "naar": [
+        "Franck Passi (interim)",
+        "Rudi Garcia"
+      ]
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1970/71",
+      "van": [],
+      "naar": [
+        "Pierre Phélipon"
+      ]
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1976/77",
+      "van": [
+        "Velibor Vasović"
+      ],
+      "naar": [
+        "Velibor Vasovic",
+        "Pierre Alonzo (interim)"
+      ]
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1978/79",
+      "van": [
+        "Pierre Alonzo",
+        "Velibor Vasović"
+      ],
+      "naar": [
+        "Jean-Michel Larqué",
+        "Pierre Alonzo (interim)",
+        "Velibor Vasovic"
+      ]
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1979/80",
+      "van": [
+        "Velibor Vasović",
+        "Camille Choquier",
+        "Georges Peyroche"
+      ],
+      "naar": [
+        "Velibor Vasovic",
+        "Pierre Alonzo (interim)",
+        "Georges Peyroche",
+        "Camille Choquier (interim)"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1955/56",
+      "van": [
+        "Ljubiša Broćić"
+      ],
+      "naar": [
+        "Huub de Leeuw"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1958/59",
+      "van": [
+        "George Hardwick"
+      ],
+      "naar": [
+        "Cees van Dijcke"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1967/68",
+      "van": [
+        "Milan Nikolić",
+        "Wim Blokland"
+      ],
+      "naar": [
+        "Milan Nikolic",
+        "Toon Brusselers (interim)",
+        "Wim Blokland",
+        "Kurt Linder"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1979/80",
+      "van": [
+        "Kees Rijvers",
+        "Jan Reker"
+      ],
+      "naar": [
+        "Kees Rijvers",
+        "Jan Reker (interim)"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1982/83",
+      "van": [
+        "Jan Reker"
+      ],
+      "naar": [
+        "Thijs Libregts"
+      ]
+    },
+    {
+      "club": "PSV",
+      "seizoen": "2019/20",
+      "van": [
+        "Mark van Bommel",
+        "Ernest Faber"
+      ],
+      "naar": [
+        "Mark van Bommel",
+        "Ernest Faber (interim)",
+        "Roger Schmidt"
+      ]
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1990/91",
+      "van": [
+        "John Toshack",
+        "Alfredo Di Stéfano",
+        "Radomir Antić"
+      ],
+      "naar": [
+        "John Toshack",
+        "Alfredo di Stéfano",
+        "Ramón Grosso (interim)",
+        "Radomir Antić"
+      ]
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1993/94",
+      "van": [
+        "Benito Floro",
+        "Vicente del Bosque"
+      ],
+      "naar": [
+        "Benito Floro",
+        "Vicente del Bosque (interim)"
+      ]
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1995/96",
+      "van": [
+        "Jorge Valdano",
+        "Vicente del Bosque",
+        "Arsenio Iglesias"
+      ],
+      "naar": [
+        "Jorge Valdano",
+        "Arsenio Iglesias (interim)",
+        "Vicente del Bosque (interim)"
+      ]
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "2018/19",
+      "van": [
+        "Julen Lopetegui",
+        "Santiago Solari",
+        "Zinedine Zidane"
+      ],
+      "naar": [
+        "Julen Lopetegui",
+        "Santiago Solari (interim)",
+        "Santiago Solari",
+        "Zinédine Zidane"
+      ]
+    },
+    {
+      "club": "Roma",
+      "seizoen": "2012/13",
+      "van": [
+        "Zdeněk Zeman",
+        "Aurelio Andreazzoli"
+      ],
+      "naar": [
+        "Zdenek Zeman",
+        "Aurelio Andreazzoli (interim)"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1966/67",
+      "van": [],
+      "naar": [
+        "Fernando Caiado"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1978/79",
+      "van": [],
+      "naar": [
+        "Fernando Caiado"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1983/84",
+      "van": [],
+      "naar": [
+        "Quinito"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1984/85",
+      "van": [],
+      "naar": [
+        "Quinito"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1988/89",
+      "van": [],
+      "naar": [
+        "Vítor Manuel"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1989/90",
+      "van": [],
+      "naar": [
+        "Vítor Manuel"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1990/91",
+      "van": [],
+      "naar": [
+        "Raúl Águas",
+        "Carlos Garcia"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1991/92",
+      "van": [],
+      "naar": [
+        "Carlos Garcia",
+        "José Manuel",
+        "Vítor Manuel"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1992/93",
+      "van": [],
+      "naar": [
+        "Vítor Manuel",
+        "António Oliveira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1993/94",
+      "van": [],
+      "naar": [
+        "António Oliveira",
+        "João Fonseca (interim)",
+        "Professor Neca"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1994/95",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1995/96",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1996/97",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1997/98",
+      "van": [],
+      "naar": [
+        "Fernando Castro Santos",
+        "Alberto Argibay"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1998/99",
+      "van": [],
+      "naar": [
+        "Vítor Oliveira",
+        "Carlos Manuel",
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1999/00",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2000/01",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2001/02",
+      "van": [],
+      "naar": [
+        "Manuel Cajuda"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2002/03",
+      "van": [],
+      "naar": [
+        "Fernando Castro Santos",
+        "Jesualdo Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2003/04",
+      "van": [],
+      "naar": [
+        "Jesualdo Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2004/05",
+      "van": [],
+      "naar": [
+        "Jesualdo Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2005/06",
+      "van": [],
+      "naar": [
+        "Jesualdo Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2006/07",
+      "van": [],
+      "naar": [
+        "Carlos Carvalhal",
+        "Rogério Gonçalves",
+        "Jorge Costa"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2007/08",
+      "van": [],
+      "naar": [
+        "Jorge Costa",
+        "António Caldas (interim)",
+        "Manuel Machado",
+        "António Caldas (interim)"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2008/09",
+      "van": [],
+      "naar": [
+        "Jorge Jesus"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2009/10",
+      "van": [],
+      "naar": [
+        "Domingos Paciência"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2010/11",
+      "van": [],
+      "naar": [
+        "Domingos Paciência"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2011/12",
+      "van": [],
+      "naar": [
+        "Leonardo Jardim"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2012/13",
+      "van": [],
+      "naar": [
+        "José Peseiro"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2013/14",
+      "van": [],
+      "naar": [
+        "Jesualdo Ferreira",
+        "Jorge Paixão"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2014/15",
+      "van": [],
+      "naar": [
+        "Sérgio Conceição"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2015/16",
+      "van": [],
+      "naar": [
+        "Paulo Fonseca"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2016/17",
+      "van": [],
+      "naar": [
+        "José Peseiro",
+        "Abel Ferreira (interim)",
+        "Jorge Simão",
+        "Abel Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2017/18",
+      "van": [],
+      "naar": [
+        "Abel Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2018/19",
+      "van": [],
+      "naar": [
+        "Abel Ferreira"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2019/20",
+      "van": [],
+      "naar": [
+        "Ricardo Sá Pinto",
+        "Ruben Amorim",
+        "Custódio",
+        "Artur Jorge (interim)",
+        "Carlos Carvalhal"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2020/21",
+      "van": [],
+      "naar": [
+        "Carlos Carvalhal"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2021/22",
+      "van": [],
+      "naar": [
+        "Carlos Carvalhal"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2022/23",
+      "van": [],
+      "naar": [
+        "Artur Jorge"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2023/24",
+      "van": [],
+      "naar": [
+        "Artur Jorge",
+        "Rui Duarte (interim)"
+      ]
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2024/25",
+      "van": [],
+      "naar": [
+        "Daniel Sousa",
+        "Carlos Carvalhal"
+      ]
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1997/98",
+      "van": [
+        "Octávio Machado",
+        "Francisco Vital",
+        "Vicente Cantatore",
+        "Carlos Manuel"
+      ],
+      "naar": [
+        "Octávio Machado",
+        "Francisco Vital (interim)",
+        "Vicente Cantatore",
+        "Carlos Manuel"
+      ]
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "2010/11",
+      "van": [
+        "Paulo Sérgio",
+        "José Couceiro"
+      ],
+      "naar": [
+        "Paulo Sérgio",
+        "Cabral (interim)",
+        "José Couceiro"
+      ]
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "2013/14",
+      "van": [
+        "Miroslav Dukic",
+        "Juan Antonio Pizzi"
+      ],
+      "naar": [
+        "Miroslav Djukic",
+        "Nico Estévez (interim)",
+        "Juan Antonio Pizzi"
+      ]
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "1996/97",
+      "van": [
+        "Rolf Fringer",
+        "Joachim Löw"
+      ],
+      "naar": [
+        "Rolf Fringer",
+        "Joachim Löw (interim)",
+        "Joachim Löw"
+      ]
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "2015/16",
+      "van": [
+        "Alexander Zorniger",
+        "Jürgen Kramny"
+      ],
+      "naar": [
+        "Alexander Zorniger",
+        "Jürgen Kramny (interim)",
+        "Jürgen Kramny"
+      ]
+    }
+  ],
+  "hoofdtrainers_gewijzigd": [
+    {
+      "club": "Ajax",
+      "seizoen": "1962/63",
+      "van": "Jack Rowley",
+      "naar": "Joseph Gruber"
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1974/75",
+      "van": "Hans Croon",
+      "naar": "Hans Kraay Sr."
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "1988/89",
+      "van": "Spitz Kohn",
+      "naar": "Kurt Linder"
+    },
+    {
+      "club": "Ajax",
+      "seizoen": "2007/08",
+      "van": "Adrie Koster",
+      "naar": "Henk ten Cate"
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1975/76",
+      "van": "Armand Forcherio",
+      "naar": "Alberto Muro"
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "1976/77",
+      "van": "Lucien Leduc",
+      "naar": "Armand Forcherio"
+    },
+    {
+      "club": "AS Monaco",
+      "seizoen": "2021/22",
+      "van": "Philippe Clement",
+      "naar": "Niko Kovač"
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "1960/61",
+      "van": "Juan Antonio Ipiña",
+      "naar": "Martim Francisco"
+    },
+    {
+      "club": "Athletic Bilbao",
+      "seizoen": "2020/21",
+      "van": "Marcelino García Toral",
+      "naar": "Gaizka Garitano"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1956/57",
+      "van": "Ferdinand Daučík",
+      "naar": "Antonio Barrios"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1963/64",
+      "van": "Sabino Barinaga",
+      "naar": "Rafael García Repullo"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1978/79",
+      "van": "Luis Aragonés",
+      "naar": "Ferenc Szusza"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1975/76",
+      "van": "Hans Kraay Sr.",
+      "naar": "Joop Brand"
+    },
+    {
+      "club": "Bayern München",
+      "seizoen": "1978/79",
+      "van": "Gyula Lóránt",
+      "naar": "Pál Csernai"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1990/91",
+      "van": "João Alves",
+      "naar": "Raul Águas"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1994/95",
+      "van": "Zoran Filipović",
+      "naar": "Manuel José"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1995/96",
+      "van": "Zoran Filipović",
+      "naar": "Manuel José"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1997/98",
+      "van": "Mário Reis",
+      "naar": "Jaime Pacheco"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2003/04",
+      "van": "Jaime Pacheco",
+      "naar": "Erwin Sánchez"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2008/09",
+      "van": "Miguel Leal",
+      "naar": "Rui Bento"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2013/14",
+      "van": "Mário Silva",
+      "naar": "Petit"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2018/19",
+      "van": "Lito Vidigal",
+      "naar": "Jorge Simão"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2019/20",
+      "van": "Lito Vidigal",
+      "naar": "Daniel Ramos"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2020/21",
+      "van": "Vasco Seabra",
+      "naar": "Jesualdo Ferreira"
+    },
+    {
+      "club": "Borussia Dortmund",
+      "seizoen": "2020/21",
+      "van": "Edin Terzić",
+      "naar": "Lucien Favre"
+    },
+    {
+      "club": "Borussia Mönchengladbach",
+      "seizoen": "1955/56",
+      "van": "Heinz Ditgens",
+      "naar": "Klaus Dondorf"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "1974/75",
+      "van": "Ron Suart",
+      "naar": "Dave Sexton"
+    },
+    {
+      "club": "Chelsea",
+      "seizoen": "2012/13",
+      "van": "Rafael Benítez",
+      "naar": "Roberto Di Matteo"
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "1972/73",
+      "van": "Kees Rijvers",
+      "naar": "Spitz Kohn"
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "1995/96",
+      "van": "Issy ten Donkelaar",
+      "naar": "Hans Meyer"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1955/56",
+      "van": "Adriaan Koonings",
+      "naar": "Richard Kohn"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1958/59",
+      "van": "Jaap van der Leck",
+      "naar": "Piet de Wolf"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1959/60",
+      "van": "György Orth",
+      "naar": "George Sobotka"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1960/61",
+      "van": "György Orth",
+      "naar": "George Sobotka"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1962/63",
+      "van": "Norbert Höfling",
+      "naar": "Franz Fuchs"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1963/64",
+      "van": "Willy Kment",
+      "naar": "Norbert Höfling"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1981/82",
+      "van": "Hans Kraay Sr.",
+      "naar": "Václav Ježek"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1984/85",
+      "van": "Thijs Libregts",
+      "naar": "Ab Fafié"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1988/89",
+      "van": "Thijs Libregts",
+      "naar": "Rob Jacobs"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1989/90",
+      "van": "Pim Verbeek",
+      "naar": "Gunder Bengtsson"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1997/98",
+      "van": "Arie Haan",
+      "naar": "Leo Beenhakker"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1955/56",
+      "van": "Giuseppe Meazza",
+      "naar": "Aldo Campatelli"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1956/57",
+      "van": "Annibale Frossi",
+      "naar": "Luigi Ferrero"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "1969/70",
+      "van": "Luis Carniglia",
+      "naar": "Ercole Rabitti"
+    },
+    {
+      "club": "Manchester United",
+      "seizoen": "2018/19",
+      "van": "Ole Gunnar Solskjær",
+      "naar": "José Mourinho"
+    },
+    {
+      "club": "Manchester United",
+      "seizoen": "2021/22",
+      "van": "Ralf Rangnick",
+      "naar": "Ole Gunnar Solskjær"
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1963/64",
+      "van": "Nils Liedholm",
+      "naar": "Luis Carniglia"
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1973/74",
+      "van": "Cesare Maldini",
+      "naar": "Nereo Rocco"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1955/56",
+      "van": "Amedeo Amadei",
+      "naar": "Eraldo Monzeglio"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1959/60",
+      "van": "Annibale Frossi",
+      "naar": "Amedeo Amadei"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1961/62",
+      "van": "Bruno Pesaola",
+      "naar": "Fioravante Baldi"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1979/80",
+      "van": "Angelo Sormani",
+      "naar": "Luís Vinício"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1992/93",
+      "van": "Claudio Ranieri",
+      "naar": "Ottavio Bianchi"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "2002/03",
+      "van": "Franco Scoglio",
+      "naar": "Franco Colomba"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "2023/24",
+      "van": "Francesco Calzona",
+      "naar": "Rudi Garcia"
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "1982/83",
+      "van": "Robert Herbin",
+      "naar": "Vladimir Kovacevic"
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1987/88",
+      "van": "Gérard Houllier",
+      "naar": "Erick Mombaerts"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1955/56",
+      "van": "Ljubiša Broćić",
+      "naar": "Huub de Leeuw"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1958/59",
+      "van": "George Hardwick",
+      "naar": "Cees van Dijcke"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1966/67",
+      "van": "Bram Appel",
+      "naar": "Milan Nikolić"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1982/83",
+      "van": "Jan Reker",
+      "naar": "Thijs Libregts"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1956/57",
+      "van": "Guido Masetti",
+      "naar": "György Sárosi"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1962/63",
+      "van": "Luis Carniglia",
+      "naar": "Alfredo Foni"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1978/79",
+      "van": "Gustavo Giagnoni",
+      "naar": "Ferruccio Valcareggi"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "2023/24",
+      "van": "Daniele De Rossi",
+      "naar": "José Mourinho"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1978/79",
+      "van": "Hilário Conceição",
+      "naar": "Fernando Caiado"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1988/89",
+      "van": "Raul Águas",
+      "naar": "Vítor Manuel"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1989/90",
+      "van": "Carlos Garcia",
+      "naar": "Vítor Manuel"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1998/99",
+      "van": "Vítor Oliveira",
+      "naar": "Carlos Manuel"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2006/07",
+      "van": "Jorge Costa",
+      "naar": "Carlos Carvalhal"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2007/08",
+      "van": "Jorge Jesus",
+      "naar": "Manuel Machado"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "2016/17",
+      "van": "Jorge Simão",
+      "naar": "José Peseiro"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "2019/20",
+      "van": "Silas",
+      "naar": "Ruben Amorim"
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "2016/17",
+      "van": "Voro",
+      "naar": "Cesare Prandelli"
+    }
+  ],
+  "niet_overgenomen_wegens_onvolledige_bron": [
+    {
+      "club": "Ajax",
+      "seizoen": "1975/76",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Rinus Michels"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1989/90",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Javier Clemente"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1990/91",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Tomislav Ivić"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "1994/95",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Jorge D'Alessandro"
+    },
+    {
+      "club": "Atlético Madrid",
+      "seizoen": "2009/10",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Quique Sánchez Flores"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1968/69",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Wim Blokland "
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1986/87",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Hans Eijkenbroek"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "1988/89",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Hans Eijkenbroek"
+    },
+    {
+      "club": "AZ",
+      "seizoen": "2014/15",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "John van den Brom"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1977/78",
+      "reden": "slechts 197 dagen gedekt",
+      "behouden_hoofdtrainer": "Jimmy Hagan"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1981/82",
+      "reden": "slechts 220 dagen gedekt",
+      "behouden_hoofdtrainer": "Mário Lino"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1984/85",
+      "reden": "slechts 63 dagen gedekt",
+      "behouden_hoofdtrainer": "António Morais"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1986/87",
+      "reden": "slechts 158 dagen gedekt",
+      "behouden_hoofdtrainer": "José Torres"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "1988/89",
+      "reden": "slechts 149 dagen gedekt",
+      "behouden_hoofdtrainer": "Raul Águas"
+    },
+    {
+      "club": "Boavista",
+      "seizoen": "2012/13",
+      "reden": "slechts 225 dagen gedekt",
+      "behouden_hoofdtrainer": "Sérgio Lira"
+    },
+    {
+      "club": "FC Twente",
+      "seizoen": "1985/86",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Fritz Korbach"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1972/73",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Ernst Happel"
+    },
+    {
+      "club": "Feyenoord",
+      "seizoen": "1980/81",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Václav Ježek"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1995/96",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Roy Hodgson"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1996/97",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Roy Hodgson"
+    },
+    {
+      "club": "Internazionale",
+      "seizoen": "1998/99",
+      "reden": "slechts 262 dagen gedekt",
+      "behouden_hoofdtrainer": "Mircea Lucescu"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "1956/57",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Sandro Puppo"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "1958/59",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Teobaldo Depetrini"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "1963/64",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Paulo Amaral"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2006/07",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Didier Deschamps"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2008/09",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Claudio Ranieri"
+    },
+    {
+      "club": "Juventus",
+      "seizoen": "2023/24",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Massimiliano Allegri"
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1980/81",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Massimo Giacomini"
+    },
+    {
+      "club": "Milan",
+      "seizoen": "1996/97",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Arrigo Sacchi"
+    },
+    {
+      "club": "Milan",
+      "seizoen": "2001/02",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Carlo Ancelotti"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1960/61",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Amedeo Amadei"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1968/69",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Giuseppe Chiappella"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1975/76",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Luís Vinício"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1982/83",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Bruno Pesaola"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1994/95",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Vujadin Boškov"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "1998/99",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Renzo Ulivieri"
+    },
+    {
+      "club": "Napoli",
+      "seizoen": "2004/05",
+      "reden": "slechts 254 dagen gedekt",
+      "behouden_hoofdtrainer": "Giampiero Ventura"
+    },
+    {
+      "club": "Olympique Lyonnais",
+      "seizoen": "1987/88",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Denis Papas"
+    },
+    {
+      "club": "Olympique Marseille",
+      "seizoen": "1970/71",
+      "reden": "slechts 263 dagen gedekt",
+      "behouden_hoofdtrainer": "Mario Zatelli"
+    },
+    {
+      "club": "Paris Saint-Germain",
+      "seizoen": "1975/76",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Just Fontaine"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "1959/60",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Ljubiša Broćić"
+    },
+    {
+      "club": "PSV",
+      "seizoen": "2022/23",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Ruud van Nistelrooy"
+    },
+    {
+      "club": "Real Madrid",
+      "seizoen": "1984/85",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Amancio Amaro"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1958/59",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Gunnar Nordahl"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1965/66",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Oronzo Pugliese"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1970/71",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Helenio Herrera"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1972/73",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Helenio Herrera"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1985/86",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Sven-Göran Eriksson"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1986/87",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Sven-Göran Eriksson"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1987/88",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Nils Liedholm"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "1988/89",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Nils Liedholm"
+    },
+    {
+      "club": "Roma",
+      "seizoen": "2004/05",
+      "reden": "bestaande seizoenstrainer ontbreekt in Transfermarkt; geen precieze datums om verwijdering te onderbouwen",
+      "behouden_hoofdtrainer": "Luigi Delneri"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1979/80",
+      "reden": "slechts 133 dagen gedekt",
+      "behouden_hoofdtrainer": "Hilário Conceição"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1982/83",
+      "reden": "slechts 213 dagen gedekt",
+      "behouden_hoofdtrainer": "Juca"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1986/87",
+      "reden": "slechts 179 dagen gedekt",
+      "behouden_hoofdtrainer": "Humberto Coelho"
+    },
+    {
+      "club": "S.C. Braga",
+      "seizoen": "1987/88",
+      "reden": "slechts 54 dagen gedekt",
+      "behouden_hoofdtrainer": "Manuel José"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1982/83",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "António Oliveira"
+    },
+    {
+      "club": "Sporting CP",
+      "seizoen": "1983/84",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Josef Vengloš"
+    },
+    {
+      "club": "Valencia CF",
+      "seizoen": "1969/70",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Enrique Buqué"
+    },
+    {
+      "club": "VfB Stuttgart",
+      "seizoen": "2008/09",
+      "reden": "overlappende Transfermarkt-periodes",
+      "behouden_hoofdtrainer": "Markus Babbel"
+    }
+  ],
+  "voorgelegd": []
+}

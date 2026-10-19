@@ -11,6 +11,7 @@ const countryFiles = ['england', 'spain', 'italy', 'germany', 'france', 'netherl
 const snapshot = JSON.parse(fs.readFileSync(path.join(legacyDataDir, 'snapshot.json'), 'utf8'));
 const completeImport = JSON.parse(fs.readFileSync(path.join(legacyDataDir, 'import_transfermarkt_compleet.json'), 'utf8'));
 const doubts = JSON.parse(fs.readFileSync(path.join(legacyDataDir, 'twijfelgevallen.json'), 'utf8')).twijfel;
+const audit = JSON.parse(fs.readFileSync(path.join(legacyDataDir, 'transfermarkt_correctierapport.json'), 'utf8'));
 
 test('ieder clubseizoen komt één keer voor', () => {
   const keys = data.map(row => `${row.club}|${row.seizoen}`);
@@ -88,7 +89,9 @@ test('2025/26 bevat alle 35 clubs en de gecontroleerde prijzen', () => {
 });
 
 test('de complete Transfermarkt-import bevat alle gecontroleerde rijen zonder dubbelen', () => {
-  assert.equal(completeImport.length, 101);
+  assert.equal(completeImport.length, audit.importregels);
+  assert.equal(audit.gecontroleerde_seizoenen, 2450);
+  assert.ok(audit.correctierijen > 0);
   const keys = completeImport.map(row => `${row.clubId}|${row.seizoen}`);
   assert.equal(new Set(keys).size, completeImport.length);
   assert.ok(completeImport.every(row => row.trainers_bron.includes('transfermarkt.com/')));
@@ -109,5 +112,33 @@ test('nieuwe hoofdtrainers hebben een bewerkbaar coachprofiel in de snapshot', (
   const coachNames = new Set(snapshot.coaches.map(coach => coach.naam));
   for (const row of completeImport) assert.ok(coachNames.has(row.coach), `${row.coach} ontbreekt als coachprofiel`);
   assert.ok(coachNames.has('Cristian Chivu'));
+});
+
+test('interimstatus blijft per periode behouden bij tijdelijke en vaste benoemingen', () => {
+  const coachNames = new Map(snapshot.coaches.map(coach => [coach.id, coach.naam]));
+  const season = (clubName, year) => snapshot.seizoenen.find(row => row.club === snapshot.clubs.find(club => club.naam === clubName).id && row.seizoen === year);
+  assert.equal(coachNames.get(season('Ajax', '2023/24').coachId), 'Maurice Steijn');
+  assert.equal(coachNames.get(season('Chelsea', '2012/13').coachId), 'Roberto Di Matteo');
+  assert.equal(coachNames.get(season('Hamburger SV', '2024/25').coachId), 'Merlin Polzin');
+  assert.equal(coachNames.get(season('VfB Stuttgart', '2014/15').coachId), 'Huub Stevens');
+  assert.equal(coachNames.get(season('Olympique Marseille', '2001/02').coachId), 'Albert Emon');
+});
+
+test('zekere correcties zijn doorgevoerd en onvolledige bronreeksen blijven behouden', () => {
+  const coachNames = new Map(snapshot.coaches.map(coach => [coach.id, coach.naam]));
+  const ajax = year => snapshot.seizoenen.find(row => row.club === 'Ajax' && row.seizoen === year);
+  assert.equal(coachNames.get(ajax('1962/63').coachId), 'Joseph Gruber');
+  assert.equal(coachNames.get(ajax('1974/75').coachId), 'Hans Kraay Sr.');
+  assert.equal(coachNames.get(ajax('1975/76').coachId), 'Rinus Michels');
+  assert.ok(audit.niet_overgenomen_wegens_onvolledige_bron.some(row => row.club === 'Ajax' && row.seizoen === '1975/76'));
+});
+
+test('gedocumenteerde waarnemers en gezamenlijke trainers verdwijnen niet door een bronhiaat', () => {
+  const clubId = name => snapshot.clubs.find(club => club.naam === name).id;
+  const trainers = (name, year) => data.find(row => row.club === clubId(name) && row.seizoen === year).trainers.map(item => item.naam);
+  assert.ok(trainers('Manchester United', '2013/14').includes('Ryan Giggs'));
+  assert.ok(trainers('Ajax', '1984/85').includes('Cor van der Hart'));
+  assert.ok(trainers('Ajax', '1987/88').includes('Bobby Haarms'));
+  assert.ok(trainers('Ajax', '2004/05').includes('Ruud Krol'));
 });
 

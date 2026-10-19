@@ -38,7 +38,7 @@ De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflow
 - **Dagelijks om 08:23 UTC** (na de quotumreset rond middernacht Pacific-tijd) leest `.github/scripts/firestore-snapshot.mjs` de collecties `clubs`, `coaches` en `seizoenen` via de Firestore REST API (ruim 3.000 reads). Is de data veranderd, dan commit de Action `data/snapshot.json` en publiceert de site.
 - **Direct bijwerken** na wijzigingen in het dashboard: GitHub → Actions → *Site publiceren* → **Run workflow**.
 - **Bij elke push naar `main`** publiceert de Action de site met de snapshot die al in de repo staat, zonder Firestore te lezen.
-- `data/import_transfermarkt_compleet.json` bevat het actuele seizoen en de 66 historisch gecontroleerde twijfelgevallen. De dagelijkse snapshot past deze Transfermarkt-gegevens toe zolang ze nog niet volledig in Firestore staan.
+- `data/import_transfermarkt_compleet.json` bevat 437 importregels: eerdere imports en de aanvullende historische controle. De dagelijkse snapshot past deze brongegevens ook toe zolang ze nog niet volledig in Firestore staan.
 - Mislukt het uitlezen (bijvoorbeeld quotum op), dan blijft de vorige snapshot staan en stuurt GitHub een melding van de mislukte run.
 
 Eenmalige instelling: Settings → Pages → Build and deployment → Source: **GitHub Actions**. In een openbare repo schakelt GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo; zet hem dan aan via Actions → *Site publiceren* → Enable workflow.
@@ -53,7 +53,7 @@ Eenmalige instelling: Settings → Pages → Build and deployment → Source: **
 - Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
 - Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
-- Importeren in Firestore: dashboard → **Importer** → **Gecontroleerde import laden** → importeer. Dit schrijft 101 gecontroleerde clubseizoenen, maakt ontbrekende hoofdtrainers (zoals Cristian Chivu) als bewerkbaar coachprofiel aan en neemt de volledige trainerslijst en bron mee. Opnieuw importeren werkt hetzelfde document bij en maakt geen dubbel clubseizoen.
+- Importeren in Firestore: dashboard → **Importer** → **Gecontroleerde import laden** → importeer. Dit schrijft 437 clubseizoenen in batches van maximaal 400 documenten, maakt ontbrekende hoofdtrainers als bewerkbaar coachprofiel aan en neemt de trainerslijst en bron mee. Opnieuw importeren werkt hetzelfde document bij en maakt geen dubbel clubseizoen.
 - Voor historische seizoenstrainers blijft dashboard → **Importer** → **Seizoenstrainers (trainers_seizoen)** → `data/trainers_seizoen.json` beschikbaar. Die route schrijft alleen `trainers_seizoen` en `trainers_bron`.
 
 In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
@@ -82,7 +82,9 @@ Fotozoekrun 29 september 2026 (voor alle trainers zonder foto): kandidaten uit W
 
 ### Twijfelgevallen
 
-De 66 eerdere twijfelgevallen zijn op 28 september 2026 gecontroleerd met de volledige Transfermarkt-trainerhistorie en opgenomen in `data/import_transfermarkt_compleet.json`. `data/twijfelgevallen.json` is daardoor leeg. Nieuwe uitzonderingen kunnen via dezelfde dashboardroute opnieuw worden beoordeeld.
+De aanvullende vergelijking van 2.450 historische clubseizoenen met de Transfermarkt-momentopname van 28 september 2026 levert 338 correctierijen op: 310 trainerlijst- of rolcorrecties en 74 wijzigingen van hoofdtrainer (deze categorieën overlappen). Bestaande expliciete interimstatussen, gezamenlijk optredende trainers en exact gedateerde periodes blijven behouden waar Transfermarkt ze overslaat. Voor 60 afwijkende bronreeksen blijft de bestaande bron staan; 90 clubseizoenen hebben geen Transfermarkt-data. Dit is geen garantie dat alle korte waarnemingen en datums volledig zijn.
+
+Alle wijzigingen en behouden uitzonderingen staan in [data/TRANSFERMARKT_CORRECTIES.md](data/TRANSFERMARKT_CORRECTIES.md). `node data/bronnen/maak_volledige_correctie.mjs` reproduceert de import vanuit de vastgelegde bronperiodes en nulmeting. `node data/bronnen/merge_seizoensimport.mjs` verwerkt die import in snapshot en terugvaldata. Er zijn geen nieuwe menselijke keuzepunten in `data/twijfelgevallen.json` toegevoegd.
 
 ## 3. Project Structure
 
