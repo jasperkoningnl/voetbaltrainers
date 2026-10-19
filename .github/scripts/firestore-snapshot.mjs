@@ -12,6 +12,9 @@ const PROJECT = process.env.FIRESTORE_PROJECT || "voetbaltrainers";
 const API_KEY = process.env.FIRESTORE_API_KEY ?? "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY";
 const BASE = process.env.FIRESTORE_BASE || `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
 const OUT = process.argv[2] || "data/snapshot.json";
+if (OUT.replaceAll('\\', '/') === 'data/snapshot.json') {
+    throw new Error('GitHub is de gegevensbron. Exporteer Firestore alleen naar een apart back-upbestand, nooit naar data/snapshot.json.');
+}
 const COLLECTIONS = ["clubs", "coaches", "seizoenen"];
 
 // Firestore REST-waarden ({stringValue: "x"}, {integerValue: "3"}, ...) naar gewone JSON.
