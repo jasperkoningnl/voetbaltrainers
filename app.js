@@ -1,20 +1,11 @@
 // The Managerial Merry-Go-Round (hoofdversie; de eerste versie staat als archief in v0.9/)
 // Eén script voor twee pagina's: index.html (intro) en explore.html (verkenner).
 // Leest clubs, coaches en seizoenen uit de statische snapshot data/snapshot.json
-// (export uit het dashboard). Alleen als die ontbreekt valt de app terug op Firestore.
+// (GitHub is de gegevensbron). Bij een laadfout worden geen oudere Firestore-gegevens getoond.
 // Per seizoen staat één hoofdtrainer (coachId). Het optionele veld 'trainers_seizoen'
 // bevat alle trainers die dat seizoen aan het roer stonden (incl. interim); bij meer dan één
 // wordt het seizoensblok in gelijke rode stukken gesplitst, één per trainer. Ontbreekt het veld,
 // dan valt de app terug op data/trainers_seizoen.json.
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
-    authDomain: "voetbaltrainers.firebaseapp.com",
-    projectId: "voetbaltrainers",
-    storageBucket: "voetbaltrainers.appspot.com",
-    messagingSenderId: "640532231483",
-    appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
-};
 
 // ------------------------------------------------------------------
 // Constants
@@ -88,7 +79,7 @@ function normalizeSeasonTrainers(list) {
 // ------------------------------------------------------------------
 const DB = { clubs: [], clubById: new Map(), coaches: new Map(), seasons: [], byClub: new Map(), seasonList: [], coverage: new Set(), extraCareer: null };
 
-// Snapshot eerst: dat kost geen Firestore-reads. Firestore alleen als de snapshot ontbreekt.
+// GitHub-snapshot is de enige bron voor clubs, trainers en seizoenen.
 async function fetchCollections() {
     try {
         const r = await fetch("data/snapshot.json");
@@ -96,18 +87,10 @@ async function fetchCollections() {
             const snap = await r.json();
             if (Array.isArray(snap.clubs) && Array.isArray(snap.coaches) && Array.isArray(snap.seizoenen)) return snap;
         }
-        console.warn(`Snapshot niet bruikbaar (HTTP ${r.status}), terugval op Firestore.`);
+        throw new Error(`Gegevensbestand niet beschikbaar (HTTP ${r.status}).`);
     } catch (err) {
-        console.warn("Snapshot niet geladen, terugval op Firestore.", err);
+        throw new Error("De gegevens konden niet worden geladen. Probeer de pagina opnieuw te laden.", { cause: err });
     }
-    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js");
-    const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js");
-    const db = getFirestore(initializeApp(firebaseConfig));
-    const [clubs, coaches, seizoenen] = await Promise.all(["clubs", "coaches", "seizoenen"].map(async name =>
-        (await getDocs(collection(db, name))).docs.map(d => ({ id: d.id, ...d.data() }))));
-    // Zonder verbinding (bijv. quotum op) geeft de SDK lege resultaten in plaats van een fout.
-    if (!seizoenen.length) throw new Error("Geen seizoenen uit Firestore ontvangen.");
-    return { clubs, coaches, seizoenen };
 }
 
 async function loadData() {

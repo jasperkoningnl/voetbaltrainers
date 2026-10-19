@@ -1,7 +1,5 @@
-# Publiceert de site op GitHub Pages en houdt data/snapshot.json bij.
-# - Bij elke push naar main: site publiceren met de snapshot die in de repo staat (geen Firestore-reads).
-# - Dagelijks en via "Run workflow": eerst Firestore uitlezen (ruim 3.000 reads), snapshot committen
-#   als de data veranderd is, daarna publiceren.
+# Publiceert de site met GitHub als enige bron voor clubs, trainers en seizoenen.
+# Ook handmatig publiceren leest nooit Firestore en past geen oude imports opnieuw toe.
 # Vereist: Settings → Pages → Build and deployment → Source: "GitHub Actions".
 
 name: Site publiceren
@@ -9,13 +7,10 @@ name: Site publiceren
 on:
   push:
     branches: [main]
-  schedule:
-    # 08:23 UTC: na de dagelijkse Firestore-quotumreset (rond middernacht Pacific-tijd).
-    - cron: "23 8 * * *"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -32,19 +27,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: Snapshot uit Firestore halen
-        id: snapshot
-        if: github.event_name != 'push'
-        run: node .github/scripts/firestore-snapshot.mjs data/snapshot.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
 
-      - name: Snapshot committen
-        if: steps.snapshot.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/snapshot.json
-          git commit -m "Snapshot uit Firestore bijgewerkt"
-          git push
+      - name: Publiceerbare gegevens controleren
+        run: node .github/scripts/validate-snapshot.mjs
 
       - uses: actions/configure-pages@v6
 

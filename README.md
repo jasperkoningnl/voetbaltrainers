@@ -11,7 +11,7 @@ The project consists of three main components:
 
 1.  **The D3.js Visualization:** A dynamic heatmap that displays the tenures of managers at 35 top European clubs since the 1955/56 season. It visually represents tenure length, trophies won, and allows for advanced filtering, comparison, and a "Career Mode" to track individual managers.
 2.  **Supporting Articles:** A series of articles that use the visualization's data to explore narratives around different types of managers, such as "The Architect vs. The Journeyman."
-3.  **The React Dashboard:** A comprehensive, behind-the-scenes admin panel for managing all project data, which is stored in a Google Firestore database.
+3.  **The React Dashboard:** A comprehensive, behind-the-scenes admin panel for managing all project data, which is stored in a versioned JSON file on GitHub.
 
 ## 2. Technical Architecture
 
@@ -25,23 +25,19 @@ The project leverages a modern web stack to separate data management from the pu
     * **Archief (`v0.9/`):** de eerste versie van de visualisatie, ongewijzigd behalve de paden. Oude links naar `v2/` sturen door naar de hoofdversie.
 
 * **Backend & Data:**
-    * **Database:** **Google Firestore** serves as the single source of truth, housing collections for `clubs`, `coaches`, and `seasons`. This allows for real-time data updates without redeploying the application.
-    * **Data Management (`dashboard.html`):** A sophisticated single-page application built with **React** and **Tailwind CSS**. It allows for full CRUD (Create, Read, Update, Delete) operations on all Firestore data.
+    * **Data:** GitHub stores `data/snapshot.json` with `clubs`, `coaches` and `seizoenen`. Firestore remains for existing visitor reports.
+    * **Data Management (`dashboard.html`):** A sophisticated single-page application built with **React** and **Tailwind CSS**. It allows for CRUD operations on the GitHub dataset, with a concept and an explicit publish action.
     * **Serverless Functions (`index.js`):** Google Cloud Functions written in Node.js are used for advanced data processing tasks, such as enriching coach data with images from external APIs.
 
-## Data snapshot (publieke pagina's)
+## Gegevens beheren via GitHub
 
-`index.html`, `explore.html` en het archief `v0.9/` lezen hun data uit `data/snapshot.json`, niet rechtstreeks uit Firestore. Elke bezoeker die alle collecties uit Firestore leest kost duizenden document-reads; daarmee raakt het dagelijkse gratis quotum snel op ([Firestore quotas](https://firebase.google.com/docs/firestore/quotas)). Firestore wordt alleen nog gelezen als `data/snapshot.json` ontbreekt of onleesbaar is.
+GitHub is de enige gegevensbron voor clubs, trainers en seizoenen. De website leest `data/snapshot.json`; het dashboard beheert hetzelfde bestand op `main`. Google-inloggen is vervangen door GitHub-inloggen via Firebase Authentication. Die provider moet eenmalig worden ingericht.
 
-De snapshot wordt automatisch bijgewerkt door de GitHub Action `.github/workflows/pages.yml`:
+Bewerkingen en imports blijven eerst in een concept in het geopende tabblad. **Wijzigingen bekijken en publiceren** schrijft alles in één commit naar GitHub. De publicatieworkflow controleert de gegevens en publiceert de site. Er is geen dagelijkse Firestore-export en oude imports worden niet opnieuw over dashboardwijzigingen gelegd.
 
-- **Dagelijks om 08:23 UTC** (na de quotumreset rond middernacht Pacific-tijd) leest `.github/scripts/firestore-snapshot.mjs` de collecties `clubs`, `coaches` en `seizoenen` via de Firestore REST API (ruim 3.000 reads). Is de data veranderd, dan commit de Action `data/snapshot.json` en publiceert de site.
-- **Direct bijwerken** na wijzigingen in het dashboard: GitHub → Actions → *Site publiceren* → **Run workflow**.
-- **Bij elke push naar `main`** publiceert de Action de site met de snapshot die al in de repo staat, zonder Firestore te lezen.
-- `data/import_transfermarkt_compleet.json` bevat 437 importregels: eerdere imports en de aanvullende historische controle. De dagelijkse snapshot past deze brongegevens ook toe zolang ze nog niet volledig in Firestore staan.
-- Mislukt het uitlezen (bijvoorbeeld quotum op), dan blijft de vorige snapshot staan en stuurt GitHub een melding van de mislukte run.
+[Gebruiksaanwijzing, inlogconfiguratie en migratiegrenzen](docs/GITHUB_DASHBOARD.md).
 
-Eenmalige instelling: Settings → Pages → Build and deployment → Source: **GitHub Actions**. In een openbare repo schakelt GitHub geplande workflows uit na 60 dagen zonder activiteit in de repo; zet hem dan aan via Actions → *Site publiceren* → Enable workflow.
+Bezoekersmeldingen blijven voorlopig in Firestore. Firebase Authentication en de bestaande fotozoekfunctie blijven ook nodig. Verwijder het Firebase-project niet.
 
 ## Site (hoofdversie)
 
@@ -49,12 +45,12 @@ Eenmalige instelling: Settings → Pages → Build and deployment → Source: **
 - Intro: speelt zelf af (pijltjes ←/→ wisselen scène, spatie start of pauzeert). De huidige scène staat in `localStorage` (`mmgr-intro-step`). Alle cijfers en teksten met cijfers komen uit de data.
 - Foto's intro: zet eigen bestanden in `images/intro/`: `ferguson-hero.jpg`, `mourinho-hero.jpg` (titelscherm), `ferguson-1986.jpg`, `ferguson-trophy.jpg`, `mourinho-porto.jpg` (portretten). Ontbreekt een bestand, dan toont de app de foto uit de database (Wikimedia).
 - `data/mourinho_buiten_dataset.json`: Mourinho's seizoenen buiten de database (União de Leiria, Tottenham, Fenerbahçe, Benfica 2025/26), met bronnen. Alleen voor de Mourinho-rij en de filmstrip in het intro; de statistieken (duel, staven, spreiding) rekenen alleen met de database.
-- Leest `clubs`, `coaches` en `seizoenen` uit `data/snapshot.json` (zie de README in de hoofdmap). Alleen als dat bestand ontbreekt, leest de app Firestore.
+- Leest `clubs`, `coaches` en `seizoenen` uit `data/snapshot.json` (zie de README in de hoofdmap). Bij een laadfout verschijnt een foutmelding; de app leest geen oudere Firestore-gegevens.
 - Seizoenen met meer dan één trainer (incl. interim) worden gesplitst in k gelijke rode stukken, één per trainer (max 5). Bron: veld `trainers_seizoen` op elk seizoen-document:
   `[{ naam, van: "YYYY-MM-DD", tot: "YYYY-MM-DD", interim: bool }]` plus `trainers_bron` (URL).
-- Zolang dat veld nog niet in Firestore staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
-- Importeren in Firestore: dashboard → **Importer** → **Gecontroleerde import laden** → importeer. Dit schrijft 437 clubseizoenen in batches van maximaal 400 documenten, maakt ontbrekende hoofdtrainers als bewerkbaar coachprofiel aan en neemt de trainerslijst en bron mee. Opnieuw importeren werkt hetzelfde document bij en maakt geen dubbel clubseizoen.
-- Voor historische seizoenstrainers blijft dashboard → **Importer** → **Seizoenstrainers (trainers_seizoen)** → `data/trainers_seizoen.json` beschikbaar. Die route schrijft alleen `trainers_seizoen` en `trainers_bron`.
+- Zolang dat veld nog niet in de snapshot staat, gebruikt de app `data/trainers_seizoen.json` als terugval.
+- Importeren in het concept: dashboard → **Importer** → **Gecontroleerde import laden** → importeer. Dit voegt 437 clubseizoenen aan het concept toe, maakt ontbrekende hoofdtrainers als bewerkbaar coachprofiel aan en neemt de trainerslijst en bron mee. Publiceer daarna expliciet naar GitHub. Opnieuw importeren werkt hetzelfde record bij en maakt geen dubbel clubseizoen.
+- Voor historische seizoenstrainers blijft dashboard → **Importer** → **Seizoenstrainers (trainers_seizoen)** → `data/trainers_seizoen.json` beschikbaar. Die route wijzigt alleen `trainers_seizoen` en `trainers_bron` in het concept.
 
 In de verkenner staat een gesplitst seizoen aan het begin of eind van een periode los van die periode (trainer kwam of ging halverwege het seizoen). Het intro rekent met de volledige periodes.
 
@@ -78,7 +74,7 @@ Alles wat aandacht nodig heeft staat in het dashboard onder **Data Health**, in 
 - **Meldingen**: fouten die bezoekers melden (zie `docs/MELDINGEN.md`).
 - **Datakwaliteit**: dubbele coaches, nationaliteiten, export per land en wees-seizoenen.
 
-Fotozoekrun 29 september 2026 (voor alle trainers zonder foto): kandidaten uit Wikidata (foto van de persoon, gekoppeld aan dezelfde club), de infobox op Wikipedia in meerdere talen en een zoekopdracht op naam in Wikimedia Commons. Alleen vrije bestanden op Commons. *Zeker* betekent: de identiteit klopt (Wikidata-koppeling met de club of een bestandsbeschrijving die de trainer noemt), de licentie staat op de Commons-bestandspagina en de foto is bekeken. Die staan onder *Nieuw* en gaan met één knop de database in; schrijven naar Firestore vraagt een inlog. Alles wat daar niet aan voldoet staat met reden onder *Ontbreekt* (twijfel) of *Niet toegevoegd* (verkeerde persoon, geen portret).
+Fotozoekrun 29 september 2026 (voor alle trainers zonder foto): kandidaten uit Wikidata (foto van de persoon, gekoppeld aan dezelfde club), de infobox op Wikipedia in meerdere talen en een zoekopdracht op naam in Wikimedia Commons. Alleen vrije bestanden op Commons. *Zeker* betekent: de identiteit klopt (Wikidata-koppeling met de club of een bestandsbeschrijving die de trainer noemt), de licentie staat op de Commons-bestandspagina en de foto is bekeken. Die staan onder *Nieuw* en gaan met één knop naar het concept; publiceren vraagt GitHub-inlog. Alles wat daar niet aan voldoet staat met reden onder *Ontbreekt* (twijfel) of *Niet toegevoegd* (verkeerde persoon, geen portret).
 
 ### Twijfelgevallen
 
@@ -92,7 +88,7 @@ Alle wijzigingen en behouden uitzonderingen staan in [data/TRANSFERMARKT_CORRECT
 .
 ├── articles/               # artikelen
 ├── data/
-│   ├── snapshot.json       # export van Firestore (zie hierboven)
+│   ├── snapshot.json       # centrale dataset op GitHub
 │   ├── trainers_seizoen.json, twijfelgevallen.json, mourinho_buiten_dataset.json
 │   └── bronnen/            # bronlijsten en scripts voor de trainers per seizoen
 ├── functions/              # Cloud Functions
@@ -121,17 +117,6 @@ To run the full project locally, you need a simple web server to handle the ES m
 3.  **Access the Visualization:** Open your web browser and navigate to `http://localhost:8000/`.
 4.  **Access the Dashboard:** To manage data, navigate to `http://localhost:8000/dashboard.html`.
 
-## 5. External Requirements & Configuration
+## 5. Inloggen en resterende Firebase-functies
 
-To use the full functionality of this project (especially the dashboard), you will need to set up your own Firebase project.
-
-1.  **Firebase Project:**
-    * Create a new project on the [Firebase Console](https://console.firebase.google.com/).
-    * Enable **Firestore Database**.
-    * Enable **Authentication** and add **Google** as a Sign-in provider.
-    * From your project settings, get the `firebaseConfig` object.
-    * **Crucially, you must replace the placeholder `firebaseConfig` objects in `index.html` and `dashboard.html` with your own project's configuration.**
-
-2.  **Cloud Functions:**
-    * To deploy the Cloud Functions in `index.js`, you will need the Firebase CLI. Follow the official [Firebase documentation](https://firebase.google.com/docs/functions/get-started) for setup and deployment instructions.
-    * The functions may require you to enable billing on your Google Cloud project.
+Volg [docs/GITHUB_DASHBOARD.md](docs/GITHUB_DASHBOARD.md) om GitHub-inloggen te activeren. De client secret hoort uitsluitend in Firebase Authentication, nooit in de repository. Firebase blijft voorlopig nodig voor inloggen, bezoekersmeldingen en de fotozoekfunctie.

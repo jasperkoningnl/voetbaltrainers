@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <!-- 
+  Dashboard Versie: 30.0 - GitHub als gegevensbron
+  - GitHub-inlog; wijzigingen als concept en één gecontroleerde publicatie.
+  - Firestore blijft alleen voor bezoekersmeldingen; Firebase verzorgt de inlog.
+
   Dashboard Versie: 29.0 - Data Health centraal
   - Menu opgeschoond: Foto's, Twijfelgevallen en Meldingen staan nu als tabbladen onder 'Data Health'.
   - 'Seizoenstrainers' is geen los menu-item meer, maar een tweede importsoort onder 'Importer'.
   - Foto's: nieuw tabblad 'Ontbreekt' met alle trainers zonder foto, gevonden kandidaat-foto's (twijfelgevallen)
-    en zoeklinks; nieuw tabblad 'Clublogo's' dat per club het lokale logo en de logo_url in Firestore controleert.
+    en zoeklinks; nieuw tabblad 'Clublogo's' dat per club het lokale logo en de logo_url in de gegevens controleert.
 
   Dashboard Versie: 28.3 - Twijfelgevallen
   - Nieuwe sectie 'Twijfelgevallen': per twijfelseizoen trainers aan/uitvinken, hoofdtrainer kiezen, links naar bronnen. Import slaat gecontroleerde seizoenen over.
@@ -34,46 +38,16 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-functions.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
-            authDomain: "voetbaltrainers.firebaseapp.com",
-            projectId: "voetbaltrainers",
-            storageBucket: "voetbaltrainers.appspot.com",
-            messagingSenderId: "640532231483",
-            appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
-            measurementId: "G-YQV6E3V2CK"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const functions = getFunctions(app, 'europe-west1');
-
-        window.firebaseServices = {
-            auth: getAuth(app),
-            db: getFirestore(app),
-            functions: {
-                enrichCoachData: httpsCallable(functions, 'enrichCoachData')
-            },
-            GoogleAuthProvider,
-            signInWithPopup,
-            signOut,
-            onAuthStateChanged,
-            collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField
-        };
-    </script>
+    <script type="module" src="dashboard-bootstrap.mjs"></script>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
-    <div id="root"></div>
+    <div id="root"><p style="padding:2rem">Dashboard laden… Blijft dit staan? Controleer je verbinding en laad de pagina opnieuw. <a href="docs/GITHUB_DASHBOARD.md">Hulp bij het dashboard</a></p></div>
 
     <script type="text/babel">
+      function startDashboard() {
         const { useState, useEffect, useCallback, useMemo, useRef } = React;
-        const { db, auth, functions, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } = window.firebaseServices;
+        const { db, auth, functions, loginGitHub, logout, store, legacyMessages, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } = window.dashboardServices;
 
         // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -1225,7 +1199,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     {/* Duplicate Coaches Tool */}
                     <div className="p-4 border rounded-lg">
                         <h3 className="font-semibold text-lg mb-2">Dubbele Coaches</h3>
-                        <p className="text-sm text-gray-500 mb-4">Vind en voeg coaches samen die dezelfde naam hebben maar als aparte records in de database staan.</p>
+                        <p className="text-sm text-gray-500 mb-4">Vind en voeg coaches samen die dezelfde naam hebben maar als aparte records in de gegevens staan.</p>
                         <button onClick={findDuplicateCoaches} disabled={isScanningDuplicates || isMerging} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400">
                             {isScanningDuplicates ? 'Scannen...' : 'Scan op Dubbele Coaches'}
                         </button>
@@ -1415,7 +1389,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             const handleImportData = async () => {
                 setIsLoading(true);
                 setError('');
-                setStatus('Data importeren naar database...');
+                setStatus('Import toevoegen aan concept...');
                 try {
                     const [clubsSnapshot, coachesSnapshot, seasonsSnapshot] = await Promise.all([
                         getDocs(collection(db, "clubs")),
@@ -1489,7 +1463,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                         }
                     }
                     await flushBatch();
-                    alert('Import succesvol! Alle data wordt herladen.');
+                    alert('Import toegevoegd aan je concept. Gebruik Publiceren naar GitHub om de wijzigingen vast te leggen.');
                     onUpdateAll();
                     resetWizard();
                 } catch (e) {
@@ -1592,7 +1566,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     {step === 3 && (
                         <div className="bg-white p-6 rounded-lg shadow space-y-6">
                             <h2 className="text-xl font-bold">Stap 3: Finale Import</h2>
-                            <p className="text-gray-600">Controleer de definitieve data. Voeg eventueel ontbrekende clublogo's toe en importeer alles naar de database.</p>
+                            <p className="text-gray-600">Controleer de definitieve data. Voeg eventueel ontbrekende clublogo's toe en voeg alles toe aan het concept.</p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {uniqueClubs.map(club => (
                                     <div key={club}>
@@ -1633,7 +1607,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                     </table>
                                 </div>
                             </details>
-                            <button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Importeer Data naar Firebase</button>
+                            <button onClick={handleImportData} disabled={isLoading} className="w-full px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 disabled:bg-gray-400">Import toevoegen aan concept</button>
                         </div>
                     )}
                 </div>
@@ -1844,7 +1818,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             ...(r.bron_omschrijving ? { bron_omschrijving: r.bron_omschrijving } : {}),
                         })),
                         trainers_bron: c.bron,
-                        trainers_controle: { status: 'gecontroleerd', door: (auth.currentUser && auth.currentUser.email) || '', op: serverTimestamp() },
+                        trainers_controle: { status: 'gecontroleerd', door: (auth.currentUser && auth.currentUser.displayName) || '', op: serverTimestamp() },
                     };
                     if (mainChanged) {
                         let coachId = mainCoachDoc ? mainCoachDoc.id : null;
@@ -1880,7 +1854,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             {rows.map((r, i) => (
                                 <tr key={i} className={`border-t ${r.aan ? '' : 'text-gray-400 line-through'}`}>
                                     <td className="py-2"><input type="checkbox" className="h-5 w-5" checked={r.aan} onChange={() => toggle(i)} /></td>
-                                    <td>{r.naam} {!r.bron && <span className="text-xs text-gray-500">(alleen in database / zelf toegevoegd)</span>}</td>
+                                    <td>{r.naam} {!r.bron && <span className="text-xs text-gray-500">(alleen in de gegevens / zelf toegevoegd)</span>}</td>
                                     <td className="text-gray-600">{r.van ? `${r.van} – ${r.tot}` : '—'}{r.datum_precisie && r.datum_precisie !== 'dag' ? ` (${r.datum_precisie})` : ''}</td>
                                     <td className="text-gray-600">{r.dagen != null ? `${r.datum_precisie && r.datum_precisie !== 'dag' ? '~' : ''}${r.dagen}` : '—'}</td>
                                     <td><input type="checkbox" checked={r.interim} onChange={() => toggleInterim(i)} /></td>
@@ -2007,7 +1981,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return st;
         }
 
-        // --- CLUBLOGO'S: lokaal bestand (images/logos, gebruikt door de site) en logo_url in Firestore ---
+        // --- CLUBLOGO'S: lokaal bestand (images/logos, gebruikt door de site) en logo_url in de gegevens ---
         function LogoRij({ club, onSaved }) {
             const lokaal = `images/logos/${logoSlug(club.naam)}.png`;
             const stLokaal = useImgStatus(lokaal);
@@ -2038,11 +2012,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return (
                 <div className="bg-white rounded-lg shadow p-4">
                     <p className="text-sm text-gray-600 mb-3 max-w-3xl">
-                        De site gebruikt voor alle clubs het logo uit <code>images/logos</code> (bron: Wikipedia, zie images/logos/BRONNEN.md). De <code>logo_url</code> in Firestore is alleen een terugval en wordt hier in het dashboard getoond.
+                        De site gebruikt voor alle clubs het logo uit <code>images/logos</code> (bron: Wikipedia, zie images/logos/BRONNEN.md). De <code>logo_url</code> in de gegevens is alleen een terugval en wordt hier in het dashboard getoond.
                         Laadt die niet, dan zet <b>Gebruik lokaal logo</b> hem op het bestand uit de repo. Ontbreekt een lokaal logo, voeg dan een PNG toe aan images/logos en aan <code>LOCAL_LOGOS</code> in app.js.
                     </p>
                     <table className="min-w-full text-sm">
-                        <thead className="bg-gray-50"><tr><th className="text-left p-2">Club</th><th className="text-left p-2">Lokaal logo (site)</th><th className="text-left p-2">logo_url in Firestore</th><th className="p-2"></th></tr></thead>
+                        <thead className="bg-gray-50"><tr><th className="text-left p-2">Club</th><th className="text-left p-2">Lokaal logo (site)</th><th className="text-left p-2">logo_url in de gegevens</th><th className="p-2"></th></tr></thead>
                         <tbody>{lijst.map(c => <LogoRij key={c.id} club={c} onSaved={(id, url) => setLokaal(l => ({ ...l, [id]: url }))} />)}</tbody>
                     </table>
                 </div>
@@ -2179,11 +2153,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     <h2 className="text-2xl font-bold mb-2">Foto's en logo's</h2>
                     <p className="text-gray-600 mb-4 max-w-3xl">
                         Foto's komen van Wikimedia Commons met maker en licentie; die staan op de pagina Photo credits (credits.html). Laatste zoekrun: {data.gegenereerd}.
-                        Zekere vondsten staan onder <b>Nieuw</b> en gaan met één knop de database in. Twijfelgevallen staan onder <b>Ontbreekt</b>, met de gevonden foto's om uit te kiezen. Wijzigingen zijn na de volgende snapshot op de site te zien.
+                        Zekere vondsten staan onder <b>Nieuw</b> en worden met één knop aan je concept toegevoegd. Twijfelgevallen staan onder <b>Ontbreekt</b>, met de gevonden foto's om uit te kiezen. Wijzigingen staan eerst in je concept. Na Publiceren naar GitHub wordt de website bijgewerkt.
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
                         <Tab id="ontbreekt">Ontbreekt ({aantalOntbreekt}{aantalTwijfel ? `, ${aantalTwijfel} met kandidaat` : ''})</Tab>
-                        <Tab id="toegevoegd">Nieuw ({data.toevoegen.length}{nogToevoegen ? `, ${nogToevoegen} nog niet in database` : ''})</Tab>
+                        <Tab id="toegevoegd">Nieuw ({data.toevoegen.length}{nogToevoegen ? `, ${nogToevoegen} nog niet in de gegevens` : ''})</Tab>
                         <Tab id="controleren">Te controleren ({openControle} open)</Tab>
                         <Tab id="niet">Niet toegevoegd ({data.niet_toegevoegd.length})</Tab>
                         <Tab id="logos">Clublogo's ({appData.clubs.length})</Tab>
@@ -2191,8 +2165,8 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
                     {nogToevoegen > 0 && tab !== 'logos' && (
                         <div className="bg-amber-50 border border-amber-200 rounded p-4 mb-4 flex flex-wrap items-center gap-4">
-                            <span><b>{nogToevoegen}</b> gecontroleerde foto's staan nog niet in de database.</span>
-                            <button disabled={busy} onClick={alleToevoegen} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded">{busy ? 'Bezig...' : `Zet ${nogToevoegen} foto's in de database`}</button>
+                            <span><b>{nogToevoegen}</b> gecontroleerde foto's staan nog niet in de gegevens.</span>
+                            <button disabled={busy} onClick={alleToevoegen} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2 rounded">{busy ? 'Bezig...' : `Zet ${nogToevoegen} foto's in de gegevens`}</button>
                             <button onClick={() => setTab('toegevoegd')} className="text-sm text-blue-700 underline">Bekijk ze eerst</button>
                         </div>
                     )}
@@ -2326,7 +2300,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             const laad = useCallback(async () => {
                 try {
-                    const snap = await getDocs(collection(db, 'meldingen'));
+                    const snap = await legacyMessages.read();
                     const lijst = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                     const t = (x) => x.aangemaakt?.toMillis ? x.aangemaakt.toMillis() : Date.parse(x.aangemaakt || 0) || 0;
                     lijst.sort((a, b) => t(b) - t(a));
@@ -2337,7 +2311,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             const zet = async (m, status) => {
                 const upd = { status, afgehandeld_op: serverTimestamp(), notitie: notitie[m.id] ?? m.notitie ?? '' };
-                await updateDoc(doc(db, 'meldingen', m.id), upd);
+                await legacyMessages.update(m.id, upd);
                 setItems(xs => xs.map(x => x.id === m.id ? { ...x, status, notitie: upd.notitie } : x));
             };
 
@@ -2349,6 +2323,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return (
                 <div>
                     <h2 className="text-2xl font-bold mb-2">Meldingen</h2>
+                    <p className="text-sm text-amber-800 bg-amber-50 p-3 rounded mb-3">Bezoekersmeldingen staan voorlopig nog in Firestore. Hiervoor moet je met GitHub zijn ingelogd. Hun status wordt direct opgeslagen en valt buiten het gegevensconcept.</p>
                     <p className="text-gray-600 mb-4 max-w-3xl">Fouten die bezoekers melden via "Report an error" op de site. Controleer de melding tegen de bron, pas zo nodig het seizoen aan (Seizoenen, of het tabblad Twijfelgevallen) en zet de melding op opgelost of afgewezen.</p>
                     {error && <div className="bg-amber-100 text-amber-800 p-3 rounded mb-4">Kon meldingen niet laden ({error}). Staat de Firestore-regel voor 'meldingen' goed? Zie docs/MELDINGEN.md.</div>}
                     {items && (
@@ -2372,7 +2347,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                     {m.bron && <a href={m.bron} target="_blank" rel="noopener" className="text-blue-600 break-all">{m.bron}</a>}
                                     {m.contact && <a href={`mailto:${m.contact}`} className="text-blue-600">{m.contact}</a>}
                                     {m.pagina && <span className="text-gray-500">pagina: {m.pagina}</span>}
-                                    {m.club && !clubByName[m.club.toLowerCase()] && <span className="text-amber-700">club niet gevonden in database</span>}
+                                    {m.club && !clubByName[m.club.toLowerCase()] && <span className="text-amber-700">club niet gevonden in de gegevens</span>}
                                 </div>
                                 <div className="flex flex-wrap gap-2 mt-3 items-center">
                                     <input value={notitie[m.id] ?? m.notitie ?? ''} onChange={e => setNotitie(n => ({ ...n, [m.id]: e.target.value }))} placeholder="Notitie (optioneel)" className="flex-1 min-w-[12rem] border rounded px-2 py-1 text-sm" />
@@ -2388,9 +2363,59 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
+        function RepositoryBar({ state, onLogin, loginBusy, loginError }) {
+            const [review, setReview] = useState(false);
+            const [message, setMessage] = useState('');
+            const [error, setError] = useState('');
+            const download = () => {
+                const url = URL.createObjectURL(new Blob([store.exportDraft()], { type: 'application/json' }));
+                const a = document.createElement('a'); a.href = url; a.download = 'managerhistory-concept.json'; a.click(); URL.revokeObjectURL(url);
+            };
+            const publish = async () => {
+                setError('');
+                try { await store.publish(message); setReview(false); setMessage(''); }
+                catch (e) { setError(e.message); }
+            };
+            const discard = async () => {
+                if (!confirm('Je niet-gepubliceerde wijzigingen verwerpen en de nieuwste gegevens uit GitHub laden? Download eerst je concept als je het wilt bewaren.')) return;
+                setError('');
+                try { await store.discard(); window.location.reload(); } catch (e) { setError(e.message); }
+            };
+            return <section aria-label="Opslag en publicatie" className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div><h2 className="font-bold">GitHub is de gegevensbron</h2><p className="text-sm text-gray-600">Bewerken en opslaan maakt een concept in dit tabblad. Publiceren zet het op GitHub en werkt de website bij. Bewaar je concept voordat je het tabblad sluit.</p></div>
+                    <a href="https://github.com/jasperkoningnl/voetbaltrainers/commits/main/data/snapshot.json" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-700 underline">Wijzigingsgeschiedenis</a>
+                </div>
+                <div className="flex flex-wrap gap-2 items-center mt-3">
+                    <b aria-live="polite">{state.changes.length} gewijzigde records</b>
+                    <button disabled={!state.loaded || state.busy} onClick={download} className="border px-3 py-2 rounded disabled:opacity-50">Concept downloaden</button>
+                    <button disabled={!state.changes.length || state.busy} onClick={() => { setReview(true); setError(''); }} className="bg-green-700 text-white px-3 py-2 rounded disabled:opacity-50">Wijzigingen bekijken en publiceren</button>
+                    <button disabled={!state.loaded || state.busy} onClick={discard} className="border px-3 py-2 rounded disabled:opacity-50">Opnieuw laden</button>
+                </div>
+                {state.notice && <p role="status" className="text-green-800 mt-3">{state.notice} <a className="underline" href={state.lastCommit} target="_blank" rel="noopener noreferrer">Bekijk de opgeslagen wijziging</a>. <a className="underline" href="https://github.com/jasperkoningnl/voetbaltrainers/actions" target="_blank" rel="noopener noreferrer">Publicatiestatus</a></p>}
+                {error && <p role="alert" className="bg-red-50 text-red-800 p-3 mt-3 rounded">{error}</p>}
+                {review && <div role="dialog" aria-modal="true" aria-label="Wijzigingen publiceren" className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-full overflow-auto">
+                        <h2 className="text-xl font-bold">Wijzigingen publiceren</h2>
+                        <p className="my-3">Deze {state.changes.length} records komen samen in één wijziging op GitHub. Daarna start de publicatie van de website.</p>
+                        <ul className="max-h-64 overflow-auto text-sm list-disc pl-5">{state.changes.map(c => <li key={c.collection + c.id}>{c.collection}: {c.label} ({c.kind})</li>)}</ul>
+                        <label className="block mt-4">Omschrijving van je wijziging<input value={message} onChange={e => setMessage(e.target.value)} className="block w-full border rounded p-2" placeholder="Bijvoorbeeld: trainerswissel Ajax gecontroleerd" maxLength="200" /></label>
+                        {!state.connected && <p className="my-3">Log in met het GitHub-account dat deze repository mag bewerken.</p>}
+                        {(error || loginError) && <p role="alert" className="text-red-800 my-3">{error || loginError}</p>}
+                        <div className="flex gap-3 mt-4">
+                            {state.connected ? <button disabled={state.busy} onClick={publish} className="px-4 py-2 bg-green-700 text-white rounded disabled:opacity-50">{state.busy ? 'Publiceren...' : 'Publiceren naar GitHub'}</button> : <button disabled={loginBusy} onClick={onLogin} className="px-4 py-2 bg-gray-800 text-white rounded">{loginBusy ? 'Inloggen...' : 'Inloggen met GitHub'}</button>}
+                            <button disabled={state.busy} onClick={() => setReview(false)} className="px-4 py-2 border rounded">Terug naar concept</button>
+                        </div>
+                    </div>
+                </div>}
+            </section>;
+        }
+
         function App() {
             const [user, setUser] = useState(null);
-            const [authLoading, setAuthLoading] = useState(true);
+            const [authLoading, setAuthLoading] = useState(false);
+            const [loginError, setLoginError] = useState('');
+            const [repoState, setRepoState] = useState(store.state());
             const [view, setView] = useState('analysis');
             const [appData, setAppData] = useState({ clubs: [], coaches: [], seasons: [] });
             const [dataLoading, setDataLoading] = useState(true);
@@ -2413,55 +2438,33 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                     setAppData({ seasons: seasonsData, coaches: coachesData, clubs: clubsData });
                 } catch (e) {
                     console.error("Fout bij ophalen van data:", e);
-                    setDataError("Kon de data niet laden vanuit de database.");
+                    setDataError(e.message || "Kon de gegevens niet laden vanuit GitHub.");
                 }
                 setDataLoading(false);
             }, []);
 
             useEffect(() => {
-                const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-                    setUser(currentUser);
-                    setAuthLoading(false);
-                    if (currentUser) {
-
-                        fetchAllData();
-                    }
-                });
-                return () => unsubscribe();
+                const unsubscribe = onAuthStateChanged(auth, setUser);
+                const stop = store.subscribe(setRepoState);
+                fetchAllData();
+                return () => { unsubscribe(); stop(); };
             }, [fetchAllData]);
 
-            const handleLogin = () => {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).catch((error) => console.error("Login Fout:", error));
+            const handleLogin = async () => {
+                setAuthLoading(true); setLoginError('');
+                try { setUser(await loginGitHub()); }
+                catch (error) { setLoginError(error.message); }
+                finally { setAuthLoading(false); }
             };
-
-            const handleLogout = () => {
-                signOut(auth).catch(error => console.error("Logout Fout:", error));
+            const handleLogout = async () => {
+                if (repoState.busy) return;
+                try { await logout(); setUser(null); } catch (error) { setLoginError(error.message); }
             };
-
-            if (authLoading) {
-                return <div className="flex items-center justify-center h-screen"><p>Dashboard laden...</p></div>
-            }
-
-            if (!user) {
-                return (
-                    <div className="flex items-center justify-center h-screen bg-gray-200">
-                        <div className="text-center bg-white p-10 rounded-lg shadow-xl">
-                            <h1 className="text-3xl font-bold mb-2">Data Dashboard</h1>
-                            <p className="text-gray-600 mb-6">Log in om de data te beheren.</p>
-                            <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
-                                <svg className="w-6 h-6 mr-2" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
-                                <span>Login met Google</span>
-                            </button>
-                        </div>
-                    </div>
-                );
-            }
 
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">v29.0</span></div>
+                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">GitHub · v30.0</span></div>
                         <nav className="flex-grow p-2">
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('analysis'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('importer'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>
@@ -2470,10 +2473,16 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('coaches'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'coaches' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UserIcon /> Coaches</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('health'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'health' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><HealthIcon /> Data Health</a>
                         </nav>
-                        <div className="p-4 border-t border-gray-700"><div className="flex items-center gap-2 mb-4"><img src={user.photoURL} alt={user.displayName} className="w-8 h-8 rounded-full" /><span className="text-sm font-medium">{user.displayName}</span></div><button onClick={handleLogout} className="w-full flex items-center justify-center gap-3 px-3 py-2 rounded-md bg-red-600 hover:bg-red-700"><LogOutIcon /> Uitloggen</button></div>
+                        <div className="p-4 border-t border-gray-700">
+                            <p className="text-sm mb-3">{repoState.connected ? (user?.displayName || 'GitHub verbonden') : 'Concept bewerken zonder inlog'}</p>
+                            <button disabled={authLoading || repoState.busy} onClick={repoState.connected ? handleLogout : handleLogin} className="w-full px-3 py-2 rounded-md bg-gray-700 hover:bg-gray-600 disabled:opacity-50">{authLoading ? 'Inloggen...' : repoState.connected ? 'Uitloggen' : 'Inloggen met GitHub'}</button>
+                        </div>
                     </aside>
-                    <main className="flex-1 p-8 overflow-y-auto">
-                        {dataLoading ? <div className="text-center">Database data aan het laden...</div> :
+                    <main className="flex-1 min-w-0 p-8 overflow-y-auto">
+                        <RepositoryBar state={repoState} onLogin={handleLogin} loginBusy={authLoading} loginError={loginError} />
+                        {loginError && <div role="alert" className="bg-red-50 text-red-800 p-3 rounded mb-4">{loginError} <a className="underline" href="docs/GITHUB_DASHBOARD.md" target="_blank" rel="noopener noreferrer">Inrichting en hulp</a></div>}
+                        <fieldset disabled={repoState.busy} className="min-w-0">
+                        {dataLoading ? <div className="text-center">Gegevens laden uit GitHub...</div> :
                             dataError ? <div className="text-center text-red-500">{dataError}</div> :
                                 {
                                     'analysis': <AnalysisView seasons={appData.seasons} coaches={appData.coaches} clubs={appData.clubs} />,
@@ -2484,12 +2493,16 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                     'health': <DataHealthView appData={appData} onUpdate={fetchAllData} />,
                                 }[view]
                         }
+                        </fieldset>
                     </main>
                 </div>
             );
         }
 
         ReactDOM.render(<App />, document.getElementById('root'));
+      }
+      if (window.dashboardServices) startDashboard();
+      else window.addEventListener('dashboard-ready', startDashboard, { once: true });
     </script>
 </body>
 
