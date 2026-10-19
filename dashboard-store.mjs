@@ -161,6 +161,29 @@ export function createRepositoryStore({ fetcher = globalThis.fetch.bind(globalTh
         addDoc: async (ref, data) => { const target = doc(ref); await apply([{ type: 'set', ref: target, data }]); return target; },
         serverTimestamp: clock, deleteField: () => DELETE,
         load, connect, publish, state,
+        readReports: async () => {
+            const reports = [];
+            for (let page = 1; page <= 20; page++) {
+                const issues = await request(`/issues?state=all&per_page=100&page=${page}&sort=created&direction=desc`);
+                for (const issue of issues) {
+                    if (issue.pull_request || !issue.title.startsWith('[Data report]')) continue;
+                    const match = (issue.body || '').match(/<!-- managerhistory-report (.*?) -->/);
+                    let context = {}; try { context = JSON.parse(match?.[1] || '{}'); } catch { /* body remains readable */ }
+                    const safeContext = Object.fromEntries(['soort', 'club', 'seizoen', 'coach'].map(key => [key, typeof context[key] === 'string' ? context[key] : '']));
+                    reports.push({ ...safeContext, id: String(issue.number), bericht: (issue.body || '').replace(/<!-- managerhistory-report .*? -->/, '').trim(), status: issue.state === 'open' ? 'nieuw' : issue.state_reason === 'not_planned' ? 'afgewezen' : 'opgelost', aangemaakt: issue.created_at, pagina: issue.html_url, bron: '', notitie: '' });
+                }
+                if (issues.length < 100) return reports;
+            }
+            throw new Error('Meer dan 2.000 GitHub-items. Bekijk alle meldingen rechtstreeks op GitHub.');
+        },
+        updateReport: async (id, data) => {
+            if (!token) throw new Error('Log in met GitHub om een melding af te handelen.');
+            if (!/^\d+$/.test(String(id))) throw new Error('Ongeldig meldingsnummer.');
+            const issue = await request(`/issues/${id}`);
+            if (issue.pull_request || !issue.title.startsWith('[Data report]')) throw new Error('Dit is geen bezoekersmelding.');
+            if (data.notitie?.trim()) await request(`/issues/${id}/comments`, { method: 'POST', body: JSON.stringify({ body: data.notitie.trim() }) });
+            await request(`/issues/${id}`, { method: 'PATCH', body: JSON.stringify({ state: data.status === 'nieuw' ? 'open' : 'closed', state_reason: data.status === 'afgewezen' ? 'not_planned' : data.status === 'nieuw' ? 'reopened' : 'completed' }) });
+        },
         disconnect: () => { if (busy) return; token = ''; emit(); },
         subscribe: listener => { listeners.add(listener); listener(state()); return () => listeners.delete(listener); },
         exportDraft: () => { if (!working) throw new Error('Laad eerst de gegevens.'); return formatSnapshot({ ...working, generated: clock() }); },

@@ -3,10 +3,8 @@
 // - Elk element met data-report opent het formulier (bijv. de link in de footer).
 //   Optioneel: data-report-club, data-report-season, data-report-coach vullen het formulier voor.
 // - Vanuit app.js: window.reportError({ club, season, coach }) opent het formulier voor één seizoen.
-// Meldingen gaan naar de Firestore-collectie 'meldingen' en zijn te lezen in het dashboard (Meldingen).
-// Daarvoor moet de Firestore-regel voor 'meldingen' anoniem aanmaken toestaan (zie docs/MELDINGEN.md).
-
-const ENDPOINT = "https://firestore.googleapis.com/v1/projects/voetbaltrainers/databases/(default)/documents/meldingen?key=AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY";
+// Bezoekers ronden hun openbare melding zelf af op GitHub.
+import { buildReportURL } from './report-fields.mjs';
 
 const css = `
 .rp-back { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.6); display: flex; align-items: center; justify-content: center; padding: 16px; }
@@ -47,7 +45,7 @@ function openReport(ctx = {}) {
     back.innerHTML = `
       <form class="rp-box" role="dialog" aria-modal="true" aria-labelledby="rp-title">
         <h2 id="rp-title">Report an error</h2>
-        <p class="rp-sub">Wrong manager, missing trophy, wrong photo? Tell me what is wrong and, if you can, where you found the right information.</p>
+        <p class="rp-sub">Describe the error and include a source if possible. Your report will be public on GitHub. A GitHub account is required; do not include your email or other private information.</p>
         <label for="rp-kind">What is it about?</label>
         <select id="rp-kind">
           <option value="data">A season: manager or trophies</option>
@@ -64,13 +62,11 @@ function openReport(ctx = {}) {
         <textarea id="rp-text" maxlength="2000" required></textarea>
         <label for="rp-src">Source (link), optional</label>
         <input id="rp-src" type="url" maxlength="500" placeholder="https://">
-        <label for="rp-mail">Your email, optional (only if you want an answer)</label>
-        <input id="rp-mail" type="email" maxlength="200">
         <div class="rp-hp" aria-hidden="true"><label>Leave empty <input id="rp-hp" tabindex="-1" autocomplete="off"></label></div>
         <div class="rp-msg" id="rp-msg" role="status"></div>
         <div class="rp-actions">
           <button type="button" class="rp-cancel">Cancel</button>
-          <button type="submit" class="rp-send">Send</button>
+          <button type="submit" class="rp-send">Continue on GitHub</button>
         </div>
       </form>`;
     if (ctx.kind) back.querySelector("#rp-kind").value = ctx.kind;
@@ -89,26 +85,13 @@ function openReport(ctx = {}) {
         const msg = back.querySelector("#rp-msg");
         if (v("#rp-hp")) { close(); return; }
         if (!v("#rp-text")) { msg.className = "rp-msg err"; msg.textContent = "Please describe what is wrong."; return; }
-        const send = back.querySelector(".rp-send");
-        send.disabled = true;
-        msg.className = "rp-msg"; msg.textContent = "Sending…";
-        const str = s => ({ stringValue: s });
-        const body = { fields: {
-            soort: str(v("#rp-kind")), club: str(v("#rp-club")), seizoen: str(v("#rp-season")), coach: str(v("#rp-coach")),
-            bericht: str(v("#rp-text")), bron: str(v("#rp-src")), contact: str(v("#rp-mail")),
-            pagina: str(location.pathname + location.hash), status: str("nieuw"),
-            aangemaakt: { timestampValue: new Date().toISOString() },
-        } };
         try {
-            const r = await fetch(ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-            if (!r.ok) throw new Error(String(r.status));
-            form.innerHTML = `<h2>Thank you</h2><p class="rp-sub">Your report has been received. I check every report against the sources.</p><div class="rp-actions"><button type="button" class="rp-send">Close</button></div>`;
-            form.querySelector("button").addEventListener("click", close);
-        } catch {
-            send.disabled = false;
-            msg.className = "rp-msg err";
-            msg.innerHTML = `Sending failed. You can also <a href="https://github.com/jasperkoningnl/voetbaltrainers/issues/new" target="_blank" rel="noopener">open an issue on GitHub</a>.`;
-        }
+            const url = buildReportURL({ kind: v('#rp-kind'), club: v('#rp-club'), season: v('#rp-season'), coach: v('#rp-coach'), text: v('#rp-text'), source: v('#rp-src'), page: location.pathname + location.hash });
+            window.open(url, '_blank', 'noopener,noreferrer');
+            msg.className = 'rp-msg'; msg.textContent = 'Finish submitting your report on GitHub. If the new tab did not open: ';
+            const link = document.createElement('a'); link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = 'Continue on GitHub'; msg.appendChild(link);
+        } catch (error) { msg.className = 'rp-msg err'; msg.textContent = error.message; }
+
     });
 }
 

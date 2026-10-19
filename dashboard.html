@@ -2,7 +2,7 @@
 <!-- 
   Dashboard Versie: 30.0 - GitHub als gegevensbron
   - GitHub-inlog; wijzigingen als concept en één gecontroleerde publicatie.
-  - Firestore blijft alleen voor bezoekersmeldingen; Firebase verzorgt de inlog.
+  - GitHub beheert ook de inlog en bezoekersmeldingen, zonder Firebase.
 
   Dashboard Versie: 29.0 - Data Health centraal
   - Menu opgeschoond: Foto's, Twijfelgevallen en Meldingen staan nu als tabbladen onder 'Data Health'.
@@ -47,7 +47,7 @@
     <script type="text/babel">
       function startDashboard() {
         const { useState, useEffect, useCallback, useMemo, useRef } = React;
-        const { db, auth, functions, loginGitHub, logout, store, legacyMessages, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } = window.dashboardServices;
+        const { db, auth, functions, loginGitHub, logout, store, githubMessages, onAuthStateChanged, collection, getDocs, doc, updateDoc, addDoc, deleteDoc, orderBy, query, writeBatch, where, getDoc, serverTimestamp, deleteField } = window.dashboardServices;
 
         // --- ICONEN ---
         const DatabaseIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>;
@@ -2291,7 +2291,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             );
         }
 
-        // --- MELDINGEN van bezoekers (formulier report.js op de site, collectie 'meldingen') ---
+        // --- MELDINGEN van bezoekers op GitHub ---
         function MeldingenView({ appData }) {
             const [items, setItems] = useState(null);
             const [error, setError] = useState(null);
@@ -2300,8 +2300,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             const laad = useCallback(async () => {
                 try {
-                    const snap = await legacyMessages.read();
-                    const lijst = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    const lijst = await githubMessages.read();
                     const t = (x) => x.aangemaakt?.toMillis ? x.aangemaakt.toMillis() : Date.parse(x.aangemaakt || 0) || 0;
                     lijst.sort((a, b) => t(b) - t(a));
                     setItems(lijst); setError(null);
@@ -2311,8 +2310,9 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
 
             const zet = async (m, status) => {
                 const upd = { status, afgehandeld_op: serverTimestamp(), notitie: notitie[m.id] ?? m.notitie ?? '' };
-                await legacyMessages.update(m.id, upd);
-                setItems(xs => xs.map(x => x.id === m.id ? { ...x, status, notitie: upd.notitie } : x));
+                try { await githubMessages.update(m.id, upd); } catch (e) { setError(e.message); return; }
+                setItems(xs => xs.map(x => x.id === m.id ? { ...x, status, notitie: '' } : x));
+                setNotitie(n => ({ ...n, [m.id]: '' }));
             };
 
             const datum = (x) => { const d = x.aangemaakt?.toDate ? x.aangemaakt.toDate() : new Date(x.aangemaakt); return isNaN(d) ? '' : d.toLocaleString('nl-NL'); };
@@ -2323,9 +2323,9 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return (
                 <div>
                     <h2 className="text-2xl font-bold mb-2">Meldingen</h2>
-                    <p className="text-sm text-amber-800 bg-amber-50 p-3 rounded mb-3">Bezoekersmeldingen staan voorlopig nog in Firestore. Hiervoor moet je met GitHub zijn ingelogd. Hun status wordt direct opgeslagen en valt buiten het gegevensconcept.</p>
+                    <p className="text-sm text-amber-800 bg-amber-50 p-3 rounded mb-3">Bezoekersmeldingen staan als openbare GitHub Issues. Afhandelen schrijft direct naar GitHub en valt buiten het gegevensconcept. Notities zijn ook openbaar.</p>
                     <p className="text-gray-600 mb-4 max-w-3xl">Fouten die bezoekers melden via "Report an error" op de site. Controleer de melding tegen de bron, pas zo nodig het seizoen aan (Seizoenen, of het tabblad Twijfelgevallen) en zet de melding op opgelost of afgewezen.</p>
-                    {error && <div className="bg-amber-100 text-amber-800 p-3 rounded mb-4">Kon meldingen niet laden ({error}). Staat de Firestore-regel voor 'meldingen' goed? Zie docs/MELDINGEN.md.</div>}
+                    {error && <div className="bg-amber-100 text-amber-800 p-3 rounded mb-4">Kon meldingen niet laden ({error}). Bekijk zo nodig de meldingen rechtstreeks op GitHub.</div>}
                     {items && (
                         <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
                             <span><b>{open.length}</b> open van {items.length}</span>
@@ -2346,11 +2346,11 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
                                 <div className="text-sm mt-2 flex flex-wrap gap-x-4 gap-y-1">
                                     {m.bron && <a href={m.bron} target="_blank" rel="noopener" className="text-blue-600 break-all">{m.bron}</a>}
                                     {m.contact && <a href={`mailto:${m.contact}`} className="text-blue-600">{m.contact}</a>}
-                                    {m.pagina && <span className="text-gray-500">pagina: {m.pagina}</span>}
+                                    {m.pagina && <a href={m.pagina} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Bekijk op GitHub</a>}
                                     {m.club && !clubByName[m.club.toLowerCase()] && <span className="text-amber-700">club niet gevonden in de gegevens</span>}
                                 </div>
                                 <div className="flex flex-wrap gap-2 mt-3 items-center">
-                                    <input value={notitie[m.id] ?? m.notitie ?? ''} onChange={e => setNotitie(n => ({ ...n, [m.id]: e.target.value }))} placeholder="Notitie (optioneel)" className="flex-1 min-w-[12rem] border rounded px-2 py-1 text-sm" />
+                                    <input value={notitie[m.id] ?? m.notitie ?? ''} onChange={e => setNotitie(n => ({ ...n, [m.id]: e.target.value }))} placeholder="Openbare notitie (optioneel)" className="flex-1 min-w-[12rem] border rounded px-2 py-1 text-sm" />
                                     <button onClick={() => zet(m, 'opgelost')} className="text-sm px-3 py-1 rounded bg-green-600 text-white">Opgelost</button>
                                     <button onClick={() => zet(m, 'afgewezen')} className="text-sm px-3 py-1 rounded bg-gray-300">Afgewezen</button>
                                     {m.status && m.status !== 'nieuw' && <button onClick={() => zet(m, 'nieuw')} className="text-sm px-3 py-1 rounded bg-white border">Heropenen</button>}
@@ -2464,7 +2464,7 @@ De meest succesvolle club is ${getSortedData(analysisData.successfulClubs, { key
             return (
                 <div className="flex h-screen">
                     <aside className="w-64 bg-gray-800 text-white flex flex-col">
-                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">GitHub · v30.0</span></div>
+                        <div className="p-4 border-b border-gray-700"><h2 className="text-xl font-bold">Dashboard</h2><span className="text-sm text-gray-400">GitHub · v30.1</span></div>
                         <nav className="flex-grow p-2">
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('analysis'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'analysis' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><ChartBarIcon /> Analyse</a>
                             <a href="#" onClick={(e) => { e.preventDefault(); setView('importer'); }} className={`flex items-center gap-3 px-3 py-2 mt-1 rounded-md ${view === 'importer' ? 'bg-gray-700' : 'hover:bg-gray-700'}`}><UploadIcon /> Importer</a>

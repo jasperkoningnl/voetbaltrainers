@@ -25,19 +25,19 @@ The project leverages a modern web stack to separate data management from the pu
     * **Archief (`v0.9/`):** de eerste versie van de visualisatie, ongewijzigd behalve de paden. Oude links naar `v2/` sturen door naar de hoofdversie.
 
 * **Backend & Data:**
-    * **Data:** GitHub stores `data/snapshot.json` with `clubs`, `coaches` and `seizoenen`. Firestore remains for existing visitor reports.
+    * **Data:** GitHub stores `data/snapshot.json` with `clubs`, `coaches` and `seizoenen`. Visitor reports are GitHub Issues.
     * **Data Management (`dashboard.html`):** A sophisticated single-page application built with **React** and **Tailwind CSS**. It allows for CRUD operations on the GitHub dataset, with a concept and an explicit publish action.
-    * **Serverless Functions (`index.js`):** Google Cloud Functions written in Node.js are used for advanced data processing tasks, such as enriching coach data with images from external APIs.
+    * **OAuth (`services/github-auth/`):** A small Vercel service handles GitHub login; its secret is stored only in Vercel.
 
 ## Gegevens beheren via GitHub
 
-GitHub is de enige gegevensbron voor clubs, trainers en seizoenen. De website leest `data/snapshot.json`; het dashboard beheert hetzelfde bestand op `main`. Google-inloggen is vervangen door GitHub-inloggen via Firebase Authentication. Die provider moet eenmalig worden ingericht.
+GitHub is de enige gegevensbron voor clubs, trainers en seizoenen. De website leest `data/snapshot.json`; het dashboard beheert hetzelfde bestand op `main`. GitHub-inloggen loopt rechtstreeks via de kleine OAuth-dienst op Vercel, zonder Firebase.
 
 Bewerkingen en imports blijven eerst in een concept in het geopende tabblad. **Wijzigingen bekijken en publiceren** schrijft alles in één commit naar GitHub. De publicatieworkflow controleert de gegevens en publiceert de site. Er is geen dagelijkse Firestore-export en oude imports worden niet opnieuw over dashboardwijzigingen gelegd.
 
 [Gebruiksaanwijzing, inlogconfiguratie en migratiegrenzen](docs/GITHUB_DASHBOARD.md).
 
-Bezoekersmeldingen blijven voorlopig in Firestore. Firebase Authentication en de bestaande fotozoekfunctie blijven ook nodig. Verwijder het Firebase-project niet.
+Bezoekersmeldingen zijn GitHub Issues. Kandidaatfoto’s komen rechtstreeks van Wikipedia. De actieve site en het archief gebruiken Firebase niet meer. Oude privéberichten in het externe Firebase-project zijn niet verwijderd of openbaar gemaakt.
 
 ## Site (hoofdversie)
 
@@ -106,7 +106,7 @@ Alle wijzigingen en behouden uitzonderingen staan in [data/TRANSFERMARKT_CORRECT
 
 ## 4. Local Development Setup
 
-To run the full project locally, you need a simple web server to handle the ES module imports for Firebase.
+To run the full project locally, you need a simple web server to handle the JavaScript modules.
 
 1.  **Prerequisites:** Make sure you have Python 3 installed.
 2.  **Start the Server:** Open a terminal in the root directory of the project and run the following command:
@@ -117,6 +117,6 @@ To run the full project locally, you need a simple web server to handle the ES m
 3.  **Access the Visualization:** Open your web browser and navigate to `http://localhost:8000/`.
 4.  **Access the Dashboard:** To manage data, navigate to `http://localhost:8000/dashboard.html`.
 
-## 5. Inloggen en resterende Firebase-functies
+## 5. GitHub-inloggen
 
-Volg [docs/GITHUB_DASHBOARD.md](docs/GITHUB_DASHBOARD.md) om GitHub-inloggen te activeren. De client secret hoort uitsluitend in Firebase Authentication, nooit in de repository. Firebase blijft voorlopig nodig voor inloggen, bezoekersmeldingen en de fotozoekfunctie.
+Volg [docs/GITHUB_DASHBOARD.md](docs/GITHUB_DASHBOARD.md) om de bestaande OAuth-app aan de Vercel-inlogdienst te koppelen. Client ID en secret staan uitsluitend in Vercel. Firebase is niet nodig.

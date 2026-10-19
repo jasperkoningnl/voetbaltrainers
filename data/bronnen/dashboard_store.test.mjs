@@ -122,6 +122,17 @@ test('meldingen kunnen nooit per ongeluk in de publieke dataset terechtkomen', (
     assert.throws(() => s.collection(s.db, 'meldingen'), /niet in de repository/);
 });
 
+test('bezoekersmeldingen negeren pull requests en kunnen geen ander meldingsnummer injecteren', async () => {
+    const s = createRepositoryStore({ fetcher: async () => ({ ok: true, json: async () => [
+        { number: 4, title: '[Data report] Ajax', body: '<!-- managerhistory-report {"club":"Ajax","id":"999"} -->\nFout', state: 'open', html_url: 'https://github.com/test/issues/4' },
+        { number: 5, title: '[Data report] PR', body: '', pull_request: {} },
+        { number: 6, title: 'Andere issue', body: '' },
+    ] }) });
+    const reports = await s.readReports();
+    assert.equal(reports.length, 1); assert.equal(reports[0].id, '4'); assert.equal(reports[0].club, 'Ajax');
+    await assert.rejects(s.updateReport('4', { status: 'opgelost' }), /Log in/);
+});
+
 test('de echte 437-regelige dashboardimport werkt via de GitHub-werkset en behoudt bestaande gegevens', async () => {
     const dataset = JSON.parse(fs.readFileSync(new URL('../snapshot.json', import.meta.url), 'utf8'));
     const rows = JSON.parse(fs.readFileSync(new URL('../import_transfermarkt_compleet.json', import.meta.url), 'utf8'));

@@ -20,26 +20,7 @@
     
     <script src="https://d3js.org/d3.v7.min.js"></script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-      
-        const firebaseConfig = {
-          apiKey: "AIzaSyDZckphHLQiTK2KZHPOyPDxgB6glBr4HpY",
-          authDomain: "voetbaltrainers.firebaseapp.com",
-          projectId: "voetbaltrainers",
-          storageBucket: "voetbaltrainers.appspot.com",
-          messagingSenderId: "640532231483",
-          appId: "1:640532231483:web:54d614b65b3e2c4adc731e",
-          measurementId: "G-YQV6E3V2CK"
-        };
-      
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
 
-        window.db = db;
-        window.firestore = { query, collection, where, getDocs };
-    </script>
 </head>
 <body>
 
