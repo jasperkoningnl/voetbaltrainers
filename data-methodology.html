@@ -54,13 +54,16 @@
 
         <div class="methodology-container article-body">
             <h3>Data Methodology &amp; Known Limitations</h3>
-            <p>This page explains where the data comes from, which rules decide what you see in the visualization, how the data was checked, and where it is still incomplete. <span class="timestamp">(Status: September 2026)</span></p>
+            <p>This page explains where the data comes from, which rules decide what you see in the visualization, how the data was checked, and where it is still incomplete. <span class="timestamp">(Coding guide added: 20 October 2026; historical checks below retain their original dates.)</span></p>
+            <p><a href="#coding-guide">Read the coding guide</a> for season boundaries, manager selection, disputed records, trophy flags and review instructions.</p>
 
             <h3>What is in the dataset</h3>
             <p>The dataset covers 35 clubs, five in each of seven leagues (England, France, Germany, Italy, the Netherlands, Portugal and Spain), for every season from 1955/56 up to and including 2025/26. That is 2,485 club seasons. For each season it records the manager of the season, whether the club won the league title, a national cup or a European trophy, and, for most clubs, every manager who was in charge during that season.</p>
 
             <h3>How it started: generated data, checked by hand</h3>
-            <p>The first datasets, for England and the Netherlands, were built through trial and error with Google's Gemini and stored as CSV files. After the data moved to a Firestore database, the other five countries were generated with a single standardized prompt that produced structured JSON. The prompt is shown below as a record of how the project began; every value it produced has since been checked against other sources, as described further down.</p>
+            <p>The first datasets, for England and the Netherlands, were built through trial and error with Google's Gemini and stored as CSV files. After the data moved to a Firestore database, the other five countries were generated with a single standardized prompt that produced structured JSON. The prompt is shown below as a record of how the project began. Subsequent checks and corrections are described further down; they do not establish that every generated value or appointment has been independently verified. The current site publishes its data from the GitHub snapshot.</p>
+
+
 
             <div class="prompt-box" id="prompt-1">
                 <div class="prompt-toggle">
@@ -135,6 +138,57 @@ Now, start generating the complete JSON array."</div>
                 </div>
             </div>
 
+            <section aria-labelledby="coding-guide">
+                <h2 id="coding-guide" style="scroll-margin-top: 7rem;">Coding guide</h2>
+                <p><strong>Version 1.0 · 20 October 2026.</strong> A reference for reading the export and submitting corrections. The rules below distinguish the existing implementation from instructions for reviewing uncertain records. Publishing this guide does not mean that every existing row has been recoded under it.</p>
+
+                <h3>1. Unit of observation and season window</h3>
+                <p>One record represents one club and one season, identified by <code>club</code> and <code>seizoen</code>. <code>coachId</code> links to the selected main manager; <code>trainers_seizoen</code>, where present, records other appointments. A career view covers only the clubs in this dataset.</p>
+                <p>For dated manager imports, use 1 August through 20 May, inclusive. The exception is 2019/20, which ends on 31 August 2020. Clip appointment dates to that window and count calendar days, including both endpoints. An appointment must overlap the window by at least three days to enter this selection. This fixed window is a modelling convention, not the exact fixture calendar of every competition; appointments outside it may be absent.</p>
+
+                <h3>2. Main manager, interims and joint appointments</h3>
+                <ul>
+                    <li><strong>Main manager:</strong> select the non-interim manager with the most recorded days inside the window. Separate non-interim spells by the same person are added together. Do not choose based on reputation, final league position or who lifted a trophy.</li>
+                    <li><strong>Interim appointments:</strong> retain them in the appointment list, but exclude their interim days from main-manager selection. Use documented appointment status, not the shortness of a spell alone. If a caretaker becomes permanent, keep the two roles as separate periods.</li>
+                    <li><strong>Joint managers:</strong> keep each person as a separate entry and preserve the original joint description where available. Shared dates can represent a genuine joint appointment; do not invent a succession or split shared days in half. A single main-manager field cannot represent equal responsibility.</li>
+                    <li><strong>Ties and no eligible manager:</strong> do not invent a winner. Submit the candidates and evidence for review. The historical correction script retains an existing main manager when tied at the top and flags exact period ties; this is not independent evidence that the retained person is the right choice. The season importer does not provide a universal historical tie-break rule.</li>
+                </ul>
+
+                <h3>3. Overlap, uncertain dates and missing information</h3>
+                <p>Keep source dates and their precision (<code>datum_precisie</code>) where recorded. Do not turn a year-only or month-only appointment into a supposedly verified exact date. Check overlaps against original appointment or departure reports: they may reflect joint management, a handover, an interim-to-permanent change or conflicting sources. Do not automatically delete a person because a second source omits them.</p>
+                <p>The historical correction process uses at least 90% window coverage as a safeguard and withholds automatic replacement when non-interim periods overlap by more than seven days. Those are import safeguards, not proof of completeness or a rule that shorter overlaps are always correct. If uncertain dates could change the main-manager choice, record the competing interpretations and leave the proposed correction unresolved. Do not silently overwrite an existing row or label it verified.</p>
+
+                <h3>4. Trophy flags: yes, no and unknown</h3>
+                <p><code>landstitel</code>, <code>nationale_beker</code> and <code>europese_prijs</code> describe the <strong>club-season</strong>. They are category flags, not counts of individual trophies. Winning both English domestic cups still produces one national-cup flag. The competitions included are listed in <a href="#trophy-definitions">Trophies</a> below; supercups, the Intercontinental Cup and Club World Cups are outside these categories.</p>
+                <ul>
+                    <li><strong>Y:</strong> evidence confirms at least one included title in that category and season.</li>
+                    <li><strong>N:</strong> evidence confirms no included title in that category. A competition with no official champion is not a title, even if a club led the table.</li>
+                    <li><strong>Unknown:</strong> if the winner, competition scope or season attribution cannot be established, leave the proposed value blank in the review record and explain why. Missing evidence is not evidence for N.</li>
+                </ul>
+                <p><strong>Current export limitation:</strong> trophy flags are currently binary Y/N and the visualization displays a trophy only for Y. There is no consistently implemented unknown-trophy state. A blank review value is therefore not a supported third state in the published dataset. Keep uncertainty in the review evidence rather than inserting a blank into the production export; downstream users should not assume every existing N is independently verified. Supporting unknown values properly requires a separate data and display change.</p>
+                <p>The current manager summaries assign club-season flags to the selected main manager, even when another person won the final. Do not use these summaries as personal managerial honours without checking who was actually in charge.</p>
+
+                <h3>5. Worked examples</h3>
+                <ul>
+                    <li><strong>Ajax 2023/24:</strong> the recorded interim status of John van 't Schip excludes him from main-manager selection, despite his longer spell. Maurice Steijn is selected. This follows the project's convention, not a judgement of either manager's impact.</li>
+                    <li><strong>Real Madrid 2015/16:</strong> the club's Champions League flag is Y. The current main-manager convention assigns that season to Rafael Benítez; Zinedine Zidane was in charge for the final. Club-season coding and personal trophy attribution are different questions.</li>
+                    <li><strong>Eredivisie 2019/20:</strong> no official league champion was declared. Being first in the abandoned table does not justify coding Ajax as champion.</li>
+                    <li><strong>Illustrative joint appointment:</strong> if two documented joint managers share the same dates, retain both and flag the single-main-manager decision for review. Alphabetical order is not a historical justification.</li>
+                    <li><strong>Unverified historical season:</strong> a missing Boavista or Braga manager is a manager-data gap. It neither proves nor disproves a trophy win; check each field separately.</li>
+                </ul>
+
+                <h3>6. Sources and review records</h3>
+                <p>Prefer official club, league, federation or competition archives, or an identified statistical reference with a clear scope. For older Boavista and Braga seasons, establish one or two strong reference sources per club, then document exceptions. Wikipedia and Transfermarkt can help locate and cross-check appointments; an AI answer alone is not evidence.</p>
+                <p>For each proposed correction, include the club, season, field, existing and proposed values, source URL or publication/page, access date or archived revision, relevant evidence, date precision, reviewer/date and an explicit status such as <em>unreviewed</em>, <em>source-checked</em> or <em>disputed</em>. Preserve disagreements and the reason for resolving them. These are review-record instructions, not a claim that all those fields already exist in the export.</p>
+                <p>Current provenance is uneven: some season rows have <code>trainers_bron</code>, some appointment entries include precision or an original description, and source files and correction logs provide additional context. There is no uniform per-row source and independent-review status for every field. See the <a href="https://github.com/jasperkoningnl/voetbaltrainers/tree/main/data/bronnen">source files</a> and <a href="data/TRANSFERMARKT_CORRECTIES.md">historical correction log</a>.</p>
+
+                <h3>7. Independent pilot and versioning</h3>
+                <p>A suggested next validation step is a pilot of 30–50 club-seasons, including ordinary seasons and difficult cases. Two reviewers would code the same sample independently using this guide. Report the number reviewed and agreement separately for the main manager and each trophy flag; keep unknown values visible and examine every disagreement before revising the rules. <strong>This two-reviewer pilot has not been completed as part of this guide.</strong> Automated integrity checks are not a substitute for it.</p>
+                <p>When citing data, retain the actual <a href="data/snapshot.json">JSON export</a>, its <code>generated</code> timestamp and, where possible, the <a href="https://github.com/jasperkoningnl/voetbaltrainers/commits/main/data/snapshot.json">Git commit identifying that export</a>. The generated timestamp alone is not a semantic dataset version. Git history and existing correction logs provide a change trail; uniform release notes and per-row provenance remain work to do.</p>
+                <p><strong>Guide changelog:</strong> version 1.0, 20 October 2026: first consolidated coding guide, worked examples, uncertainty and provenance limitations, and a proposed independent-review procedure. This documentation update does not change the dataset or implement new review fields.</p>
+                <p>To contribute, use <a href="https://github.com/jasperkoningnl/voetbaltrainers/issues">GitHub Issues</a> or the site's “Report an error” link. Include the club-season and evidence, and cite <a href="#coding-guide">this coding guide</a> as version 1.0.</p>
+            </section>
+
             <h3>The manager of the season</h3>
             <p>Each season has one manager of the season. His tenure decides the colour of the block: red after one full season, then increasingly dark green. The rule is strict and applied the same way to every club:</p>
             <ul>
@@ -155,7 +209,7 @@ Now, start generating the complete JSON array."</div>
             <p>A subsequent comparison of 2,450 historical club seasons with the Transfermarkt source snapshot from 28 September 2026 produced 338 correction rows: 310 changes to manager lists or interim roles and 74 changes to the manager of the season; these categories overlap. Existing documented interim roles, joint managers and dated periods were retained when Transfermarkt omitted them. Sixty differing source sequences were retained without automatic correction because they were incomplete, overlapping or could not justify removing an existing manager. Another 90 club seasons had no Transfermarkt periods. The <a href="data/TRANSFERMARKT_CORRECTIES.md">correction log</a> records the changes and limitations. This comparison does not establish that every appointment or date is complete.</p>
             <p>Automated tests now check the data. They make sure that every club season appears exactly once, that every manager entry is exactly one person, that each country has at most one champion per season, and that all previously flagged seasons remain resolved.</p>
 
-            <h3>Trophies</h3>
+            <h3 id="trophy-definitions">Trophies</h3>
             <p>Trophies were checked against the lists of winners of every national league, national cup and European competition. In September 2026 the league champions were also compared with final tables from football-data.org. This found two errors in 2024/25 (the Premier League and Serie A), which were corrected. That source also lists Ajax as first in the Eredivisie of 2019/20, a season that was abandoned without a champion; the dataset follows the official decision and has no champion for that season.</p>
             <ul>
                 <li><strong>European trophy:</strong> the European Cup and Champions League, the UEFA Cup and Europa League, the Cup Winners' Cup, the Inter-Cities Fairs Cup and the Conference League.</li>
@@ -196,10 +250,10 @@ Now, start generating the complete JSON array."</div>
                     if (e.target.tagName === 'BUTTON') {
                         const lang = e.target.dataset.lang;
                         const promptBox = e.target.closest('.prompt-box');
-                        
+
                         promptBox.querySelectorAll('.toggle-switch button').forEach(btn => btn.classList.remove('active'));
                         e.target.classList.add('active');
-                        
+
                         promptBox.querySelectorAll('.prompt-content > div').forEach(content => {
                             content.style.display = 'none';
                         });
